@@ -1,0 +1,8 @@
+'if('insert input data 2'){\n    'insert output data 1'\n}'
+if output 2 is connected BEGIN
+	'else{\n'
+	insert output data 1
+	'\n}'
+END
+'\n'
+insert output data 3 # finished/after

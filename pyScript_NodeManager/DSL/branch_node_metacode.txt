@@ -1,0 +1,9 @@
+'if('
+insert input data 2 # data input; condition
+'){\n    '
+insert output data 1 # first output; if block
+'\n}\n'
+if output 2 is connected BEGIN
+	insert output data 1
+END
+insert output data 3 # finished/after

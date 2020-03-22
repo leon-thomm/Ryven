@@ -1,0 +1,8 @@
+s += 'if('
+s += insertInputData(2)
+s += '){\n    '
+s += insertOutputData(1)
+s += '\n}\n'
+if outputConnected(2):
+    s += insertOutputData(1)
+s += insertOutputData(3)

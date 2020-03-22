@@ -1,0 +1,29 @@
+insert output data 1
+if output 2 is connected BEGIN
+	insert output data 2
+END
+insert output data 3
+
+# asdf
+10
+10.5
+if insert input data 5 equal 7 BEGIN
+	'doSomething()'
+END
+'if('
+insert input data 1
+'){\n    '
+insert output data 0
+'\n}\n'
+if 10.0 equal insert input data 3 BEGIN
+	'else{\n    '
+	insert output data 1
+	if output 2 is connected BEGIN
+		insert output data 3
+	END
+	if not input 3 is connected BEGIN
+		insert output data 5
+	END
+	'\n}\n'
+END
+'doSomething()'

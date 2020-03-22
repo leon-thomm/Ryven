@@ -1,0 +1,110 @@
+from PySide2.QtWidgets import QWidget, QScrollArea, QHBoxLayout, QVBoxLayout, QGridLayout, QPushButton, QPlainTextEdit, QLabel, QLayout
+from PySide2.QtCore import Qt, QSize
+from PySide2.QtGui import QFont
+
+
+class Logger(QWidget):
+
+    def __init__(self, script):
+        super(Logger, self).__init__()
+
+        # UI
+        main_layout = QHBoxLayout()
+        main_layout.setSizeConstraint(QLayout.SetMinimumSize)
+
+        self.script = script
+        self.custom_log_holders = {}  # sender (NodeInstance) : Log
+        self.error_log = ErrorLog(self.script)
+        main_layout.addWidget(self.error_log)
+        self.global_log = GlobalLog(self.script)
+        main_layout.addWidget(self.global_log)
+
+        self.setLayout(main_layout)
+
+        self.setStyleSheet('''
+        QScrollArea {
+            background-color: grey;
+        }
+        ''')
+
+
+    def log_message(self, sender, message: str, target=''):
+        if target == 'global':
+            self.global_log.log(message)
+        elif target == 'error':
+            self.error_log.log(message)
+        # else:
+        #     if not self.custom_log_holders.keys().__contains__(sender):
+        #         self.new_log(sender)
+        #     self.custom_log_holders[sender].log(message)
+
+    def new_log(self, new_sender, title):
+        new_log = Log(new_sender, title)
+        self.custom_log_holders[new_sender] = new_log
+        self.layout().addWidget(new_log)
+        return new_log
+
+
+class Log(QWidget):
+    def __init__(self, sender, title=''):
+        super(Log, self).__init__()
+
+
+        self.main_layout = QVBoxLayout()
+        self.header_layout = QHBoxLayout()
+
+        title_label = QLabel(title)
+        title_label.setFont(QFont('Poppins', 13))
+        self.header_layout.addWidget(title_label)
+
+        holder_label = QLabel(str(sender))
+        holder_label.setWordWrap(True)
+        self.log_view = QPlainTextEdit()
+        self.log_view.setReadOnly(True)
+
+        self.main_layout.addLayout(self.header_layout)
+        self.main_layout.addWidget(holder_label)
+        self.main_layout.addWidget(self.log_view)
+
+        self.setLayout(self.main_layout)
+
+        self.setStyleSheet('''
+            QLabel {
+                border: None;
+            }
+            QWidget {
+                color: #e9f4fb;
+            }
+        ''')
+
+
+    def log(self, *args):
+        s = ''
+        for arg in args:
+            s += ' '+str(arg)
+        self.log_view.appendPlainText('>  '+s)
+
+    def clear(self):
+        self.log_view.clear()
+
+    def removing(self):
+        self.log_view.setStyleSheet('background: black; color: grey;')
+
+        remove_button = QPushButton('x')
+        remove_button.clicked.connect(self.remove_clicked)
+
+        self.header_layout.addWidget(remove_button)
+
+    def remove_clicked(self):
+        self.setParent(None)  # removes the widget
+
+
+class ErrorLog(Log):
+    def __init__(self, sender):
+        super(ErrorLog, self).__init__(sender, 'Error Log')
+
+
+
+class GlobalLog(Log):
+    def __init__(self, sender):
+        super(GlobalLog, self).__init__(sender, 'Global Messages')

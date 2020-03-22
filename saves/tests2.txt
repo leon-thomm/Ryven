@@ -1,0 +1,90 @@
+{
+  "general info": {
+    "type": "pyScriptFP project file"
+  },
+  "scripts": [
+    {
+      "name": "fancy script",
+      "flow": {
+        "nodes": [
+          {
+            "parent node title": "set var",
+            "parent node type": "set variable node",
+            "parent node package": "built in",
+            "parent node description": "sets the value of a variable",
+            "position x": 600,
+            "position y": 309,
+            "inputs": [
+              {
+                "label": "",
+                "type": "exec",
+                "has widget": false
+              },
+              {
+                "label": "var",
+                "type": "data",
+                "has widget": true,
+                "widget type": "std line edit",
+                "widget name": "",
+                "widget data": "",
+                "widget position": "besides"
+              },
+              {
+                "label": "val",
+                "type": "data",
+                "has widget": true,
+                "widget type": "std line edit",
+                "widget name": "",
+                "widget data": "",
+                "widget position": "besides"
+              }
+            ],
+            "outputs": [
+              {
+                "label": "",
+                "type": "exec"
+              },
+              {
+                "label": "",
+                "type": "data"
+              }
+            ]
+          },
+          {
+            "parent node title": "get var",
+            "parent node type": "get variable node",
+            "parent node package": "built in",
+            "parent node description": "gets the value of a variable",
+            "position x": 232,
+            "position y": 450,
+            "inputs": [
+              {
+                "label": "",
+                "type": "data",
+                "has widget": true,
+                "widget type": "std line edit",
+                "widget name": "",
+                "widget data": "",
+                "widget position": "besides"
+              }
+            ],
+            "outputs": [
+              {
+                "label": "",
+                "type": "data"
+              }
+            ]
+          }
+        ],
+        "connections": [
+          {
+            "parent node instance index": 1,
+            "output port index": 0,
+            "connected node instance": 0,
+            "connected input port index": 1
+          }
+        ]
+      }
+    }
+  ]
+}

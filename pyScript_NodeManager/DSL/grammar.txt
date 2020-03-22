@@ -1,0 +1,37 @@
+Model: commands*=Command;
+Command: Function | NUMBER | STRING;
+
+Function: 
+	Func_InsertInputData | 
+	Func_InsertOutputData | 
+	Func_OutputConnected | 
+	Func_InputConnected | 
+	Func_Condition;
+Func_InsertInputData: 'insert input data' index=INT;
+Func_InsertOutputData: 'insert output data' index=INT;
+Func_OutputConnected: 'output' index=INT 'is connected';
+Func_InputConnected: 'input' index=INT 'is connected';
+Func_Condition: 'if' condition=Condition 'BEGIN'
+    commands*=Command
+'END';
+
+Condition:  Cond_Equal |
+            Cond_NotEqual |
+            Cond_And |
+            Cond_Or |
+            Cond_True |
+            Cond_False |
+			Function;
+Cond_Equal: op1=Operand 'equal' op2=Operand;
+Cond_NotEqual: op1=Operand 'not equal' op2=Operand;
+Cond_And: op1=Operand 'and' op2=Operand;
+Cond_Or: op1=Operand 'or' op2=Operand;
+Cond_True: op1=Operand 'is true';
+Cond_False: 'not' op1=Operand;
+Operand: Function | NUMBER | BOOL | ID | STRING;
+
+Operand_Function: f=Function;
+
+Comment:
+  /#.*$/
+;
