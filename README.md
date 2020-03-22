@@ -18,7 +18,7 @@ A node's configuration is defined using the NodeManager. The actual program that
 
 ## Programming Nodes
 ### Overview
-
+![pyScript NodeManager screenshot](/resources/images/Qt 70.png)
 asdf
 ### API
 asdf
