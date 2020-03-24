@@ -168,7 +168,7 @@ _get_data()_ is called when a project is being saved or a node instance is copie
 
 The _removing()_ method is being called when a node instance gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
 
-### API
+## API
 
 To access the node instance's contents there is a small 'API' that you can use inside the node instance class.
 
@@ -288,8 +288,6 @@ Full example following soon...
 ![pyScript NodeManager screenshot](/resources/images/pyScript4.PNG)
 
 Assuming the If node received a signal at input 0 (execution) - maybe by the richtig click actions menu by the user - this is what happens here:
-
-(also see sequence diagram below)
 
 > 1. The the If's _updating()_ method is being called with _input_called_ == 0
 > 2. The If's _input(1)_ method is called because the If needs the data from this input to continue
