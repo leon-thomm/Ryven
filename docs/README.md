@@ -15,10 +15,29 @@ You need to have **Python 3 and PySide2** installed plus all the packages that y
 
 ## Overview
 
-![pyScript NodeManager screenshot](/resources/images/pyScript1.png)
+![pyScript NodeManager screenshot](/resources/images/pyScript1.PNG)
 
+When you open pyScript, you will notice, there are different scripts. Every script as variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
 
-# Creating new nodes
+### Placing Nodes
+
+Just left click on a flow to see what nodes you can place.
+
+### Importing Nodes
+
+You need to import nodes before you can use them from node packages (File -> Import Nodes and then choose a nodes package file *.pypac). If the import succeeded, you will then be able to use the imported nodes in all scripts.
+
+### Variables
+
+You can create new variables just like scripts. By right clicking on a variable, you can set the value in the dialog that pops up. Whatever you type into that field will be evaluated by Python using the eval() method, so the datatype will automatically be parsed just like when assigning variables in Python source code. To use a variable, you must use the get var node. As long as your variable does not have a complex tape that will be given by reference when the object is being passed to another node, the original variable's value will not change if you change the value of what's coming out of the get var node. However if the variable does have a referenced type, it will.
+
+If you are not sure about that, dont panic, I did not apply any custom operations on the variables in pyScript according to their types, so everything behaves strictly following the rules of Python, nothing else.
+
+### Load&Save
+
+You can save projects by clicking File -> Save Project. You should do this often. When starting pyScript, you can load such a saved project into the editor. A little dialog will show all the required packages for the project you are trying to load. If you have used packages from special places (not the standard packages folder), you should choose them manually. Normally if you only used packages located in the packages folder, you can use auto import, it will search through all packages in this directory.
+
+# Creating New Nodes
 
 Creating new nodes is not very difficult. However, you do need to get the whole system into your head which is not a matter of seconds. New nodes or actually new node packages are created using the pyScript NodeManager. To dive into this, it needs a little deeper understanding of how the software works.
 A node is not a node. Or what you see when you placed on in the graph is actually not a node but a node _instance_. Every nodeinstance has a so-called _parent node_ which is a node. But we can instanciate every node as often as we want to. Furthermore, nodeinstances indeed start in a pre-defined state but they can actually individually dynamically change. That means two nodeinstances having the same parent node (for example 'Print') can look different and do different things when being executed. That is important to understand why we will be programming node _instances_ not nodes later. So, a node just holds all meta information that applies on all of the nodeinstances either constantly (like title, description, color etc.) or at creation of the nodeinstance (like inputs and outputs which then can be individually modified, added, and deleted in nodeinstances).
