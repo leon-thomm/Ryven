@@ -155,9 +155,8 @@ So, the For Each Loops's _updating()_ method should look like this:
 
             self.handle_token(token)         # reset to the original token
             self.exec_output(2)              # execute 'finished' output
-            
-![pyScript NodeManager screenshot]( =100x100)
-<img src="/resources/images/pyScript7.PNG" alt="For Loop Example" width="200">
+
+<img src="/resources/images/pyScript7.PNG" alt="ForLoopExample" width="200">
 
 That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state.
 
