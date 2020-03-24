@@ -179,7 +179,7 @@ To access the node instance's contents there is a small 'API' that you can use i
 
 # Advanced
 
-#### Tokens
+## Tokens
 
 A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
 
