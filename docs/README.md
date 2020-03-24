@@ -65,7 +65,7 @@ This section provides information about the creation of new nodes using the Node
 
 ![pyScript NodeManager screenshot](/resources/images/Qt 70.png)
 
-This is what the NodeManager can look like. To define a node, you have to specity Name, Type, Description, InputWidgets is used, use of MainWidget, DesignStyle, Color, Inputs and Outputs. If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon. 
+This is what the NodeManager can look like. To define a node, you have to specity Name, Type, Description, InputWidgets is used, use of MainWidget, DesignStyle, Color, Inputs and Outputs. If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon.
 
 Input widgets are custom widgets you can program for input ports of the node.
 
@@ -73,7 +73,17 @@ Input widgets are custom widgets you can program for input ports of the node.
 
 When using custom input widgets, you must define them in the 'Input Widgets' area and give the exact name in the 'input widget name' line edit of the input you want to have this widget. Multiple inputs can have the same custom widget. The 'Yes' and 'No' radio buttons specify whether your input has a widget at all or not. Execution inputs do not have custom widgets, so then you can ignore the whole widgets part of the input's indget.
 
+## Updating Packages 
+
+If you want to change the properties of an existing node, you need to start the NodeManager, import the node's package, do the changes that you want to perform and save it again. You can and should choose the original package directory. None of your content will be deleted or edited. Source code files get only created if they do not already exist (see next section) and all your custom files and folders you have put somwhere into the packages directory stay as they are. It is important, that you keep one main name for your package. If you create different versions of it and use different versions in different pyScript projects, you can only use these versions. So if you want to edit an existing package, save it as a new package first, test it and when everything works, overwrite the original package by just saving it in the original package folder in the NodeManager.
+
 ## Programming Nodes
+
+And there we are. Programming nodes is not very difficult once you got the idea. The basic concepts are:
+
+- For every node (as well as all it's widget classes, more on that later), the NodeManager creates **METACODE**-files from templates if they are not already existing. All programing is done by editing these METACODE files.
+- pyScript will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
+- **Do not edit non-metacode source files directly, as these changes will be lost.**
 
 ### Overview
 
