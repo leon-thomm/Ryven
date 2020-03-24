@@ -160,7 +160,7 @@ So, the For Each Loops's _updating()_ method should look like this:
 
 That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state.
 
-#### Tokens
+##### Tokens
 
 A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
 
@@ -170,9 +170,17 @@ The + node instance does not have to update again when the set var b node instan
 
 I'm actually proud of that. I just got the idea very spontaniously one sunday morning and for my conditions this is working way too well :)
 
+#### Get/Set Data
+
+_get_data()_ is called when a project is being saved or a node instance is copied by the user or similar actions. Contrary to that, _set_data(data)_ gets called when a project gets loaded or a copied node instance is being pasted and stuff like that. Both methods are only important for node instances with **states**. If the behaviour of your node instance is the same as of any other node instance of the same parent node, if everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything there. But if your nodes stores some internal data (for example some randomly generated points that should get shown again when loading a project exactly like when it was saved), you have to provide it in _get_data()_ **in JSON compatible format** and you have to set it again in _set_data(data)_.
+
+#### Removing
+
+The _removing()_ method is being called when a node instance gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
+
 ### API
 
-asdf
+To access the node instance's contents there is a small 'API' that you can use inside the node instance class.
 
 ## Programming Widgets
 
