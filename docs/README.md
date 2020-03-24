@@ -85,11 +85,10 @@ And there we are. Programming nodes is not very difficult once you got the idea.
 - pyScript will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
 - **Do not edit non-metacode source files directly, as these changes will be lost.**
 
-### Overview
+To start programming a node, simply direct into it's folder in the package directory and open the metacode python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files** as compared with oder text-or code editors, Atom supports you with a good code completion which causes your attention if you typed something wrong while not outraging because there are expressions in a .py file that can not be resolved like that by Python. Also I sometimes got spaces-itentation problems when I tried oder editors - for example Notepad++.
 
 ### API
 
 asdf
 
-### A collection of important notes
-
+## Programming Widgets
