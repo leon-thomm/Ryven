@@ -108,33 +108,6 @@ In this case, a method _action_print_something_ would need to exist
 
 And that's basically it.
 
-#### Advanced - Storing Data About The Action
-
-You probably will not need this, so don't let yourself get confused if you didn't search for it.
-
-Only if you want to create very dynamic nodes with multiple right click operations representing the same action but for different inputs while having a dynamic number of these inputs - then you will definately run into this, so I had to come up with a solution.
-
-When you have multiple entries in _special_actions_ that point to the same method like that:
-
-        self.special_actions = {'delete input 1': {'method' : self.action_delete_input},
-                                'delete input 2': {'method' : self.action_delete_input}}
-
-because the user added an input through another action for example, then how can we determine in the _delete_input_ method which action was pressed?
-
-The solution is another attribute in the action's object in the _special_actions_ dict:
-
-        self.special_actions = {'delete input 1': {'method' : self.action_delete_input,
-                                                   'data' : {'input number' : 1}},
-                                'delete input 2': {'method' : self.action_delete_input},
-                                                   'data' : {'input number' : 2}}
-
-and the extension of the _delete_input_ method by a _data_ parameter
-
-    def action_delete_input(self, data):
-        input_number = data['input number']
-
-Full example following soon...
-
 ### Methods
 
 #### Updating
@@ -180,9 +153,36 @@ asdf
 
 
 
-# Further Explanations
+# Advanced
 
-## Algorithm
+## Storing Data In Actions
+
+You probably will not need this, so don't let yourself get confused if you didn't search for it.
+
+Only if you want to create very dynamic nodes with multiple right click operations representing the same action but for different inputs while having a dynamic number of these inputs - then you will definately run into this, so I had to come up with a solution.
+
+When you have multiple entries in _special_actions_ that point to the same method like that:
+
+        self.special_actions = {'delete input 1': {'method' : self.action_delete_input},
+                                'delete input 2': {'method' : self.action_delete_input}}
+
+because the user added an input through another action for example, then how can we determine in the _delete_input_ method which action was pressed?
+
+The solution is another attribute in the action's object in the _special_actions_ dict:
+
+        self.special_actions = {'delete input 1': {'method' : self.action_delete_input,
+                                                   'data' : {'input number' : 1}},
+                                'delete input 2': {'method' : self.action_delete_input},
+                                                   'data' : {'input number' : 2}}
+
+and the extension of the _delete_input_ method by a _data_ parameter
+
+    def action_delete_input(self, data):
+        input_number = data['input number']
+
+Full example following soon...
+
+## Updating Algorithm
 
 ![pyScript NodeManager screenshot](/resources/images/pyScript4.PNG)
 
