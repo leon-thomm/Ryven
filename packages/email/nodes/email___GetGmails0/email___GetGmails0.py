@@ -44,7 +44,7 @@ class GetGmails_NodeInstance(NodeInstance):
             mail = imaplib.IMAP4_SSL('imap.gmail.com')
 
             mail.login(email_user, email_pass)
-            mail.select('INPBOX') #
+            mail.select('INBOX') #
 
             # new_filenames = []
             dates = []

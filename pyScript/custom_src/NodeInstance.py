@@ -23,7 +23,8 @@ class NodeInstance(QGraphicsItem):
         self.main_widget = None
         self.main_widget_proxy: FlowProxyWidget = None
         self.token = None
-        self.default_actions = {'remove': {'method': self.action_remove},
+        self.default_actions = {'remove': {'method': self.action_remove,
+                                           'data': 123},
                                 'compute shape': {'method': self.compute_content_positions}}  # holds information for context menus
         self.special_actions = {}  # only gets written in custom NodeInstance-subclasses - dynamic
         self.width = -1
@@ -429,13 +430,15 @@ class NodeInstance(QGraphicsItem):
         self.flow.remove_node_instance_triggered(self)
 
     def get_special_actions_data(self, actions):
-        cleaned_actions = {}
-        for key in actions:
-            if type(actions[key]) != dict:
-                method_name = actions[key].__name__
-                cleaned_actions[key] = method_name
+        cleaned_actions = actions.copy()
+        for key in cleaned_actions:
+            v = cleaned_actions[key]
+            if callable(v):
+                cleaned_actions[key] = v.__name__
+            elif type(v) == dict:
+                cleaned_actions[key] = self.get_special_actions_data(v)
             else:
-                cleaned_actions[key] = self.get_special_actions_data(actions[key])
+                cleaned_actions[key] = v
         return cleaned_actions
 
     def set_special_actions_data(self, actions_data):

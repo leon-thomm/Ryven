@@ -1,0 +1,68 @@
+from PySide2.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog
+# from PySide2.QtCore import ...
+# from PySide2.QtGui import ...
+
+
+class ChooseFileInputWidget_PortInstanceWidget(QWidget):
+    def __init__(self, parent_port_instance, parent_node_instance):
+        super(ChooseFileInputWidget_PortInstanceWidget, self).__init__()
+
+        # leave these lines ------------------------------
+        self.parent_port_instance = parent_port_instance
+        self.parent_node_instance = parent_node_instance
+        # ------------------------------------------------
+
+        self.file_path = ''
+
+        # UI
+        self.setLayout(QVBoxLayout())
+        self.path_line_edit = QLineEdit()
+        self.path_line_edit.setPlaceholderText('file path...')
+        self.select_file_button = QPushButton('select')
+        self.select_file_button.clicked.connect(self.select_file_button_clicked)
+        self.layout().addWidget(self.path_line_edit)
+        self.layout().addWidget(self.select_file_button)
+
+        self.setStyleSheet('''
+            QWidget {
+                background: transparent;
+            }
+            QLineEdit {
+                border-radius: 10px;
+                background-color: transparent;
+                border: 1px solid #202020;
+                color: #aaaaaa;
+                padding: 3px;
+            }
+            QPushButton {
+                background-color: #36383B;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 22px;
+                padding-right: 22px;
+                border: 1px solid #666666;
+                border-radius: 5px;
+            }
+        ''')
+        self.setFixedWidth(150)
+
+
+    def select_file_button_clicked(self):
+        file_path = QFileDialog.getOpenFileName(self, 'Select File')[0]
+        if len(file_path) > 0:
+            self.set_file_path(file_path)
+
+    def set_file_path(self, new_file_path):
+        self.file_path = new_file_path
+        self.path_line_edit.setText(self.file_path)
+
+    def get_val(self):
+        return self.file_path
+
+
+    def get_data(self):
+        data = {'file path': self.file_path}
+        return data
+
+    def set_data(self, data):
+        self.set_file_path(data['file path'])

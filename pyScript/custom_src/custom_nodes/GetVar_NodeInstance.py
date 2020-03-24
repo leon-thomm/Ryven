@@ -1,8 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
 
-import cv2
-
 
 # USEFUL
 # self.input(index)                    <- access to input data
