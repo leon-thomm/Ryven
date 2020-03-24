@@ -69,7 +69,7 @@ This is what the NodeManager can look like. To define a node, you have to specit
 
 Input widgets are custom widgets you can program for input ports of the node.
 
-![pyScript NodeManager screenshot](/resources/images/pyScript1.PNG)
+![pyScript NodeManager screenshot](/resources/images/pyScript2.PNG)
 
 When using custom input widgets, you must define them in the 'Input Widgets' area and give the exact name in the 'input widget name' line edit of the input you want to have this widget. Multiple inputs can have the same custom widget. The 'Yes' and 'No' radio buttons specify whether your input has a widget at all or not. Execution inputs do not have custom widgets, so then you can ignore the whole widgets part of the input's indget.
 
