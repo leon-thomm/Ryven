@@ -11,7 +11,7 @@ The idea is basically to have a runtime flow-based visual programming environmen
 
 ## Installation
 
-You need to have **Python 3 and PySide2** installed plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find example projects in the 'saves' folder that use these packages. *The start the editor simply run 'pyScript.py'*. To start the NodeManager run 'pyScript NodeManager.py' in the 'pyScript_NodeManager' folder.
+You need to have **Python 3 and PySide2** installed plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find example projects in the 'saves' folder that use these packages. **The start the editor simply run 'pyScript.py'**. To start the NodeManager run 'pyScript NodeManager.py' in the 'pyScript_NodeManager' folder.
 
 ## Overview
 
@@ -89,7 +89,7 @@ To start programming a node, simply direct into it's folder in the package direc
 
 If you open the file, you will see something similar to this:
 
-![pyScript NodeManager screenshot](/resources/images/pyScript2.PNG)
+![pyScript NodeManager screenshot](/resources/images/pyScript3.PNG)
 
 Background info (not neccessary for the task):
 
@@ -146,6 +146,8 @@ Nodes can be connected using either execution connections or data connections. E
 ![pyScript NodeManager screenshot](/resources/images/pyScript4.PNG)
 
 Assuming the If node received a signal at input 0 (execution) - maybe by the richtig click actions menu by the user - this is what happens here:
+
+(also see sequence diagram below)
 
 > 1. The the If's _updating()_ method is being called with _input_called_ == 0
 > 2. The If's _input(1)_ method is called because the If needs the data from this input to continue
