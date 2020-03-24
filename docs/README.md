@@ -103,29 +103,25 @@ _The special actions attribute is a dictionary_ holds information about accessib
 
 In this case, a method _action_print_something_ would need to exist
 
-        def actions_print_something(self):
-            print('Hello World!')
+    def actions_print_something(self):
+        print('Hello World!')
 
 And that's basically it.
 
-#### Advanced - Storing Data about the action
+#### Advanced - Storing Data About The Action
 
-You probably will not need this.
+You probably will not need this, so don't let yourself get confused if you didn't search for it.
 
 Only if you want to create very dynamic nodes with multiple right click operations representing the same action but for different inputs while having a dynamic number of these inputs - then you will definately run into this, so I had to come up with a solution.
 
-When you have multiple entries in special_actions that point to the same method like that:
-
-        self.special_actions = {'delete input 1': {'method' : self.action_delete_input}}
-
-becoming
+When you have multiple entries in _special_actions_ that point to the same method like that:
 
         self.special_actions = {'delete input 1': {'method' : self.action_delete_input},
                                 'delete input 2': {'method' : self.action_delete_input}}
 
 because the user added an input through another action for example, then how can we determine in the _delete_input_ method which action was pressed?
 
-The solution is another attribute in the action's object in the special_actions dict:
+The solution is another attribute in the action's object in the _special_actions_ dict:
 
         self.special_actions = {'delete input 1': {'method' : self.action_delete_input,
                                                    'data' : {'input number' : 1}},
@@ -134,8 +130,10 @@ The solution is another attribute in the action's object in the special_actions 
 
 and the extension of the _delete_input_ method by a _data_ parameter
 
-        def action_delete_input(self, data):
-            input_number = data['input number']
+    def action_delete_input(self, data):
+        input_number = data['input number']
+
+Full example following soon...
 
 ### API
 
