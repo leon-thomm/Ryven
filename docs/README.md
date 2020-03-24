@@ -1,7 +1,7 @@
 ## Welcome to the documentation page of pyScript!
 
 pyScript is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and it shouldn't be seen like that.
-It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts however is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is more fore vp-enthusiasts who intend to create their nodes themselves.
+It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts however is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is more for vp-enthusiasts who intend to create their nodes themselves.
 
 # Idea
 
@@ -97,7 +97,7 @@ Background info (not neccessary for the task):
 
 ### Special Actions
 
-_The special actions attribute is a dictionary_ holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
+_The special actions attribute is a dictionary_ and holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
 
         self.special_actions['pring something'] = {'method': self.action_print_something}
 
@@ -171,6 +171,72 @@ The _removing()_ method is being called when a node instance gets removed from t
 ### API
 
 To access the node instance's contents there is a small 'API' that you can use inside the node instance class.
+
+#### Logging
+
+You can log mesasges to the script's logs via
+
+> self.log_message(message: str, target='global')
+
+_target_ can be _global_ or _error_ which addresses the global messages log or the error log.
+
+A node instance can also request new logs using
+
+> self.new_log(title: str)
+
+One node instance can hold mutliple personal logs. When using logs, don't forget to add
+
+> mylog.removing()
+
+for every log in the _removing()_ method. This will cause the log widget in the script's logging area to change appearance.
+
+#### Shape
+
+You can cause a recomputation of the shape of the node instance including the positions of all contents using the
+
+> self.update_shape()
+
+command. Every time you add, remove, rename (whatever) an input or output, resize a widget - anything -, after you completed that, you should call _self.update_shape()_ once at the end.
+
+#### Ports
+
+Adding a new input port:
+
+> self.create_new_input(type_: str, label: str, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
+
+- _type__ refers to the input's type ('exec' or 'data')
+- _label_ is the shown name of the port
+after these two I recommend only using unpositional identifiers
+- (I do not recommend using _append_, it will be removed soon; use _pos_) _append=True_ **and** _pos=-1_ means, the input will be appended at the end. Setting _append_ with _pos=-1_ inserts the points at the first position. By setting the _pos_, you can specify an index at which the new input shall be inserted. -1 means append.
+All widget related arguments are only important for data inputs:
+- The _widget_type_ is the type of the input widget that will be created. Possible values are:
+    - 'std line edit'
+    - 'std spin box'
+    - 'custom'
+- If _widget_type_ is 'custom', you must give a _widget_name_ which must refer to an already programmed input widget.
+- _widget_pos_ determines whether the input widget will be 'besides' or 'under' the the Port
+
+Adding a new output port:
+
+> self.create_new_output(type_, label, append=True, pos=-1)
+
+see 'Adding a new input port'.
+
+Deleting input port:
+
+> self.delete_input(index)
+
+Deleting output port:
+
+> self.delete_output(index)
+
+Renaming input port:
+
+> ...
+
+Renaming output port:
+
+> ...
 
 ## Programming Widgets
 
