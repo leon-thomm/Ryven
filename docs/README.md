@@ -37,6 +37,22 @@ If you are not sure about that, dont panic, I did not apply any custom operation
 
 You can save projects by clicking File -> Save Project. You should do this often. When starting pyScript, you can load such a saved project into the editor. A little dialog will show all the required packages for the project you are trying to load. If you have used packages from special places (not the standard packages folder), you should choose them manually. Normally if you only used packages located in the packages folder, you can use auto import, it will search through all packages in this directory.
 
+### Stylus Support
+
+You can use stylus pens for either editing flows aka programming just like normal or to put notes into your script. In the top right corner, you can spcify that. Be aware, that this feature is not heavily tested, it surely contains some bugs.
+
+### Save Picture
+
+I see a lot of potential for this software at the visualization of algorithms. To support that, you can save pictures of your flow. Besides the option to just get a screenshot of the viewport, you also can get a full image of the scene, so you can cut out the parts that you need for use in your presentation for example. Just remember to zoom in before if you want to create a high resolution image. Be aware that this might take a bit of time.
+
+### Debugging
+
+If you are troubleshooting your nodes, you can turn debugging on. This will print a lot of information in the output window including the following
+        
+        EXCEPTION IN <NodeInstance Name> NI: <exception>
+        
+error message whenever the execution of a node returned an error. That is a very useful feature but one of the most things I have to work on most importantly since this is not very intuitive yet. Stay tuned.
+
 # Creating New Nodes
 
 Creating new nodes is not very difficult. However, you do need to get the whole system into your head which is not a matter of seconds. New nodes or actually new node packages are created using the pyScript NodeManager. To dive into this, it needs a little deeper understanding of how the software works.
@@ -56,3 +72,4 @@ asdf
 asdf
 
 ### A collection of important notes
+
