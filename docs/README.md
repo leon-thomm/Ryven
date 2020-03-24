@@ -158,17 +158,7 @@ So, the For Each Loops's _updating()_ method should look like this:
 
 ![pyScript NodeManager screenshot](/resources/images/pyScript8.PNG)
 
-That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state.
-
-##### Tokens
-
-A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
-
-![pyScript NodeManager screenshot](/resources/images/pyScript6.PNG)
-
-The + node instance does not have to update again when the set var b node instance causes a request for the output value through the / node instance, because the + already updated when the set var a node instance requested data. That is a performance measure. It might seem a little overpowered but if this + node instance would depend on a few other passive node instances which themselves depend on event more passive node instances, we would run very quickly into serious performance issues.
-
-I'm actually proud of that. I just got the idea very spontaniously one sunday morning and for my conditions this is working way too well :)
+That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state. See section 'Tokens' below.
 
 #### Get/Set Data
 
@@ -188,6 +178,17 @@ To access the node instance's contents there is a small 'API' that you can use i
 
 
 # Advanced
+
+#### Tokens
+
+A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
+
+![pyScript NodeManager screenshot](/resources/images/pyScript6.PNG)
+
+The + node instance does not have to update again when the set var b node instance causes a request for the output value through the / node instance, because the + already updated when the set var a node instance requested data. That is a performance measure. It might seem a little overpowered but if this + node instance would depend on a few other passive node instances which themselves depend on event more passive node instances, we would run very quickly into serious performance issues.
+
+I'm actually proud of that. I just got the idea very spontaniously one sunday morning and for my conditions this is working way too well :)
+
 
 ## Storing Data In Actions
 
