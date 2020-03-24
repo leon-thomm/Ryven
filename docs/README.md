@@ -87,6 +87,56 @@ And there we are. Programming nodes is not very difficult once you got the idea.
 
 To start programming a node, simply direct into it's folder in the package directory and open the metacode python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files** as compared with oder text-or code editors, Atom supports you with a good code completion which causes your attention if you typed something wrong while not outraging because there are expressions in a .py file that can not be resolved like that by Python. Also I sometimes got spaces-itentation problems when I tried oder editors - for example Notepad++.
 
+If you open the file, you will see something similar to this:
+
+![pyScript NodeManager screenshot](/resources/images/pyScript2.PNG)
+
+Background info (not neccessary for the task):
+
+> As you can see, we are actually programming a newly generated class derived by _NodeInstance_. This NodeInstance class is the one that gets instanciated when creating new node instances by placing them in a flow, so every single node instance you see in the editor is an object of this class. That way the class inherits some very useful concepts like the specification of custom actions by right clicking on a node while still enabeling reimplementations of certain methods (like the creation of such a right-click menu if you wanted to customize that).
+
+### Special Actions
+
+_The special actions attribute is a dictionary_ holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
+
+        self.special_actions['pring something'] = {'method': self.action_print_something}
+
+In this case, a method _action_print_something_ would need to exist
+
+        def actions_print_something(self):
+            print('Hello World!')
+
+And that's basically it.
+
+#### Advanced - Storing Data about the action
+
+You probably will not need this.
+
+Only if you want to create very dynamic nodes with multiple right click operations representing the same action but for different inputs while having a dynamic number of these inputs - then you will definately run into this, so I had to come up with a solution.
+
+When you have multiple entries in special_actions that point to the same method like that:
+
+        self.special_actions = {'delete input 1': {'method' : self.action_delete_input}}
+
+becoming
+
+        self.special_actions = {'delete input 1': {'method' : self.action_delete_input},
+                                'delete input 2': {'method' : self.action_delete_input}}
+
+because the user added an input through another action for example, then how can we determine in the _delete_input_ method which action was pressed?
+
+The solution is another attribute in the action's object in the special_actions dict:
+
+        self.special_actions = {'delete input 1': {'method' : self.action_delete_input,
+                                                   'data' : {'input number' : 1}},
+                                'delete input 2': {'method' : self.action_delete_input},
+                                                   'data' : {'input number' : 2}}
+
+and the extension of the _delete_input_ method by a _data_ parameter
+
+        def action_delete_input(self, data):
+            input_number = data['input number']
+
 ### API
 
 asdf
