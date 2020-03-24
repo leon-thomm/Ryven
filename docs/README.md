@@ -103,7 +103,7 @@ _The special actions attribute is a dictionary_ holds information about accessib
 
 In this case, a method _action_print_something_ would need to exist
 
-    def actions_print_something(self):
+    def action_print_something(self):
         print('Hello World!')
 
 And that's basically it.
@@ -141,7 +141,48 @@ Full example following soon...
 
 This is where the magic happens. 
 
-Nodes can be connected using either execution connections or data connections. Execution connections are just to activate something actively. Data connections are to get some data from elsewhere. This data will be requested _after_ the node received an execution signal.
+Node instances can be connected using either execution connections or data connections. Execution connections are just to activate something actively. They cause an update event in the on the right side connected node instance. Data connections are to get some data from elsewhere. This data will be requested _after_ the node instance received an execution signal.
+
+There are two types of nodes regarding the architechture of the _updating()_ method. Acitve nodes and passive nodes. An active node has at least one execution input. A passive node doesn't. They are called active and passive, becuase the active node instance only does stuff (including setting values of data outputs) when it received an execution signal (aka an execution input port received a signal -> _input_called_ is the index of an exec input port). Whereas a passive node instance is always supposed to update all output values if any output value was requested from somewhere.
+
+That is convention.
+
+This means, you always have to check for the _input_called_ parameter in active node instances unlike in passive ones. Example:
+
+An If node instance's _updating()_ method (active):
+
+PICTURE
+
+A + node instance's _updating()_ method (passive):
+
+PICTURE
+
+If you follow these rules, you should be fine.
+
+One exception: in the case that your node instance executes multiple times the same execution output, like a for loop does, you need to create a new **Token** each time, to clarify everytime that this is a _new_ execution call. That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state.
+
+#### Token
+
+A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
+
+![pyScript NodeManager screenshot](/resources/images/pyScript6.PNG)
+
+The + node instance does not have to update again when the set var b node instance causes a request for the output value through the / node instance, because the + already updated when the set var a node instance requested data. That is a performance measure. It might seem a little overpowered but if this + node instance would depend on a few other passive node instances which themselves depend on event more passive node instances, we would run very quickly into serious performance issues.
+
+I'm actually proud of that. I just got the idea very spontaniously one sunday morning and for my conditions this is working way too well :)
+
+### API
+
+asdf
+
+## Programming Widgets
+
+
+
+
+# Further Explanations
+
+## Algorithm
 
 ![pyScript NodeManager screenshot](/resources/images/pyScript4.PNG)
 
@@ -161,7 +202,7 @@ Assuming the If node received a signal at input 0 (execution) - maybe by the ric
 > 10. The =='s output port returns
 > 11. The If's second input port returns 2
 > 12. The If executes output 1 (second output)
-> 13. The Print's _updating()_ method is called with _input_called_ == 0
+> 13. The Print B's _updating()_ method is called with _input_called_ == 0
 > 14. The Print calls self.input(1)
 > 15. The Print's second input requests data from the =='s output
 > 16. The =='s output sees, that it already updated in this execution task, so it instantly returns 3
@@ -169,9 +210,3 @@ Assuming the If node received a signal at input 0 (execution) - maybe by the ric
 > 18. The Print prints 3
 
 _updating()_ gets called every time, the node received a signal. It is important, that the parameter _input_called_ specifies the input of the node that received a signal. This value can be -1 if the node updated itself normally because the value of a data _output_ was requested by another node and it has not been set yet in the current execution of the script.
-
-### API
-
-asdf
-
-## Programming Widgets
