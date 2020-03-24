@@ -89,7 +89,7 @@ To start programming a node, simply direct into it's folder in the package direc
 
 If you open the file, you will see something similar to this:
 
-![pyScript NodeManager screenshot](/resources/images/pyScript3.PNG)
+![pyScript NodeManager screenshot](/resources/images/pyScript5.PNG)
 
 Background info (not neccessary for the task):
 
