@@ -1,8 +1,7 @@
-# pyScript
-All about the pyScript project.
+Welcome to the documentation page of pyScript!
 
 pyScript is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and it shouldn't be seen like that.
-This software is currently not yet in a state of large usable node packages. However if people keep creating new nodes, this might look very different in the future. For now, this is more fore vp-enthusiasts who intend to create their nodes themselves.
+It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts however is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is more fore vp-enthusiasts who intend to create their nodes themselves.
 
 # Idea
 The idea is basically to have a runtime flow-based visual programming environment for Python. The runtime part means that you don#t export any code, everything gets executed within the editor, at runtime. The core concept of this software is the way new nodes are added/new node packages are created. Beside the main pyScript application (the editor), the pyScript NodeManager lets you manage your existing and create new nodes which you can use in your visual scripts. I built the whole system with the focus on enabling a not too complicated routing for creating new nodes while keeping restrictions regarding what can be processed and executed far away.
