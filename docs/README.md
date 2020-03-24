@@ -143,9 +143,28 @@ This is where the magic happens.
 
 Nodes can be connected using either execution connections or data connections. Execution connections are just to activate something actively. Data connections are to get some data from elsewhere. This data will be requested _after_ the node received an execution signal.
 
-PICTURE
+![pyScript NodeManager screenshot](/resources/images/pyScript4.PNG)
 
-So, once this Print node received a signal at input 0, it requests data from the + node to know what it is supposed to print. That is being done by calling a 
+Assuming the If node received a signal at input 0 (execution) - maybe by the richtig click actions menu by the user - this is what happens here:
+
+> 1. The the If's _updating()_ method is being called with _input_called_ == 0
+> 2. The If's _input(1)_ method is called because the If needs the data from this input to continue
+> 3. The If's second input sees that it is connected (the user could also type something directly into the input widget), so it requestes the data from the output of the ==
+> 4. The =='s _updating()_ method is called with _input_called_ == -1
+> 5. The == calls self.input(0)
+> 6. The =='s first input port has no connections, so it returns what is typed into the input witget (the number 1)
+> 7. The == calls self.input(1)
+> 8. The =='s second input port returns 2
+> 9. The == sets it's output port's value to 3 and returns
+> 10. The =='s output port returns
+> 11. The If's second input port returns 2
+> 12. The If executes output 1 (second output)
+> 13. The Print's _updating()_ method is called with _input_called_ == 0
+> 14. The Print calls self.input(1)
+> 15. The Print's second input requests data from the =='s output
+> 16. The =='s output sees, that it already updated in this execution task, so it instantly returns 3
+> 17. The Print's second input returns 3
+> 18. The Print prints 3
 
 _updating()_ gets called every time, the node received a signal. It is important, that the parameter _input_called_ specifies the input of the node that received a signal. This value can be -1 if the node updated itself normally because the value of a data _output_ was requested by another node and it has not been set yet in the current execution of the script.
 
