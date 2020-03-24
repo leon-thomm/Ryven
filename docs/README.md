@@ -124,17 +124,43 @@ This means, you always have to check for the _input_called_ parameter in active 
 
 An If node instance's _updating()_ method (active):
 
-PICTURE
+    def updating(self, token, input_called=-1):
+        if input_called == 0:
+            self.do_if(0, self.else_if_enlargement_state)
 
 A + node instance's _updating()_ method (passive):
 
-PICTURE
+    def updating(self, token, input_called=-1):
+        try:
+            sum_val = sum([self.input(i) for i in range(len(self.inputs))])
+            self.outputs[0].set_val(sum_val)
+        except Exception as e:
+            sum_val = ''
+            for i in range(len(self.inputs)):
+                sum_val += str(self.input(i))
+            self.outputs[0].set_val(sum_val)
 
 If you follow these rules, you should be fine.
 
-One exception: in the case that your node instance executes multiple times the same execution output, like a for loop does, you need to create a new **Token** each time, to clarify everytime that this is a _new_ execution call. That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state.
+One exception: in the case that your node instance executes multiple times the same execution output, like a for loop does, you need to create a new **Token** each time, to clarify everytime that this is a _new_ execution call.
 
-#### Token
+So, the For Each Loops's _updating()_ method should look like this:
+
+    def updating(self, token, input_called=-1):
+        if input_called == 0:                # activated
+            for obj in self.input(1):
+                self.handle_token(None)      # creates a new token
+                self.outputs[1].set_val(obj) # setting an output value - not important here
+                self.exec_output(0)          # executing loop output
+
+            self.handle_token(token)         # reset to the original token
+            self.exec_output(2)              # execute 'finished' output
+            
+![pyScript NodeManager screenshot](/resources/images/pyScript7.PNG =100x)
+
+That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state.
+
+#### Tokens
 
 A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
 
