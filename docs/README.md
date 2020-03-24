@@ -135,6 +135,20 @@ and the extension of the _delete_input_ method by a _data_ parameter
 
 Full example following soon...
 
+### Methods
+
+#### Updating
+
+This is where the magic happens. 
+
+Nodes can be connected using either execution connections or data connections. Execution connections are just to activate something actively. Data connections are to get some data from elsewhere. This data will be requested _after_ the node received an execution signal.
+
+PICTURE
+
+So, once this Print node received a signal at input 0, it requests data from the + node to know what it is supposed to print. That is being done by calling a 
+
+_updating()_ gets called every time, the node received a signal. It is important, that the parameter _input_called_ specifies the input of the node that received a signal. This value can be -1 if the node updated itself normally because the value of a data _output_ was requested by another node and it has not been set yet in the current execution of the script.
+
 ### API
 
 asdf
