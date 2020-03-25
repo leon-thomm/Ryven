@@ -66,3 +66,8 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QWidget):
 
     def set_data(self, data):
         self.set_file_path(data['file path'])
+
+
+    # remove logs and stop threads and timers here
+    def removing(self):
+        pass # ...

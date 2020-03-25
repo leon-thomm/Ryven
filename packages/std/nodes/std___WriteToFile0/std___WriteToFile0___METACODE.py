@@ -38,6 +38,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             file = self.input(1)
             data = str(self.input(2))
             file.write(data)
+            self.exec_output(0)
 
     def get_data(self):
         data = {}

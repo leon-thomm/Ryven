@@ -66,4 +66,5 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
     # optional - important for threading - stop everything here
     def removing(self):
-        pass
+        self.log_message('removed!', 'global')
+        self.timer.stop()

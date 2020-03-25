@@ -566,8 +566,6 @@ class NodeInstance(QGraphicsItem):
 
 
     def compute_content_positions(self):
-        if self.main_widget is not None:
-            print('self.main_widget.height():', self.main_widget.height())
         for i in self.inputs:
             i.compute_size_and_positions()
         for o in self.outputs:

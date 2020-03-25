@@ -1,11 +1,14 @@
-from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QPlainTextEdit
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QPlainTextEdit, QShortcut
+from PySide2.QtGui import QKeySequence
 
 
 class EditVarVal_Dialog(QDialog):
     def __init__(self, parent, var):
         super(EditVarVal_Dialog, self).__init__(parent)
 
-
+        # shortcut
+        save_shortcut = QShortcut(QKeySequence.Save, self)
+        save_shortcut.activated.connect(self.save_triggered)
 
         main_layout = QVBoxLayout()
 
@@ -30,6 +33,9 @@ class EditVarVal_Dialog(QDialog):
         self.resize(450, 300)
 
         self.setWindowTitle('edit var val \''+var.name+'\'')
+
+    def save_triggered(self):
+        self.accept()
 
 
     def get_val(self):

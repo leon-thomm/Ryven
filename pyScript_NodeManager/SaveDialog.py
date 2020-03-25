@@ -241,18 +241,25 @@ class SaveDialog(QDialog):
             if not os.path.isdir(widgets_dir):
                 os.mkdir(widgets_dir)
 
+
             # save source files
-            meta_code = c_w.get_src_code()
-            self.save_file(node_dir+'/'+module_name+module_name_separator+'METACODE.py', meta_code)  # the NI file's name is just the 'module name'
+            src_code_file_path = node_dir+'/'+module_name+module_name_separator+'METACODE.py'
+            if not os.path.isfile(src_code_file_path):
+                meta_code = c_w.get_src_code()
+                self.save_file(node_dir+'/'+module_name+module_name_separator+'METACODE.py', meta_code)  # the NI file's name is just the 'module name'
 
             if c_w.has_main_widget:
-                meta_code = c_w.get_main_widget_code()
-                self.save_file(widgets_dir+'/'+module_name+module_name_separator+'main_widget'+module_name_separator+'METACODE.py', meta_code)
+                main_widget_src_code_file_path = widgets_dir + '/' + module_name + module_name_separator + 'main_widget' + module_name_separator + 'METACODE.py'
+                if not os.path.isfile(main_widget_src_code_file_path):
+                    meta_code = c_w.get_main_widget_code()
+                    self.save_file(widgets_dir+'/'+module_name+module_name_separator+'main_widget'+module_name_separator+'METACODE.py', meta_code)
 
             for iw in c_w.input_widgets:
                 iw: InputWidget = iw
-                meta_code = iw.get_code()
-                self.save_file(widgets_dir+'/'+module_name+module_name_separator+iw.get_name()+module_name_separator+'METACODE.py', meta_code)
+                iw_file_path = widgets_dir+'/'+module_name+module_name_separator+iw.get_name()+module_name_separator+'METACODE.py'
+                if not os.path.isfile(iw_file_path):
+                    meta_code = iw.get_code()
+                    self.save_file(widgets_dir+'/'+module_name+module_name_separator+iw.get_name()+module_name_separator+'METACODE.py', meta_code)
 
 
     def save_file(self, file_path, content):

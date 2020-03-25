@@ -1,7 +1,7 @@
 import os, sys
 # QT
-from PySide2.QtWidgets import QMainWindow, QFileDialog
-from PySide2.QtGui import QColor, QFontDatabase, QIcon
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut
+from PySide2.QtGui import QColor, QFontDatabase, QIcon, QKeySequence
 # parent UI
 from ui.ui_main_window import Ui_MainWindow
 
@@ -40,6 +40,10 @@ class MainWindow(QMainWindow):
         self.ui.actionSave_Pic_Viewport.triggered.connect(self.on_save_scene_pic_viewport_triggered)
         self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
 
+        # Shortcuts
+        save_shortcut = QShortcut(QKeySequence.Save, self)
+        save_shortcut.activated.connect(self.on_save_project_triggered)
+
         self.custom_nodes = []
         self.all_nodes = [SetVariable_Node(), GetVariable_Node()]
 
@@ -76,7 +80,6 @@ class MainWindow(QMainWindow):
         elif config['config'] == 'open project':
             self.import_required_packages(config['required packages'])
             self.parse_project(config['content'])
-
 
         self.resize(1500, 800)
 

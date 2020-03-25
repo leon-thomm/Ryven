@@ -30,8 +30,8 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
                 self.outputs[1].set_val(obj)
                 self.exec_output(0)
 
-        self.handle_token(token)
-        self.exec_output(2)
+            self.handle_token(token)
+            self.exec_output(2)
 
     def get_data(self):
         data = {}

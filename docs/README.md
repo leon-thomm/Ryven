@@ -1,4 +1,4 @@
-## Welcome to the documentation page of pyScript!
+# Welcome to the documentation page of pyScript!
 
 pyScript is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and it shouldn't be seen like that.
 It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts however is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is more for vp-enthusiasts who intend to create their nodes themselves.
@@ -53,7 +53,7 @@ If you are troubleshooting your nodes, you can turn debugging on. This will prin
         
 error message whenever the execution of a node returned an error. That is a very useful feature but one of the most things I have to work on most importantly since this is not very intuitive yet. Stay tuned.
 
-# Creating New Nodes
+# Creating New Nodes (whatever comes before alpha)
 
 Creating new nodes is not very difficult. However, you do need to get the whole system into your head which is not a matter of seconds. New nodes or actually new node packages are created using the pyScript NodeManager. To dive into this, it needs a little deeper understanding of how the software works.
 A node is not a node. Or what you see when you placed one in the graph is actually not a node but a node _instance_. Every nodeinstance has a so-called _parent node_ which is a node. But we can instanciate every node as often as we want to as node instances. Furthermore, nodeinstances indeed start in a pre-defined state but they can individually dynamically change. Two nodeinstances having the same parent node (for example 'Print') can look different and do different things when being executed. That is important in order to understand why we will be programming node _instances_ not nodes later on. A node just holds all meta information that applies on all of the nodeinstances either constantly (like title, description, color etc.) or at creation of the nodeinstance (like inputs and outputs which then can be individually modified, added, and deleted in nodeinstances).
@@ -156,6 +156,12 @@ So, the For Each Loops's _updating()_ method should look like this:
             self.handle_token(token)         # reset to the original token
             self.exec_output(2)              # execute 'finished' output
 
+Another important thing is: if you want to call _self.updating()_, don't do it directly. Always call
+
+> self.update()
+
+The _updating()_ method gets called somewhere in a loger process of method calls internally, so a direct call of _self.updating()_ can cause trouble. You probably don't need that but if you take a look at the 'Minimal Example' below, you see an example where this is important.
+
 ![pyScript NodeManager screenshot](/resources/images/pyScript8.PNG)
 
 That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state. See section 'Tokens' below.
@@ -240,8 +246,133 @@ Renaming output port:
 
 ## Programming Widgets
 
+The possibility to program custom widgets for the node instances is one of the corea concepts. It is not very different from programming the node instance itself. Widgets are being created by programming a class that derives from QWidget, so everything that you can do with a QWidget can be done in the node's custom widgets - which is pretty amazing, you could throw whole programs into nodes if you wanted to. There are two types of widgets. A node instance can have a main widget which sits either between or under the ports, and every data input of a node instance can have a widget too. All widget classes must be stated in the NodeManager (whether it has a main widget and every custom input widget in the 'Input Widgets' area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets (just like for the node intance class) which you can find in the 'widgets' folder in the node's directory. To program the widgets, simply edit these metacode files.
+
+### Main Widget
+
+The metacode for a main widget looks somehow like this:
+
+    from PySide2.QtWidgets import ...
+    # from PySide2.QtCore import ...
+    # from PySide2.QtGui import ...
+
+    import os
 
 
+    class %NODE_TITLE%_NodeInstance_MainWidget(...):
+        def __init__(self, parent_node_instance):
+            super(%NODE_TITLE%_NodeInstance_MainWidget, self).__init__()
+
+            # leave these lines ------------------------------
+            self.parent_node_instance = parent_node_instance
+            self.package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
+            # ------------------------------------------------
+
+            self.setStyleSheet('''
+
+            ''')
+
+            # ...
+
+
+        def get_data(self):
+            data = {}
+            # ...
+            return data
+
+        def set_data(self, data):
+            pass
+
+
+
+        # optional - important for threading - stop everything here
+        def removing(self):
+            pass
+
+You can either let the class derive directly from QWidget (just import it in the first like and put it in the parantheses behind the class name), or from a specified one like QLineEdit (same process).
+
+#### Access Parent Node Instance
+
+You can access the parent node instance via
+
+> self.parent_node_instance
+
+#### Using Custom Content - Package Path
+
+As you can see there is a package path which is the path to the package the node instance is a part of. This is very useful if you want to use resources laying on your file system, images for example. You can put them anywhere you want into the package directory, they will not be removed by the NodeManager when overwriting the package.
+
+#### Get/Set Data
+
+Exactly the same idea as in the node instance class (see above). The widget of course also only gets exactly the data in _set_data()_ which it previously provided in _get_data()_.
+
+#### Removing
+
+Exactly the same idea as in the node instance class (see above). Stop all autonomously running element there (threads, timers etc).
+
+#### Minimal Example
+
+The following code is an example for a button node. Once you press the button, the first and only execution output should get executed. Because all the connecting is done in the node instance class, this is pretty simple:
+
+    from PySide2.QtWidgets import QPushButton
+
+
+    class %NODE_TITLE%_NodeInstance_MainWidget(QPushButton):
+        def __init__(self, parent_node_instance):
+            super(%NODE_TITLE%_NodeInstance_MainWidget, self).__init__()
+
+            # leave these lines ------------------------------
+            self.parent_node_instance = parent_node_instance
+            # ------------------------------------------------
+            self.setStyleSheet('''
+                background-color: #36383B;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 22px;
+                padding-right: 22px;
+                border: 1px solid #666666;
+                border-radius: 5px;
+            ''')
+
+        def get_data(self):
+            return {}
+
+        def set_data(self, data):
+            pass
+
+
+
+        # optional - important for threading - stop everything here
+        def removing(self):
+            pass
+
+![pyScript NodeManager screenshot](/resources/images/pyScript6.PNG)
+
+In the node instance class, we need to connect this button like that:
+
+    # ...
+
+    class %NODE_TITLE%_NodeInstance(NodeInstance):
+        def __init__(self, parent_node: Node, flow, configuration=None):
+            super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+
+            self.main_widget.clicked.connect(self.button_clicked)
+
+            if configuration:
+                self.set_data(configuration['state data'])
+
+        def button_clicked(self):
+            self.update()
+
+        def updating(self, token, input_called=-1):
+            self.exec_output(0)
+
+    # ...
+
+### Data Input Widgets
+
+There are standard widgets for data inputs which you can select in the NodeManager for the pre defined ports, or you can also use them when programatically adding new inputs (see section 'Ports' above). But you can also program custom widgets for inputs.
+
+After you stated the existence of the custom input widget in the NodeManager and saved the node in a package, the metacode files that you can edit should be in the 'widgets' folder of you node. Programming a custom widget does not differ from programming a main widget at all.
 
 # Advanced
 

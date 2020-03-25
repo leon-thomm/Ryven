@@ -23,10 +23,10 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QPushButton):
         ''')
 
     def get_data(self):
-        return self.text()
+        return {}
 
     def set_data(self, data):
-        self.setText(data)
+        pass
 
 
 
