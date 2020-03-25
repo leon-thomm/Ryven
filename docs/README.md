@@ -345,7 +345,7 @@ The following code is an example for a button node. Once you press the button, t
         def removing(self):
             pass
 
-![pyScript NodeManager screenshot](/resources/images/pyScript6.PNG)
+![pyScript NodeManager screenshot](/resources/images/pyScript9.PNG)
 
 In the node instance class, we need to connect this button like that:
 
