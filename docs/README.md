@@ -86,7 +86,7 @@ A node's configuration is defined using the NodeManager. The actual program that
 
 ## NodeManager Overview
 
-This section provides information about the creation of new nodes using the NodeManager. Please be aware that this application is not extremely intuitive just yet, there are quite a few features still missing. I will work on that :)
+This section provides information about the creation of new nodes using the NodeManager. Please be aware that this application is not extremely intuitive just yet, there are quite a few features still missing. I am working on that :)
 
 ![pyScript NodeManager screenshot](/resources/images/Qt 70.png)
 
