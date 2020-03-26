@@ -84,7 +84,7 @@ What you see when you placed a node in the flow is actually not a node but a nod
 Every nodeinstance has a so-called _parent node_ which is a node. But we can instanciate every node as often as we want to as node instances. Furthermore, node instances indeed start in a pre-defined state but they can individually dynamically change. Two node instances having the same parent node (for example 'Print') can look different and do different things when being executed. That is important in order to understand why we will be programming node _instances_ not nodes later on. A node just holds all meta information that applies on all of the nodeinstances either constantly (like title, description, color etc.) or at creation of the nodeinstance (like inputs and outputs which then can be individually modified, added, and deleted in nodeinstances).
 A node's configuration is defined using the NodeManager. The actual program that runs when a node _instance_ is being executed gets written manually outside of the NodeManager but the NodeManager generates the files neccessary for the pyScript editor to generate the actual source code.
 
-**A node's properties consist of:**
+**A node's:**
 
 - Title
 - Class name
@@ -105,7 +105,7 @@ This section provides information about the creation of new nodes using the Node
 
 This is what the NodeManager can look like. To define a node, you have to specity it's properties.
 
-If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon.
+If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon. Your title can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
 
 Input widgets are custom widgets you can program for input ports of the node.
 
