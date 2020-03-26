@@ -21,7 +21,7 @@ When you open pyScript, you will notice, there are different scripts. Every scri
 
 ### Placing Nodes
 
-Just left click on a flow to see what nodes you can place.
+Just left click on a flow to see what nodes you can place. You can also press 'Shift'+'P' to place a new node besides the last one and move it around with 'Shift'+Arrow.
 
 ### Importing Nodes
 
