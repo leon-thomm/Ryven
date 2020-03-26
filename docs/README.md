@@ -97,6 +97,13 @@ A node's configuration is defined using the NodeManager. The actual program that
 - InputWidgets used
 - Outputs (initial)
 
+There are a few **name conventions** that you should follow:
+
+- A package's name is unique.
+- Multiple Nodes in a package can have the same name.
+- Custom input widget names must be unique _inside the same node_. Other nodes can have same custom input widget names.
+- No name or title is allowed to have a sequence of three underscore characters '\_\_\_' as this is an anchor for pyScript and the NodeManager for separation of different components.
+
 ## NodeManager Overview
 
 This section provides information about the creation of new nodes using the NodeManager. Please be aware that this application is not extremely intuitive just yet, there are quite a few features still missing. I am working on that :)
@@ -437,7 +444,7 @@ So, let's save this in a package called 'points example'.
 
 ![](/resources/images/pyScript12.PNG)
 
-Now, let's program the node-_instance_. Navigate to the 'points example/nodes' folder where you should find a folder called _points example___PointsField0_. In this folder, you should find the metacode file for the node instance _points example___PointsField0___METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example___PointsField0___RelativeCoordinates_IW___METACODE.py_ as well as the main widget _points example___PointsField0___main_widget___METACODE.py_.
+Now, let's program the node-_instance_. Navigate to the 'points example/nodes' folder where you should find a folder called _points example\_\_\_PointsField0_. In this folder, you should find the metacode file for the node instance _points example\_\_\_PointsField0\_\_\_METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example\_\_\_PointsField0\_\_\_RelativeCoordinates_IW\_\_\_METACODE.py_ as well as the main widget _points example\_\_\_PointsField0\_\_\_main_widget\_\_\_METACODE.py_.
 
 First, open the node instance file.
 
