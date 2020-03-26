@@ -435,7 +435,7 @@ The title 'Points Field' can be converted into the valid class name 'PointsField
 
 So, let's save this in a package called 'points example'.
 
-![](/resources/images/pyScript11.PNG)
+![](/resources/images/pyScript12.PNG)
 
 Now, let's program the node-_instance_. Navigate to the 'points example/nodes' folder where you should find a folder called _points example___PointsField0_. In this folder, you should find the metacode file for the node instance _points example___PointsField0___METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example___PointsField0___RelativeCoordinates_IW___METACODE.py_ as well as the main widget _points example___PointsField0___main_widget___METACODE.py_.
 
@@ -579,7 +579,7 @@ And that's it!
 
 Now we can import that new package into pyFlow and start using the node!
 
-![](/resources/images/pyScript6.PNG)
+![](/resources/images/pyScript13.PNG)
 
 # Advanced
 
