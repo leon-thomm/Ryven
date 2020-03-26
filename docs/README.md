@@ -7,11 +7,11 @@ It is currently not yet in a state of large package varieties of usable nodes. O
 
 The idea is basically to have a runtime flow-based visual programming environment for Python. The runtime part means that you don't export any code, everything gets executed within the editor as you go, at runtime. Beside the main pyScript application (the editor), the pyScript NodeManager lets you manage your existing and create new nodes which you can then program using any code editor for use in your visual scripts. I built this system with the focus on enabling a not too complicated routine for creating new nodes while keeping restrictions far away regarding what can be processed and executed. So you can literally throw any Python code into these nodes and pyScript provides you with the platform to use them in combination with others. There are two types of connections (execution and data connections) but if you are searching for a pure data flow sofware, you can absolutely do normal pure dataflows which opens plenty of possibilities for data manipulations.
 
-You could start with the demonstration video if you haven't already been directed here from there. YouTube:
+Prototype demo video:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=8aOn9OsvlXY
 " target="_blank"><img src="resources/images/thumbnail7.png" 
-alt="Prototype Demonstration Video" style="text-align: center;" width="500" border="10" /></a>
+alt="Prototype Demonstration Video" width="500" border="10" align="center" /></a>
 
 # Getting Started
 
