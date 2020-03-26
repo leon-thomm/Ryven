@@ -147,11 +147,10 @@ In this case, a method _action_print_something_ would need to exist
 
         def action_print_something(self):
             print('Hello World!')
-        
-<p>
+
 This would look in pyScript like that:
-    <img src="resources/images/pyScript10.PNG" align="right" >
-</p>
+
+![](/resources/images/pyScript10.PNG)
 
 And that's basically it.
 
