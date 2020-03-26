@@ -139,7 +139,7 @@ Background info (not neccessary for the task):
 
 ### Special Actions
 
-_The special actions attribute is a dictionary_ and holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
+**The special actions attribute is a dictionary** and holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
 
         self.special_actions['pring something'] = {'method': self.action_print_something}
 
@@ -147,6 +147,10 @@ In this case, a method _action_print_something_ would need to exist
 
     def action_print_something(self):
         print('Hello World!')
+        
+This would look in pyScript like that:
+
+
 
 And that's basically it.
 
