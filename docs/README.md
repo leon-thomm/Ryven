@@ -92,7 +92,7 @@ This section provides information about the creation of new nodes using the Node
 
 This is what the NodeManager can look like. To define a node, you have to specity it's properties.
 
-**A node's properties are:**
+**A node's properties consist of:**
 
 - Name
 - Type
