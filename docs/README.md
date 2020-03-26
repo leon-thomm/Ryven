@@ -429,6 +429,8 @@ Let's build a node, that generates random 2D points and returns them as array. S
 
 ![](/resources/images/pyScript11.PNG)
 
+The title 'Points Field' can be converted into the valid class name 'PointsField', so that we can leave. The type is 'pints'. Then, I added a little description. The node also has a main widget which sits under the ports. Furthermore I want it to be able to deliver the points in absolute format as well as in relative. In absolute mode, the coordinates are given according to the widget (200x200 pixels), in relative mode this is scaled to 0-1. And I want this to be accesible via an input. That way we could later connect that to an extern boolean node output of another node. A check box would be the most reasonable representation. So the existence of this custom input widget is stated in the 'Input Widgets' with the name 'RelativeCoordinates_IW'. The node has three static inputs, one execution input to trigger the randomization, one for the number of points and the one specifying the scale of the coordinates. Is also has an exec output which should be executed after the 'randomize' input has been triggered and a 'points' data output where we will make the array of points accessible.
+
 # Advanced
 
 ## Tokens
