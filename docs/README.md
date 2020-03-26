@@ -420,6 +420,8 @@ There are standard widgets for data inputs which you can select in the NodeManag
 
 After you stated the existence of the custom input widget in the NodeManager and saved the node in a package, the metacode files that you can edit should be in the 'widgets' folder of you node. Programming a custom widget does not differ from programming a main widget at all.
 
+The only difference is, that you need to fill the _get_val()_ method which should return the value that the widget represents _if_ the input the widget is a part of is not connected to some other node instance.
+
 
 ## Full Example
 
@@ -429,7 +431,155 @@ Let's build a node, that generates random 2D points and returns them as array. S
 
 ![](/resources/images/pyScript11.PNG)
 
-The title 'Points Field' can be converted into the valid class name 'PointsField', so that we can leave. The type is 'pints'. Then, I added a little description. The node also has a main widget which sits under the ports. Furthermore I want it to be able to deliver the points in absolute format as well as in relative. In absolute mode, the coordinates are given according to the widget (200x200 pixels), in relative mode this is scaled to 0-1. And I want this to be accesible via an input. That way we could later connect that to an extern boolean node output of another node. A check box would be the most reasonable representation. So the existence of this custom input widget is stated in the 'Input Widgets' with the name 'RelativeCoordinates_IW'. The node has three static inputs, one execution input to trigger the randomization, one for the number of points and the one specifying the scale of the coordinates. Is also has an exec output which should be executed after the 'randomize' input has been triggered and a 'points' data output where we will make the array of points accessible.
+The title 'Points Field' can be converted into the valid class name 'PointsField', so that we can leave. The type is 'points', so the user will be able to find that node by searching for the type (once I implemented that ;)  ). Then, I added a little description. The node also has a main widget which sits under the ports. Furthermore I want it to be able to deliver the points in absolute format as well as in relative. In absolute mode, the coordinates are given according to the widget (200x200 pixels), in relative mode this is scaled to 0-1. And I want this to be accesible via an input. That way we could later connect that to an extern node output of another node. A check box would be the most reasonable representation. So the existence of this custom input widget is stated in the 'Input Widgets' with the name 'RelativeCoordinates_IW'. The node has three static inputs, one execution input to trigger the randomization, one for the number of points and the one specifying the scale of the coordinates. Is also has an exec output which should be executed after the 'randomize' input has been triggered and a data output where we will make the array of points accessible.
+
+So, let's save this in a package called 'points example'.
+
+![](/resources/images/pyScript11.PNG)
+
+Now, let's program the node-_instance_. Navigate to the 'points example/nodes' folder where you should find a folder called _points example___PointsField0_. In this folder, you should find the metacode file for the node instance _points example___PointsField0___METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example___PointsField0___RelativeCoordinates_IW___METACODE.py_ as well as the main widget _points example___PointsField0___main_widget___METACODE.py_.
+
+First, open the node instance file.
+
+    def get_data(self):
+        data = {}
+        return data
+
+    def set_data(self, data):
+        pass
+
+We will store the points in the main widget (which also is meant to show them), not in the node instance otherwise, we would constantly have to keep both attributes sychnonous which is unnecessary here. That means, the node instance also does not have to do anything data in _get_data()_ and _set_data()_ since the the points are not saved here.
+
+    # optional - important for threading - stop everything here
+    def removing(self):
+        pass
+
+
+We also have no running threads or timers, so _removing()_ stays empty too.
+
+All we have to do is to define the update method.
+
+    def updating(self, token, input_called=-1):
+        if input_called == 0:
+            new_points = self.main_widget.randomize(self.input(1), self.input(2))
+            self.set_output_val(1, new_points)
+            self.exec_output(0)
+
+Input 0 is the 'randomize' execution input, so we need to check for it. If the signal comes from input 0 (_input_called == 0_), we want our main widget to generate new points. We will do that with a _randomize()_ method which we will later implement in the main widget. It needs to know how many points and in which scale, so we give the number (input 1) as well as the scale (input 2) as parameter. Input 1 will return a number if it's not connected since we chose a spin box widget for that one. Input 2 will return a bool, because we are going to implement a check box for that one shortly. And after that we store the points array at output 1 and execute output 0 to pass the signal to the next connected node instance.
+
+Now, it would be cool, if we could manually cause a randomization via a right click action. Fortunately we don't have to do anything for that because all execution inputs of a node instance are always manually via right click action executable - pyScript will add that action automatically.
+
+Let's implement the check box input that specifies in which scale the points should be delivered. We want it to be a check box for which the QCheckBox class from Qt (PySide2) is perfect. So we need to import it
+
+    from PySide2.QtWidgets import QCheckBox
+
+and make the class derive from it
+
+    class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QCheckBox):
+
+Now we need to fill ensure that the value will be returned when requested
+
+    def get_val(self):
+        # QCheckBox.isChecked() is a method of the QCheckBox class, see Qt documentation
+        return self.isChecked()
+
+And we have to store the current value (whether the check box is checked or not; there is nothing else that defines the current state in that widget) and reload it when necessary
+
+    def get_data(self):
+        data = {'checked': self.isChecked()}
+        return data
+
+    def set_data(self, data):
+        # QCheckBox.setChecked() is a method of the QCheckBox class, see Qt documentation
+        self.setChecked(data['checked'])
+
+Now, the only thing left to do is to program the main widget. The widget should show points and I would do that with a QPixmap on a QLabel. Instead of making the main widget a QLabel directly, I will make it a QWidget. That way it will be easier to add more UI elements later that define how points are generated if I want to. 
+
+    from PySide2.QtCore import Qt  # gives us easy accessible pre-defined colors etc.
+    from PySide2.QtGui import QPixmap, QPainter, QPen, QColor, QBrush
+
+    from PySide2.QtWidgets import QWidget, QVBoxLayout, QLabel
+
+    import random
+
+For the generation of the random coordinates, we need Python's _random_ module.
+
+    def __init__(self, parent_node_instance):
+        super(%NODE_TITLE%_NodeInstance_MainWidget, self).__init__()
+
+        # leave these lines ------------------------------
+        self.parent_node_instance = parent_node_instance
+        # ------------------------------------------------
+        self.setStyleSheet('''
+            QWidget {
+                background-color: #333333;
+            }
+        ''')
+
+        self.setLayout(QVBoxLayout())  # creating a layout - the widget must have one so that we can add stuff on top of it
+        self.label = QLabel()  # creating a label for the pixmap to sit on
+        pix = QPixmap(200,200)
+        self.label.setPixmap(pix)
+        self.layout().addWidget(self.label)  # adding the label with the pixmap to the layout
+        self.resize(200, 200)
+
+        self.points = []
+
+In the constructor, we give a stylesheet to make it look nice, setup the whole UI and the points array. To make sure, we don't forget that, let's fill _set_data()_ and _get_data()_ first:
+
+    def get_data(self):
+        return {'points': self.points}
+
+    def set_data(self, data):
+        self.points = data['points']
+        self.draw_points(self.points)
+
+The _removing()_ method of course again stays empty; no threads, no timers running. Now, we need to to two things.
+
+- First: implement the _randomization()_ method we called from the node instance class
+- And Secondly: display the points
+
+Randomization method:
+
+    def randomize(self, num_points, relative_scale):
+        self.points.clear()
+
+        for i in range(num_points):
+            x = random.uniform(0, 1)
+            y = random.uniform(0, 1)
+            if not relative_scale:
+                x *= 200
+                y *= 200
+            self.points.append({'x': x, 'y': y})
+
+        self.draw_points(self.points, 1 if not relative_scale else 200)
+
+        return self.points
+
+Drawing points:
+
+    def draw_points(self, points, mult):
+        painter = QPainter(self.label.pixmap())  # initialize the painter with the pixmap, we want to draw on, so it will paint on that pixmap
+        painter.setRenderHint(QPainter.Antialiasing)  # turn antialiasing on to make it look smooth
+
+        painter.setPen(QPen('#333333'))  # set a pen color
+        painter.setBrush(QColor('#333333'))  # same for 'brush'
+        painter.drawRect(self.rect())  # the pixmap cannot have a transparent background, so we need to draw it's background manually with the background color of the widget (see style sheet above)
+
+        pen = QPen(QColor(255, 255, 255))  # set pen color white
+        painter.setPen(pen)
+        painter.setBrush(QBrush(Qt.white))  # brush also white (fills the circle)
+
+        for p in points:  # draw every point
+            painter.drawEllipse(p['x']*mult, p['y']*mult, 4, 4)
+        
+        self.repaint()  # tells the flow to update because something has changed; otherwise we may not see a change
+
+And that's it!
+
+Now we can import that new package into pyFlow and start using the node!
+
+![](/resources/images/pyScript6.PNG)
 
 # Advanced
 

@@ -14,9 +14,9 @@ from custom_src.Node import Node
 # self.update_shape()
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
+class PointsField_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+        super(PointsField_NodeInstance, self).__init__(parent_node, flow, configuration)
 
         # self.special_actions['action name'] = self.actionmethod ...
         # ...
@@ -26,9 +26,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
 
     def updating(self, token, input_called=-1):
-        if input_called == 1:
-            new_points = self.main_widget.randomize(self.input(0))
-            self.outputs[0].set_val(new_points)
+        if input_called == 0:
+            new_points = self.main_widget.randomize(self.input(1), self.input(2))
+            self.set_output_val(1, new_points)
+            self.exec_output(0)
 
     def get_data(self):
         data = {}

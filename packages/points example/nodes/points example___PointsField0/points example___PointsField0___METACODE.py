@@ -2,24 +2,16 @@ from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
 
 
-# GENERAL
+# USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
 # self.main_widget                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
-
-# EDITING
-# self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under')
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, append=True, pos=-1)
+# self.create_new_output(type_, label, append=True)
 # self.delete_output(output or index)
-# self.update_shape()                  <- recomputes the whole shape and content positions
-
-# LOGGING
-# mylog = self.new_log('Example Log')
-# mylog.log('I\'m alive!!')
-# self.log_message('hello global!', 'global')
-# self.log_message('that\'s not good', 'error')
+# self.update_shape()
 
 
 class %NODE_TITLE%_NodeInstance(NodeInstance):
@@ -34,7 +26,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
 
     def updating(self, token, input_called=-1):
-        self.outputs[0].set_val({'x': self.input(0), 'y': self.input(1)})
+        if input_called == 0:
+            new_points = self.main_widget.randomize(self.input(1), self.input(2))
+            self.set_output_val(1, new_points)
+            self.exec_output(0)
 
     def get_data(self):
         data = {}
@@ -43,6 +38,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
     def set_data(self, data):
         pass
+        # ...
 
 
 
