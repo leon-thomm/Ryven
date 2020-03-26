@@ -121,15 +121,17 @@ A package is identified by it's name. Packages with the same names should never 
 
 And there we are. Programming nodes is not very difficult once you got the idea. The basic concepts are:
 
-- For every node (as well as all it's widget classes, more on that later), the NodeManager creates **METACODE**-files from templates if they are not already existing. All programing is done by editing these METACODE files.
+- For every node (as well as all it's widget classes, more on that later), the NodeManager creates **METACODE**-files from templates if they are not already existing. All programming is done by editing these METACODE files.
 - pyScript will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
 - **Do not edit non-metacode source files directly, as these changes will be lost.**
 
-To start programming a node, simply direct into it's folder in the package directory and open the metacode python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files** as compared with oder text-or code editors, Atom supports you with a good code completion which causes your attention if you typed something wrong while not outraging because there are expressions in a .py file that can not be resolved like that by Python. Also I sometimes got spaces-itentation problems when I tried oder editors - for example Notepad++.
+To start programming a node, simply direct into it's folder in the package directory and open the metacode python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files** as compared with oder text-or code editors, Atom supports you with a good code completion which causes your attention if you typed something wrong while not outraging because there are expressions in a .py file that can not be resolved like that by Python. Also I sometimes got spaces-itentation problems when I tried oder editors - for example Notepad++. If pyScript raises an error when you try to import a package regarding that, convert all tabs to spaces - Atom has an add-on for that.
 
 If you open the file, you will see something similar to this:
 
 ![](/resources/images/pyScript5.PNG)
+
+Now, you just need to add your stuff into this file, normally at the with _#..._ marked positions. You can also add new methods, everyhting that Python lets you do in a class.
 
 Background info (not neccessary for the task):
 
