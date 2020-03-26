@@ -60,7 +60,7 @@ error message whenever the execution of a node returned an error. That is a very
 
 # Creating New Nodes (whatever comes before alpha)
 
-Creating new nodes is not very difficult. However, you do need to get the whole system into your head which is not a matter of seconds.
+Creating new nodes is not very difficult. However, you do need to get the whole system into your head which is not a matter of seconds. There is a full example at the end of this section.
 
 The overall process looks like this:
 
@@ -438,13 +438,13 @@ Let's build a node, that generates random 2D points and returns them as array. S
 
 ![](/resources/images/pyScript11.PNG)
 
-The title 'Points Field' can be converted into the valid class name 'PointsField', so that we can leave. The type is 'points', so the user will be able to find that node by searching for the type (once I implemented that ;)  ). Then, I added a little description. The node also has a main widget which sits under the ports. Furthermore I want it to be able to deliver the points in absolute format as well as in relative. In absolute mode, the coordinates are given according to the widget (200x200 pixels), in relative mode this is scaled to 0-1. And I want this to be accesible via an input. That way we could later connect that to an extern node output of another node. A check box would be the most reasonable representation. So the existence of this custom input widget is stated in the 'Input Widgets' with the name 'RelativeCoordinates_IW'. The node has three static inputs, one execution input to trigger the randomization, one for the number of points and the one specifying the scale of the coordinates. Is also has an exec output which should be executed after the 'randomize' input has been triggered and a data output where we will make the array of points accessible.
+The title 'Points Field' can be converted into the valid class name 'PointsField', so that we can leave. The type is 'points', so the user will be able to find that node by searching for the type (once I implemented that ;)  ). Then, I added a little description. The node also has a main widget which sits under the ports where we will draw the points. Furthermore, I want it to be able to deliver the points in absolute scale as well as in relative. In absolute scale, the coordinates are given according to the widget'S size (200x200 pixels), in relative mode the coordinates are scaled to 0-1. And that should be able to be controlled through a data input. That way we could later connect that to an extern node output of another node. A check box would be the most reasonable representation as widget. So the existence of this custom input widget is stated in the 'Input Widgets' field with the name 'RelativeCoordinates_IW'. The node has three static inputs, one execution input to trigger the randomization, one for the number of points and the one specifying the scale of the coordinates. Is also has an exec output which should be executed after the 'randomize' input has been triggered and a data output where we will make the array of generated points accessible.
 
 So, let's save this in a package called 'points example'.
 
 ![](/resources/images/pyScript12.PNG)
 
-Now, let's program the node-_instance_. Navigate to the 'points example/nodes' folder where you should find a folder called _points example\_\_\_PointsField0_. In this folder, you should find the metacode file for the node instance _points example\_\_\_PointsField0\_\_\_METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example\_\_\_PointsField0\_\_\_RelativeCoordinates_IW\_\_\_METACODE.py_ as well as the main widget _points example\_\_\_PointsField0\_\_\_main_widget\_\_\_METACODE.py_.
+Now, let's program the node _instance_ class. Navigate to the 'points example/nodes' folder where you should find a folder called _points example\_\_\_PointsField0_. In this folder, you should find the metacode file for the node instance _points example\_\_\_PointsField0\_\_\_METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example\_\_\_PointsField0\_\_\_RelativeCoordinates_IW\_\_\_METACODE.py_ as well as the main widget _points example\_\_\_PointsField0\_\_\_main_widget\_\_\_METACODE.py_.
 
 First, open the node instance file.
 
@@ -455,7 +455,7 @@ First, open the node instance file.
     def set_data(self, data):
         pass
 
-We will store the points in the main widget (which also is meant to show them), not in the node instance otherwise, we would constantly have to keep both attributes sychnonous which is unnecessary here. That means, the node instance also does not have to do anything data in _get_data()_ and _set_data()_ since the the points are not saved here.
+We will store the points in the main widget (which also is meant to show them), not in the node instance. Otherwise we would constantly have to keep both attributes sychnonous which is unnecessary here. That means, the node instance also does not have to do anything in _get_data()_ and _set_data()_ since the the points are not saved here.
 
     # optional - important for threading - stop everything here
     def removing(self):
@@ -472,7 +472,7 @@ All we have to do is to define the update method.
             self.set_output_val(1, new_points)
             self.exec_output(0)
 
-Input 0 is the 'randomize' execution input, so we need to check for it. If the signal comes from input 0 (_input_called == 0_), we want our main widget to generate new points. We will do that with a _randomize()_ method which we will later implement in the main widget. It needs to know how many points and in which scale, so we give the number (input 1) as well as the scale (input 2) as parameter. Input 1 will return a number if it's not connected since we chose a spin box widget for that one. Input 2 will return a bool, because we are going to implement a check box for that one shortly. And after that we store the points array at output 1 and execute output 0 to pass the signal to the next connected node instance.
+Input 0 is the 'randomize' execution input, so we need to check for it. If the signal comes from input 0 (_input_called == 0_), we want our main widget to generate new points. We will do that with a _randomize()_ method which we will later implement in the main widget. It needs to know how many points and in which scale, so we give the number (input 1) as well as the scale (input 2) as parameters. Input 1 will return a number if it's not connected since we chose a spin box widget for that one. Input 2 will return a bool, because we are going to implement a check box for that one shortly. Then we need to store the points array at output 1 and execute output 0 to pass the signal to the next connected node instance.
 
 Now, it would be cool, if we could manually cause a randomization via a right click action. Fortunately we don't have to do anything for that because all execution inputs of a node instance are always manually via right click action executable - pyScript will add that action automatically.
 
@@ -484,11 +484,11 @@ and make the class derive from it
 
     class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QCheckBox):
 
-Now we need to fill ensure that the value will be returned when requested
+Now we need to ensure that the value will be returned when requested
 
     def get_val(self):
         # QCheckBox.isChecked() is a method of the QCheckBox class, see Qt documentation
-        return self.isChecked()
+        return self.isChecked()  # will return a boolb
 
 And we have to store the current value (whether the check box is checked or not; there is nothing else that defines the current state in that widget) and reload it when necessary
 
@@ -539,9 +539,11 @@ In the constructor, we give a stylesheet to make it look nice, setup the whole U
 
     def set_data(self, data):
         self.points = data['points']
-        self.draw_points(self.points)
+        self.draw_points(self.points)  # will redraw all the points - see below
 
-The _removing()_ method of course again stays empty; no threads, no timers running. Now, we need to to two things.
+The _removing()_ method of course again stays empty; no threads, no timers running.
+
+Two things left:
 
 - First: implement the _randomization()_ method we called from the node instance class
 - And Secondly: display the points
