@@ -9,10 +9,8 @@ The idea is basically to have a runtime flow-based visual programming environmen
 
 Prototype demo video:
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=8aOn9OsvlXY" target="_blank">
-    <p align="center">
-        <img src="resources/images/thumbnail7.png" alt="Prototype Demonstration Video" width="500" border="10" />
-    </p>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=8aOn9OsvlXY" target="_blank" align="center">
+    <img src="resources/images/thumbnail7.png" alt="Prototype Demonstration Video" width="500" border="10" />
 </a>
 
 # Getting Started
