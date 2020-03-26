@@ -9,6 +9,9 @@ The idea is basically to have a runtime flow-based visual programming environmen
 
 # Getting Started
 
+Demonstration video
+https://www.youtube.com/watch?v=8aOn9OsvlXY&feature=youtu.be
+
 ## Installation
 
 You need to have **Python 3 and PySide2** installed plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find example projects in the 'saves' folder that use these packages. **The start the editor simply run 'pyScript.py'**. To start the NodeManager run 'pyScript NodeManager.py' in the 'pyScript_NodeManager' folder.
