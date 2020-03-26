@@ -37,8 +37,8 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         if configuration:
             self.set_data(configuration['state data'])
 
-
-    def updating(self, token, input_called=-1):  # don't call self.updating() directly, use self.update() instead
+    # don't call self.updating() directly, use self.update() instead
+    def updating(self, token, input_called=-1):
         pass # ...
 
     def get_data(self):
