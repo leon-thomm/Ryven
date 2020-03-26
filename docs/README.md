@@ -148,9 +148,10 @@ In this case, a method _action_print_something_ would need to exist
         def action_print_something(self):
             print('Hello World!')
         
+<p>
 This would look in pyScript like that:
-
-![](/resources/images/pyScript10.PNG)
+    <img src="resources/images/pyScript10.PNG" align="right" >
+</p>
 
 And that's basically it.
 
@@ -190,6 +191,10 @@ If you follow these rules, you should be fine.
 
 One exception: in the case that your node instance executes multiple times the same execution output, like a for loop does, you need to create a new **Token** each time, to clarify everytime that this is a _new_ execution call.
 
+![](/resources/images/pyScript8.PNG)
+
+That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state. See section 'Tokens' below.
+
 So, the For Each Loops's _updating()_ method should look like this:
 
         def updating(self, token, input_called=-1):
@@ -204,13 +209,9 @@ So, the For Each Loops's _updating()_ method should look like this:
 
 Another important thing is: if you want to call _self.updating()_, don't do it directly. Always call
 
-> self.update()
+    self.update()
 
 The _updating()_ method gets called somewhere in a loger process of method calls internally, so a direct call of _self.updating()_ can cause trouble. You probably don't need that but if you take a look at the 'Minimal Example' below, you see an example where this is important.
-
-![](/resources/images/pyScript8.PNG)
-
-That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state. See section 'Tokens' below.
 
 #### Get/Set Data
 
