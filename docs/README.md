@@ -97,11 +97,11 @@ This is what the NodeManager can look like. To define a node, you have to specit
 - Name
 - Type
 - Description
-- InputWidgets used
-- use of MainWidget
+- Use of MainWidget
 - DesignStyle
 - Color
 - Inputs (initial)
+- InputWidgets used
 - Outputs (initial)
 
 If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon.
