@@ -31,7 +31,7 @@ class PyScriptIsAwesome_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(PyScriptIsAwesome_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        self.special_actions['pring something'] = {'method': self.action_print_something}
+        self.special_actions['print something'] = {'method': self.action_print_something}
 
         if configuration:
             self.set_data(configuration['state data'])

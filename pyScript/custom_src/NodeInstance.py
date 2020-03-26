@@ -376,9 +376,15 @@ class NodeInstance(QGraphicsItem):
     def get_context_menu(self):
         menu = QMenu(self.flow)
 
-        actions = self.get_actions(self.get_extended_default_actions(), menu) + self.get_actions(self.special_actions, menu)  # menu needed for 'parent'
+        for a in self.get_actions(self.get_extended_default_actions(), menu):  # menu needed for 'parent'
+            if type(a) == NodeInstanceAction:
+                menu.addAction(a)
+            elif type(a) == QMenu:
+                menu.addMenu(a)
 
-        for a in actions:
+        menu.addSeparator()
+
+        for a in self.get_actions(self.special_actions, menu):  # menu needed for 'parent'
             if type(a) == NodeInstanceAction:
                 menu.addAction(a)
             elif type(a) == QMenu:
