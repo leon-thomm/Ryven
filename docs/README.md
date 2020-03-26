@@ -141,16 +141,16 @@ Background info (not neccessary for the task):
 
 **The special actions attribute is a dictionary** and holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
 
-        self.special_actions['pring something'] = {'method': self.action_print_something}
+            self.special_actions['pring something'] = {'method': self.action_print_something}
 
 In this case, a method _action_print_something_ would need to exist
 
-    def action_print_something(self):
-        print('Hello World!')
+        def action_print_something(self):
+            print('Hello World!')
         
 This would look in pyScript like that:
 
-
+![](/resources/images/pyScript10.PNG)
 
 And that's basically it.
 
@@ -170,21 +170,21 @@ This means, you always have to check for the _input_called_ parameter in active 
 
 An If node instance's _updating()_ method (active):
 
-    def updating(self, token, input_called=-1):
-        if input_called == 0:
-            self.do_if(0, self.else_if_enlargement_state)
+        def updating(self, token, input_called=-1):
+            if input_called == 0:
+                self.do_if(0, self.else_if_enlargement_state)
 
 A + node instance's _updating()_ method (passive):
 
-    def updating(self, token, input_called=-1):
-        try:
-            sum_val = sum([self.input(i) for i in range(len(self.inputs))])
-            self.outputs[0].set_val(sum_val)
-        except Exception as e:
-            sum_val = ''
-            for i in range(len(self.inputs)):
-                sum_val += str(self.input(i))
-            self.outputs[0].set_val(sum_val)
+        def updating(self, token, input_called=-1):
+            try:
+                sum_val = sum([self.input(i) for i in range(len(self.inputs))])
+                self.outputs[0].set_val(sum_val)
+            except Exception as e:
+                sum_val = ''
+                for i in range(len(self.inputs)):
+                    sum_val += str(self.input(i))
+                self.outputs[0].set_val(sum_val)
 
 If you follow these rules, you should be fine.
 
@@ -192,15 +192,15 @@ One exception: in the case that your node instance executes multiple times the s
 
 So, the For Each Loops's _updating()_ method should look like this:
 
-    def updating(self, token, input_called=-1):
-        if input_called == 0:                # activated
-            for obj in self.input(1):
-                self.handle_token(None)      # creates a new token
-                self.outputs[1].set_val(obj) # setting an output value - not important here
-                self.exec_output(0)          # executing loop output
+        def updating(self, token, input_called=-1):
+            if input_called == 0:                # activated
+                for obj in self.input(1):
+                    self.handle_token(None)      # creates a new token
+                    self.outputs[1].set_val(obj) # setting an output value - not important here
+                    self.exec_output(0)          # executing loop output
 
-            self.handle_token(token)         # reset to the original token
-            self.exec_output(2)              # execute 'finished' output
+                self.handle_token(token)         # reset to the original token
+                self.exec_output(2)              # execute 'finished' output
 
 Another important thing is: if you want to call _self.updating()_, don't do it directly. Always call
 
