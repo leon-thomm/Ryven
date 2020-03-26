@@ -17,7 +17,7 @@ You need to have **Python 3 and PySide2** installed plus all the packages that y
 
 ![](/resources/images/pyScript1.PNG)
 
-When you open pyScript, you will notice, there are different scripts. Every script as variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
+When you open pyScript, you will notice, there are different scripts. Every script has variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
 
 ### Placing Nodes
 
