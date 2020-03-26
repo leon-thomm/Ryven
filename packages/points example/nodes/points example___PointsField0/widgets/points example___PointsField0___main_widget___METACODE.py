@@ -59,6 +59,8 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
         for p in points:  # draw every point
             painter.drawEllipse(p['x']*mult, p['y']*mult, 4, 4)
 
+        self.repaint()  # tells the flow to update because something has changed; otherwise we may not see a change
+
     def get_data(self):
         return {'points': self.points}
 
