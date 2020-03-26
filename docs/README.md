@@ -15,7 +15,7 @@ You need to have **Python 3 and PySide2** installed plus all the packages that y
 
 ## Overview
 
-![pyScript NodeManager screenshot](/resources/images/pyScript1.PNG)
+![](/resources/images/pyScript1.PNG)
 
 When you open pyScript, you will notice, there are different scripts. Every script as variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
 
@@ -74,7 +74,7 @@ New nodes or actually new node packages are created using the pyScript NodeManag
 
 What you see when you placed a node in the flow is actually not a node but a node _instance_ which comes from a class for itself (a _NodeInstance_, not the _Node_ class). 
 
-![pyScript NodeManager screenshot](/resources/images/pyScript_docs_Node-NodeInstance.PNG)
+![](/resources/images/pyScript_docs_Node-NodeInstance.PNG)
 
 Every nodeinstance has a so-called _parent node_ which is a node. But we can instanciate every node as often as we want to as node instances. Furthermore, nodeinstances indeed start in a pre-defined state but they can individually dynamically change. Two nodeinstances having the same parent node (for example 'Print') can look different and do different things when being executed. That is important in order to understand why we will be programming node _instances_ not nodes later on. A node just holds all meta information that applies on all of the nodeinstances either constantly (like title, description, color etc.) or at creation of the nodeinstance (like inputs and outputs which then can be individually modified, added, and deleted in nodeinstances).
 A node's configuration is defined using the NodeManager. The actual program that runs when a node _instance_ is being executed gets written manually outside of the NodeManager but the NodeManager generates the files neccessary for the pyScript editor to generate the actual source code.
@@ -89,7 +89,7 @@ This is what the NodeManager can look like. To define a node, you have to specit
 
 Input widgets are custom widgets you can program for input ports of the node.
 
-![pyScript NodeManager screenshot](/resources/images/pyScript2.PNG)
+![](/resources/images/pyScript2.PNG)
 
 When using custom input widgets, you must define them in the 'Input Widgets' area and give the exact name in the 'input widget name' line edit of the input you want to have this widget. Multiple inputs can have the same custom widget. The 'Yes' and 'No' radio buttons specify whether your input has a widget at all or not. Execution inputs do not have custom widgets, so then you can ignore the whole widgets part of the input's indget.
 
@@ -109,7 +109,7 @@ To start programming a node, simply direct into it's folder in the package direc
 
 If you open the file, you will see something similar to this:
 
-![pyScript NodeManager screenshot](/resources/images/pyScript5.PNG)
+![](/resources/images/pyScript5.PNG)
 
 Background info (not neccessary for the task):
 
@@ -182,7 +182,7 @@ Another important thing is: if you want to call _self.updating()_, don't do it d
 
 The _updating()_ method gets called somewhere in a loger process of method calls internally, so a direct call of _self.updating()_ can cause trouble. You probably don't need that but if you take a look at the 'Minimal Example' below, you see an example where this is important.
 
-![pyScript NodeManager screenshot](/resources/images/pyScript8.PNG)
+![](/resources/images/pyScript8.PNG)
 
 That is important, otherwise some nodes - especially passive nodes - will not be updated and remain in the exact same state. See section 'Tokens' below.
 
@@ -365,7 +365,7 @@ The following code is an example for a button node. Once you press the button, t
         def removing(self):
             pass
 
-![pyScript NodeManager screenshot](/resources/images/pyScript9.PNG)
+![](/resources/images/pyScript9.PNG)
 
 In the node instance class, we need to connect this button like that:
 
@@ -400,7 +400,7 @@ After you stated the existence of the custom input widget in the NodeManager and
 
 A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
 
-![pyScript NodeManager screenshot](/resources/images/pyScript6.PNG)
+![](/resources/images/pyScript6.PNG)
 
 The + node instance does not have to update again when the set var b node instance causes a request for the output value through the / node instance, because the + already updated when the set var a node instance requested data. That is a performance measure. It might seem a little overpowered but if this + node instance would depend on a few other passive node instances which themselves depend on event more passive node instances, we would run very quickly into serious performance issues.
 
@@ -436,7 +436,7 @@ Full example following soon...
 
 ## Updating Algorithm
 
-![pyScript NodeManager screenshot](/resources/images/pyScript4.PNG)
+![](/resources/images/pyScript4.PNG)
 
 Assuming the If node received a signal at input 0 (execution) - maybe by the richtig click actions menu by the user - this is what happens here:
 
