@@ -9,7 +9,7 @@ The idea is basically to have a runtime flow-based visual programming environmen
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=8aOn9OsvlXY
 " target="_blank"><img src="http://img.youtube.com/vi/8aOn9OsvlXY/0.jpg" 
-alt="Prototype Demonstration Video" style="float:right;" width="240" height="180" border="10" /></a>
+alt="Prototype Demonstration Video" /></a>
 
 # Getting Started
 
