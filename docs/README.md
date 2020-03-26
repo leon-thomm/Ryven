@@ -420,6 +420,15 @@ There are standard widgets for data inputs which you can select in the NodeManag
 
 After you stated the existence of the custom input widget in the NodeManager and saved the node in a package, the metacode files that you can edit should be in the 'widgets' folder of you node. Programming a custom widget does not differ from programming a main widget at all.
 
+
+## Full Example
+
+Because getting into this without a full example is a bit hard at first, here I take you through the process of creating an example node.
+
+Let's build a node, that generates random 2D points and returns them as array. So first, let's configurate the node in NodeManager:
+
+![](/resources/images/pyScript11.PNG)
+
 # Advanced
 
 ## Tokens
