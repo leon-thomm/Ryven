@@ -90,7 +90,21 @@ This section provides information about the creation of new nodes using the Node
 
 ![pyScript NodeManager screenshot](/resources/images/Qt 70.png)
 
-This is what the NodeManager can look like. To define a node, you have to specity Name, Type, Description, InputWidgets is used, use of MainWidget, DesignStyle, Color, Inputs and Outputs. If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon.
+This is what the NodeManager can look like. To define a node, you have to specity it's properties.
+
+**A node's properties are:**
+
+- Name
+- Type
+- Description
+- InputWidgets used
+- use of MainWidget
+- DesignStyle
+- Color
+- Inputs (initial)
+- Outputs (initial)
+
+If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon.
 
 Input widgets are custom widgets you can program for input ports of the node.
 
