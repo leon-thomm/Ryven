@@ -146,33 +146,17 @@ Example for a _+_ node:
 
 That's mostly it.
 
-In the case that your node instance executes multiple times the same execution output, like a loop does, you need to create a new **Token** each time, to clarify everytime that this is a _new_ execution call. See section 'Multiple Output Calls' below.
+In the case that your node instance executes multiple times the same execution output, like a loop does, see section 'Multiple Output Calls' below.
 
 And don't call _self.updating()_ directly, use instead
 
     self.update()
 
-# Creating New Nodes - Advanced
-
-## Multiple Output Calls
-
-![](/resources/images/pyScript8.PNG)
-
-The For Each Loops's _updating()_ method should look like this:
-
-        def updating(self, token, input_called=-1):
-            if input_called == 0:                # activated
-                for obj in self.input(1):
-                    self.handle_token(None)      # creates a new token
-                    self.outputs[1].set_val(obj) # setting an output value - not important here
-                    self.exec_output(0)          # executing loop output
-
-                self.handle_token(token)         # reset to the original token
-                self.exec_output(2)              # execute 'finished' output
+That's it. Everything beyond that is the use of special features. There are a few very useful ones but you don't have to use them. If you successfully created a node, I recommend reading 'Special Actions' and 'API'. After that, you can take a look at the more advanced stuff to get a deeper sense of how this framework expects you to behave and what features you can make use of.
 
 ## Special Actions
 
-**The special actions attribute is a dictionary** and holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
+A very handy feature. **The special actions attribute is a dictionary** and holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
 
             self.special_actions['print something'] = {'method': self.action_print_something}
 
@@ -185,16 +169,6 @@ This would look in pyScript like that:
 
 ![](/resources/images/pyScript10.PNG)
 
-And that's basically it.
-
-
-## Get/Set Data
-
-_get_data()_ is called when a project is being saved or a node instance is copied by the user or similar actions. Contrary to that, _set_data(data)_ gets called when a project gets loaded or a copied node instance is being pasted and stuff like that. Both methods are only important for node instances with **states**. If the behaviour of your node instance is the same as of any other node instance of the same parent node, if everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything there. But if your nodes stores some internal data (for example some randomly generated points that should get shown again when loading a project exactly like when it was saved), you have to provide it in _get_data()_ **in JSON compatible format** and you have to set it again in _set_data(data)_.
-
-## Removing Method
-
-The _removing()_ method is being called when a node instance gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
 
 ## API
 
@@ -208,11 +182,11 @@ You can log mesasges to the script's logs via
 
 _target_ can be _global_ or _error_ which addresses the global messages log or the error log.
 
-A node instance can also request new logs using
+A node can also request new logs using
 
 > self.new_log(title: str)
 
-One node instance can hold mutliple personal logs. When using logs, don't forget to add
+One node can hold mutliple personal logs. When using logs, don't forget to add
 
 > mylog.removing()
 
@@ -220,7 +194,7 @@ for every log in the _removing()_ method. This will cause the log widget in the 
 
 ### Shape
 
-You can cause a recomputation of the shape of the node instance including the positions of all contents using the
+You can cause a recomputation of the shape of the node including the positions of all contents using the
 
 > self.update_shape()
 
@@ -244,6 +218,7 @@ All widget related arguments are only important for data inputs:
     - 'std line edit'
     - 'std spin box'
     - 'custom'
+    - I am planning to add a whole bunch of more pre-defined standard widgets soon...
 - If _widget_type_ is 'custom', you must give a _widget_name_ which must refer to an already programmed input widget.
 - _widget_pos_ determines whether the input widget will be 'besides' or 'under' the the Port
 
@@ -269,9 +244,37 @@ Renaming output port:
 
 > ...
 
+# Creating New Nodes - Advanced
+
+## Multiple Output Calls
+
+![](/resources/images/pyScript8.PNG)
+
+The For Each Loops's _updating()_ method should look like this:
+
+        def updating(self, token, input_called=-1):
+            if input_called == 0:                # activated
+                for obj in self.input(1):
+                    self.handle_token(None)      # creates a new token
+                    self.outputs[1].set_val(obj) # setting an output value - not important here
+                    self.exec_output(0)          # executing loop output
+
+                self.handle_token(token)         # reset to the original token
+                self.exec_output(2)              # execute 'finished' output
+
+## Get/Set Data
+
+If your node has states, you _can_ save those in the _get_data()_ method and reload them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. For that, just provide all state defining attribute values ''in JSON compatible format** in the _get_data()_ method. Then just do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
+
+If everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything here.
+
+## Removing Method
+
+The _removing()_ method is being called when a node instance gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
+
 ## Programming Widgets
 
-The possibility to program custom widgets for the nodes is one of the core concepts. A node instance can have a main widget which sits either between or under the ports, and every data input of a node instance can have a widget too. All widget classes must be stated in the NodeManager (whether it has a main widget and every custom input widget in the 'Input Widgets' area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets, just like for the node intance class. To program the widgets, simply edit these metacode files. A widget is a QWidget. So you need to know, how to program Qt code which is why I won't cover that in detail. If you are not familiar with Qt but you have already worked with other GUI libraries, getting into PySide2 (aka 'Qt for Python') is not very difficult I guess.
+The possibility to program custom widgets for the nodes is one of the core concepts. A node instance can have a main widget which sits either between or under the ports, and every data input of a node instance can have a widget too. All widget classes must be stated in the NodeManager (whether it has a main widget and every custom input widget in the 'Input Widgets' area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets, just like for the node intance class. To program the widgets, simply edit these metacode files. A widget is a QWidget. So you need to know, how to program Qt code which is why I won't cover that in detail. If you are not familiar with Qt but you have already worked with other GUI libraries, getting into PySide2 (aka 'Qt for Python') is not very difficult I guess. If you didn't, ignore that feature and just use standard widgets.
 
 ### Access Parent Node Instance
 
@@ -410,7 +413,7 @@ The only difference is, that you need to fill the _get_val()_ method which shoul
 
 ## Full Example
 
-Because getting into this without a full example is a bit hard at first, here I take you through the process of creating an example node.
+Because getting into this without a full example is a bit hard at first, here I take you through the process of creating an example node using all standard features.
 
 Let's build a node, that generates random 2D points and returns them as array. So first, let's configurate the node in NodeManager:
 
@@ -576,9 +579,6 @@ If you are troubleshooting your nodes, you can turn debugging on. This will prin
         EXCEPTION IN <NodeInstance Name> NI: <exception>
         
 whenever the execution of a node returned an error. That is a very useful feature but one of the things I have to work on most importantly since this is not very intuitive just yet.
-
-
-
 
 # Advanced
 
