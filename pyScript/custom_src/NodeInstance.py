@@ -33,6 +33,7 @@ class NodeInstance(QGraphicsItem):
                                  QFont('K2D', 20, QFont.Bold, True)
         self.display_name_FM = QFontMetricsF(self.display_name_font)
         # self.port_label_font = QFont("Source Code Pro", 10, QFont.Bold, True)
+        self.initializing = True  # gets set to false a few lines below. needed for setup ports (to prevent shape updating stuff)
 
         if self.parent_node.has_main_widget:
             self.main_widget = self.parent_node.main_widget_class(self)
@@ -55,6 +56,10 @@ class NodeInstance(QGraphicsItem):
 
         # TOOLTIP
         self.setToolTip(self.parent_node.description)
+
+
+
+        self.initializing = False
 
 
     #
@@ -151,11 +156,11 @@ class NodeInstance(QGraphicsItem):
         self.flow.viewport().update()
 
     # PORTS
-    def create_new_input(self, type_, label, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1):
+    def create_new_input(self, type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1):
         # GlobalStorage.debug('creating new input ---- type:', widget_type, 'label:', label, 'widget pos:', widget_pos)
         GlobalStorage.debug('create_new_input called with widget pos:', widget_pos)
         pi = PortInstance(self, 'input', type_, label, widget_type=widget_type, widget_name=widget_name, widget_pos=widget_pos)
-        if append and pos==-1:
+        if pos == -1:
             self.inputs.append(pi)
         else:
             if pos == -1:
@@ -164,6 +169,9 @@ class NodeInstance(QGraphicsItem):
                 self.inputs.insert(pos, pi)
         if self.scene():
             self.add_input_to_scene(pi)
+
+        if not self.initializing:
+            self.update_shape()
 
     def create_new_input_from_config(self, input_config):
         pi = PortInstance(self, 'input', configuration=input_config)
@@ -175,11 +183,14 @@ class NodeInstance(QGraphicsItem):
         elif type(i) == PortInstance:
             self.del_and_remove_input_from_scene(self.inputs.index(i))
 
+        if not self.initializing:
+            self.update_shape()
 
-    def create_new_output(self, type_, label, append=True, pos=-1):
+
+    def create_new_output(self, type_, label, pos=-1):
         # GlobalStorage.debug('creating new output in', self.parent_node.title)
         pi = PortInstance(self, 'output', type_, label)
-        if append and pos==-1:
+        if pos == -1:
             self.outputs.append(pi)
         else:
             if pos == -1:
@@ -188,6 +199,9 @@ class NodeInstance(QGraphicsItem):
                 self.outputs.insert(pos, pi)
         if self.scene():
             self.add_output_to_scene(pi)
+
+        if not self.initializing:
+            self.update_shape()
 
     def create_new_output_from_config(self, output_config=None):
         pi = PortInstance(self, 'output', configuration=output_config)
@@ -198,6 +212,9 @@ class NodeInstance(QGraphicsItem):
             self.del_and_remove_output_from_scene(o)
         else:
             self.del_and_remove_output_from_scene(self.outputs.index(o))
+
+        if not self.initializing:
+            self.update_shape()
 
     # GET, SET DATA
     def get_data(self):  # used in custom subclasses

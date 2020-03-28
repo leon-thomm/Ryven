@@ -87,7 +87,10 @@ class Log(QWidget):
     def clear(self):
         self.log_view.clear()
 
-    def removing(self):
+    def removing(self):  # old method, delete later
+        self.remove()
+
+    def remove(self):
         self.log_view.setStyleSheet('background: black; color: grey;')
 
         remove_button = QPushButton('x')

@@ -9,9 +9,9 @@ from custom_src.Node import Node
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, append=True, pos=-1)
+# self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 # self.update_shape()                  <- recomputes the whole shape and content positions
 
@@ -55,7 +55,7 @@ class Code_NodeInstance(NodeInstance):
 
     def action_add_data_input(self):
         self.num_data_inputs += 1
-        self.create_new_input('data', '', append=True)
+        self.create_new_input('data', '')
         self.special_actions['remove data input'] = {'method': self.action_remove_data_input}
         self.update_shape()
 

@@ -6,9 +6,9 @@ from custom_src.Node import Node
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
 # self.main_widget                    <- access to main widget
-# self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under')
+# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, append=True)
+# self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 # self.update_shape()
 
@@ -30,7 +30,6 @@ class ForNDim_NodeInstance(NodeInstance):
             self.iterate(1)
 
     def iterate(self, current_dim):
-        print('iterating through dimension', current_dim)
         from_input_index = 1 + (2*(current_dim-1))
         to_input_index = from_input_index+1
         exec_output_index = 2*(current_dim-1)
@@ -38,7 +37,6 @@ class ForNDim_NodeInstance(NodeInstance):
 
         for i in range(self.input(from_input_index), self.input(to_input_index)):
             self.outputs[counter_output_index].set_val(i)
-            print('calling exec_output')
             self.exec_output(exec_output_index)
             if current_dim < self.dimensions:
                 print('calling new iteration')

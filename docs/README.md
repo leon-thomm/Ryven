@@ -188,26 +188,23 @@ A node can also request new logs using
 
 One node can hold mutliple personal logs. When using logs, don't forget to add
 
-    mylog.removing()
+    mylog.remove()
 
 for every log in the _removing()_ method. This will cause the log widget in the script's logging area to change appearance.
 
 ### Shape
 
-You can cause a recomputation of the shape of the node including the positions of all contents using the
+You can cause a manual recomputation of the shape of the node including the positions of all contents using the
 
     self.update_shape()
 
-command. Every time you add, remove, rename (whatever) an input or output, resize a widget - anything -, after you completed that, you should call _self.update_shape()_ once at the end.
-
-
-
+command. You normally shouldn't need to use this.
 
 ### Ports
 
 Adding a new input port:
 
-    self.create_new_input(type_: str, label: str, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
+    self.create_new_input(type_: str, label: str, widget_type='', widget_name='', widget_pos='under', pos=-1)
 
 - _type\__ refers to the input's type ('exec' or 'data')
 - _label_ is the shown name of the port
@@ -224,7 +221,7 @@ All widget related arguments are only important for data inputs:
 
 Adding a new output port:
 
-    self.create_new_output(type_, label, append=True, pos=-1)
+    self.create_new_output(type_, label, pos=-1)
 
 see 'Adding a new input port'.
 
@@ -246,29 +243,13 @@ Renaming output port:
 
 # Creating New Nodes - Advanced
 
-## Multiple Output Calls
-
-![](/resources/images/pyScript8.PNG)
-
-The For Each Loops's _updating()_ method should look like this:
-
-        def updating(self, token, input_called=-1):
-            if input_called == 0:                # activated
-                for obj in self.input(1):
-                    self.handle_token(None)      # creates a new token
-                    self.outputs[1].set_val(obj) # setting an output value - not important here
-                    self.exec_output(0)          # executing loop output
-
-                self.handle_token(token)         # reset to the original token
-                self.exec_output(2)              # execute 'finished' output
-
-This might change soon. But I'm not sure yet.
-
 ## Get/Set Data
 
 If your node has states, you _can_ save those in the _get_data()_ method and reload them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. For that, just provide all state defining attribute values ''in JSON compatible format** in the _get_data()_ method. Then just do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
 
 If everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything here.
+
+All inputs and output objects get saved, so if you added some or removed some, you don't have to worry about that in _get_data()_.
 
 ## Removing Method
 
@@ -412,6 +393,23 @@ After you stated the existence of the custom input widget in the NodeManager and
 
 The only difference is, that you need to fill the _get_val()_ method which should return the value that the widget represents _if_ the input the widget is a part of is not connected to some other node instance.
 
+## Multiple Output Calls
+
+![](/resources/images/pyScript8.PNG)
+
+The For Each Loops's _updating()_ method should look like this:
+
+        def updating(self, token, input_called=-1):
+            if input_called == 0:                # activated
+                for obj in self.input(1):
+                    self.handle_token(None)      # creates a new token
+                    self.outputs[1].set_val(obj) # setting an output value - not important here
+                    self.exec_output(0)          # executing loop output
+
+                self.handle_token(token)         # reset to the original token
+                self.exec_output(2)              # execute 'finished' output
+
+This might change soon. But I'm not sure yet.
 
 ## Full Example
 

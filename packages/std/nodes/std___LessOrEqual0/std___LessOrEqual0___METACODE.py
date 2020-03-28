@@ -7,9 +7,9 @@ from custom_src.Node import Node
 # self.outputs[index].set_val(val)    <- set output data port value
 # self.main_widget                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
-# self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under')
+# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, append=True)
+# self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 # self.update_shape()
 
