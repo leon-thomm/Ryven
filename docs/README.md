@@ -209,7 +209,7 @@ Adding a new input port:
 
     self.create_new_input(type_: str, label: str, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
 
-- _type__ refers to the input's type ('exec' or 'data')
+- _type\__ refers to the input's type ('exec' or 'data')
 - _label_ is the shown name of the port
 after these two I recommend only using unpositional identifiers
 - _pos=-1_ means, the input will be appended at the end, everything else specifies the index at which the input will be inserted
@@ -261,6 +261,8 @@ The For Each Loops's _updating()_ method should look like this:
 
                 self.handle_token(token)         # reset to the original token
                 self.exec_output(2)              # execute 'finished' output
+
+This might change soon. But I'm not sure yet.
 
 ## Get/Set Data
 
