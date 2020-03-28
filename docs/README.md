@@ -200,7 +200,7 @@ You can cause a manual recomputation of the shape of the node including the posi
 
 command. You normally shouldn't need to use this.
 
-### Ports
+### Ports (for nodes with dynamic behaviour)
 
 Adding a new input port:
 
@@ -240,6 +240,14 @@ Renaming input port:
 Renaming output port:
 
     ...
+
+## Debugging
+
+If you are troubleshooting your nodes, you can turn debugging on. This will print a lot of information in the output window including the following error message
+        
+        EXCEPTION IN <NodeInstance Name> NI: <exception>
+        
+whenever the execution of a node returned an error. That is a very useful feature but one of the things I have to work on most importantly since this is not very intuitive just yet.
 
 # Creating New Nodes - Advanced
 
@@ -572,13 +580,7 @@ Now we can import that new package into pyFlow and start using the node!
 ![](/resources/images/pyScript13.PNG)
 
 
-## Debugging
 
-If you are troubleshooting your nodes, you can turn debugging on. This will print a lot of information in the output window including the following error message
-        
-        EXCEPTION IN <NodeInstance Name> NI: <exception>
-        
-whenever the execution of a node returned an error. That is a very useful feature but one of the things I have to work on most importantly since this is not very intuitive just yet.
 
 # Advanced
 
