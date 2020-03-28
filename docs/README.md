@@ -178,17 +178,17 @@ To access the node's contents there is a small 'API' that you can use in the cla
 
 You can log mesasges to the script's logs via
 
-> self.log_message(message: str, target='global')
+    self.log_message(message: str, target='global')
 
 _target_ can be _global_ or _error_ which addresses the global messages log or the error log.
 
 A node can also request new logs using
 
-> self.new_log(title: str)
+    self.new_log(title: str)
 
 One node can hold mutliple personal logs. When using logs, don't forget to add
 
-> mylog.removing()
+    mylog.removing()
 
 for every log in the _removing()_ method. This will cause the log widget in the script's logging area to change appearance.
 
@@ -196,7 +196,7 @@ for every log in the _removing()_ method. This will cause the log widget in the 
 
 You can cause a recomputation of the shape of the node including the positions of all contents using the
 
-> self.update_shape()
+    self.update_shape()
 
 command. Every time you add, remove, rename (whatever) an input or output, resize a widget - anything -, after you completed that, you should call _self.update_shape()_ once at the end.
 
@@ -207,12 +207,12 @@ command. Every time you add, remove, rename (whatever) an input or output, resiz
 
 Adding a new input port:
 
-> self.create_new_input(type_: str, label: str, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
+    self.create_new_input(type_: str, label: str, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
 
 - _type__ refers to the input's type ('exec' or 'data')
 - _label_ is the shown name of the port
 after these two I recommend only using unpositional identifiers
-- (I do not recommend using _append_, it will be removed soon; use _pos_) _append=True_ **and** _pos=-1_ means, the input will be appended at the end. Setting _append_ with _pos=-1_ inserts the points at the first position. By setting the _pos_, you can specify an index at which the new input shall be inserted. -1 means append.
+- _pos=-1_ means, the input will be appended at the end, everything else specifies the index at which the input will be inserted
 All widget related arguments are only important for data inputs:
 - The _widget_type_ is the type of the input widget that will be created. Possible values are:
     - 'std line edit'
@@ -224,25 +224,25 @@ All widget related arguments are only important for data inputs:
 
 Adding a new output port:
 
-> self.create_new_output(type_, label, append=True, pos=-1)
+    self.create_new_output(type_, label, append=True, pos=-1)
 
 see 'Adding a new input port'.
 
 Deleting input port:
 
-> self.delete_input(index)
+    self.delete_input(index)
 
 Deleting output port:
 
-> self.delete_output(index)
+    self.delete_output(index)
 
 Renaming input port:
 
-> ...
+    ...
 
 Renaming output port:
 
-> ...
+    ...
 
 # Creating New Nodes - Advanced
 
@@ -270,7 +270,7 @@ If everything that happens is dependent on what is being triggered (like an exec
 
 ## Removing Method
 
-The _removing()_ method is being called when a node instance gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
+The _removing()_ method is being called when a node gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
 
 ## Programming Widgets
 
