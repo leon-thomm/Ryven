@@ -255,15 +255,17 @@ whenever the execution of a node returned an error. That is a very useful featur
 
 If your node has states, you _can_ save these state defining attributes by providing their values in the _get_data()_ method and reloading them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. Just provide all state defining attribute values **in JSON compatible format** in the _get_data()_ method. Then do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
 
-This applies on the normal node class as well as on all the widgets classes, these have _get_data()_ and _set_data()_ too.
-
 If everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything here.
 
 All inputs and outputs get saved and reloaded automatically as they are, so if you added some or removed some, you don't have to worry about that in _get_data()_, _set_data()_, you just need to reset your intern variables telling your class in which state the node is currently in.
 
-## Removing Method
+This applies on the normal node class as well as on all the widgets classes, these have _get_data()_ and _set_data()_ too.
+
+## Threading And Timers
 
 The _removing()_ method is being called when a node gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
+
+This applies on the normal node class as well as on all the widgets classes, these have _removing()_ too.
 
 ## Programming Widgets
 
@@ -274,14 +276,6 @@ The possibility to program custom widgets for the nodes is one of the core conce
 In both types of widgets, you can access the parent node instance via
 
 > self.parent_node_instance
-
-### Get/Set Data
-
-Same idea as in the node class. The widget of course also only gets exactly the data in _set_data()_ which it previously provided in _get_data()_.
-
-### Removing
-
-Gets called when a node is being removed from the flow. Stop all autonomously running element there (threads, timers etc).
 
 ### Main Widget
 
@@ -324,7 +318,7 @@ The metacode for a main widget looks somehow like this:
         def removing(self):
             pass
 
-You can either let the class derive directly from QWidget (just import it in the first like and put it in the parantheses behind the class name), or from a specified one like QLineEdit (same process).
+You can either let the class derive directly from QWidget (just import it in the first line and put it in the parantheses behind the class name), or from a specified one like QLineEdit (same process).
 
 #### Using Custom Content - Package Path
 
@@ -353,18 +347,8 @@ The following code is an example for a button node. Once you press the button, t
                 border: 1px solid #666666;
                 border-radius: 5px;
             ''')
-
-        def get_data(self):
-            return {}
-
-        def set_data(self, data):
-            pass
-
-
-
-        # optional - important for threading - stop everything here
-        def removing(self):
-            pass
+            
+        # get_data, set_data and removing stay empty as there are no states or timers
 
 ![](/resources/images/pyScript9.PNG)
 
@@ -382,7 +366,7 @@ In the node instance class, we need to connect this button like that:
                 self.set_data(configuration['state data'])
 
         def button_clicked(self):
-            self.update()
+            self.update()  # always call self.update(), never self.updating() directly
 
         def updating(self, token, input_called=-1):
             self.exec_output(0)
