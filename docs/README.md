@@ -146,7 +146,7 @@ Example for a _+_ node:
 
 That's mostly it.
 
-In the case that your node instance executes multiple times the same execution output, like a loop does, see section 'Multiple Output Calls' below.
+In the case that your node executes multiple times the same execution output, like a loop does, see section 'Multiple Output Calls' below.
 
 And don't call _self.updating()_ directly, use instead
 
@@ -156,7 +156,7 @@ That's it. Everything beyond that is the use of special features. There are a fe
 
 ## Special Actions
 
-A very handy feature. **The special actions attribute is a dictionary** and holds information about accessible right-click operations which then will automatically be created when right clicking on a node instance. A possible entry would be
+A very handy feature. **The special actions attribute is a dictionary** and holds information about accessible right-click operations which then will automatically be created when right clicking on a node. A possible entry would be
 
             self.special_actions['print something'] = {'method': self.action_print_something}
 
@@ -263,17 +263,17 @@ This applies on the normal node class as well as on all the widgets classes, the
 
 ## Threading And Timers
 
-The _removing()_ method is being called when a node gets removed from the flow. This is only important for node instances that autonomously run independent computations like threads or timers. These should all be stopped in this method.
+The _removing()_ method is being called when a node gets removed from the flow. This is only important for nodes that autonomously run independent computations like threads or timers. These should all be stopped in this method.
 
 This applies on the normal node class as well as on all the widgets classes, these have _removing()_ too.
 
 ## Programming Widgets
 
-The possibility to program custom widgets for the nodes is one of the core concepts. A node instance can have a main widget which sits either between or under the ports, and every data input of a node instance can have a widget too. All widget classes must be stated in the NodeManager (whether it has a main widget and every custom input widget in the 'Input Widgets' area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets, just like for the node intance class. To program the widgets, simply edit these metacode files. A widget is a QWidget. So you need to know, how to program Qt code which is why I won't cover that in detail. If you are not familiar with Qt but you have already worked with other GUI libraries, getting into PySide2 (aka 'Qt for Python') is not very difficult I guess. If you didn't, ignore that feature and just use standard widgets.
+The possibility to program custom widgets for the nodes is one of the core concepts. A node can have a main widget which sits either between or under the ports, and every data input of a node can have a widget too. All widget classes must be stated in the NodeManager (whether it has a main widget and every custom input widget in the 'Input Widgets' area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets, just like for the node intance class. To program the widgets, simply edit these metacode files. A widget is a QWidget. So you need to know, how to program Qt code which is why I won't cover that in detail. If you are not familiar with Qt but you have already worked with other GUI libraries, getting into PySide2 (aka 'Qt for Python') is not very difficult I guess. If you didn't, ignore that feature and just use standard widgets.
 
-### Access Parent Node Instance
+### Access Parent Node
 
-In both types of widgets, you can access the parent node instance via
+In both types of widgets, you can access the parent node via
 
 > self.parent_node_instance
 
@@ -322,11 +322,11 @@ You can either let the class derive directly from QWidget (just import it in the
 
 #### Using Custom Content - Package Path
 
-As you can see there is a package path which is the path to the package the node instance is a part of. This is very useful if you want to use resources laying on your file system, images for example. You can put them anywhere you want into the package directory, they will not be removed by the NodeManager when overwriting the package.
+As you can see there is a package path which is the path to the package the node is a part of. This is very useful if you want to use resources laying on your file system, images for example. You can put them anywhere you want into the package directory, they will not be removed by the NodeManager when overwriting the package.
 
 #### Minimal Example
 
-The following code is an example for a button node. Once you press the button, the first and only execution output should get executed. Because all the connecting is done in the node instance class, this is pretty simple:
+The following code is an example for a button node. Once you press the button, the first and only execution output should get executed. Because all the connecting is done in the node class, this is pretty simple:
 
     from PySide2.QtWidgets import QPushButton
 
@@ -352,7 +352,7 @@ The following code is an example for a button node. Once you press the button, t
 
 ![](/resources/images/pyScript9.PNG)
 
-In the node instance class, we need to connect this button like that:
+In the node's class, we need to connect this button like that:
 
     # ...
 
@@ -385,7 +385,7 @@ When using custom input widgets, you must define them in the 'Input Widgets' are
 
 After you stated the existence of the custom input widget in the NodeManager and saved the node in a package, the metacode files that you can edit should be in the 'widgets' folder of you node. Programming a custom widget does not differ from programming a main widget at all.
 
-The only difference is, that you need to fill the _get_val()_ method which should return the value that the widget represents _if_ the input the widget is a part of is not connected to some other node instance.
+The only difference is, that you need to fill the _get_val()_ method which should return the value that the widget represents _if_ the input the widget is a part of is not connected to some other node.
 
 ## Multiple Output Calls
 
@@ -419,9 +419,9 @@ So, let's save this in a package called 'points example'.
 
 ![](/resources/images/pyScript12.PNG)
 
-Now, let's program the node _instance_ class. Navigate to the 'points example/nodes' folder where you should find a folder called _points example\_\_\_PointsField0_. In this folder, you should find the metacode file for the node instance _points example\_\_\_PointsField0\_\_\_METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example\_\_\_PointsField0\_\_\_RelativeCoordinates_IW\_\_\_METACODE.py_ as well as the main widget _points example\_\_\_PointsField0\_\_\_main_widget\_\_\_METACODE.py_.
+Now, let's program the node _instance_ class. Navigate to the 'points example/nodes' folder where you should find a folder called _points example\_\_\_PointsField0_. In this folder, you should find the metacode file for the node _points example\_\_\_PointsField0\_\_\_METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example\_\_\_PointsField0\_\_\_RelativeCoordinates_IW\_\_\_METACODE.py_ as well as the main widget _points example\_\_\_PointsField0\_\_\_main_widget\_\_\_METACODE.py_.
 
-First, open the node instance file.
+First, open the node's file.
 
     def get_data(self):
         data = {}
@@ -430,7 +430,7 @@ First, open the node instance file.
     def set_data(self, data):
         pass
 
-We will store the points in the main widget (which also is meant to show them), not in the node instance. Otherwise we would constantly have to keep both attributes sychnonous which is unnecessary here. That means, the node instance also does not have to do anything in _get_data()_ and _set_data()_ since the the points are not saved here.
+We will store the points in the main widget (which also is meant to show them), not in the node. Otherwise we would constantly have to keep both attributes sychnonous which is unnecessary here. That means, the node also does not have to do anything in _get_data()_ and _set_data()_ since the the points are not saved here.
 
     # optional - important for threading - stop everything here
     def removing(self):
@@ -447,9 +447,9 @@ All we have to do is to define the update method.
             self.set_output_val(1, new_points)
             self.exec_output(0)
 
-Input 0 is the 'randomize' execution input, so we need to check for it. If the signal comes from input 0 (_input_called == 0_), we want our main widget to generate new points. We will do that with a _randomize()_ method which we will later implement in the main widget. It needs to know how many points and in which scale, so we give the number (input 1) as well as the scale (input 2) as parameters. Input 1 will return a number if it's not connected since we chose a spin box widget for that one. Input 2 will return a bool, because we are going to implement a check box for that one shortly. Then we need to store the points array at output 1 and execute output 0 to pass the signal to the next connected node instance.
+Input 0 is the 'randomize' execution input, so we need to check for it. If the signal comes from input 0 (_input_called == 0_), we want our main widget to generate new points. We will do that with a _randomize()_ method which we will later implement in the main widget. It needs to know how many points and in which scale, so we give the number (input 1) as well as the scale (input 2) as parameters. Input 1 will return a number if it's not connected since we chose a spin box widget for that one. Input 2 will return a bool, because we are going to implement a check box for that one shortly. Then we need to store the points array at output 1 and execute output 0 to pass the signal to the next connected node.
 
-Now, it would be cool, if we could manually cause a randomization via a right click action. Fortunately we don't have to do anything for that because all execution inputs of a node instance are always manually via right click action executable - pyScript will add that action automatically.
+Now, it would be cool, if we could manually cause a randomization via a right click action. Fortunately we don't have to do anything for that because all execution inputs of a node are always manually executable via right click action - pyScript will add that action automatically.
 
 Let's implement the check box input that specifies in which scale the points should be delivered. We want it to be a check box for which the QCheckBox class from Qt (PySide2) is perfect. So we need to import it
 
@@ -520,7 +520,7 @@ The _removing()_ method of course again stays empty; no threads, no timers runni
 
 Two things left:
 
-- First: implement the _randomization()_ method we called from the node instance class
+- First: implement the _randomization()_ method we called from the node class
 - And Secondly: display the points
 
 Randomization method:
@@ -572,11 +572,11 @@ Now we can import that new package into pyFlow and start using the node!
 
 ## Tokens
 
-A so-called _token_ is created when an execution 'impulse' is created. It tells the node instance receiving an update event call whether the script is still executing the same execution string.
+A so-called _token_ is created when an execution 'impulse' is created. It tells the node receiving an update event call whether the script is still executing the same execution string.
 
 ![](/resources/images/pyScript6.PNG)
 
-The + node instance does not have to update again when the set var b node instance causes a request for the output value through the / node instance, because the + already updated when the set var a node instance requested data. That is a performance measure. It might seem a little overpowered but if this + node instance would depend on a few other passive node instances which themselves depend on event more passive node instances, we would run very quickly into serious performance issues.
+The + node does not have to update again when the set var b node causes a request for the output value through the / node, because the + already updated when the set var a node requested data. That is a performance measure. It might seem a little overpowered but if this + node would depend on a few other nodes which themselves depend on event more nodes, we would run very quickly into serious performance issues.
 
 I'm actually proud of that. I just got the idea very spontaniously one sunday morning and for my conditions this is working way too well :)
 
