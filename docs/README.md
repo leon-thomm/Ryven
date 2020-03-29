@@ -255,13 +255,15 @@ whenever the execution of a node returned an error. That is a very useful featur
 
 ## Nodes With States
 
-If your node has states, you _can_ save these state defining attributes by providing their values in the _get_data()_ method and reloading them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. Just provide all state defining attribute values **in JSON compatible format** in the _get_data()_ method. Then do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
+A node normally shouldn't have states at all. And if it has, it should not have a complex network of them. For example the only state in a n-dimensional for loop should be the number of dimensions used.
 
 If everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything here.
 
+If your node has states, you can saves these state defining attributes by providing their values in the _get_data()_ method and reloading them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. Just provide all state defining attribute values **in JSON compatible format** in the _get_data()_ method as dictionary. Then do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
+
 All inputs and outputs get saved and reloaded automatically as they are, so if you added some or removed some, you don't have to worry about that in _get_data()_, _set_data()_, you just need to reset your intern variables telling your class in which state the node is currently in.
 
-This applies on the normal node class as well as on all the widgets classes, these have _get_data()_ and _set_data()_ too.
+This applies on the normal node class as well as on all the widgets classes, these have _get_data()_ and _set_data()_ too - same behavior.
 
 ## Removing Method
 
