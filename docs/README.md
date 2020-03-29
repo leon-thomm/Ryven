@@ -142,7 +142,7 @@ Example for a _+_ node:
 
         def updating(self, token, input_called=-1):
             sum_val = self.input(0) + self.input(1)
-            self.outputs[0].set_val(sum_val)
+            self.set_output_val(0, sum_val)
 
 That's mostly it.
 
