@@ -132,11 +132,11 @@ If you open the file, you will see something similar to this:
 
 Now you just need to put your code into the _updating()_ method. There is only one convention that you need to consider:
 
-If your node has one or more execution inputs, you always need to check for _input_called_. That enables your node having mutliple execution inputs triggering different behaviour. Example:
+If your node has one or more execution inputs, you always need to check for _input_called_. That enables your node having mutliple execution inputs triggering different behaviour. 
 
-FOR EACH LOOP WITH BREAK EXAMPLE
+[//]: # (Example:FOR EACH LOOP WITH BREAK EXAMPLE)
 
-If your node does not have any execution inputs, if doesn't matter.
+If your node does not have any execution inputs, it doesn't matter.
 
 Example for a _+_ node:
 
@@ -419,7 +419,7 @@ So, let's save this in a package called 'points example'.
 
 ![](/resources/images/pyScript12.PNG)
 
-Now, let's program the node class. Navigate to the 'points example/nodes' folder where you should find a folder called _points example\_\_\_PointsField0_. In this folder, you should find the metacode file for the node _points example\_\_\_PointsField0\_\_\_METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example\_\_\_PointsField0\_\_\_RelativeCoordinates_IW\_\_\_METACODE.py_ as well as the main widget _points example\_\_\_PointsField0\_\_\_main_widget\_\_\_METACODE.py_.
+Now, let's program the node's class. Navigate to the 'points example/nodes' folder where you should find a folder called _points example\_\_\_PointsField0_. In this folder, you should find the metacode file for the node _points example\_\_\_PointsField0\_\_\_METACODE.py_. In the widgets folder, you should find the metacode file for the custom input widget _points example\_\_\_PointsField0\_\_\_RelativeCoordinates_IW\_\_\_METACODE.py_ as well as the main widget _points example\_\_\_PointsField0\_\_\_main_widget\_\_\_METACODE.py_.
 
 First, open the node's file.
 
