@@ -251,13 +251,15 @@ whenever the execution of a node returned an error. That is a very useful featur
 
 # Creating New Nodes - Advanced
 
-## Get/Set Data
+## Nodes With States
 
-If your node has states, you _can_ save those in the _get_data()_ method and reload them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. For that, just provide all state defining attribute values ''in JSON compatible format** in the _get_data()_ method. Then just do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
+If your node has states, you _can_ save these state defining attributes by providing their values in the _get_data()_ method and reloading them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. Just provide all state defining attribute values **in JSON compatible format** in the _get_data()_ method. Then do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
+
+This applies on the normal node class as well as on all the widgets classes, these have _get_data()_ and _set_data()_ too.
 
 If everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything here.
 
-All inputs and output objects get saved, so if you added some or removed some, you don't have to worry about that in _get_data()_.
+All inputs and outputs get saved, so if you added some or removed some, you don't have to worry about that in _get_data()_, _set_data()_.
 
 ## Removing Method
 
