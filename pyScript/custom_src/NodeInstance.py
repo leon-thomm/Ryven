@@ -26,6 +26,7 @@ class NodeInstance(QGraphicsItem):
         self.default_actions = {'remove': {'method': self.action_remove,
                                            'data': 123},
                                 'compute shape': {'method': self.compute_content_positions}}  # holds information for context menus
+        self.personal_logs = []
         self.special_actions = {}  # only gets written in custom NodeInstance-subclasses - dynamic
         self.width = -1
         self.height = -1
@@ -121,6 +122,7 @@ class NodeInstance(QGraphicsItem):
         if self.main_widget:
             self.main_widget.removing()
         self.removing()
+        self.disable_personal_logs()
 
     def removing(self):     # API  (gets overwritten)
         pass
@@ -145,7 +147,12 @@ class NodeInstance(QGraphicsItem):
     #   LOGGING
     def new_log(self, title):  # just a handy convenience function for subclasses
         new_log = self.flow.parent_script.logger.new_log(self, title)
+        self.personal_logs.append(new_log)
         return new_log
+
+    def disable_personal_logs(self):
+        for log in self.personal_logs:
+            log.remove()
 
     def log_message(self, message: str, target='global'):
         self.flow.parent_script.logger.log_message(self, message, target)

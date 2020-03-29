@@ -186,11 +186,13 @@ A node can also request new logs using
 
     self.new_log(title: str)
 
-One node can hold mutliple personal logs. When using logs, don't forget to add
+One node can hold mutliple personal logs.
+
+To disable a log, use
 
     mylog.remove()
 
-for every log in the _removing()_ method. This will cause the log widget in the script's logging area to change appearance.
+All personal required logs (via _self.new_log()_) get disabled automatically when a node is removed.
 
 ### Shape
 
@@ -261,7 +263,7 @@ All inputs and outputs get saved and reloaded automatically as they are, so if y
 
 This applies on the normal node class as well as on all the widgets classes, these have _get_data()_ and _set_data()_ too.
 
-## Threading And Timers
+## Removing Method
 
 The _removing()_ method is being called when a node gets removed from the flow. This is only important for nodes that autonomously run independent computations like threads or timers. These should all be stopped in this method.
 
