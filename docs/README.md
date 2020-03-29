@@ -223,7 +223,7 @@ All widget related arguments are only important for data inputs:
 
 Adding a new output port:
 
-    self.create_new_output(type_, label, pos=-1)
+    self.create_new_output(type_: str, label: str, pos=-1)
 
 see 'Adding a new input port'.
 
