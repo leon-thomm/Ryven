@@ -279,7 +279,7 @@ The possibility to program custom widgets for the nodes is one of the core conce
 
 In both types of widgets, you can access the parent node via
 
-> self.parent_node_instance
+    self.parent_node_instance
 
 ### Main Widget
 
@@ -389,7 +389,7 @@ When using custom input widgets, you must define them in the 'Input Widgets' are
 
 After you stated the existence of the custom input widget in the NodeManager and saved the node in a package, the metacode files that you can edit should be in the 'widgets' folder of you node. Programming a custom widget does not differ from programming a main widget at all.
 
-The only difference is, that you need to fill the _get_val()_ method which should return the value that the widget represents _if_ the input the widget is a part of is not connected to some other node.
+The only difference is that you need to fill the _get_val()_ method which should return the value that the widget represents. This value will be used (when called _self.input(index)_) if the port is not connected to some other node.
 
 ## Multiple Output Calls
 
