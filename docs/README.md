@@ -259,7 +259,7 @@ This applies on the normal node class as well as on all the widgets classes, the
 
 If everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything here.
 
-All inputs and outputs get saved, so if you added some or removed some, you don't have to worry about that in _get_data()_, _set_data()_.
+All inputs and outputs get saved and reloaded automatically as they are, so if you added some or removed some, you don't have to worry about that in _get_data()_, _set_data()_, you just need to reset your intern variables telling your class in which state the node is currently in.
 
 ## Removing Method
 
