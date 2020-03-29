@@ -150,7 +150,7 @@ In the case that your node executes multiple times the same execution output, li
 
 And don't call _self.updating()_ directly, use instead
 
-    self.update()
+    self.update(input_called=-1)
 
 That's it. Everything beyond that is the use of special features. There are a few very useful ones but you don't have to use them. If you successfully created a node, I recommend reading 'Special Actions' and 'API'. After that, you can take a look at the more advanced stuff to get a deeper sense of how this framework expects you to behave and what features you can make use of.
 
@@ -391,7 +391,9 @@ After you stated the existence of the custom input widget in the NodeManager and
 
 The only difference is that you need to fill the _get_val()_ method which should return the value that the widget represents. This value will be used (when called _self.input(index)_) if the port is not connected to some other node.
 
-## Multiple Output Calls
+## Multiple Output Calls (section not completed yet)
+
+If your node executes one execution output multiple times after being triggered (like a loop does), you need 
 
 ![](/resources/images/pyScript8.PNG)
 
