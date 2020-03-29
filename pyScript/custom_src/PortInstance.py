@@ -134,7 +134,8 @@ class PortInstance:
                     self.width = widget_width if widget_width > self.width else self.width
                     self.height += widget_height
                     upper_row_height = self.gate.height if self.gate.height > self.label.height else self.label.height
-                    self.widget.port_local_pos = QPointF(-self.width/2 + self.widget.width()/2, -self.height/2+upper_row_height+self.widget.height()/2 )#- self.widget.height()/2)
+                    self.widget.port_local_pos = QPointF(-self.width/2 + self.widget.width()/2,
+                                                         -self.height/2+upper_row_height+self.widget.height()/2 )#- self.widget.height()/2)
                     self.gate.port_local_pos = QPointF(-self.width/2 + self.gate.width/2, -self.height/2+upper_row_height/2)
                     self.label.port_local_pos = QPointF(-self.width/2 + self.gate.width + gate_label_buffer + self.label.width/2,
                                                         -self.height/2 + upper_row_height/2)
