@@ -202,7 +202,7 @@ This would look in pyScript like that:
 
 To access the node's contents there is a small 'API' that you can use in the class.
 
-### Ports (for nodes with dynamic behaviour)
+### Ports
 
 **Getting input data from a data input:**
 
