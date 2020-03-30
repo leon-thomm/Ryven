@@ -15,8 +15,7 @@ class WebcamFeed_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.log = self.new_log('Webcam Feed log')
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def video_picture_updated(self, img):
         self.log.log('video picture updated')

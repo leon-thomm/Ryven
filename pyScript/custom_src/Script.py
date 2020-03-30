@@ -37,7 +37,6 @@ class Script(QObject):
             self.variables_handler = VariablesHandler(self, config['variables'])
             self.flow = Flow(main_window, self, config['flow'])
             self.variables_handler.flow = self.flow
-            self.variables_handler.update_all_var_usages()
         else:
             self.flow = Flow(main_window, self)
             self.variables_handler = VariablesHandler(self)

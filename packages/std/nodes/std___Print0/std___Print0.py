@@ -17,8 +17,7 @@ class Print_NodeInstance(NodeInstance):
         self.special_actions['print something 2'] = {'method': self.print_something,
                                                      'data': 'HELLOO!?!?!?'}
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):

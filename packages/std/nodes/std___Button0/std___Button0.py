@@ -21,8 +21,7 @@ class Button_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.main_widget.clicked.connect(self.button_clicked)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def button_clicked(self):
         self.update()

@@ -19,8 +19,7 @@ class ReadImg_NodeInstance(NodeInstance):
         self.img = None
         self.inputs[0].widget.path_chosen.connect(self.path_chosen)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def update_event(self, input_called=-1):
         try:

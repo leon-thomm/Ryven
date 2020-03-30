@@ -21,8 +21,7 @@ class ForNDim_NodeInstance(NodeInstance):
 
         self.dimensions = 1
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):

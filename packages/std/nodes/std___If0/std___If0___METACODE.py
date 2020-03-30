@@ -21,8 +21,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.special_actions['add else if'] = {'method': self.action_add_else_if}
         self.else_if_enlargement_state = 0
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def action_add_else_if(self):

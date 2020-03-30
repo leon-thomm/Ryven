@@ -32,8 +32,7 @@ class GetGmails_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         # ...
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):
