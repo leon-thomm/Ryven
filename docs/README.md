@@ -202,9 +202,7 @@ This would look in pyScript like that:
 
 To access the node's contents there is a small 'API' that you can use in the class.
 
-### Node Methods
-
-In the node's class, there are these methods that you should know:
+### Ports (for nodes with dynamic behaviour)
 
 **Getting input data from a data input:**
 
@@ -217,28 +215,6 @@ In the node's class, there are these methods that you should know:
 **Executing an output:**
 
     self.exec_output(index)
-
-### Logging
-
-You can log mesasges to the script's logs via
-
-    self.log_message(message: str, target='global')
-
-_target_ can be _global_ or _error_ which addresses the global messages log or the error log.
-
-A node can also request new logs using
-
-    self.new_log(title: str)
-
-One node can hold mutliple personal logs.
-
-To disable a log, use
-
-    mylog.remove()
-
-All logs required by a node (via _self.new_log()_) get disabled automatically when this node is removed.
-
-### Ports (for nodes with dynamic behaviour)
 
 **Adding a new input port:**
 
@@ -278,6 +254,26 @@ see 'Adding a new input port'.
 **Renaming output port:**
 
     ... (not implemented yet but coming soon)
+
+### Logging
+
+You can log mesasges to the script's logs via
+
+    self.log_message(message: str, target='global')
+
+_target_ can be _global_ or _error_ which addresses the global messages log or the error log.
+
+A node can also request new logs using
+
+    self.new_log(title: str)
+
+One node can hold mutliple personal logs.
+
+To disable a log, use
+
+    mylog.remove()
+
+All logs required by a node (via _self.new_log()_) get disabled automatically when this node is removed.
 
 ## Debugging
 
