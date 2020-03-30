@@ -21,10 +21,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def video_picture_updated(self, img):
         self.log.log('video picture updated')
         self.outputs[0].set_val(img)
-        self.update()
+        # self.update()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         pass  # no central updating here
 
     def get_data(self):
@@ -40,5 +40,4 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
     # optional - important for threading - stop everything here
     def removing(self):
-        self.log.removing()
         self.log_message('Webcam feed node instance successfully removed. Have a good day.', target='global')

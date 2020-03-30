@@ -26,7 +26,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             del self.special_actions['remove input']
         self.update_shape()
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         result = True
         for i in range(1+self.enlargement_state):
             result = result and self.input(i) and self.input(i+1)

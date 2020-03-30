@@ -25,7 +25,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.outputs[0].set_val(self.input(0)['x'])
         self.outputs[1].set_val(self.input(0)['y'])
 

@@ -22,7 +22,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         if configuration:
             self.set_data(configuration['state data'])
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         try:
             print('image file path:', self.image_filepath)
             self.img = cv2.imread(self.image_filepath)

@@ -27,7 +27,7 @@ class Button_NodeInstance(NodeInstance):
     def button_clicked(self):
         self.update()
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.exec_output(0)
 
     def get_data(self):

@@ -40,7 +40,7 @@ class If_NodeInstance(NodeInstance):
             del self.special_actions['remove else if']
         self.update_shape()
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             self.do_if(0, self.else_if_enlargement_state)
 

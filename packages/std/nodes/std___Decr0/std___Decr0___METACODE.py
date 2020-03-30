@@ -33,7 +33,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             var_name = self.input(1)
             new_val = self.flow.parent_script.get_var(self.input(1)).val - 1

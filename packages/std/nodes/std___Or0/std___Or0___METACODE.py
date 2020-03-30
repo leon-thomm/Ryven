@@ -36,7 +36,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         if self.enlargement_state == 0:
             del self.special_actions['remove input']
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         result = self.input(0) or self.input(1)
         for i in range(self.enlargement_state):
             result = result or self.input(2+i)

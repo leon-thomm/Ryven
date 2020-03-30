@@ -43,7 +43,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def sign(self, val):
         return -1 if val < 0 else +1
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:  # guess
             x1 = self.input(1)
             x2 = self.input(2)

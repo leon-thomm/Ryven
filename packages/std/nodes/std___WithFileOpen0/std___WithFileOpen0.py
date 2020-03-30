@@ -32,7 +32,7 @@ class WithFileOpen_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             with open(self.input(1), self.input(2)) as f:
                 self.outputs[1].set_val(f)

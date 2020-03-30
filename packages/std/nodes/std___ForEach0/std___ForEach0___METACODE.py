@@ -23,14 +23,12 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             for obj in self.input(1):
-                self.handle_token(None)
-                self.outputs[1].set_val(obj)
+                self.set_output_val(1, obj)
                 self.exec_output(0)
 
-            self.handle_token(token)
             self.exec_output(2)
 
     def get_data(self):

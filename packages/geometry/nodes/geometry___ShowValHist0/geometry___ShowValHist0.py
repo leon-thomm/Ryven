@@ -31,7 +31,7 @@ class ShowValHist_NodeInstance(NodeInstance):
         self.values.clear()
         self.main_widget.update(self.values)
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:  # exec
             self.values.append(self.input(1))
             self.main_widget.update(self.values)

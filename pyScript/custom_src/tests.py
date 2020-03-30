@@ -2,6 +2,7 @@ import sys
 import random
 import math
 import pickle
+import os
 
 from PySide2.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QPlainTextEdit, QGraphicsView, QGraphicsScene, QGraphicsProxyWidget, QAction, QMenu
 from PySide2.QtGui import QFont, QColor, QImage, QPainter, QPen, QBrush
@@ -126,6 +127,25 @@ class MainWindow(QMainWindow):
 
 
 
+
+def replace_in_folder(path):
+    print(path)
+    for (dirpath, dirnames, filenames) in os.walk(path):
+        print('filenames:', filenames)
+        for f_name in filenames:
+            print(path+'/'+f_name)
+            f = open(path+'/'+f_name, 'r')
+            content = f.read()
+            f.close()
+            content = content.replace('''if configuration:\n            self.set_data(configuration['state data'])''',
+                                      'self.initialized()')
+            f = open(path+'/'+f_name,'w')
+            f.write(content)
+            f.close()
+        for d in dirnames:
+            replace_in_folder(path+'/'+d)
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
@@ -143,19 +163,24 @@ if __name__ == '__main__':
     # print(b.a)
 
 
-    attributes = {}
-    b = B()
-    for e, v in b.__dict__.items():
-        if not callable(v):
-            attributes[e] = v
-    print(attributes)
-    print(callable(A))
-    print(callable(A()))
-    print(b.__dir__())
+    # attributes = {}
+    # b = B()
+    # for e, v in b.__dict__.items():
+    #     if not callable(v):
+    #         attributes[e] = v
+    # print(attributes)
+    # print(callable(A))
+    # print(callable(A()))
+    # print(b.__dir__())
+    #
+    #
+    #
+    # sys.exit(app.exec_())
 
 
+    path = 'H:\Projekte\QT\PySide2\pyScript\pyScript\pyScript\packages'
+    replace_in_folder(path)
 
-    sys.exit(app.exec_())
 
     # db = QFontDatabase()
     # print(QFontDatabase.families())

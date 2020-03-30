@@ -38,7 +38,7 @@ class ArrIn_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.set_output_val(0, self.input(0) in self.input(1))
 
     def get_data(self):

@@ -33,7 +33,7 @@ class ArrInsert_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             arr = self.input(1)
             index = self.input(2)

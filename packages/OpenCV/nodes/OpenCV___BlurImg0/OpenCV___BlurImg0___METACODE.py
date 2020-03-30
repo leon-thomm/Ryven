@@ -22,7 +22,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.img_unblurred = self.input(0)
         blur_val = self.input(1)
         blur_val = int(blur_val)

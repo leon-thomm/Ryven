@@ -36,7 +36,7 @@ class GetGmails_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             email_user = self.input(1)
             email_pass = self.input(2)

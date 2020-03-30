@@ -35,7 +35,7 @@ class Tan_NodeInstance(NodeInstance):
             self.set_data(configuration['state data'])
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.outputs[0].set_val(math.tan(self.input(0)))
 
     def get_data(self):
