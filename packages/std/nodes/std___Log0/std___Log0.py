@@ -48,4 +48,4 @@ class Log_NodeInstance(NodeInstance):
 
     # optional - important for threading - stop everything here
     def removing(self):
-        self.log.removing()
+        pass
