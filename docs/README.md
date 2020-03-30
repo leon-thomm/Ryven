@@ -1,3 +1,5 @@
+Important note: the documentation is currently not updated! If you are unlucky and you see this, I apologize and ask you to come back in a few hours.
+
 # Welcome to the documentation page of pyScript!
 
 pyScript is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and it shouldn't be seen like that.
