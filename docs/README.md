@@ -202,6 +202,22 @@ This would look in pyScript like that:
 
 To access the node's contents there is a small 'API' that you can use in the class.
 
+### Node Methods
+
+In the node's class, there are these methods that you should know:
+
+**Getting input data from a data input:**
+
+    self.input(index)
+
+**Setting data output value:**
+
+    self.set_output_val(index, val)
+
+**Executing an output:**
+
+    self.exec_output(index)
+
 ### Logging
 
 You can log mesasges to the script's logs via
