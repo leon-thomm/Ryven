@@ -24,8 +24,7 @@ class Perceptron_NodeInstance(NodeInstance):
         self.feeding_log = self.new_log('Perception Feeding Log')
         self.fixing_log = self.new_log('Perceptron Fixing Log')
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def action_reset(self):

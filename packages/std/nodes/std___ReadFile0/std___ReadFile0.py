@@ -29,8 +29,7 @@ class ReadFile_NodeInstance(NodeInstance):
         self.special_actions['add size input'] = {'method': self.action_add_size_input}
         self.size_input_shown = False
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):

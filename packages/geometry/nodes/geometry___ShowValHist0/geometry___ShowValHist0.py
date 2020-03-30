@@ -21,8 +21,7 @@ class ShowValHist_NodeInstance(NodeInstance):
         self.special_actions['reset'] = {'method': self.action_reset}
         self.values = []
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def action_reset(self):
         self.reset()

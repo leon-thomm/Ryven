@@ -9,8 +9,7 @@ class And_NodeInstance(NodeInstance):
         self.special_actions['add input'] = {'method': self.action_add_input}
         self.enlargement_state = 0
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def action_add_input(self):

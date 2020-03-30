@@ -21,8 +21,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.special_actions['add input'] = {'method': self.action_add_input}
         self.num_inputs = 2
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):

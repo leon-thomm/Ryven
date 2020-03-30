@@ -32,8 +32,7 @@ class Code_NodeInstance(NodeInstance):
         self.num_scripts = 1
         self.num_data_inputs = 0
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def action_add_exec_input(self):

@@ -735,8 +735,9 @@ class NodeInstance(QGraphicsItem):
 
     # GENERAL
     def initialized(self):
-        self.set_data(self.temp_state_data)
-        # self.update()
+        if self.temp_state_data is not None:
+            self.set_data(self.temp_state_data)
+        self.update()
 
 
     def get_longest_line(self, s: str):

@@ -29,8 +29,7 @@ class Log_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.log = self.new_log('Log Node Log')
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):

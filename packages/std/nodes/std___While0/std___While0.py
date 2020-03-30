@@ -18,8 +18,7 @@ class While_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(While_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):

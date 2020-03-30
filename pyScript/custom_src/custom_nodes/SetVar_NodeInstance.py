@@ -16,8 +16,7 @@ class SetVar_NodeInstance(NodeInstance):
         self.special_actions['execute'] = {'method': self.action_execute}
         self.var_name = ''
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def update_event(self, input_called=-1):
         if input_called == 0:

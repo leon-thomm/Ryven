@@ -134,14 +134,17 @@ def replace_in_folder(path):
         print('filenames:', filenames)
         for f_name in filenames:
             print(path+'/'+f_name)
-            f = open(path+'/'+f_name, 'r')
-            content = f.read()
-            f.close()
-            content = content.replace('''if configuration:\n            self.set_data(configuration['state data'])''',
-                                      'self.initialized()')
-            f = open(path+'/'+f_name,'w')
-            f.write(content)
-            f.close()
+            try:
+                f = open(path+'/'+f_name, 'r')
+                content = f.read()
+                f.close()
+                content = content.replace('''if configuration:\n            self.set_data(configuration['state data'])''',
+                                          'self.initialized()')
+                f = open(path+'/'+f_name,'w')
+                f.write(content)
+                f.close()
+            except Exception as e:
+                print(e)
         for d in dirnames:
             replace_in_folder(path+'/'+d)
 

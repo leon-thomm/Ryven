@@ -15,8 +15,7 @@ class GetVar_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.var_name = ''
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def update_event(self, input_called=-1):
         vars_handler = self.flow.parent_script.variables_handler

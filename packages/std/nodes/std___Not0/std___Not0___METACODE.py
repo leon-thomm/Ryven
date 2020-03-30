@@ -18,8 +18,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def update_event(self, input_called=-1):
         self.outputs[0].set_val(not self.input(0))

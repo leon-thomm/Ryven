@@ -34,8 +34,7 @@ class Clock_NodeInstance(NodeInstance):
         self.timer = QTimer()
         self.timer.timeout.connect(self.timeouted)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def update_event(self, input_called=-1):
