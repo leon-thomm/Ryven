@@ -8,7 +8,6 @@ from custom_src.GlobalAccess import GlobalStorage
 from custom_src.Node import Node, NodePort
 from custom_src.PortInstance import PortInstance, StdLineEdit_PortInstanceWidget
 from custom_src.FlowProxyWidget import FlowProxyWidget
-from custom_src.Token import Token
 
 
 class NodeInstance(QGraphicsItem):
@@ -22,10 +21,10 @@ class NodeInstance(QGraphicsItem):
         self.outputs = []
         self.main_widget = None
         self.main_widget_proxy: FlowProxyWidget = None
-        self.token = None
         self.default_actions = {'remove': {'method': self.action_remove,
                                            'data': 123},
                                 'compute shape': {'method': self.compute_content_positions}}  # holds information for context menus
+        self.gen_data_on_request = False
         self.personal_logs = []
         self.special_actions = {}  # only gets written in custom NodeInstance-subclasses - dynamic
         self.width = -1
@@ -34,7 +33,11 @@ class NodeInstance(QGraphicsItem):
                                  QFont('K2D', 20, QFont.Bold, True)
         self.display_name_FM = QFontMetricsF(self.display_name_font)
         # self.port_label_font = QFont("Source Code Pro", 10, QFont.Bold, True)
-        self.initializing = True  # gets set to false a few lines below. needed for setup ports (to prevent shape updating stuff)
+
+        # gets set to false a few lines below. needed for setup ports (to prevent shape updating stuff)
+        self.initializing = True
+
+        self.temp_state_data = None
 
         if self.parent_node.has_main_widget:
             self.main_widget = self.parent_node.main_widget_class(self)
@@ -51,14 +54,13 @@ class NodeInstance(QGraphicsItem):
                     pass
 
             self.special_actions = self.set_special_actions_data(config['special actions'])
+            self.temp_state_data = config['state data']
         else:
             self.setup_ports()
 
 
         # TOOLTIP
         self.setToolTip(self.parent_node.description)
-
-
 
         self.initializing = False
 
@@ -77,17 +79,14 @@ class NodeInstance(QGraphicsItem):
     #            \__,_/  /_/   \__, /   \____/  /_/     /_/   \__/  /_/ /_/  /_/ /_/ /_/
     #                         /____/
 
-    def update(self, input_called=-1, token=None, output_called=-1):
+    def update(self, input_called=-1, output_called=-1):
         GlobalStorage.debug('update in', self.parent_node.title, 'on input', input_called)
         try:
-            self.handle_token(token)
-            self.updating(token, input_called)
-            if output_called == -1:
-                self.data_outputs_updated()
+            self.update_event(input_called)
         except Exception as e:
-            GlobalStorage.debug('EXCEPTION IN', self.parent_node.title,'NI:', e)
+            GlobalStorage.debug('EXCEPTION IN', self.parent_node.title, 'NI:', e)
 
-    def updating(self, token, input_called=-1):     # API  (gets overwritten)
+    def update_event(self, input_called=-1):     # API  (gets overwritten)
         pass
 
     def data_outputs_updated(self):
@@ -99,26 +98,16 @@ class NodeInstance(QGraphicsItem):
 
     def input(self, index):     # API
         GlobalStorage.debug('input called in', self.parent_node.title,'NI:', index)
-        return self.inputs[index].get_val(self.token)
+        return self.inputs[index].get_val()
 
     def set_output_val(self, index, val):       # API
         self.outputs[index].set_val(val)
 
     def exec_output(self, index):       # API
-        self.outputs[index].exec(self.token)
+        self.outputs[index].exec()
 
-    def handle_token(self, token=None):
-        if token:
-            token.register(self)
-        else:
-            token = Token(self)
-        self.token = token
-
-    def registered_in_token(self, token):
-        return token.registered(self)
-
-
-    def about_to_remove_from_flow(self):  # gets called from the flow after the content was removed from the scene; -> to stop threads etc.
+    # gets called from the flow after the content was removed from the scene; -> to stop threads etc.
+    def about_to_remove_from_flow(self):
         if self.main_widget:
             self.main_widget.removing()
         self.removing()
@@ -745,6 +734,12 @@ class NodeInstance(QGraphicsItem):
 
 
     # GENERAL
+    def initialized(self):
+        if self.temp_state_data is not None:
+            self.set_data(self.temp_state_data)
+        self.update()
+
+
     def get_longest_line(self, s: str):
         lines = s.split('\n')
         lines = [line.replace('\n', '') for line in lines]
@@ -753,6 +748,16 @@ class NodeInstance(QGraphicsItem):
             if len(line) > len(longest_line_found):
                 longest_line_found = line
         return line
+
+
+    def is_active(self):
+        for i in self.inputs:
+            if i.type_ == 'exec':
+                return True
+        for o in self.outputs:
+            if o.type_ == 'exec':
+                return True
+        return False
 
 
     def get_json_data(self):

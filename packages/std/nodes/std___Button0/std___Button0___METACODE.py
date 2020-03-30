@@ -21,13 +21,12 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.main_widget.clicked.connect(self.button_clicked)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def button_clicked(self):
         self.update()
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.exec_output(0)
 
     def get_data(self):

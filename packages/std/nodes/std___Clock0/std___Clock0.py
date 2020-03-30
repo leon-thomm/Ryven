@@ -34,11 +34,10 @@ class Clock_NodeInstance(NodeInstance):
         self.timer = QTimer()
         self.timer.timeout.connect(self.timeouted)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         pass
 
     def action_start(self):

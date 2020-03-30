@@ -21,11 +21,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         # ...
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 1:
             new_points = self.main_widget.randomize(self.input(0))
             self.outputs[0].set_val(new_points)

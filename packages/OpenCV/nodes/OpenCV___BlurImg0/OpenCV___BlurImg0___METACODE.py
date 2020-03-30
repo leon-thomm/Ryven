@@ -18,11 +18,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.img_unblurred = None
         self.img_blurred = None
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.img_unblurred = self.input(0)
         blur_val = self.input(1)
         blur_val = int(blur_val)

@@ -29,11 +29,10 @@ class ArrGet_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         # ...
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         arr = self.input(0)
         index = self.input(1)
         self.outputs[0].set_val(arr[index])

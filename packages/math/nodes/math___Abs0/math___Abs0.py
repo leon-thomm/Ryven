@@ -29,11 +29,10 @@ class Abs_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         # ...
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.outputs[0].set_val(abs(self.input(0)))
 
     def get_data(self):

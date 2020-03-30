@@ -29,15 +29,15 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         # ...
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             var_name = self.input(1)
-            new_val = self.flow.parent_script.get_var(self.input(1)).val + 1
-            self.flow.parent_script.set_var(var_name, new_val)
+            var_handler = self.flow.parent_script.variables_handler
+            new_val = var_handler.get_var(self.input(1)).val + 1
+            var_handler.set_var(var_name, new_val)
             self.outputs[1].set_val(new_val)
             self.exec_output(0)
 

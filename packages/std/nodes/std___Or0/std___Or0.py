@@ -21,8 +21,7 @@ class Or_NodeInstance(NodeInstance):
         self.special_actions['add input'] = {'method': self.action_add_input}
         self.enlargement_state = 0
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def action_add_input(self):
@@ -36,7 +35,7 @@ class Or_NodeInstance(NodeInstance):
         if self.enlargement_state == 0:
             del self.special_actions['remove input']
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         result = self.input(0) or self.input(1)
         for i in range(self.enlargement_state):
             result = result or self.input(2+i)

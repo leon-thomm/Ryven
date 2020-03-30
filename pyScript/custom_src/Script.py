@@ -8,8 +8,8 @@ from ui.w_ui_script import WUIScript
 
 # from custom_src.VyMain_DetailsWidget import VyMain_DetailsWidget
 from custom_src.Flow import Flow
-from custom_src.Variable import Variable
-from custom_src.VariablesListWidget import VariablesCustomListWidget
+from custom_src.VariablesHandler import VariablesHandler
+from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 
 
 class Script(QObject):
@@ -25,28 +25,28 @@ class Script(QObject):
         # general attributes
         self.logger = Logger(self)
         self.variables = []
+        self.variables_handler = None
         self.name = name
         self.details_widget = QPushButton('HELO HELOO!!')  # None
         self.set_details_widget(self, self.details_widget)
         self.flow = None
         self.thumbnail_source = ''  # URL to the thumbnail picture
 
+        if config:
+            self.name = config['name']
+            self.variables_handler = VariablesHandler(self, config['variables'])
+            self.flow = Flow(main_window, self, config['flow'])
+            self.variables_handler.flow = self.flow
+        else:
+            self.flow = Flow(main_window, self)
+            self.variables_handler = VariablesHandler(self)
+
         # variables list widget
-        self.custom_variables_list_widget = VariablesCustomListWidget(self.variables)
-        self.widget.ui.variables_scrollArea.setWidget(self.custom_variables_list_widget)
-        # self.widget.ui.new_var_name_lineEdit.editingFinished.connect(self.create_new_var_triggered)
+        self.widget.ui.variables_scrollArea.setWidget(self.variables_handler.list_widget)
+        # I connect the events between UI and the var handler here, because there are only a few actions over UI
         self.widget.ui.add_variable_push_button.clicked.connect(self.add_var_clicked)
         self.widget.ui.new_var_name_lineEdit.returnPressed.connect(self.new_var_line_edit_return_pressed)
 
-
-        if config:
-            self.name = config['name']
-            for name in list(config['variables'].keys()):  # variables
-                self.variables.append(Variable(name, config['variables'][name]))
-            self.custom_variables_list_widget.recreate_ui()
-            self.flow = Flow(main_window, self, config['flow'])
-        else:
-            self.flow = Flow(main_window, self)
 
         self.widget.ui.splitter.insertWidget(0, self.flow)
         # self.widget.ui.logs_scrollArea.setWidgetResizable(False)
@@ -54,85 +54,21 @@ class Script(QObject):
         self.widget.ui.splitter.setSizes([700, 0])
 
 
-    # def set_design_style(self, new_design):
-    #     self.flow.set_design_style(new_design)
-
     def set_details_widget(self, provider, w):
         pass
 
 
-    # def add_new_variable(self):
-    #     self.create_variable()
-
-    # def create_variable(self, data_type='', name=''):
-    #     # create variable object
-    #     new_variable = self.main_window.create_new_variable(self)
-    #     new_variable.change_data_type(data_type)
-    #     new_variable.change_name(name)
-    #     self.add_existing_variable_and_update_ui(new_variable)
-
-    # def add_existing_variable_and_update_ui(self, v):
-    #     self.vy_variables.append(v)
-    #
-    #     # add new variable to list
-    #     self.custom_variables_list_widget.recreate_ui()
-
+    # I connect the events between UI and the var handler here, because there are only a few actions over UI
     def add_var_clicked(self):
-        self.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
+        self.variables_handler.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
 
     def new_var_line_edit_return_pressed(self):
-        self.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
-
-    # def create_new_var_triggered(self):
-    #     self.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
-
-    def create_new_var(self, new_var_name):
-        if len(new_var_name) == 0:
-            return
-        # search for name problems
-        for v in self.variables:
-            if v.name == new_var_name:
-                return
-
-        self.variables.append(Variable(new_var_name))
-        self.custom_variables_list_widget.recreate_ui()
-
-
-    def set_var(self, var_name, val):
-        GlobalStorage.debug('setting var in script name:', var_name, 'to val:', val)
-
-        var_index = self.get_var_index_from_name(var_name)
-        if var_index is None:
-            return False
-
-        self.variables[var_index].val = val
-        return True
-
-    def get_var(self, var_name):
-        GlobalStorage.debug('getting variable from script name:', var_name)
-
-        var_index = self.get_var_index_from_name(var_name)
-        if var_index is None:
-            return
-
-        return self.variables[var_index]
-
-    def get_var_index_from_name(self, var_name):
-        var_names_list = [v.name for v in self.variables]
-        for i in range(len(var_names_list)):
-            if var_names_list[i] == var_name:
-                return i
-
-        return None
+        self.variables_handler.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
 
 
     def get_json_data(self):
-        vars_dict = {}
-        for v in self.variables:
-            vars_dict[v.name] = v.val
-
         script_dict = {'name': self.name,
-                       'variables': vars_dict,
+                       'variables': self.variables_handler.get_json_data(),
                        'flow': self.flow.get_json_data()}
 
         return script_dict

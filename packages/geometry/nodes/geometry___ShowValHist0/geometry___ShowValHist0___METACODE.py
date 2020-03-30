@@ -21,8 +21,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.special_actions['reset'] = {'method': self.action_reset}
         self.values = []
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
     def action_reset(self):
         self.reset()
@@ -31,7 +30,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.values.clear()
         self.main_widget.update(self.values)
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:  # exec
             self.values.append(self.input(1))
             self.main_widget.update(self.values)

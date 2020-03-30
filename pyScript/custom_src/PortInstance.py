@@ -24,11 +24,12 @@ class PortInstance:
         self.widget_name = widget_name
         self.widget_pos = widget_pos
 
+        self.waiting_for_data = False
+
         self.width = -1
         self.height = -1
 
         self.widget: 'StdLineEdit_PortInstanceWidget' = None
-
 
         if configuration:
             self.type_ = configuration['type']
@@ -51,19 +52,30 @@ class PortInstance:
         self.label = PortInstanceLabel(self, parent_node_instance)
         # self.compute_size()
 
+    def exec(self):    # OUTPUT; call from inside
+        for cpi in self.connected_port_instances:
+            cpi.update()
 
+    def update(self):  # INPUT; call from outside
+        if (self.parent_node_instance.is_active() and self.type_ == 'exec') or \
+           not self.parent_node_instance.is_active():
+            self.parent_node_instance.update(self.parent_node_instance.inputs.index(self))
 
-    def update(self, token=None):  # INPUT; call from outside
-        self.parent_node_instance.update(self.parent_node_instance.inputs.index(self), token)
 
     def set_val(self, val):  # INPUT DATA; call from inside
-        GlobalStorage.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,'NodeInstance to', val)
-        self.val = val
+        GlobalStorage.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
+                            'NodeInstance to', val)
+        if self.val is val:  # no update if value didn't change
+            return
 
-    def get_val(self, token):  # DATA; call from inside OR outside (see below)
-        GlobalStorage.debug('get value in',self.direction,'port instance',
-              self.parent_node_instance.inputs.index(self) if self.direction == 'input' else self.parent_node_instance.outputs.index(self),
-              'of', self.parent_node_instance.parent_node.title, 'with token', token)
+        self.val = val
+        self.updated_val()
+
+    def get_val(self):  # DATA; call from inside OR outside (see below)
+        GlobalStorage.debug('get value in', self.direction, 'port instance',
+                            self.parent_node_instance.inputs.index(
+                                self) if self.direction == 'input' else self.parent_node_instance.outputs.index(self),
+                            'of', self.parent_node_instance.parent_node.title)
         GlobalStorage.debug('my value is', self.val)
         if self.direction == 'input':
             if len(self.connected_port_instances) == 0:
@@ -73,23 +85,16 @@ class PortInstance:
                     return None
             else:
                 GlobalStorage.debug('calling connected port for val')
-                return self.connected_port_instances[0].get_val(token)
+                return self.connected_port_instances[0].get_val()
         elif self.direction == 'output':
-            if not self.parent_node_instance.registered_in_token(token):
-                GlobalStorage.debug('not registered; registering...')
-                self.parent_node_instance.update(token=token, output_called=self.parent_node_instance.outputs.index(self))
-            else:
-                GlobalStorage.debug('tokens are identical')
+            GlobalStorage.debug('returning val directly')
+            if self.parent_node_instance.gen_data_on_request:
+                self.parent_node_instance.update()
             return self.val
 
     def updated_val(self):  # OUTPUT DATA; call from inside
         for cpi in self.connected_port_instances:
-            cpi.update(self.parent_node_instance.token)
-
-    def exec(self, token=None):
-        for cpi in self.connected_port_instances:
-            cpi.update(token)
-
+            cpi.update()
 
     def create_widget(self, configuration=None):
         if self.direction == 'input' and (
@@ -106,12 +111,11 @@ class PortInstance:
             self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
             self.proxy.setWidget(self.widget)
 
-
     def get_input_widget_class(self, widget_name):
         custom_node_input_widget_classes = self.parent_node_instance.flow.parent_script.main_window.custom_node_input_widget_classes
         widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
         return widget_class
-    
+
     def compute_size_and_positions(self):
         # GlobalStorage.debug('computing size in', self.parent_node_instance.parent_node.title)
         self.width = 0
@@ -134,28 +138,33 @@ class PortInstance:
                     self.width = widget_width if widget_width > self.width else self.width
                     self.height += widget_height
                     upper_row_height = self.gate.height if self.gate.height > self.label.height else self.label.height
-                    self.widget.port_local_pos = QPointF(-self.width/2 + self.widget.width()/2,
-                                                         -self.height/2+upper_row_height+self.widget.height()/2 )#- self.widget.height()/2)
-                    self.gate.port_local_pos = QPointF(-self.width/2 + self.gate.width/2, -self.height/2+upper_row_height/2)
-                    self.label.port_local_pos = QPointF(-self.width/2 + self.gate.width + gate_label_buffer + self.label.width/2,
-                                                        -self.height/2 + upper_row_height/2)
+                    self.widget.port_local_pos = QPointF(-self.width / 2 + self.widget.width() / 2,
+                                                         -self.height / 2 + upper_row_height + self.widget.height() / 2)  # - self.widget.height()/2)
+                    self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2,
+                                                       -self.height / 2 + upper_row_height / 2)
+                    self.label.port_local_pos = QPointF(
+                        -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2,
+                        -self.height / 2 + upper_row_height / 2)
                 elif self.widget_pos == 'besides':
                     self.width += label_widget_buffer + widget_width
                     self.height = self.height if self.height > self.widget.height() else self.widget.height()
-                    self.widget.port_local_pos = QPointF(-self.width/2 + self.gate.width + gate_label_buffer +
-                                                         self.label.width + label_widget_buffer + self.widget.width()/2, 0)
-                    self.gate.port_local_pos = QPointF(-self.width/2 + self.gate.width/2, 0)
-                    self.label.port_local_pos = QPointF(-self.width/2 + self.gate.width + gate_label_buffer + self.label.width/2, 0)
+                    self.widget.port_local_pos = QPointF(-self.width / 2 + self.gate.width + gate_label_buffer +
+                                                         self.label.width + label_widget_buffer + self.widget.width() / 2,
+                                                         0)
+                    self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
+                    self.label.port_local_pos = QPointF(
+                        -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
                 if self.widget.width() > self.width:
                     self.width = self.widget.width()
 
             else:
-                self.gate.port_local_pos = QPointF(-self.width/2 + self.gate.width/2, 0)
-                self.label.port_local_pos = QPointF(-self.width/2 + self.gate.width + gate_label_buffer + self.label.width/2, 0)
+                self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
+                self.label.port_local_pos = QPointF(
+                    -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
         elif self.direction == 'output':
-            self.gate.port_local_pos = QPointF(+self.width/2 - self.gate.width/2, 0)
-            self.label.port_local_pos = QPointF(+self.width/2 - self.gate.width - gate_label_buffer - self.label.width/2, 0)
-
+            self.gate.port_local_pos = QPointF(+self.width / 2 - self.gate.width / 2, 0)
+            self.label.port_local_pos = QPointF(
+                +self.width / 2 - self.gate.width - gate_label_buffer - self.label.width / 2, 0)
 
     def connected(self):
         if self.widget:
@@ -166,7 +175,6 @@ class PortInstance:
     def disconnected(self):
         if self.widget:
             self.widget.setEnabled(True)
-
 
     def get_json_data(self):
         data_dict = {'label': self.label_str,
@@ -229,7 +237,6 @@ class PortInstanceLabel(QGraphicsItem):
     # parent_port_instance = None #: PortInstance
     # parent_node_instance = None #: NodeInstance
 
-
     def __init__(self, parent_port_instance, parent_node_instance):
         super(PortInstanceLabel, self).__init__(parent_node_instance)
         self.parent_port_instance = parent_port_instance
@@ -238,7 +245,7 @@ class PortInstanceLabel(QGraphicsItem):
         self.font = QFont("Source Code Pro", 10, QFont.Bold)
         font_metrics = QFontMetricsF(self.font)
         self.width = font_metrics.width(self.get_longest_line(self.parent_port_instance.label_str))
-        self.height = font_metrics.height() * (self.parent_port_instance.label_str.count('\n')+1)
+        self.height = font_metrics.height() * (self.parent_port_instance.label_str.count('\n') + 1)
         # GlobalStorage.debug('label height:', self.height)
         # GlobalStorage.debug('\\n count:', self.parent_port_instance.label_str.count('\n'))
         # GlobalStorage.debug(self.parent_port_instance.label_str)
@@ -335,7 +342,6 @@ class StdLineEdit_PortInstanceWidget(QLineEdit):
     def set_data(self, data):
         if type(data) == str:
             self.setText(data)
-
 
 
 class StdSpinBox_PortInstanceWidget(QSpinBox):

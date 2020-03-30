@@ -21,11 +21,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
         self.dimensions = 1
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             self.iterate(1)
 

@@ -956,8 +956,8 @@ class Flow(QGraphicsView):
             self.remove_drawing(e)
 
     def remove_node_instance(self, ni):
-        ni.del_and_remove_content_from_scene()  # removes all connections too
         ni.about_to_remove_from_flow()
+        ni.del_and_remove_content_from_scene()  # removes all connections too
         self.scene().removeItem(ni)
 
         GlobalStorage.debug('calling ni removed')

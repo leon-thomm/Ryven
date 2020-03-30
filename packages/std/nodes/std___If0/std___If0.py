@@ -21,8 +21,7 @@ class If_NodeInstance(NodeInstance):
         self.special_actions['add else if'] = {'method': self.action_add_else_if}
         self.else_if_enlargement_state = 0
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def action_add_else_if(self):
@@ -40,7 +39,7 @@ class If_NodeInstance(NodeInstance):
             del self.special_actions['remove else if']
         self.update_shape()
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             self.do_if(0, self.else_if_enlargement_state)
 

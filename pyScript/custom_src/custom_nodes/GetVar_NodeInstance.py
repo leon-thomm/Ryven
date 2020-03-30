@@ -15,11 +15,18 @@ class GetVar_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.var_name = ''
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
-    def updating(self, token, input_called=-1):
-        self.outputs[0].set_val(self.flow.parent_script.get_var(self.input(0)).val)
+    def update_event(self, input_called=-1):
+        vars_handler = self.flow.parent_script.variables_handler
+        var = vars_handler.get_var(self.input(0))
+        if var is not None:
+            self.set_output_val(0, var.val)
+        else:
+            self.set_output_val(0, None)
+
+    def get_current_var_name(self):
+        return self.input(0)
 
     def removed(self):
         pass
@@ -28,5 +35,4 @@ class GetVar_NodeInstance(NodeInstance):
         return {}
 
     def set_data(self, data):
-        # self.var_name = data['variable name']
         pass

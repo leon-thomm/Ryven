@@ -16,13 +16,13 @@ class SetVar_NodeInstance(NodeInstance):
         self.special_actions['execute'] = {'method': self.action_execute}
         self.var_name = ''
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             self.var_name = self.input(1)
-            if self.flow.parent_script.set_var(self.input(1), self.input(2)):
+            vars_handler = self.flow.parent_script.variables_handler
+            if vars_handler.set_var(self.input(1), self.input(2)):
                 self.outputs[1].set_val(self.input(2))
             self.exec_output(0)
 
@@ -33,9 +33,7 @@ class SetVar_NodeInstance(NodeInstance):
         pass
 
     def get_data(self):
-        # data = {'variable name:', self.var_name}
         return {}
 
     def set_data(self, data):
-        # self.var_name = data['variable name']
         pass

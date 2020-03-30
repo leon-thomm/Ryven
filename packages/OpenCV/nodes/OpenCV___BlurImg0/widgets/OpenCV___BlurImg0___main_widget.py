@@ -25,10 +25,7 @@ class BlurImg_NodeInstance_MainWidget(QLabel):
         qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
         img_w = qt_image.width()
         img_h = qt_image.height()
-        print('img w:', img_w)
-        print('img h:', img_h)
         proportion = img_w / img_h
-        print('proportion:', proportion)
         self.resize(self.width() * proportion, self.height())
         qt_image = qt_image.scaled(self.width(), self.height())
         self.setPixmap(QPixmap(qt_image))

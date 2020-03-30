@@ -29,11 +29,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.log = self.new_log('Log Node Log')
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             self.log.log(self.input(1))
             self.exec_output(0)
@@ -49,4 +48,4 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
     # optional - important for threading - stop everything here
     def removing(self):
-        self.log.removing()
+        pass

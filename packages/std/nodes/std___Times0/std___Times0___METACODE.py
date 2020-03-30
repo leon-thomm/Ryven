@@ -21,11 +21,10 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.special_actions['add input'] = {'method': self.action_add_input}
         self.num_inputs = 2
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         sum_val = self.input(0)
         for i in range(1, len(self.inputs)):
             sum_val *= self.input(i)

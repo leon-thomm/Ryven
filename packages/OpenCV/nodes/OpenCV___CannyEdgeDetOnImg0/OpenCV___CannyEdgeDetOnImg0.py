@@ -18,11 +18,10 @@ class CannyEdgeDetOnImg_NodeInstance(NodeInstance):
         self.img_normal = None
         self.img_canny = None
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         self.img_normal = self.input(0)
         canny_min_val = self.input(1)
         canny_max_val = self.input(2)

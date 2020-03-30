@@ -18,16 +18,13 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             while(self.input(1)):
-                self.handle_token()
                 self.exec_output(0)
-            self.handle_token(token)
 
     def get_data(self):
         data = {}

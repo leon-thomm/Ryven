@@ -70,4 +70,4 @@ class ChooseFileInputWidget_PortInstanceWidget(QWidget):
 
     # remove logs and stop threads and timers here
     def removing(self):
-        pass # ...
+        pass

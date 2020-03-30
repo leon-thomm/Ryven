@@ -29,11 +29,10 @@ class ShowPoints_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.points = []
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called == 0:
             self.points = self.input(1)
             self.main_widget.show_points(self.points)

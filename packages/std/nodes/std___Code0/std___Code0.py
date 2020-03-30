@@ -32,8 +32,7 @@ class Code_NodeInstance(NodeInstance):
         self.num_scripts = 1
         self.num_data_inputs = 0
 
-        if configuration:
-            self.set_data(configuration['state data'])
+        self.initialized()
 
 
     def action_add_exec_input(self):
@@ -66,7 +65,7 @@ class Code_NodeInstance(NodeInstance):
             del self.special_actions['remove data input']
         self.update_shape()
 
-    def updating(self, token, input_called=-1):
+    def update_event(self, input_called=-1):
         if input_called > -1 < self.num_scripts:
             try:
                 exec(self.main_widget.get_code(input_called))
