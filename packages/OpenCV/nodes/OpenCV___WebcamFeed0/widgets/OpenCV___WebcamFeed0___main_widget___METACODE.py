@@ -41,7 +41,7 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
     def display_video_stream(self):
         _, frame = self.capture.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        frame = cv2.flip(frame, 1)
+        # frame = cv2.flip(frame, 1)
         image = QImage(frame, frame.shape[1], frame.shape[0],
                        frame.strides[0], QImage.Format_RGB888)
         scaled_image = image.scaled(self.video_size)

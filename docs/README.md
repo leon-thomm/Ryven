@@ -537,7 +537,7 @@ Drawing points:
 
 And that's it!
 
-Now we can import that new package into pyFlow and start using the node!
+Now we can import that new package into pyScript and start using the node!
 
 ![](/resources/images/pyScript13.PNG)
 
