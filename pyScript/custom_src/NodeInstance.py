@@ -239,9 +239,9 @@ class NodeInstance(QGraphicsItem):
         painter.setRenderHint(QPainter.Antialiasing)
         brush = QBrush(QColor(100, 100, 100, 150))  # QBrush(QColor('#3B9CD9'))
         painter.setBrush(brush)
-        pen = QPen(QColor(30, 43, 48))  # QColor(30, 43, 48)
-        pen.setWidthF(1.5)
-        painter.setPen(pen)
+        std_pen = QPen(QColor(30, 43, 48))  # QColor(30, 43, 48)  # used for header title and minimal std dark border
+        std_pen.setWidthF(1.5)
+        # painter.setPen(std_pen)
 
 
         if self.parent_node.design_style == 'extended':
@@ -288,7 +288,7 @@ class NodeInstance(QGraphicsItem):
 
 
             painter.setFont(self.display_name_font)
-            painter.setPen(pen)
+            painter.setPen(std_pen)
 
             painter.drawText(self.get_title_rect(), Qt.AlignVCenter | Qt.AlignLeft, self.parent_node.title)
             painter.setBrush(Qt.NoBrush)
@@ -311,6 +311,17 @@ class NodeInstance(QGraphicsItem):
                              -self.width / 2, +self.height / 2,
                              -self.width / 2, 0)
                 path.closeSubpath()
+
+                c = self.parent_node.color
+                body_gradient = QLinearGradient(self.boundingRect().bottomLeft(),
+                                                self.boundingRect().topRight())
+                                                # 2*self.flow.pythagoras(self.height, self.width))
+                body_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 150))
+                body_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 80))
+
+                painter.setBrush(body_gradient)
+                painter.setPen(std_pen)
+
             elif GlobalStorage.storage['design style'] == 'dark tron':
                 corner_size=10
                 path.lineTo(-self.width/2+corner_size/2, -self.height/2+corner_size/2)
