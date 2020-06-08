@@ -13,10 +13,14 @@ from custom_src.FlowProxyWidget import FlowProxyWidget
 class NodeInstance(QGraphicsItem):
     def __init__(self, parent_node: Node, flow, config=None):
         super(NodeInstance, self).__init__()
-        self.parent_node = parent_node
-        self.flow = flow
+
+        self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
+                      QGraphicsItem.ItemSendsScenePositionChanges)
+        self.setAcceptHoverEvents(True)
 
         # general attributes
+        self.parent_node = parent_node
+        self.flow = flow
         self.inputs = []
         self.outputs = []
         self.main_widget = None
@@ -246,104 +250,73 @@ class NodeInstance(QGraphicsItem):
 
         if self.parent_node.design_style == 'extended':
 
+            header_pen = std_pen  # differs from std_pen in tron design
+
             if GlobalStorage.storage['design style'] == 'dark std':
-                c = self.parent_node.color
-
-                # main rect
-                body_gradient = QRadialGradient(self.boundingRect().topLeft(), self.flow.pythagoras(self.height, self.width))
-                body_gradient.setColorAt(0, QColor(c.red()/10+100, c.green()/10+100, c.blue()/10+100, 200))
-                body_gradient.setColorAt(1, QColor(c.red()/10+100, c.green()/10+100, c.blue()/10+100, 0))
-
-                painter.setBrush(body_gradient)
-                painter.setPen(Qt.NoPen)
-                painter.drawRoundedRect(self.boundingRect(), 12, 12)
-
-                header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
-                header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
-                header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
-                painter.setBrush(header_gradient)
-                painter.setPen(Qt.NoPen)
-                painter.drawRoundedRect(self.get_header_rect(), 12, 12)
+                self.draw_dark_extended_background(painter)
 
             elif GlobalStorage.storage['design style'] == 'dark tron':
-                # main rect
-                c = QColor('#212224')
-                painter.setBrush(c)
-                pen = QPen(self.parent_node.color)
-                pen.setWidth(2)
-                painter.setPen(pen)
-                body_path = self.get_extended_body_path_TRON_DESIGN(10)
-                painter.drawPath(body_path)
-                # painter.drawRoundedRect(self.boundingRect(), 12, 12)
+                self.draw_tron_extended_background(painter)
+                header_pen = QPen(self.parent_node.color)
+                header_pen.setWidth(2)
 
-                c = self.parent_node.color
-                header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
-                header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
-                header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
-                header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
-                painter.setBrush(header_gradient)
-                header_path = self.get_extended_header_path_TRON_DESIGN(10)
-                painter.drawPath(header_path)
-
-
-
+            # HEADER
             painter.setFont(self.display_name_font)
-            painter.setPen(std_pen)
-
+            painter.setPen(header_pen)
             painter.drawText(self.get_title_rect(), Qt.AlignVCenter | Qt.AlignLeft, self.parent_node.title)
             painter.setBrush(Qt.NoBrush)
             painter.setPen(QPen(Qt.white, 1))
-            # painter.drawRect(self.get_header_rect())
+
         elif self.parent_node.design_style == 'minimalistic':
-            path = QPainterPath()
-            path.moveTo(-self.width / 2, 0)
+
             if GlobalStorage.storage['design style'] == 'dark std':
-                path.cubicTo(-self.width / 2, -self.height / 2,
-                             -self.width / 2, -self.height / 2,
-                             0, -self.height / 2)
-                path.cubicTo(+self.width / 2, -self.height / 2,
-                             +self.width / 2, -self.height / 2,
-                             +self.width / 2, 0)
-                path.cubicTo(+self.width / 2, +self.height / 2,
-                             +self.width / 2, +self.height / 2,
-                             0, +self.height / 2)
-                path.cubicTo(-self.width / 2, +self.height / 2,
-                             -self.width / 2, +self.height / 2,
-                             -self.width / 2, 0)
-                path.closeSubpath()
-
-                c = self.parent_node.color
-                body_gradient = QLinearGradient(self.boundingRect().bottomLeft(),
-                                                self.boundingRect().topRight())
-                                                # 2*self.flow.pythagoras(self.height, self.width))
-                body_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 150))
-                body_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 80))
-
-                painter.setBrush(body_gradient)
-                painter.setPen(std_pen)
+                self.draw_dark_minimalistic(painter, std_pen)
 
             elif GlobalStorage.storage['design style'] == 'dark tron':
-                corner_size=10
-                path.lineTo(-self.width/2+corner_size/2, -self.height/2+corner_size/2)
-                path.lineTo(0, -self.height/2)
-                path.lineTo(+self.width/2-corner_size/2, -self.height/2+corner_size/2)
-                path.lineTo(+self.width/2, 0)
-                path.lineTo(+self.width/2-corner_size/2, +self.height/2-corner_size/2)
-                path.lineTo(0, +self.height/2)
-                path.lineTo(-self.width/2+corner_size/2, +self.height/2-corner_size/2)
-                path.closeSubpath()
+                self.draw_tron_minimalistic(painter)
 
-                c = QColor('#36383B')
-                painter.setBrush(c)
-                pen = QPen(self.parent_node.color)
-                pen.setWidth(2)
-                painter.setPen(pen)
-
-            painter.drawPath(path)
-
+            # HEADER
             painter.setFont(self.display_name_font)
             painter.drawText(self.boundingRect(), Qt.AlignCenter, self.parent_node.title)
 
+    def draw_dark_extended_background(self, painter):
+        c = self.parent_node.color
+
+        # main rect
+        body_gradient = QRadialGradient(self.boundingRect().topLeft(), self.flow.pythagoras(self.height, self.width))
+        body_gradient.setColorAt(0, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 200))
+        body_gradient.setColorAt(1, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 0))
+
+        painter.setBrush(body_gradient)
+        painter.setPen(Qt.NoPen)
+        painter.drawRoundedRect(self.boundingRect(), 12, 12)
+
+        header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
+        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
+        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
+        painter.setBrush(header_gradient)
+        painter.setPen(Qt.NoPen)
+        painter.drawRoundedRect(self.get_header_rect(), 12, 12)
+
+    def draw_tron_extended_background(self, painter):
+        # main rect
+        c = QColor('#212224')
+        painter.setBrush(c)
+        pen = QPen(self.parent_node.color)
+        pen.setWidth(2)
+        painter.setPen(pen)
+        body_path = self.get_extended_body_path_TRON_DESIGN(10)
+        painter.drawPath(body_path)
+        # painter.drawRoundedRect(self.boundingRect(), 12, 12)
+
+        c = self.parent_node.color
+        header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
+        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
+        header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
+        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
+        painter.setBrush(header_gradient)
+        header_path = self.get_extended_header_path_TRON_DESIGN(10)
+        painter.drawPath(header_path)
 
     def get_extended_body_path_TRON_DESIGN(self, corner_size):
         path = QPainterPath()
@@ -373,6 +346,57 @@ class NodeInstance(QGraphicsItem):
         path.closeSubpath()
         return path
 
+    def draw_dark_minimalistic(self, painter, pen):
+        path = QPainterPath()
+        path.moveTo(-self.width / 2, 0)
+
+        path.cubicTo(-self.width / 2, -self.height / 2,
+                     -self.width / 2, -self.height / 2,
+                     0, -self.height / 2)
+        path.cubicTo(+self.width / 2, -self.height / 2,
+                     +self.width / 2, -self.height / 2,
+                     +self.width / 2, 0)
+        path.cubicTo(+self.width / 2, +self.height / 2,
+                     +self.width / 2, +self.height / 2,
+                     0, +self.height / 2)
+        path.cubicTo(-self.width / 2, +self.height / 2,
+                     -self.width / 2, +self.height / 2,
+                     -self.width / 2, 0)
+        path.closeSubpath()
+
+        c = self.parent_node.color
+        body_gradient = QLinearGradient(self.boundingRect().bottomLeft(),
+                                        self.boundingRect().topRight())
+        # 2*self.flow.pythagoras(self.height, self.width))
+        body_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 150))
+        body_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 80))
+
+        painter.setBrush(body_gradient)
+        painter.setPen(pen)
+
+        painter.drawPath(path)
+
+    def draw_tron_minimalistic(self, painter):
+        path = QPainterPath()
+        path.moveTo(-self.width / 2, 0)
+
+        corner_size = 10
+        path.lineTo(-self.width / 2 + corner_size / 2, -self.height / 2 + corner_size / 2)
+        path.lineTo(0, -self.height / 2)
+        path.lineTo(+self.width / 2 - corner_size / 2, -self.height / 2 + corner_size / 2)
+        path.lineTo(+self.width / 2, 0)
+        path.lineTo(+self.width / 2 - corner_size / 2, +self.height / 2 - corner_size / 2)
+        path.lineTo(0, +self.height / 2)
+        path.lineTo(-self.width / 2 + corner_size / 2, +self.height / 2 - corner_size / 2)
+        path.closeSubpath()
+
+        c = QColor('#36383B')
+        painter.setBrush(c)
+        pen = QPen(self.parent_node.color)
+        pen.setWidth(2)
+        painter.setPen(pen)
+
+        painter.drawPath(path)
 
     def get_header_rect(self):
         header_height = 35 * (self.parent_node.title.count('\n')+1)
@@ -415,6 +439,16 @@ class NodeInstance(QGraphicsItem):
                 menu.addMenu(a)
 
         return menu
+
+
+    def itemChange(self, change, value):
+        """This method ensures that all connections, selection borders etc. that get drawn in the Flow are constantly
+        redrawn during a NI drag. Should get disabled when running in performance mode - not implemented yet."""
+
+        if change == QGraphicsItem.ItemPositionChange:
+            self.flow.viewport().update()
+
+        return QGraphicsItem.itemChange(self, change, value)
 
     # --------------------------------------------------------------------------------------
 

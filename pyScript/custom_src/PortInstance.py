@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox
+from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle
 from PySide2.QtCore import Qt, QRectF, QPointF
 from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont
 
@@ -197,6 +197,10 @@ class PortInstance:
 class PortInstanceGate(QGraphicsItem):
     def __init__(self, parent_port_instance, parent_node_instance):
         super(PortInstanceGate, self).__init__(parent_node_instance)
+
+        self.setAcceptHoverEvents(True)
+        self.setCursor(Qt.CrossCursor)
+
         self.parent_port_instance = parent_port_instance
         self.parent_node_instance = parent_node_instance
         self.width = 15
@@ -208,10 +212,14 @@ class PortInstanceGate(QGraphicsItem):
 
     def paint(self, painter, option, widget=None):
         if GlobalStorage.storage['design style'] == 'dark std':
-            color = '#2E688C' if self.parent_port_instance.type_ == 'data' else '#3880ad'
+            color = QColor('#2E688C') if self.parent_port_instance.type_ == 'data' else QColor('#3880ad')
+            if option.state & QStyle.State_MouseOver:
+                color = color.lighter()
+
             brush = QBrush(QColor(color))
             painter.setBrush(brush)
             painter.setPen(Qt.NoPen)
+
         elif GlobalStorage.storage['design style'] == 'dark tron':
             color = ''
             if self.parent_port_instance.type_ == 'exec':
@@ -221,7 +229,8 @@ class PortInstanceGate(QGraphicsItem):
             pen = QPen(color)
             pen.setWidth(2)
             painter.setPen(pen)
-            if len(self.parent_port_instance.connected_port_instances) > 0:
+            if len(self.parent_port_instance.connected_port_instances) > 0 or \
+                    option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
                 c = self.parent_node_instance.parent_node.color
                 r = c.red()
                 g = c.green()
@@ -231,6 +240,9 @@ class PortInstanceGate(QGraphicsItem):
             else:
                 painter.setBrush(Qt.NoBrush)
         painter.drawEllipse(QPointF(0, 0), self.width / 2, self.height / 2)
+
+    def mousePressEvent(self, event):
+        event.accept()
 
 
 class PortInstanceLabel(QGraphicsItem):
