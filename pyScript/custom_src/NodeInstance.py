@@ -1,4 +1,5 @@
-from PySide2.QtWidgets import QGraphicsItem, QGraphicsProxyWidget, QGraphicsScene, QLineEdit, QMenu, QAction, QToolTip
+from PySide2.QtWidgets import QGraphicsItem, QGraphicsProxyWidget, QGraphicsScene, QLineEdit, QMenu, QAction, QToolTip, \
+    QStyle
 from PySide2.QtCore import Qt, QRectF, QPointF, Signal
 from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
     QPainter, QPixmap, QImage
@@ -297,9 +298,18 @@ class NodeInstance(QGraphicsItem):
             if GlobalStorage.storage['design style'] == 'dark std':
                 self.draw_dark_extended_background(painter)
 
+                if option.state & QStyle.State_MouseOver:  # make title color white when mouse hovers
+                    c = self.parent_node.color.lighter()
+                    header_pen = QPen(c)
+                    header_pen.setWidth(2)
+
             elif GlobalStorage.storage['design style'] == 'dark tron':
                 self.draw_tron_extended_background(painter)
-                header_pen = QPen(self.parent_node.color)
+
+                c = self.parent_node.color
+                if option.state & QStyle.State_MouseOver:  # make title color lighter when mouse hovers
+                    c = self.parent_node.color.lighter()
+                header_pen = QPen(c)
                 header_pen.setWidth(2)
 
             # HEADER
@@ -313,9 +323,15 @@ class NodeInstance(QGraphicsItem):
 
             if GlobalStorage.storage['design style'] == 'dark std':
                 self.draw_dark_minimalistic(painter, std_pen)
+                if option.state & QStyle.State_MouseOver:  # make title color light when mouse hovers
+                    pen = QPen(self.parent_node.color.lighter())
+                    painter.setPen(pen)
 
             elif GlobalStorage.storage['design style'] == 'dark tron':
-                self.draw_tron_minimalistic(painter)
+                if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
+                    self.draw_tron_minimalistic(painter, background_color=self.parent_node.color.darker())
+                else:
+                    self.draw_tron_minimalistic(painter)
 
             # HEADER
             painter.setFont(self.display_name_font)
@@ -417,7 +433,7 @@ class NodeInstance(QGraphicsItem):
 
         painter.drawPath(path)
 
-    def draw_tron_minimalistic(self, painter):
+    def draw_tron_minimalistic(self, painter, background_color=QColor('#36383B')):
         path = QPainterPath()
         path.moveTo(-self.width / 2, 0)
 
@@ -431,8 +447,7 @@ class NodeInstance(QGraphicsItem):
         path.lineTo(-self.width / 2 + corner_size / 2, +self.height / 2 - corner_size / 2)
         path.closeSubpath()
 
-        c = QColor('#36383B')
-        painter.setBrush(c)
+        painter.setBrush(background_color)
         pen = QPen(self.parent_node.color)
         pen.setWidth(2)
         painter.setPen(pen)
