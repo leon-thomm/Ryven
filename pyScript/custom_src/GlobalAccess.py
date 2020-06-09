@@ -13,15 +13,6 @@ class GlobalStorage:
         if GlobalStorage.storage['debugging']:
             print('        --> DEBUG:', s)
 
-    # yyep, that's it....
-    # you must be kidding...
-    # you MUST be
-    # it's actually true....
-    # that's ridiculous.
-    # indeed.
-
-
-
 def pythagoras(a, b):
     return math.sqrt(a ** 2 + b ** 2)
 
