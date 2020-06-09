@@ -2,18 +2,26 @@ from PySide2.QtWidgets import QGraphicsItem
 from PySide2.QtGui import QPen, QPainter
 from PySide2.QtCore import Qt, QRectF, QPointF, QLineF
 
-from custom_src.GlobalAccess import GlobalStorage
+from custom_src.GlobalAccess import GlobalStorage, MovementEnum
 
 
 class DrawingObject(QGraphicsItem):
-    def __init__(self, config=None):
+    def __init__(self, flow, config=None):
         super(DrawingObject, self).__init__()
 
+        self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
+                      QGraphicsItem.ItemSendsScenePositionChanges)
+        self.setAcceptHoverEvents(True)
+
+        self.flow = flow
         self.points = []
         self.stroke_weights = []
         self.rect = None
         self.width = -1
         self.height = -1
+
+        self.movement_state = None  # ugly - should get replaced later, see NodeInstance, same issue
+        self.movement_pos_from = None
 
         if config:
             for p in config:  # config = 'points' array
@@ -86,6 +94,26 @@ class DrawingObject(QGraphicsItem):
         else:
             return self.get_points_rect()
 
+    def itemChange(self, change, value):
+        if change == QGraphicsItem.ItemPositionChange:
+            self.flow.viewport().update()
+            if self.movement_state == MovementEnum.mouse_clicked:
+                self.movement_state = MovementEnum.position_changed
+
+        return QGraphicsItem.itemChange(self, change, value)
+
+    def mousePressEvent(self, event):
+        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a moving action."""
+        self.movement_state = MovementEnum.mouse_clicked
+        self.movement_pos_from = self.pos()
+        return QGraphicsItem.mousePressEvent(self, event)
+
+    def mouseReleaseEvent(self, event):
+        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a moving action."""
+        if self.movement_state == MovementEnum.position_changed:
+            self.flow.selected_components_moved(self.pos()-self.movement_pos_from)
+        self.movement_state = None
+        return QGraphicsItem.mouseReleaseEvent(self, event)
 
     def get_json_data(self):
         paint_obj_data = {}

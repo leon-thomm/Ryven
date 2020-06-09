@@ -60,7 +60,6 @@ class Flow(QGraphicsView):
         self.all_node_instances: [NodeInstance] = []
         self.all_node_instance_classes = main_window.all_node_instance_classes  # ref
         self.all_nodes = main_window.all_nodes  # ref
-        self.dragging_node_instance_or_drawing = False
         self.gate_selected: PortInstanceGate = None
         self.dragging_connection = False
         self.ignore_mouse_event = False  # for stylus - see tablet event
@@ -113,7 +112,6 @@ class Flow(QGraphicsView):
         self.current_drawing = None
         self.drawing = None
         self.drawings = []
-        self.selected_drawings = []
         self.stylus_modes_proxy = FlowProxyWidget(self)
         self.stylus_modes_proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
         self.stylus_modes_widget = FlowStylusModesWidget(self)
@@ -420,7 +418,7 @@ class Flow(QGraphicsView):
             painter.drawRoundedRect(x, y, w, h, 10, 10)
 
         # DRAW SELECTED DRAWINGS BORDER
-        for p_o in self.selected_drawings:
+        for p_o in self.selected_drawings():
             pen = QPen(QColor('#a3cc3b'))
             pen.setWidth(2)
             painter.setPen(pen)
@@ -665,7 +663,7 @@ class Flow(QGraphicsView):
 
     # DRAWINGS
     def create_drawing(self, config=None):
-        new_drawing = DrawingObject(config)
+        new_drawing = DrawingObject(self, config)
         return new_drawing
 
     def add_drawing(self, drawing_obj, pos=None):
@@ -677,8 +675,6 @@ class Flow(QGraphicsView):
     def remove_drawing(self, drawing):
         self.scene().removeItem(drawing)
         self.drawings.remove(drawing)
-        if self.selected_drawings.__contains__(drawing):
-            self.selected_drawings.remove(drawing)
 
     def place_drawings_from_config(self, drawings, offset_pos=QPoint(0, 0)):
         new_drawings = []
@@ -695,17 +691,6 @@ class Flow(QGraphicsView):
         place_command = PlaceDrawingObject_Command(self, pos, new_drawing_obj)
         self.undo_stack.push(place_command)
         return new_drawing_obj
-
-    def get_selected_components(self):
-        return self.selected_node_instances() + self.selected_drawings
-
-    def get_all_components(self):
-        return self.all_node_instances + self.drawings
-
-    def get_abs_indices_of_components(self, components):
-        all_components = self.get_all_components()
-        selected_components_indices = [all_components.index(e) for e in components]
-        return selected_components_indices
 
     def move_selected_copmonents__cmd(self, x, y):
         new_rel_pos = QPointF(x, y)
@@ -758,6 +743,13 @@ class Flow(QGraphicsView):
                 selected_NIs.append(i)
         return selected_NIs
 
+    def selected_drawings(self):
+        selected_drawings = []
+        for i in self.scene().selectedItems():
+            if find_type_in_object(i, DrawingObject):
+                selected_drawings.append(i)
+        return selected_drawings
+
     def select_all(self):
         for i in self.scene().items():
             if i.ItemIsSelectable:
@@ -767,13 +759,13 @@ class Flow(QGraphicsView):
     def copy(self):  # ctrl+c
         data = {'nodes': self.get_node_instances_json_data(self.selected_node_instances()),
                 'connections': self.get_connections_json_data(self.selected_node_instances()),
-                'drawings': self.get_drawings_json_data(self.selected_drawings)}
+                'drawings': self.get_drawings_json_data(self.selected_drawings())}
         QGuiApplication.clipboard().setText(json.dumps(data))
 
     def cut(self):  # called from shortcut ctrl+x
         data = {'nodes': self.get_node_instances_json_data(self.selected_node_instances()),
                 'connections': self.get_connections_json_data(self.selected_node_instances()),
-                'drawings': self.get_drawings_json_data(self.selected_drawings)}
+                'drawings': self.get_drawings_json_data(self.selected_drawings())}
         QGuiApplication.clipboard().setText(json.dumps(data))
         self.remove_selected_components()
 

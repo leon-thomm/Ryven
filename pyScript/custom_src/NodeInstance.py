@@ -1,23 +1,13 @@
-from PySide2.QtWidgets import QGraphicsItem, QGraphicsProxyWidget, QGraphicsScene, QLineEdit, QMenu, QAction, QToolTip, \
-    QStyle
+from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle
 from PySide2.QtCore import Qt, QRectF, QPointF, Signal
 from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
-    QPainter, QPixmap, QImage
-import os, enum
+    QPainter
 
-from custom_src.GlobalAccess import GlobalStorage, pythagoras
+from custom_src.GlobalAccess import GlobalStorage, pythagoras, MovementEnum
 
-from custom_src.Node import Node, NodePort
-from custom_src.PortInstance import PortInstance, StdLineEdit_PortInstanceWidget
+from custom_src.Node import Node
+from custom_src.PortInstance import PortInstance
 from custom_src.FlowProxyWidget import FlowProxyWidget
-
-
-class MovementEnum(enum.Enum):
-    """bug test: click on NI, drag, then use shortcut movement and release. Should result in a double undo stack push
-    this should get removed later, it's an ugly implementation"""
-    mouse_clicked = 1
-    position_changed = 2
-    mouse_released = 3
 
 
 def get_longest_line(s: str):
