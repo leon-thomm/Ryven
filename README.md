@@ -2,7 +2,7 @@
 
 Please visit the GitHub page: https://leon-thomm.github.io/pyScript/
 
-If you want to download the software, you can find a new release in the release section.
+If you want to download the software, please clone the latest release.
 
 # Before you download
 
