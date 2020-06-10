@@ -59,30 +59,21 @@ class DrawingObject(QGraphicsItem):
         self.rect = self.get_points_rect()
 
     def get_points_rect(self):
-        rect = QRectF()
-        left = 1
-        right = -1
-        up = 1
-        down = -1
-        for p in self.points:
-            if p.x() < left:
-                left = p.x()
-            if p.x() > right:
-                right = p.x()
-            if p.y() < up:
-                up = p.y()
-            if p.y() > down:
-                down = p.y()
-        rect.setLeft(left)
-        rect.setRight(right)
-        rect.setTop(up)
-        rect.setBottom(down)
+        x_coords = [p.x() for p in self.points]
+        y_coords = [p.y() for p in self.points]
+        left = min(x_coords)
+        right = max(x_coords)
+        up = min(y_coords)
+        down = max(y_coords)
+
+        rect = QRectF(left=left,
+                      top=up,
+                      width=right - left,
+                      height=down - up)
+
         self.width = rect.width()
         self.height = rect.height()
-        # rect.setLeft(-self.width/2)
-        # rect.setRight(self.width/2)
-        # rect.setTop(-self.height/2)
-        # rect.setBottom(self.height/2)
+
         return rect
 
     def get_points_rect_center(self):
@@ -103,13 +94,13 @@ class DrawingObject(QGraphicsItem):
         return QGraphicsItem.itemChange(self, change, value)
 
     def mousePressEvent(self, event):
-        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a moving action."""
+        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a move action."""
         self.movement_state = MovementEnum.mouse_clicked
         self.movement_pos_from = self.pos()
         return QGraphicsItem.mousePressEvent(self, event)
 
     def mouseReleaseEvent(self, event):
-        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a moving action."""
+        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a move action."""
         if self.movement_state == MovementEnum.position_changed:
             self.flow.selected_components_moved(self.pos()-self.movement_pos_from)
         self.movement_state = None
