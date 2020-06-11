@@ -1,29 +1,35 @@
-from PySide2.QtWidgets import QGraphicsItem, QGraphicsProxyWidget, QGraphicsScene, QLineEdit, QMenu, QAction, QToolTip
+from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle
 from PySide2.QtCore import Qt, QRectF, QPointF, Signal
-from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, QPainter, QPixmap, QImage
-import os
+from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
+    QPainter
 
-from custom_src.GlobalAccess import GlobalStorage
+from custom_src.GlobalAccess import GlobalStorage, pythagoras, MovementEnum, get_longest_line
 
-from custom_src.Node import Node, NodePort
-from custom_src.PortInstance import PortInstance, StdLineEdit_PortInstanceWidget
+from custom_src.Node import Node
+from custom_src.PortInstance import PortInstance
 from custom_src.FlowProxyWidget import FlowProxyWidget
 
 
 class NodeInstance(QGraphicsItem):
     def __init__(self, parent_node: Node, flow, config=None):
         super(NodeInstance, self).__init__()
+
+        self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
+                      QGraphicsItem.ItemSendsScenePositionChanges)
+        self.setAcceptHoverEvents(True)
+
+        # GENERAL ATTRIBUTES
         self.parent_node = parent_node
         self.flow = flow
-
-        # general attributes
+        self.movement_state = None
+        self.movement_pos_from = None
         self.inputs = []
         self.outputs = []
         self.main_widget = None
         self.main_widget_proxy: FlowProxyWidget = None
         self.default_actions = {'remove': {'method': self.action_remove,
                                            'data': 123},
-                                'compute shape': {'method': self.compute_content_positions}}  # holds information for context menus
+                                'compute shape': {'method': self.compute_content_positions}}  # for context menus
         self.gen_data_on_request = False
         self.personal_logs = []
         self.special_actions = {}  # only gets written in custom NodeInstance-subclasses - dynamic
@@ -34,7 +40,7 @@ class NodeInstance(QGraphicsItem):
         self.display_name_FM = QFontMetricsF(self.display_name_font)
         # self.port_label_font = QFont("Source Code Pro", 10, QFont.Bold, True)
 
-        # gets set to false a few lines below. needed for setup ports (to prevent shape updating stuff)
+        # 'initializing' will be set to False below. It's needed for the ports setup, to prevent shape updating stuff
         self.initializing = True
 
         self.temp_state_data = None
@@ -61,17 +67,10 @@ class NodeInstance(QGraphicsItem):
 
         # TOOLTIP
         self.setToolTip(self.parent_node.description)
+        self.setCursor(Qt.SizeAllCursor)
 
         self.initializing = False
 
-
-    #
-    #
-    #
-    #
-    #
-    # --------------------------------------------------------------------------------------
-    # --------------------------------------------------------------------------------------
     #                        __                             _    __     __
     #              ____ _   / /  ____ _   ____     _____   (_)  / /_   / /_     ____ ___
     #             / __ `/  / /  / __ `/  / __ \   / ___/  / /  / __/  / __ \   / __ `__ \
@@ -87,9 +86,13 @@ class NodeInstance(QGraphicsItem):
             GlobalStorage.debug('EXCEPTION IN', self.parent_node.title, 'NI:', e)
 
     def update_event(self, input_called=-1):     # API  (gets overwritten)
+        """Gets called when an input received a signal. This is where the magic begins in subclasses."""
+
         pass
 
     def data_outputs_updated(self):
+        """Sends update signals to all data outputs causing connected NIs to update."""
+
         GlobalStorage.debug('updating data outputs in', self.parent_node.title)
         for o in self.outputs:
             if o.type_ == 'data':
@@ -97,33 +100,36 @@ class NodeInstance(QGraphicsItem):
         GlobalStorage.debug('data outputs in', self.parent_node.title, 'updated')
 
     def input(self, index):     # API
+        """Returns the value of a data input.
+        If the input is connected, the value of the connected output is used:
+        If not, the value of the widget is used."""
+
         GlobalStorage.debug('input called in', self.parent_node.title,'NI:', index)
         return self.inputs[index].get_val()
 
     def set_output_val(self, index, val):       # API
+        """Sets the value of a data output.
+        self.data_outputs_updated() has to be called manually after all values are set."""
+
         self.outputs[index].set_val(val)
 
     def exec_output(self, index):       # API
+        """Executes an execution output, sending a signal to all connected execution inputs causing the connected
+        NIs to update."""
         self.outputs[index].exec()
 
-    # gets called from the flow after the content was removed from the scene; -> to stop threads etc.
-    def about_to_remove_from_flow(self):
+    def about_to_remove_from_scene(self):
+        """Called from Flow when the NI gets removed from the scene to stop all running threads."""
         if self.main_widget:
             self.main_widget.removing()
         self.removing()
+
         self.disable_personal_logs()
 
     def removing(self):     # API  (gets overwritten)
+        """Method to stop all threads in hold of the NI itself."""
         pass
 
-    # --------------------------------------------------------------------------------------
-    # --------------------------------------------------------------------------------------
-    #
-    #
-    #
-    #
-    # --------------------------------------------------------------------------------------
-    # --------------------------------------------------------------------------------------
     #                                 _
     #              ____ _   ____     (_)
     #             / __ `/  / __ \   / /
@@ -131,31 +137,43 @@ class NodeInstance(QGraphicsItem):
     #            \__,_/  / .___/  /_/
     #                   /_/
     #
-    # not everything but the most stuff. In 'algorithm' section are methods that are part of the API too
+    # There are methods in the 'algorithm' section that are part of the API too
 
     #   LOGGING
-    def new_log(self, title):  # just a handy convenience function for subclasses
+    def new_log(self, title):
+        """Requesting a new personal Log. Handy method for subclasses."""
         new_log = self.flow.parent_script.logger.new_log(self, title)
         self.personal_logs.append(new_log)
         return new_log
 
     def disable_personal_logs(self):
+        """Disables personal Logs. They remain visible unless the user closes them via the appearing button."""
         for log in self.personal_logs:
-            log.remove()
+            log.disable()
+
+    def enable_personal_logs(self):
+        """Resets personal Logs to normal state (hiding close button, changing style sheet)."""
+        for log in self.personal_logs:
+            log.enable()
 
     def log_message(self, message: str, target='global'):
+        """Access to global Script Logs ('global' or 'error')."""
         self.flow.parent_script.logger.log_message(self, message, target)
 
     # SHAPE
-    def update_shape(self):  # just a handy name for custom subclasses
+    def update_shape(self):
+        """Just a handy method for subclasses. Causes recompilation of the whole shape."""
         self.compute_content_positions()
         self.flow.viewport().update()
 
     # PORTS
     def create_new_input(self, type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1):
-        # GlobalStorage.debug('creating new input ---- type:', widget_type, 'label:', label, 'widget pos:', widget_pos)
+        """Creates and adds a new input. Handy for subclasses."""
         GlobalStorage.debug('create_new_input called with widget pos:', widget_pos)
-        pi = PortInstance(self, 'input', type_, label, widget_type=widget_type, widget_name=widget_name, widget_pos=widget_pos)
+        pi = PortInstance(self, 'input', type_, label,
+                          widget_type=widget_type,
+                          widget_name=widget_name,
+                          widget_pos=widget_pos)
         if pos == -1:
             self.inputs.append(pi)
         else:
@@ -170,10 +188,12 @@ class NodeInstance(QGraphicsItem):
             self.update_shape()
 
     def create_new_input_from_config(self, input_config):
+        """Called only at NI creation."""
         pi = PortInstance(self, 'input', configuration=input_config)
         self.inputs.append(pi)
 
-    def delete_input(self, i):  # just a handy name for custom subclasses
+    def delete_input(self, i):
+        """Disconnects and removes input. Handy for subclasses."""
         if type(i) == int:
             self.del_and_remove_input_from_scene(i)
         elif type(i) == PortInstance:
@@ -184,7 +204,7 @@ class NodeInstance(QGraphicsItem):
 
 
     def create_new_output(self, type_, label, pos=-1):
-        # GlobalStorage.debug('creating new output in', self.parent_node.title)
+        """Creates and adds a new output. Handy for subclasses."""
         pi = PortInstance(self, 'output', type_, label)
         if pos == -1:
             self.outputs.append(pi)
@@ -200,10 +220,12 @@ class NodeInstance(QGraphicsItem):
             self.update_shape()
 
     def create_new_output_from_config(self, output_config=None):
+        """Called only at NI creation."""
         pi = PortInstance(self, 'output', configuration=output_config)
         self.outputs.append(pi)
 
-    def delete_output(self, o):  # just a handy name for custom subclasses
+    def delete_output(self, o):
+        """Disconnects and removes output. Handy for subclasses."""
         if type(o) == int:
             self.del_and_remove_output_from_scene(o)
         else:
@@ -213,27 +235,32 @@ class NodeInstance(QGraphicsItem):
             self.update_shape()
 
     # GET, SET DATA
-    def get_data(self):  # used in custom subclasses
+    def get_data(self):
+        """ IMPORTANT
+        This method gets subclassed and specified. If the NI has states (so, the behavior depends on certain values),
+        all these values must be stored in JSON-able format in a dict here. This dictionary will be used to reload the
+        node's state when loading a project or pasting copied/cut nodes in the Flow (the states get copied too), see
+        self.set_data(self, data) below.
+        Unfortunately, I can't use pickle or something like that due to PySide2 which runs on C++, not Python.
+        :return: Dictionary representing all values necessary to determine the NI's current state
+        """
         return {}
 
-    def set_data(self, data):  # used in custom subclasses
+    def set_data(self, data):
+        """ IMPORTANT
+        If the NI has states, it's state should get reloaded here according to what was previously provided by the same
+        class in get_data(), see above.
+        :param data: Dictionary representing all values necessary to determine the NI's current state
+        """
         pass
 
     # --------------------------------------------------------------------------------------
-    # --------------------------------------------------------------------------------------
-    #
-    #
-    #
-    #
-    #
-
-
     # UI STUFF ----------------------------------------
 
     def boundingRect(self):
         return QRectF(-self.width/2, -self.height/2, self.width, self.height)
-        
 
+    #   PAINTING
     def paint(self, painter, option, widget=None):
 
         painter.setRenderHint(QPainter.Antialiasing)
@@ -246,104 +273,88 @@ class NodeInstance(QGraphicsItem):
 
         if self.parent_node.design_style == 'extended':
 
+            header_pen = std_pen  # differs from std_pen in tron design
+
             if GlobalStorage.storage['design style'] == 'dark std':
-                c = self.parent_node.color
+                self.draw_dark_extended_background(painter)
 
-                # main rect
-                body_gradient = QRadialGradient(self.boundingRect().topLeft(), self.flow.pythagoras(self.height, self.width))
-                body_gradient.setColorAt(0, QColor(c.red()/10+100, c.green()/10+100, c.blue()/10+100, 200))
-                body_gradient.setColorAt(1, QColor(c.red()/10+100, c.green()/10+100, c.blue()/10+100, 0))
-
-                painter.setBrush(body_gradient)
-                painter.setPen(Qt.NoPen)
-                painter.drawRoundedRect(self.boundingRect(), 12, 12)
-
-                header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
-                header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
-                header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
-                painter.setBrush(header_gradient)
-                painter.setPen(Qt.NoPen)
-                painter.drawRoundedRect(self.get_header_rect(), 12, 12)
+                if option.state & QStyle.State_MouseOver:  # make title color white when mouse hovers
+                    c = self.parent_node.color.lighter()
+                    header_pen = QPen(c)
+                    header_pen.setWidth(2)
 
             elif GlobalStorage.storage['design style'] == 'dark tron':
-                # main rect
-                c = QColor('#212224')
-                painter.setBrush(c)
-                pen = QPen(self.parent_node.color)
-                pen.setWidth(2)
-                painter.setPen(pen)
-                body_path = self.get_extended_body_path_TRON_DESIGN(10)
-                painter.drawPath(body_path)
-                # painter.drawRoundedRect(self.boundingRect(), 12, 12)
+                self.draw_tron_extended_background(painter)
 
                 c = self.parent_node.color
-                header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
-                header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
-                header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
-                header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
-                painter.setBrush(header_gradient)
-                header_path = self.get_extended_header_path_TRON_DESIGN(10)
-                painter.drawPath(header_path)
+                if option.state & QStyle.State_MouseOver:  # make title color lighter when mouse hovers
+                    c = self.parent_node.color.lighter()
+                header_pen = QPen(c)
+                header_pen.setWidth(2)
 
-
-
+            # HEADER
             painter.setFont(self.display_name_font)
-            painter.setPen(std_pen)
-
+            painter.setPen(header_pen)
             painter.drawText(self.get_title_rect(), Qt.AlignVCenter | Qt.AlignLeft, self.parent_node.title)
             painter.setBrush(Qt.NoBrush)
             painter.setPen(QPen(Qt.white, 1))
-            # painter.drawRect(self.get_header_rect())
+
         elif self.parent_node.design_style == 'minimalistic':
-            path = QPainterPath()
-            path.moveTo(-self.width / 2, 0)
+
             if GlobalStorage.storage['design style'] == 'dark std':
-                path.cubicTo(-self.width / 2, -self.height / 2,
-                             -self.width / 2, -self.height / 2,
-                             0, -self.height / 2)
-                path.cubicTo(+self.width / 2, -self.height / 2,
-                             +self.width / 2, -self.height / 2,
-                             +self.width / 2, 0)
-                path.cubicTo(+self.width / 2, +self.height / 2,
-                             +self.width / 2, +self.height / 2,
-                             0, +self.height / 2)
-                path.cubicTo(-self.width / 2, +self.height / 2,
-                             -self.width / 2, +self.height / 2,
-                             -self.width / 2, 0)
-                path.closeSubpath()
-
-                c = self.parent_node.color
-                body_gradient = QLinearGradient(self.boundingRect().bottomLeft(),
-                                                self.boundingRect().topRight())
-                                                # 2*self.flow.pythagoras(self.height, self.width))
-                body_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 150))
-                body_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 80))
-
-                painter.setBrush(body_gradient)
-                painter.setPen(std_pen)
+                self.draw_dark_minimalistic(painter, std_pen)
+                if option.state & QStyle.State_MouseOver:  # make title color light when mouse hovers
+                    pen = QPen(self.parent_node.color.lighter())
+                    painter.setPen(pen)
 
             elif GlobalStorage.storage['design style'] == 'dark tron':
-                corner_size=10
-                path.lineTo(-self.width/2+corner_size/2, -self.height/2+corner_size/2)
-                path.lineTo(0, -self.height/2)
-                path.lineTo(+self.width/2-corner_size/2, -self.height/2+corner_size/2)
-                path.lineTo(+self.width/2, 0)
-                path.lineTo(+self.width/2-corner_size/2, +self.height/2-corner_size/2)
-                path.lineTo(0, +self.height/2)
-                path.lineTo(-self.width/2+corner_size/2, +self.height/2-corner_size/2)
-                path.closeSubpath()
+                if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
+                    self.draw_tron_minimalistic(painter, background_color=self.parent_node.color.darker())
+                else:
+                    self.draw_tron_minimalistic(painter)
 
-                c = QColor('#36383B')
-                painter.setBrush(c)
-                pen = QPen(self.parent_node.color)
-                pen.setWidth(2)
-                painter.setPen(pen)
-
-            painter.drawPath(path)
-
+            # HEADER
             painter.setFont(self.display_name_font)
             painter.drawText(self.boundingRect(), Qt.AlignCenter, self.parent_node.title)
 
+    def draw_dark_extended_background(self, painter):
+        c = self.parent_node.color
+
+        # main rect
+        body_gradient = QRadialGradient(self.boundingRect().topLeft(), pythagoras(self.height, self.width))
+        body_gradient.setColorAt(0, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 200))
+        body_gradient.setColorAt(1, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 0))
+
+        painter.setBrush(body_gradient)
+        painter.setPen(Qt.NoPen)
+        painter.drawRoundedRect(self.boundingRect(), 12, 12)
+
+        header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
+        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
+        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
+        painter.setBrush(header_gradient)
+        painter.setPen(Qt.NoPen)
+        painter.drawRoundedRect(self.get_header_rect(), 12, 12)
+
+    def draw_tron_extended_background(self, painter):
+        # main rect
+        c = QColor('#212224')
+        painter.setBrush(c)
+        pen = QPen(self.parent_node.color)
+        pen.setWidth(2)
+        painter.setPen(pen)
+        body_path = self.get_extended_body_path_TRON_DESIGN(10)
+        painter.drawPath(body_path)
+        # painter.drawRoundedRect(self.boundingRect(), 12, 12)
+
+        c = self.parent_node.color
+        header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
+        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
+        header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
+        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
+        painter.setBrush(header_gradient)
+        header_path = self.get_extended_header_path_TRON_DESIGN(10)
+        painter.drawPath(header_path)
 
     def get_extended_body_path_TRON_DESIGN(self, corner_size):
         path = QPainterPath()
@@ -373,6 +384,55 @@ class NodeInstance(QGraphicsItem):
         path.closeSubpath()
         return path
 
+    def draw_dark_minimalistic(self, painter, pen):
+        path = QPainterPath()
+        path.moveTo(-self.width / 2, 0)
+
+        path.cubicTo(-self.width / 2, -self.height / 2,
+                     -self.width / 2, -self.height / 2,
+                     0, -self.height / 2)
+        path.cubicTo(+self.width / 2, -self.height / 2,
+                     +self.width / 2, -self.height / 2,
+                     +self.width / 2, 0)
+        path.cubicTo(+self.width / 2, +self.height / 2,
+                     +self.width / 2, +self.height / 2,
+                     0, +self.height / 2)
+        path.cubicTo(-self.width / 2, +self.height / 2,
+                     -self.width / 2, +self.height / 2,
+                     -self.width / 2, 0)
+        path.closeSubpath()
+
+        c = self.parent_node.color
+        body_gradient = QLinearGradient(self.boundingRect().bottomLeft(),
+                                        self.boundingRect().topRight())
+        body_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 150))
+        body_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 80))
+
+        painter.setBrush(body_gradient)
+        painter.setPen(pen)
+
+        painter.drawPath(path)
+
+    def draw_tron_minimalistic(self, painter, background_color=QColor('#36383B')):
+        path = QPainterPath()
+        path.moveTo(-self.width / 2, 0)
+
+        corner_size = 10
+        path.lineTo(-self.width / 2 + corner_size / 2, -self.height / 2 + corner_size / 2)
+        path.lineTo(0, -self.height / 2)
+        path.lineTo(+self.width / 2 - corner_size / 2, -self.height / 2 + corner_size / 2)
+        path.lineTo(+self.width / 2, 0)
+        path.lineTo(+self.width / 2 - corner_size / 2, +self.height / 2 - corner_size / 2)
+        path.lineTo(0, +self.height / 2)
+        path.lineTo(-self.width / 2 + corner_size / 2, +self.height / 2 - corner_size / 2)
+        path.closeSubpath()
+
+        painter.setBrush(background_color)
+        pen = QPen(self.parent_node.color)
+        pen.setWidth(2)
+        painter.setPen(pen)
+
+        painter.drawPath(path)
 
     def get_header_rect(self):
         header_height = 35 * (self.parent_node.title.count('\n')+1)
@@ -392,7 +452,7 @@ class NodeInstance(QGraphicsItem):
         rect.setLeft(header_rect.left() + 10 )
         rect.setHeight(header_rect.height()*title_rect_offset_factor)
         w = header_rect.width()*title_rect_offset_factor
-        title_width = self.display_name_FM.width(self.get_longest_line(self.parent_node.title))
+        title_width = self.display_name_FM.width(get_longest_line(self.parent_node.title))
         rect.setWidth(w if w > title_width else title_width)
         return rect
 
@@ -416,8 +476,30 @@ class NodeInstance(QGraphicsItem):
 
         return menu
 
-    # --------------------------------------------------------------------------------------
 
+    def itemChange(self, change, value):
+        """This method ensures that all connections, selection borders etc. that get drawn in the Flow are constantly
+        redrawn during a NI drag. Should get disabled when running in performance mode - not implemented yet."""
+
+        if change == QGraphicsItem.ItemPositionChange:
+            # self.flow.viewport().update()
+            if self.movement_state == MovementEnum.mouse_clicked:
+                self.movement_state = MovementEnum.position_changed
+
+        return QGraphicsItem.itemChange(self, change, value)
+
+    def mousePressEvent(self, event):
+        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a moving action."""
+        self.movement_state = MovementEnum.mouse_clicked
+        self.movement_pos_from = self.pos()
+        return QGraphicsItem.mousePressEvent(self, event)
+
+    def mouseReleaseEvent(self, event):
+        """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a moving action."""
+        if self.movement_state == MovementEnum.position_changed:
+            self.flow.selected_components_moved(self.pos()-self.movement_pos_from)
+        self.movement_state = None
+        return QGraphicsItem.mouseReleaseEvent(self, event)
 
     # ACTIONS
     def get_extended_default_actions(self):
@@ -483,13 +565,8 @@ class NodeInstance(QGraphicsItem):
                 actions[key] = self.set_special_actions_data(actions_data[key])
         return actions
 
-    # --------------------------------------------------------------------------------------
-
-
     # PORTS
     def setup_ports(self, inputs_config=None, outputs_config=None):
-        self.del_and_remove_content_from_scene()  # resetting everything here
-
         if not inputs_config and not outputs_config:
             for i in range(len(self.parent_node.inputs)):
                 inp = self.parent_node.inputs[i]
@@ -508,17 +585,11 @@ class NodeInstance(QGraphicsItem):
             for o in range(len(outputs_config)):
                 self.create_new_output_from_config(output_config=outputs_config[o])
 
-
-        #self.add_content_to_scene_and_compute_shape()
-        #self.compute_content_positions()
-        # self.set_port_positions()
-
-
     def get_input_widget_class(self, widget_name):
+        """Returns a reference to the widget class of a given name for instantiation."""
         custom_node_input_widget_classes = self.flow.parent_script.main_window.custom_node_input_widget_classes
         widget_class = custom_node_input_widget_classes[self.parent_node][widget_name]
         return widget_class
-
 
     def add_input_to_scene(self, i):
         self.flow.scene().addItem(i.gate)
@@ -527,11 +598,8 @@ class NodeInstance(QGraphicsItem):
             self.flow.scene().addItem(i.proxy)
 
     def del_and_remove_input_from_scene(self, i_index):
-        # index = i if type(i) == int else self.inputs.index(i)
         i = self.inputs[i_index]
-        # GlobalStorage.debug('removing input',index,'in node instance',self.parent_node.title)
         for p in self.inputs[i_index].connected_port_instances:
-            # p.connected_port_instances.remove(self.inputs[i_index])
             self.flow.connect_gates(i.gate, p.gate)
 
         self.flow.scene().removeItem(i.gate)
@@ -545,44 +613,19 @@ class NodeInstance(QGraphicsItem):
     def add_output_to_scene(self, o):
         self.flow.scene().addItem(o.gate)
         self.flow.scene().addItem(o.label)
-        # GlobalStorage.debug('label added to scene:', o.label.scene())
 
     def del_and_remove_output_from_scene(self, o_index):
-        # index = o if type(o) == int else self.outputs.index(o)
         o = self.outputs[o_index]
         for p in self.outputs[o_index].connected_port_instances:
-            # p.connected_port_instances.remove(self.outputs[o_index])
             self.flow.connect_gates(o.gate, p.gate)
 
         self.flow.scene().removeItem(o.gate)
         self.flow.scene().removeItem(o.label)
         self.outputs.remove(o)
 
-    # --------------------------------------------------------------------------------------
-
-
-    # SHAPE
-    def add_content_to_scene_and_compute_shape(self):
-        # EXPLANATION: When a NodeInstance is created, it is not placed in a scene yet (and shall not be). But when a
-        # NodeInstance gets created, it instantly creates all stuff (Ports etc.), so this stuff - in the case of a
-        # new placement of the NI into a scene - has to be added manually once. After that, all add_new_input()-or
-        # similar calls result in an instant placement of the new elements in the scene.
-
-        # GlobalStorage.debug('adding content and computing shape in', self.parent_node.title)
-        # GlobalStorage.debug(self.height)
-
-        for i in self.inputs:
-            self.add_input_to_scene(i)
-
-        for o in self.outputs:
-            self.add_output_to_scene(o)
-
-        if self.main_widget_proxy:
-            self.scene().addItem(self.main_widget_proxy)
-
-        self.compute_content_positions()
-
+    # # SHAPE
     def del_and_remove_content_from_scene(self):  # everything get's reset here
+        """OLD: SHOULD GET REMOVED, I THINK"""
         for i in range(len(self.inputs)):
             self.del_and_remove_input_from_scene(0)
 
@@ -594,16 +637,16 @@ class NodeInstance(QGraphicsItem):
         self.width = -1
         self.height = -1
 
-
     def compute_content_positions(self):
+        """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
         for i in self.inputs:
             i.compute_size_and_positions()
         for o in self.outputs:
             o.compute_size_and_positions()
 
         display_name_height = self.display_name_FM.height()*(self.parent_node.title.count('\n')+1)
-        display_name_width = self.display_name_FM.width(self.get_longest_line(self.parent_node.title))
-        display_name_width_extended = self.display_name_FM.width('__'+self.get_longest_line(self.parent_node.title)+'__')
+        display_name_width = self.display_name_FM.width(get_longest_line(self.parent_node.title))
+        display_name_width_extended = self.display_name_FM.width('__' + get_longest_line(self.parent_node.title) + '__')
 
         # label_FM = QFontMetricsF(self.port_label_font)
 
@@ -697,10 +740,10 @@ class NodeInstance(QGraphicsItem):
                                    right_largest_width=right_largest_width,
                                    space_between_io=space_between_io)
 
-
     def set_content_positions(self, body_height, body_top, body_left, body_right, left_ports_edge_height,
                               right_ports_edge_height, height_buffer_between_ports, left_largest_width, right_largest_width,
                               space_between_io):
+        """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
         # set positions
         # # calculating the vertical space  between two inputs - without their heights, just between them
         space_between_inputs = (body_height - left_ports_edge_height) / (len(self.inputs) - 1) if len(self.inputs) > 2 else body_height - left_ports_edge_height
@@ -741,25 +784,12 @@ class NodeInstance(QGraphicsItem):
                 body_incl_widget_height = body_height if body_height > self.main_widget.height() else self.main_widget.height()
                 self.main_widget_proxy.setPos(body_left + left_largest_width + space_between_io/2, body_top+body_incl_widget_height/2 -self.main_widget.height()/2)
 
-    # --------------------------------------------------------------------------------------
-
-
     # GENERAL
     def initialized(self):
+        """Gets called at the very end of all initialization processes/at the very end of the constructor."""
         if self.temp_state_data is not None:
             self.set_data(self.temp_state_data)
         self.update()
-
-
-    def get_longest_line(self, s: str):
-        lines = s.split('\n')
-        lines = [line.replace('\n', '') for line in lines]
-        longest_line_found = ''
-        for line in lines:
-            if len(line) > len(longest_line_found):
-                longest_line_found = line
-        return line
-
 
     def is_active(self):
         for i in self.inputs:
@@ -772,6 +802,9 @@ class NodeInstance(QGraphicsItem):
 
 
     def get_json_data(self):
+        """Returns all metadata of the NI including position, package etc. in a JSON-able dict format.
+        Used to rebuild the Flow when loading a project."""
+
         # general attributes
         node_instance_dict = {'parent node title': self.parent_node.title,
                               'parent node type': self.parent_node.type,
@@ -808,6 +841,8 @@ class NodeInstance(QGraphicsItem):
 
 
 class NodeInstanceAction(QAction):
+    """A custom implementation of QAction that additionally stores transmitted 'data' which can be intuitively used
+    in subclasses f.ex. to determine the exact source of the action triggered. For more info see GitHub docs."""
 
     custom_triggered = Signal(object)
 

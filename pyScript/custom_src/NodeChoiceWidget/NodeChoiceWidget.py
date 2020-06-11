@@ -72,6 +72,10 @@ class NodeChoiceWidget(QWidget):
         self.search_line_edit.setFocus()
 
 
+    def mousePressEvent(self, event):
+        QWidget.mousePressEvent(self, event)
+        event.accept()
+
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.flow.hide_node_choice_widget()

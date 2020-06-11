@@ -1,4 +1,6 @@
 custom stuff (ignore)/
 .idea/
 notizen.md
-__pychache__/
+__pycache__/
+venv/
+temp/

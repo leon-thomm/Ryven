@@ -1,3 +1,4 @@
+import custom_src.GlobalAccess
 from custom_src.Variable import Variable
 from custom_src.VariablesListWidget import VariablesCustomListWidget
 from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
@@ -66,7 +67,7 @@ class VariablesHandler:
     def update_variable_usages(self, v):
         get_var_NIs = []
         for ni in self.flow.all_node_instances:
-            if self.flow.find_type_in_object(ni, GetVar_NodeInstance):
+            if custom_src.GlobalAccess.find_type_in_object(ni, GetVar_NodeInstance):
                 get_var_NIs.append(ni)
 
         for ni in get_var_NIs:

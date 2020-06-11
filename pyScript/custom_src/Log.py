@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QWidget, QScrollArea, QHBoxLayout, QVBoxLayout, QGridLayout, QPushButton, QPlainTextEdit, QLabel, QLayout
+from PySide2.QtWidgets import QWidget, QScrollArea, QHBoxLayout, QVBoxLayout, QGridLayout, QPushButton, QPlainTextEdit, QLabel, QLayout, QSizePolicy
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QFont
 
@@ -57,10 +57,16 @@ class Log(QWidget):
         title_label.setFont(QFont('Poppins', 13))
         self.header_layout.addWidget(title_label)
 
+        self.remove_button = QPushButton('x')
+        self.remove_button.clicked.connect(self.remove_clicked)
+        self.header_layout.addWidget(self.remove_button)
+        self.remove_button.hide()
+
         holder_label = QLabel(str(sender))
         holder_label.setWordWrap(True)
         self.log_view = QPlainTextEdit()
         self.log_view.setReadOnly(True)
+
 
         self.main_layout.addLayout(self.header_layout)
         self.main_layout.addWidget(holder_label)
@@ -68,14 +74,27 @@ class Log(QWidget):
 
         self.setLayout(self.main_layout)
 
-        self.setStyleSheet('''
+        self.enabled_style_sheet = '''
             QLabel {
                 border: None;
             }
             QWidget {
                 color: #e9f4fb;
             }
-        ''')
+        '''
+        self.disabled_style_sheet = '''
+            QLabel {
+                border: None;
+            }
+            QWidget {
+                color: #e9f4fb;
+            }
+            QPlainTextEdit {
+                background: black; 
+                color: grey;
+            }
+        '''
+        self.setStyleSheet(self.enabled_style_sheet)
 
 
     def log(self, *args):
@@ -88,18 +107,19 @@ class Log(QWidget):
         self.log_view.clear()
 
     def removing(self):  # old method, delete later
-        self.remove()
+        self.disable()
 
-    def remove(self):
-        self.log_view.setStyleSheet('background: black; color: grey;')
+    def disable(self):
+        self.remove_button.show()
+        self.setStyleSheet(self.disabled_style_sheet)
 
-        remove_button = QPushButton('x')
-        remove_button.clicked.connect(self.remove_clicked)
-
-        self.header_layout.addWidget(remove_button)
+    def enable(self):
+        self.remove_button.hide()
+        self.setStyleSheet(self.enabled_style_sheet)
+        self.show()
 
     def remove_clicked(self):
-        self.setParent(None)  # removes the widget
+        self.hide()
 
 
 class ErrorLog(Log):

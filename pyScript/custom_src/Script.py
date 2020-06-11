@@ -1,5 +1,5 @@
 from PySide2.QtWidgets import QPushButton
-from PySide2.QtCore import QObject, Signal
+from PySide2.QtCore import QObject, Signal, Qt
 
 from custom_src.GlobalAccess import GlobalStorage
 from custom_src.Log import Logger
