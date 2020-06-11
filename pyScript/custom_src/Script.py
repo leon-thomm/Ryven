@@ -10,6 +10,7 @@ from ui.w_ui_script import WUIScript
 from custom_src.Flow import Flow
 from custom_src.VariablesHandler import VariablesHandler
 from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
+from custom_src.CodePreview_Widget import CodePreview_Widget
 
 
 class Script(QObject):
@@ -31,6 +32,7 @@ class Script(QObject):
         self.set_details_widget(self, self.details_widget)
         self.flow = None
         self.thumbnail_source = ''  # URL to the thumbnail picture
+        self.code_preview_txt_edit = CodePreview_Widget()
 
         if config:
             self.name = config['name']
@@ -47,8 +49,8 @@ class Script(QObject):
         self.widget.ui.add_variable_push_button.clicked.connect(self.add_var_clicked)
         self.widget.ui.new_var_name_lineEdit.returnPressed.connect(self.new_var_line_edit_return_pressed)
 
-
         self.widget.ui.splitter.insertWidget(0, self.flow)
+        self.widget.ui.source_code_groupBox.layout().addWidget(self.code_preview_txt_edit)
         # self.widget.ui.logs_scrollArea.setWidgetResizable(False)
         self.widget.ui.logs_scrollArea.setWidget(self.logger)
         self.widget.ui.splitter.setSizes([700, 0])
@@ -57,6 +59,8 @@ class Script(QObject):
     def set_details_widget(self, provider, w):
         pass
 
+    def show_NI_code(self, ni):
+        self.code_preview_txt_edit.update_code(ni)
 
     # I connect the events between UI and the var handler here, because there are only a few actions over UI
     def add_var_clicked(self):

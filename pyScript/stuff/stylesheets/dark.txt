@@ -20,7 +20,7 @@ QToolButton {
 }
 
 QGroupBox {
-	border: 1px solid #3B9CD9;;
+	border: 1px solid #3B9CD9;
 	padding-top: 10px;
 }
 

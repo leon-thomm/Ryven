@@ -86,6 +86,7 @@ class Flow(QGraphicsView):
         self.setRenderHint(QPainter.Antialiasing)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
         self.setDragMode(QGraphicsView.RubberBandDrag)
+        scene.selectionChanged.connect(self.selection_changed)
         self.setAcceptDrops(True)
 
         self.centerOn(QPointF(self.viewport().width() / 2, self.viewport().height() / 2))
@@ -129,6 +130,14 @@ class Flow(QGraphicsView):
 
     def design_style_changed(self):
         self.viewport().update()
+
+    def selection_changed(self):
+        selected_items = self.scene().selectedItems()
+        selected_node_instances = list(filter(find_NI_in_object, selected_items))
+        if len(selected_node_instances) == 1:
+            self.parent_script.show_NI_code(selected_node_instances[0])
+        elif len(selected_node_instances) == 0:
+            self.parent_script.show_NI_code(None)
 
     def contextMenuEvent(self, event):
         QGraphicsView.contextMenuEvent(self, event)
@@ -988,3 +997,7 @@ class Flow(QGraphicsView):
             drawings_list.append(drawing_dict)
 
         return drawings_list
+
+
+def find_NI_in_object(obj):
+    return find_type_in_object(obj, NodeInstance)
