@@ -1,33 +1,13 @@
-from PySide2.QtWidgets import QGraphicsItem, QGraphicsProxyWidget, QGraphicsScene, QLineEdit, QMenu, QAction, QToolTip, \
-    QStyle
+from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle
 from PySide2.QtCore import Qt, QRectF, QPointF, Signal
 from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
-    QPainter, QPixmap, QImage
-import os, enum
+    QPainter
 
-from custom_src.GlobalAccess import GlobalStorage, pythagoras
+from custom_src.GlobalAccess import GlobalStorage, pythagoras, MovementEnum, get_longest_line
 
-from custom_src.Node import Node, NodePort
-from custom_src.PortInstance import PortInstance, StdLineEdit_PortInstanceWidget
+from custom_src.Node import Node
+from custom_src.PortInstance import PortInstance
 from custom_src.FlowProxyWidget import FlowProxyWidget
-
-
-class MovementEnum(enum.Enum):
-    """bug test: click on NI, drag, then use shortcut movement and release. Should result in a double undo stack push
-    this should get removed later, it's an ugly implementation"""
-    mouse_clicked = 1
-    position_changed = 2
-    mouse_released = 3
-
-
-def get_longest_line(s: str):
-    lines = s.split('\n')
-    lines = [line.replace('\n', '') for line in lines]
-    longest_line_found = ''
-    for line in lines:
-        if len(line) > len(longest_line_found):
-            longest_line_found = line
-    return line
 
 
 class NodeInstance(QGraphicsItem):
@@ -502,7 +482,7 @@ class NodeInstance(QGraphicsItem):
         redrawn during a NI drag. Should get disabled when running in performance mode - not implemented yet."""
 
         if change == QGraphicsItem.ItemPositionChange:
-            self.flow.viewport().update()
+            # self.flow.viewport().update()
             if self.movement_state == MovementEnum.mouse_clicked:
                 self.movement_state = MovementEnum.position_changed
 
@@ -645,6 +625,7 @@ class NodeInstance(QGraphicsItem):
 
     # # SHAPE
     def del_and_remove_content_from_scene(self):  # everything get's reset here
+        """OLD: SHOULD GET REMOVED, I THINK"""
         for i in range(len(self.inputs)):
             self.del_and_remove_input_from_scene(0)
 

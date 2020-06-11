@@ -60,7 +60,6 @@ class Flow(QGraphicsView):
         self.all_node_instances: [NodeInstance] = []
         self.all_node_instance_classes = main_window.all_node_instance_classes  # ref
         self.all_nodes = main_window.all_nodes  # ref
-        self.dragging_node_instance_or_drawing = False
         self.gate_selected: PortInstanceGate = None
         self.dragging_connection = False
         self.ignore_mouse_event = False  # for stylus - see tablet event
@@ -69,11 +68,10 @@ class Flow(QGraphicsView):
         self.left_mouse_pressed_in_flow = False
         self.mouse_press_pos: QPointF = None
         self.tablet_press_pos: QPointF = None
-        self.last_tablet_move_pos: QPointF = None
         self.auto_connection_gate = None  # stores the gate that we may try to auto connect to a newly placed NI
-        self.pan = False
-        self.pan_start_x = None
-        self.pan_start_y = None
+        self.panning = False
+        self.pan_last_x = None
+        self.pan_last_y = None
         self.current_scale = 1
         self.total_scale_div = 1
 
@@ -111,15 +109,15 @@ class Flow(QGraphicsView):
         # STYLUS
         self.stylus_mode = ''
         self.current_drawing = None
-        self.drawing = None
+        self.drawing = False
         self.drawings = []
-        self.selected_drawings = []
         self.stylus_modes_proxy = FlowProxyWidget(self)
         self.stylus_modes_proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
         self.stylus_modes_widget = FlowStylusModesWidget(self)
         self.stylus_modes_proxy.setWidget(self.stylus_modes_widget)
         self.scene().addItem(self.stylus_modes_proxy)
         self.set_stylus_proxy_pos()
+        self.setAttribute(Qt.WA_TabletTracking)
 
         if config:
             node_instances = self.place_nodes_from_config(config['nodes'])
@@ -158,9 +156,16 @@ class Flow(QGraphicsView):
     def mousePressEvent(self, event):
         GlobalStorage.debug('mouse press event received, point:', event.pos())
 
+        # to catch tablet events (for some reason, it results in a mousePrEv too)
+        if self.ignore_mouse_event:
+            self.ignore_mouse_event = False
+            return
+
         # there might be a proxy widget meant to receive the event instead of the flow
         QGraphicsView.mousePressEvent(self, event)
 
+        # to catch any Proxy that received the event. Checking for event.isAccepted() or what is returned by
+        # QGraphicsView.mousePressEvent(...) both didn't work so far, so I do it manually
         if self.ignore_mouse_event:
             self.ignore_mouse_event = False
             return
@@ -183,9 +188,9 @@ class Flow(QGraphicsView):
                 self.show_node_choice_widget(event.pos())
 
         elif event.button() == Qt.MidButton:
-            self.pan = True
-            self.pan_start_x = event.x()
-            self.pan_start_y = event.y()
+            self.panning = True
+            self.pan_last_x = event.x()
+            self.pan_last_y = event.y()
             event.accept()
 
         self.mouse_press_pos = self.mapToScene(event.pos())
@@ -194,11 +199,8 @@ class Flow(QGraphicsView):
 
         QGraphicsView.mouseMoveEvent(self, event)
 
-        if self.pan:  # middle mouse pressed
-            self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() - (event.x() - self.pan_start_x))
-            self.verticalScrollBar().setValue(self.verticalScrollBar().value() - (event.y() - self.pan_start_y))
-            self.pan_start_x = event.x()
-            self.pan_start_y = event.y()
+        if self.panning:  # middle mouse pressed
+            self.pan(event.pos())
             event.accept()
 
         self.last_mouse_move_pos = self.mapToScene(event.pos())
@@ -210,14 +212,14 @@ class Flow(QGraphicsView):
         # there might be a proxy widget meant to receive the event instead of the flow
         QGraphicsView.mouseReleaseEvent(self, event)
 
-        if event.button() == Qt.RightButton:
-            return
-        elif event.button() == Qt.MidButton:
-            self.pan = False
-
-        if self.ignore_mouse_event or not self.left_mouse_pressed_in_flow:  # for stylus (see tablet event)
+        if self.ignore_mouse_event or \
+                (event.button() == Qt.LeftButton and not self.left_mouse_pressed_in_flow):
             self.ignore_mouse_event = False
             return
+
+        elif event.button() == Qt.MidButton:
+            self.panning = False
+
 
         # connection dropped over specific gate
         if self.dragging_connection and self.itemAt(event.pos()) and \
@@ -266,56 +268,63 @@ class Flow(QGraphicsView):
         QGraphicsView.wheelEvent(self, event)
 
     def tabletEvent(self, event):
-        """tabletEvent gets called by stylus operations."""
+        """tabletEvent gets called by stylus operations.
+        LeftButton: std, no button pressed
+        RightButton: upper button pressed"""
+
+        # if in edit mode and not panning or starting a pan, pass on to std mouseEvent handlers above
+        if self.stylus_mode == 'edit' and not self.panning and not \
+                (event.type() == QTabletEvent.TabletPress and event.button() == Qt.RightButton):
+            return  # let the mousePress/Move/Release-Events handle it
 
         if event.type() == QTabletEvent.TabletPress:
             self.tablet_press_pos = event.pos()
+            self.ignore_mouse_event = True
 
-            if event.buttons() == Qt.LeftButton:
+            if event.button() == Qt.LeftButton:
                 if self.stylus_mode == 'comment':
-                    new_drawing = self.create_and_place_drawing__cmd(self.mapToScene(self.tablet_press_pos))
+                    new_drawing = self.create_and_place_drawing__cmd(self.mapToScene(self.tablet_press_pos),
+                                                                     config=self.stylus_modes_widget.get_pen_settings())
                     self.current_drawing = new_drawing
                     self.drawing = True
-            elif event.buttons() == Qt.RightButton:
-                self.pan = True
-                self.last_tablet_move_pos = self.mapToScene(event.pos())
+            elif event.button() == Qt.RightButton:
+                self.panning = True
+                self.pan_last_x = event.x()
+                self.pan_last_y = event.y()
 
         elif event.type() == QTabletEvent.TabletMove:
-            if event.pointerType() == QTabletEvent.Eraser:
+            self.ignore_mouse_event = True
+            if self.panning:
+                self.pan(event.pos())
+
+            elif event.pointerType() == QTabletEvent.Eraser:
                 if self.stylus_mode == 'comment':
                     for i in self.items(event.pos()):
                         if find_type_in_object(i, DrawingObject):
                             self.remove_drawing(i)
                             break
             elif self.stylus_mode == 'comment' and self.drawing:
-                self.current_drawing.try_to_append_point(self.mapToScene(event.pos()) - self.current_drawing.pos())
-                self.current_drawing.stroke_weights.append(event.pressure())
+
+                mapped = self.mapToScene(QPoint(event.posF().x(), event.posF().y()))
+                # rest = QPointF(event.posF().x()%1, event.posF().y()%1)
+                # exact = QPointF(mapped.x()+rest.x()%1, mapped.y()+rest.y()%1)
+                # TODO: use exact position (event.posF() ). Problem: mapToScene() only uses QPoint, not QPointF. The
+                #  calculation above didn't work
+
+                if self.current_drawing.try_to_append_point(mapped):
+                    self.current_drawing.stroke_weights.append(event.pressure())
                 self.current_drawing.update()
                 self.viewport().update()
-            elif self.stylus_mode == 'comment' and self.pan and self.last_tablet_move_pos:
-                x_diff = self.mapToScene(event.pos()).x() - self.last_tablet_move_pos.x()
-                y_diff = self.mapToScene(event.pos()).y() - self.last_tablet_move_pos.y()
-                current_center_x = self.mapToScene(self.viewport().pos()).x() + (
-                            self.viewport().width() * self.total_scale_div) / 2
-                current_center_y = self.mapToScene(self.viewport().pos()).y() + (
-                            self.viewport().height() * self.total_scale_div) / 2
-                new_center = QPoint(current_center_x - x_diff,
-                                    current_center_y - y_diff)
-                self.centerOn(new_center)
-
-            self.last_tablet_move_pos = self.mapToScene(event.pos())
 
         elif event.type() == QTabletEvent.TabletRelease:
+            if self.panning:
+                self.panning = False
             if self.stylus_mode == 'comment' and self.drawing:
                 GlobalStorage.debug('drawing obj finished')
                 self.current_drawing.finished()
                 self.current_drawing = None
                 self.drawing = False
 
-        event.accept()
-        if not self.stylus_mode == 'edit':
-            self.ignore_mouse_event = True  # accepting the event is not enough even though the docs say it would be...
-        return True  # do I really need that ?
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasFormat('text/plain'):
@@ -420,7 +429,7 @@ class Flow(QGraphicsView):
             painter.drawRoundedRect(x, y, w, h, 10, 10)
 
         # DRAW SELECTED DRAWINGS BORDER
-        for p_o in self.selected_drawings:
+        for p_o in self.selected_drawings():
             pen = QPen(QColor('#a3cc3b'))
             pen.setWidth(2)
             painter.setPen(pen)
@@ -508,6 +517,13 @@ class Flow(QGraphicsView):
         self.node_choice_proxy.hide()
         self.node_choice_widget.clearFocus()
         self.auto_connection_gate = None
+
+    # PAN
+    def pan(self, new_pos):
+        self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() - (new_pos.x() - self.pan_last_x))
+        self.verticalScrollBar().setValue(self.verticalScrollBar().value() - (new_pos.y() - self.pan_last_y))
+        self.pan_last_x = new_pos.x()
+        self.pan_last_y = new_pos.y()
 
     # ZOOM
     def zoom_in(self, amount):
@@ -665,7 +681,7 @@ class Flow(QGraphicsView):
 
     # DRAWINGS
     def create_drawing(self, config=None):
-        new_drawing = DrawingObject(config)
+        new_drawing = DrawingObject(self, config)
         return new_drawing
 
     def add_drawing(self, drawing_obj, pos=None):
@@ -677,16 +693,19 @@ class Flow(QGraphicsView):
     def remove_drawing(self, drawing):
         self.scene().removeItem(drawing)
         self.drawings.remove(drawing)
-        if self.selected_drawings.__contains__(drawing):
-            self.selected_drawings.remove(drawing)
 
     def place_drawings_from_config(self, drawings, offset_pos=QPoint(0, 0)):
+        """
+        :param offset_pos: position difference between the center of all selected items when they were copied/cut and
+        the current mouse pos which is supposed to be the new center
+        :param drawings: the drawing objects
+        """
         new_drawings = []
-        for d in drawings:
-            x = d['pos x']
-            y = d['pos y']
-            new_drawing = self.create_drawing(d['points'])
-            new_drawings.append(new_drawing)
+        for d_config in drawings:
+            x = d_config['pos x']+offset_pos.x()
+            y = d_config['pos y']+offset_pos.y()
+            new_drawing = self.create_drawing(config=d_config)
+            self.add_drawing(new_drawing, QPointF(x, y))
 
         return new_drawings
 
@@ -695,17 +714,6 @@ class Flow(QGraphicsView):
         place_command = PlaceDrawingObject_Command(self, pos, new_drawing_obj)
         self.undo_stack.push(place_command)
         return new_drawing_obj
-
-    def get_selected_components(self):
-        return self.selected_node_instances() + self.selected_drawings
-
-    def get_all_components(self):
-        return self.all_node_instances + self.drawings
-
-    def get_abs_indices_of_components(self, components):
-        all_components = self.get_all_components()
-        selected_components_indices = [all_components.index(e) for e in components]
-        return selected_components_indices
 
     def move_selected_copmonents__cmd(self, x, y):
         new_rel_pos = QPointF(x, y)
@@ -758,6 +766,13 @@ class Flow(QGraphicsView):
                 selected_NIs.append(i)
         return selected_NIs
 
+    def selected_drawings(self):
+        selected_drawings = []
+        for i in self.scene().selectedItems():
+            if find_type_in_object(i, DrawingObject):
+                selected_drawings.append(i)
+        return selected_drawings
+
     def select_all(self):
         for i in self.scene().items():
             if i.ItemIsSelectable:
@@ -767,13 +782,13 @@ class Flow(QGraphicsView):
     def copy(self):  # ctrl+c
         data = {'nodes': self.get_node_instances_json_data(self.selected_node_instances()),
                 'connections': self.get_connections_json_data(self.selected_node_instances()),
-                'drawings': self.get_drawings_json_data(self.selected_drawings)}
+                'drawings': self.get_drawings_json_data(self.selected_drawings())}
         QGuiApplication.clipboard().setText(json.dumps(data))
 
     def cut(self):  # called from shortcut ctrl+x
         data = {'nodes': self.get_node_instances_json_data(self.selected_node_instances()),
                 'connections': self.get_connections_json_data(self.selected_node_instances()),
-                'drawings': self.get_drawings_json_data(self.selected_drawings)}
+                'drawings': self.get_drawings_json_data(self.selected_drawings())}
         QGuiApplication.clipboard().setText(json.dumps(data))
         self.remove_selected_components()
 
@@ -969,15 +984,7 @@ class Flow(QGraphicsView):
     def get_drawings_json_data(self, drawings):
         drawings_list = []
         for drawing in drawings:
-            drawing_dict = {'pos x': drawing.pos().x(),
-                            'pos y': drawing.pos().y()}
-            points_list = []
-            for i in range(len(drawing.points)):
-                p = drawing.points[i]
-                points_list.append({'x': p.x(),
-                                    'y': p.y(),
-                                    'w': drawing.stroke_weights[i]})
-            drawing_dict['points'] = points_list
+            drawing_dict = drawing.get_json_data()
 
             drawings_list.append(drawing_dict)
 

@@ -1,3 +1,4 @@
+import enum
 import inspect
 import math
 
@@ -26,3 +27,21 @@ def find_type_in_objects(objects, base):
         if found:
             return True
     return False
+
+
+class MovementEnum(enum.Enum):
+    """bug test: click on NI, drag, then use shortcut movement and release. Should result in a double undo stack push
+    this should get removed later, it's an ugly implementation"""
+    mouse_clicked = 1
+    position_changed = 2
+    mouse_released = 3
+
+
+def get_longest_line(s: str):
+    lines = s.split('\n')
+    lines = [line.replace('\n', '') for line in lines]
+    longest_line_found = ''
+    for line in lines:
+        if len(line) > len(longest_line_found):
+            longest_line_found = line
+    return line

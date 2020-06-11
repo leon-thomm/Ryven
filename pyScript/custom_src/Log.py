@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QWidget, QScrollArea, QHBoxLayout, QVBoxLayout, QGridLayout, QPushButton, QPlainTextEdit, QLabel, QLayout
+from PySide2.QtWidgets import QWidget, QScrollArea, QHBoxLayout, QVBoxLayout, QGridLayout, QPushButton, QPlainTextEdit, QLabel, QLayout, QSizePolicy
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QFont
 
