@@ -174,11 +174,9 @@ class Flow(QGraphicsView):
             if self.node_choice_proxy.isVisible():
                 self.hide_node_choice_widget()
             else:
-                for i in self.items(event.pos()):
-                    if find_type_in_object(i, PortInstanceGate):
-                        self.gate_selected = i
-                        self.dragging_connection = True
-                        break
+                if find_type_in_object(self.itemAt(event.pos()), PortInstanceGate):
+                    self.gate_selected = self.itemAt(event.pos())
+                    self.dragging_connection = True
 
             self.left_mouse_pressed_in_flow = True
 
@@ -508,6 +506,7 @@ class Flow(QGraphicsView):
         # open nodes dialog
         # the dialog emits 'node_chosen' which is connected to self.place_node,
         # so this all continues at self.place_node below
+        self.node_choice_widget.update_list(self.all_nodes)
         self.node_choice_widget.update_view()
         self.node_choice_proxy.setPos(dialog_pos)
         self.node_choice_proxy.show()

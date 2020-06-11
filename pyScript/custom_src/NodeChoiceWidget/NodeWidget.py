@@ -79,7 +79,7 @@ QToolTip {
         main_layout.setContentsMargins(-6, -6, -6, -6)
         self.setToolTip(node.description)
         self.setStyleSheet(self.custom_unfocused_stylesheet+'\n'+self.contents_stylesheet)
-        self.setMinimumWidth(70)
+        # self.setMinimumWidth(70)
 
 
 

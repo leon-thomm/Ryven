@@ -1,8 +1,8 @@
-from PySide2.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QScrollArea, QLayout
-from PySide2.QtCore import Qt, Signal
+from PySide2.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QLabel, QScrollArea
+from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 
-from custom_src.GlobalAccess import GlobalStorage
+from custom_src.GlobalAccess import GlobalStorage, sort_nodes
 from custom_src.NodeChoiceWidget.NodeWidget import NodeWidget
 
 
@@ -13,7 +13,7 @@ class NodeChoiceWidget(QWidget):
         self.flow = flow
 
         # these arrays POINT to the actual ones from main_window etc.
-        self.all_nodes = nodes
+        self.all_nodes = sort_nodes(nodes)  # copy, keine ref
         # self.node_images = node_images
 
         self.nodes = []
@@ -28,7 +28,7 @@ class NodeChoiceWidget(QWidget):
 
         self.node_widget_index_counter = 0
 
-        self.setFixedWidth(260)
+        self.setMinimumWidth(260)
         self.setFixedHeight(450)
 
         self.main_layout = QVBoxLayout(self)
@@ -105,7 +105,7 @@ class NodeChoiceWidget(QWidget):
 
 
     def update_list(self, nodes):
-        self.nodes = nodes
+        self.nodes = sort_nodes(nodes)
 
     def reset_list(self):
         self.nodes = self.all_nodes
@@ -133,7 +133,7 @@ class NodeChoiceWidget(QWidget):
 
         # nodes
         if len(self.current_nodes) > 0:
-            nodes_label = QLabel('Place existing node')
+            nodes_label = QLabel('Hover for description')
             nodes_label_font = QFont('Poppins')
             nodes_label_font.setPixelSize(15)
             nodes_label.setStyleSheet('color: #9bbf9dff; border: none;')

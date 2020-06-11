@@ -45,3 +45,7 @@ def get_longest_line(s: str):
         if len(line) > len(longest_line_found):
             longest_line_found = line
     return line
+
+
+def sort_nodes(nodes):
+    return sorted(nodes, key=lambda x: x.title.lower())

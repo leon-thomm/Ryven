@@ -1,6 +1,6 @@
-from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle
-from PySide2.QtCore import Qt, QRectF, QPointF
-from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont
+from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle, QToolTip
+from PySide2.QtCore import Qt, QRectF, QPointF, QEvent
+from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont, QHelpEvent
 
 from custom_src.GlobalAccess import GlobalStorage, get_longest_line
 
@@ -77,6 +77,8 @@ class PortInstance:
             return
 
         self.val = val
+        self.gate.setToolTip(str(val))
+        self.gate.update()
         self.updated_val()
 
     def get_val(self):
@@ -217,6 +219,7 @@ class PortInstanceGate(QGraphicsItem):
 
         self.setAcceptHoverEvents(True)
         self.setCursor(Qt.CrossCursor)
+        self.tool_tip_pos = None
 
         self.parent_port_instance = parent_port_instance
         self.parent_node_instance = parent_node_instance
@@ -260,6 +263,10 @@ class PortInstanceGate(QGraphicsItem):
 
     def mousePressEvent(self, event):
         event.accept()
+
+    def hoverEnterEvent(self, event):
+        if self.parent_port_instance.type_ == 'data' and self.parent_port_instance.direction == 'output':
+            self.setToolTip(str(self.parent_port_instance.val))
 
 
 class PortInstanceLabel(QGraphicsItem):
