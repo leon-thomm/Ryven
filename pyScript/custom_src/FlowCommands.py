@@ -54,16 +54,21 @@ class PlaceDrawingObject_Command(QUndoCommand):
 
         self.flow = flow
 
-        self.drawing_obj = None  # TODO...
-        # ...
+        self.drawing_obj = drawing_obj
         self.drawing_obj_place_pos = pos
+        self.drawing_obj_pos = self.drawing_obj_place_pos
 
     def undo(self):
+        """Important: The drawing_obj_pos is not anymore the drawing_obj_place_pos here anymore because after the
+        drawing object was completed, it's actual position got recalculated according to all points and differs from
+        the initial pen press pos (=drawing_obj_place_pos). See DrawingObject.finished()."""
+
+        self.drawing_obj_pos = self.drawing_obj.pos()
+
         self.flow.remove_component(self.drawing_obj)
 
     def redo(self):
-        new_drawing_object = self.flow.create_drawing()
-        self.flow.add_drawing(new_drawing_object, self.drawing_obj_place_pos)
+        self.flow.add_drawing(self.drawing_obj, self.drawing_obj_pos)
 
 
 class RemoveComponents_Command(QUndoCommand):
