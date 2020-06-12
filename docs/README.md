@@ -32,7 +32,9 @@ You need to import nodes before you can use them from node packages (File -> Imp
 
 ### Controls
 
-Note that pyScript is also optimized for use with convertible notebooks/tablets using a stylus pen. You can edit your flows and add handwritten notes using a stylus. Here, I will just cover standard desktop controls for now.
+
+#### Stylus Support
+Note that pyScript is also optimized for use with convertible notebooks/tablets using a stylus pen. You can use stylus pens for either editing your flows or to add handwritten notes. In the top right corner, you can spcify your actions. Be aware, that there may be bugs.
 
 #### Zoom
 
@@ -59,10 +61,6 @@ You can create new variables just like scripts. By right clicking on a variable,
 ### Load&Save
 
 You can save projects by clicking File -> Save Project. You should do this often. When starting pyScript, you can load such a saved project into the editor. A little dialog will show all the required packages for the project you are trying to load. If you have used packages from special places (not the standard packages folder), you should choose them manually. If not, you can use auto import, it will search through all packages in the standard packages directory.
-
-### Stylus Support
-
-You can use stylus pens for either editing flows aka programming just like normal or to put handwritten notes into your script. In the top right corner, you can spcify that. Be aware, that this feature is not heavily tested, it surely contains some bugs.
 
 ### Save Picture
 
