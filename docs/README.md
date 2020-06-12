@@ -128,7 +128,8 @@ A package is identified by it's name. Packages with the same names should never 
 
 ## Programming Nodes
 
-And there we are. The basic concepts are:
+And there we are. Note that pyScript now has a 'preview source code' feature, so you can use any existing nodes as reference and take a look at their source code right inside the editor. Simply drag the splitter handle from the bottom line upwards to access the preview area and select a placed node.
+The basic concepts are:
 
 - For every node (as well as all it's widget classes, more on that later), the NodeManager creates **METACODE**-files from templates if they are not already existing. All programming is done by editing these METACODE files.
 - pyScript will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
