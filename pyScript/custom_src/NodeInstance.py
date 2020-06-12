@@ -800,6 +800,20 @@ class NodeInstance(QGraphicsItem):
                 return True
         return False
 
+    def has_main_widget(self):
+        """Might be used later in CodePreview_Widget to enable not only showing the NI's class but also it's
+        main_widget's class."""
+        return self.main_widget is not None
+
+    def get_input_widgets(self):
+        """Might be used later in CodePreview_Widget to enable not only showing the NI's class but its input widgets'
+        classes."""
+        input_widgets = []
+        for i in range(len(self.inputs)):
+            inp = self.inputs[i]
+            if inp.widget is not None:
+                input_widgets.append({i: inp.widget})
+        return input_widgets
 
     def get_json_data(self):
         """Returns all metadata of the NI including position, package etc. in a JSON-able dict format.

@@ -1,3 +1,6 @@
+
+![](/docs/resources/images/pyScript14.PNG)
+
 # Welcome to the GitHub repository of the pyScript project!
 
 Please visit the GitHub page: https://leon-thomm.github.io/pyScript/
