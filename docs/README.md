@@ -102,7 +102,7 @@ The overall process looks like this:
 
 ## NodeManager Overview
 
-Please be aware that this application is not extremely intuitive just yet, there are quite a few features still missing. I am working on that :) If you have suggestions, hit me up.
+Please be aware that this application is not extremely intuitive yet, there are quite a few features still missing. I am working on that :) If you have suggestions, hit me up.
 
 ![pyScript NodeManager screenshot](/resources/images/Qt 70.png)
 
@@ -292,7 +292,7 @@ If you are troubleshooting your nodes, you can turn debugging on. This will prin
         
         EXCEPTION IN <NodeInstance Name> NI: <exception>
         
-whenever the execution of a node returned an error. That is a very useful feature but one of the things I have to work on most importantly since this is not very intuitive just yet.
+whenever the execution of a node returned an error. That's a very useful feature but one of the things with quite some potential for improvement.
 
 # Creating New Nodes - Advanced
 
