@@ -1,7 +1,7 @@
 # Welcome to the documentation page of pyScript!
 
-pyScript is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software ad the code also isn't optimized for readability.
-It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts however is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see section 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
+pyScript is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and the code also isn't optimized for readability.
+It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts, however, is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see section 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
 
 # Idea
 
@@ -9,16 +9,16 @@ It is currently not yet in a state of large package varieties of usable nodes. O
     <img src="resources/images/thumbnail7.png" alt="Prototype Demonstration Video" width="300" border="10" align="right" />
 </a>
 
-The idea is basically to have a dynamic runtime flow-based visual programming environment for Python, with visual scripts serving as a diagram-like representation of your script while being executable at the same time which can be really useful for presentations for examle. The runtime part means that you don't export any code, everything gets executed within the editor as you go, at runtime. Beside the main pyScript application (the editor), the pyScript NodeManager lets you manage your existing nodes and the creation of new nodes which you can then program for use in your visual scripts. The focus is on enabling an easy process of creating new nodes and giving them intuitive GUI elements. **You can throw any Python code into these nodes and pyScript provides you with the platform to use them in combination with others.** Keep in mind that the intention is not to 'replace' textual coding - there is a lot you can do in textual programming which doesn't make sense being represented that way at all. But there is also the opposite.
+The idea is basically to have a dynamic runtime flow-based visual programming environment for Python, with visual flows serving as a diagram-like representation of your script while being executable at the same time (which can be really useful for presentations for examle). The runtime part means that you don't export any code, everything gets executed within the editor as you go, at runtime. Beside the main pyScript application (the editor), the pyScript NodeManager lets you manage your existing nodes and the creation of new ones which you can then program for use in your visual scripts. The focus is on enabling an easy process of creating new nodes and giving them intuitive GUI elements. **You can throw any Python code into these nodes and pyScript provides you with the platform to use them in combination with others.** Keep in mind that the intention is not to 'replace' textual coding - there is a lot you can do in textual programming which doesn't make sense being represented that way at all. But there is also the opposite.
 
-There are two types of connections (execution and data connections) but if you are searching for a pure data flow sofware, you can absolutely do normal pure dataflows which opens plenty of possibilities for data manipulation.
+There are two types of connections (execution and data connections) but if you are searching for a pure data flow sofware, you can absolutely do normal pure dataflows which opens plenty of possibilities for data manipulation applications.
 
 
 # Getting Started
 
 ## Installation
 
-You need to have **Python 3 and PySide2** installed plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find example projects in the 'saves' folder that use these packages. **To start the editor simply run _pyScript.py_**. To start the NodeManager run _pyScript NodeManager.py_ in the 'pyScript_NodeManager' folder.
+You need to have **Python 3 and PySide2** installed, plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find an example project in the 'saves' folder that uses these packages. **To start the editor simply run _pyScript.py_**. To start the NodeManager run _pyScript NodeManager.py_, located in the 'pyScript_NodeManager' folder.
 
 ## pyScript Overview
 
@@ -26,17 +26,31 @@ You need to have **Python 3 and PySide2** installed plus all the packages that y
 
 When you open pyScript, you will notice, there are different scripts. Every script has variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
 
-### Placing Nodes
-
-Just left click on a flow to see what nodes you can place. You can also press 'Shift'+'P' to place a new node besides the last one and move it around with 'Shift'+Arrow.
-
 ### Importing Nodes
 
 You need to import nodes before you can use them from node packages (File -> Import Nodes and then choose a nodes package file *.pypac). If the import succeeded, you will then be able to use the imported nodes in all scripts.
 
-### Zoom
+### Controls
+
+
+#### Stylus Support
+Note that pyScript is also optimized for use with convertible notebooks/tablets using a stylus pen. You can use stylus pens for either editing your flows or to add handwritten notes. In the top right corner, you can spcify your actions. Be aware, that there may be bugs.
+
+#### Zoom
 
 Strg+Mouse Wheel
+
+#### Pan
+
+Middlee mouse button
+
+#### Placing Nodes
+
+Just right click on a flow to see what nodes you can place. You can then also press 'Shift'+'P' to place a new node next to the last one and move it around with 'Shift'+Arrow.
+
+#### Selecting Items
+
+Left Mouse
 
 ### Variables
 
@@ -47,10 +61,6 @@ You can create new variables just like scripts. By right clicking on a variable,
 ### Load&Save
 
 You can save projects by clicking File -> Save Project. You should do this often. When starting pyScript, you can load such a saved project into the editor. A little dialog will show all the required packages for the project you are trying to load. If you have used packages from special places (not the standard packages folder), you should choose them manually. If not, you can use auto import, it will search through all packages in the standard packages directory.
-
-### Stylus Support
-
-You can use stylus pens for either editing flows aka programming just like normal or to put handwritten notes into your script. In the top right corner, you can spcify that. Be aware, that this feature is not heavily tested, it surely contains some bugs.
 
 ### Save Picture
 
@@ -100,12 +110,12 @@ This is what the NodeManager can look like. To define a node, you first have to 
 
 ### Name Conventions
 
-If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon. Your title can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
+If your node has a title that, except for spaces, is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not (yet) getting warned if your node title is not conform and you try to save your nodes. If can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
 
-Apart from that, there are a few **name conventions** that you should follow:
+Furthermore:
 
-- A package's name is unique.
-- Multiple Nodes in a package _can_ have the same name.
+- A package's name must be unique.
+- Multiple Nodes in a package _can_ have the same name (but for convenient use in the editor, you should make sure that the description differs).
 - No name or title is allowed to have a sequence of three underscore characters '\_\_\_' as this is an anchor for pyScript and the NodeManager for separation of different components.
 
 ![](/resources/images/pyScript2.PNG)
@@ -118,7 +128,8 @@ A package is identified by it's name. Packages with the same names should never 
 
 ## Programming Nodes
 
-And there we are. The basic concepts are:
+And there we are. Note that pyScript now has a 'preview source code' feature, so you can use any existing nodes as reference and take a look at their source code right inside the editor. Simply drag the splitter handle from the bottom line upwards to access the preview area and select a placed node.
+The basic concepts are:
 
 - For every node (as well as all it's widget classes, more on that later), the NodeManager creates **METACODE**-files from templates if they are not already existing. All programming is done by editing these METACODE files.
 - pyScript will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
