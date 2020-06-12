@@ -4,9 +4,7 @@
 
 Ey, what's up!
 
-Please visit the GitHub page: https://leon-thomm.github.io/pyScript/
-
-If you want to download the software, please use the latest release.
+Please visit the GitHub page for a very budget overview and doc: https://leon-thomm.github.io/pyScript/
 
 # Before you download
 
