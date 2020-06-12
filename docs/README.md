@@ -110,12 +110,12 @@ This is what the NodeManager can look like. To define a node, you first have to 
 
 ### Name Conventions
 
-If your node has a title that is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not getting warned if your node title is not conform and you try to save your nodes. But that's one feature on my list I will try to implement soon. Your title can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
+If your node has a title that, except for spaces, is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not (yet) getting warned if your node title is not conform and you try to save your nodes. If can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
 
-Apart from that, there are a few **name conventions** that you should follow:
+Furthermore:
 
-- A package's name is unique.
-- Multiple Nodes in a package _can_ have the same name.
+- A package's name must be unique.
+- Multiple Nodes in a package _can_ have the same name (but for convenient use in the editor, you should make sure that the description differs).
 - No name or title is allowed to have a sequence of three underscore characters '\_\_\_' as this is an anchor for pyScript and the NodeManager for separation of different components.
 
 ![](/resources/images/pyScript2.PNG)
