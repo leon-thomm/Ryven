@@ -1,8 +1,6 @@
 from PySide2.QtWidgets import QWidget, QLabel, QGridLayout, QHBoxLayout, QSpacerItem, QSizePolicy, QStyleOption, QStyle
-from PySide2.QtGui import QFont, QPainter, QPixmap
-from PySide2.QtCore import Signal, Qt
-
-from custom_src.RenderView import RenderView, RenderScene
+from PySide2.QtGui import QFont, QPainter
+from PySide2.QtCore import Signal
 
 
 class NodeWidget(QWidget):
@@ -14,7 +12,6 @@ class NodeWidget(QWidget):
         super(NodeWidget, self).__init__(parent)
 
         self.custom_focused = False
-        # self.node_image = node_image
         self.custom_focused_stylesheet = '''
 NodeWidget {
     border: 2px solid #49aeed;

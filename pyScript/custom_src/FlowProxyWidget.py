@@ -1,7 +1,5 @@
 from PySide2.QtWidgets import QGraphicsProxyWidget
 
-from custom_src.GlobalAccess import GlobalStorage
-
 
 class FlowProxyWidget(QGraphicsProxyWidget):
     def __init__(self, flow, parent=None):

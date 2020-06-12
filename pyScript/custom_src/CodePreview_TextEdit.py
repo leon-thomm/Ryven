@@ -12,7 +12,6 @@ class CodePreview_TextEdit(QTextEdit):
         self.setReadOnly(True)
 
         self.highlighter = CodePreview_Highlighter()
-        self.disable_highlighting()  # by default disabled yet
 
     def enable_highlighting(self):
         self.highlighter.setDocument(self.document())
@@ -20,6 +19,7 @@ class CodePreview_TextEdit(QTextEdit):
         QTextEdit {
             background-color: #333333;
             color: #eeeeff;
+            border-radius: 3px;
         }
         ''')
 
@@ -29,5 +29,6 @@ class CodePreview_TextEdit(QTextEdit):
         QTextEdit {
             background-color: #1a1a1a;
             color: #eeeeff;
+            border-radius: 3px;
         }
         ''')

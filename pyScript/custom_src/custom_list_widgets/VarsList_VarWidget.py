@@ -1,16 +1,18 @@
-from PySide2.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QVBoxLayout, QLabel, QMenu, QAction
-from PySide2.QtGui import QIcon, QDrag, QPixmap
-from PySide2.QtCore import Signal, QRect, QPoint, QMimeData, QByteArray, Qt, QEvent, QBuffer, QByteArray
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QMenu, QAction
+from PySide2.QtGui import QIcon, QDrag
+from PySide2.QtCore import Signal, QMimeData, Qt, QEvent, QByteArray
 
 import json
 
-from custom_src.ListWidget_NameLineEdit import ListWidget_NameLineEdit
-from custom_src.EditVarVal_Dialog import EditVarVal_Dialog
+from custom_src.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
+from custom_src.script_variables.EditVarVal_Dialog import EditVarVal_Dialog
 
 
 class VarsList_VarWidget(QWidget):
+    """Single variable representing component for VariablesListWidget.
+    See VariablesListWidget for further info."""
 
-    name_le_editing_finished = Signal()
+    name_LE_editing_finished = Signal()
 
     def __init__(self, vars_list_widget, var):
         super(VarsList_VarWidget, self).__init__()
@@ -35,22 +37,14 @@ class VarsList_VarWidget(QWidget):
         # create name and data_type line edits
         self.name_line_edit = ListWidget_NameLineEdit(var.name, self)
         self.name_line_edit.setPlaceholderText('name')
-        # TODO create variable name and dt-type stylesheets
-        #  (with small border/paddin/margin - this didn't work so far at all - I don't know why)
-        #  Also the double click event on a line edit only get's catched correctly when clicking in the middle
         self.name_line_edit.setEnabled(False)
         self.name_line_edit.editingFinished.connect(self.name_line_edit_editing_finished)
         self.name_line_edit.unfocused.connect(self.name_line_edit_editing_finished)
-        # TODO handle the variable name-and dt-line_edit's 'editing finished' the right way.
-        #  It doesn't work when just clicking to somewhere else after starting to edit (it stays editable)
 
         name_type_layout = QVBoxLayout()
         name_type_layout.addWidget(self.name_line_edit)
         main_layout.addLayout(name_type_layout)
 
-        # TODO create buttons (del, maybe: move up, move down etc.)
-
-        # add whole layout to the main widget and save in widgets array
         self.setLayout(main_layout)
 
 
@@ -114,7 +108,6 @@ class VarsList_VarWidget(QWidget):
 
 
     def name_line_edit_double_clicked(self):
-        #line_edit: QLineEdit = self.sender()
         self.name_line_edit.setEnabled(True)
         self.name_line_edit.setFocus()
         self.name_line_edit.selectAll()
@@ -135,5 +128,5 @@ class VarsList_VarWidget(QWidget):
         if self.ignore_name_line_edit_signal:
             return
         self.ignore_name_line_edit_signal = True
-        self.name_le_editing_finished.emit()
+        self.name_LE_editing_finished.emit()
         self.ignore_name_line_edit_signal = False

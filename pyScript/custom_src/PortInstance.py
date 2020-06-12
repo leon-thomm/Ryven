@@ -1,8 +1,10 @@
-from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle, QToolTip
-from PySide2.QtCore import Qt, QRectF, QPointF, QEvent
-from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont, QHelpEvent
+from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle
+from PySide2.QtCore import Qt, QRectF, QPointF
+from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont
 
-from custom_src.GlobalAccess import GlobalStorage, get_longest_line
+from custom_src.global_tools.Debugger import Debugger
+from custom_src.Designs import Design
+from custom_src.global_tools.strings import get_longest_line
 
 from custom_src.FlowProxyWidget import FlowProxyWidget
 
@@ -70,7 +72,7 @@ class PortInstance:
 
     def set_val(self, val):
         """applies on INPUT; called NI internally"""
-        GlobalStorage.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
+        Debugger.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
                             'NodeInstance to', val)
 
         if self.val is val:  # no update if value didn't change
@@ -83,11 +85,11 @@ class PortInstance:
 
     def get_val(self):
         """applies on DATA; called NI internally AND externally"""
-        GlobalStorage.debug('get value in', self.direction, 'port instance',
-                            self.parent_node_instance.inputs.index(
+        Debugger.debug('get value in', self.direction, 'port instance',
+                       self.parent_node_instance.inputs.index(
                                 self) if self.direction == 'input' else self.parent_node_instance.outputs.index(self),
                             'of', self.parent_node_instance.parent_node.title)
-        GlobalStorage.debug('my value is', self.val)
+        Debugger.debug('my value is', self.val)
 
         if self.direction == 'input':
             if len(self.connected_port_instances) == 0:
@@ -96,10 +98,10 @@ class PortInstance:
                 else:
                     return None
             else:
-                GlobalStorage.debug('calling connected port for val')
+                Debugger.debug('calling connected port for val')
                 return self.connected_port_instances[0].get_val()
         elif self.direction == 'output':
-            GlobalStorage.debug('returning val directly')
+            Debugger.debug('returning val directly')
             if self.parent_node_instance.gen_data_on_request:
                 self.parent_node_instance.update()
             return self.val
@@ -231,7 +233,7 @@ class PortInstanceGate(QGraphicsItem):
         return QRectF(-self.width / 2, -self.height / 2, self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        if GlobalStorage.storage['design style'] == 'dark std':
+        if Design.flow_style == 'dark std':
             color = QColor('#2E688C') if self.parent_port_instance.type_ == 'data' else QColor('#3880ad')
             if option.state & QStyle.State_MouseOver:
                 color = color.lighter()
@@ -240,7 +242,7 @@ class PortInstanceGate(QGraphicsItem):
             painter.setBrush(brush)
             painter.setPen(Qt.NoPen)
 
-        elif GlobalStorage.storage['design style'] == 'dark tron':
+        elif Design.flow_style == 'dark tron':
             color = ''
             if self.parent_port_instance.type_ == 'exec':
                 color = '#FFFFFF'
@@ -287,9 +289,9 @@ class PortInstanceLabel(QGraphicsItem):
     def paint(self, painter, option, widget=None):
         painter.setBrush(Qt.NoBrush)
         c = ''
-        if GlobalStorage.storage['design style'] == 'dark std':
+        if Design.flow_style == 'dark std':
             c = '#ffffff'
-        elif GlobalStorage.storage['design style'] == 'dark tron':
+        elif Design.flow_style == 'dark tron':
             if self.parent_port_instance.type_ == 'exec':
                 c = '#ffffff'
             elif self.parent_port_instance.type_ == 'data':
@@ -298,19 +300,6 @@ class PortInstanceLabel(QGraphicsItem):
         painter.setPen(pen)
         painter.setFont(self.font)
         painter.drawText(self.boundingRect(), Qt.AlignCenter, self.parent_port_instance.label_str)
-
-
-# class PortInstanceWidget:
-#     def __init__(self, parent_port_instance, parent_node_instance):
-#         self.parent_port_instance = parent_port_instance
-#         self.parent_node_instance = parent_node_instance
-#         self.port_local_pos = None
-#
-#     def get_data(self):
-#         pass
-#
-#     def set_data(self, data):
-#         pass
 
 
 class StdLineEdit_PortInstanceWidget(QLineEdit):

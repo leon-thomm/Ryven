@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QWidget, QPushButton, QHBoxLayout, QGraphicsView, QSlider, QColorDialog
+from PySide2.QtWidgets import QWidget, QPushButton, QHBoxLayout, QSlider, QColorDialog
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QColor
 

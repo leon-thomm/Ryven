@@ -1,15 +1,17 @@
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit
+from PySide2.QtWidgets import QVBoxLayout, QWidget
 from PySide2.QtCore import Qt
 
-import json
-
-from custom_src.VarsList_VarWidget import VarsList_VarWidget
-from custom_src.GlobalAccess import GlobalStorage
+from custom_src.custom_list_widgets.VarsList_VarWidget import VarsList_VarWidget
 
 
-class VariablesCustomListWidget(QWidget):
+class VariablesListWidget(QWidget):
+    """This is the list widget you can see on the right side in the editor, showing all existent variables of a script.
+    This class equals ScriptsListWidget by far, but I don't want to put them under the same base class since they
+    actually represent very different things (scripts and variables) and therefore might develop quite differently
+    in the future."""
+
     def __init__(self, variables):
-        super(VariablesCustomListWidget, self).__init__()
+        super(VariablesListWidget, self).__init__()
 
         self.variables = variables
         self.widgets = []
@@ -34,7 +36,7 @@ class VariablesCustomListWidget(QWidget):
 
         for v in self.variables:
             new_widget = VarsList_VarWidget(self, v)
-            new_widget.name_le_editing_finished.connect(self.name_line_edit_editing_finished)
+            new_widget.name_LE_editing_finished.connect(self.name_line_edit_editing_finished)
             self.widgets.append(new_widget)
 
         self.rebuild_ui()

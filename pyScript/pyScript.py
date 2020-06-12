@@ -1,6 +1,6 @@
 import sys
 
-from custom_src.StartupDialog import StartupDialog
+from custom_src.startup_dialog.StartupDialog import StartupDialog
 from custom_src.MainWindow import MainWindow
 from PySide2.QtWidgets import QApplication
 

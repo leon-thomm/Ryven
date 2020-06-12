@@ -1,13 +1,16 @@
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLineEdit, QMessageBox
 from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QWidget, QMessageBox, QVBoxLayout
 
-import json
+from custom_src.custom_list_widgets.ScriptList_ScriptWidget import ScriptsList_ScriptWidget
 
-from custom_src.ScriptList_ScriptWidget import ScriptsList_ScriptWidget
-from custom_src.GlobalAccess import GlobalStorage
 
 
 class ScriptsListWidget(QWidget):
+    """This is the list widget you can see on the left side in the editor, showing all existent scripts.
+    This class equals VariablesListWidget by far, but I don't want to put them under the same base class since they
+    actually represent very different things (scripts and variables) and therefore might develop quite differently
+    in the future."""
+
     def __init__(self, main_window, scripts):
         super(ScriptsListWidget, self).__init__()
 
@@ -35,7 +38,7 @@ class ScriptsListWidget(QWidget):
 
         for s in self.scripts:
             new_widget = ScriptsList_ScriptWidget(self, s)
-            new_widget.name_le_editing_finished.connect(self.name_line_edit_editing_finished)
+            new_widget.name_LE_editing_finished.connect(self.name_line_edit_editing_finished)
             self.widgets.append(new_widget)
 
         self.rebuild_ui()

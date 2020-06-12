@@ -1,6 +1,7 @@
-from PySide2.QtWidgets import QWidget, QScrollArea, QHBoxLayout, QVBoxLayout, QGridLayout, QPushButton, QPlainTextEdit, QLabel, QLayout, QSizePolicy
-from PySide2.QtCore import Qt, QSize
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QPlainTextEdit, QLabel, QLayout
 from PySide2.QtGui import QFont
+
+from custom_src.global_tools.strings import shorten
 
 
 class Logger(QWidget):
@@ -29,7 +30,7 @@ class Logger(QWidget):
 
 
     def log_message(self, sender, message: str, target=''):
-        if target == 'global':
+        if target == 'global_tools':
             self.global_log.log(message)
         elif target == 'error':
             self.error_log.log(message)
@@ -62,7 +63,7 @@ class Log(QWidget):
         self.header_layout.addWidget(self.remove_button)
         self.remove_button.hide()
 
-        holder_label = QLabel(str(sender))
+        holder_label = QLabel(shorten(str(sender), 76))
         holder_label.setWordWrap(True)
         self.log_view = QPlainTextEdit()
         self.log_view.setReadOnly(True)

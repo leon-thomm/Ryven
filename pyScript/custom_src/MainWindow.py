@@ -1,22 +1,22 @@
-import os, sys
-# QT
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut
+import os,  sys
+
 from PySide2.QtGui import QColor, QFontDatabase, QIcon, QKeySequence
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut
+
 # parent UI
 from ui.ui_main_window import Ui_MainWindow
 
-from custom_src.GlobalAccess import GlobalStorage
-
-# custom content
-from custom_src.Script import Script
-# from custom_src.VyVariable import VyVariable
 from custom_src.Node import Node, NodePort, SetVariable_Node, GetVariable_Node
+from custom_src.Script import Script
+from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
 from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.custom_nodes.SetVar_NodeInstance import SetVar_NodeInstance
-from custom_src.ScriptsListWidget import ScriptsListWidget
+from custom_src.global_tools.Debugger import Debugger
+from custom_src.Designs import Design
 
 
 class MainWindow(QMainWindow):
+    """MainWindow still lacks cleanup and documentation, sorry."""
 
     def __init__(self, config):
         super(MainWindow, self).__init__()
@@ -54,13 +54,8 @@ class MainWindow(QMainWindow):
             self.all_nodes[1]: GetVar_NodeInstance
         }  # (key: node obj, val: NI subclass) (used in Flow)
 
-        self.custom_node_input_widget_classes = {}  # {node : {str: PortInstanceWidget-subclass}} (used in PortInstance)
-
-        # self.node_images = {
-        #     self.all_nodes[0]: self.get_node_image(self.all_nodes[0]),
-        #     self.all_nodes[1]: self.get_node_image(self.all_nodes[1])
-        # }  # {node: QImage}
-
+        # {node : {str: PortInstanceWidget-subclass}} (used in PortInstance)
+        self.custom_node_input_widget_classes = {}
 
         # clear temp folder
         for f in os.listdir('temp'):
@@ -101,16 +96,16 @@ class MainWindow(QMainWindow):
         self.set_design('dark tron')
 
     def set_design(self, new_design):
-        GlobalStorage.storage['design style'] = new_design
+        Design.flow_style = new_design
         self.design_style = new_design
         for script in self.scripts:
             script.flow.design_style_changed()
 
     def on_enable_debugging_triggered(self):
-        GlobalStorage.storage['debugging'] = True
+        Debugger.enable()
 
     def on_disable_debugging_triggered(self):
-        GlobalStorage.storage['debugging'] = False
+        Debugger.disable()
 
 
     def on_save_scene_pic_viewport_triggered(self):
@@ -177,28 +172,27 @@ class MainWindow(QMainWindow):
             j_str = f.read()
             f.close()
         except FileExistsError or FileNotFoundError:
-            GlobalStorage.debug('couldn\'t open file')
+            Debugger.debug('couldn\'t open file')
             return
 
 
-        # IMPORTANT: FIRST, TRANSLATE THE PACKAGE (METACODE files -> SRC CODE files)
+        # Important: translate the package first (metacore files -> src code files)
         PackageTranslator = self.get_class_from_file(file_path='../pyScript_PackageTranslator',
                                                      file_name='pyScript_PackageTranslator',
                                                      class_name='PackageTranslator')
         package_translator = PackageTranslator(os.path.dirname(os.path.abspath(file_path)))
 
 
-        # self.parse_nodes(j_str, os.path.dirname(file_path), os.path.splitext(os.path.basename(file_path))[0])
         self.parse_nodes(j_str, os.path.dirname(file_path), os.path.splitext(os.path.basename(file_path))[0])
 
 
     def parse_nodes(self, j_str, package_path, package_name):
         import json
 
-        # strict=False has to be to allow 'control characters' like '\n' for newline when loading the json
+        # strict=False is necessary to allow 'control characters' like '\n' for newline when loading the json
         j_obj = json.loads(j_str, strict=False)
 
-        GlobalStorage.debug(j_obj['type'])
+        Debugger.debug(j_obj['type'])
         if j_obj['type'] != 'vyScriptFP nodes package':
             return
 
@@ -283,7 +277,7 @@ class MainWindow(QMainWindow):
                         if i_widget_type == 'custom widget':
                             i_widget_name = j_input['widget name']
                 new_input = NodePort()
-                new_input.type = i_type
+                new_input.type_ = i_type
                 new_input.label = i_label
                 if i_has_widget:
                     new_input.widget_type = i_widget_type
@@ -302,48 +296,34 @@ class MainWindow(QMainWindow):
                 o_type = j_output['type']
                 o_label = j_output['label']
                 new_output = NodePort()
-                new_output.type = o_type
+                new_output.type_ = o_type
                 new_output.label = o_label
                 outputs.append(new_output)
 
             new_node.title = node_title
             new_node.description = node_description
-            new_node.type = node_type
+            new_node.type_ = node_type
             new_node.package = package_name
             new_node.has_main_widget = node_has_main_widget
             if node_has_main_widget:
                 new_node.main_widget_pos = node_main_widget_pos
             new_node.design_style = node_design_style
             new_node.color = QColor(node_color)
-            # new_node.code = node_code
             new_node.inputs = inputs
             new_node.outputs = outputs
-            
-            
-            # self.node_images[new_node] = self.get_node_image(new_node)
-            
+
             
             self.custom_nodes.append(new_node)
             self.all_nodes.append(new_node)
 
 
-
-
-        GlobalStorage.debug(len(self.custom_nodes), 'nodes imported')
-    
-    
-    # def get_node_image(self, node):
-    #     # create picture
-    #     render_view = RenderView(self, node, self.all_node_instance_classes[node])
-    #     img = render_view.get_img()
-    #     del render_view
-    #     return img
+        Debugger.debug(len(self.custom_nodes), 'nodes imported')
 
 
     def get_class_from_file(self, file_path, file_name, class_name):
-        GlobalStorage.debug(file_path)
-        GlobalStorage.debug(file_name)
-        GlobalStorage.debug(class_name)
+        Debugger.debug(file_path)
+        Debugger.debug(file_name)
+        Debugger.debug(class_name)
         sys.path.append(file_path)
         new_module = __import__(file_name, fromlist=[class_name])
         new_class = getattr(new_module, class_name)
@@ -375,7 +355,7 @@ class MainWindow(QMainWindow):
         try:
             file = open(file_name, 'w')
         except FileNotFoundError:
-            GlobalStorage.debug('couldn\'t open file')
+            Debugger.debug('couldn\'t open file')
             return
 
 
@@ -389,7 +369,7 @@ class MainWindow(QMainWindow):
                               'scripts': scripts_data}
 
         json_str = json.dumps(whole_project_dict)
-        GlobalStorage.debug(json_str)
+        Debugger.debug(json_str)
 
 
         file.write(json_str)

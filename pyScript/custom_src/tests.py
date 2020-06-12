@@ -181,7 +181,7 @@ if __name__ == '__main__':
     # sys.exit(app.exec_())
 
 
-    path = 'H:\Projekte\QT\PySide2\pyScript\pyScript\pyScript\packages'
+    path = ''
     replace_in_folder(path)
 
 

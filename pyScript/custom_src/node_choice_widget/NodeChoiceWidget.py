@@ -2,8 +2,9 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QLabel, QScrollAr
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 
-from custom_src.GlobalAccess import GlobalStorage, sort_nodes
-from custom_src.NodeChoiceWidget.NodeWidget import NodeWidget
+from custom_src.global_tools.Debugger import Debugger
+from custom_src.global_tools.stuff import sort_nodes
+from custom_src.node_choice_widget.NodeWidget import NodeWidget
 
 
 class NodeChoiceWidget(QWidget):
@@ -12,13 +13,11 @@ class NodeChoiceWidget(QWidget):
 
         self.flow = flow
 
-        # these arrays POINT to the actual ones from main_window etc.
-        self.all_nodes = sort_nodes(nodes)  # copy, keine ref
-        # self.node_images = node_images
+        self.all_nodes = sort_nodes(nodes)  # copy, no ref
 
         self.nodes = []
 
-        # and these are the currently selectable ones, they get recreated every time update_view() is called
+        # 'current_nodes' are the currently selectable ones, they get recreated every time update_view() is called
         self.current_nodes = []
         self.all_current_node_widgets = []
         self.active_node_widget_index = -1
@@ -57,7 +56,6 @@ class NodeChoiceWidget(QWidget):
         self.layout().addWidget(self.list_scroll_area)
 
         self.setFixedHeight(400)
-        # self.layout().setSizeConstraint(QLayout.SetFixedSize)
 
 
         self.update_view('')
@@ -155,7 +153,7 @@ class NodeChoiceWidget(QWidget):
     def get_sorted_dict_matching_search(self, items_dict, text):
         indices_dict = {}
         for item, name in items_dict.items():  # the strings are already lowered here
-            GlobalStorage.debug(item, name, text)
+            Debugger.debug(item, name, text)
             if name.__contains__(text):
                 index = name.index(text)
                 indices_dict[item] = index

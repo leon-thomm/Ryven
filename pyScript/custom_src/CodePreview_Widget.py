@@ -1,6 +1,5 @@
 from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox
 from PySide2.QtGui import QFont
-from PySide2.QtCore import QEvent
 import inspect
 
 from custom_src.CodePreview_TextEdit import CodePreview_TextEdit
@@ -34,6 +33,7 @@ class CodePreview_Widget(QWidget):
         # syntax highlighting
         self.syntax_highlighting_check_box = QCheckBox('syntax highlighting (alpha)')
         self.syntax_highlighting_check_box.toggled.connect(self.syntax_highlighting_toggled)
+        self.syntax_highlighting_check_box.setChecked(True)
         settings_layout.addWidget(self.syntax_highlighting_check_box)
 
 

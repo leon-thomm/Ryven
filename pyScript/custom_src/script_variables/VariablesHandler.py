@@ -1,9 +1,9 @@
-import custom_src.GlobalAccess
-from custom_src.Variable import Variable
-from custom_src.VariablesListWidget import VariablesCustomListWidget
+from custom_src.script_variables.Variable import Variable
+from custom_src.custom_list_widgets.VariablesListWidget import VariablesListWidget
 from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 
-from custom_src.GlobalAccess import GlobalStorage
+from custom_src.global_tools.Debugger import Debugger
+from custom_src.global_tools.class_inspection import find_type_in_object
 
 
 class VariablesHandler:
@@ -13,7 +13,7 @@ class VariablesHandler:
         self.flow = None  # for get var node instances - gets set by Script manually
 
         self.variables = []
-        self.list_widget = VariablesCustomListWidget(self.variables)
+        self.list_widget = VariablesListWidget(self.variables)
 
         if config_vars is not None:
             for name in list(config_vars.keys()):  # variables
@@ -34,7 +34,7 @@ class VariablesHandler:
         self.list_widget.recreate_ui()
 
     def get_var(self, name):
-        GlobalStorage.debug('getting variable from script name:', name)
+        Debugger.debug('getting variable from script name:', name)
 
         for v in self.variables:
             if v.name == name:
@@ -49,7 +49,6 @@ class VariablesHandler:
         var = self.variables[var_index]
         var.val = val
         self.update_variable_usages(var)
-        # self.list_widget.recreate_ui()
         return True
 
     def get_var_index_from_name(self, name):
@@ -67,7 +66,7 @@ class VariablesHandler:
     def update_variable_usages(self, v):
         get_var_NIs = []
         for ni in self.flow.all_node_instances:
-            if custom_src.GlobalAccess.find_type_in_object(ni, GetVar_NodeInstance):
+            if find_type_in_object(ni, GetVar_NodeInstance):
                 get_var_NIs.append(ni)
 
         for ni in get_var_NIs:

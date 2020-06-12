@@ -1,22 +1,26 @@
-from PySide2.QtWidgets import QGraphicsView, QGraphicsScene, QListWidgetItem, QShortcut, QMenu, QGraphicsItem, \
-    QUndoStack
+from PySide2.QtCore import Qt, QPointF, QPoint, QRectF, QSizeF
 from PySide2.QtGui import QPainter, QPainterPath, QPen, QColor, QRadialGradient, QKeySequence, QTabletEvent, \
     QImage, QGuiApplication
-from PySide2.QtCore import Qt, QPointF, QPoint, QRectF, QSizeF
-import math, json
+from PySide2.QtWidgets import QGraphicsView, QGraphicsScene, QListWidgetItem, QShortcut, QMenu, QGraphicsItem, \
+    QUndoStack
 
-from custom_src.GlobalAccess import GlobalStorage, find_type_in_object, pythagoras, find_type_in_objects
+import json
+import math
 
+from custom_src.DrawingObject import DrawingObject
 from custom_src.FlowCommands import MoveComponents_Command, PlaceNodeInstanceInScene_Command, \
     PlaceDrawingObject_Command, RemoveComponents_Command, ConnectGates_Command, Paste_Command
 from custom_src.FlowProxyWidget import FlowProxyWidget
-from custom_src.Node import Node
-from custom_src.NodeInstance import NodeInstance
-from custom_src.PortInstance import PortInstance, PortInstanceGate
-from custom_src.NodeChoiceWidget.NodeChoiceWidget import NodeChoiceWidget
-from custom_src.DrawingObject import DrawingObject
 from custom_src.FlowStylusModesWidget import FlowStylusModesWidget
 from custom_src.FlowZoomWidget import FlowZoomWidget
+from custom_src.Node import Node
+from custom_src.node_choice_widget.NodeChoiceWidget import NodeChoiceWidget
+from custom_src.NodeInstance import NodeInstance
+from custom_src.PortInstance import PortInstance, PortInstanceGate
+from custom_src.global_tools.Debugger import Debugger
+from custom_src.global_tools.class_inspection import find_type_in_object, find_type_in_objects
+from custom_src.global_tools.math import pythagoras
+from custom_src.Designs import Design
 
 
 class Flow(QGraphicsView):
@@ -163,7 +167,7 @@ class Flow(QGraphicsView):
         self.viewport().update()
 
     def mousePressEvent(self, event):
-        GlobalStorage.debug('mouse press event received, point:', event.pos())
+        Debugger.debug('mouse press event received, point:', event.pos())
 
         # to catch tablet events (for some reason, it results in a mousePrEv too)
         if self.ignore_mouse_event:
@@ -327,7 +331,7 @@ class Flow(QGraphicsView):
             if self.panning:
                 self.panning = False
             if self.stylus_mode == 'comment' and self.drawing:
-                GlobalStorage.debug('drawing obj finished')
+                Debugger.debug('drawing obj finished')
                 self.current_drawing.finished()
                 self.current_drawing = None
                 self.drawing = False
@@ -344,11 +348,11 @@ class Flow(QGraphicsView):
     def dropEvent(self, event):
         text = event.mimeData().text()
         item: QListWidgetItem = event.mimeData()
-        GlobalStorage.debug('drop received in Flow:', text)
+        Debugger.debug('drop received in Flow:', text)
 
         # j_obj = json.loads(text)
         # if j_obj['type'] == 'variable':
-        # TODO: implement variable drag and drop into the scene - show NodeChoiceWidget with get and set
+        # TODO: implement variable drag and drop into the scene - show node_choice_widget with get and set
 
     def drawBackground(self, painter, rect):
         painter.fillRect(rect.intersected(self.sceneRect()), QColor('#333333'))
@@ -362,11 +366,11 @@ class Flow(QGraphicsView):
         """Draws all connections and borders around selected items."""
 
         pen = QPen()
-        if GlobalStorage.storage['design style'] == 'dark std':
+        if Design.flow_style == 'dark std':
             # pen.setColor('#BCBBF2')
             pen.setWidth(5)
             pen.setCapStyle(Qt.RoundCap)
-        elif GlobalStorage.storage['design style'] == 'dark tron':
+        elif Design.flow_style == 'dark tron':
             # pen.setColor('#452666')
             pen.setWidth(4)
             pen.setCapStyle(Qt.RoundCap)
@@ -388,11 +392,11 @@ class Flow(QGraphicsView):
                     r = 0
                     g = 0
                     b = 0
-                    if GlobalStorage.storage['design style'] == 'dark std':
+                    if Design.flow_style == 'dark std':
                         r = 188
                         g = 187
                         b = 242
-                    elif GlobalStorage.storage['design style'] == 'dark tron':
+                    elif Design.flow_style == 'dark tron':
                         r = 0
                         g = 120
                         b = 180
@@ -607,7 +611,7 @@ class Flow(QGraphicsView):
 
         self.scene().removeItem(ni)
 
-        GlobalStorage.debug('calling ni removed')
+        Debugger.debug('calling ni removed')
         self.all_node_instances.remove(ni)
 
     def place_new_node_by_shortcut(self):  # Shift+P
@@ -714,6 +718,7 @@ class Flow(QGraphicsView):
             y = d_config['pos y']+offset_pos.y()
             new_drawing = self.create_drawing(config=d_config)
             self.add_drawing(new_drawing, QPointF(x, y))
+            new_drawings.append(new_drawing)
 
         return new_drawings
 

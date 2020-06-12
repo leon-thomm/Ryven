@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QUndoCommand
 
-import custom_src.GlobalAccess
+from custom_src.global_tools.class_inspection import find_type_in_object
 from custom_src.NodeInstance import NodeInstance
 
 
@@ -81,7 +81,7 @@ class RemoveComponents_Command(QUndoCommand):
 
         self.node_instances = []
         for i in self.items:
-            if custom_src.GlobalAccess.find_type_in_object(i, NodeInstance):
+            if find_type_in_object(i, NodeInstance):
                 self.node_instances.append(i)
 
         self.connected_node_instances_indices_not_in_del_selection = []

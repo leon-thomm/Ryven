@@ -1,15 +1,17 @@
-from PySide2.QtWidgets import QWidget, QLineEdit, QHBoxLayout, QVBoxLayout, QLabel, QMenu, QAction
-from PySide2.QtGui import QIcon, QDrag, QImage
-from PySide2.QtCore import Signal, QRect, QPoint, QMimeData, QByteArray, Qt, QEvent
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QMenu, QAction
+from PySide2.QtGui import QIcon, QImage
+from PySide2.QtCore import Signal, Qt, QEvent
 
 import json
 
-from custom_src.ListWidget_NameLineEdit import ListWidget_NameLineEdit
+from custom_src.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
 
 
 class ScriptsList_ScriptWidget(QWidget):
+    """Single script representing component for ScriptsListWidget.
+    See ScriptsListWidget for further info."""
 
-    name_le_editing_finished = Signal()
+    name_LE_editing_finished = Signal()
 
     def __init__(self, scripts_list_widget, script):
         super(ScriptsList_ScriptWidget, self).__init__()
@@ -34,22 +36,14 @@ class ScriptsList_ScriptWidget(QWidget):
         # create name and data_type line edits
         self.name_line_edit = ListWidget_NameLineEdit(script.name, self)
         self.name_line_edit.setPlaceholderText('name')
-        # TODO create variable name and dt-type stylesheets
-        #  (with small border/paddin/margin - this didn't work so far at all - I don't know why)
-        #  Also the double click event on a line edit only get's catched correctly when clicking in the middle
         self.name_line_edit.setEnabled(False)
         self.name_line_edit.editingFinished.connect(self.name_line_edit_editing_finished)
         self.name_line_edit.unfocused.connect(self.name_line_edit_editing_finished)
-        # TODO handle the variable name-and dt-line_edit's 'editing finished' the right way.
-        #  It doesn't work when just clicking to somewhere else after starting to edit (it stays editable)
 
         name_type_layout = QVBoxLayout()
         name_type_layout.addWidget(self.name_line_edit)
         main_layout.addLayout(name_type_layout)
 
-        # TODO create buttons (del, maybe: move up, move down etc.)
-
-        # add whole layout to the main widget and save in widgets array
         self.setLayout(main_layout)
 
 
@@ -61,7 +55,7 @@ class ScriptsList_ScriptWidget(QWidget):
                 return
 
 
-    # yes, drag and drop operations should be possible in the future for script migration!!
+    # TODO: (maybe) Script migration via drag and drop
     #
     # def mousePressEvent(self, event):
     #     if event.button() == Qt.LeftButton:
@@ -103,7 +97,6 @@ class ScriptsList_ScriptWidget(QWidget):
 
 
     def name_line_edit_double_clicked(self):
-        #line_edit: QLineEdit = self.sender()
         self.name_line_edit.setEnabled(True)
         self.name_line_edit.setFocus()
         self.name_line_edit.selectAll()
@@ -123,5 +116,5 @@ class ScriptsList_ScriptWidget(QWidget):
         if self.ignore_name_line_edit_signal:
             return
         self.ignore_name_line_edit_signal = True
-        self.name_le_editing_finished.emit()
+        self.name_LE_editing_finished.emit()
         self.ignore_name_line_edit_signal = False

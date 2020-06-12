@@ -3,7 +3,11 @@ from PySide2.QtCore import Qt, QRectF, QPointF, Signal
 from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
     QPainter
 
-from custom_src.GlobalAccess import GlobalStorage, pythagoras, MovementEnum, get_longest_line
+from custom_src.global_tools.Debugger import Debugger
+from custom_src.global_tools.math import pythagoras
+from custom_src.global_tools.MovementEnum import MovementEnum
+from custom_src.global_tools.strings import get_longest_line
+from custom_src.Designs import Design
 
 from custom_src.Node import Node
 from custom_src.PortInstance import PortInstance
@@ -79,11 +83,11 @@ class NodeInstance(QGraphicsItem):
     #                         /____/
 
     def update(self, input_called=-1, output_called=-1):
-        GlobalStorage.debug('update in', self.parent_node.title, 'on input', input_called)
+        Debugger.debug('update in', self.parent_node.title, 'on input', input_called)
         try:
             self.update_event(input_called)
         except Exception as e:
-            GlobalStorage.debug('EXCEPTION IN', self.parent_node.title, 'NI:', e)
+            Debugger.debug('EXCEPTION IN', self.parent_node.title, 'NI:', e)
 
     def update_event(self, input_called=-1):     # API  (gets overwritten)
         """Gets called when an input received a signal. This is where the magic begins in subclasses."""
@@ -93,18 +97,18 @@ class NodeInstance(QGraphicsItem):
     def data_outputs_updated(self):
         """Sends update signals to all data outputs causing connected NIs to update."""
 
-        GlobalStorage.debug('updating data outputs in', self.parent_node.title)
+        Debugger.debug('updating data outputs in', self.parent_node.title)
         for o in self.outputs:
             if o.type_ == 'data':
                 o.updated_val()
-        GlobalStorage.debug('data outputs in', self.parent_node.title, 'updated')
+        Debugger.debug('data outputs in', self.parent_node.title, 'updated')
 
     def input(self, index):     # API
         """Returns the value of a data input.
         If the input is connected, the value of the connected output is used:
         If not, the value of the widget is used."""
 
-        GlobalStorage.debug('input called in', self.parent_node.title,'NI:', index)
+        Debugger.debug('input called in', self.parent_node.title, 'NI:', index)
         return self.inputs[index].get_val()
 
     def set_output_val(self, index, val):       # API
@@ -156,8 +160,8 @@ class NodeInstance(QGraphicsItem):
         for log in self.personal_logs:
             log.enable()
 
-    def log_message(self, message: str, target='global'):
-        """Access to global Script Logs ('global' or 'error')."""
+    def log_message(self, message: str, target='global_tools'):
+        """Access to global_tools Script Logs ('global_tools' or 'error')."""
         self.flow.parent_script.logger.log_message(self, message, target)
 
     # SHAPE
@@ -169,7 +173,7 @@ class NodeInstance(QGraphicsItem):
     # PORTS
     def create_new_input(self, type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1):
         """Creates and adds a new input. Handy for subclasses."""
-        GlobalStorage.debug('create_new_input called with widget pos:', widget_pos)
+        Debugger.debug('create_new_input called with widget pos:', widget_pos)
         pi = PortInstance(self, 'input', type_, label,
                           widget_type=widget_type,
                           widget_name=widget_name,
@@ -275,7 +279,7 @@ class NodeInstance(QGraphicsItem):
 
             header_pen = std_pen  # differs from std_pen in tron design
 
-            if GlobalStorage.storage['design style'] == 'dark std':
+            if Design.flow_style == 'dark std':
                 self.draw_dark_extended_background(painter)
 
                 if option.state & QStyle.State_MouseOver:  # make title color white when mouse hovers
@@ -283,7 +287,7 @@ class NodeInstance(QGraphicsItem):
                     header_pen = QPen(c)
                     header_pen.setWidth(2)
 
-            elif GlobalStorage.storage['design style'] == 'dark tron':
+            elif Design.flow_style == 'dark tron':
                 self.draw_tron_extended_background(painter)
 
                 c = self.parent_node.color
@@ -301,13 +305,13 @@ class NodeInstance(QGraphicsItem):
 
         elif self.parent_node.design_style == 'minimalistic':
 
-            if GlobalStorage.storage['design style'] == 'dark std':
+            if Design.flow_style == 'dark std':
                 self.draw_dark_minimalistic(painter, std_pen)
                 if option.state & QStyle.State_MouseOver:  # make title color light when mouse hovers
                     pen = QPen(self.parent_node.color.lighter())
                     painter.setPen(pen)
 
-            elif GlobalStorage.storage['design style'] == 'dark tron':
+            elif Design.flow_style == 'dark tron':
                 if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
                     self.draw_tron_minimalistic(painter, background_color=self.parent_node.color.darker())
                 else:
@@ -570,14 +574,14 @@ class NodeInstance(QGraphicsItem):
         if not inputs_config and not outputs_config:
             for i in range(len(self.parent_node.inputs)):
                 inp = self.parent_node.inputs[i]
-                self.create_new_input(inp.type, inp.label,
+                self.create_new_input(inp.type_, inp.label,
                                       widget_type=self.parent_node.inputs[i].widget_type,
                                       widget_name=self.parent_node.inputs[i].widget_name,
                                       widget_pos =self.parent_node.inputs[i].widget_pos)
 
             for o in range(len(self.parent_node.outputs)):
                 out = self.parent_node.outputs[o]
-                self.create_new_output(out.type, out.label)
+                self.create_new_output(out.type_, out.label)
         else:  # when loading saved NIs, the port instances might not be synchronised to the parent's ports anymore
             for i in range(len(inputs_config)):
                 self.create_new_input_from_config(input_config=inputs_config[i])
@@ -758,7 +762,6 @@ class NodeInstance(QGraphicsItem):
             i.gate.setPos(port_pos_x + i.gate.port_local_pos.x(), port_pos_y + i.gate.port_local_pos.y())
             i.label.setPos(port_pos_x + i.label.port_local_pos.x(), port_pos_y + i.label.port_local_pos.y())
             if i.widget:
-                # GlobalStorage.debug(self.parent_node.title)
                 i.proxy.setPos(port_pos_x + i.widget.port_local_pos.x() - i.widget.width()/2,
                                port_pos_y + i.widget.port_local_pos.y() - i.widget.height()/2)
             offset += i.height + height_buffer_between_ports + space_between_inputs
@@ -821,7 +824,7 @@ class NodeInstance(QGraphicsItem):
 
         # general attributes
         node_instance_dict = {'parent node title': self.parent_node.title,
-                              'parent node type': self.parent_node.type,
+                              'parent node type': self.parent_node.type_,
                               'parent node package': self.parent_node.package,
                               'parent node description': self.parent_node.description,
                               'position x': self.pos().x(),
