@@ -269,6 +269,7 @@ class PortInstanceGate(QGraphicsItem):
     def hoverEnterEvent(self, event):
         if self.parent_port_instance.type_ == 'data' and self.parent_port_instance.direction == 'output':
             self.setToolTip(str(self.parent_port_instance.val))
+        QGraphicsItem.hoverEnterEvent(self, event)
 
 
 class PortInstanceLabel(QGraphicsItem):
