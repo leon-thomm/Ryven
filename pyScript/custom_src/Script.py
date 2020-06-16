@@ -55,7 +55,7 @@ class Script(QObject):
 
 
     def show_NI_code(self, ni):
-        """Called from Flow when the selection changed."""
+        """Called from Flow when the selection changed"""
         self.code_preview_txt_edit.update_code(ni)
 
     def add_var_clicked(self):
