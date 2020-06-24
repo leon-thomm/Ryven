@@ -2,7 +2,9 @@ from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, Q
 from PySide2.QtGui import QFont
 import inspect
 
+from custom_src.NodeInstance import NodeInstance
 from custom_src.CodePreview_TextEdit import CodePreview_TextEdit
+from custom_src.global_tools.class_inspection import find_type_in_object
 
 
 class CodePreview_Widget(QWidget):
@@ -11,6 +13,8 @@ class CodePreview_Widget(QWidget):
 
         self.text_edit = CodePreview_TextEdit()
         self.code_obj = None
+        self.buttons_class_dict = {}
+        self.active_class_index = -1
 
         settings_widget = QWidget()
         settings_layout = QHBoxLayout()
@@ -18,17 +22,12 @@ class CodePreview_Widget(QWidget):
         info_label.setFont(QFont('Poppins', 8))
         settings_layout.addWidget(info_label)
 
-        # 'show' radio buttons
-        radio_buttons_layout = QVBoxLayout()
-        self.show_class_radio_button = QRadioButton('show whole class')
-        self.show_class_radio_button.toggled.connect(self.show_class_button_toggled)
-        show_update_event_radio_button = QRadioButton('only show update event')
-        self.show_class_radio_button.setChecked(True)
+        # class radio buttons widget
+        class_selection_widget = QWidget()
+        self.class_selection_layout = QVBoxLayout()
+        class_selection_widget.setLayout(self.class_selection_layout)
 
-        radio_buttons_layout.addWidget(self.show_class_radio_button)
-        radio_buttons_layout.addWidget(show_update_event_radio_button)
-
-        settings_layout.addLayout(radio_buttons_layout)
+        settings_layout.addWidget(class_selection_widget)
 
         # syntax highlighting
         self.syntax_highlighting_check_box = QCheckBox('syntax highlighting (alpha)')
@@ -46,25 +45,71 @@ class CodePreview_Widget(QWidget):
 
         self.setStyleSheet('border: none;')
 
-    def update_code(self, obj):
+    def set_new_code_obj(self, obj):
+        self.rebuild_class_selection(obj)
+
+        self.code_obj = obj
+
         if obj is None:  # no NI selected
             self.text_edit.setText('')
             return
 
-        self.code_obj = obj
-        if self.show_whole_class():
-            self.text_edit.setText(inspect.getsource(obj.__class__))
-        else:
-            self.text_edit.setText(inspect.getsource(obj.__class__.update_event))
+        self.update_code()
+
+    def update_code(self):
+        if self.active_class_index == -1:
+            return
+
+        c = self.get_current_code_class()
+
+        self.text_edit.setText(inspect.getsource(c))
+
+    def get_current_code_class(self):
+        return list(self.buttons_class_dict.values())[self.active_class_index]
+
+    def rebuild_class_selection(self, obj):
+        # clear layout
+        for i in range(self.class_selection_layout.count()):
+            item = self.class_selection_layout.itemAt(0)
+            widget = item.widget()
+            widget.hide()
+            self.class_selection_layout.removeItem(self.class_selection_layout.itemAt(0))
+
+        self.buttons_class_dict = {}
+        self.active_class_index = -1
+
+        if find_type_in_object(obj, NodeInstance):
+            # NI class
+            node_inst_class_RB = QRadioButton('NodeInstance')
+            node_inst_class_RB.toggled.connect(self.class_RB_toggled)
+            self.buttons_class_dict[node_inst_class_RB] = obj.__class__
+            self.class_selection_layout.addWidget(node_inst_class_RB)
+
+            # main_widget class
+            if obj.main_widget is not None:
+                main_widget_class_RB = QRadioButton('MainWidget')
+                main_widget_class_RB.toggled.connect(self.class_RB_toggled)
+                self.buttons_class_dict[main_widget_class_RB] = obj.main_widget.__class__
+                self.class_selection_layout.addWidget(main_widget_class_RB)
+
+            # data input widgets
+            for inp in obj.inputs:
+                if inp.widget is not None:
+                    inp_widget_class_RB = QRadioButton('Input '+str(obj.inputs.index(inp)))
+                    inp_widget_class_RB.toggled.connect(self.class_RB_toggled)
+                    self.buttons_class_dict[inp_widget_class_RB] = inp.widget.__class__
+                    self.class_selection_layout.addWidget(inp_widget_class_RB)
+
+            node_inst_class_RB.setChecked(True)
+
+
+    def class_RB_toggled(self, checked):
+        if checked:
+            self.active_class_index = list(self.buttons_class_dict.keys()).index(self.sender())
+            self.update_code()
 
     def syntax_highlighting_toggled(self):
         if self.syntax_highlighting_check_box.isChecked():
             self.text_edit.enable_highlighting()
         else:
             self.text_edit.disable_highlighting()
-
-    def show_whole_class(self):
-        return self.show_class_radio_button.isChecked()
-
-    def show_class_button_toggled(self, event):
-        self.update_code(self.code_obj)
