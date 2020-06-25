@@ -20,7 +20,7 @@ from custom_src.PortInstance import PortInstance, PortInstanceGate
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.class_inspection import find_type_in_object, find_type_in_objects
 from custom_src.global_tools.math import pythagoras
-from custom_src.Designs import Design
+from custom_src.GlobalAttributes import Design
 
 
 class Flow(QGraphicsView):
@@ -383,8 +383,8 @@ class Flow(QGraphicsView):
                         pen.setStyle(Qt.DashLine)
                     elif o.type_ == 'exec':
                         pen.setStyle(Qt.SolidLine)
-                    path = self.connection_path(ni.pos() + o.gate.pos(),
-                                                cpi.parent_node_instance.pos() + cpi.gate.pos())
+                    path = self.connection_path(o.gate.get_scene_center_pos(),
+                                                cpi.gate.get_scene_center_pos())
                     w = path.boundingRect().width()
                     h = path.boundingRect().height()
                     gradient = QRadialGradient(path.boundingRect().center(),
@@ -414,7 +414,7 @@ class Flow(QGraphicsView):
             pen.setWidth(3)
             pen.setStyle(Qt.DotLine)
             painter.setPen(pen)
-            gate_pos = self.gate_selected.parent_node_instance.pos() + self.gate_selected.pos()
+            gate_pos = self.gate_selected.get_scene_center_pos()
             if self.gate_selected.parent_port_instance.direction == 'output':
                 painter.drawPath(
                     self.connection_path(gate_pos,
@@ -433,10 +433,10 @@ class Flow(QGraphicsView):
             painter.setBrush(Qt.NoBrush)
 
             size_factor = 1.2
-            x = ni.pos().x() - ni.width / 2 * size_factor
-            y = ni.pos().y() - ni.height / 2 * size_factor
-            w = ni.width * size_factor
-            h = ni.height * size_factor
+            x = ni.pos().x() - ni.boundingRect().width() / 2 * size_factor
+            y = ni.pos().y() - ni.boundingRect().height() / 2 * size_factor
+            w = ni.boundingRect().width() * size_factor
+            h = ni.boundingRect().height() * size_factor
             painter.drawRoundedRect(x, y, w, h, 10, 10)
 
         # DRAW SELECTED DRAWINGS BORDER
@@ -598,7 +598,6 @@ class Flow(QGraphicsView):
         ni.enable_personal_logs()
         if pos:
             ni.setPos(pos)
-        ni.compute_content_positions()
 
         # select new NI
         self.scene().clearSelection()
@@ -670,6 +669,12 @@ class Flow(QGraphicsView):
             self.remove_selected_components()
         else:
             self.remove_node_instance(node_instance)
+
+        if node_instance  in self.selected_node_instances():
+            self.undo_stack.push(
+                RemoveComponents_Command(self, self.scene().selectedItems()))
+        else:
+            self.undo_stack.push(RemoveComponents_Command(self, [node_instance]))
 
     def get_node_instance_class_from_node(self, node):
         return self.all_node_instance_classes[node]

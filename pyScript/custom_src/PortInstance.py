@@ -1,21 +1,24 @@
-from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle
-from PySide2.QtCore import Qt, QRectF, QPointF
+from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle, QGraphicsGridLayout, QGraphicsWidget, \
+    QGraphicsLayoutItem, QSizePolicy
+from PySide2.QtCore import Qt, QRectF, QPointF, QSizeF
 from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont
 
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.Designs import Design
+from custom_src.GlobalAttributes import Design, Algorithm
 from custom_src.global_tools.strings import get_longest_line
 
 from custom_src.FlowProxyWidget import FlowProxyWidget
 
 
-class PortInstance:
+class PortInstance(QGraphicsGridLayout):
     """The PortInstance class represents input-as well as output-instances of a NI. It wasn't really necessary yet, but
     I will probably subclass it later into InputPortInstance and OutputPortInstance - so far both are just
     PortInstances."""
 
     def __init__(self, parent_node_instance, direction, type_='', label_str='',
                  configuration=None, widget_type='', widget_name=None, widget_pos=''):
+        super(PortInstance, self).__init__()
+
         # GENERAL ATTRIBUTES
         self.val = None
         self.parent_node_instance = parent_node_instance
@@ -23,10 +26,6 @@ class PortInstance:
         self.type_ = type_
         self.label_str = label_str
         self.connected_port_instances = []  # connections stored here
-
-        # geometry
-        self.width = -1
-        self.height = -1
 
         # CONTENTS
         # widget
@@ -58,6 +57,11 @@ class PortInstance:
         # label
         self.label = PortInstanceLabel(self, parent_node_instance)
 
+        self.setup_ui()
+
+    def setup_ui(self):
+        pass  # reimplemented in subclasses
+
     def exec(self):
         """applies on OUTPUT; called NI internally (from parentNI)"""
         for cpi in self.connected_port_instances:
@@ -80,8 +84,11 @@ class PortInstance:
 
         self.val = val
         self.gate.setToolTip(str(val))
-        self.gate.update()
-        self.updated_val()
+        self.gate.update()  # to update the ToolTip, not sure if necessary
+
+        # if gen_data_on_request is set to true, all data will be required instead of actively forward propagated
+        if not Algorithm.gen_data_on_request:
+            self.updated_val()
 
     def get_val(self):
         """applies on DATA; called NI internally AND externally"""
@@ -102,7 +109,7 @@ class PortInstance:
                 return self.connected_port_instances[0].get_val()
         elif self.direction == 'output':
             Debugger.debug('returning val directly')
-            if self.parent_node_instance.gen_data_on_request:
+            if Algorithm.gen_data_on_request:
                 self.parent_node_instance.update()
             return self.val
 
@@ -132,58 +139,58 @@ class PortInstance:
         widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
         return widget_class
 
-    def compute_size_and_positions(self):
-        """Very ugly: manually computes the geometry. Should get removed later when implemented using
-        QGraphicsLayouts!"""
-
-        self.width = 0
-        self.height = 0
-
-        gate_label_buffer = 10  # adds space between the gate and the label (vertical)
-        label_widget_buffer = 10
-
-        label_FM = QFontMetricsF(self.label.font)
-
-        self.width = self.gate.width + self.label.width + gate_label_buffer
-        self.height = self.gate.height if self.gate.height > self.label.height else self.label.height
-        self.height *= 1.3
-
-        if self.direction == 'input':
-            if self.widget:
-                widget_width = self.widget.width()
-                widget_height = self.widget.height()
-                if self.widget_pos == 'under':
-                    self.width = widget_width if widget_width > self.width else self.width
-                    self.height += widget_height
-                    upper_row_height = self.gate.height if self.gate.height > self.label.height else self.label.height
-                    self.widget.port_local_pos = QPointF(-self.width / 2 + self.widget.width() / 2,
-                                                         -self.height / 2 + upper_row_height + self.widget.height() / 2)
-                    self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2,
-                                                       -self.height / 2 + upper_row_height / 2)
-                    self.label.port_local_pos = QPointF(
-                        -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2,
-                        -self.height / 2 + upper_row_height / 2)
-                elif self.widget_pos == 'besides':
-                    self.width += label_widget_buffer + widget_width
-                    self.height = self.height if self.height > self.widget.height() else self.widget.height()
-                    self.widget.port_local_pos = QPointF(-self.width / 2 + self.gate.width + gate_label_buffer +
-                                                         self.label.width + label_widget_buffer +
-                                                         self.widget.width() / 2,
-                                                         0)
-                    self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
-                    self.label.port_local_pos = QPointF(
-                        -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
-                if self.widget.width() > self.width:
-                    self.width = self.widget.width()
-
-            else:
-                self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
-                self.label.port_local_pos = QPointF(
-                    -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
-        elif self.direction == 'output':
-            self.gate.port_local_pos = QPointF(+self.width / 2 - self.gate.width / 2, 0)
-            self.label.port_local_pos = QPointF(
-                +self.width / 2 - self.gate.width - gate_label_buffer - self.label.width / 2, 0)
+    # def compute_size_and_positions(self):
+    #     """Very ugly: manually computes the geometry. Should get removed later when implemented using
+    #     QGraphicsLayouts!"""
+    #
+    #     self.width = 0
+    #     self.height = 0
+    #
+    #     gate_label_buffer = 10  # adds space between the gate and the label (vertical)
+    #     label_widget_buffer = 10
+    #
+    #     label_FM = QFontMetricsF(self.label.font)
+    #
+    #     self.width = self.gate.width + self.label.width + gate_label_buffer
+    #     self.height = self.gate.height if self.gate.height > self.label.height else self.label.height
+    #     self.height *= 1.3
+    #
+    #     if self.direction == 'input':
+    #         if self.widget:
+    #             widget_width = self.widget.width()
+    #             widget_height = self.widget.height()
+    #             if self.widget_pos == 'under':
+    #                 self.width = widget_width if widget_width > self.width else self.width
+    #                 self.height += widget_height
+    #                 upper_row_height = self.gate.height if self.gate.height > self.label.height else self.label.height
+    #                 self.widget.port_local_pos = QPointF(-self.width / 2 + self.widget.width() / 2,
+    #                                                      -self.height / 2 + upper_row_height + self.widget.height() / 2)
+    #                 self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2,
+    #                                                    -self.height / 2 + upper_row_height / 2)
+    #                 self.label.port_local_pos = QPointF(
+    #                     -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2,
+    #                     -self.height / 2 + upper_row_height / 2)
+    #             elif self.widget_pos == 'besides':
+    #                 self.width += label_widget_buffer + widget_width
+    #                 self.height = self.height if self.height > self.widget.height() else self.widget.height()
+    #                 self.widget.port_local_pos = QPointF(-self.width / 2 + self.gate.width + gate_label_buffer +
+    #                                                      self.label.width + label_widget_buffer +
+    #                                                      self.widget.width() / 2,
+    #                                                      0)
+    #                 self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
+    #                 self.label.port_local_pos = QPointF(
+    #                     -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
+    #             if self.widget.width() > self.width:
+    #                 self.width = self.widget.width()
+    #
+    #         else:
+    #             self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
+    #             self.label.port_local_pos = QPointF(
+    #                 -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
+    #     elif self.direction == 'output':
+    #         self.gate.port_local_pos = QPointF(+self.width / 2 - self.gate.width / 2, 0)
+    #         self.label.port_local_pos = QPointF(
+    #             +self.width / 2 - self.gate.width - gate_label_buffer - self.label.width / 2, 0)
 
     def connected(self):
         """Disables the widget and causes update"""
@@ -213,12 +220,46 @@ class PortInstance:
         return data_dict
 
 
+class InputPortInstance(PortInstance):
+    def __init__(self, parent_node_instance, type_='', label_str='',
+                 configuration=None, widget_type='', widget_name=None, widget_pos=''):
+        super(InputPortInstance, self).__init__(parent_node_instance, 'input', type_, label_str, configuration,
+                                                widget_type, widget_name, widget_pos)
+
+    def setup_ui(self):
+        self.setSpacing(5)
+        self.addItem(self.gate, 0, 0)
+        self.setAlignment(self.gate, Qt.AlignVCenter | Qt.AlignLeft)
+        self.addItem(self.label, 0, 1)
+        self.setAlignment(self.label, Qt.AlignVCenter | Qt.AlignLeft)
+        if self.widget is not None:
+            if self.widget_pos == 'besides':
+                self.addItem(self.proxy, 0, 2)
+            elif self.widget_pos == 'under':
+                self.addItem(self.proxy, 1, 0, 1, 2)
+            self.setAlignment(self.proxy, Qt.AlignCenter)
+
+
+class OutputPortInstance(PortInstance):
+    def __init__(self, parent_node_instance, type_='', label_str='',
+                 configuration=None):
+        super(OutputPortInstance, self).__init__(parent_node_instance, 'output', type_, label_str, configuration)
+
+    def setup_ui(self):
+        self.setSpacing(5)
+        self.addItem(self.label, 0, 0)
+        self.setAlignment(self.label, Qt.AlignVCenter | Qt.AlignRight)
+        self.addItem(self.gate, 0, 1)
+
+        self.setAlignment(self.gate, Qt.AlignVCenter | Qt.AlignRight)
+
 # CONTENTS -------------------------------------------------------------------------------------------------------------
 
-class PortInstanceGate(QGraphicsItem):
+class PortInstanceGate(QGraphicsWidget):
     def __init__(self, parent_port_instance, parent_node_instance):
         super(PortInstanceGate, self).__init__(parent_node_instance)
 
+        self.setGraphicsItem(self)
         self.setAcceptHoverEvents(True)
         self.setCursor(Qt.CrossCursor)
         self.tool_tip_pos = None
@@ -227,10 +268,19 @@ class PortInstanceGate(QGraphicsItem):
         self.parent_node_instance = parent_node_instance
         self.width = 15
         self.height = 15
+        self.padding = 2
         self.port_local_pos = None
 
     def boundingRect(self):
-        return QRectF(-self.width / 2, -self.height / 2, self.width, self.height)
+        return QRectF(QPointF(0, 0), self.geometry().size())
+
+    def setGeometry(self, rect):
+        self.prepareGeometryChange()
+        QGraphicsLayoutItem.setGeometry(self, rect)
+        self.setPos(rect.topLeft())
+
+    def sizeHint(self, which, constraint=...):
+        return QSizeF(self.width+2*self.padding, self.height+2*self.padding)
 
     def paint(self, painter, option, widget=None):
         if Design.flow_style == 'dark std':
@@ -261,7 +311,7 @@ class PortInstanceGate(QGraphicsItem):
                 painter.setBrush(brush)
             else:
                 painter.setBrush(Qt.NoBrush)
-        painter.drawEllipse(QPointF(0, 0), self.width / 2, self.height / 2)
+        painter.drawEllipse(QRectF(self.padding, self.padding, self.width, self.height))
 
     def mousePressEvent(self, event):
         event.accept()
@@ -271,10 +321,16 @@ class PortInstanceGate(QGraphicsItem):
             self.setToolTip(str(self.parent_port_instance.val))
         QGraphicsItem.hoverEnterEvent(self, event)
 
+    def get_scene_center_pos(self):
+        return QPointF(self.scenePos().x() + self.boundingRect().width()/2,
+                       self.scenePos().y() + self.boundingRect().height()/2)
 
-class PortInstanceLabel(QGraphicsItem):
+
+class PortInstanceLabel(QGraphicsWidget):
     def __init__(self, parent_port_instance, parent_node_instance):
         super(PortInstanceLabel, self).__init__(parent_node_instance)
+        self.setGraphicsItem(self)
+
         self.parent_port_instance = parent_port_instance
         self.parent_node_instance = parent_node_instance
 
@@ -282,10 +338,20 @@ class PortInstanceLabel(QGraphicsItem):
         font_metrics = QFontMetricsF(self.font)
         self.width = font_metrics.width(get_longest_line(self.parent_port_instance.label_str))
         self.height = font_metrics.height() * (self.parent_port_instance.label_str.count('\n') + 1)
+        # print('self.height:', self.height)
+        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         self.port_local_pos = None
 
     def boundingRect(self):
-        return QRectF(-self.width / 2, -self.height / 2, self.width, self.height)
+        return QRectF(QPointF(0, 0), self.geometry().size())
+
+    def setGeometry(self, rect):
+        self.prepareGeometryChange()
+        QGraphicsLayoutItem.setGeometry(self, rect)
+        self.setPos(rect.topLeft())
+
+    def sizeHint(self, which, constraint=...):
+        return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
         painter.setBrush(Qt.NoBrush)

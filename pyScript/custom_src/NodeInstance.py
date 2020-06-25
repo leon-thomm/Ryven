@@ -1,5 +1,6 @@
-from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle
-from PySide2.QtCore import Qt, QRectF, QPointF, Signal
+from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle, QGraphicsLinearLayout, QGraphicsWidget, \
+    QGraphicsLayoutItem, QGraphicsGridLayout, QSizePolicy
+from PySide2.QtCore import Qt, QRectF, QPointF, Signal, QSizeF
 from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
     QPainter
 
@@ -7,10 +8,10 @@ from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.math import pythagoras
 from custom_src.global_tools.MovementEnum import MovementEnum
 from custom_src.global_tools.strings import get_longest_line
-from custom_src.Designs import Design
+from custom_src.GlobalAttributes import Design, PerformanceMode
 
 from custom_src.Node import Node
-from custom_src.PortInstance import PortInstance
+from custom_src.PortInstance import InputPortInstance, OutputPortInstance
 from custom_src.FlowProxyWidget import FlowProxyWidget
 
 
@@ -29,31 +30,42 @@ class NodeInstance(QGraphicsItem):
         self.movement_pos_from = None
         self.inputs = []
         self.outputs = []
-        self.main_widget = None
-        self.main_widget_proxy: FlowProxyWidget = None
+
         self.default_actions = {'remove': {'method': self.action_remove,
                                            'data': 123},
-                                'compute shape': {'method': self.compute_content_positions}}  # for context menus
-        self.gen_data_on_request = False
+                                'update shape': {'method': self.update_shape}}  # for context menus
+        self.special_actions = {}  # only gets written in custom NodeInstance-subclasses
         self.personal_logs = []
-        self.special_actions = {}  # only gets written in custom NodeInstance-subclasses - dynamic
-        self.width = -1
-        self.height = -1
-        self.display_name_font = QFont('Poppins', 15) if parent_node.design_style == 'extended' else \
-                                 QFont('K2D', 20, QFont.Bold, True)
-        self.display_name_FM = QFontMetricsF(self.display_name_font)
-        # self.port_label_font = QFont("Source Code Pro", 10, QFont.Bold, True)
 
         # 'initializing' will be set to False below. It's needed for the ports setup, to prevent shape updating stuff
         self.initializing = True
 
         self.temp_state_data = None
 
+
+        # UI
+        self.width = -1
+        self.height = -1
+
+        self.title_label = TitleLabel(self)
+
+        self.main_widget = None
+        self.main_widget_proxy: FlowProxyWidget = None
         if self.parent_node.has_main_widget:
             self.main_widget = self.parent_node.main_widget_class(self)
-            self.main_widget_proxy = FlowProxyWidget(self.flow, self)
+            self.main_widget_proxy = FlowProxyWidget(self.flow)
             self.main_widget_proxy.setWidget(self.main_widget)
 
+        self.body_layout: QGraphicsLinearLayout = None
+        self.inputs_layout: QGraphicsLinearLayout = None
+        self.outputs_layout: QGraphicsLinearLayout = None
+        self.layout: QGraphicsLinearLayout = self.setup_ui()
+        self.widget = QGraphicsWidget(self)
+        self.widget.setLayout(self.layout)
+
+
+
+        # LOADING CONFIG
         if config:
             # self.setPos(config['position x'], config['position y'])
             self.setup_ports(config['inputs'], config['outputs'])
@@ -74,6 +86,65 @@ class NodeInstance(QGraphicsItem):
         self.setCursor(Qt.SizeAllCursor)
 
         self.initializing = False
+
+    def setup_ui(self):
+
+        #   main layout
+        layout = QGraphicsLinearLayout(Qt.Vertical)
+        layout.setSpacing(5)
+
+        if self.parent_node.design_style == 'extended':
+            layout.addItem(self.title_label)
+            layout.setAlignment(self.title_label, Qt.AlignTop)
+
+        #   inputs
+        self.inputs_layout = QGraphicsLinearLayout(Qt.Vertical)
+        self.inputs_layout.setSpacing(2)
+
+        #   outputs
+        self.outputs_layout = QGraphicsLinearLayout(Qt.Vertical)
+        self.outputs_layout.setSpacing(2)
+
+        #   body
+        self.body_layout = QGraphicsLinearLayout(Qt.Horizontal)
+
+        self.body_layout.setSpacing(4)
+        self.body_layout.addItem(self.inputs_layout)
+        self.body_layout.setAlignment(self.inputs_layout, Qt.AlignVCenter | Qt.AlignLeft)
+        self.body_layout.addStretch()
+        self.body_layout.addItem(self.outputs_layout)
+        self.body_layout.setAlignment(self.outputs_layout, Qt.AlignVCenter | Qt.AlignRight)
+
+        if self.main_widget is not None:
+            if self.parent_node.main_widget_pos == 'between ports':
+                self.body_layout.insertItem(1, self.main_widget_proxy)
+                self.body_layout.insertStretch(2)
+                layout.addItem(self.body_layout)
+
+            elif self.parent_node.main_widget_pos == 'under ports':
+                layout.addItem(self.body_layout)
+                layout.addItem(self.main_widget_proxy)
+                layout.setAlignment(self.main_widget_proxy, Qt.AlignHCenter)
+        else:
+            layout.addItem(self.body_layout)
+
+        return layout
+
+    def rebuild_ui(self):
+        for inp in self.inputs:
+            self.inputs_layout.removeAt(0)
+        for out in self.outputs:
+            self.outputs_layout.removeAt(0)
+
+        self.layout = self.setup_ui()
+        self.widget.setLayout(self.layout)
+
+        # add inputs
+        for inp in self.inputs:
+            self.add_input_to_layout(inp)
+        for out in self.outputs:
+            self.add_output_to_layout(out)
+
 
     #                        __                             _    __     __
     #              ____ _   / /  ____ _   ____     _____   (_)  / /_   / /_     ____ ___
@@ -166,42 +237,88 @@ class NodeInstance(QGraphicsItem):
 
     # SHAPE
     def update_shape(self):
-        """Just a handy method for subclasses. Causes recompilation of the whole shape."""
-        self.compute_content_positions()
+        """Causes recompilation of the whole shape."""
+
+        if self.main_widget is not None:  # maybe the main_widget got resized
+            self.main_widget_proxy.setMaximumSize(self.main_widget.size())
+            self.widget.adjustSize()
+
+        self.layout.activate()
+        self.layout.invalidate()
+        # both very essential; repositions everything in case content has changed (inputs/outputs/widget)
+
+        self.width = self.boundingRect().width()
+        self.height = self.boundingRect().height()
+        rect = QRectF(QPointF(-self.width/2, -self.height/2),
+                      QPointF(self.width/2, self.height/2))
+        self.widget.setPos(rect.left(), rect.top())
+
+        if not self.parent_node.design_style == 'extended':
+            self.title_label.setPos(QPointF(-self.title_label.boundingRect().width()/2,
+                                            -self.title_label.boundingRect().height()/2))
+
         self.flow.viewport().update()
+
 
     # PORTS
     def create_new_input(self, type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1):
         """Creates and adds a new input. Handy for subclasses."""
         Debugger.debug('create_new_input called with widget pos:', widget_pos)
-        pi = PortInstance(self, 'input', type_, label,
-                          widget_type=widget_type,
-                          widget_name=widget_name,
-                          widget_pos=widget_pos)
+        pi = InputPortInstance(self, type_, label,
+                               widget_type=widget_type,
+                               widget_name=widget_name,
+                               widget_pos=widget_pos)
         if pos == -1:
             self.inputs.append(pi)
+            self.add_input_to_layout(pi)
         else:
-            if pos == -1:
-                self.inputs.insert(0, pi)
-            else:
-                self.inputs.insert(pos, pi)
-        if self.scene():
-            self.add_input_to_scene(pi)
+            self.inputs.insert(pos, pi)
+            self.insert_input_into_layout(pos, pi)
 
         if not self.initializing:
             self.update_shape()
 
     def create_new_input_from_config(self, input_config):
         """Called only at NI creation."""
-        pi = PortInstance(self, 'input', configuration=input_config)
+        pi = InputPortInstance(self, configuration=input_config)
         self.inputs.append(pi)
+        self.add_input_to_layout(pi)
+
+    def add_input_to_layout(self, i):
+        if self.inputs_layout.count() > 0:
+            self.inputs_layout.addStretch()
+        self.inputs_layout.addItem(i)
+        self.inputs_layout.setAlignment(i, Qt.AlignLeft)
+
+    def insert_input_into_layout(self, index, i):
+        self.inputs_layout.insertItem(index, i)
+        self.inputs_layout.setAlignment(i, Qt.AlignLeft)
+        self.inputs_layout.addStretch()
 
     def delete_input(self, i):
         """Disconnects and removes input. Handy for subclasses."""
+        inp: InputPortInstance = None
         if type(i) == int:
-            self.del_and_remove_input_from_scene(i)
-        elif type(i) == PortInstance:
-            self.del_and_remove_input_from_scene(self.inputs.index(i))
+            inp = self.inputs[i]
+        elif type(i) == InputPortInstance:
+            inp = i
+
+        for cpi in inp.connected_port_instances:
+            self.flow.connect_gates(inp.gate, cpi.gate)
+
+        # for some reason, I have to remove all widget items manually from the scene too. setting the items to
+        # ownedByLayout(True) does not work, I don't know why.
+        self.scene().removeItem(inp.gate)
+        self.scene().removeItem(inp.label)
+        if inp.proxy is not None:
+            self.scene().removeItem(inp.proxy)
+
+        self.inputs_layout.removeItem(inp)
+        self.inputs.remove(inp)
+
+        # just a temporary workaround for the issues discussed here:
+        # https://forum.qt.io/topic/116268/qgraphicslayout-not-properly-resizing-to-change-of-content
+        self.rebuild_ui()
 
         if not self.initializing:
             self.update_shape()
@@ -209,31 +326,59 @@ class NodeInstance(QGraphicsItem):
 
     def create_new_output(self, type_, label, pos=-1):
         """Creates and adds a new output. Handy for subclasses."""
-        pi = PortInstance(self, 'output', type_, label)
+
+        pi = OutputPortInstance(self, type_, label)
         if pos == -1:
             self.outputs.append(pi)
+            self.add_output_to_layout(pi)
         else:
-            if pos == -1:
-                self.outputs.insert(0, pi)
-            else:
-                self.outputs.insert(pos, pi)
-        if self.scene():
-            self.add_output_to_scene(pi)
+            self.outputs.insert(pos, pi)
+            self.insert_output_into_layot(pos, pi)
+
+        # if self.scene():
+        #     self.add_output_to_scene(pi)
 
         if not self.initializing:
             self.update_shape()
 
     def create_new_output_from_config(self, output_config=None):
         """Called only at NI creation."""
-        pi = PortInstance(self, 'output', configuration=output_config)
+        pi = OutputPortInstance(self, configuration=output_config)
         self.outputs.append(pi)
+        self.add_output_to_layout(pi)
+
+    def add_output_to_layout(self, o):
+        if self.outputs_layout.count() > 0:
+            self.outputs_layout.addStretch()
+        self.outputs_layout.addItem(o)
+        self.outputs_layout.setAlignment(o, Qt.AlignRight)
+
+    def insert_output_into_layout(self, index, o):
+        self.outputs_layout.insertItem(index, o)
+        self.outputs_layout.setAlignment(o, Qt.AlignRight)
+        self.outputs_layout.addStretch()
 
     def delete_output(self, o):
         """Disconnects and removes output. Handy for subclasses."""
+        out: OutputPortInstance = None
         if type(o) == int:
-            self.del_and_remove_output_from_scene(o)
-        else:
-            self.del_and_remove_output_from_scene(self.outputs.index(o))
+            out = self.outputs[o]
+        elif type(o) == OutputPortInstance:
+            out = o
+
+        for cpi in out.connected_port_instances:
+            self.flow.connect_gates(out.gate, cpi.gate)
+
+        # see delete_input() for info!
+        self.scene().removeItem(out.gate)
+        self.scene().removeItem(out.label)
+
+        self.outputs_layout.removeItem(out)
+        self.outputs.remove(out)
+
+        # just a temporary workaround for the issues discussed here:
+        # https://forum.qt.io/topic/116268/qgraphicslayout-not-properly-resizing-to-change-of-content
+        self.rebuild_ui()
 
         if not self.initializing:
             self.update_shape()
@@ -262,54 +407,62 @@ class NodeInstance(QGraphicsItem):
     # UI STUFF ----------------------------------------
 
     def boundingRect(self):
-        return QRectF(-self.width/2, -self.height/2, self.width, self.height)
+        # remember: (0, 0) shall be the NI's center!
+        rect = QRectF()
+        w = self.layout.geometry().width()
+        h = self.layout.geometry().height()
+        rect.setLeft(-w/2)
+        rect.setTop(-h/2)
+        rect.setWidth(w)
+        rect.setHeight(h)
+        return rect
 
     #   PAINTING
     def paint(self, painter, option, widget=None):
 
+        # print(self.title_label.geometry())
+
+        # unfortunately, the boundingRect() is only not 0 when paint() is called the first time
+        if self.width == -1 or self.height == -1:
+            self.update_shape()
+
         painter.setRenderHint(QPainter.Antialiasing)
         brush = QBrush(QColor(100, 100, 100, 150))  # QBrush(QColor('#3B9CD9'))
         painter.setBrush(brush)
-        std_pen = QPen(QColor(30, 43, 48))  # QColor(30, 43, 48)  # used for header title and minimal std dark border
-        std_pen.setWidthF(1.5)
-        # painter.setPen(std_pen)
+        # std_pen = QPen(QColor(30, 43, 48))  # QColor(30, 43, 48)  # used for header title and minimal std dark border
+        # std_pen.setWidthF(1.5)
+        # # painter.setPen(std_pen)
 
 
         if self.parent_node.design_style == 'extended':
 
-            header_pen = std_pen  # differs from std_pen in tron design
+            # header_pen = std_pen  # differs from std_pen in tron design
 
             if Design.flow_style == 'dark std':
                 self.draw_dark_extended_background(painter)
 
-                if option.state & QStyle.State_MouseOver:  # make title color white when mouse hovers
-                    c = self.parent_node.color.lighter()
-                    header_pen = QPen(c)
-                    header_pen.setWidth(2)
+                # if option.state & QStyle.State_MouseOver:  # make title color white when mouse hovers
+                #     c = self.parent_node.color.lighter()
+                #     header_pen = QPen(c)
+                #     header_pen.setWidth(2)
 
             elif Design.flow_style == 'dark tron':
                 self.draw_tron_extended_background(painter)
 
-                c = self.parent_node.color
-                if option.state & QStyle.State_MouseOver:  # make title color lighter when mouse hovers
-                    c = self.parent_node.color.lighter()
-                header_pen = QPen(c)
-                header_pen.setWidth(2)
+                # c = self.parent_node.color
+                # if option.state & QStyle.State_MouseOver:  # make title color lighter when mouse hovers
+                #     c = self.parent_node.color.lighter()
+                # header_pen = QPen(c)
+                # header_pen.setWidth(2)
 
-            # HEADER
-            painter.setFont(self.display_name_font)
-            painter.setPen(header_pen)
-            painter.drawText(self.get_title_rect(), Qt.AlignVCenter | Qt.AlignLeft, self.parent_node.title)
-            painter.setBrush(Qt.NoBrush)
-            painter.setPen(QPen(Qt.white, 1))
 
         elif self.parent_node.design_style == 'minimalistic':
 
             if Design.flow_style == 'dark std':
-                self.draw_dark_minimalistic(painter, std_pen)
-                if option.state & QStyle.State_MouseOver:  # make title color light when mouse hovers
-                    pen = QPen(self.parent_node.color.lighter())
-                    painter.setPen(pen)
+                self.draw_dark_minimalistic(painter)
+                # if option.state & QStyle.State_MouseOver:  # make title color light when mouse hovers
+                #     pen = QPen(self.parent_node.color.lighter())
+                #     painter.setPen(pen)
 
             elif Design.flow_style == 'dark tron':
                 if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
@@ -317,9 +470,10 @@ class NodeInstance(QGraphicsItem):
                 else:
                     self.draw_tron_minimalistic(painter)
 
-            # HEADER
-            painter.setFont(self.display_name_font)
-            painter.drawText(self.boundingRect(), Qt.AlignCenter, self.parent_node.title)
+        # painter.setPen(QPen(QColor('black')))
+        # painter.setBrush(Qt.NoBrush)
+        # painter.drawRect(self.widget.geometry())
+
 
     def draw_dark_extended_background(self, painter):
         c = self.parent_node.color
@@ -388,7 +542,7 @@ class NodeInstance(QGraphicsItem):
         path.closeSubpath()
         return path
 
-    def draw_dark_minimalistic(self, painter, pen):
+    def draw_dark_minimalistic(self, painter):
         path = QPainterPath()
         path.moveTo(-self.width / 2, 0)
 
@@ -413,7 +567,7 @@ class NodeInstance(QGraphicsItem):
         body_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 80))
 
         painter.setBrush(body_gradient)
-        painter.setPen(pen)
+        painter.setPen(QPen(QColor(30, 43, 48)))
 
         painter.drawPath(path)
 
@@ -439,26 +593,13 @@ class NodeInstance(QGraphicsItem):
         painter.drawPath(path)
 
     def get_header_rect(self):
-        header_height = 35 * (self.parent_node.title.count('\n')+1)
+        header_height = 1.4 * self.title_label.boundingRect().height()  # 35 * (self.parent_node.title.count('\n')+1)
 
         header_rect = QRectF()
         header_rect.setTopLeft(QPointF(-self.width/2, -self.height/2))
-        header_rect.setRight(self.width/2)
-        header_rect.setBottom(-self.height/2 + header_height)
+        header_rect.setWidth(self.width)
+        header_rect.setHeight(header_height)
         return header_rect
-
-    def get_title_rect(self):
-        title_rect_offset_factor = 0.56
-
-        header_rect = self.get_header_rect()
-        rect = QRectF()
-        rect.setTop(header_rect.top()+(header_rect.height()/2)*(1-title_rect_offset_factor))
-        rect.setLeft(header_rect.left() + 10 )
-        rect.setHeight(header_rect.height()*title_rect_offset_factor)
-        w = header_rect.width()*title_rect_offset_factor
-        title_width = self.display_name_FM.width(get_longest_line(self.parent_node.title))
-        rect.setWidth(w if w > title_width else title_width)
-        return rect
 
 
     def get_context_menu(self):
@@ -486,11 +627,20 @@ class NodeInstance(QGraphicsItem):
         redrawn during a NI drag. Should get disabled when running in performance mode - not implemented yet."""
 
         if change == QGraphicsItem.ItemPositionChange:
-            # self.flow.viewport().update()
+            if PerformanceMode.mode == 'pretty':
+                self.flow.viewport().update()
             if self.movement_state == MovementEnum.mouse_clicked:
                 self.movement_state = MovementEnum.position_changed
 
         return QGraphicsItem.itemChange(self, change, value)
+
+    def hoverEnterEvent(self, event):
+        self.title_label.set_NI_hover_state(hovering=True)
+        QGraphicsItem.hoverEnterEvent(self, event)
+
+    def hoverLeaveEvent(self, event):
+        self.title_label.set_NI_hover_state(hovering=False)
+        QGraphicsItem.hoverLeaveEvent(self, event)
 
     def mousePressEvent(self, event):
         """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a moving action."""
@@ -641,151 +791,151 @@ class NodeInstance(QGraphicsItem):
         self.width = -1
         self.height = -1
 
-    def compute_content_positions(self):
-        """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
-        for i in self.inputs:
-            i.compute_size_and_positions()
-        for o in self.outputs:
-            o.compute_size_and_positions()
-
-        display_name_height = self.display_name_FM.height()*(self.parent_node.title.count('\n')+1)
-        display_name_width = self.display_name_FM.width(get_longest_line(self.parent_node.title))
-        display_name_width_extended = self.display_name_FM.width('__' + get_longest_line(self.parent_node.title) + '__')
-
-        # label_FM = QFontMetricsF(self.port_label_font)
-
-        # all sizes and buffers
-        space_between_io = 10
-        # the following function creates additional space at the top and the bottom of the NI - the more ports, the more space
-        left_largest_width = 0
-        right_largest_width = 0
-        height_buffer_between_ports = 0 #10  # adds vertical buffer between single ports
-        horizontal_buffer_to_border = 10  # adds a little bit of space between port and border of the NI
-        left_ports_edge_height = -height_buffer_between_ports
-        right_ports_edge_height = -height_buffer_between_ports
-        for i in self.inputs:
-            if i.width > left_largest_width:
-                left_largest_width = i.width
-
-            left_ports_edge_height += i.height + height_buffer_between_ports
-
-        for o in self.outputs:
-            if o.width > right_largest_width:
-                right_largest_width = o.width
-
-            right_ports_edge_height += o.height + height_buffer_between_ports
-
-        ports_edge_height = left_ports_edge_height if left_ports_edge_height > right_ports_edge_height else right_ports_edge_height
-        ports_edge_width = left_largest_width + space_between_io + right_largest_width + 2*horizontal_buffer_to_border
-
-        body_height = 0
-        body_width = 0
-        body_top = 0
-        body_left = 0
-        body_right = 0
-
-        if self.parent_node.design_style == 'minimalistic':
-            height_buffer = 10
-
-
-            body_height = ports_edge_height if ports_edge_height > display_name_height else display_name_height
-            self.height = body_height + height_buffer
-            self.width = display_name_width_extended if display_name_width_extended > ports_edge_width else ports_edge_width
-            if self.main_widget:
-                if self.parent_node.main_widget_pos == 'under ports':
-                    self.width = self.width if self.width > self.main_widget.width()+2*horizontal_buffer_to_border else self.main_widget.width()+2*horizontal_buffer_to_border
-                    self.height += self.main_widget.height() + height_buffer_between_ports
-                elif self.parent_node.main_widget_pos == 'between ports':
-                    #self.width += self.main_widget.width()
-                    self.width = display_name_width_extended if \
-                        display_name_width_extended > ports_edge_width+self.main_widget.width() else \
-                        ports_edge_width+self.main_widget.width()
-                    self.height = self.height if self.height > self.main_widget.height() + height_buffer else self.main_widget.height() + height_buffer
-
-
-            body_top = -self.height / 2 + height_buffer / 2
-            body_left = -self.width / 2 + horizontal_buffer_to_border
-            body_right = self.width / 2 - horizontal_buffer_to_border
-
-
-        elif self.parent_node.design_style == 'extended':
-            header_height = self.get_header_rect().height() #50 * (self.parent_node.title.count('\n')+1)
-            vertical_body_buffer = 16  # half above, half below
-
-
-            body_height = ports_edge_height
-            self.height = header_height + body_height + vertical_body_buffer
-            self.width = display_name_width_extended if display_name_width_extended > ports_edge_width else ports_edge_width
-            if self.main_widget:
-                if self.parent_node.main_widget_pos == 'under ports':
-                    self.width = self.width if self.width > self.main_widget.width()+2*horizontal_buffer_to_border else self.main_widget.width()+2*horizontal_buffer_to_border
-                    self.height += self.main_widget.height() + height_buffer_between_ports
-                elif self.parent_node.main_widget_pos == 'between ports':
-                    self.width = display_name_width_extended if \
-                        display_name_width_extended > ports_edge_width+self.main_widget.width() else \
-                        ports_edge_width+self.main_widget.width()
-                    self.height = self.height if self.height > self.main_widget.height() + header_height + vertical_body_buffer else \
-                                    self.main_widget.height() + header_height + vertical_body_buffer
-
-            body_top = -self.height / 2 + header_height + vertical_body_buffer/2
-            body_left = -self.width / 2 + horizontal_buffer_to_border
-            body_right = self.width / 2 - horizontal_buffer_to_border
-
-            # here, the width and height are final
-
-        self.set_content_positions(body_height=body_height,
-                                   body_top=body_top,
-                                   body_left=body_left,
-                                   body_right=body_right,
-                                   left_ports_edge_height=left_ports_edge_height,
-                                   right_ports_edge_height=right_ports_edge_height,
-                                   height_buffer_between_ports=height_buffer_between_ports,
-                                   left_largest_width=left_largest_width,
-                                   right_largest_width=right_largest_width,
-                                   space_between_io=space_between_io)
-
-    def set_content_positions(self, body_height, body_top, body_left, body_right, left_ports_edge_height,
-                              right_ports_edge_height, height_buffer_between_ports, left_largest_width, right_largest_width,
-                              space_between_io):
-        """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
-        # set positions
-        # # calculating the vertical space  between two inputs - without their heights, just between them
-        space_between_inputs = (body_height - left_ports_edge_height) / (len(self.inputs) - 1) if len(self.inputs) > 2 else body_height - left_ports_edge_height
-        offset = 0
-        if len(self.inputs) == 1:
-            offset = (body_height - left_ports_edge_height) / 2
-        for x in range(len(self.inputs)):
-            i = self.inputs[x]
-            y = body_top + i.height/2 + offset
-            port_pos_x = body_left + i.width/2
-            port_pos_y = y
-            i.gate.setPos(port_pos_x + i.gate.port_local_pos.x(), port_pos_y + i.gate.port_local_pos.y())
-            i.label.setPos(port_pos_x + i.label.port_local_pos.x(), port_pos_y + i.label.port_local_pos.y())
-            if i.widget:
-                i.proxy.setPos(port_pos_x + i.widget.port_local_pos.x() - i.widget.width()/2,
-                               port_pos_y + i.widget.port_local_pos.y() - i.widget.height()/2)
-            offset += i.height + height_buffer_between_ports + space_between_inputs
-
-        space_between_outputs = (body_height - right_ports_edge_height) / (len(self.outputs) - 1) if len(self.outputs) > 2 else body_height - right_ports_edge_height
-        offset = 0
-        if len(self.outputs) == 1:
-            offset = (body_height - right_ports_edge_height) / 2
-        for x in range(len(self.outputs)):
-            o = self.outputs[x]
-            y = body_top + o.height/2 + offset
-            port_pos_x = body_right - o.width/2
-            port_pos_y = y
-            o.gate.setPos(port_pos_x + o.gate.port_local_pos.x(), port_pos_y + o.gate.port_local_pos.y())
-            o.label.setPos(port_pos_x + o.label.port_local_pos.x(), port_pos_y + o.label.port_local_pos.y())
-            offset += o.height + height_buffer_between_ports + space_between_outputs
-
-        if self.main_widget:
-            if self.parent_node.main_widget_pos == 'under ports':
-                self.main_widget_proxy.setPos(-self.main_widget.width() / 2,
-                                              body_top + body_height + height_buffer_between_ports)  # self.height/2 - height_buffer/2 - self.main_widget.height())
-            elif self.parent_node.main_widget_pos == 'between ports':
-                body_incl_widget_height = body_height if body_height > self.main_widget.height() else self.main_widget.height()
-                self.main_widget_proxy.setPos(body_left + left_largest_width + space_between_io/2, body_top+body_incl_widget_height/2 -self.main_widget.height()/2)
+    # def compute_content_positions(self):
+    #     """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
+    #     for i in self.inputs:
+    #         i.compute_size_and_positions()
+    #     for o in self.outputs:
+    #         o.compute_size_and_positions()
+    #
+    #     display_name_height = self.display_name_FM.height()*(self.parent_node.title.count('\n')+1)
+    #     display_name_width = self.display_name_FM.width(get_longest_line(self.parent_node.title))
+    #     display_name_width_extended = self.display_name_FM.width('__' + get_longest_line(self.parent_node.title) + '__')
+    #
+    #     # label_FM = QFontMetricsF(self.port_label_font)
+    #
+    #     # all sizes and buffers
+    #     space_between_io = 10
+    #     # the following function creates additional space at the top and the bottom of the NI - the more ports, the more space
+    #     left_largest_width = 0
+    #     right_largest_width = 0
+    #     height_buffer_between_ports = 0 #10  # adds vertical buffer between single ports
+    #     horizontal_buffer_to_border = 10  # adds a little bit of space between port and border of the NI
+    #     left_ports_edge_height = -height_buffer_between_ports
+    #     right_ports_edge_height = -height_buffer_between_ports
+    #     for i in self.inputs:
+    #         if i.width > left_largest_width:
+    #             left_largest_width = i.width
+    #
+    #         left_ports_edge_height += i.height + height_buffer_between_ports
+    #
+    #     for o in self.outputs:
+    #         if o.width > right_largest_width:
+    #             right_largest_width = o.width
+    #
+    #         right_ports_edge_height += o.height + height_buffer_between_ports
+    #
+    #     ports_edge_height = left_ports_edge_height if left_ports_edge_height > right_ports_edge_height else right_ports_edge_height
+    #     ports_edge_width = left_largest_width + space_between_io + right_largest_width + 2*horizontal_buffer_to_border
+    #
+    #     body_height = 0
+    #     body_width = 0
+    #     body_top = 0
+    #     body_left = 0
+    #     body_right = 0
+    #
+    #     if self.parent_node.design_style == 'minimalistic':
+    #         height_buffer = 10
+    #
+    #
+    #         body_height = ports_edge_height if ports_edge_height > display_name_height else display_name_height
+    #         self.height = body_height + height_buffer
+    #         self.width = display_name_width_extended if display_name_width_extended > ports_edge_width else ports_edge_width
+    #         if self.main_widget:
+    #             if self.parent_node.main_widget_pos == 'under ports':
+    #                 self.width = self.width if self.width > self.main_widget.width()+2*horizontal_buffer_to_border else self.main_widget.width()+2*horizontal_buffer_to_border
+    #                 self.height += self.main_widget.height() + height_buffer_between_ports
+    #             elif self.parent_node.main_widget_pos == 'between ports':
+    #                 #self.width += self.main_widget.width()
+    #                 self.width = display_name_width_extended if \
+    #                     display_name_width_extended > ports_edge_width+self.main_widget.width() else \
+    #                     ports_edge_width+self.main_widget.width()
+    #                 self.height = self.height if self.height > self.main_widget.height() + height_buffer else self.main_widget.height() + height_buffer
+    #
+    #
+    #         body_top = -self.height / 2 + height_buffer / 2
+    #         body_left = -self.width / 2 + horizontal_buffer_to_border
+    #         body_right = self.width / 2 - horizontal_buffer_to_border
+    #
+    #
+    #     elif self.parent_node.design_style == 'extended':
+    #         header_height = self.get_header_rect().height() #50 * (self.parent_node.title.count('\n')+1)
+    #         vertical_body_buffer = 16  # half above, half below
+    #
+    #
+    #         body_height = ports_edge_height
+    #         self.height = header_height + body_height + vertical_body_buffer
+    #         self.width = display_name_width_extended if display_name_width_extended > ports_edge_width else ports_edge_width
+    #         if self.main_widget:
+    #             if self.parent_node.main_widget_pos == 'under ports':
+    #                 self.width = self.width if self.width > self.main_widget.width()+2*horizontal_buffer_to_border else self.main_widget.width()+2*horizontal_buffer_to_border
+    #                 self.height += self.main_widget.height() + height_buffer_between_ports
+    #             elif self.parent_node.main_widget_pos == 'between ports':
+    #                 self.width = display_name_width_extended if \
+    #                     display_name_width_extended > ports_edge_width+self.main_widget.width() else \
+    #                     ports_edge_width+self.main_widget.width()
+    #                 self.height = self.height if self.height > self.main_widget.height() + header_height + vertical_body_buffer else \
+    #                                 self.main_widget.height() + header_height + vertical_body_buffer
+    #
+    #         body_top = -self.height / 2 + header_height + vertical_body_buffer/2
+    #         body_left = -self.width / 2 + horizontal_buffer_to_border
+    #         body_right = self.width / 2 - horizontal_buffer_to_border
+    #
+    #         # here, the width and height are final
+    #
+    #     self.set_content_positions(body_height=body_height,
+    #                                body_top=body_top,
+    #                                body_left=body_left,
+    #                                body_right=body_right,
+    #                                left_ports_edge_height=left_ports_edge_height,
+    #                                right_ports_edge_height=right_ports_edge_height,
+    #                                height_buffer_between_ports=height_buffer_between_ports,
+    #                                left_largest_width=left_largest_width,
+    #                                right_largest_width=right_largest_width,
+    #                                space_between_io=space_between_io)
+    #
+    # def set_content_positions(self, body_height, body_top, body_left, body_right, left_ports_edge_height,
+    #                           right_ports_edge_height, height_buffer_between_ports, left_largest_width, right_largest_width,
+    #                           space_between_io):
+    #     """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
+    #     # set positions
+    #     # # calculating the vertical space  between two inputs - without their heights, just between them
+    #     space_between_inputs = (body_height - left_ports_edge_height) / (len(self.inputs) - 1) if len(self.inputs) > 2 else body_height - left_ports_edge_height
+    #     offset = 0
+    #     if len(self.inputs) == 1:
+    #         offset = (body_height - left_ports_edge_height) / 2
+    #     for x in range(len(self.inputs)):
+    #         i = self.inputs[x]
+    #         y = body_top + i.height/2 + offset
+    #         port_pos_x = body_left + i.width/2
+    #         port_pos_y = y
+    #         i.gate.setPos(port_pos_x + i.gate.port_local_pos.x(), port_pos_y + i.gate.port_local_pos.y())
+    #         i.label.setPos(port_pos_x + i.label.port_local_pos.x(), port_pos_y + i.label.port_local_pos.y())
+    #         if i.widget:
+    #             i.proxy.setPos(port_pos_x + i.widget.port_local_pos.x() - i.widget.width()/2,
+    #                            port_pos_y + i.widget.port_local_pos.y() - i.widget.height()/2)
+    #         offset += i.height + height_buffer_between_ports + space_between_inputs
+    #
+    #     space_between_outputs = (body_height - right_ports_edge_height) / (len(self.outputs) - 1) if len(self.outputs) > 2 else body_height - right_ports_edge_height
+    #     offset = 0
+    #     if len(self.outputs) == 1:
+    #         offset = (body_height - right_ports_edge_height) / 2
+    #     for x in range(len(self.outputs)):
+    #         o = self.outputs[x]
+    #         y = body_top + o.height/2 + offset
+    #         port_pos_x = body_right - o.width/2
+    #         port_pos_y = y
+    #         o.gate.setPos(port_pos_x + o.gate.port_local_pos.x(), port_pos_y + o.gate.port_local_pos.y())
+    #         o.label.setPos(port_pos_x + o.label.port_local_pos.x(), port_pos_y + o.label.port_local_pos.y())
+    #         offset += o.height + height_buffer_between_ports + space_between_outputs
+    #
+    #     if self.main_widget:
+    #         if self.parent_node.main_widget_pos == 'under ports':
+    #             self.main_widget_proxy.setPos(-self.main_widget.width() / 2,
+    #                                           body_top + body_height + height_buffer_between_ports)  # self.height/2 - height_buffer/2 - self.main_widget.height())
+    #         elif self.parent_node.main_widget_pos == 'between ports':
+    #             body_incl_widget_height = body_height if body_height > self.main_widget.height() else self.main_widget.height()
+    #             self.main_widget_proxy.setPos(body_left + left_largest_width + space_between_io/2, body_top+body_incl_widget_height/2 -self.main_widget.height()/2)
 
     # GENERAL
     def initialized(self):
@@ -871,3 +1021,85 @@ class NodeInstanceAction(QAction):
 
     def triggered_(self):
         self.custom_triggered.emit(self.data)
+
+
+
+
+class TitleLabel(QGraphicsWidget):
+    def __init__(self, parent_node_instance):
+        super(TitleLabel, self).__init__(parent_node_instance)
+
+        self.setGraphicsItem(self)
+
+        self.parent_node_instance: NodeInstance = parent_node_instance
+        self.title_str = self.parent_node_instance.parent_node.title
+        self.font = QFont('Poppins', 15) if self.parent_node_instance.parent_node.design_style == 'extended' else \
+                                 QFont('K2D', 20, QFont.Bold, True)
+        self.fm = QFontMetricsF(self.font)
+
+        self.width = self.fm.width(get_longest_line(self.title_str))
+        self.height = self.fm.height() * 0.7 * (self.title_str.count('\n') + 1)
+
+        self.color = QColor(30, 43, 48)
+        self.pen_width = 1.5
+        self.hovering = False  # whether the mouse is hovering over the parent NI (!)
+
+
+    def boundingRect(self):
+        return QRectF(QPointF(0, 0), self.geometry().size())
+
+    def setGeometry(self, rect):
+        self.prepareGeometryChange()
+        QGraphicsLayoutItem.setGeometry(self, rect)
+        self.setPos(rect.topLeft())
+
+    def sizeHint(self, which, constraint=...):
+        return QSizeF(self.width, self.height)
+
+    def paint(self, painter, option, widget=None):
+        self.set_design()
+        
+        pen = QPen(self.color)
+        pen.setWidth(self.pen_width)
+
+        painter.setPen(pen)
+        painter.setFont(self.font)
+
+        text_rect = self.boundingRect()
+        text_rect.setTop(text_rect.top()-7)
+
+        painter.drawText(text_rect, Qt.AlignTop, self.title_str)
+
+    def design_style(self):
+        return self.parent_node_instance.parent_node.design_style
+
+    def set_NI_hover_state(self, hovering: bool):
+        self.hovering = hovering
+        self.update()
+
+    def set_design(self):
+        if self.design_style() == 'extended':
+            if Design.flow_style == 'dark std':
+                if self.hovering:
+                    self.color = self.parent_node_instance.parent_node.color.lighter()
+                    self.pen_width = 2
+                else:
+                    self.color = QColor(30, 43, 48)
+                    self.pen_width = 1.5
+            elif Design.flow_style == 'dark tron':
+                if self.hovering:
+                    self.color = self.parent_node_instance.parent_node.color.lighter()
+                else:
+                    self.color = self.parent_node_instance.parent_node.color
+                self.pen_width = 2
+        elif self.design_style() == 'minimalistic':
+            if Design.flow_style == 'dark std':
+                if self.hovering:
+                    self.color = self.parent_node_instance.parent_node.color.lighter()
+                    self.pen_width = 1.5
+                else:
+                    self.color = QColor(30, 43, 48)
+                    self.pen_width = 1.5
+            elif Design.flow_style == 'dark tron':
+                self.color = self.parent_node_instance.parent_node.color
+                self.pen_width = 2
