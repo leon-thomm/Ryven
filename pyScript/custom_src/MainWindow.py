@@ -12,7 +12,7 @@ from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
 from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.custom_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.GlobalAttributes import Design, Algorithm
+from custom_src.GlobalAttributes import Design, Algorithm, PerformanceMode
 
 
 class MainWindow(QMainWindow):
@@ -105,6 +105,25 @@ class MainWindow(QMainWindow):
 
         self.ui.menuBar.addMenu(algorithm_menu)
 
+        # performance mode
+        self.set_performance_mode_fast = QAction('Fast', self)
+        self.set_performance_mode_fast.setCheckable(True)
+
+        self.set_performance_mode_pretty = QAction('Pretty', self)
+        self.set_performance_mode_pretty.setCheckable(True)
+
+        performance_mode_AG = QActionGroup(self)
+        performance_mode_AG.addAction(self.set_performance_mode_fast)
+        performance_mode_AG.addAction(self.set_performance_mode_pretty)
+        self.set_performance_mode_fast.setChecked(True)
+        performance_mode_AG.triggered.connect(self.on_performance_mode_changed)
+
+        performance_menu = QMenu('Performance Mode', self)
+        performance_menu.addAction(self.set_performance_mode_fast)
+        performance_menu.addAction(self.set_performance_mode_pretty)
+
+        self.ui.menuView.addMenu(performance_menu)
+
     def load_stylesheet(self, ss):
         ss_content = ''
         try:
@@ -119,6 +138,12 @@ class MainWindow(QMainWindow):
             Algorithm.gen_data_on_request = False
         else:
             Algorithm.gen_data_on_request = True
+
+    def on_performance_mode_changed(self, action):
+        if action == self.set_performance_mode_fast:
+            PerformanceMode.mode = 'fast'
+        else:
+            PerformanceMode.mode = 'pretty'
 
     def on_dark_std_design_triggered(self):
         self.set_flow_design('dark std')

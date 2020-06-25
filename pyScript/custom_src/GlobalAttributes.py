@@ -10,3 +10,7 @@ class Algorithm:
     The difference is important when comparing pure data-flows with execution flows.
     Normally, however, this isn't of the essence."""
     gen_data_on_request = False
+
+
+class PerformanceMode:
+    mode = 'fast'  # fast or pretty

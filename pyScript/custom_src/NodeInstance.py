@@ -8,7 +8,7 @@ from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.math import pythagoras
 from custom_src.global_tools.MovementEnum import MovementEnum
 from custom_src.global_tools.strings import get_longest_line
-from custom_src.GlobalAttributes import Design
+from custom_src.GlobalAttributes import Design, PerformanceMode
 
 from custom_src.Node import Node
 from custom_src.PortInstance import InputPortInstance, OutputPortInstance
@@ -46,15 +46,22 @@ class NodeInstance(QGraphicsItem):
         # UI
         self.width = -1
         self.height = -1
-        self.title_label = None
+
+        self.title_label = TitleLabel(self)
+
         self.main_widget = None
         self.main_widget_proxy: FlowProxyWidget = None
-        self.widget: QGraphicsWidget = None
-        self.layout: QGraphicsLinearLayout = None
+        if self.parent_node.has_main_widget:
+            self.main_widget = self.parent_node.main_widget_class(self)
+            self.main_widget_proxy = FlowProxyWidget(self.flow)
+            self.main_widget_proxy.setWidget(self.main_widget)
+
         self.body_layout: QGraphicsLinearLayout = None
         self.inputs_layout: QGraphicsLinearLayout = None
         self.outputs_layout: QGraphicsLinearLayout = None
-        self.setup_ui()  # <- all UI attributes above get defined here
+        self.layout: QGraphicsLinearLayout = self.setup_ui()
+        self.widget = QGraphicsWidget(self)
+        self.widget.setLayout(self.layout)
 
 
 
@@ -82,29 +89,21 @@ class NodeInstance(QGraphicsItem):
 
     def setup_ui(self):
 
-        self.title_label = TitleLabel(self)
-
-        if self.parent_node.has_main_widget:
-            self.main_widget = self.parent_node.main_widget_class(self)
-            self.main_widget_proxy = FlowProxyWidget(self.flow)
-            self.main_widget_proxy.setWidget(self.main_widget)
-
-        self.widget = QGraphicsWidget(self)
-
         #   main layout
-        self.layout = QGraphicsLinearLayout(Qt.Vertical)
-        self.layout.setSpacing(5)
+        layout = QGraphicsLinearLayout(Qt.Vertical)
+        layout.setSpacing(5)
 
-        self.layout.addItem(self.title_label)
-        self.layout.setAlignment(self.title_label, Qt.AlignTop)
+        if self.parent_node.design_style == 'extended':
+            layout.addItem(self.title_label)
+            layout.setAlignment(self.title_label, Qt.AlignTop)
 
         #   inputs
         self.inputs_layout = QGraphicsLinearLayout(Qt.Vertical)
-        self.inputs_layout.setSpacing(0.5)
+        self.inputs_layout.setSpacing(2)
 
         #   outputs
         self.outputs_layout = QGraphicsLinearLayout(Qt.Vertical)
-        self.outputs_layout.setSpacing(0.5)
+        self.outputs_layout.setSpacing(2)
 
         #   body
         self.body_layout = QGraphicsLinearLayout(Qt.Horizontal)
@@ -120,16 +119,31 @@ class NodeInstance(QGraphicsItem):
             if self.parent_node.main_widget_pos == 'between ports':
                 self.body_layout.insertItem(1, self.main_widget_proxy)
                 self.body_layout.insertStretch(2)
-                self.layout.addItem(self.body_layout)
+                layout.addItem(self.body_layout)
 
             elif self.parent_node.main_widget_pos == 'under ports':
-                self.layout.addItem(self.body_layout)
-                self.layout.addItem(self.main_widget_proxy)
-                self.layout.setAlignment(self.main_widget_proxy, Qt.AlignHCenter)
+                layout.addItem(self.body_layout)
+                layout.addItem(self.main_widget_proxy)
+                layout.setAlignment(self.main_widget_proxy, Qt.AlignHCenter)
         else:
-            self.layout.addItem(self.body_layout)
+            layout.addItem(self.body_layout)
 
+        return layout
+
+    def rebuild_ui(self):
+        for inp in self.inputs:
+            self.inputs_layout.removeAt(0)
+        for out in self.outputs:
+            self.outputs_layout.removeAt(0)
+
+        self.layout = self.setup_ui()
         self.widget.setLayout(self.layout)
+
+        # add inputs
+        for inp in self.inputs:
+            self.add_input_to_layout(inp)
+        for out in self.outputs:
+            self.add_output_to_layout(out)
 
 
     #                        __                             _    __     __
@@ -228,8 +242,10 @@ class NodeInstance(QGraphicsItem):
         if self.main_widget is not None:  # maybe the main_widget got resized
             self.main_widget_proxy.setMaximumSize(self.main_widget.size())
             self.widget.adjustSize()
+
         self.layout.activate()
-        self.widget.updateGeometry()
+        self.layout.invalidate()
+        # both very essential; repositions everything in case content has changed (inputs/outputs/widget)
 
         self.width = self.boundingRect().width()
         self.height = self.boundingRect().height()
@@ -237,8 +253,9 @@ class NodeInstance(QGraphicsItem):
                       QPointF(self.width/2, self.height/2))
         self.widget.setPos(rect.left(), rect.top())
 
-        self.layout.activate()
-        self.widget.updateGeometry()
+        if not self.parent_node.design_style == 'extended':
+            self.title_label.setPos(QPointF(-self.title_label.boundingRect().width()/2,
+                                            -self.title_label.boundingRect().height()/2))
 
         self.flow.viewport().update()
 
@@ -268,7 +285,7 @@ class NodeInstance(QGraphicsItem):
         self.add_input_to_layout(pi)
 
     def add_input_to_layout(self, i):
-        if len(self.inputs) > 1:
+        if self.inputs_layout.count() > 0:
             self.inputs_layout.addStretch()
         self.inputs_layout.addItem(i)
         self.inputs_layout.setAlignment(i, Qt.AlignLeft)
@@ -286,6 +303,9 @@ class NodeInstance(QGraphicsItem):
         elif type(i) == InputPortInstance:
             inp = i
 
+        for cpi in inp.connected_port_instances:
+            self.flow.connect_gates(inp.gate, cpi.gate)
+
         # for some reason, I have to remove all widget items manually from the scene too. setting the items to
         # ownedByLayout(True) does not work, I don't know why.
         self.scene().removeItem(inp.gate)
@@ -295,6 +315,10 @@ class NodeInstance(QGraphicsItem):
 
         self.inputs_layout.removeItem(inp)
         self.inputs.remove(inp)
+
+        # just a temporary workaround for the issues discussed here:
+        # https://forum.qt.io/topic/116268/qgraphicslayout-not-properly-resizing-to-change-of-content
+        self.rebuild_ui()
 
         if not self.initializing:
             self.update_shape()
@@ -324,7 +348,7 @@ class NodeInstance(QGraphicsItem):
         self.add_output_to_layout(pi)
 
     def add_output_to_layout(self, o):
-        if len(self.outputs) > 1:
+        if self.outputs_layout.count() > 0:
             self.outputs_layout.addStretch()
         self.outputs_layout.addItem(o)
         self.outputs_layout.setAlignment(o, Qt.AlignRight)
@@ -342,12 +366,19 @@ class NodeInstance(QGraphicsItem):
         elif type(o) == OutputPortInstance:
             out = o
 
-        # see delete_input() for info!
-        self.scene().removeItem(o.gate)
-        self.scene().removeItem(o.label)
+        for cpi in out.connected_port_instances:
+            self.flow.connect_gates(out.gate, cpi.gate)
 
-        self.outputs_layout.removeItem(o)
-        self.outputs.remove(o)
+        # see delete_input() for info!
+        self.scene().removeItem(out.gate)
+        self.scene().removeItem(out.label)
+
+        self.outputs_layout.removeItem(out)
+        self.outputs.remove(out)
+
+        # just a temporary workaround for the issues discussed here:
+        # https://forum.qt.io/topic/116268/qgraphicslayout-not-properly-resizing-to-change-of-content
+        self.rebuild_ui()
 
         if not self.initializing:
             self.update_shape()
@@ -596,7 +627,8 @@ class NodeInstance(QGraphicsItem):
         redrawn during a NI drag. Should get disabled when running in performance mode - not implemented yet."""
 
         if change == QGraphicsItem.ItemPositionChange:
-            self.flow.viewport().update()
+            if PerformanceMode.mode == 'pretty':
+                self.flow.viewport().update()
             if self.movement_state == MovementEnum.mouse_clicked:
                 self.movement_state = MovementEnum.position_changed
 
@@ -995,7 +1027,7 @@ class NodeInstanceAction(QAction):
 
 class TitleLabel(QGraphicsWidget):
     def __init__(self, parent_node_instance):
-        super(TitleLabel, self).__init__()
+        super(TitleLabel, self).__init__(parent_node_instance)
 
         self.setGraphicsItem(self)
 

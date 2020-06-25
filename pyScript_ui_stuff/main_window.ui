@@ -49,7 +49,7 @@
              <x>0</x>
              <y>0</y>
              <width>950</width>
-             <height>733</height>
+             <height>750</height>
             </rect>
            </property>
           </widget>
@@ -117,10 +117,16 @@
      <addaction name="actionDesignDark_Std"/>
      <addaction name="actionDesignDark_Tron"/>
     </widget>
+    <widget class="QMenu" name="menuSave_Picture">
+     <property name="title">
+      <string>Save Picture</string>
+     </property>
+     <addaction name="actionSave_Pic_Viewport"/>
+     <addaction name="actionSave_Pic_Whole_Scene_scaled"/>
+    </widget>
     <addaction name="separator"/>
     <addaction name="menuDesign_Style"/>
-    <addaction name="actionSave_Pic_Viewport"/>
-    <addaction name="actionSave_Pic_Whole_Scene_scaled"/>
+    <addaction name="menuSave_Picture"/>
    </widget>
    <widget class="QMenu" name="menuDebugging">
     <property name="title">
@@ -138,14 +144,6 @@
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
    <addaction name="menuDebugging"/>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionImport_Nodes">

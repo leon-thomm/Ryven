@@ -433,10 +433,10 @@ class Flow(QGraphicsView):
             painter.setBrush(Qt.NoBrush)
 
             size_factor = 1.2
-            x = ni.pos().x() - ni.width / 2 * size_factor
-            y = ni.pos().y() - ni.height / 2 * size_factor
-            w = ni.width * size_factor
-            h = ni.height * size_factor
+            x = ni.pos().x() - ni.boundingRect().width() / 2 * size_factor
+            y = ni.pos().y() - ni.boundingRect().height() / 2 * size_factor
+            w = ni.boundingRect().width() * size_factor
+            h = ni.boundingRect().height() * size_factor
             painter.drawRoundedRect(x, y, w, h, 10, 10)
 
         # DRAW SELECTED DRAWINGS BORDER
@@ -598,7 +598,6 @@ class Flow(QGraphicsView):
         ni.enable_personal_logs()
         if pos:
             ni.setPos(pos)
-        # ni.compute_content_positions()
 
         # select new NI
         self.scene().clearSelection()
