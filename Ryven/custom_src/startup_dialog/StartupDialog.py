@@ -14,15 +14,15 @@ class StartupDialog(QDialog):
         # info text edit
         info_text_edit = QTextEdit()
         info_text_edit.setHtml('''
-            <h2 style="font-family: Courier New; font-size: xx-large; color: #a9d5ef;">Welcome to pyScript</h2>
+            <h2 style="font-family: Courier New; font-size: xx-large; color: #a9d5ef;">Welcome to Ryven</h2>
             <div style="font-family: Corbel; font-size: large;">
             
-            <p><img style="float:right;" height=150 src="stuff/pics/program_icon_light.png">Hi,
-            I am Leon, the creator of pyScript. Please always keep in mind, that this
+            <p><img style="float:right;" height=150 src="stuff/pics/program_icon2_light.png">Hi,
+            I am Leon, the creator of Ryven. Please always keep in mind, that this
             is not a professional piece of software. Don\'t forget to save! :)
             I am sure there are bugs and problems but as long as you keep behaving
             as intended, you shouldn\'t get into too much trouble. This software is made with Qt and some further 
-            Python libraries were used. All rights remain to their lawful owners. All direct pyScript source code is
+            Python libraries were used. All rights remain to their lawful owners. All direct Ryven source code is
             written by me.
             <br>
             Enjoy! Cheers.</p>
@@ -51,7 +51,7 @@ class StartupDialog(QDialog):
         self.layout().addWidget(buttons_widget)
 
 
-        self.setWindowTitle('pyScript')
+        self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('stuff/pics/program_icon.png'))
         self.setFixedSize(500, 300)
 
@@ -79,7 +79,7 @@ class StartupDialog(QDialog):
         self.editor_startup_configuration['config'] = 'open project'
         import json
 
-        file_name = QFileDialog.getOpenFileName(self, 'select project file', '../saves', 'PyScript Project(*.pypro)')[0]
+        file_name = QFileDialog.getOpenFileName(self, 'select project file', '../saves', 'Ryven Project(*.pypro)')[0]
         j_str = ''
         try:
             f = open(file_name)

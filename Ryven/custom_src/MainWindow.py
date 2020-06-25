@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.splitter.setSizes([120, 800])
-        self.setWindowTitle('pyScript')
+        self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('stuff/pics/program_icon.png'))
         self.load_stylesheet('dark')
         self.ui.scripts_tab_widget.removeTab(0)
@@ -232,8 +232,8 @@ class MainWindow(QMainWindow):
             return
 
         # Important: translate the package first (metacore files -> src code files)
-        PackageTranslator = self.get_class_from_file(file_path='../pyScript_PackageTranslator',
-                                                     file_name='pyScript_PackageTranslator',
+        PackageTranslator = self.get_class_from_file(file_path='../Ryven_PackageTranslator',
+                                                     file_name='Ryven_PackageTranslator',
                                                      class_name='PackageTranslator')
         package_translator = PackageTranslator(os.path.dirname(os.path.abspath(file_path)))
 

@@ -13,7 +13,7 @@ class VariablesHandler:
         self.flow = None  # for get var node instances - gets set by Script manually
 
         self.variables = []
-        self.list_widget = VariablesListWidget(self.variables)
+        self.list_widget = VariablesListWidget(self)
 
         if config_vars is not None:
             for name in list(config_vars.keys()):  # variables
