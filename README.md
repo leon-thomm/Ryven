@@ -1,4 +1,4 @@
-# Flow-based runtime visual scripting environment for Python
+# A simple flow-based visual scripting runtime environment for Python
 
 ![](/docs/resources/images/pyScript14.PNG)
 

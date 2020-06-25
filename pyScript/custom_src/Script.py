@@ -26,7 +26,7 @@ class Script(QObject):
         self.name = name
         self.flow = None
         self.thumbnail_source = ''  # URL to the Script's thumbnail picture
-        self.code_preview_txt_edit = CodePreview_Widget()
+        self.code_preview_widget = CodePreview_Widget()
 
         if config:
             self.name = config['name']
@@ -47,7 +47,7 @@ class Script(QObject):
         self.widget.ui.splitter.insertWidget(0, self.flow)
 
         # code preview
-        self.widget.ui.source_code_groupBox.layout().addWidget(self.code_preview_txt_edit)
+        self.widget.ui.source_code_groupBox.layout().addWidget(self.code_preview_widget)
 
         # logs
         self.widget.ui.logs_scrollArea.setWidget(self.logger)
@@ -55,8 +55,8 @@ class Script(QObject):
 
 
     def show_NI_code(self, ni):
-        """Called from Flow when the selection changed"""
-        self.code_preview_txt_edit.update_code(ni)
+        """Called from Flow when the selection changed."""
+        self.code_preview_widget.set_new_code_obj(ni)
 
     def add_var_clicked(self):
         self.variables_handler.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
