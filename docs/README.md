@@ -1,7 +1,8 @@
-# Welcome to the documentation page of pyScript!
+# Welcome to the documentation page of Ryven!
 
-pyScript is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and the code also isn't optimized for readability.
+Ryven is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and the code also isn't optimized for readability.
 It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts, however, is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see section 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
+
 
 # Idea
 
@@ -9,7 +10,7 @@ It is currently not yet in a state of large package varieties of usable nodes. O
     <img src="resources/images/thumbnail7.png" alt="Prototype Demonstration Video" width="300" border="10" align="right" />
 </a>
 
-The idea is basically to have a dynamic runtime flow-based visual programming environment for Python, with visual flows serving as a diagram-like representation of your script while being executable at the same time (which can be really useful for presentations for examle). The runtime part means that you don't export any code, everything gets executed within the editor as you go, at runtime. Beside the main pyScript application (the editor), the pyScript NodeManager lets you manage your existing nodes and the creation of new ones which you can then program for use in your visual scripts. The focus is on enabling an easy process of creating new nodes and giving them intuitive GUI elements. **You can throw any Python code into these nodes and pyScript provides you with the platform to use them in combination with others.** Keep in mind that the intention is not to 'replace' textual coding - there is a lot you can do in textual programming which doesn't make sense being represented that way at all. But there is also the opposite.
+The idea is basically to have a dynamic runtime flow-based visual programming environment for Python, with visual flows serving as a diagram-like representation of your script while being executable at the same time (which can be really useful for presentations for examle). The runtime part means that you don't export any code, everything gets executed within the editor as you go, at runtime. Beside the main Ryven application (the editor), the Ryven NodeManager lets you manage your existing nodes and the creation of new ones which you can then program for use in your visual scripts. The focus is on enabling an easy process of creating new nodes and giving them intuitive GUI elements. **You can throw any Python code into these nodes and Ryven provides you with the platform to use them in combination with others.** Keep in mind that the intention is not to 'replace' textual coding - there is a lot you can do in textual programming which doesn't make sense being represented that way at all. But there is also the opposite.
 
 There are two types of connections (execution and data connections) but if you are searching for a pure data flow sofware, you can absolutely do normal pure dataflows which opens plenty of possibilities for data manipulation applications.
 
@@ -18,13 +19,13 @@ There are two types of connections (execution and data connections) but if you a
 
 ## Installation
 
-You need to have **Python 3 and PySide2** installed, plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find an example project in the 'saves' folder that uses these packages. **To start the editor simply run _pyScript.py_**. To start the NodeManager run _pyScript NodeManager.py_, located in the 'pyScript_NodeManager' folder.
+You need to have **Python 3 and PySide2** installed, plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find an example project in the 'saves' folder that uses these packages. **To start the editor simply run _Ryven.py_**. To start the NodeManager run _Ryven NodeManager.py_, located in the 'Ryven_NodeManager' folder.
 
-## pyScript Overview
+## Ryven Overview
 
 ![](/resources/images/pyScript1.PNG)
 
-When you open pyScript, you will notice, there are different scripts. Every script has variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
+When you open Ryven, you will notice, there are different scripts. Every script has variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
 
 ### Importing Nodes
 
@@ -34,7 +35,7 @@ You need to import nodes before you can use them from node packages (File -> Imp
 
 
 #### Stylus Support
-Note that pyScript is also optimized for use with convertible notebooks/tablets using a stylus pen. You can use stylus pens for either editing your flows or to add handwritten notes. In the top right corner, you can spcify your actions. Be aware, that there may be bugs.
+Note that Ryven is also optimized for use with convertible notebooks/tablets using a stylus pen. You can use stylus pens for either editing your flows or to add handwritten notes. In the top right corner, you can spcify your actions. Be aware, that there may be bugs.
 
 #### Zoom
 
@@ -56,11 +57,11 @@ Left Mouse
 
 You can create new variables just like scripts. By right clicking on a variable, you can set the value in the dialog that pops up. Whatever you type into that field will be evaluated by Python using the _eval()_ method, so the datatype will automatically be parsed just like when assigning variables in Python source code. To use a variable, you must use the get var node, which returns it's _value_ (without copying it).
 
-[//]: # (As long as your variable does not have a complex tape that will be given by reference when the object is being passed to another node, the original variable's value will not change if you change the value of what's coming out of the get var node. However if the variable does have a referenced type, it will. If you are not sure about that, dont panic, I did not apply any custom operations on the variables in pyScript according to their types, so everything behaves strictly following the rules of Python, nothing else.)
+[//]: # (As long as your variable does not have a complex tape that will be given by reference when the object is being passed to another node, the original variable's value will not change if you change the value of what's coming out of the get var node. However if the variable does have a referenced type, it will. If you are not sure about that, dont panic, I did not apply any custom operations on the variables in Ryven according to their types, so everything behaves strictly following the rules of Python, nothing else.)
 
 ### Load&Save
 
-You can save projects by clicking File -> Save Project. You should do this often. When starting pyScript, you can load such a saved project into the editor. A little dialog will show all the required packages for the project you are trying to load. If you have used packages from special places (not the standard packages folder), you should choose them manually. If not, you can use auto import, it will search through all packages in the standard packages directory.
+You can save projects by clicking File -> Save Project. You should do this often. When starting Ryven, you can load such a saved project into the editor. A little dialog will show all the required packages for the project you are trying to load. If you have used packages from special places (not the standard packages folder), you should choose them manually. If not, you can use auto import, it will search through all packages in the standard packages directory.
 
 ### Save Picture
 
@@ -83,7 +84,7 @@ The overall process looks like this:
 - You save them by exporting them as a package
 - Then you open the package folder with a file browser
 - You program the node(s) and their widgets by editing the 'metacode' files
-- You open pyScript
+- You open Ryven
 - Import the nodes
 - And test them
 
@@ -104,7 +105,7 @@ The overall process looks like this:
 
 Please be aware that this application is not extremely intuitive yet, there are quite a few features still missing. I am working on that :) If you have suggestions, hit me up.
 
-![pyScript NodeManager screenshot](/resources/images/Qt 70.png)
+![Ryven NodeManager screenshot](/resources/images/Qt 70.png)
 
 This is what the NodeManager can look like. To define a node, you first have to specity it's basic properties. After that, click save, select the nodes that you want to be included in the package, **create a new folder for the package** (it's name will be the package's name) and export.
 
@@ -116,7 +117,7 @@ Furthermore:
 
 - A package's name must be unique.
 - Multiple Nodes in a package _can_ have the same name (but for convenient use in the editor, you should make sure that the description differs).
-- No name or title is allowed to have a sequence of three underscore characters '\_\_\_' as this is an anchor for pyScript and the NodeManager for separation of different components.
+- No name or title is allowed to have a sequence of three underscore characters '\_\_\_' as this is an anchor for Ryven and the NodeManager for separation of different components.
 
 ![](/resources/images/pyScript2.PNG)
 
@@ -128,11 +129,11 @@ A package is identified by it's name. Packages with the same names should never 
 
 ## Programming Nodes
 
-And there we are. Note that pyScript now has a 'preview source code' feature, so you can use any existing nodes as reference and take a look at their source code right inside the editor. Simply drag the splitter handle from the bottom line upwards to access the preview area and select a placed node.
+And there we are. Note that Ryven now has a 'preview source code' feature, so you can use any existing nodes as reference and take a look at their source code right inside the editor. Simply drag the splitter handle from the bottom line upwards to access the preview area and select a placed node.
 The basic concepts are:
 
 - For every node (as well as all it's widget classes, more on that later), the NodeManager creates **METACODE**-files from templates if they are not already existing. All programming is done by editing these METACODE files.
-- pyScript will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
+- Ryven will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
 - **Do not edit non-metacode source files directly, as these changes will be lost.**
 
 To start programming a node, simply direct into it's folder in the package directory and open the metacode Python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files**.
@@ -204,7 +205,7 @@ In this case, a method _action_print_something_ would need to exist
         def action_print_something(self):
             print('Hello World!')
 
-This would look in pyScript like that:
+This would look in Ryven like that:
 
 ![](/resources/images/pyScript10.PNG)
 
@@ -438,7 +439,7 @@ All we have to do is to define the update event.
 
 Input 0 is the 'randomize' execution input, so we need to check for it. If the signal comes from input 0 (_input_called == 0_), we want our main widget to generate new points. We will do that with a _randomize()_ method which we will implement later in the main widget. It needs to know how many points it should generate and in which scale, so we give the number (input 1) as well as the scale (input 2) as parameters. Input 1 will return a number if it's not connected since we chose a spin box widget for that one. Input 2 will return a bool, because we are going to implement a check box for that one shortly. Then we need to store the points array at output 1 and execute output 0 to pass the signal to the next connected node.
 
-Now, it would be cool, if we could manually cause a randomization via a right click action. Fortunately we don't have to do anything for that because all execution inputs of a node are always manually executable via right click action - pyScript will add that action automatically.
+Now, it would be cool, if we could manually cause a randomization via a right click action. Fortunately we don't have to do anything for that because all execution inputs of a node are always manually executable via right click action - Ryven will add that action automatically.
 
 Let's implement the check box input that specifies in which scale the points should be delivered. We want it to be a check box for which the QCheckBox class from Qt is perfect.
 
@@ -548,7 +549,7 @@ Drawing points:
 
 And that's it!
 
-Now we can import that new package into pyScript and start using the node!
+Now we can import that new package into Ryven and start using the node!
 
 ![](/resources/images/pyScript13.PNG)
 
