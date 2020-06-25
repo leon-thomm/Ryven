@@ -4,7 +4,7 @@
 
 Ey, what's up!
 
-Please visit the GitHub page for a very budget overview and doc: https://leon-thomm.github.io/pyScript/
+Please visit the GitHub page for a very budget overview and doc: https://leon-thomm.github.io/Ryven/
 
 # Before you download
 
