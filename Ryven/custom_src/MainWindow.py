@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.splitter.setSizes([120, 800])
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('stuff/pics/program_icon.png'))
+        self.setWindowIcon(QIcon('stuff/pics/program_icon2.png'))
         self.load_stylesheet('dark')
         self.ui.scripts_tab_widget.removeTab(0)
 
@@ -213,7 +213,7 @@ class MainWindow(QMainWindow):
 
 
     def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', 'PyScript Packages(*.pypac)',)[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', 'Ryven Packages(*.rypac)',)[0]
         if file_path != '':
             self.import_nodes_package(file_path)
 
@@ -400,7 +400,7 @@ class MainWindow(QMainWindow):
 
 
     def parse_project(self, j_obj):
-        if j_obj['general info']['type'] != 'pyScriptFP project file':
+        if j_obj['general info']['type'] != 'Ryven project file':
             return
 
         for s in j_obj['scripts']:  # fill flows
@@ -409,7 +409,7 @@ class MainWindow(QMainWindow):
 
     def on_save_project_triggered(self):
         file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                '../saves', 'PyScript Project(*.pypro)')[0]
+                                                '../saves', 'Ryven Project(*.rypo)')[0]
         if file_name != '':
             self.save_project(file_name)
 
@@ -425,7 +425,7 @@ class MainWindow(QMainWindow):
             return
 
 
-        general_project_info_dict = {'type': 'pyScriptFP project file'}
+        general_project_info_dict = {'type': 'Ryven project file'}
 
         scripts_data = []
         for script in self.scripts:

@@ -79,7 +79,7 @@ class StartupDialog(QDialog):
         self.editor_startup_configuration['config'] = 'open project'
         import json
 
-        file_name = QFileDialog.getOpenFileName(self, 'select project file', '../saves', 'Ryven Project(*.pypro)')[0]
+        file_name = QFileDialog.getOpenFileName(self, 'select project file', '../saves', 'Ryven Project(*.rypo)')[0]
         j_str = ''
         try:
             f = open(file_name)
@@ -93,7 +93,7 @@ class StartupDialog(QDialog):
         # strict=False has to be to allow 'control characters' like '\n' for newline when loading the json
         j_obj = json.loads(j_str, strict=False)
 
-        if j_obj['general info']['type'] != 'pyScriptFP project file':
+        if j_obj['general info']['type'] != 'Ryven project file':
             return
 
         # scan for all required packages

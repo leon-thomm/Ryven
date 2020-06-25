@@ -57,8 +57,8 @@ class SelectPackages_Dialog(QDialog):
 
         for folder in folders_list:
             for r_f in required_files:
-                if r_f + '.pypac' in os.listdir(packages_dir + '/' + folder):
-                    self.file_paths.append(packages_dir + '/' + folder + '/' + r_f + '.pypac')
+                if r_f + '.rypac' in os.listdir(packages_dir + '/' + folder):
+                    self.file_paths.append(packages_dir + '/' + folder + '/' + r_f + '.rypac')
                     break
             self.rebuild_selected_packages_list_widget()
 
@@ -67,7 +67,7 @@ class SelectPackages_Dialog(QDialog):
 
     def add_package_button_clicked(self):
         file_names = \
-        QFileDialog.getOpenFileNames(self, 'select package files', '../packages', 'PyScript Package(*.pypac)')[0]
+        QFileDialog.getOpenFileNames(self, 'select package files', '../packages', 'Ryven Package(*.rypac)')[0]
 
         for file_name in file_names:
             try:

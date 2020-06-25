@@ -222,7 +222,7 @@ class SaveDialog(QDialog):
         if not os.path.isdir(self.export_dir+'/nodes'):
             os.mkdir(self.export_dir+'/nodes')
 
-        self.save_file(self.export_dir + '/' + self.package_name + '.pypac', json_data)
+        self.save_file(self.export_dir + '/' + self.package_name + '.rypac', json_data)
 
 
         for n in self.export_nodes:
