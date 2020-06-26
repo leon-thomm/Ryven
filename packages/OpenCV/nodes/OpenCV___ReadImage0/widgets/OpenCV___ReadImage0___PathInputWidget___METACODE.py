@@ -28,8 +28,11 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QPushButton):
 
     def button_clicked(self):
         file_path = QFileDialog.getOpenFileName(self, 'Select image')[0]
-        rel_path = os.path.relpath(file_path)
-        self.path_chosen.emit(rel_path)
+        try:
+            file_path = os.path.relpath(file_path)
+        except ValueError:
+            pass  # keep absolute path
+        self.path_chosen.emit(file_path)
 
     def get_data(self):
         return self.text()
