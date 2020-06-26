@@ -1,5 +1,5 @@
 from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle, QGraphicsLinearLayout, QGraphicsWidget, \
-    QGraphicsLayoutItem, QGraphicsGridLayout, QSizePolicy
+    QGraphicsLayoutItem
 from PySide2.QtCore import Qt, QRectF, QPointF, Signal, QSizeF
 from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
     QPainter
@@ -82,12 +82,14 @@ class NodeInstance(QGraphicsItem):
 
 
         # TOOLTIP
-        self.setToolTip(self.parent_node.description)
+        if self.parent_node.description != '':
+            self.setToolTip('<html><head/><body><p>'+self.parent_node.description+'</p></body></html>')
         self.setCursor(Qt.SizeAllCursor)
 
         self.initializing = False
 
     def setup_ui(self):
+        """Creates the empty layouts for the NI's widget."""
 
         #   main layout
         layout = QGraphicsLinearLayout(Qt.Vertical)
@@ -231,9 +233,9 @@ class NodeInstance(QGraphicsItem):
         for log in self.personal_logs:
             log.enable()
 
-    def log_message(self, message: str, target='global_tools'):
-        """Access to global_tools Script Logs ('global_tools' or 'error')."""
-        self.flow.parent_script.logger.log_message(self, message, target)
+    def log_message(self, message: str, target='global'):
+        """Access to global_tools Script Logs ('global' or 'error')."""
+        self.flow.parent_script.logger.log_message(message, target)
 
     # SHAPE
     def update_shape(self):
@@ -334,9 +336,6 @@ class NodeInstance(QGraphicsItem):
         else:
             self.outputs.insert(pos, pi)
             self.insert_output_into_layot(pos, pi)
-
-        # if self.scene():
-        #     self.add_output_to_scene(pi)
 
         if not self.initializing:
             self.update_shape()

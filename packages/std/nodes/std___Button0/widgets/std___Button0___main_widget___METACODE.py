@@ -13,6 +13,7 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QPushButton):
         self.parent_node_instance = parent_node_instance
         # ------------------------------------------------
         self.setStyleSheet('''
+        QPushButton {
             background-color: #36383B;
             padding-top: 5px;
             padding-bottom: 5px;
@@ -20,6 +21,10 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QPushButton):
             padding-right: 22px;
             border: 1px solid #666666;
             border-radius: 5px;
+        }
+        QPushButton:pressed {
+            background-color: #bcbbf2;
+        }
         ''')
 
     def get_data(self):

@@ -79,10 +79,9 @@ class PortInstance(QGraphicsGridLayout):
         Debugger.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
                             'NodeInstance to', val)
 
-        if self.val is val:  # no update if value didn't change
-            return
-
+        # note that val COULD be of object type and therefore already changed (because the original object did)
         self.val = val
+
         self.gate.setToolTip(str(val))
         self.gate.update()  # to update the ToolTip, not sure if necessary
 

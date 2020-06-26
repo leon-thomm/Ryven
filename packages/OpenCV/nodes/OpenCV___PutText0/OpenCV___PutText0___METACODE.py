@@ -17,13 +17,13 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.img_unTexed = None
         self.img_Texed = None
-       
+
 
         self.initialized()
 
 
     def update_event(self, input_called=-1):
-        self.img_unTexed = self.input(0)
+        self.img_unTexed = self.input(0).copy()
         text = self.input(1)
         org=self.input(2)
         #font=cv2.FONT_HERSHEY_SIMPLEX
@@ -31,7 +31,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         fontScale=self.input(3)
         color=self.input(4)
         thickness=self.input(5)
-        
+
         self.img_Texed = cv2.putText( self.img_unTexed,text,org,cv2.FONT_HERSHEY_SIMPLEX,fontScale,color,thickness,cv2.LINE_AA)
         self.main_widget.show_image(self.img_Texed)
         self.outputs[0].set_val(self.img_Texed)

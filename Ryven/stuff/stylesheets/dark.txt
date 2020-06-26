@@ -39,7 +39,6 @@ QToolTip {
 	border: 2px solid #144a6b;
 	border-radius: 3px;
 	padding: 5px;
-	max-width: 300px;
 }
 
 QScrollArea {

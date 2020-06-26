@@ -50,13 +50,6 @@ class DrawingObject(QGraphicsItem):
             painter.drawLine(self.points[i-1], self.points[i])
 
     def try_to_append_point(self, p_abs):
-        # p: QPointF = self.mapToScene(self.pos()) + (p_viewport-self.pos())
-        # print('---------------------------')
-        # print(p)
-        # print(p_viewport)
-        # print(self.pos())
-        # print(self.mapToScene(self.pos()))
-        # print('---------------------------')
         p: QPointF = p_abs - self.pos()
         if len(self.points) > 0:
             line = QLineF(self.points[-1], p)

@@ -25,11 +25,11 @@ You need to have **Python 3 and PySide2** installed, plus all the packages that 
 
 ![](/resources/images/pyScript1.PNG)
 
-When you open Ryven, you will notice, there are different scripts. Every script has variables and a flow (or 'graph'). You can right click on scripts, variables and many other components to perform actions like 'remove' on them.
+When you open Ryven, you will notice, there are different scripts. Every script has variables, a flow (or _graph_) and logs. You can right click on scripts, variables and many other components to perform actions like _remove_ on them.
 
 ### Importing Nodes
 
-You need to import nodes before you can use them from node packages (File -> Import Nodes and then choose a nodes package file *.pypac). If the import succeeded, you will then be able to use the imported nodes in all scripts.
+You need to import nodes before you can use them from node packages (File -> Import Nodes and then choose a nodes package file *.rypac). If the import succeeded, you will then be able to use the imported nodes in all scripts.
 
 ### Controls
 
@@ -47,15 +47,15 @@ Middlee mouse button
 
 #### Placing Nodes
 
-Just right click on a flow to see what nodes you can place. You can then also press 'Shift'+'P' to place a new node next to the last one and move it around with 'Shift'+Arrow.
+Right click. You can then also press 'Shift'+'P' to place a new node next to the selected one and move it around with 'Shift'+Arrow.
 
-#### Selecting Items
+#### Selecting, Dragging, Connecting
 
 Left Mouse
 
 ### Variables
 
-You can create new variables just like scripts. By right clicking on a variable, you can set the value in the dialog that pops up. Whatever you type into that field will be evaluated by Python using the _eval()_ method, so the datatype will automatically be parsed just like when assigning variables in Python source code. To use a variable, you must use the get var node, which returns it's _value_ (without copying it).
+You can create new variables just like scripts. By right clicking on a variable, you can set the value in the dialog that pops up. Whatever you type into that field will be evaluated by Python using the _eval()_ method, so the datatype will automatically be parsed just like when assigning variables in Python source code. To use a variable, you must use the _get var_ node, which returns its _value_ (without copying it!). You can press Ctrl+s in the value edit dialog.
 
 [//]: # (As long as your variable does not have a complex tape that will be given by reference when the object is being passed to another node, the original variable's value will not change if you change the value of what's coming out of the get var node. However if the variable does have a referenced type, it will. If you are not sure about that, dont panic, I did not apply any custom operations on the variables in Ryven according to their types, so everything behaves strictly following the rules of Python, nothing else.)
 
@@ -205,11 +205,6 @@ In this case, a method _action_print_something_ would need to exist
         def action_print_something(self):
             print('Hello World!')
 
-This would look in Ryven like that:
-
-![](/resources/images/pyScript10.PNG)
-
-
 ## API
 
 To access the node's contents there is a small 'API' that you can use in the class.
@@ -249,7 +244,7 @@ All widget related arguments are only important for data inputs:
 
     self.create_new_output(type_: str, label: str, pos=-1)
 
-see 'Adding a new input port'.
+see above.
 
 **Deleting input port:**
 
@@ -258,14 +253,6 @@ see 'Adding a new input port'.
 **Deleting output port:**
 
     self.delete_output(index)
-
-**Renaming input port:**
-
-    ... (not implemented yet but coming soon)
-
-**Renaming output port:**
-
-    ... (not implemented yet but coming soon)
 
 ### Logging
 

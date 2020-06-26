@@ -17,18 +17,18 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         # self.special_actions['action name'] = self.actionmethod ...
         self.img_unrectangled = None
         self.img_rectangled = None
-       
+
 
         self.initialized()
 
 
     def update_event(self, input_called=-1):
-        self.img_unrectangled = self.input(0)
+        self.img_unrectangled = self.input(0).copy()
         startpoint = self.input(1)
         endpoint=self.input(2)
         color=self.input(3) #COLOR is in BGR
         thickness=self.input(4)
-        
+
         self.img_rectangled = cv2.rectangle( self.img_unrectangled,startpoint,endpoint,color,thickness)
         self.main_widget.show_image(self.img_rectangled)
         self.outputs[0].set_val(self.img_rectangled)

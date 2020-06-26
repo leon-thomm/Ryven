@@ -40,7 +40,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
-        self.image = self.input(0)
+        self.image = self.input(0).copy()
         self.grayImage = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
 
         circles = cv2.HoughCircles(self.grayImage, cv2.HOUGH_GRADIENT, self.input(1), self.input(2))

@@ -29,15 +29,11 @@ class Logger(QWidget):
         ''')
 
 
-    def log_message(self, sender, message: str, target=''):
-        if target == 'global_tools':
+    def log_message(self, message: str, target=''):
+        if target == 'global':
             self.global_log.log(message)
         elif target == 'error':
             self.error_log.log(message)
-        # else:
-        #     if not self.custom_log_holders.keys().__contains__(sender):
-        #         self.new_log(sender)
-        #     self.custom_log_holders[sender].log(message)
 
     def new_log(self, new_sender, title):
         new_log = Log(new_sender, title)

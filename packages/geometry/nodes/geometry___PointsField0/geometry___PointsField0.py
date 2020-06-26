@@ -27,7 +27,7 @@ class PointsField_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         if input_called == 1:
             new_points = self.main_widget.randomize(self.input(0))
-            self.outputs[0].set_val(new_points)
+            self.set_output_val(0, new_points)
 
     def get_data(self):
         data = {}

@@ -52,7 +52,7 @@ class StartupDialog(QDialog):
 
 
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('stuff/pics/program_icon.png'))
+        self.setWindowIcon(QIcon('stuff/pics/program_icon2.png'))
         self.setFixedSize(500, 300)
 
         self.load_stylesheet('dark')

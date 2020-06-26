@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout
 from PySide2.QtGui import QFont
 import inspect
 
@@ -24,7 +24,7 @@ class CodePreview_Widget(QWidget):
 
         # class radio buttons widget
         class_selection_widget = QWidget()
-        self.class_selection_layout = QVBoxLayout()
+        self.class_selection_layout = QGridLayout()
         class_selection_widget.setLayout(self.class_selection_layout)
 
         settings_layout.addWidget(class_selection_widget)
@@ -73,7 +73,7 @@ class CodePreview_Widget(QWidget):
             item = self.class_selection_layout.itemAt(0)
             widget = item.widget()
             widget.hide()
-            self.class_selection_layout.removeItem(self.class_selection_layout.itemAt(0))
+            self.class_selection_layout.removeItem(item)
 
         self.buttons_class_dict = {}
         self.active_class_index = -1
@@ -83,22 +83,24 @@ class CodePreview_Widget(QWidget):
             node_inst_class_RB = QRadioButton('NodeInstance')
             node_inst_class_RB.toggled.connect(self.class_RB_toggled)
             self.buttons_class_dict[node_inst_class_RB] = obj.__class__
-            self.class_selection_layout.addWidget(node_inst_class_RB)
+            self.class_selection_layout.addWidget(node_inst_class_RB, 0, 0)
 
             # main_widget class
             if obj.main_widget is not None:
                 main_widget_class_RB = QRadioButton('MainWidget')
                 main_widget_class_RB.toggled.connect(self.class_RB_toggled)
                 self.buttons_class_dict[main_widget_class_RB] = obj.main_widget.__class__
-                self.class_selection_layout.addWidget(main_widget_class_RB)
+                self.class_selection_layout.addWidget(main_widget_class_RB, 1, 0)
 
             # data input widgets
+            row_count = 0
             for inp in obj.inputs:
                 if inp.widget is not None:
                     inp_widget_class_RB = QRadioButton('Input '+str(obj.inputs.index(inp)))
                     inp_widget_class_RB.toggled.connect(self.class_RB_toggled)
                     self.buttons_class_dict[inp_widget_class_RB] = inp.widget.__class__
-                    self.class_selection_layout.addWidget(inp_widget_class_RB)
+                    self.class_selection_layout.addWidget(inp_widget_class_RB, row_count, 1)
+                    row_count += 1
 
             node_inst_class_RB.setChecked(True)
 

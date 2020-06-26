@@ -39,7 +39,8 @@ class DrawMarker_NodeInstance(NodeInstance):
 
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
-        result = cv2.drawMarker(self.input(0), self.input(1), self.input(2), 3)
+        img = self.input(0).copy()
+        result = cv2.drawMarker(img, self.input(1), self.input(2), 3)
         self.main_widget.show_image(result)
         self.outputs[0].set_val(result)
 
