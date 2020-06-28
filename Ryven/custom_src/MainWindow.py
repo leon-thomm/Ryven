@@ -82,6 +82,14 @@ class MainWindow(QMainWindow):
             self.parse_project(config['content'])
             print('finished')
 
+        print('''
+        CONTROLS
+            placing nodes: right mouse
+            selecting components: left mouse
+            panning: middle mouse
+            saving: ctrl+s
+        ''')
+
 
         self.set_flow_design('dark std')
         self.resize(1500, 800)
