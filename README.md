@@ -4,15 +4,11 @@
 
 Ey, what's up!
 
+Please be aware that this whole project is a proof of concept. It is primarily meant to show the idea and the source code is not developed with highest focus on readability. However its working surprisingly well so far and I think this has the potential to become something really intuitive and practical. How it is going to evolve will depend on the resonance it gets.
+
 ### Requirements
 - Python 3
 - PySide2
-
-# Before you download
-
-Please be aware that this whole project is a proof of concept. It is primarily meant to show the idea and the source code is not developed with highest focus on readability. However its working surprisingly well so far and I think this has the potential to become something really intuitive and practical. How it is going to evolve will depend on the resonance it gets.
-
-![](/docs/resources/images/pyScript14.PNG)
 
 # Idea
 
@@ -22,17 +18,17 @@ Please be aware that this whole project is a proof of concept. It is primarily m
 
 The idea is a dynamic runtime flow-based visual programming environment for Python, with visual flows serving as a diagram-like representation of your script while being executable at the same time (useful for presentations for examle). The runtime part means that you don't export any code, everything gets executed within the editor as you go, at runtime. Beside the main Ryven application (the editor), the Ryven NodeManager lets you manage your existing nodes and the creation of new ones which you can then program for use in your visual scripts. The focus is on enabling an easy process of creating new nodes and giving them intuitive GUI elements. **You can throw any Python code into these nodes and Ryven provides you with the platform to use them in combination with others.** Keep in mind that the intention is not to 'replace' textual coding - there is a lot you can do in textual programming which doesn't make sense being represented that way at all. But there is also the opposite.
 
+![](/docs/resources/images/ryven_screenshot1.png)
+
 There are two types of connections (execution and data connections) but if you are searching for a pure data flow sofware, you can absolutely do normal pure dataflows which opens plenty of possibilities for data manipulation applications.
 
-Ryven is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts, however, is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see _Creating new nodes_ on the GitHub page). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
+Ryven is currently not yet in a state of large package varieties of usable nodes. Creating nodes, however, is fairly easy while restrictions are kept very low (see _Creating new nodes_ on the [GitHub page](https://leon-thomm.github.io/Ryven/)). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
 
 # Getting Started
 
 ## Installation
 
 You need to have **Python 3 and PySide2** installed, plus all the packages that you may want to use in the nodes. Some example packages are in the _packages_ folder. And you may find example projects in the _saves_ folder that uses these packages. **To start the editor simply run _Ryven.py_. To start the NodeManager run _Ryven NodeManager.py_**, located in the folder _Ryven_NodeManager_.
-
-Please visit the GitHub page for a very budget tutorial and doc on how to create nodes: https://leon-thomm.github.io/Ryven/
 
 ## Ryven Overview
 
@@ -85,3 +81,7 @@ Makes a picture of exactly what you see in the editor.
 
 #### Whole Scene Picture
 You also can get a full image of the scene, so you can cut out the parts that you need for use in your presentation for example. The zoom factor determines the resolution.
+
+# Screenshots
+
+![](/docs/resources/images/pyScript14.PNG)
