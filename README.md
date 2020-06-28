@@ -1,10 +1,8 @@
 # A simple flow-based visual scripting runtime environment for Python
 
-![](/docs/resources/images/ryven_screenshot2.PNG)
+![](/docs/resources/images/ryven_screenshot2.png)
 
 Ey, what's up!
-
-Please visit the GitHub page for a very budget overview and doc: https://leon-thomm.github.io/Ryven/
 
 ### Requirements
 - Python 3
@@ -12,16 +10,9 @@ Please visit the GitHub page for a very budget overview and doc: https://leon-th
 
 # Before you download
 
-<aside class="warning">
 Please be aware that this whole project is a proof of concept. It is primarily meant to show the idea and the source code is not developed with highest focus on readability. However its working surprisingly well so far and I think this has the potential to become something really intuitive and practical. How it is going to evolve will depend on the resonance it gets.
-</aside>
 
 ![](/docs/resources/images/pyScript14.PNG)
-
-# Overview
-
-Ryven is a standalone software based on Python and Qt for runtime flow-based visual programming in Python. Please keep in mind that this is not a professional piece of software and the code also isn't optimized for readability.
-It is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts, however, is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see section 'Creating new nodes'). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
 
 # Idea
 
@@ -33,16 +24,19 @@ The idea is a dynamic runtime flow-based visual programming environment for Pyth
 
 There are two types of connections (execution and data connections) but if you are searching for a pure data flow sofware, you can absolutely do normal pure dataflows which opens plenty of possibilities for data manipulation applications.
 
+Ryven is currently not yet in a state of large package varieties of usable nodes. One of the most important concepts, however, is the process of creation of new nodes which is fairly easy while restrictions are kept very low (see _Creating new nodes_ on the GitHub page). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
 
 # Getting Started
 
 ## Installation
 
-You need to have **Python 3 and PySide2** installed, plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you can find an example project in the 'saves' folder that uses these packages. **To start the editor simply run _Ryven.py_**. To start the NodeManager run _Ryven NodeManager.py_, located in the 'Ryven_NodeManager' folder.
+You need to have **Python 3 and PySide2** installed, plus all the packages that you may want to use in the nodes. Some example packages are in the 'packages' folder. And you may find example projects in the 'saves' folder that uses these packages. **To start the editor simply run _Ryven.py_. To start the NodeManager run _Ryven NodeManager.py_**, located in the folder _Ryven_NodeManager_.
+
+Please visit the GitHub page for a very budget tutorial and doc on how to create nodes: https://leon-thomm.github.io/Ryven/
 
 ## Ryven Overview
 
-![](/resources/images/pyScript1.PNG)
+![](docs/resources/images/pyScript1.PNG)
 
 When you open Ryven, you will notice, there are different scripts. Every script has variables, a flow (or _graph_) and logs. You can right click on scripts, variables and many other components to perform actions like _remove_ on them.
 
