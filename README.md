@@ -24,9 +24,7 @@ Ryven is currently not yet in a state of large package varieties of usable nodes
 
 # Getting Started
 
-## Installation
-
-You need to have **Python 3 and PySide2** installed, plus all the packages that you may want to use in the nodes. Some example packages are in the _packages_ folder. And you may find example projects in the _saves_ folder that uses these packages. **To start the editor simply run _Ryven.py_. To start the NodeManager run _Ryven NodeManager.py_**, located in the folder _Ryven_NodeManager_.
+**To start the editor simply run _Ryven.py_**. Some example packages are in the _packages_ folder. And you may find example projects in the _saves_ folder that uses these packages. **To start the NodeManager run _Ryven NodeManager.py_**, located in the folder _Ryven_NodeManager_.
 
 ## Ryven Overview
 
