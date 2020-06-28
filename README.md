@@ -18,8 +18,6 @@ Please be aware that this whole project is a proof of concept. It is primarily m
 
 The idea is a dynamic runtime flow-based visual programming environment for Python, with visual flows serving as a diagram-like representation of your script while being executable at the same time (useful for presentations for examle). The runtime part means that you don't export any code, everything gets executed within the editor as you go, at runtime. Beside the main Ryven application (the editor), the Ryven NodeManager lets you manage your existing nodes and the creation of new ones which you can then program for use in your visual scripts. The focus is on enabling an easy process of creating new nodes and giving them intuitive GUI elements. **You can throw any Python code into these nodes and Ryven provides you with the platform to use them in combination with others.** Keep in mind that the intention is not to 'replace' textual coding - there is a lot you can do in textual programming which doesn't make sense being represented that way at all. But there is also the opposite.
 
-![](/docs/resources/images/ryven_screenshot1.png)
-
 There are two types of connections (execution and data connections) but if you are searching for a pure data flow sofware, you can absolutely do normal pure dataflows which opens plenty of possibilities for data manipulation applications.
 
 Ryven is currently not yet in a state of large package varieties of usable nodes. Creating nodes, however, is fairly easy while restrictions are kept very low (see _Creating new nodes_ on the [GitHub page](https://leon-thomm.github.io/Ryven/)). However if people keep creating new nodes, this might look very different in the future. For now, this is primarily for vp-enthusiasts who intend to create their nodes themselves and are looking for some inspiration.
@@ -85,3 +83,5 @@ You also can get a full image of the scene, so you can cut out the parts that yo
 # Screenshots
 
 ![](/docs/resources/images/pyScript14.PNG)
+
+![](/docs/resources/images/ryven_screenshot1.png)
