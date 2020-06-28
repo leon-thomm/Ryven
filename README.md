@@ -6,6 +6,10 @@ Ey, what's up!
 
 Please visit the GitHub page for a very budget overview and doc: https://leon-thomm.github.io/Ryven/
 
+### Requirements
+- Python 3
+- PySide2
+
 # Before you download
 
 <aside class="warning">
