@@ -1,6 +1,6 @@
 # A simple flow-based visual scripting runtime environment for Python
 
-![](/docs/resources/images/pyScript14.PNG)
+![](/docs/resources/images/ryven_screenshot2.PNG)
 
 Ey, what's up!
 
@@ -16,7 +16,7 @@ Please visit the GitHub page for a very budget overview and doc: https://leon-th
 Please be aware that this whole project is a proof of concept. It is primarily meant to show the idea and the source code is not developed with highest focus on readability. However its working surprisingly well so far and I think this has the potential to become something really intuitive and practical. How it is going to evolve will depend on the resonance it gets.
 </aside>
 
-![](/docs/resources/images/ryven_screenshot2.PNG)
+![](/docs/resources/images/pyScript14.PNG)
 
 # Overview
 
