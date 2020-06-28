@@ -31,7 +31,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
         self.img_canny = cv2.Canny(self.img_normal, canny_min_val, canny_max_val)
         self.main_widget.show_image(self.img_canny)
-        self.outputs[0].set_val(self.img_canny)
+        self.set_output_val(0, self.img_canny)
 
     def get_data(self):
         data = {}

@@ -39,7 +39,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
         result = cv2.clipLine(self.input(0), self.input(1), self.input(2))
-        self.outputs[0].set_val(result[0])
+        self.set_output_val(0, result[0])
 
 
     def get_data(self):

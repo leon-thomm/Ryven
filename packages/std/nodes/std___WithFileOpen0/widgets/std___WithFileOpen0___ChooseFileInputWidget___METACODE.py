@@ -18,6 +18,7 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QWidget):
         self.setLayout(QVBoxLayout())
         self.path_line_edit = QLineEdit()
         self.path_line_edit.setPlaceholderText('file path...')
+        self.path_line_edit.textChanged.connect(self.set_file_path)
         self.select_file_button = QPushButton('select')
         self.select_file_button.clicked.connect(self.select_file_button_clicked)
         self.layout().addWidget(self.path_line_edit)

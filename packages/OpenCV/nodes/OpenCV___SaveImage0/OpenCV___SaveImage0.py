@@ -41,17 +41,16 @@ class SaveImage_NodeInstance(NodeInstance):
 
     def update_event(self, input_called=-1):
         if input_called != 0:
-            print("Passing...")
             return
 
         self.img = self.input(2)
         try:
-            print('Saving to path:', self.image_filepath)
+            self.log_message('Saving pic to '+self.image_filepath, 'global')
             cv2.imwrite(self.image_filepath, self.img)
             self.main_widget.set_path_text(self.image_filepath)
+            self.main_widget.setText('Success')
         except Exception as e:
-            self.main_widget.setText('Invalid path.')
-            print(e)
+            self.main_widget.setText('Error')
 
     def get_data(self):
         data = {'image file path': self.image_filepath}
@@ -62,6 +61,7 @@ class SaveImage_NodeInstance(NodeInstance):
 
     def path_chosen(self, file_path):
         self.image_filepath = file_path
+        self.main_widget.setText('')
         self.update()
 
 

@@ -4,13 +4,19 @@ from PySide2.QtGui import QColor, QFontDatabase, QIcon, QKeySequence
 from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu
 
 # parent UI
+from custom_src.builtin_nodes.Result_Node import Result_Node
+from custom_src.builtin_nodes.Result_NodeInstance import Result_NodeInstance
+from custom_src.builtin_nodes.Val_Node import Val_Node
+from custom_src.builtin_nodes.Val_NodeInstance import Val_NodeInstance
 from ui.ui_main_window import Ui_MainWindow
 
-from custom_src.Node import Node, NodePort, SetVariable_Node, GetVariable_Node
+from custom_src.Node import Node, NodePort
+from custom_src.builtin_nodes.GetVar_Node import GetVariable_Node
+from custom_src.builtin_nodes.SetVar_Node import SetVariable_Node
 from custom_src.Script import Script
 from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
-from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
-from custom_src.custom_nodes.SetVar_NodeInstance import SetVar_NodeInstance
+from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
+from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.GlobalAttributes import Design, Algorithm, PerformanceMode
 
@@ -46,12 +52,14 @@ class MainWindow(QMainWindow):
         # GENERAL ATTRIBUTES
         self.scripts = []
         self.custom_nodes = []
-        self.all_nodes = [SetVariable_Node(), GetVariable_Node()]
+        self.all_nodes = [SetVariable_Node(), GetVariable_Node(), Val_Node(), Result_Node()]
 
         #   holds NI subCLASSES for imported nodes:
         self.all_node_instance_classes = {
             self.all_nodes[0]: SetVar_NodeInstance,
-            self.all_nodes[1]: GetVar_NodeInstance
+            self.all_nodes[1]: GetVar_NodeInstance,
+            self.all_nodes[2]: Val_NodeInstance,
+            self.all_nodes[3]: Result_NodeInstance
         }  # (key: node obj, val: NI subclass) (used in Flow)
 
         #   custom subclasses for input widgets
@@ -68,8 +76,11 @@ class MainWindow(QMainWindow):
         if config['config'] == 'create plain new project':
             self.try_to_create_new_script()
         elif config['config'] == 'open project':
+            print('importing packages...')
             self.import_packages(config['required packages'])
+            print('loading project...')
             self.parse_project(config['content'])
+            print('finished')
 
 
         self.set_flow_design('dark std')
@@ -419,6 +430,8 @@ class MainWindow(QMainWindow):
 
         file = None
         try:
+            if os.path.exists(file_name):
+                os.remove(file_name)
             file = open(file_name, 'w')
         except FileNotFoundError:
             Debugger.debug('couldn\'t open file')

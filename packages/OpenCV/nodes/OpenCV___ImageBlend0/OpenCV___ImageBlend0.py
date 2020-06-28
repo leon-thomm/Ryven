@@ -31,7 +31,7 @@ class ImageBlend_NodeInstance(NodeInstance):
 
         self.img_blend = cv2.addWeighted(self.img_unblend1,alpha,self.img_unblend2,beta,0.0)
         self.main_widget.show_image(self.img_blend)
-        self.outputs[0].set_val(self.img_blend)
+        self.set_output_val(0, self.img_blend)
 
     def get_data(self):
         data = {}

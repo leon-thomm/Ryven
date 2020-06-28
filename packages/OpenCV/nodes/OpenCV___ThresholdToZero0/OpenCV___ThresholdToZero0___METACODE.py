@@ -43,7 +43,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         grayImage = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         ret, result = cv2.threshold(grayImage, self.input(1), self.input(2), cv2.THRESH_TOZERO)
         self.main_widget.show_image(result)
-        self.outputs[0].set_val(result)
+        self.set_output_val(0, result)
 
     def get_data(self):
         data = {}

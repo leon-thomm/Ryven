@@ -1,6 +1,6 @@
 from custom_src.script_variables.Variable import Variable
 from custom_src.custom_list_widgets.VariablesListWidget import VariablesListWidget
-from custom_src.custom_nodes.GetVar_NodeInstance import GetVar_NodeInstance
+from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.class_inspection import find_type_in_object

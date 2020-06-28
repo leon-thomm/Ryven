@@ -53,7 +53,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             cv2.circle(self.image,(i[0],i[1]),2,(0,0,255),3)
 
         self.main_widget.show_image(self.image)
-        self.outputs[0].set_val(self.image)
+        self.set_output_val(0, self.image)
 
     def get_data(self):
         data = {}

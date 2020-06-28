@@ -34,7 +34,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
         self.img_Texed = cv2.putText( self.img_unTexed,text,org,cv2.FONT_HERSHEY_SIMPLEX,fontScale,color,thickness,cv2.LINE_AA)
         self.main_widget.show_image(self.img_Texed)
-        self.outputs[0].set_val(self.img_Texed)
+        self.set_output_val(0, self.img_Texed)
 
     def get_data(self):
         data = {}

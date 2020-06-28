@@ -42,7 +42,7 @@ class CaptureVideo_NodeInstance(NodeInstance):
       #  self.vid_captured = cv2.VideoCapture(showvid)
         #self.cnvt=cv2.imshow('gray_image',self.img_grayed)
         self.main_widget.show_image(self.play)
-        self.outputs[0].set_val(selfplay )
+        self.set_output_val(0, self.play)
 
     def get_data(self):
         data = {}

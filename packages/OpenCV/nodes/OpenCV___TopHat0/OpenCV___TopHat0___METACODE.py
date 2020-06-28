@@ -27,7 +27,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.img_YUV_I420 = cv2.cvtColor(self.img_unYUV_I420,cv2.COLOR_BGRA2YUV_I420)
         #self.cnvt=cv2.imshow('gray_image',self.img_YUV_I420)
         self.main_widget.show_image(self.img_YUV_I420)
-        self.outputs[0].set_val(self.img_YUV_I420)
+        self.set_output_val(0, self.img_YUV_I420)
 
     def get_data(self):
         data = {}

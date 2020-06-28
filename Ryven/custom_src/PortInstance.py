@@ -138,59 +138,6 @@ class PortInstance(QGraphicsGridLayout):
         widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
         return widget_class
 
-    # def compute_size_and_positions(self):
-    #     """Very ugly: manually computes the geometry. Should get removed later when implemented using
-    #     QGraphicsLayouts!"""
-    #
-    #     self.width = 0
-    #     self.height = 0
-    #
-    #     gate_label_buffer = 10  # adds space between the gate and the label (vertical)
-    #     label_widget_buffer = 10
-    #
-    #     label_FM = QFontMetricsF(self.label.font)
-    #
-    #     self.width = self.gate.width + self.label.width + gate_label_buffer
-    #     self.height = self.gate.height if self.gate.height > self.label.height else self.label.height
-    #     self.height *= 1.3
-    #
-    #     if self.direction == 'input':
-    #         if self.widget:
-    #             widget_width = self.widget.width()
-    #             widget_height = self.widget.height()
-    #             if self.widget_pos == 'under':
-    #                 self.width = widget_width if widget_width > self.width else self.width
-    #                 self.height += widget_height
-    #                 upper_row_height = self.gate.height if self.gate.height > self.label.height else self.label.height
-    #                 self.widget.port_local_pos = QPointF(-self.width / 2 + self.widget.width() / 2,
-    #                                                      -self.height / 2 + upper_row_height + self.widget.height() / 2)
-    #                 self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2,
-    #                                                    -self.height / 2 + upper_row_height / 2)
-    #                 self.label.port_local_pos = QPointF(
-    #                     -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2,
-    #                     -self.height / 2 + upper_row_height / 2)
-    #             elif self.widget_pos == 'besides':
-    #                 self.width += label_widget_buffer + widget_width
-    #                 self.height = self.height if self.height > self.widget.height() else self.widget.height()
-    #                 self.widget.port_local_pos = QPointF(-self.width / 2 + self.gate.width + gate_label_buffer +
-    #                                                      self.label.width + label_widget_buffer +
-    #                                                      self.widget.width() / 2,
-    #                                                      0)
-    #                 self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
-    #                 self.label.port_local_pos = QPointF(
-    #                     -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
-    #             if self.widget.width() > self.width:
-    #                 self.width = self.widget.width()
-    #
-    #         else:
-    #             self.gate.port_local_pos = QPointF(-self.width / 2 + self.gate.width / 2, 0)
-    #             self.label.port_local_pos = QPointF(
-    #                 -self.width / 2 + self.gate.width + gate_label_buffer + self.label.width / 2, 0)
-    #     elif self.direction == 'output':
-    #         self.gate.port_local_pos = QPointF(+self.width / 2 - self.gate.width / 2, 0)
-    #         self.label.port_local_pos = QPointF(
-    #             +self.width / 2 - self.gate.width - gate_label_buffer - self.label.width / 2, 0)
-
     def connected(self):
         """Disables the widget and causes update"""
         if self.widget:

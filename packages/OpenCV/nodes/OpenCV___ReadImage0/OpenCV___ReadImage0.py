@@ -27,11 +27,11 @@ class ReadImage_NodeInstance(NodeInstance):
                                 self.image_filepath,
                              target='global')
             self.img = cv2.imread(self.image_filepath)
-            self.outputs[0].set_val(self.img)
+            self.set_output_val(0, self.img)
             self.main_widget.set_path_text(self.image_filepath)
         except Exception as e:
             self.main_widget.setText('couldn\'t open file')
-            print(e)
+            self.log_message(e, 'error')
 
     def get_data(self):
         data = {'image file path': self.image_filepath}

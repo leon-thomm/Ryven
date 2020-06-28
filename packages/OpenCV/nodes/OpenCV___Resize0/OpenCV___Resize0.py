@@ -41,7 +41,7 @@ class Resize_NodeInstance(NodeInstance):
         image = self.input(0)
         newsize = self.input(1)
         result = cv2.resize(image, newsize)
-        self.outputs[0].set_val(result)
+        self.set_output_val(0, result)
         
 
     def get_data(self):

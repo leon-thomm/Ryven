@@ -14,8 +14,6 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QSlider):
         self.parent_node_instance = parent_node_instance
         # ------------------------------------------------
 
-        self.log = self.parent_node_instance.new_log('Clock Slider Log')
-
         self.setStyleSheet('''
             background: transparent;
         ''')
@@ -28,7 +26,6 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QSlider):
 
     def slider_val_changed(self):
         self.parent_node_instance.update_timer_interval((self.value()/self.maximum()))
-        self.log.log('setting value to:', (self.value()/self.maximum()))
 
     def get_val(self):
         return (self.value()/self.maximum())
@@ -41,4 +38,4 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QSlider):
         self.setValue(data['val'])
 
     def removing(self):
-        self.log.removing()
+        pass

@@ -31,7 +31,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         
         self.img_lined = cv2.line( self.img_unlined,startpoint,endpoint,color,thickness)
         self.main_widget.show_image(self.img_lined)
-        self.outputs[0].set_val(self.img_lined)
+        self.set_output_val(0, self.img_lined)
 
     def get_data(self):
         data = {}

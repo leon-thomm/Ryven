@@ -19,7 +19,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
     def video_picture_updated(self, img):
         self.log.log('video picture updated')
-        self.outputs[0].set_val(img)
+        self.set_output_val(0, img)
         # self.update()
 
 

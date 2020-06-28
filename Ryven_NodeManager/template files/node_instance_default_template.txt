@@ -9,7 +9,7 @@ from custom_src.Node import Node
 
 # Ports
 # self.input(index)                   <- access to input data
-# set_output_val(self, index, val)    <- set output data port value
+# self.set_output_val(self, index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
 # self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)

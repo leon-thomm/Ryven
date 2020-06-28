@@ -32,7 +32,7 @@ class DiscreteFourierTransform_NodeInstance(NodeInstance):
         self.img_fourier = cv2.dft(self.img_unfourier)
 
         self.main_widget.show_image(self.img_fourier)
-        self.outputs[0].set_val(self.img_fourier)
+        self.set_output_val(0, self.img_fourier)
 
     def get_data(self):
         data = {}

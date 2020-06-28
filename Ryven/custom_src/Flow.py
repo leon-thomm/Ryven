@@ -664,13 +664,8 @@ class Flow(QGraphicsView):
 
         return place_command.node_instance
 
-    def remove_node_instance_triggered(self, node_instance):  # called from context menu from NodeInstance
+    def remove_node_instance_triggered(self, node_instance):  # called from context menu of NodeInstance
         if node_instance in self.selected_node_instances():
-            self.remove_selected_components()
-        else:
-            self.remove_node_instance(node_instance)
-
-        if node_instance  in self.selected_node_instances():
             self.undo_stack.push(
                 RemoveComponents_Command(self, self.scene().selectedItems()))
         else:

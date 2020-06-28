@@ -65,5 +65,4 @@ class Clock_NodeInstance(NodeInstance):
 
     # optional - important for threading - stop everything here
     def removing(self):
-        self.log_message('removed!', 'global')
         self.timer.stop()

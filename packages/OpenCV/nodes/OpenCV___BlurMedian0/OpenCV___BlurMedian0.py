@@ -27,7 +27,7 @@ class BlurMedian_NodeInstance(NodeInstance):
        # blur_val = int(blur_val)
         self.img_blurred = cv2.medianBlur( self.img_unblurred, int(blur_val))
         self.main_widget.show_image(self.img_blurred)
-        self.outputs[0].set_val(self.img_blurred)
+        self.set_output_val(0, self.img_blurred)
 
     def get_data(self):
         data = {}

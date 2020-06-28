@@ -41,7 +41,7 @@ class ArrowedLine_NodeInstance(NodeInstance):
         img = self.input(0).copy()
         result = cv2.arrowedLine(img, self.input(1), self.input(2), self.input(3), 3)
         self.main_widget.show_image(result)
-        self.outputs[0].set_val(result)
+        self.set_output_val(0, result)
 
 
     def get_data(self):

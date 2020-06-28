@@ -4,6 +4,8 @@ from PySide2.QtWidgets import QLineEdit
 
 import os
 
+from custom_src.Node import Node, NodePort
+
 
 class Result_NodeInstance_MainWidget(QLineEdit):
     def __init__(self, parent_node_instance):
@@ -45,3 +47,24 @@ class Result_NodeInstance_MainWidget(QLineEdit):
     # optional - important for threading - stop everything here
     def removing(self):
         pass
+
+
+class Result_Node(Node):
+    def __init__(self):
+        super(Result_Node, self).__init__()
+
+
+        self.title = 'result'
+        self.type_ = 'result'
+        self.description = 'displays any value'
+        self.package = 'built in'
+        self.has_main_widget = True
+        self.main_widget_class = Result_NodeInstance_MainWidget
+        self.main_widget_pos = 'between ports'
+        self.design_style = 'extended'
+
+        data_input_port = NodePort()
+        data_input_port.type_ = 'data'
+        data_input_port.label = ''
+        data_input_port.widget_type = 'None'
+        self.inputs.append(data_input_port)

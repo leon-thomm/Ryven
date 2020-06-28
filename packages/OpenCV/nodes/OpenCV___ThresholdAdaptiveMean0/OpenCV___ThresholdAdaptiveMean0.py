@@ -43,7 +43,7 @@ class ThresholdAdaptiveMean_NodeInstance(NodeInstance):
         grayImage = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         result = cv2.adaptiveThreshold(grayImage, self.input(1), cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
         self.main_widget.show_image(result)
-        self.outputs[0].set_val(result)
+        self.set_output_val(0, result)
 
     def get_data(self):
         data = {}

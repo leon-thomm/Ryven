@@ -33,7 +33,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     
         self.img_filtered = cv2.bilateralFilter( self.img_unfiltered, d_val, sigmaColor_val,sigmaSpace_val)
         self.main_widget.show_image(self.img_filtered)
-        self.outputs[0].set_val(self.img_filtered)
+        self.set_output_val(0, self.img_filtered)
 
     def get_data(self):
         data = {}

@@ -419,8 +419,6 @@ class NodeInstance(QGraphicsItem):
     #   PAINTING
     def paint(self, painter, option, widget=None):
 
-        # print(self.title_label.geometry())
-
         # unfortunately, the boundingRect() is only not 0 when paint() is called the first time
         if self.width == -1 or self.height == -1:
             self.update_shape()
@@ -428,50 +426,25 @@ class NodeInstance(QGraphicsItem):
         painter.setRenderHint(QPainter.Antialiasing)
         brush = QBrush(QColor(100, 100, 100, 150))  # QBrush(QColor('#3B9CD9'))
         painter.setBrush(brush)
-        # std_pen = QPen(QColor(30, 43, 48))  # QColor(30, 43, 48)  # used for header title and minimal std dark border
-        # std_pen.setWidthF(1.5)
-        # # painter.setPen(std_pen)
-
 
         if self.parent_node.design_style == 'extended':
-
-            # header_pen = std_pen  # differs from std_pen in tron design
 
             if Design.flow_style == 'dark std':
                 self.draw_dark_extended_background(painter)
 
-                # if option.state & QStyle.State_MouseOver:  # make title color white when mouse hovers
-                #     c = self.parent_node.color.lighter()
-                #     header_pen = QPen(c)
-                #     header_pen.setWidth(2)
-
             elif Design.flow_style == 'dark tron':
                 self.draw_tron_extended_background(painter)
-
-                # c = self.parent_node.color
-                # if option.state & QStyle.State_MouseOver:  # make title color lighter when mouse hovers
-                #     c = self.parent_node.color.lighter()
-                # header_pen = QPen(c)
-                # header_pen.setWidth(2)
-
 
         elif self.parent_node.design_style == 'minimalistic':
 
             if Design.flow_style == 'dark std':
                 self.draw_dark_minimalistic(painter)
-                # if option.state & QStyle.State_MouseOver:  # make title color light when mouse hovers
-                #     pen = QPen(self.parent_node.color.lighter())
-                #     painter.setPen(pen)
 
             elif Design.flow_style == 'dark tron':
                 if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
                     self.draw_tron_minimalistic(painter, background_color=self.parent_node.color.darker())
                 else:
                     self.draw_tron_minimalistic(painter)
-
-        # painter.setPen(QPen(QColor('black')))
-        # painter.setBrush(Qt.NoBrush)
-        # painter.drawRect(self.widget.geometry())
 
 
     def draw_dark_extended_background(self, painter):
@@ -775,166 +748,6 @@ class NodeInstance(QGraphicsItem):
         self.flow.scene().removeItem(o.gate)
         self.flow.scene().removeItem(o.label)
         self.outputs.remove(o)
-
-    # # SHAPE
-    def del_and_remove_content_from_scene(self):  # everything get's reset here
-        """OLD: SHOULD GET REMOVED, I THINK"""
-        for i in range(len(self.inputs)):
-            self.del_and_remove_input_from_scene(0)
-
-        for o in range(len(self.outputs)):
-            self.del_and_remove_output_from_scene(0)
-
-        # lists are cleared here
-
-        self.width = -1
-        self.height = -1
-
-    # def compute_content_positions(self):
-    #     """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
-    #     for i in self.inputs:
-    #         i.compute_size_and_positions()
-    #     for o in self.outputs:
-    #         o.compute_size_and_positions()
-    #
-    #     display_name_height = self.display_name_FM.height()*(self.parent_node.title.count('\n')+1)
-    #     display_name_width = self.display_name_FM.width(get_longest_line(self.parent_node.title))
-    #     display_name_width_extended = self.display_name_FM.width('__' + get_longest_line(self.parent_node.title) + '__')
-    #
-    #     # label_FM = QFontMetricsF(self.port_label_font)
-    #
-    #     # all sizes and buffers
-    #     space_between_io = 10
-    #     # the following function creates additional space at the top and the bottom of the NI - the more ports, the more space
-    #     left_largest_width = 0
-    #     right_largest_width = 0
-    #     height_buffer_between_ports = 0 #10  # adds vertical buffer between single ports
-    #     horizontal_buffer_to_border = 10  # adds a little bit of space between port and border of the NI
-    #     left_ports_edge_height = -height_buffer_between_ports
-    #     right_ports_edge_height = -height_buffer_between_ports
-    #     for i in self.inputs:
-    #         if i.width > left_largest_width:
-    #             left_largest_width = i.width
-    #
-    #         left_ports_edge_height += i.height + height_buffer_between_ports
-    #
-    #     for o in self.outputs:
-    #         if o.width > right_largest_width:
-    #             right_largest_width = o.width
-    #
-    #         right_ports_edge_height += o.height + height_buffer_between_ports
-    #
-    #     ports_edge_height = left_ports_edge_height if left_ports_edge_height > right_ports_edge_height else right_ports_edge_height
-    #     ports_edge_width = left_largest_width + space_between_io + right_largest_width + 2*horizontal_buffer_to_border
-    #
-    #     body_height = 0
-    #     body_width = 0
-    #     body_top = 0
-    #     body_left = 0
-    #     body_right = 0
-    #
-    #     if self.parent_node.design_style == 'minimalistic':
-    #         height_buffer = 10
-    #
-    #
-    #         body_height = ports_edge_height if ports_edge_height > display_name_height else display_name_height
-    #         self.height = body_height + height_buffer
-    #         self.width = display_name_width_extended if display_name_width_extended > ports_edge_width else ports_edge_width
-    #         if self.main_widget:
-    #             if self.parent_node.main_widget_pos == 'under ports':
-    #                 self.width = self.width if self.width > self.main_widget.width()+2*horizontal_buffer_to_border else self.main_widget.width()+2*horizontal_buffer_to_border
-    #                 self.height += self.main_widget.height() + height_buffer_between_ports
-    #             elif self.parent_node.main_widget_pos == 'between ports':
-    #                 #self.width += self.main_widget.width()
-    #                 self.width = display_name_width_extended if \
-    #                     display_name_width_extended > ports_edge_width+self.main_widget.width() else \
-    #                     ports_edge_width+self.main_widget.width()
-    #                 self.height = self.height if self.height > self.main_widget.height() + height_buffer else self.main_widget.height() + height_buffer
-    #
-    #
-    #         body_top = -self.height / 2 + height_buffer / 2
-    #         body_left = -self.width / 2 + horizontal_buffer_to_border
-    #         body_right = self.width / 2 - horizontal_buffer_to_border
-    #
-    #
-    #     elif self.parent_node.design_style == 'extended':
-    #         header_height = self.get_header_rect().height() #50 * (self.parent_node.title.count('\n')+1)
-    #         vertical_body_buffer = 16  # half above, half below
-    #
-    #
-    #         body_height = ports_edge_height
-    #         self.height = header_height + body_height + vertical_body_buffer
-    #         self.width = display_name_width_extended if display_name_width_extended > ports_edge_width else ports_edge_width
-    #         if self.main_widget:
-    #             if self.parent_node.main_widget_pos == 'under ports':
-    #                 self.width = self.width if self.width > self.main_widget.width()+2*horizontal_buffer_to_border else self.main_widget.width()+2*horizontal_buffer_to_border
-    #                 self.height += self.main_widget.height() + height_buffer_between_ports
-    #             elif self.parent_node.main_widget_pos == 'between ports':
-    #                 self.width = display_name_width_extended if \
-    #                     display_name_width_extended > ports_edge_width+self.main_widget.width() else \
-    #                     ports_edge_width+self.main_widget.width()
-    #                 self.height = self.height if self.height > self.main_widget.height() + header_height + vertical_body_buffer else \
-    #                                 self.main_widget.height() + header_height + vertical_body_buffer
-    #
-    #         body_top = -self.height / 2 + header_height + vertical_body_buffer/2
-    #         body_left = -self.width / 2 + horizontal_buffer_to_border
-    #         body_right = self.width / 2 - horizontal_buffer_to_border
-    #
-    #         # here, the width and height are final
-    #
-    #     self.set_content_positions(body_height=body_height,
-    #                                body_top=body_top,
-    #                                body_left=body_left,
-    #                                body_right=body_right,
-    #                                left_ports_edge_height=left_ports_edge_height,
-    #                                right_ports_edge_height=right_ports_edge_height,
-    #                                height_buffer_between_ports=height_buffer_between_ports,
-    #                                left_largest_width=left_largest_width,
-    #                                right_largest_width=right_largest_width,
-    #                                space_between_io=space_between_io)
-    #
-    # def set_content_positions(self, body_height, body_top, body_left, body_right, left_ports_edge_height,
-    #                           right_ports_edge_height, height_buffer_between_ports, left_largest_width, right_largest_width,
-    #                           space_between_io):
-    #     """BAD - This might become unnecessary once I implemented use of QGraphicsLayout"""
-    #     # set positions
-    #     # # calculating the vertical space  between two inputs - without their heights, just between them
-    #     space_between_inputs = (body_height - left_ports_edge_height) / (len(self.inputs) - 1) if len(self.inputs) > 2 else body_height - left_ports_edge_height
-    #     offset = 0
-    #     if len(self.inputs) == 1:
-    #         offset = (body_height - left_ports_edge_height) / 2
-    #     for x in range(len(self.inputs)):
-    #         i = self.inputs[x]
-    #         y = body_top + i.height/2 + offset
-    #         port_pos_x = body_left + i.width/2
-    #         port_pos_y = y
-    #         i.gate.setPos(port_pos_x + i.gate.port_local_pos.x(), port_pos_y + i.gate.port_local_pos.y())
-    #         i.label.setPos(port_pos_x + i.label.port_local_pos.x(), port_pos_y + i.label.port_local_pos.y())
-    #         if i.widget:
-    #             i.proxy.setPos(port_pos_x + i.widget.port_local_pos.x() - i.widget.width()/2,
-    #                            port_pos_y + i.widget.port_local_pos.y() - i.widget.height()/2)
-    #         offset += i.height + height_buffer_between_ports + space_between_inputs
-    #
-    #     space_between_outputs = (body_height - right_ports_edge_height) / (len(self.outputs) - 1) if len(self.outputs) > 2 else body_height - right_ports_edge_height
-    #     offset = 0
-    #     if len(self.outputs) == 1:
-    #         offset = (body_height - right_ports_edge_height) / 2
-    #     for x in range(len(self.outputs)):
-    #         o = self.outputs[x]
-    #         y = body_top + o.height/2 + offset
-    #         port_pos_x = body_right - o.width/2
-    #         port_pos_y = y
-    #         o.gate.setPos(port_pos_x + o.gate.port_local_pos.x(), port_pos_y + o.gate.port_local_pos.y())
-    #         o.label.setPos(port_pos_x + o.label.port_local_pos.x(), port_pos_y + o.label.port_local_pos.y())
-    #         offset += o.height + height_buffer_between_ports + space_between_outputs
-    #
-    #     if self.main_widget:
-    #         if self.parent_node.main_widget_pos == 'under ports':
-    #             self.main_widget_proxy.setPos(-self.main_widget.width() / 2,
-    #                                           body_top + body_height + height_buffer_between_ports)  # self.height/2 - height_buffer/2 - self.main_widget.height())
-    #         elif self.parent_node.main_widget_pos == 'between ports':
-    #             body_incl_widget_height = body_height if body_height > self.main_widget.height() else self.main_widget.height()
-    #             self.main_widget_proxy.setPos(body_left + left_largest_width + space_between_io/2, body_top+body_incl_widget_height/2 -self.main_widget.height()/2)
 
     # GENERAL
     def initialized(self):

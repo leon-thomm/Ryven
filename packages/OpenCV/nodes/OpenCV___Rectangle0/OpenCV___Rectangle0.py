@@ -31,7 +31,7 @@ class Rectangle_NodeInstance(NodeInstance):
 
         self.img_rectangled = cv2.rectangle( self.img_unrectangled,startpoint,endpoint,color,thickness)
         self.main_widget.show_image(self.img_rectangled)
-        self.outputs[0].set_val(self.img_rectangled)
+        self.set_output_val(0, self.img_rectangled)
 
     def get_data(self):
         data = {}

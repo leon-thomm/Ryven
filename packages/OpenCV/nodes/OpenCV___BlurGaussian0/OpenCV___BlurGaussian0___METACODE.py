@@ -27,7 +27,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         blur_val = int(blur_val)
         self.img_blurred = cv2.GaussianBlur( self.img_unblurred, (blur_val, blur_val),0)
         self.main_widget.show_image(self.img_blurred)
-        self.outputs[0].set_val(self.img_blurred)
+        self.set_output_val(0, self.img_blurred)
 
     def get_data(self):
         data = {}

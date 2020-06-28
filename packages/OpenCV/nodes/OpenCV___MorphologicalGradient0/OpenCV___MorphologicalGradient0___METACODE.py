@@ -46,7 +46,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.res = cv2.morphologyEx(self.img, cv2.MORPH_GRADIENT,self.kern)
         self.main_widget.show_image(self.res)
 
-        self.outputs[0].set_val(self.res)
+        self.set_output_val(0, self.res)
 
     def get_data(self):
         data = {}

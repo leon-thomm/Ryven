@@ -79,7 +79,7 @@ class StartupDialog(QDialog):
         self.editor_startup_configuration['config'] = 'open project'
         import json
 
-        file_name = QFileDialog.getOpenFileName(self, 'select project file', '../saves', 'Ryven Project(*.rypo)')[0]
+        file_name = QFileDialog.getOpenFileName(self, 'select project file', '../saves', 'Ryven Project(*.rypo *.pypro)')[0]
         j_str = ''
         try:
             f = open(file_name)
