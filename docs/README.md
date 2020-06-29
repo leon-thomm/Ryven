@@ -8,14 +8,10 @@ There is a full example below.
 
 The overall process looks like this:
 
-- First, you open NodeManager, you can import a package if you want to edit it.
-- Then, you do your stuff there (changing names, adding new nodes, specifying their colors - all that kind of stuff)
-- You save them by exporting them as a package
-- Then you open the package folder with a file browser
-- You program the node(s) and their widgets by editing the 'metacode' files
-- You open Ryven
-- Import the nodes
-- And test them
+- In the NodeManager you can edit existing nodes (by importing a package) and create new ones. A node's general attributes like name and color get specified there.
+- You save the nodes in a package.
+- You open the package folder and write your code into the _METACODE_ files.
+- And then you can use the nodes in Ryven by importing the package there.
 
 **A node's basic attributes are:**
 
@@ -32,40 +28,41 @@ The overall process looks like this:
 
 ## NodeManager Overview
 
-Please be aware that this application is not extremely intuitive yet, there are quite a few features still missing. I am working on that :) If you have suggestions, hit me up.
+Please be aware that the NodeManager is not extremely intuitive yet but it does the job.
 
 ![Ryven NodeManager screenshot](/resources/images/Qt 70.png)
 
-This is what the NodeManager can look like. To define a node, you first have to specity it's basic properties. After that, click save, select the nodes that you want to be included in the package, **create a new folder for the package** (it's name will be the package's name) and export.
+That's what it looks like. To define a node, you first have to specity its basic properties. Then click save, select the nodes that you want to be included in the package, **create a new folder for the package** (it's name will be the package's name) and export.
 
 ### Name Conventions
 
-If your node has a title that, except for spaces, is not class-or file-/foldername conform (like '%'), you need to give a custom 'Internal Name' which then will be used internally instead of the node's title. Caution! You are not (yet) getting warned if your node title is not conform and you try to save your nodes. If can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
+#### Classname Conformity
+If your node has a title that, except for spaces, is not class-or file-/foldername conform (like '%'), you need to give a custom _Internal Name_ which then will be used internally instead of the node's title. Caution you are not getting warned yet if your node title is not conform and you try to save your nodes. It can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
 
-Furthermore:
+#### Further Name Conventions
 
-- A package's name must be unique.
-- Multiple Nodes in a package _can_ have the same name (but for convenient use in the editor, you should make sure that the description differs).
-- No name or title is allowed to have a sequence of three underscore characters '\_\_\_' as this is an anchor for Ryven and the NodeManager for separation of different components.
+- a package's name must be unique
+- no name or title is allowed to have a sequence of three underscore characters '\_\_\_' as this is an anchor for Ryven and the NodeManager for separation of different components
+- multiple nodes in a package _do_ can have the same name (but for intuitive use in the editor, you should make sure that the description differs)
 
 ![](/resources/images/pyScript2.PNG)
 
-For input widgets like shown in the picture, simply select the widget that you want to use in the drop down menu. You can also program cutom widgets, for that see 'Data Input Widgets' section.
+For input widgets like shown in the picture, simply select the widget that you want to use in the drop down menu. You can also program cutom widgets, for that see _Data Input Widgets_ section.
 
 ## Updating Packages 
 
-A package is identified by it's name. Packages with the same names should never exist. You can and should choose the original package directory _in the end_ (after you created different versions and tested the final one sufficiently). None of your content will be deleted or edited. Source code files get only created if they do not already exist (see next section) and all your custom files and folders you have put somwhere into the package's directory stay as they are.
+A package is identified by its name. Packages with the same names should never exist. If you are editing an existing package: in the end, you should always choose the original package directory (after you created different versions and tested the final one sufficiently). None of your content will be deleted. Source code files get only created if they do not already exist (see next section) and all your custom files and folders you have put somwhere into the package's directory (like picture that you may use) stay as they are.
 
 ## Programming Nodes
 
-And there we are. Note that Ryven now has a 'preview source code' feature, so you can use any existing nodes as reference and take a look at their source code right inside the editor. Simply drag the splitter handle from the bottom line upwards to access the preview area and select a placed node.
+And there we are. Note that Ryven now has a _preview source code_ feature, so you can use any existing nodes as reference and take a look at their source code right inside the editor. Simply drag the splitter handle from the bottom line upwards to access the preview area and select a placed node.
 The basic concepts are:
 
-- For every node (as well as all it's widget classes, more on that later), the NodeManager creates **METACODE**-files from templates if they are not already existing. All programming is done by editing these METACODE files.
+- For every node (as well as all its widget classes, more on that later), the NodeManager creates _METACODE_ files from templates if they do not already exist. All programming is done by editing these _METACODE_ files.
 - Ryven will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
-- **Do not edit non-metacode source files directly, as these changes will be lost.**
+- **Do not edit non-metacode source files directly, as these changes will be lost!**
 
-To start programming a node, simply direct into it's folder in the package directory and open the metacode Python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files**.
+To start programming a node, simply direct into its folder in the package directory and open the metacode Python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files**.
 
 If you open the file, you will see something like this:
 
@@ -103,9 +100,7 @@ That's your node's class.
 
 #### Update Event Method
 
-Now you just need to put your code into the update method. There is one convention that you need to consider:
-
-If your node has one or more execution inputs, you always need to check for _input_called_. That enables your node having mutliple execution inputs triggering different behaviour.
+Now you basically put your code into the update method. If your node has one or more execution inputs, you always need to check for _input_called_. That enables your node having mutliple execution inputs triggering different behaviour.
 
         def update_event(self, input_called=-1):
             if input_called == 0:
@@ -113,7 +108,7 @@ If your node has one or more execution inputs, you always need to check for _inp
             elif input_called == 1:
                 ...
 
-If your node does not have any execution inputs, it doesn't matter.
+If your node does not have any execution inputs, aka if its _passive_, do not check for _input_called_ as the node is supposed to update every time anything changed.
 
 A _+_ node's update event could look like this:
 
@@ -121,11 +116,11 @@ A _+_ node's update event could look like this:
             sum_val = self.input(0) + self.input(1)
             self.set_output_val(0, sum_val)
 
-That's it. Everything beyond that is the use of special features. There are a few very useful ones but you don't have to use them. If you successfully created a node, I recommend reading 'Special Actions' and 'API'. After that, you can take a look at the more advanced stuff to get a deeper sense of how this framework expects you to behave and what features you can make use of.
+That's it. Everything beyond that is the use of special features. There are a few very useful ones but you don't have to use them. If you successfully created a node, I recommend reading _Special Actions_ and _API_.
 
 ## Special Actions
 
-A very handy feature. **The special actions attribute is a dictionary** and holds information about accessible right-click operations which then will automatically be created when right clicking on a node. A possible entry would be
+A very handy feature. The special actions attribute is a dictionary and holds information about accessible right-click operations which then will automatically be created when right clicking on a node. A possible entry would be
 
             self.special_actions['print something'] = {'method': self.action_print_something}
 
@@ -133,6 +128,8 @@ In this case, a method _action_print_something_ would need to exist
 
         def action_print_something(self):
             print('Hello World!')
+
+You can define as many actions for your node as you want and you can totally edit this dict at any time.
 
 ## API
 
@@ -162,12 +159,12 @@ after these two I recommend only using unpositional identifiers
 - _pos=-1_ means, the input will be appended at the end, everything else specifies the index at which the input will be inserted
 All widget related arguments are only important for data inputs:
 - The _widget_type_ is the type of the input widget that will be created. Currently possible values are:
-    - 'std line edit'
-    - 'std spin box'
-    - 'custom'
+    - _std line edit_
+    - _std spin box_
+    - _custom_
     - I am planning to add more pre-defined standard widgets in the future
-- If _widget_type_ is 'custom', you must give a _widget_name_ which must refer to an already programmed input widget
-- _widget_pos_ determines whether the input widget will be 'besides' or 'under' the the Port
+- If _widget_type_ is _custom_, you must give a _widget_name_ which refers to a custom widget class which you are going to program (or already did)
+- _widget_pos_ determines whether the input widget will be _besides_ or _under_ the the port
 
 **Adding a new output port:**
 
@@ -233,7 +230,7 @@ This applies on the normal node class as well as on all the widgets classes, the
 
 ## Programming Widgets
 
-The possibility to program custom widgets for the nodes is one of the core concepts. All widget's QWidgets from Qt. So you actually write PySide2 code to program these. There are no restrictions - your custom widgets can be any QWidget (which itself can contain about anything). A node can have a main widget which sits either between or under the ports, and every data input of a node can have a widget too. All widget classes must be stated in the NodeManager (whether it has a main widget and every custom input widget in the 'Input Widgets' area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets, just like for the node intance class. To program the widgets, simply edit these metacode files. If you are not familiar with Qt but you have already worked with other GUI libraries, getting into PySide2 (aka 'Qt for Python') is not very difficult I guess.
+The possibility to program custom widgets for the nodes is one of the core concepts. A widget must derive from [QWidget](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QWidget.html) from Qt either directly or indirectly (like deriving from [QPushButton](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QPushButton.html#qpushbutton)). So you use PySide2 to program widgets. There are no restrictions - your custom widget can be any QWidget (which itself can contain about anything). A node can have a main widget which sits either between or under the ports, and every data input of a node can have a widget too. All widget classes must be stated in the NodeManager (whether a node has a main widget and every custom input widget in its _Input Widgets_ area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets, just like for the node intance class. To program the widgets, simply edit these metacode files. If you are not familiar with Qt but have already worked with other big GUI libraries, getting into PySide2 (aka _Qt for Python_) is not very difficult I guess. Use the existent nodes with widgets as reference.
 
 ### Access Parent Node
 
@@ -303,9 +300,9 @@ Input widgets are custom widgets you can program for input ports of the node.
 
 - Custom input widget names must be unique _inside the same node_. Other nodes can have same custom input widget names.
 
-There are standard widgets for data inputs which you can select in the NodeManager for the pre defined ports, or you can also use them when programatically adding new inputs (see section 'API -> Ports' above). But you can also program custom widgets for inputs.
+There are standard widgets for data inputs which you can select in the NodeManager for the pre defined ports, or you can also use them when programatically adding new inputs (see section _API_ -> _Ports_ above). But you can also program custom widgets for data inputs.
 
-When using custom input widgets, you must define them in the 'Input Widgets' area in the NodeManager and give the exact name in the 'input widget name' line edit of the input or in the function call. Multiple inputs can have the same custom widget. The 'Yes' and 'No' radio buttons (in NodeManager) specify whether your input has a widget at all or not. Execution inputs do not have custom widgets, so then you can ignore the whole widgets part of the input's widget in the 'Inputs' field.
+When using custom input widgets, you must define them in the _Input Widgets_ area in the NodeManager and give the exact name in the _input widget name_ line edit of the input or in the function call. Multiple inputs can have the same custom widget. The 'Yes' and 'No' radio buttons (in NodeManager) specify whether your input has a widget at all or not. Execution inputs do not have custom widgets, so then you can ignore the whole widgets part of the input's widget in the 'Inputs' field.
 
 After you stated the existence of the custom input widget in the NodeManager and saved the node in a package, the metacode files that you can edit should be in the 'widgets' folder of your node. Programming a custom widget almost does not differ from programming a main widget.
 
