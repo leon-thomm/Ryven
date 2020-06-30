@@ -9,7 +9,7 @@ class StartupDialog(QDialog):
     def __init__(self):
         super(StartupDialog, self).__init__()
 
-        self.setLayout(QVBoxLayout())
+        layout = QVBoxLayout()
 
         # info text edit
         info_text_edit = QTextEdit()
@@ -33,10 +33,9 @@ class StartupDialog(QDialog):
             </div>
         ''')
         info_text_edit.setReadOnly(True)
-        self.layout().addWidget(info_text_edit)
+        layout.addWidget(info_text_edit)
 
         # buttons
-        buttons_widget = QWidget()
         plain_project_push_button = QPushButton('create new plain project')
         plain_project_push_button.clicked.connect(self.plain_project_button_clicked)
         load_project_push_button = QPushButton('load project')
@@ -46,14 +45,13 @@ class StartupDialog(QDialog):
         buttons_layout.addWidget(plain_project_push_button)
         buttons_layout.addWidget(load_project_push_button)
 
-        buttons_widget.setLayout(buttons_layout)
+        layout.addLayout(buttons_layout)
 
-        self.layout().addWidget(buttons_widget)
-
+        self.setLayout(layout)
 
         self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('stuff/pics/program_icon2.png'))
-        self.setFixedSize(500, 300)
+        self.setFixedSize(500, 280)
 
         self.load_stylesheet('dark')
 
@@ -61,6 +59,9 @@ class StartupDialog(QDialog):
 
 
     def load_stylesheet(self, ss):  # TODO: move to global_tools
+        """Using the parent's SS doesn't work here, because this dialog does not have any parent -
+        MainWindow is yet to be created."""
+
         ss_content = ''
         try:
             f = open('stuff/stylesheets/'+ss+'.txt')
