@@ -6,7 +6,7 @@ from ui.w_ui_script import WUIScript
 from custom_src.Flow import Flow
 from custom_src.Log import Logger
 from custom_src.script_variables.VariablesHandler import VariablesHandler
-from custom_src.CodePreview_Widget import CodePreview_Widget
+from custom_src.source_code_preview.CodePreview_Widget import CodePreview_Widget
 
 
 class Script(QObject):
@@ -56,7 +56,7 @@ class Script(QObject):
 
     def show_NI_code(self, ni):
         """Called from Flow when the selection changed."""
-        self.code_preview_widget.set_new_code_obj(ni)
+        self.code_preview_widget.set_new_NI(ni)
 
     def add_var_clicked(self):
         self.variables_handler.create_new_var(self.widget.ui.new_var_name_lineEdit.text())

@@ -1,4 +1,7 @@
 import sys
+import types
+import inspect
+from optparse import OptionParser
 import random
 import math
 import pickle
@@ -149,11 +152,58 @@ def replace_in_folder(path):
             replace_in_folder(path+'/'+d)
 
 
+class Cat:
+    def __init__(self, name):
+        self.name = name
+
+    def meow(self):
+        print('meow!')
+
+    def say_name(self):
+        print(self.name)
+        self.meow()
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    mw = MainWindow()
-    mw.show()
+    # mw = MainWindow()
+    # mw.show()
+
+    smartie = Cat('Smartie')
+    smartie.say_name()
+
+    class_code = '''
+class Cat:
+    def __init__(self, name):
+        self.name = name
+        
+    def meow(self):
+        print('yooooo!')
+    
+    def say_name(self):
+        print(self.name)
+        self.meow()
+        '''
+
+    mymodule = types.ModuleType('temporary')
+    exec(class_code, mymodule.__dict__)
+    new_cat_class = getattr(mymodule, 'Cat')
+
+    # members = inspect.getmembers(OptionParser, predicate=inspect.isfunction)
+    members = [func for func in dir(new_cat_class) if callable(getattr(new_cat_class, func)) and not func.startswith("__")]
+    for m in members:
+        # print(type(m))
+        method = getattr(new_cat_class, m)
+        # smartie.method = method
+        setattr(smartie, m, types.MethodType(method, smartie))
+
+    smartie.say_name()
+
+    print(inspect.getsource(smartie))
+
+    # cat = new_cat_class('Smartie')
+    # cat.say_name()
 
 
 
@@ -181,8 +231,8 @@ if __name__ == '__main__':
     # sys.exit(app.exec_())
 
 
-    path = ''
-    replace_in_folder(path)
+    # path = ''
+    # replace_in_folder(path)
 
 
     # db = QFontDatabase()

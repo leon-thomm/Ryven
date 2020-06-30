@@ -14,6 +14,9 @@ QPushButton {
 QPushButton:pressed {
 	background-color: #3B9CD9;
 }
+QPushButton:disabled {
+	color: grey;
+}
 
 QToolButton {
 	border: none;
@@ -24,13 +27,25 @@ QGroupBox {
 	padding-top: 10px;
 }
 
+QTextEdit {
+	border: none;
+}
+
 QSplitter {
 	border: none;
+}
+QSplitter::handle:vertical {
+	margin: 1px 4px;			
 }
 
 QLineEdit {
 	padding: 3px;
 }
+
+QLabel, QCheckBox, QRadioButton {
+	border: none;
+}
+
 
 
 QToolTip {
