@@ -1,6 +1,6 @@
 This page provides you with the information you need to create nodes for Ryven.
 
-ProTipp for programming the nodes: Use the example projects and Ryven's code preview feature (drag the handle at the bottom of a flow upwards) to get a better look at how the nodes and their GUI components are programmed. This is really useful.
+ProTipp for programming the nodes: Use the example projects and Ryven's code preview feature (drag the handle at the bottom of a flow upwards) to get a better look at how the nodes and their GUI components are programmed. You can also edit the source code of the placed nodes and play around. This is really useful.
 
 # Creating New Nodes - Basics
 
