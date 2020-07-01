@@ -4,7 +4,7 @@
 
 Ey, what's up!
 
-Please be aware that this whole project is a proof of concept. It is primarily meant to show the idea and the source code is not developed with highest focus on readability. However its working surprisingly well so far and I think this has the potential to become something really intuitive and practical. How it is going to evolve will depend on the resonance it gets.
+Please be aware that this whole project is a proof of concept. The source code is not developed with highest focus on readability and I am _not_ a professional developer. However, it's working surprisingly well so far and I think this has the potential to become something pretty useful. How it's going to evolve will depend on the resonance it gets.
 
 ### Requirements
 - Python 3
