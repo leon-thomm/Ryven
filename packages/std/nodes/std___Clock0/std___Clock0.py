@@ -2,6 +2,7 @@ from PySide2.QtCore import QTimer
 
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
+from custom_src.retain import m
 
 
 # GENERAL

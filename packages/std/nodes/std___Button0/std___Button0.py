@@ -1,5 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
+from custom_src.retain import m
 
 
 # USEFUL
@@ -19,7 +20,7 @@ class Button_NodeInstance(NodeInstance):
         super(Button_NodeInstance, self).__init__(parent_node, flow, configuration)
 
         # self.special_actions['action name'] = self.actionmethod ...
-        self.main_widget.clicked.connect(self.button_clicked)
+        self.main_widget.clicked.connect(m(self.button_clicked))
 
         self.initialized()
 
