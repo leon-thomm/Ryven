@@ -17,15 +17,17 @@ class StartupDialog(QDialog):
             <h2 style="font-family: Courier New; font-size: xx-large; color: #a9d5ef;">Welcome to Ryven</h2>
             <div style="font-family: Corbel; font-size: large;">
             
-            <p><img style="float:right;" height=150 src="stuff/pics/program_icon2_light.png">Hi,
+            <p><img style="float:right;" height=150 src="resources/pics/program_icon2_light.png">Hi,
             I am Leon, the creator of Ryven. Please always keep in mind, that this
             is not a professional piece of software. Don\'t forget to save! :)
             I am sure there are bugs and problems but as long as you keep behaving
-            as intended, you shouldn\'t get into too much trouble. This software is made with Qt and some further 
-            Python libraries were used. All rights remain to their lawful owners. All direct Ryven source code is
-            written by me.
+            as intended, you shouldn\'t get into too much trouble.
             <br>
-            Enjoy! Cheers.</p>
+            Note that this software uses Qt
+            which is not free for commercial use. All rights remain to their lawful owners.
+            All Ryven source code is written by me.
+            <br>
+            Enjoy!</p>
             <br>
             <br>
             Please select a mode to start the editor with. You can either create a plain new
@@ -37,6 +39,7 @@ class StartupDialog(QDialog):
 
         # buttons
         plain_project_push_button = QPushButton('create new plain project')
+        plain_project_push_button.setFocus()
         plain_project_push_button.clicked.connect(self.plain_project_button_clicked)
         load_project_push_button = QPushButton('load project')
         load_project_push_button.clicked.connect(self.load_project_button_clicked)
@@ -50,7 +53,7 @@ class StartupDialog(QDialog):
         self.setLayout(layout)
 
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('stuff/pics/program_icon2.png'))
+        self.setWindowIcon(QIcon('resources/pics/program_icon2.png'))
         self.setFixedSize(500, 280)
 
         self.load_stylesheet('dark')
@@ -64,7 +67,7 @@ class StartupDialog(QDialog):
 
         ss_content = ''
         try:
-            f = open('stuff/stylesheets/'+ss+'.txt')
+            f = open('resources/stylesheets/'+ss+'.txt')
             ss_content = f.read()
             f.close()
         finally:

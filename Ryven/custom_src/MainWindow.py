@@ -25,14 +25,14 @@ class MainWindow(QMainWindow):
     def __init__(self, config):
         super(MainWindow, self).__init__()
 
-        QFontDatabase.addApplicationFont('fonts/poppins/Poppins-Medium.ttf')
-        QFontDatabase.addApplicationFont('fonts/source code pro/SourceCodePro-Regular.ttf')
+        QFontDatabase.addApplicationFont('resources/fonts/poppins/Poppins-Medium.ttf')
+        QFontDatabase.addApplicationFont('resources/fonts/source code pro/SourceCodePro-Regular.ttf')
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.splitter.setSizes([120, 800])
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('stuff/pics/program_icon2.png'))
+        self.setWindowIcon(QIcon('resources/pics/program_icon2.png'))
         self.load_stylesheet('dark')
         self.ui.scripts_tab_widget.removeTab(0)
 
@@ -53,6 +53,7 @@ class MainWindow(QMainWindow):
         self.scripts = []
         self.custom_nodes = []
         self.all_nodes = [SetVariable_Node(), GetVariable_Node(), Val_Node(), Result_Node()]
+        self.package_names = []
 
         #   holds NI subCLASSES for imported nodes:
         self.all_node_instance_classes = {
@@ -146,7 +147,7 @@ class MainWindow(QMainWindow):
     def load_stylesheet(self, ss):
         ss_content = ''
         try:
-            f = open('stuff/stylesheets/'+ss+'.txt')
+            f = open('resources/stylesheets/'+ss+'.txt')
             ss_content = f.read()
             f.close()
         finally:
@@ -250,6 +251,11 @@ class MainWindow(QMainWindow):
             Debugger.debug('couldn\'t open file')
             return
 
+        # don't import a package twice if it already has been imported
+        filename = os.path.splitext(os.path.basename(file_path))
+        if filename in self.package_names:
+            return
+
         # Important: translate the package first (metacore files -> src code files)
         PackageTranslator = self.get_class_from_file(file_path='../Ryven_PackageTranslator',
                                                      file_name='Ryven_PackageTranslator',
@@ -258,7 +264,9 @@ class MainWindow(QMainWindow):
 
         self.parse_nodes(j_str,
                          package_path=os.path.dirname(file_path),
-                         package_name=os.path.splitext(os.path.basename(file_path))[0])
+                         package_name=os.path.splitext(os.path.basename(file_path))[0])#
+
+        self.package_names.append(filename)
 
 
     def parse_nodes(self, j_str, package_path, package_name):
