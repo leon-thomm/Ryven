@@ -1,9 +1,11 @@
-import re
+import re, os
 
-from PySide2.QtWidgets import QWidget, QSizePolicy, QLineEdit, QColorDialog
+from PySide2.QtWidgets import QWidget, QSizePolicy, QLineEdit, QColorDialog, QMessageBox
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFontMetrics, QColor
 
+from CodeEditor.CodeEditor_Dialog import CodeEditor_Dialog
+from files_manager import save_file
 from ui_node_manager_node_content_widget import Ui_Form
 from Node import Node
 from NodeInput import NodeInput
@@ -20,34 +22,29 @@ class NodeContentWidget(QWidget):
         self.ui.inputs_scrollArea.widget().layout().setAlignment(Qt.AlignTop)
         self.ui.outputs_scrollArea.widget().layout().setAlignment(Qt.AlignTop)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # textEdit.setTabStopWidth(QFontMetrics(self.ui.textEdit.font()).width(' ') * 4)
 
         self.node: Node = None
         self.programming_type = ''
-        self.has_main_widget = True
         self.inputs = []
         self.input_widgets = []
         self.outputs = []
         self.node_color = QColor(59, 156, 217)
-        
-        # src code
-        f = open('template files/node_instance_default_template.txt', 'r')
-        self.src_code = f.read()
-        f.close()
-        # main widget code
-        f = open('template files/main_widget_default_template.txt', 'r')
-        self.main_widget_code = f.read()
-        f.close()
+        self.edit_node_metacode_dialog = CodeEditor_Dialog(self)
+        self.edit_main_widget_metacode_dialog = CodeEditor_Dialog(self)
 
         self.ui.title_lineEdit.editingFinished.connect(self.title_lineEdit_edited)
         self.ui.intern_name_lineEdit.editingFinished.connect(self.intern_name_line_edit_edited)
         self.ui.use_title_as_intern_name_checkBox.toggled.connect(self.internal_name_check_box_toggled)
         self.ui.type_comboBox.currentTextChanged.connect(self.type_changed)
+        self.ui.edit_node_metacode_pushButton.clicked.connect(self.edit_node_metacode_clicked)
         self.ui.main_widget_checkBox.toggled.connect(self.main_widget_toggled)
+        self.ui.edit_main_widget_metacode_pushButton.clicked.connect(self.edit_main_widget_metacode_clicked)
         self.ui.select_color_pushButton.clicked.connect(self.select_node_color_clicked)
         self.ui.add_new_input_widget_pushButton.clicked.connect(self.add_new_input_widget_clicked)
         self.ui.add_new_input_pushButton.clicked.connect(self.add_new_input_clicked)
         self.ui.add_new_output_pushButton.clicked.connect(self.add_new_output_clicked)
+
+        self.ui.splitter.setSizes([80, 100, 300])
 
 
     def load_node(self, node):
@@ -61,13 +58,13 @@ class NodeContentWidget(QWidget):
             self.ui.use_title_as_intern_name_checkBox.setChecked(False)
             self.ui.intern_name_lineEdit.setText(node.class_name)
         self.ui.description_textEdit.setText(node.description)
-        print(node.type, node.title)
+
         if self.ui.type_comboBox.findText(node.type) != -1:
             self.ui.type_comboBox.setCurrentText(node.type)
         else:
             self.ui.type_comboBox.setCurrentText('custom')
             self.ui.custom_type_lineEdit.setText(node.type)
-        self.src_code = node.meta_code
+        self.edit_node_metacode_dialog.set_code(node.meta_code, node.meta_code_file_path)
 
         # get all possible node types from the UI
         node_types_list = [self.ui.type_comboBox.itemText(i) for i in range(self.ui.type_comboBox.count())]
@@ -86,8 +83,7 @@ class NodeContentWidget(QWidget):
 
         self.node_color = QColor(node.color)
 
-        print('setting has main widget to', node.has_main_widget)
-        self.set_has_main_widget_manual(node.has_main_widget)
+        self.set_has_main_widget(node.has_main_widget)
         if node.has_main_widget:
             widget_pos = node.widget_position
             if widget_pos == 'under ports':
@@ -96,14 +92,15 @@ class NodeContentWidget(QWidget):
             elif widget_pos == 'between ports':
                 self.ui.main_widget_under_ports_radioButton.setChecked(False)
                 self.ui.main_widget_between_ports_radioButton.setChecked(True)
-            self.main_widget_code = node.main_widget_content
+            self.edit_main_widget_metacode_dialog.set_code(node.main_widget_meta_code,
+                                                           node.main_widget_meta_code_file_path)
 
         for i in range(len(node.custom_input_widgets)):
             iw = node.custom_input_widgets[i]
-            iw_content = node.custom_input_widget_contents[i]
-            new_input_widget = InputWidget(self)
+            iw_metacode = node.custom_input_widget_metacodes[i]
+            iw_metacode_file_path = node.custom_input_widget_metacodes_file_paths[i]
+            new_input_widget = InputWidget(self, iw_metacode_file_path)
             new_input_widget.set_name(iw)
-            new_input_widget.code = iw_content
             self.ui.input_widgets_scrollArea.widget().layout().addWidget(new_input_widget)
             self.input_widgets.append(new_input_widget)
 
@@ -112,7 +109,7 @@ class NodeContentWidget(QWidget):
             i_label = i['label']
             i_has_widget = i['has widget'] if i_type == 'data' else None
             i_widget_type = i['widget type'] if i_has_widget else None
-            i_widget_name = i['widget name'] if i_widget_type=='custom widget' else None
+            i_widget_name = i['widget name'] if i_widget_type == 'custom widget' else None
             i_widget_pos = i['widget position'] if i_has_widget else None
             self.add_new_input(i_type, i_label, i_has_widget, i_widget_type, i_widget_name, i_widget_pos)
 
@@ -143,25 +140,26 @@ class NodeContentWidget(QWidget):
             self.ui.custom_type_lineEdit.setEnabled(False)
             self.ui.custom_type_lineEdit.clear()
 
+    def edit_node_metacode_clicked(self):
+        self.edit_node_metacode_dialog.exec_()
 
     def main_widget_toggled(self, checked):
         self.set_has_main_widget(not checked)
 
-    def set_has_main_widget_manual(self, has_main_widget):
-        self.ui.main_widget_checkBox.setChecked(not has_main_widget)
-        self.set_has_main_widget(has_main_widget)
+    def edit_main_widget_metacode_clicked(self):
+        self.edit_main_widget_metacode_dialog.exec_()
 
     def set_has_main_widget(self, has_main_widget):
+        self.ui.main_widget_checkBox.setChecked(not has_main_widget)
         if not has_main_widget:
             self.ui.main_widget_position_widget.setEnabled(False)
-            self.has_main_widget = False
         else:
             self.ui.main_widget_position_widget.setEnabled(True)
-            self.has_main_widget = True
 
 
     def select_node_color_clicked(self):
-        self.node_color = QColorDialog.getColor(self.node_color)
+        self.node_color = QColorDialog.getColor(self.node_color, title='Select node color. Please don\'t close this '
+                                                                       'window.')
         ss = 'background-color: '+self.node_color.name()
         self.ui.color_sample_pushButton.setStyleSheet(ss)
 
@@ -179,13 +177,14 @@ class NodeContentWidget(QWidget):
     def add_new_input_clicked(self):
         self.add_new_input()
 
-    def add_new_input(self, _type=None, label=None, has_widget=None, widget_type=None, widget_name=None, widget_pos=None):
+    def add_new_input(self, _type=None, label=None, has_widget=None, widget_type=None, widget_name=None,
+                      widget_pos=None):
         new_input = NodeInput(self)
         if _type:
             new_input.set_type(_type)
         if label:
             new_input.set_label(label)
-        if has_widget != None:
+        if has_widget is not None:
             new_input.set_has_widget(has_widget)
             if has_widget:
                 new_input.set_widget_type(widget_type)
@@ -222,36 +221,32 @@ class NodeContentWidget(QWidget):
         self.outputs.remove(out)
 
 
-    def get_title(self):
+    def get_node_title(self):
         return self.ui.title_lineEdit.text()
 
-    def get_intern_title(self):
+    def get_node_class_name(self):
         if self.ui.use_title_as_intern_name_checkBox.isChecked():
             return self.prepare_class_name(self.ui.title_lineEdit.text())
         else:
             return self.ui.intern_name_lineEdit.text()
 
-    def get_description(self):
+    def get_node_description(self):
         return self.ui.description_textEdit.toPlainText()
 
-    def get_type(self):
+    def get_node_type(self):
         node_type = self.ui.type_comboBox.currentText()
         if node_type == 'custom':
             node_type = self.ui.custom_type_lineEdit.text()
         return node_type
-    
-    def get_src_code(self):
-        return self.src_code
-    
-    def get_main_widget_code(self):
-        return self.main_widget_code
 
-    def get_design_style(self):
+    def node_has_main_widget(self):
+        return not self.ui.main_widget_checkBox.isChecked()
+
+    def get_node_design_style(self):
         return 'extended' if self.ui.design_style_extended_radioButton.isChecked() else 'minimalistic'
 
-    def get_main_widget_pos(self):
+    def get_node_main_widget_pos(self):
         under = self.ui.main_widget_under_ports_radioButton
-        # between = self.ui.main_widget_between_ports_radioButton
         return 'under ports' if under.isChecked() else 'between ports'
 
     def prepare_class_name(self, s: str):
@@ -265,3 +260,105 @@ class NodeContentWidget(QWidget):
         s = re.sub('^[^a-zA-Z_]+', '', s)
 
         return s
+
+    def get_json_data(self, package_name, module_name_separator, number):
+        node_module_name = package_name + module_name_separator + self.get_node_class_name() + str(number)
+
+        node_data = {'title': self.get_node_title(),
+                     'description': self.get_node_description(),
+                     'type': self.get_node_type(),
+                     'module name': node_module_name,
+                     'class name': self.get_node_class_name(),
+                     'design style': self.get_node_design_style(),
+                     'color': self.node_color.name(),
+                     'has main widget': self.node_has_main_widget()}
+        if self.node_has_main_widget():
+            node_data['widget position'] = self.get_node_main_widget_pos()
+
+        input_widgets_list = []
+        for i_w in self.input_widgets:
+            input_widgets_list.append(i_w.get_name())
+        node_data['custom input widgets'] = input_widgets_list
+
+        inputs = []  # save inputs
+        for inp in self.inputs:
+            input_data = {'type': inp.get_type(),
+                          'label': inp.get_label()}
+            if inp.get_type() == 'data':
+                input_data['has widget'] = inp.has_widget()
+                if inp.has_widget():
+                    input_data['widget type'] = inp.get_widget_type()
+                    if inp.get_widget_type() == 'custom widget':
+                        input_data['widget name'] = inp.get_widget_name()
+                    input_data['widget position'] = inp.get_widget_pos()
+            inputs.append(input_data)
+
+        outputs = []  # save outputs
+        for out in self.outputs:
+            output_data = {'type': out.get_type(),
+                           'label': out.get_label()}
+            outputs.append(output_data)
+
+        node_data['inputs'] = inputs
+        node_data['outputs'] = outputs
+
+        return node_data
+
+    def save_metacode_files(self, node_dir, widgets_dir, module_name_separator, module_name):
+
+        # check if any code sources have been changed
+        any_code_source_changed = self.edit_node_metacode_dialog.code_source_changed() or \
+                              self.edit_main_widget_metacode_dialog.code_source_changed() or \
+                              any([input_widget.edit_input_widget_metacode_dialog.code_source_changed() for
+                                   input_widget in self.input_widgets])
+
+        override_changed_source = True
+        if any_code_source_changed:
+            ret = QMessageBox.warning(self, 'An edited code source has changed',
+                                      'You have edited the metacode of a class which\'s source '
+                                      '(the metacode file) '
+                                      'has changed! Do you want to override these changes from outside with the edited '
+                                      'code from here?',
+                                      QMessageBox.Yes, QMessageBox.No)
+            override_changed_source = ret == QMessageBox.Yes
+
+
+        node_meta_code_file_path = node_dir + '/' + module_name + module_name_separator + 'METACODE.py'
+        if not os.path.isfile(node_meta_code_file_path):
+            metacode = self.edit_node_metacode_dialog.get_code()
+            save_file(node_meta_code_file_path, metacode)  # the NI file's name is just the 'module name'
+        else:
+            enmd = self.edit_node_metacode_dialog
+            if enmd.code_edited():
+                if not enmd.code_source_changed() or enmd.code_source_changed() and override_changed_source:
+                    metacode = enmd.get_code()
+                    save_file(node_meta_code_file_path, metacode)
+
+
+        if self.node_has_main_widget():
+            main_widget_src_code_file_path = widgets_dir + '/' + module_name + module_name_separator + 'main_widget' + \
+                                             module_name_separator + 'METACODE.py'
+            if not os.path.isfile(main_widget_src_code_file_path):
+                metacode = self.edit_main_widget_metacode_dialog.get_code()
+                save_file(main_widget_src_code_file_path, metacode)
+            else:
+                emwmd = self.edit_main_widget_metacode_dialog
+                if emwmd.code_edited():
+                    if not emwmd.code_source_changed() or emwmd.code_source_changed() and override_changed_source:
+                        metacode = emwmd.get_code()
+                        save_file(main_widget_src_code_file_path, metacode)
+
+
+        for iw in self.input_widgets:
+            iw: InputWidget = iw
+            iw_file_path = widgets_dir + '/' + module_name + module_name_separator + iw.get_name() + \
+                module_name_separator + 'METACODE.py'
+            if not os.path.isfile(iw_file_path):
+                metacode = iw.get_code()
+                save_file(iw_file_path, metacode)
+            else:
+                eiwmd = iw.edit_input_widget_metacode_dialog
+                if eiwmd.code_edited():
+                    if not eiwmd.code_source_changed() or eiwmd.code_source_changed() and override_changed_source:
+                        metacode = eiwmd.get_code()
+                        save_file(iw_file_path, metacode)

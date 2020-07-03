@@ -1,0 +1,112 @@
+QWidget{
+	background: #252525;                                                 
+	color: #b1b1b1;
+}
+
+QPushButton {                                                            
+	border: 2px solid #333333;                                           
+	border-radius: 6px;                                                  
+	background-color: #161616;                                           
+	min-width: 0px;                                                      
+	min-height: 20px;                                                    
+}                                                                        
+																		 
+QPushButton:pressed {                                                    
+	background-color: #404040                                            
+}                                                                        
+QPushButton:checked {                                                    
+	color: #ffffff;                                                      
+	border: none;                                                        
+}
+
+QSplitter::handle {                                                  
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:1,              
+		stop:0 #3f3f46, stop:1 #3f3f46);                                   
+	border: 1px solid #777;                                          
+	width: 5px;                                                      
+	height: 5px;                                                     
+	margin-top: 2px;                                                 
+	margin-bottom: 2px;                                              
+	border-radius: 4px;                                              
+}
+
+QPlainTextEdit{                                                      
+	background-color: #3f3f46;                                       
+	border: 1px solid rgba( 255, 255, 255, .3);                      
+	border-radius: 5px;                                              
+}
+
+QLineEdit{                                                           
+	background-color: #3f3f46;                                       
+	border: 1px solid rgba( 255, 255, 255, .3);                      
+	border-radius: 5px;                                              
+}
+
+QGroupBox {                                                          
+	background-color: #292929;                                       
+	border: 0px solid gray;                                          
+	border-radius: 0px;
+	padding-top: 10px;                                              
+}
+
+QScrollArea {
+	border: none;
+}
+
+
+
+QScrollBar:horizontal {
+	border: none;
+	background: #3f3f46;
+	height: 12px;
+	margin: 0 22px 0 22px;
+	border-radius: 7px;
+}
+QScrollBar::handle:horizontal {
+	background: #BCBBF2;
+	min-height: 12px;
+	border-radius: 5px;
+}
+QScrollBar::add-line:horizontal {
+	background: none;
+}
+QScrollBar::sub-line:horizontal {
+	background: none;
+}
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+	background: none;
+}
+
+
+
+
+
+QScrollBar:vertical {
+	border: none;
+	background: #3f3f46;
+	width: 12px;
+	margin: 14px 0 14px 0;
+	border-radius: 5px;
+}
+QScrollBar::handle:vertical {
+	background: #BCBBF2;
+	min-height: 20px;
+	border-radius: 5px;
+}
+QScrollBar::add-line:vertical {
+	background: none;
+}
+QScrollBar::sub-line:vertical {
+	background: none;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+	background: none;
+	border: none;
+}
+
+
+
+
+QTabWidget::pane {                                                   
+	border: 0px solid black;                                         
+}

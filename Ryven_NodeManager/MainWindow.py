@@ -1,4 +1,5 @@
 # QT
+from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFileDialog
 from PySide2.QtCore import Qt
 # parent UI
@@ -23,7 +24,8 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.nodes_list_widget.setFixedWidth(200)
-        self.setWindowTitle('Node Manager')
+        self.setWindowTitle('Ryven NodeManager')
+        self.setWindowIcon(QIcon('resources/pics/program_icon2.png'))
         self.load_stylesheet('dark')
 
         self.ui.add_new_node_pushButton.clicked.connect(self.add_new_node_pushButton_clicked)
@@ -36,7 +38,7 @@ class MainWindow(QMainWindow):
     def add_new_node_pushButton_clicked(self):
         node_content_widget = NodeContentWidget()
         new_node = Node(node_content_widget)
-        node_content_widget.node = new_node  #load_node(new_node)
+        node_content_widget.load_node(new_node)
         new_node.title_changed.connect(self.update_nodes_list_names)  # this will update the list view
         self.nodes.append(new_node)
 
@@ -103,7 +105,7 @@ class MainWindow(QMainWindow):
         nodes_list = o_nodes['nodes']
 
         for n in nodes_list:
-            print('parsing node', n['title'])
+            # print('parsing node', n['title'])
             new_node = Node()
             new_node.title = n['title']
             new_node.description = n['description']
@@ -121,10 +123,13 @@ class MainWindow(QMainWindow):
 
             # load custom files
             module_name_separator = '___'
-            #   main code
+
             node_path = dir+'/'+new_node.module_name
-            print(new_node.module_name)
-            f = open(node_path+'/'+new_node.module_name+module_name_separator+'METACODE.py')
+
+            #   main code
+            node_metacode_file_path = node_path+'/'+new_node.module_name+module_name_separator+'METACODE.py'
+            new_node.meta_code_file_path = node_metacode_file_path
+            f = open(node_metacode_file_path)
             new_node.meta_code = f.read()
             f.close()
 
@@ -132,14 +137,20 @@ class MainWindow(QMainWindow):
 
             #   main widget code
             if new_node.has_main_widget:
-                f = open(node_widgets_path+'/'+new_node.module_name+module_name_separator+'main_widget'+module_name_separator+'METACODE.py')
-                new_node.main_widget_content = f.read()
+                main_widget_metacode_file_path = node_widgets_path+'/'+new_node.module_name+module_name_separator + \
+                                                 'main_widget'+module_name_separator+'METACODE.py'
+                new_node.main_widget_meta_code_file_path = main_widget_metacode_file_path
+                f = open(main_widget_metacode_file_path)
+                new_node.main_widget_meta_code = f.read()
                 f.close()
 
             #   custom input widgets
             for ciw in new_node.custom_input_widgets:
-                f = open(node_widgets_path+'/'+new_node.module_name+module_name_separator+ciw+module_name_separator+'METACODE.py')
-                new_node.custom_input_widget_contents.append(f.read())
+                custom_input_widget_file_path = node_widgets_path+'/'+new_node.module_name+module_name_separator+ciw + \
+                                                module_name_separator+'METACODE.py'
+                f = open(custom_input_widget_file_path)
+                new_node.custom_input_widget_metacodes.append(f.read())
+                new_node.custom_input_widget_metacodes_file_paths.append(custom_input_widget_file_path)
                 f.close()
 
             new_node_content_widget = NodeContentWidget()
@@ -147,7 +158,7 @@ class MainWindow(QMainWindow):
             new_node_content_widget.load_node(new_node)
             new_node.content_widget = new_node_content_widget
             self.nodes.append(new_node)
-            print('finished parsing')
+            # print('finished parsing')
 
         print(self.nodes)
         self.rebuild_nodes_list()

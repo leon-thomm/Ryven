@@ -56,13 +56,15 @@ class SelectPackages_Dialog(QDialog):
 
     def auto_import_button_clicked(self):
         packages_dir = '../packages'
-        folders_list = [x[0] for x in os.walk(packages_dir)]
+        folders_list = [x[0] for x in os.walk(packages_dir) if
+                        os.path.basename(os.path.normpath(x[0])) in self.required_packages]
+
         required_files = self.required_packages.copy()
 
         for folder in folders_list:
             for r_f in required_files:
                 if r_f + '.rypac' in os.listdir(packages_dir + '/' + folder):
-                    self.file_paths.append(packages_dir + '/' + folder + '/' + r_f + '.rypac')
+                    self.file_paths.append(os.path.normpath(packages_dir + '/' + folder + '/' + r_f + '.rypac'))
                     break
             self.rebuild_selected_packages_list_widget()
 

@@ -1,12 +1,22 @@
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QGridLayout, QLineEdit, QPushButton, QMessageBox, QRadioButton, QSizePolicy
-from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QWidget, QGridLayout, QLineEdit, QPushButton, QMessageBox
+
+from CodeEditor.CodeEditor_Dialog import CodeEditor_Dialog
 
 
 class InputWidget(QWidget):
-    def __init__(self, content_widget):
+    def __init__(self, content_widget, metacode_file_path=None):
         super(InputWidget, self).__init__()
 
         self.content_widget = content_widget
+        self.edit_input_widget_metacode_dialog = CodeEditor_Dialog(self)
+        if metacode_file_path is None:
+            f = open('template files/input_widget_default_template.txt', 'r')
+            self.edit_input_widget_metacode_dialog.set_code(f.read())
+            f.close()
+        else:
+            f = open(metacode_file_path)
+            self.edit_input_widget_metacode_dialog.set_code(f.read(), metacode_file_path)
+            f.close()
 
         self.main_grid_layout = QGridLayout()
 
@@ -14,6 +24,10 @@ class InputWidget(QWidget):
         self.name_line_edit.setPlaceholderText('widget name')
         self.name_line_edit.editingFinished.connect(self.name_line_edit_edited)
         self.main_grid_layout.addWidget(self.name_line_edit, 0, 0, 1, 2)
+
+        edit_metacode_button = QPushButton('edit metacode')
+        edit_metacode_button.clicked.connect(self.edit_metacode_button_clicked)
+        self.main_grid_layout.addWidget(edit_metacode_button, 1, 0, 1, 1)
 
         self.del_button = QPushButton()
         self.del_button.setText('delete')
@@ -24,10 +38,10 @@ class InputWidget(QWidget):
 
         self.setLayout(self.main_grid_layout)
 
-        f = open('template files/input_widget_default_template.txt', 'r')
-        self.code = f.read()
-        f.close()
 
+
+    def edit_metacode_button_clicked(self):
+        self.edit_input_widget_metacode_dialog.exec_()
 
     def delete_clicked(self):
         ret = QMessageBox.warning(self, 'Input Widget', 'Do you really want to delete this input widget? All changes'
@@ -36,14 +50,14 @@ class InputWidget(QWidget):
         if ret == QMessageBox.Yes:
             self.content_widget.delete_input_widget(self)
 
+    def get_name(self):
+        return self.content_widget.prepare_class_name(self.name_line_edit.text())
+
     def set_name(self, new_name):
         self.name_line_edit.setText(new_name)
 
-    def get_name(self):
-        return self.content_widget.prepare_class_name(self.name_line_edit.text())
-    
     def get_code(self):
-        return self.code
+        return self.edit_input_widget_metacode_dialog.get_code()
 
     def name_line_edit_edited(self):
         self.name_line_edit.setText(self.content_widget.prepare_class_name(self.name_line_edit.text()))

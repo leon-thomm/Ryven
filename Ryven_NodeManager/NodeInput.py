@@ -13,9 +13,9 @@ class NodeInput(QWidget):
         # create all layouts
         self.grid_layout = QGridLayout(self)
 
-        # move buttons
-        self.up_button = QPushButton('   <   ')
-        self.down_button = QPushButton('   >   ')
+        # # move buttons TODO move buttons
+        # self.up_button = QPushButton('<')
+        # self.down_button = QPushButton('>')
 
         # type and label
         self.type_combo_box = QComboBox(self)
@@ -69,8 +69,8 @@ class NodeInput(QWidget):
         self.del_button.clicked.connect(self.delete_clicked)
 
         # create layout
-        self.grid_layout.addWidget(self.up_button, 0, 0, 1, 1)
-        self.grid_layout.addWidget(self.down_button, 3, 0, 1, 1)
+        # self.grid_layout.addWidget(self.up_button, 0, 0, 1, 1)
+        # self.grid_layout.addWidget(self.down_button, 3, 0, 1, 1)
         self.grid_layout.addWidget(self.type_combo_box, 0, 1)
         self.grid_layout.addWidget(self.label_text_edit, 1, 1, 3, 1)
         self.grid_layout.addLayout(self.widget_grid_layout, 0, 2, 4, 1)
@@ -112,7 +112,6 @@ class NodeInput(QWidget):
 
     def get_widget_pos(self):
         under = self.widget_under_label_radio_button
-        # besides = self.widget_besides_label_radio_button
         return 'under' if under.isChecked() else 'besides'
 
     def set_widget_pos(self, pos):

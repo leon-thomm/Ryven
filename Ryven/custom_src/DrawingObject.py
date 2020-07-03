@@ -27,11 +27,20 @@ class DrawingObject(QGraphicsItem):
         self.movement_pos_from = None
 
         if 'points' in config:
-            for p in config['points']:  # config = 'points' array
-                x = p['x']
-                y = p['y']
-                self.points.append(QPointF(x, y))
-                self.stroke_weights.append(p['w'])
+            p_c = config['points']
+            for p in p_c:
+                if type(p) == list:
+                    x = p[0]
+                    y = p[1]
+                    w = p[2]
+                    self.points.append(QPointF(x, y))
+                    self.stroke_weights.append(w)
+                elif type(p) == dict:  # old signature for older projects
+                    x = p['x']
+                    y = p['y']
+                    w = p['w']
+                    self.points.append(QPointF(x, y))
+                    self.stroke_weights.append(w)
         self.color = QColor(config['color'])
         self.base_stroke_weight = config['base stroke weight']
 
@@ -123,8 +132,6 @@ class DrawingObject(QGraphicsItem):
         points_list = []
         for i in range(len(self.points)):
             p = self.points[i]
-            points_list.append({'x': p.x(),
-                                'y': p.y(),
-                                'w': self.stroke_weights[i]})
+            points_list.append([p.x(), p.y(), self.stroke_weights[i]])
         drawing_dict['points'] = points_list
         return drawing_dict

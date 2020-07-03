@@ -12,9 +12,9 @@ class NodeOutput(QWidget):
         # create all layouts
         self.grid_layout = QGridLayout(self)
 
-        # move buttons
-        self.up_button = QPushButton(self, '')
-        self.down_button = QPushButton(self, '')
+        # # move buttons TODO move buttons
+        # self.up_button = QPushButton(self, '')
+        # self.down_button = QPushButton(self, '')
 
         # type and label
         self.type_combo_box = QComboBox(self)
@@ -29,8 +29,8 @@ class NodeOutput(QWidget):
         self.del_button.clicked.connect(self.delete_clicked)
 
         # merge layouts
-        self.grid_layout.addWidget(self.up_button, 0, 0)
-        self.grid_layout.addWidget(self.down_button, 1, 0)
+        # self.grid_layout.addWidget(self.up_button, 0, 0)
+        # self.grid_layout.addWidget(self.down_button, 1, 0)
         self.grid_layout.addWidget(self.type_combo_box, 0, 1)
         self.grid_layout.addWidget(self.label_line_edit, 1, 1)
         self.grid_layout.addWidget(self.type_combo_box, 0, 1)

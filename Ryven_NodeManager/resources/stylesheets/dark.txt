@@ -1,52 +1,59 @@
-QWidget{
-	background: #252525;                                                 
-	color: #b1b1b1;
+QWidget {
+	background-color: #2b2b2b;
+	border-radius: 3px;
+	border: 1px solid #404040;;
+	color: #dddddd;
 }
 
-QPushButton {                                                            
-	border: 2px solid #333333;                                           
-	border-radius: 6px;                                                  
-	background-color: #161616;                                           
-	min-width: 0px;                                                      
-	min-height: 20px;                                                    
-}                                                                        
-																		 
-QPushButton:pressed {                                                    
-	background-color: #404040                                            
-}                                                                        
-QPushButton:checked {                                                    
-	color: #ffffff;                                                      
-	border: none;                                                        
+QPushButton {
+	border-radius: 5px;
+	padding: 4px;
+	background-color: #333333;
+	min-width: 60px;
+}
+QPushButton:pressed {
+	background-color: #3B9CD9;
+}
+QPushButton:disabled {
+	color: grey;
 }
 
-QSplitter::handle {                                                  
-	background: qlineargradient(x1:0, y1:0, x2:1, y2:1,              
-		stop:0 #3f3f46, stop:1 #3f3f46);                                   
-	border: 1px solid #777;                                          
-	width: 5px;                                                      
-	height: 5px;                                                     
-	margin-top: 2px;                                                 
-	margin-bottom: 2px;                                              
-	border-radius: 4px;                                              
+QToolButton {
+	border: none;
 }
 
-QPlainTextEdit{                                                      
-	background-color: #3f3f46;                                       
-	border: 1px solid rgba( 255, 255, 255, .3);                      
-	border-radius: 5px;                                              
+QGroupBox {
+	border: 1px solid #3B9CD9;
+	padding-top: 10px;
 }
 
-QLineEdit{                                                           
-	background-color: #3f3f46;                                       
-	border: 1px solid rgba( 255, 255, 255, .3);                      
-	border-radius: 5px;                                              
+QTextEdit {
+	border: none;
 }
 
-QGroupBox {                                                          
-	background-color: #292929;                                       
-	border: 0px solid gray;                                          
-	border-radius: 0px;
-	padding-top: 10px;                                              
+QSplitter {
+	border: none;
+}
+QSplitter::handle:vertical {
+	margin: 1px 4px;			
+}
+
+QLineEdit {
+	padding: 3px;
+}
+
+QLabel, QCheckBox, QRadioButton {
+	border: none;
+}
+
+
+
+QToolTip {
+	background-color: #040f16;
+	color: #3B9CD9;
+	border: 2px solid #144a6b;
+	border-radius: 3px;
+	padding: 5px;
 }
 
 QScrollArea {
@@ -81,6 +88,15 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 
 
 
+
+
+
+
+
+
+
+
+
 QScrollBar:vertical {
 	border: none;
 	background: #3f3f46;
@@ -107,6 +123,47 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 
 
 
-QTabWidget::pane {                                                   
-	border: 0px solid black;                                         
+
+
+
+
+
+QGraphicsView{
+	border-style: none;
+}
+
+
+
+
+
+
+QTabWidget::pane { /* The tab widget frame */
+    border: none;
+}
+
+QTabWidget::tab-bar {
+    left: 5px; /* move to the right by 5px */
+}
+
+/* Style the tab using the tab sub-control. Note that
+    it reads QTabBar _not_ QTabWidget */
+QTabBar::tab {
+    background: transparent;
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+	border-top: 2px solid rgb(33, 118, 171);
+	color: rgb(33, 118, 171);
+    min-width: 8px;
+    padding: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+QTabBar::tab:!selected {
+    margin-top: 5px; /* make non-selected tabs look smaller */
+}
+
+QTabBar::tab:selected {
+	border-bottom: 2px solid rgb(33, 118, 171);
 }
