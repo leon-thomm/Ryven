@@ -3,10 +3,10 @@ from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFileDialog
 from PySide2.QtCore import Qt
 # parent UI
+from NodesListWidget import NodesListWidget
 from ui_node_manager_mainwindow import Ui_MainWindow
 # custom content
 from Node import Node
-from Node_ListWidget import Node_ListWidget
 from NodeContentWidget import NodeContentWidget
 from SaveDialog import SaveDialog
 
@@ -15,15 +15,17 @@ import os
 
 
 class MainWindow(QMainWindow):
-
-    nodes = []
-    node_list_widgets = []
-
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.nodes_list_widget.setFixedWidth(200)
+
+        self.nodes = []
+
+        self.nodes_list_widget = NodesListWidget(self)
+        self.ui.nodes_scrollArea.setWidget(self.nodes_list_widget)
+
+        self.ui.splitter.setSizes([200, 850])
         self.setWindowTitle('Ryven NodeManager')
         self.setWindowIcon(QIcon('resources/pics/program_icon2.png'))
         self.load_stylesheet('dark')
@@ -33,60 +35,48 @@ class MainWindow(QMainWindow):
         self.ui.save_pushButton.clicked.connect(self.save_button_clicked)
 
 
-
-
     def add_new_node_pushButton_clicked(self):
         node_content_widget = NodeContentWidget()
         new_node = Node(node_content_widget)
         node_content_widget.load_node(new_node)
-        new_node.title_changed.connect(self.update_nodes_list_names)  # this will update the list view
+        new_node.title_changed.connect(self.update_node_name)  # this will update the list view
         self.nodes.append(new_node)
 
-        self.rebuild_nodes_list()
+        self.nodes_list_widget.add_node(new_node)
 
-        self.set_current_node(self.nodes[-1])
-
-
-    def rebuild_nodes_list(self):
-        if self.ui.nodes_scrollArea.widget().layout().count() != 0:
-            # clear nodes layout
-            for i in reversed(range(self.ui.nodes_scrollArea.widget().layout().count())):
-                #  'The new widget is deleted when its parent is deleted' - Docs
-                self.ui.nodes_scrollArea.widget().layout().itemAt(i).widget().setParent(None)
-
-        scroll_area_content_widget = QWidget()  # create new widget and layout for the scroll area
-        nodes_layout = QVBoxLayout()
-        nodes_layout.setAlignment(Qt.AlignTop)
-
-        for n in self.nodes:  # create a new node list widget for every node
-            node_widget = Node_ListWidget(n)
-            node_widget.double_clicked.connect(self.node_widget_double_clicked)
-
-            nodes_layout.addWidget(node_widget)
-            self.node_list_widgets.append(node_widget)
-
-        scroll_area_content_widget.setLayout(nodes_layout)
-        self.ui.nodes_scrollArea.setWidget(scroll_area_content_widget)
+        self.set_current_node(-1)
 
 
-    def update_nodes_list_names(self):
-        for node_list_widget in self.node_list_widgets:
-            node_list_widget.update_display_title()
+    def update_node_name(self):
+        node: Node = self.sender()
+        index = self.nodes.index(node)
+        self.nodes_list_widget.node_renamed(index, node.content_widget.get_node_title())
 
 
-    def set_current_node(self, node: Node):
+    def set_current_node(self, index: int):
+        node = self.nodes[index]
+
+        self.remove_node_content_widget()
+        self.add_node_content_widget(node.content_widget)
+
+        node.content_widget.show()
+
+        self.nodes_list_widget.set_current_index(index)
+
+    def remove_node_content_widget(self):
         # clear node_content_placeholder_widget
         layout = self.ui.node_content_placeholder_widget.layout()
         for i in reversed(range(layout.count())):
             item = layout.itemAt(i)
             item.widget().setParent(self)  # removing the widget from the layout without deleting the widget
 
-        layout.addWidget(node.content_widget)
-        node.content_widget.show()
+    def add_node_content_widget(self, w):
+        self.ui.node_content_placeholder_widget.layout().addWidget(w)
 
 
-    def node_widget_double_clicked(self, node):
-        self.set_current_node(node)
+    def delete_node(self, index: int):
+        del self.nodes[index]
+        self.remove_node_content_widget()
 
 
     def load_stylesheet(self, ss):
@@ -154,14 +144,14 @@ class MainWindow(QMainWindow):
                 f.close()
 
             new_node_content_widget = NodeContentWidget()
-            new_node.title_changed.connect(self.update_nodes_list_names)  # this will update the list view
+            new_node.title_changed.connect(self.update_node_name)  # this will update the list view
             new_node_content_widget.load_node(new_node)
             new_node.content_widget = new_node_content_widget
             self.nodes.append(new_node)
+            self.nodes_list_widget.add_node(new_node)
             # print('finished parsing')
 
         print(self.nodes)
-        self.rebuild_nodes_list()
 
 
     def import_button_clicked(self):

@@ -10,7 +10,7 @@ from ui_node_manager_node_content_widget import Ui_Form
 from Node import Node
 from NodeInput import NodeInput
 from NodeOutput import NodeOutput
-from InputWidget import InputWidget
+from CustomInputWidget import CustomInputWidget
 
 
 class NodeContentWidget(QWidget):
@@ -33,8 +33,8 @@ class NodeContentWidget(QWidget):
         self.edit_main_widget_metacode_dialog = CodeEditor_Dialog(self)
 
         self.ui.title_lineEdit.editingFinished.connect(self.title_lineEdit_edited)
-        self.ui.intern_name_lineEdit.editingFinished.connect(self.intern_name_line_edit_edited)
-        self.ui.use_title_as_intern_name_checkBox.toggled.connect(self.internal_name_check_box_toggled)
+        self.ui.internal_name_lineEdit.editingFinished.connect(self.internal_name_line_edit_edited)
+        self.ui.use_title_as_internal_name_checkBox.toggled.connect(self.internal_name_check_box_toggled)
         self.ui.type_comboBox.currentTextChanged.connect(self.type_changed)
         self.ui.edit_node_metacode_pushButton.clicked.connect(self.edit_node_metacode_clicked)
         self.ui.main_widget_checkBox.toggled.connect(self.main_widget_toggled)
@@ -52,11 +52,10 @@ class NodeContentWidget(QWidget):
 
         # synchronise with node
         self.ui.title_lineEdit.setText(node.title)
-        if self.prepare_class_name(node.title) == node.class_name:
-            self.ui.use_title_as_intern_name_checkBox.setChecked(True)
-        else:
-            self.ui.use_title_as_intern_name_checkBox.setChecked(False)
-            self.ui.intern_name_lineEdit.setText(node.class_name)
+        if node.class_name is not None:
+            if self.prepare_class_name(node.title) != node.class_name:
+                self.ui.use_title_as_internal_name_checkBox.setChecked(False)
+                self.ui.internal_name_lineEdit.setText(node.class_name)
         self.ui.description_textEdit.setText(node.description)
 
         if self.ui.type_comboBox.findText(node.type) != -1:
@@ -99,7 +98,7 @@ class NodeContentWidget(QWidget):
             iw = node.custom_input_widgets[i]
             iw_metacode = node.custom_input_widget_metacodes[i]
             iw_metacode_file_path = node.custom_input_widget_metacodes_file_paths[i]
-            new_input_widget = InputWidget(self, iw_metacode_file_path)
+            new_input_widget = CustomInputWidget(self, iw_metacode_file_path)
             new_input_widget.set_name(iw)
             self.ui.input_widgets_scrollArea.widget().layout().addWidget(new_input_widget)
             self.input_widgets.append(new_input_widget)
@@ -122,16 +121,16 @@ class NodeContentWidget(QWidget):
         self.node.title = line_edit.text()
         self.node.title_changed.emit()
 
-    def intern_name_line_edit_edited(self):
+    def internal_name_line_edit_edited(self):
         line_edit: QLineEdit = self.sender()
         line_edit.setText(self.prepare_class_name(line_edit.text()))
         self.node.class_name = line_edit.text()
 
     def internal_name_check_box_toggled(self):
-        if self.ui.use_title_as_intern_name_checkBox.isChecked():
-            self.ui.intern_name_lineEdit.setEnabled(False)
+        if self.ui.use_title_as_internal_name_checkBox.isChecked():
+            self.ui.internal_name_lineEdit.setEnabled(False)
         else:
-            self.ui.intern_name_lineEdit.setEnabled(True)
+            self.ui.internal_name_lineEdit.setEnabled(True)
 
     def type_changed(self, new_type):
         if new_type == 'custom':
@@ -158,14 +157,14 @@ class NodeContentWidget(QWidget):
 
 
     def select_node_color_clicked(self):
-        self.node_color = QColorDialog.getColor(self.node_color, title='Select node color. Please don\'t close this '
-                                                                       'window.')
+        self.node_color = QColorDialog.getColor(self.node_color, title='Select node color. Don\'t use too dark '
+                                                                       'colors.')
         ss = 'background-color: '+self.node_color.name()
         self.ui.color_sample_pushButton.setStyleSheet(ss)
 
 
     def add_new_input_widget_clicked(self):
-        new_input_widget = InputWidget(self)
+        new_input_widget = CustomInputWidget(self)
         self.ui.input_widgets_scrollArea.widget().layout().addWidget(new_input_widget)
         self.input_widgets.append(new_input_widget)
 
@@ -225,10 +224,10 @@ class NodeContentWidget(QWidget):
         return self.ui.title_lineEdit.text()
 
     def get_node_class_name(self):
-        if self.ui.use_title_as_intern_name_checkBox.isChecked():
+        if self.ui.use_title_as_internal_name_checkBox.isChecked():
             return self.prepare_class_name(self.ui.title_lineEdit.text())
         else:
-            return self.ui.intern_name_lineEdit.text()
+            return self.ui.internal_name_lineEdit.text()
 
     def get_node_description(self):
         return self.ui.description_textEdit.toPlainText()
@@ -350,7 +349,7 @@ class NodeContentWidget(QWidget):
 
 
         for iw in self.input_widgets:
-            iw: InputWidget = iw
+            iw: CustomInputWidget = iw
             iw_file_path = widgets_dir + '/' + module_name + module_name_separator + iw.get_name() + \
                 module_name_separator + 'METACODE.py'
             if not os.path.isfile(iw_file_path):

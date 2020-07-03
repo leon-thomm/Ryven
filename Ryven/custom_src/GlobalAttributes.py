@@ -1,5 +1,6 @@
 class Design:
     flow_style = 'dark std'
+    ryven_stylesheet = None
 
 
 class Algorithm:

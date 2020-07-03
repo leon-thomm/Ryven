@@ -151,6 +151,7 @@ class MainWindow(QMainWindow):
             ss_content = f.read()
             f.close()
         finally:
+            Design.ryven_stylesheet = ss_content
             self.setStyleSheet(ss_content)
 
     def on_algorithm_sync_mode_changed(self, action):

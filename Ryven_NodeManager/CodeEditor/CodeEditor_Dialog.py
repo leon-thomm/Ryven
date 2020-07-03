@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton
+from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QMessageBox
 
 from CodeEditor.CodeEditor_TextEdit import CodeEditor_TextEdit
 
@@ -17,13 +17,17 @@ class CodeEditor_Dialog(QDialog):
         # UI
         layout = QVBoxLayout()
 
-        settings_layout = QHBoxLayout()
+        buttons_layout = QHBoxLayout()
         reset_push_button = QPushButton('reset')
         reset_push_button.clicked.connect(self.reset_clicked)
-        settings_layout.addWidget(reset_push_button)
+        ok_push_button = QPushButton('OK')
+        ok_push_button.clicked.connect(self.close)
+        buttons_layout.addStretch()
+        buttons_layout.addWidget(reset_push_button)
+        buttons_layout.addWidget(ok_push_button)
 
-        layout.addLayout(settings_layout)
         layout.addWidget(self.text_edit)
+        layout.addLayout(buttons_layout)
 
         self.setLayout(layout)
 
@@ -61,4 +65,11 @@ class CodeEditor_Dialog(QDialog):
             return self.read_code_from_source() != self.code_initial
 
     def reset_clicked(self):
+        msg_box = QMessageBox(QMessageBox.Warning, 'Resetting code',
+                              'sure?', QMessageBox.Cancel | QMessageBox.Yes, self)
+        msg_box.setDefaultButton(QMessageBox.Cancel)
+        ret = msg_box.exec_()
+        if ret != QMessageBox.Yes:
+            return
+
         self.text_edit.set_code(self.code_initial)

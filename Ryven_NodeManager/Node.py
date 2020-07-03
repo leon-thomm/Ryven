@@ -14,7 +14,7 @@ class Node(QObject):  # QObject inheritance for the Signal
         self.type = ''
         self.description = ''
         self.module_name = ''
-        self.class_name = ''
+        self.class_name = None
         self.design_style = ''
         self.color = ''
         self.has_main_widget = True

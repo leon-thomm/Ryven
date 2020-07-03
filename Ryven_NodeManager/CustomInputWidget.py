@@ -3,9 +3,9 @@ from PySide2.QtWidgets import QWidget, QGridLayout, QLineEdit, QPushButton, QMes
 from CodeEditor.CodeEditor_Dialog import CodeEditor_Dialog
 
 
-class InputWidget(QWidget):
+class CustomInputWidget(QWidget):
     def __init__(self, content_widget, metacode_file_path=None):
-        super(InputWidget, self).__init__()
+        super(CustomInputWidget, self).__init__()
 
         self.content_widget = content_widget
         self.edit_input_widget_metacode_dialog = CodeEditor_Dialog(self)
@@ -44,8 +44,9 @@ class InputWidget(QWidget):
         self.edit_input_widget_metacode_dialog.exec_()
 
     def delete_clicked(self):
-        ret = QMessageBox.warning(self, 'Input Widget', 'Do you really want to delete this input widget? All changes'
-                                                        'will be lost.',
+        ret = QMessageBox.warning(self, 'Deleting custom input widget',
+                                  'Do you really want to delete this input widget? All changes '
+                                  'will be lost including any edited code.',
                                   QMessageBox.Yes, QMessageBox.No)
         if ret == QMessageBox.Yes:
             self.content_widget.delete_input_widget(self)

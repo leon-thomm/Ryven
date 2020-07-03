@@ -151,7 +151,7 @@ class CodePreview_Widget(QWidget):
     def update_edit_status(self):
         for o in list(self.buttons_obj_dict.keys()):
             if self.edited_codes.keys().__contains__(self.buttons_obj_dict[o]):
-                o.setStyleSheet('color: green;')
+                o.setStyleSheet('color: #3B9CD9;')
                 f = o.font()
                 f.setBold(True)
                 o.setFont(f)

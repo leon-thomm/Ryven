@@ -14,9 +14,6 @@ QPushButton {
 QPushButton:pressed {
 	background-color: #3B9CD9;
 }
-QPushButton:disabled {
-	color: grey;
-}
 
 QToolButton {
 	border: none;
@@ -44,6 +41,35 @@ QLineEdit {
 
 QLabel, QCheckBox, QRadioButton {
 	border: none;
+}
+
+QCheckBox:indicator {
+	border: 1px solid #3B9CD9;
+	border-radius: 2px;
+	background: transparent;
+}
+
+QCheckBox:indicator:checked {
+	background: rgba(33, 118, 171, 200);
+}
+
+QRadioButton:indicator {
+	background: transparent;
+	border: 1px solid #3B9CD9;
+	border-radius: 5px;
+}
+
+QRadioButton:indicator:checked {
+	background: rgba(33, 118, 171, 200);
+}
+
+QPushButton:disabled, 
+QSpinBox:disabled, 
+QComboBox:disabled, 
+QRadioButton:disabled,
+QGroupBox:disabled, 
+QLabel:disabled {
+	color: grey;
 }
 
 

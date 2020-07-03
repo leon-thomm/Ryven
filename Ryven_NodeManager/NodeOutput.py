@@ -53,8 +53,4 @@ class NodeOutput(QWidget):
         self.label_line_edit.setText(new_label)
 
     def delete_clicked(self):
-        ret = QMessageBox.warning(self, 'Output', 'Do you really want to delete this input? All changes'
-                                                  'will be lost.',
-                                  QMessageBox.Yes, QMessageBox.No)
-        if ret == QMessageBox.Yes:
-            self.content_widget.delete_output(self)
+        self.content_widget.delete_output(self)

@@ -26,11 +26,12 @@ class NodeInput(QWidget):
         self.label_text_edit.setPlaceholderText('Label')
         self.label_text_edit.setFixedWidth(self.type_combo_box.width())
         # self.label_text_edit.setMinimumHeight(20)
-        self.label_text_edit.setMaximumHeight(56)
+        self.label_text_edit.setMaximumHeight(92)
 
         # widget
         self.widget_grid_layout = QGridLayout()
         self.widget_yes_no_group_box = QGroupBox(self)
+        self.widget_yes_no_group_box.setEnabled(False)
         self.widget_yes_no_group_box.setLayout(QVBoxLayout())
         self.widget_yes_radio_button = QRadioButton('Yes', self)
         self.widget_yes_radio_button.setChecked(True)
@@ -41,6 +42,7 @@ class NodeInput(QWidget):
         self.widget_grid_layout.addWidget(self.widget_yes_no_group_box, 0, 0, 4, 1)
 
         self.widget_group_box = QGroupBox(self)
+        self.widget_group_box.setEnabled(False)
         self.widget_group_box.setLayout(QVBoxLayout())
         self.widget_type_combo_box = QComboBox(self)
         self.widget_type_combo_box.addItem('std line edit')
@@ -144,16 +146,18 @@ class NodeInput(QWidget):
 
     def type_combo_box_changed(self, new_type):
         if new_type == 'data':
-            self.widget_grid_layout.setEnabled(True)
+            self.widget_yes_no_group_box.setEnabled(True)
+            self.widget_group_box.setEnabled(True)
         elif new_type == 'exec':
-            self.widget_grid_layout.setEnabled(False)
+            self.widget_yes_no_group_box.setEnabled(False)
+            self.widget_group_box.setEnabled(False)
 
     def set_label(self, new_label):
         self.label_text_edit.setPlainText(new_label)
 
     def delete_clicked(self):
-        ret = QMessageBox.warning(self, 'Input', 'Do you really want to delete this input? All changes'
-                                                 'will be lost.',
+        ret = QMessageBox.warning(self, 'Deleting input', 'Do you really want to delete this input widget? All changes '
+                                                 'will be lost including any edited code.',
                                   QMessageBox.Yes, QMessageBox.No)
         if ret == QMessageBox.Yes:
             self.content_widget.delete_input(self)

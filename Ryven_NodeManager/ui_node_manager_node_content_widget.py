@@ -40,17 +40,17 @@ class Ui_Form(object):
 
         self.gridLayout_5.addWidget(self.name_problems_detected_label, 0, 1, 1, 1)
 
-        self.intern_name_lineEdit = QLineEdit(Form)
-        self.intern_name_lineEdit.setObjectName(u"intern_name_lineEdit")
-        self.intern_name_lineEdit.setEnabled(False)
+        self.internal_name_lineEdit = QLineEdit(Form)
+        self.internal_name_lineEdit.setObjectName(u"internal_name_lineEdit")
+        self.internal_name_lineEdit.setEnabled(False)
 
-        self.gridLayout_5.addWidget(self.intern_name_lineEdit, 1, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.internal_name_lineEdit, 1, 0, 1, 1)
 
-        self.use_title_as_intern_name_checkBox = QCheckBox(Form)
-        self.use_title_as_intern_name_checkBox.setObjectName(u"use_title_as_intern_name_checkBox")
-        self.use_title_as_intern_name_checkBox.setChecked(True)
+        self.use_title_as_internal_name_checkBox = QCheckBox(Form)
+        self.use_title_as_internal_name_checkBox.setObjectName(u"use_title_as_internal_name_checkBox")
+        self.use_title_as_internal_name_checkBox.setChecked(True)
 
-        self.gridLayout_5.addWidget(self.use_title_as_intern_name_checkBox, 1, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.use_title_as_internal_name_checkBox, 1, 1, 1, 1)
 
 
         self.gridLayout.addLayout(self.gridLayout_5, 0, 0, 1, 1)
@@ -214,36 +214,29 @@ class Ui_Form(object):
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.inputs_groupBox = QGroupBox(self.layoutWidget1)
         self.inputs_groupBox.setObjectName(u"inputs_groupBox")
-        self.gridLayout_2 = QGridLayout(self.inputs_groupBox)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.verticalLayout_8 = QVBoxLayout(self.inputs_groupBox)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.inputs_scrollArea = QScrollArea(self.inputs_groupBox)
         self.inputs_scrollArea.setObjectName(u"inputs_scrollArea")
         self.inputs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 417, 91))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 417, 109))
         sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
         self.verticalLayout_3 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.inputs_scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.gridLayout_2.addWidget(self.inputs_scrollArea, 0, 0, 1, 1)
+        self.verticalLayout_8.addWidget(self.inputs_scrollArea)
+
+        self.add_new_input_pushButton = QPushButton(self.inputs_groupBox)
+        self.add_new_input_pushButton.setObjectName(u"add_new_input_pushButton")
+
+        self.verticalLayout_8.addWidget(self.add_new_input_pushButton)
 
 
         self.verticalLayout_5.addWidget(self.inputs_groupBox)
-
-        self.inputs_actions_widget = QWidget(self.layoutWidget1)
-        self.inputs_actions_widget.setObjectName(u"inputs_actions_widget")
-        self.verticalLayout_7 = QVBoxLayout(self.inputs_actions_widget)
-        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.add_new_input_pushButton = QPushButton(self.inputs_actions_widget)
-        self.add_new_input_pushButton.setObjectName(u"add_new_input_pushButton")
-
-        self.verticalLayout_7.addWidget(self.add_new_input_pushButton)
-
-
-        self.verticalLayout_5.addWidget(self.inputs_actions_widget)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_5)
@@ -252,34 +245,27 @@ class Ui_Form(object):
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.outputs_groupBox = QGroupBox(self.layoutWidget1)
         self.outputs_groupBox.setObjectName(u"outputs_groupBox")
-        self.gridLayout_3 = QGridLayout(self.outputs_groupBox)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.verticalLayout_7 = QVBoxLayout(self.outputs_groupBox)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.outputs_scrollArea = QScrollArea(self.outputs_groupBox)
         self.outputs_scrollArea.setObjectName(u"outputs_scrollArea")
         self.outputs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 416, 91))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 416, 109))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.outputs_scrollArea.setWidget(self.scrollAreaWidgetContents_2)
 
-        self.gridLayout_3.addWidget(self.outputs_scrollArea, 0, 0, 1, 1)
+        self.verticalLayout_7.addWidget(self.outputs_scrollArea)
+
+        self.add_new_output_pushButton = QPushButton(self.outputs_groupBox)
+        self.add_new_output_pushButton.setObjectName(u"add_new_output_pushButton")
+
+        self.verticalLayout_7.addWidget(self.add_new_output_pushButton)
 
 
         self.verticalLayout_6.addWidget(self.outputs_groupBox)
-
-        self.outputs_actions_widget = QWidget(self.layoutWidget1)
-        self.outputs_actions_widget.setObjectName(u"outputs_actions_widget")
-        self.verticalLayout_8 = QVBoxLayout(self.outputs_actions_widget)
-        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.add_new_output_pushButton = QPushButton(self.outputs_actions_widget)
-        self.add_new_output_pushButton.setObjectName(u"add_new_output_pushButton")
-
-        self.verticalLayout_8.addWidget(self.add_new_output_pushButton)
-
-
-        self.verticalLayout_6.addWidget(self.outputs_actions_widget)
 
 
         self.horizontalLayout_2.addLayout(self.verticalLayout_6)
@@ -299,8 +285,8 @@ class Ui_Form(object):
         self.title_lineEdit.setText(QCoreApplication.translate("Form", u"new node", None))
         self.title_lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Title", None))
         self.name_problems_detected_label.setText(QCoreApplication.translate("Form", u"Name Problems Detected: None", None))
-        self.intern_name_lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Intern Name", None))
-        self.use_title_as_intern_name_checkBox.setText(QCoreApplication.translate("Form", u"use title as intern name", None))
+        self.internal_name_lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Internal Name", None))
+        self.use_title_as_internal_name_checkBox.setText(QCoreApplication.translate("Form", u"use title as intern name", None))
         self.type_comboBox.setItemText(0, QCoreApplication.translate("Form", u"custom", None))
         self.type_comboBox.setItemText(1, QCoreApplication.translate("Form", u"control structure", None))
 

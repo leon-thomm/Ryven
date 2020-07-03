@@ -402,6 +402,10 @@ class NodeInstance(QGraphicsItem):
         """
         pass
 
+    def get_default_stylesheet(self):
+        """Handy method for subclasses to access the application window's stylesheet for UI content."""
+        return Design.ryven_stylesheet
+
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
 
