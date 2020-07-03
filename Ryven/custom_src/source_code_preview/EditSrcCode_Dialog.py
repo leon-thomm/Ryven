@@ -10,22 +10,37 @@ class EditSourceCode_Dialog(QDialog):
         # info text edit
         info_text_edit = QTextEdit()
         info_text_edit.setHtml('''
-            <h2 style="font-family: Poppins; font-size: xx-large; color: #a9d5ef;">Info</h2>
-            <div style="font-family: Corbel; font-size: x-large;">
+            <h2 style="font-family: Poppins; font-size: xx-large; color: #a9d5ef;">Some info before you delete the
+            universe</h2>
+            <div style="font-family: Corbel; font-size: large;">
 
-            <p>This is an extremely useful feature! You should be a bit careful though, it's not exactly bulletproof.
+            <p>Yes, you can change method implementations of objects.
+            This can be an extremely powerful feature! Especially when trying to understand nodes more 
+            deeply, when creating new nodes and for debugging. But since changing an instance's implementation
+            at runtime is pretty deep stuff, you should be a bit careful, this feature is not exactly bulletproof.
             This is what you can do:
             <ul>
-                <li>You can edit the implementation of existing custom methods</li>
-                <li>And you can add new methods</li>
-                <li>Note that changing a method that has been connected as a slot to the event of a Qt object will not 
-                change the behavior when this event is being called. In other words: you cannot change a slot after it
-                has been connected to an event (PySide2 behavior).</li>
+                <li>You can edit the implementation of existing custom methods of...</li>
+                <li>And you can add new methods to...</li>
             </ul>
+            ... any <i>object</i> (a placed node and all its widgets). Other nodes of the same type won't be affected.
             </p>
             <p>
             <b>You can write any code that would be valid in the class's original source file.</b> If you defined some further
             classes in the metacode file, for example, you can still totally use them here.
+            <br>
+            There is just one issue that you may want to consider:
+            <br>
+            If you edit a method that gets called somewhere and you cannot see a change, it may be due to a
+            problem in the class's implementation that you are editing. Because whenever a reference of a <i>method</i>
+            is used (like
+            <i>self.print_something</i>, e.g. for connecting Qt signals to
+            slots or in the <i>special_actions</i> dict),
+            instead of directly using the object, the m() method should be used (<i>m(self.print_something)</i>)
+            which ensures that a referenced and edited method gets called correctly.
+            Otherwise the method reference would always link to the original method, not the edited one.
+            <br><br>
+            Have fun.
             </p>
             </div>
         ''')

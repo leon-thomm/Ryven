@@ -11,13 +11,17 @@ def override_code(obj: object, new_class_code):
     original_class_source_code = inspect.getsource(obj.__class__)
     new_module_code = original_module_source_code.replace(original_class_source_code, new_class_code)
 
+    # creating temporary module
     module = types.ModuleType('new_class_module')
     exec(new_module_code, module.__dict__)
+
+    # extracting the class
     new_obj_class = getattr(module, type(obj).__name__)
 
+    # get all custom method names (string list)
     method_names = [func for func in dir(new_obj_class)
                     if callable(getattr(new_obj_class, func)) and not func.startswith("__")]
 
     for m in method_names:
-        method = getattr(new_obj_class, m)
-        setattr(obj, m, types.MethodType(method, obj))
+        method = getattr(new_obj_class, m)  # get actual method object
+        setattr(obj, m, types.MethodType(method, obj))  # override the original method or add if not existing yet

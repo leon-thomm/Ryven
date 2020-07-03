@@ -26,7 +26,7 @@ class ScriptsList_ScriptWidget(QWidget):
         main_layout = QHBoxLayout()
 
         # create icon via label
-        script_icon = QIcon('stuff/pics/script_picture.png')
+        script_icon = QIcon('resources/pics/script_picture.png')
         icon_label = QLabel()
         icon_label.setFixedSize(20, 20)
         icon_label.setStyleSheet('border:none;')

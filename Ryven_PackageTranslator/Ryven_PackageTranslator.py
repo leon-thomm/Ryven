@@ -3,6 +3,8 @@ import os
 
 
 class PackageTranslator:
+    """The PackageTranslator creates working modules out of the metacode files."""
+    
     def __init__(self, package_dir):
         self.module_name_separator = '___'
 
@@ -55,9 +57,6 @@ class PackageTranslator:
 
                 self.save(package_dir + '/nodes/' + n['module name'] + '/widgets/' + input_widget_target_filename, code)
 
-
-    def translate(self):
-        pass
 
     def save(self, target_file_path, code):
         try:

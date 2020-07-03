@@ -5,7 +5,7 @@ from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont
 
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.GlobalAttributes import Design, Algorithm
-from custom_src.global_tools.strings import get_longest_line
+from custom_src.global_tools.strings import get_longest_line, shorten
 
 from custom_src.FlowProxyWidget import FlowProxyWidget
 
@@ -81,9 +81,6 @@ class PortInstance(QGraphicsGridLayout):
 
         # note that val COULD be of object type and therefore already changed (because the original object did)
         self.val = val
-
-        self.gate.setToolTip(str(val))
-        self.gate.update()  # to update the ToolTip, not sure if necessary
 
         # if gen_data_on_request is set to true, all data will be required instead of actively forward propagated
         if not Algorithm.gen_data_on_request:
@@ -264,7 +261,7 @@ class PortInstanceGate(QGraphicsWidget):
 
     def hoverEnterEvent(self, event):
         if self.parent_port_instance.type_ == 'data' and self.parent_port_instance.direction == 'output':
-            self.setToolTip(str(self.parent_port_instance.val))
+            self.setToolTip(shorten(str(self.parent_port_instance.val), 1000, line_break=True))
         QGraphicsItem.hoverEnterEvent(self, event)
 
     def get_scene_center_pos(self):

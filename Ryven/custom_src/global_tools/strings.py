@@ -8,11 +8,13 @@ def get_longest_line(s: str):
     return line
 
 
-def shorten(s: str, max_chars: int):
+def shorten(s: str, max_chars: int, line_break: bool = False):
     """Ensures, that a given string does not exceed a given max length. If it would, its cut in the middle."""
     l = len(s)
     if l > max_chars:
         insert = ' . . . '
+        if line_break:
+            insert = '\n'+insert+'\n'
         insert_length = len(insert)
         left = s[:round((max_chars-insert_length)/2)]
         right = s[round(l-((max_chars-insert_length)/2)):]

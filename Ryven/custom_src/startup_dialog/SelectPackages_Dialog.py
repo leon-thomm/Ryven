@@ -2,6 +2,9 @@ from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QF
     QListWidget, QListWidgetItem
 import os
 
+from custom_src.global_tools.Debugger import Debugger
+
+
 class SelectPackages_Dialog(QDialog):
     def __init__(self, parent, packages):
         super(SelectPackages_Dialog, self).__init__(parent)
@@ -26,6 +29,7 @@ class SelectPackages_Dialog(QDialog):
         selected_items_widget.layout().addWidget(self.selected_packages_list_widget)
 
         auto_import_button = QPushButton('auto import')
+        auto_import_button.setFocus()
         auto_import_button.clicked.connect(self.auto_import_button_clicked)
         selected_items_widget.layout().addWidget(auto_import_button)
 
@@ -62,12 +66,14 @@ class SelectPackages_Dialog(QDialog):
                     break
             self.rebuild_selected_packages_list_widget()
 
-        if len(self.file_paths) == len(self.required_packages):
+        self.clean_packages_list()
+
+        if self.all_required_packages_selected():
             self.finished()
 
     def add_package_button_clicked(self):
         file_names = \
-        QFileDialog.getOpenFileNames(self, 'select package files', '../packages', 'Ryven Package(*.rypac)')[0]
+            QFileDialog.getOpenFileNames(self, 'select package files', '../packages', 'Ryven Package(*.rypac)')[0]
 
         for file_name in file_names:
             try:
@@ -75,7 +81,7 @@ class SelectPackages_Dialog(QDialog):
                 f.close()
                 self.file_paths.append(file_name)
             except FileNotFoundError:
-                GlobalStorage.debug('couldn\'t open file')
+                Debugger.debug('couldn\'t open file')
 
         self.rebuild_selected_packages_list_widget()
 
@@ -93,9 +99,31 @@ class SelectPackages_Dialog(QDialog):
         self.rebuild_selected_packages_list_widget()
 
     def finished_button_clicked(self):
-        # TODO analyse for potentially wrong packages
+        self.clean_packages_list()
+        if self.all_required_packages_selected():
+            self.finished()
 
-        self.finished()
+    def clean_packages_list(self):
+        """remove duplicates from self.file_paths"""
+
+        files_dict = {}
+
+        for p in self.file_paths:
+            filename = os.path.splitext(os.path.basename(p))[0]
+            files_dict[filename] = p
+
+        self.file_paths = list(files_dict.values())
+
+        self.rebuild_selected_packages_list_widget()
+
+    def all_required_packages_selected(self):
+        files = [os.path.splitext(os.path.basename(path))[0] for path in self.file_paths]
+
+        # search for missing packages
+        for p in self.required_packages:
+            if p not in files:
+                return False
+        return True
 
     def finished(self):
         self.accept()

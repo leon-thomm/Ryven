@@ -90,7 +90,7 @@ class MainWindow(QMainWindow):
     def load_stylesheet(self, ss):
         ss_content = ''
         try:
-            f = open('stuff/stylesheets/'+ss+'.txt')
+            f = open('resources/stylesheets/'+ss+'.txt')
             ss_content = f.read()
             f.close()
         finally:

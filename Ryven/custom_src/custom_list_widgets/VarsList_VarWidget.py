@@ -5,6 +5,7 @@ from PySide2.QtCore import Signal, QMimeData, Qt, QEvent, QByteArray
 import json
 
 from custom_src.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
+from custom_src.global_tools.strings import shorten
 from custom_src.script_variables.EditVarVal_Dialog import EditVarVal_Dialog
 
 
@@ -28,7 +29,7 @@ class VarsList_VarWidget(QWidget):
         main_layout = QHBoxLayout()
 
         # create icon via label
-        variable_icon = QIcon('stuff/pics/variable_picture.png')
+        variable_icon = QIcon('resources/pics/variable_picture.png')
         icon_label = QLabel()
         icon_label.setFixedSize(15, 15)
         icon_label.setStyleSheet('border:none;')
@@ -76,7 +77,7 @@ class VarsList_VarWidget(QWidget):
                 val_str = str(self.var.val)
             except Exception as e:
                 val_str = 'couldn\'t stringify value'
-            self.setToolTip('val type: '+str(type(self.var.val))+'\nval: '+val_str)
+            self.setToolTip('val type: '+str(type(self.var.val))+'\nval: '+shorten(val_str, 3000, line_break=True))
 
         return QWidget.event(self, event)
 

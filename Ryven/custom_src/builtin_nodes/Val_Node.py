@@ -57,7 +57,7 @@ class Val_Node(Node):
 
         self.title = 'val'
         self.type = 'val'
-        self.package = 'build in'
+        self.package = 'built in'
         self.description = 'returns the evaluated value that is typed into the widget'
         self.has_main_widget = True
         self.main_widget_class = ValNode_Instance_MainWidget
