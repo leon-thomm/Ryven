@@ -2,9 +2,9 @@ This page provides you with the information you need to create nodes for Ryven.
 
 ProTipp for programming the nodes: Use the example projects and Ryven's code preview feature (drag the handle at the bottom of a flow upwards) to get a better look at how the nodes and their GUI components are programmed. You can also edit the source code of the placed nodes and play around. This is really useful.
 
-# Creating New Nodes - Basics
-
 There is a full example below.
+
+# Creating New Nodes - Basics
 
 The overall process looks like this:
 
@@ -28,16 +28,12 @@ The overall process looks like this:
 
 ## NodeManager Overview
 
-Please be aware that the NodeManager is not extremely intuitive yet but it does the job.
-
-![Ryven NodeManager screenshot](/resources/images/Qt 70.png)
-
-That's what it looks like. To define a node, you first have to specity its basic properties. Then click save, select the nodes that you want to be included in the package, **create a new folder for the package** (it's name will be the package's name) and export.
+To define a node, you first have to specify its basic properties in the NodeManager. Then click save, select the nodes that you want to be included in the package, **create a new folder for the package** (it's name will be the package's name) and export.
 
 ### Name Conventions
 
 #### Classname Conformity
-If your node has a title that, except for spaces, is not class-or file-/foldername conform (like '%'), you need to give a custom _Internal Name_ which then will be used internally instead of the node's title. Caution you are not getting warned yet if your node title is not conform and you try to save your nodes. It can have spaces though, the example 'With File Open' automatically becomes 'WithFileOpen' as class name when exporting.
+If your node has a title that, except for spaces, is not class-or file-/foldername conform (like _+_, _&_, _%_), you need to give a custom _Internal Name_ which then will be used internally instead of the node's title. Be careful, you are not getting warned yet if your node title is not conform and you try to save your nodes. It can have spaces though, the example _With File Open_ automatically becomes _WithFileOpen_ as class name when exporting.
 
 #### Further Name Conventions
 
@@ -47,7 +43,7 @@ If your node has a title that, except for spaces, is not class-or file-/folderna
 
 ![](/resources/images/pyScript2.PNG)
 
-For input widgets like shown in the picture, simply select the widget that you want to use in the drop down menu. You can also program cutom widgets, for that see _Data Input Widgets_ section.
+For input widgets like shown in the picture, simply select the widget that you want to use in the drop down menu. You can also program custom widgets, for that see _Data Input Widgets_ section.
 
 ## Updating Packages 
 
@@ -122,14 +118,14 @@ That's it. Everything beyond that is the use of special features. There are a fe
 
 A very handy feature. The special actions attribute is a dictionary and holds information about accessible right-click operations which then will automatically be created when right clicking on a node. A possible entry would be
 
-            self.special_actions['print something'] = {'method': self.action_print_something}
+            self.special_actions['print something'] = {'method': m(self.action_print_something)}
 
-In this case, a method _action_print_something_ would need to exist
+In this case, a method _action_print_something_ would need to exist which gets triggered when the user clicks on _print something_.
 
         def action_print_something(self):
             print('Hello World!')
 
-You can define as many actions for your node as you want and you can totally edit this dict at any time.
+You can define as many actions for your node as you want and you can totally edit this dict at any time. Just make sure to instead of directly using the method's object, use the m() method (always do that when referencing methods). It ensures that this method can be live edited in Ryven and that the references get updated.
 
 ## API
 
@@ -153,10 +149,10 @@ To access the node's contents there is a small 'API' that you can use in the cla
 
     self.create_new_input(type_: str, label: str, widget_type='', widget_name='', widget_pos='under', pos=-1)
 
-- _type\__ refers to the input's type ('exec' or 'data')
+- _type\__ refers to the input's type (_exec_ or _data_)
 - _label_ is the shown name of the port
 after these two I recommend only using unpositional identifiers
-- _pos=-1_ means, the input will be appended at the end, everything else specifies the index at which the input will be inserted
+- _pos=-1_ means the input will be appended at the end, everything else specifies the index at which the input will be inserted
 All widget related arguments are only important for data inputs:
 - The _widget_type_ is the type of the input widget that will be created. Currently possible values are:
     - _std line edit_
@@ -179,6 +175,10 @@ see above.
 **Deleting output port:**
 
     self.delete_output(index)
+
+**Access Ryven's stylesheet**
+
+    self.get_default_stylesheet()
 
 ### Logging
 
@@ -206,7 +206,7 @@ If you are troubleshooting your nodes, you can turn debugging on. This will prin
         
         EXCEPTION IN <NodeInstance Name> NI: <exception>
         
-whenever the execution of a node returned an error. That's a very useful feature but one of the things with quite some potential for improvement.
+whenever the execution of a node returned an error. That's a very useful feature. You can also quickly debug nodes by editing their source code directly in Ryven.
 
 # Creating New Nodes - Advanced
 
@@ -224,7 +224,7 @@ This applies on the normal node class as well as on all the widgets classes, the
 
 ## Removing Method
 
-The _removing()_ method is being called when a node gets removed from the flow. This is only important for nodes that autonomously run independent computations like threads or timers. These should all be stopped in this method.
+The _removing()_ method is being called when a node gets removed from the flow. This is only important for nodes that autonomously run independent computations like threads or timers. These should all get stopped in this method.
 
 This applies on the normal node class as well as on all the widgets classes, these have _removing()_ too.
 
@@ -316,9 +316,9 @@ Let's build a node, that generates random 2D points and returns them as array. S
 
 ![](/resources/images/pyScript11.PNG)
 
-The title 'Points Field' can be converted into the valid class name 'PointsField', so that we can leave. The type is 'points', so the user will be able to find that node by searching for the type (once I implemented that ;)  ). I added a little description. The node also has a main widget which sits under the ports where we will draw the points. Furthermore, I want it to be able to deliver the points in absolute scale as well as in relative. In absolute scale, the coordinates are given according to the widget's size (200x200 pixels), in relative mode the coordinates are scaled to 0-1. And that should be able to be controlled through a data input. That way we could later connect that to an extern node output of another node. A check box would be the most reasonable representation as widget, so the existence of this custom input widget is stated in the 'Input Widgets' field with the name 'RelativeCoordinates_IW'. The node has three static inputs, one execution input to trigger the randomization, one for the number of points and the one specifying the scale of the coordinates. Is also has an exec output which should be executed after the 'randomize' input has been triggered and a data output where we will make the array of generated points accessible.
+The title 'Points Field' can be converted into the valid class name 'PointsField', so that we can leave. I added a little description and the node also has a main widget which sits under the ports where we will draw the points. Furthermore, I want it to be able to deliver the points in absolute scale as well as in relative. In absolute scale, the coordinates are given according to the widget's size (200x200 pixels), in relative mode the coordinates are scaled to 0-1. And that should be able to be controlled through a data input. That way we could later connect that to an extern node output of another node. A check box would be the most reasonable representation as widget, so the existence of this custom input widget is stated in the _Input Widgets_ field with the name _RelativeCoordinates_IW_. The node has three static inputs, one execution input to trigger the randomization, one for the number of points and the one specifying the scale of the coordinates. Is also has an exec output which should be executed after the 'randomize' input has been triggered and a data output where we will make the array of generated points accessible.
 
-So, let's save this in a package called 'points example'.
+So, let's save this in a package called _points example_.
 
 ![](/resources/images/pyScript12.PNG)
 
