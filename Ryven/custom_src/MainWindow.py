@@ -1,7 +1,7 @@
 import os,  sys
 
 from PySide2.QtGui import QColor, QFontDatabase, QIcon, QKeySequence
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
 # parent UI
 from custom_src.builtin_nodes.Result_Node import Result_Node
@@ -422,7 +422,11 @@ class MainWindow(QMainWindow):
         # Debugger.debug(file_name)
         # Debugger.debug(class_name)
         sys.path.append(file_path)
-        new_module = __import__(file_name, fromlist=[class_name])
+        try:
+            new_module = __import__(file_name, fromlist=[class_name])
+        except ModuleNotFoundError as e:
+            QMessageBox.warning(self, 'Missing Python module', str(e))
+            sys.exit()
         new_class = getattr(new_module, class_name)
         return new_class
 
