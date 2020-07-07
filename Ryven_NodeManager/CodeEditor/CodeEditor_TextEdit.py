@@ -29,4 +29,4 @@ class CodeEditor_TextEdit(QTextEdit):
         self.setText(new_code)
 
     def get_code(self):
-        return self.toPlainText()
+        return self.toPlainText().replace('\t', '    ')

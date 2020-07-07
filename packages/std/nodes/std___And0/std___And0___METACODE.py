@@ -10,7 +10,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.special_actions['add input'] = {'method': self.action_add_input}
         self.enlargement_state = 0
 
-        self.initialized()
+        self.initialized() 
 
 
     def action_add_input(self):

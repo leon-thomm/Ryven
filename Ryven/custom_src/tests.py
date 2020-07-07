@@ -6,6 +6,7 @@ import random
 import math
 import pickle
 import os
+from pyowm import OWM
 
 from PySide2.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QPlainTextEdit, QGraphicsView, QGraphicsScene, QGraphicsProxyWidget, QAction, QMenu
 from PySide2.QtGui import QFont, QColor, QImage, QPainter, QPen, QBrush
@@ -164,43 +165,44 @@ class Cat:
         self.meow()
 
 
+#     app = QApplication(sys.argv)
+#
+#     # mw = MainWindow()
+#     # mw.show()
+#
+#     smartie = Cat('Smartie')
+#     smartie.say_name()
+#
+#     class_code = '''
+# class Cat:
+#     def __init__(self, name):
+#         self.name = name
+#
+#     def meow(self):
+#         print('yooooo!')
+#
+#     def say_name(self):
+#         print(self.name)
+#         self.meow()
+#         '''
+
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
 
-    # mw = MainWindow()
-    # mw.show()
-
-    smartie = Cat('Smartie')
-    smartie.say_name()
-
-    class_code = '''
-class Cat:
-    def __init__(self, name):
-        self.name = name
-        
-    def meow(self):
-        print('yooooo!')
-    
-    def say_name(self):
-        print(self.name)
-        self.meow()
-        '''
-
-    mymodule = types.ModuleType('temporary')
-    exec(class_code, mymodule.__dict__)
-    new_cat_class = getattr(mymodule, 'Cat')
-
-    # members = inspect.getmembers(OptionParser, predicate=inspect.isfunction)
-    members = [func for func in dir(new_cat_class) if callable(getattr(new_cat_class, func)) and not func.startswith("__")]
-    for m in members:
-        # print(type(m))
-        method = getattr(new_cat_class, m)
-        # smartie.method = method
-        setattr(smartie, m, types.MethodType(method, smartie))
-
-    smartie.say_name()
-
-    print(inspect.getsource(smartie))
+    # mymodule = types.ModuleType('temporary')
+    # exec(class_code, mymodule.__dict__)
+    # new_cat_class = getattr(mymodule, 'Cat')
+    #
+    # # members = inspect.getmembers(OptionParser, predicate=inspect.isfunction)
+    # members = [func for func in dir(new_cat_class) if callable(getattr(new_cat_class, func)) and not func.startswith("__")]
+    # for m in members:
+    #     # print(type(m))
+    #     method = getattr(new_cat_class, m)
+    #     # smartie.method = method
+    #     setattr(smartie, m, types.MethodType(method, smartie))
+    #
+    # smartie.say_name()
+    #
+    # print(inspect.getsource(smartie))
 
     # cat = new_cat_class('Smartie')
     # cat.say_name()
@@ -237,3 +239,12 @@ class Cat:
 
     # db = QFontDatabase()
     # print(QFontDatabase.families())
+
+
+    owm = OWM('0d8e9bf72996017261a908e7bf71e5b4')
+
+    mgr = owm.weather_manager()
+    observation = mgr.weather_at_place('Tromsø')
+    w = observation.weather
+    print(w.__dict__)
+    print(w.ref_time)

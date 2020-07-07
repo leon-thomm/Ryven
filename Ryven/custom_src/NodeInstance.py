@@ -203,7 +203,7 @@ class NodeInstance(QGraphicsItem):
 
         self.disable_personal_logs()
 
-    def removing(self):     # API  (gets overwritten)
+    def removing(self):     # API  (gets overwritten)  TODO rename to remove_event(), it would make more sense I guess
         """Method to stop all threads in hold of the NI itself."""
         pass
 
