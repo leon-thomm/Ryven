@@ -3,24 +3,31 @@ from custom_src.Node import Node
 from custom_src.retain import m
 
 
-# GENERAL
+# API METHODS
+
+# self.main_widget        <- access to main widget
+# self.update_shape()     <- recomputes the whole shape and content positions
+
+# Ports
 # self.input(index)                   <- access to input data
-# self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.set_output_val(self, index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# EDITING
 # self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
-# self.delete_input(input or index)
+# self.delete_input(index or input)
 # self.create_new_output(type_, label, append=True, pos=-1)
-# self.delete_output(output or index)
-# self.update_shape()                  <- recomputes the whole shape and content positions
+# self.delete_output(index or output)
 
-# LOGGING
+
+# Logging
 # mylog = self.new_log('Example Log')
 # mylog.log('I\'m alive!!')
 # self.log_message('hello global!', 'global')
 # self.log_message('that\'s not good', 'error')
+
+# ------------------------------------------------------------------------------
+
+from pyowm import OWM
 
 
 class %NODE_TITLE%_NodeInstance(NodeInstance):
@@ -32,11 +39,13 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
         self.initialized()
 
-
+    # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
-        arr = self.input(0)
-        index = int(self.input(1))
-        self.outputs[0].set_val(arr[index])
+        if input_called==0:
+            owm = OWM(self.input(1))
+            mgr = owm.weather_manager()
+            self.set_output_val(1, mgr)
+            self.exec_output(0)
 
     def get_data(self):
         data = {}
@@ -44,7 +53,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         return data
 
     def set_data(self, data):
-        pass
+        pass # ...
 
 
 

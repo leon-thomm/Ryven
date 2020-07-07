@@ -319,45 +319,53 @@ class NodeContentWidget(QWidget):
                                       'has changed! Do you want to override these changes from outside with the edited '
                                       'code from here?',
                                       QMessageBox.Yes, QMessageBox.No)
+            if ret == QMessageBox.Close:
+                return
             override_changed_source = ret == QMessageBox.Yes
 
 
         node_meta_code_file_path = node_dir + '/' + module_name + module_name_separator + 'METACODE.py'
+        enmd = self.edit_node_metacode_dialog
         if not os.path.isfile(node_meta_code_file_path):
-            metacode = self.edit_node_metacode_dialog.get_code()
+            metacode = enmd.get_code()
             save_file(node_meta_code_file_path, metacode)  # the NI file's name is just the 'module name'
+            enmd.set_code(metacode)  # to reset 'initial code'
         else:
-            enmd = self.edit_node_metacode_dialog
             if enmd.code_edited():
                 if not enmd.code_source_changed() or enmd.code_source_changed() and override_changed_source:
                     metacode = enmd.get_code()
                     save_file(node_meta_code_file_path, metacode)
+                    enmd.set_code(metacode)  # to reset 'initial code'
 
 
         if self.node_has_main_widget():
             main_widget_src_code_file_path = widgets_dir + '/' + module_name + module_name_separator + 'main_widget' + \
                                              module_name_separator + 'METACODE.py'
+            emwmd = self.edit_main_widget_metacode_dialog
             if not os.path.isfile(main_widget_src_code_file_path):
-                metacode = self.edit_main_widget_metacode_dialog.get_code()
+                metacode = emwmd.get_code()
                 save_file(main_widget_src_code_file_path, metacode)
+                emwmd.set_code(metacode)  # to reset 'initial code'
             else:
-                emwmd = self.edit_main_widget_metacode_dialog
                 if emwmd.code_edited():
                     if not emwmd.code_source_changed() or emwmd.code_source_changed() and override_changed_source:
                         metacode = emwmd.get_code()
                         save_file(main_widget_src_code_file_path, metacode)
+                        emwmd.set_code(metacode)  # to reset 'initial code'
 
 
         for iw in self.input_widgets:
             iw: CustomInputWidget = iw
             iw_file_path = widgets_dir + '/' + module_name + module_name_separator + iw.get_name() + \
                 module_name_separator + 'METACODE.py'
+            eiwmd = iw.edit_input_widget_metacode_dialog
             if not os.path.isfile(iw_file_path):
                 metacode = iw.get_code()
                 save_file(iw_file_path, metacode)
+                eiwmd.set_code(metacode)  # to reset 'initial code'
             else:
-                eiwmd = iw.edit_input_widget_metacode_dialog
                 if eiwmd.code_edited():
                     if not eiwmd.code_source_changed() or eiwmd.code_source_changed() and override_changed_source:
                         metacode = eiwmd.get_code()
                         save_file(iw_file_path, metacode)
+                        eiwmd.set_code(metacode)  # to reset 'initial code'
