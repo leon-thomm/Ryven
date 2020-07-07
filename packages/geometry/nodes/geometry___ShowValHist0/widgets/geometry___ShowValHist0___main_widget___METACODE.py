@@ -39,6 +39,8 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
 
     def update(self, new_vals):
         self.values = new_vals
+        if len(self.values) == 0:
+            return
 
         painter = QPainter(self.label.pixmap())
         painter.setRenderHint(QPainter.Antialiasing)
@@ -55,10 +57,12 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
         x_old = -1
         y_old = -1
 
+        div = max(self.values)
+
         for i in range(len(self.values)):
             v = self.values[i]
             x = i * (self.label.width()/len(self.values))
-            y = self.label.height()-self.label.height()*v
+            y = self.label.height()-self.label.height()*v/div
 
             if self.connect_lines_check_box.isChecked() and i>0:
                 painter.drawLine(x_old, y_old, x, y)

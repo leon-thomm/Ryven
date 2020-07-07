@@ -16,7 +16,7 @@ class PortInstance(QGraphicsGridLayout):
     PortInstances."""
 
     def __init__(self, parent_node_instance, direction, type_='', label_str='',
-                 configuration=None, widget_type='', widget_name=None, widget_pos=''):
+                 widget_type='', widget_name=None, widget_pos=''):
         super(PortInstance, self).__init__()
 
         # GENERAL ATTRIBUTES
@@ -35,29 +35,12 @@ class PortInstance(QGraphicsGridLayout):
         self.widget_name = widget_name
         self.widget_pos = widget_pos
 
-        if configuration:
-            self.type_ = configuration['type']
-            self.label_str = configuration['label']
-
-            if direction == 'input':
-                if configuration['has widget']:
-                    self.widget_type = configuration['widget type']
-                    self.widget_name = configuration['widget name']
-                    self.widget_pos = configuration['widget position']
-
-                    if configuration['widget data'] != None:
-                        self.create_widget()
-                        self.widget.set_data(configuration['widget data'])
-        else:
-            self.create_widget()
-
         # gate/pin
         self.gate = PortInstanceGate(self, parent_node_instance)
 
         # label
         self.label = PortInstanceLabel(self, parent_node_instance)
 
-        self.setup_ui()
 
     def setup_ui(self):
         pass  # reimplemented in subclasses
@@ -83,7 +66,7 @@ class PortInstance(QGraphicsGridLayout):
         self.val = val
 
         # if gen_data_on_request is set to true, all data will be required instead of actively forward propagated
-        if not Algorithm.gen_data_on_request:
+        if not Algorithm.gen_data_on_request and not self.parent_node_instance.initializing:
             self.updated_val()
 
     def get_val(self):
@@ -114,20 +97,6 @@ class PortInstance(QGraphicsGridLayout):
         for cpi in self.connected_port_instances:
             cpi.update()
 
-    def create_widget(self, configuration=None):
-        if self.direction == 'input' and (
-                self.type_ and self.type_ == 'data' or configuration and configuration['type'] == 'data'):
-            if self.widget_type == 'None':  # no input widget
-                return
-            elif self.widget_type == 'std line edit':
-                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance)
-            elif self.widget_type == 'std spin box':
-                self.widget = StdSpinBox_PortInstanceWidget(self, self.parent_node_instance)
-            elif self.widget_type == 'custom widget':
-                self.widget = self.get_input_widget_class(self.widget_name)(self, self.parent_node_instance)
-            self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
-            self.proxy.setWidget(self.widget)
-
     def get_input_widget_class(self, widget_name):
         """Returns the CLASS of a defined custom input widget by given name"""
         custom_node_input_widget_classes = \
@@ -148,26 +117,22 @@ class PortInstance(QGraphicsGridLayout):
             self.widget.setEnabled(True)
 
     def get_json_data(self):
-        data_dict = {'label': self.label_str,
-                     'type': self.type_}
-
-        if self.direction == 'input':
-            has_widget = True if self.widget else False
-            data_dict['has widget'] = has_widget
-            if has_widget:
-                data_dict['widget type'] = self.widget_type
-                data_dict['widget name'] = self.widget_name
-                data_dict['widget data'] = None if self.type_ == 'exec' else self.widget.get_data()
-                data_dict['widget position'] = self.widget_pos
-
-        return data_dict
+        pass  # reimplemented
 
 
 class InputPortInstance(PortInstance):
     def __init__(self, parent_node_instance, type_='', label_str='',
                  configuration=None, widget_type='', widget_name=None, widget_pos=''):
-        super(InputPortInstance, self).__init__(parent_node_instance, 'input', type_, label_str, configuration,
+        super(InputPortInstance, self).__init__(parent_node_instance, 'input', type_, label_str,
                                                 widget_type, widget_name, widget_pos)
+
+        if configuration is not None and configuration['has widget'] and configuration['widget data'] is not None:
+            self.create_widget()
+            self.widget.set_data(configuration['widget data'])
+        else:
+            self.create_widget()
+
+        self.setup_ui()
 
     def setup_ui(self):
         self.setSpacing(5)
@@ -182,11 +147,38 @@ class InputPortInstance(PortInstance):
                 self.addItem(self.proxy, 1, 0, 1, 2)
             self.setAlignment(self.proxy, Qt.AlignCenter)
 
+    def create_widget(self, configuration=None):
+        if self.type_ and self.type_ == 'data' or configuration and configuration['type'] == 'data':
+            if self.widget_type == 'None':  # no input widget
+                return
+            elif self.widget_type == 'std line edit':
+                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance)
+            elif self.widget_type == 'std spin box':
+                self.widget = StdSpinBox_PortInstanceWidget(self, self.parent_node_instance)
+            elif self.widget_type == 'custom widget':
+                self.widget = self.get_input_widget_class(self.widget_name)(self, self.parent_node_instance)
+            self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
+            self.proxy.setWidget(self.widget)
+
+    def get_json_data(self):
+        data_dict = {'type': self.type_,
+                     'label': self.label_str}
+
+        has_widget = True if self.widget else False
+        data_dict['has widget'] = has_widget
+        if has_widget:
+            data_dict['widget type'] = self.widget_type
+            data_dict['widget name'] = self.widget_name
+            data_dict['widget data'] = None if self.type_ == 'exec' else self.widget.get_data()
+            data_dict['widget position'] = self.widget_pos
+
+        return data_dict
 
 class OutputPortInstance(PortInstance):
-    def __init__(self, parent_node_instance, type_='', label_str='',
-                 configuration=None):
-        super(OutputPortInstance, self).__init__(parent_node_instance, 'output', type_, label_str, configuration)
+    def __init__(self, parent_node_instance, type_='', label_str=''):
+        super(OutputPortInstance, self).__init__(parent_node_instance, 'output', type_, label_str)
+
+        self.setup_ui()
 
     def setup_ui(self):
         self.setSpacing(5)
@@ -195,6 +187,12 @@ class OutputPortInstance(PortInstance):
         self.addItem(self.gate, 0, 1)
 
         self.setAlignment(self.gate, Qt.AlignVCenter | Qt.AlignRight)
+
+    def get_json_data(self):
+        data_dict = {'type': self.type_,
+                     'label': self.label_str}
+
+        return data_dict
 
 # CONTENTS -------------------------------------------------------------------------------------------------------------
 

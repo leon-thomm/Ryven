@@ -39,7 +39,9 @@ class BreakWind_NodeInstance(NodeInstance):
 
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
-        pass # ...
+        w = self.input(0)
+        self.set_output_val(0, w['speed'])
+        self.set_output_val(1, w['deg'])
 
     def get_data(self):
         data = {}

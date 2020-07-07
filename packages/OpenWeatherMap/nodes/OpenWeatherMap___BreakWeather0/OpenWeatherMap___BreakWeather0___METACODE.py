@@ -56,11 +56,12 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.set_output_val(12, w.heat_index)
         self.set_output_val(13, w.utc_offset)
         self.set_output_val(14, w.uvi)
-        self.set_output_val(15, w.temp)
-        self.set_output_val(16, w.rain)
-        self.set_output_val(17, w.wind())
-        self.set_output_val(18, w.pressure)
-        self.set_output_val(19, w.snow)
+        self.set_output_val(15, w.pressure['press'])
+        self.set_output_val(16, w.pressure['sea_level'])
+        self.set_output_val(17, w.temp)
+        self.set_output_val(18, w.rain)
+        self.set_output_val(19, w.wind())
+        self.set_output_val(20, w.snow)
 
     def get_data(self):
         data = {}

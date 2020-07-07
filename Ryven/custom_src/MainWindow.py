@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
         ''')
 
 
-        self.set_flow_design('dark std')
+        self.set_flow_design('dark tron')
         self.resize(1500, 800)
 
 

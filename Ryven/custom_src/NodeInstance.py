@@ -263,10 +263,11 @@ class NodeInstance(QGraphicsItem):
 
 
     # PORTS
-    def create_new_input(self, type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1):
+    def create_new_input(self, type_, label, config=None, widget_type='', widget_name='', widget_pos='under', pos=-1):
         """Creates and adds a new input. Handy for subclasses."""
         Debugger.debug('create_new_input called with widget pos:', widget_pos)
         pi = InputPortInstance(self, type_, label,
+                               configuration=config,
                                widget_type=widget_type,
                                widget_name=widget_name,
                                widget_pos=widget_pos)
@@ -279,12 +280,6 @@ class NodeInstance(QGraphicsItem):
 
         if not self.initializing:
             self.update_shape()
-
-    def create_new_input_from_config(self, input_config):
-        """Called only at NI creation."""
-        pi = InputPortInstance(self, configuration=input_config)
-        self.inputs.append(pi)
-        self.add_input_to_layout(pi)
 
     def add_input_to_layout(self, i):
         if self.inputs_layout.count() > 0:
@@ -339,12 +334,6 @@ class NodeInstance(QGraphicsItem):
 
         if not self.initializing:
             self.update_shape()
-
-    def create_new_output_from_config(self, output_config=None):
-        """Called only at NI creation."""
-        pi = OutputPortInstance(self, configuration=output_config)
-        self.outputs.append(pi)
-        self.add_output_to_layout(pi)
 
     def add_output_to_layout(self, o):
         if self.outputs_layout.count() > 0:
@@ -710,11 +699,17 @@ class NodeInstance(QGraphicsItem):
                 out = self.parent_node.outputs[o]
                 self.create_new_output(out.type_, out.label)
         else:  # when loading saved NIs, the port instances might not be synchronised to the parent's ports anymore
-            for i in range(len(inputs_config)):
-                self.create_new_input_from_config(input_config=inputs_config[i])
+            for i in range(len(self.parent_node.inputs)):
+                inp = self.parent_node.inputs[i]
+                self.create_new_input(inp.type_, inp.label,
+                                      config=inputs_config[i] if inputs_config[i] else None,
+                                      widget_type=self.parent_node.inputs[i].widget_type,
+                                      widget_name=self.parent_node.inputs[i].widget_name,
+                                      widget_pos =self.parent_node.inputs[i].widget_pos)
 
-            for o in range(len(outputs_config)):
-                self.create_new_output_from_config(output_config=outputs_config[o])
+            for o in range(len(self.parent_node.outputs)):
+                out = self.parent_node.outputs[o]
+                self.create_new_output(out.type_, out.label)
 
     def get_input_widget_class(self, widget_name):
         """Returns a reference to the widget class of a given name for instantiation."""

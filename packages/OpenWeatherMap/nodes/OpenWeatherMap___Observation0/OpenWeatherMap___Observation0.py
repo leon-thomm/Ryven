@@ -39,16 +39,14 @@ class Observation_NodeInstance(NodeInstance):
 
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
-        if input_called==0:
-            mgr = self.input(1)
-            observation = None
-            if self.input(3) != '':
-                observation = mgr.weather_at_place(self.input(2)+','+self.input(3))
-            else:
-                observation = mgr.weather_at_place(self.input(2))
-            weather = observation.weather
-            self.set_output_val(1, weather)
-            self.exec_output(0)
+        mgr = self.input(0)
+        observation = None
+        if self.input(2) != '':
+            observation = mgr.weather_at_place(self.input(1)+','+self.input(2))
+        else:
+            observation = mgr.weather_at_place(self.input(1))
+        weather = observation.weather
+        self.set_output_val(0, weather)
 
     def get_data(self):
         data = {}

@@ -28,9 +28,9 @@ from custom_src.retain import m
 # ------------------------------------------------------------------------------
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
+class DailyForecast_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+        super(DailyForecast_NodeInstance, self).__init__(parent_node, flow, configuration)
 
         # self.special_actions['action name'] = self.actionmethod ...
         # ...
@@ -40,13 +40,14 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
         mgr = self.input(0)
-        observation = None
+        daily_forecast = None
         if self.input(2) != '':
-            observation = mgr.weather_at_place(self.input(1)+','+self.input(2))
+            daily_forecast = mgr.forecast_at_place(self.input(1)+','+self.input(2), 'daily')
         else:
-            observation = mgr.weather_at_place(self.input(1))
-        weather = observation.weather
-        self.set_output_val(0, weather)
+            daily_forecast = mgr.forecast_at_place(self.input(1), 'daily')
+        fcast = daily_forecast.forecast
+        self.set_output_val(0, fcast)
+        self.set_output_val(1, list(fcast))
 
     def get_data(self):
         data = {}

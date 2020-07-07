@@ -40,13 +40,14 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
         mgr = self.input(0)
-        observation = None
+        daily_forecast = None
         if self.input(2) != '':
-            observation = mgr.weather_at_place(self.input(1)+','+self.input(2))
+            daily_forecast = mgr.forecast_at_place(self.input(1)+','+self.input(2), '3h')
         else:
-            observation = mgr.weather_at_place(self.input(1))
-        weather = observation.weather
-        self.set_output_val(0, weather)
+            daily_forecast = mgr.forecast_at_place(self.input(1), '3h')
+        fcast = daily_forecast.forecast
+        self.set_output_val(0, fcast)
+        self.set_output_val(1, list(fcast))
 
     def get_data(self):
         data = {}

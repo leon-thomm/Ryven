@@ -14,9 +14,12 @@ class ChooseUnitsIW_PortInstanceWidget(QWidget):
         self.parent_node_instance = parent_node_instance
         # ------------------------------------------------
 
-        self.setStyleSheet('''
+        self.setStyleSheet(self.parent_node_instance.get_default_stylesheet()+'''
         QWidget {
             background: transparent;
+        }
+        QRadioButton {
+            color: '''+self.parent_node_instance.parent_node.color.lighter().name()+''';
         }
         ''')
 
@@ -25,18 +28,33 @@ class ChooseUnitsIW_PortInstanceWidget(QWidget):
         layout = QVBoxLayout()
         self.units_kelvin = QRadioButton('Kelvin')
         self.units_kelvin.setChecked(True)
+        self.units_kelvin.toggled.connect(m(self.set_units_kelvin))
         layout.addWidget(self.units_kelvin)
         self.units_celsius = QRadioButton('Celsius')
+        self.units_celsius.toggled.connect(m(self.set_units_celsius))
         layout.addWidget(self.units_celsius)
-        self.units_kelvin.toggled.connect(m(self.units_kelvin_toggled))
+        self.units_fahrenheit = QRadioButton('Fahrenheit')
+        self.units_fahrenheit.toggled.connect(m(self.set_units_fahrenheit))
+        layout.addWidget(self.units_fahrenheit)
         self.setLayout(layout)
+    
+        self.radio_buttons = [self.units_kelvin, self.units_celsius, self.units_fahrenheit]
 
 
-    def units_kelvin_toggled(self):
-        if self.units == 'kelvin':
-            self.units = 'celsius'
-        elif self.units == 'celsius':
+    def set_units_kelvin(self, checked):
+        if checked:
             self.units = 'kelvin'
+            self.parent_node_instance.update()
+
+    def set_units_celsius(self, checked):
+        if checked:
+            self.units = 'celsius'
+            self.parent_node_instance.update()
+
+    def set_units_fahrenheit(self, checked):
+        if checked:
+            self.units = 'fahrenheit'
+            self.parent_node_instance.update()
 
     def get_val(self):
         return self.units

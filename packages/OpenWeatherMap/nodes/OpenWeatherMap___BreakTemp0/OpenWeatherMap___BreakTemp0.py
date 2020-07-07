@@ -27,6 +27,8 @@ from custom_src.retain import m
 
 # ------------------------------------------------------------------------------
 
+from pyowm.utils.measurables import kelvin_to_celsius, kelvin_to_fahrenheit
+
 
 class BreakTemp_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
@@ -40,6 +42,17 @@ class BreakTemp_NodeInstance(NodeInstance):
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
         temp_dict = self.input(0)
+
+        if self.input(1) != 'kelvin':
+            for key in list(temp_dict.keys()):
+                item = temp_dict[key]
+                if item is not None:
+                    if self.input(1) == 'celsius':
+                        temp_dict[key] = kelvin_to_celsius(item)
+                    elif self.input(1) == 'fahrenheit':
+                        temp_dict[key] = kelvin_to_fahrenheit(item)
+            # temp_dict = kelvin_dict_to(temp_dict, self.input(1)) doesn't work with NoneType values -.- which happen to persist
+        
         temp = temp_dict['temp']
         temp_kf = temp_dict['temp_kf']
         temp_max = temp_dict['temp_max']
