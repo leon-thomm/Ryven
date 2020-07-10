@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 
 # USEFUL
@@ -12,14 +12,14 @@ from custom_src.retain import m
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
-# self.update_shape()
+
 
 
 class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        self.special_actions['add input'] = {'method': self.action_add_input}
+        self.special_actions['add input'] = {'method': M(self.action_add_input)}
         self.num_inputs = 2
 
         self.initialized()
@@ -42,7 +42,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def action_add_input(self):
         self.create_new_input('data', '', widget_type='std line edit', widget_pos='besides')
         self.num_inputs += 1
-        self.special_actions['remove input'] = {'method': self.action_remove_input}
+        self.special_actions['remove input'] = {'method': M(self.action_remove_input)}
 
     def action_remove_input(self):
         self.delete_input(self.inputs[-1])

@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 
 # USEFUL
@@ -11,14 +11,14 @@ from custom_src.retain import m
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
-# self.update_shape()
+
 
 
 class ForNDim_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(ForNDim_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        self.special_actions['add dimension'] = {'method': self.action_add_dimension}
+        self.special_actions['add dimension'] = {'method': M(self.action_add_dimension)}
 
         self.dimensions = 1
 
@@ -39,7 +39,6 @@ class ForNDim_NodeInstance(NodeInstance):
             self.outputs[counter_output_index].set_val(i)
             self.exec_output(exec_output_index)
             if current_dim < self.dimensions:
-                print('calling new iteration')
                 self.iterate(current_dim+1)
 
     def action_add_dimension(self):
@@ -49,17 +48,16 @@ class ForNDim_NodeInstance(NodeInstance):
         self.create_new_output('exec', 'i'+str(new_dim)+' loop')
         self.create_new_output('data', 'i'+str(new_dim))
         self.dimensions += 1
-        self.update_shape()
 
-        self.special_actions['remove dimension'] = {'method': self.action_remove_dimension}
+
+        self.special_actions['remove dimension'] = {'method': M(self.action_remove_dimension)}
 
     def action_remove_dimension(self):
-        self.delete_input(self.inputs[-1])
-        self.delete_input(self.inputs[-1])
-        self.delete_output(self.outputs[-1])
-        self.delete_output(self.outputs[-1])
+        self.delete_input(-1)
+        self.delete_input(-1)
+        self.delete_output(-1)
+        self.delete_output(-1)
         self.dimensions -= 1
-        self.update_shape()
 
         if self.dimensions == 1:
             del self.special_actions['remove dimension']

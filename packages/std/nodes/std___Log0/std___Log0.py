@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 
 # GENERAL
@@ -10,11 +10,11 @@ from custom_src.retain import m
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, append=True, pos=-1)
+# self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
-# self.update_shape()                  <- recomputes the whole shape and content positions
+
 
 # LOGGING
 # mylog = self.new_log('Example Log')
@@ -27,24 +27,51 @@ class Log_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(Log_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        # self.special_actions['action name'] = self.actionmethod ...
+        self.special_actions['add target option'] = {'method': M(self.action_add_target_option)}
         self.log = self.new_log('Log Node Log')
+        self.default_target = 'personal'
+        self.showing_target_option = False
+
+        self.target = self.default_target
 
         self.initialized()
 
 
+    def action_add_target_option(self):
+        del self.special_actions['add target option']
+        self.add_target_option()
+
+    def add_target_option(self):
+        self.special_actions['remove target option'] = {'method': M(self.action_remove_target_option)}
+        self.create_new_input('data', 'target', widget_type='custom widget', widget_name='LogTargetComboBox', widget_pos='besides')
+        self.showing_target_option = True
+
+    def action_remove_target_option(self):
+        del self.special_actions['remove target option']
+        self.remove_target_option()
+
+    def remove_target_option(self):
+        self.special_actions['add target option'] = {'method': M(self.action_add_target_option)}
+        self.delete_input(-1)
+        self.target = self.default_target
+        self.showing_target_option = False
+
     def update_event(self, input_called=-1):
         if input_called == 0:
-            self.log.log(self.input(1))
+            if self.target == 'personal':
+                self.log.log(self.input(1))
+            else:
+                self.log_message(self.input(1), target=self.target)
             self.exec_output(0)
 
     def get_data(self):
-        data = {}
+        data = {'target': self.target,
+                'showing target': self.showing_target_option}
         return data
 
     def set_data(self, data):
-        pass
-
+        self.target = data['target']
+        self.showing_target_option =  data['showing target']
 
 
     # optional - important for threading - stop everything here

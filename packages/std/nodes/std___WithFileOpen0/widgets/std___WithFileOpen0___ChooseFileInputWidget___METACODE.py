@@ -1,4 +1,4 @@
-from custom_src.retain import m
+from custom_src.retain import M
 
 from PySide2.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFileDialog
 # from PySide2.QtCore import ...
@@ -20,9 +20,9 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QWidget):
         self.setLayout(QVBoxLayout())
         self.path_line_edit = QLineEdit()
         self.path_line_edit.setPlaceholderText('file path...')
-        self.path_line_edit.textChanged.connect(m(self.set_file_path))
+        self.path_line_edit.textChanged.connect(M(self.set_file_path))
         self.select_file_button = QPushButton('select')
-        self.select_file_button.clicked.connect(m(self.select_file_button_clicked))
+        self.select_file_button.clicked.connect(M(self.select_file_button_clicked))
         self.layout().addWidget(self.path_line_edit)
         self.layout().addWidget(self.select_file_button)
 

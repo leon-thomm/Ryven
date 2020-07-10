@@ -15,10 +15,10 @@ class Logger(QWidget):
 
         self.script = script
         self.custom_log_holders = {}  # sender (NodeInstance) : Log
-        self.error_log = ErrorLog(self.script)
-        main_layout.addWidget(self.error_log)
         self.global_log = GlobalLog(self.script)
         main_layout.addWidget(self.global_log)
+        self.error_log = ErrorLog(self.script)
+        main_layout.addWidget(self.error_log)
 
         self.setLayout(main_layout)
 

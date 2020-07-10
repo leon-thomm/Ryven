@@ -16,6 +16,8 @@ from PySide2.QtCore import Qt, QRectF
 from PySide2.QtWidgets import QGraphicsItem
 import pickle
 
+from custom_src.retain import retain
+
 
 class Test(QGraphicsItem):
     def __init__(self):
@@ -108,16 +110,16 @@ class MyView(QGraphicsView):
 #         menu.exec_(event.globalPos())
 
 
-class A:
-    def __init__(self):
-        pass
-
-    def __call__(self, *args, **kwargs):
-        pass
-
-class B:
-    def __init__(self):
-        self.a = A()
+# class A:
+#     def __init__(self):
+#         pass
+#
+#     def __call__(self, *args, **kwargs):
+#         pass
+#
+# class B:
+#     def __init__(self):
+#         self.a = A()
 
 
 class MainWindow(QMainWindow):
@@ -153,40 +155,52 @@ def replace_in_folder(path):
             replace_in_folder(path+'/'+d)
 
 
-class Cat:
-    def __init__(self, name):
-        self.name = name
-
-    def meow(self):
-        print('meow!')
-
-    def say_name(self):
-        print(self.name)
-        self.meow()
-
-
-#     app = QApplication(sys.argv)
-#
-#     # mw = MainWindow()
-#     # mw.show()
-#
-#     smartie = Cat('Smartie')
-#     smartie.say_name()
-#
-#     class_code = '''
 # class Cat:
 #     def __init__(self, name):
 #         self.name = name
 #
 #     def meow(self):
-#         print('yooooo!')
+#         print('meow!')
 #
 #     def say_name(self):
 #         print(self.name)
 #         self.meow()
-#         '''
+
+
+class A:
+    def foo(self):
+        print('A')
+
+class B:
+    def foo(self):
+        print('B')
+
+class C:
+    def __init__(self, a):
+        self.func = Retain(a.foo)
+
+    def do_something(self):
+        self.func()
+
+class Retain:
+    def __init__(self, func):
+        self.func_name = func.__name__
+        self.func = retain(func)
+
+    def __call__(self, *args, **kwargs):
+        self.func(*args, **kwargs)
+
 
 if __name__ == '__main__':
+
+    a = A()
+    c = C(a)
+
+    method_name = 'foo'  # it has to be dynamic
+    new_method = getattr(B, method_name)
+    setattr(a, method_name, types.MethodType(new_method, a))
+
+    c.do_something()  # still prints A, I want it to print B now
 
     # mymodule = types.ModuleType('temporary')
     # exec(class_code, mymodule.__dict__)
@@ -203,12 +217,12 @@ if __name__ == '__main__':
     # smartie.say_name()
     #
     # print(inspect.getsource(smartie))
-
+    #
     # cat = new_cat_class('Smartie')
     # cat.say_name()
-
-
-
+    #
+    #
+    #
     # t = MyWidget()
     #
     # pickle_string = pickle.dumps(t)
@@ -216,8 +230,8 @@ if __name__ == '__main__':
     # b = pickle.loads(pickle_string)
     #
     # print(b.a)
-
-
+    #
+    #
     # attributes = {}
     # b = B()
     # for e, v in b.__dict__.items():
@@ -241,10 +255,10 @@ if __name__ == '__main__':
     # print(QFontDatabase.families())
 
 
-    owm = OWM('0d8e9bf72996017261a908e7bf71e5b4')
-
-    mgr = owm.weather_manager()
-    observation = mgr.weather_at_place('Tromsø')
-    w = observation.weather
-    print(w.__dict__)
-    print(w.ref_time)
+    # owm = OWM('0d8e9bf72996017261a908e7bf71e5b4')
+    #
+    # mgr = owm.weather_manager()
+    # observation = mgr.weather_at_place('Tromsø')
+    # w = observation.weather
+    # print(w.__dict__)
+    # print(w.ref_time)

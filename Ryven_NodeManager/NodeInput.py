@@ -1,4 +1,5 @@
-from PySide2.QtWidgets import QWidget, QPlainTextEdit, QRadioButton, QGridLayout, QPushButton, QComboBox, QLineEdit, QMessageBox, QGroupBox, QVBoxLayout
+from PySide2.QtWidgets import QWidget, QPlainTextEdit, QRadioButton, QGridLayout, QPushButton, QComboBox, QLineEdit, \
+    QGroupBox, QVBoxLayout
 
 
 class NodeInput(QWidget):
@@ -156,8 +157,4 @@ class NodeInput(QWidget):
         self.label_text_edit.setPlainText(new_label)
 
     def delete_clicked(self):
-        ret = QMessageBox.warning(self, 'Deleting input', 'Do you really want to delete this input widget? All changes '
-                                                 'will be lost including any edited code.',
-                                  QMessageBox.Yes, QMessageBox.No)
-        if ret == QMessageBox.Yes:
-            self.content_widget.delete_input(self)
+        self.content_widget.delete_input(self)

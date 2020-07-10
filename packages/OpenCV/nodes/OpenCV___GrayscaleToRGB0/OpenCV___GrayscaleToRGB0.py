@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 import cv2
 
@@ -15,7 +15,7 @@ class GrayscaleToRGB_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(GrayscaleToRGB_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        # self.special_actions['action name'] = self.actionmethod ...
+        # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unRgba = None
         self.img_Rgba = None
 

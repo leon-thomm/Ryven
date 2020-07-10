@@ -31,12 +31,12 @@ class EditSourceCode_Dialog(QDialog):
             <br>
             There is just one issue that you may want to consider:
             <br>
-            If you edit a method that gets called somewhere and you cannot see a change, it may be due to a
+            If you edit a method that gets called somewhere and you cannot see any effect, it may be due to a
             problem in the class's implementation that you are editing. Because whenever a reference of a <i>method</i>
             is used (like
             <i>self.print_something</i>, e.g. for connecting Qt signals to
             slots or in the <i>special_actions</i> dict),
-            instead of directly using the object, the m() method should be used (<i>m(self.print_something)</i>)
+            instead of directly using the object, it should be passed using M() (<i>M(self.print_something)</i>)
             which ensures that a referenced and edited method gets called correctly.
             Otherwise the method reference would always link to the original method, not the edited one.
             <br><br>

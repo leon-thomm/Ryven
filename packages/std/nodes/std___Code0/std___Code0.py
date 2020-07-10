@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 
 # GENERAL
@@ -14,7 +14,7 @@ from custom_src.retain import m
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
-# self.update_shape()                  <- recomputes the whole shape and content positions
+
 
 # LOGGING
 # mylog = self.new_log('Example Log')
@@ -27,8 +27,8 @@ class Code_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(Code_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        self.special_actions['add exec input'] = {'method': self.action_add_exec_input}
-        self.special_actions['add data input'] = {'method': self.action_add_data_input}
+        self.special_actions['add exec input'] = {'method': M(self.action_add_exec_input)}
+        self.special_actions['add data input'] = {'method': M(self.action_add_data_input)}
 
         self.num_scripts = 1
         self.num_data_inputs = 0
@@ -43,7 +43,7 @@ class Code_NodeInstance(NodeInstance):
         print('node before:', self.main_widget.height())
         self.main_widget.add_new_script()  # shape gets updated in main_widget
         print('node after:', self.main_widget.height())
-        self.special_actions['remove exec input'] = {'method': self.action_remove_exec_input}
+        self.special_actions['remove exec input'] = {'method': M(self.action_remove_exec_input)}
 
     def action_remove_exec_input(self):
         self.delete_input(self.num_scripts-1)
@@ -56,15 +56,13 @@ class Code_NodeInstance(NodeInstance):
     def action_add_data_input(self):
         self.num_data_inputs += 1
         self.create_new_input('data', '')
-        self.special_actions['remove data input'] = {'method': self.action_remove_data_input}
-        self.update_shape()
+        self.special_actions['remove data input'] = {'method': M(self.action_remove_data_input)}
 
     def action_remove_data_input(self):
         self.delete_input(-1)
         self.num_data_inputs -= 1
         if self.num_data_inputs == 0:
             del self.special_actions['remove data input']
-        self.update_shape()
 
     def update_event(self, input_called=-1):
         if input_called > -1 < self.num_scripts:

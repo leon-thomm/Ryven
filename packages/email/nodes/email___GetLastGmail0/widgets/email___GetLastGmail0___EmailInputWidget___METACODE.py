@@ -24,7 +24,7 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QLineEdit):
 
         self.setFont(QFont('Corbel', 10))
 
-        self.textChanged.connect(self.email_text_changed)
+        self.textChanged.connect(M(self.email_text_changed))
 
 
     def email_text_changed(self):
