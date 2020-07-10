@@ -118,14 +118,14 @@ That's it. Everything beyond that is the use of special features. There are a fe
 
 A very handy feature. The special actions attribute is a dictionary and holds information about accessible right-click operations which then will automatically be created when right clicking on a node. A possible entry would be
 
-            self.special_actions['print something'] = {'method': m(self.action_print_something)}
+            self.special_actions['print something'] = {'method': M(self.action_print_something)}
 
 In this case, a method _action_print_something_ would need to exist which gets triggered when the user clicks on _print something_.
 
         def action_print_something(self):
             print('Hello World!')
 
-You can define as many actions for your node as you want and you can totally edit this dict at any time. Just make sure to instead of directly using the method's object, use the m() method (always do that when referencing methods). It ensures that this method can be live edited in Ryven and that the references get updated.
+You can define as many actions for your node as you want and you can totally edit this dict at any time. Just make sure to instead of directly using the method's object, use M(\<method\>) (always do that when referencing methods). It ensures that this method can be live edited in Ryven and that the references get updated.
 
 ## API
 
