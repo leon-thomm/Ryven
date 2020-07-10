@@ -13,6 +13,7 @@ from custom_src.GlobalAttributes import Design, PerformanceMode
 from custom_src.Node import Node
 from custom_src.PortInstance import InputPortInstance, OutputPortInstance
 from custom_src.FlowProxyWidget import FlowProxyWidget
+from custom_src.retain import M
 
 
 class NodeInstance(QGraphicsItem):
@@ -41,6 +42,7 @@ class NodeInstance(QGraphicsItem):
         self.initializing = True
 
         self.temp_state_data = None
+        self.init_config = config
 
 
         # UI
@@ -56,6 +58,7 @@ class NodeInstance(QGraphicsItem):
             self.main_widget_proxy = FlowProxyWidget(self.flow)
             self.main_widget_proxy.setWidget(self.main_widget)
 
+        # LOADING UI
         self.body_layout: QGraphicsLinearLayout = None
         self.inputs_layout: QGraphicsLinearLayout = None
         self.outputs_layout: QGraphicsLinearLayout = None
@@ -65,28 +68,38 @@ class NodeInstance(QGraphicsItem):
 
 
 
-        # LOADING CONFIG
-        if config:
-            # self.setPos(config['position x'], config['position y'])
-            self.setup_ports(config['inputs'], config['outputs'])
-            if self.main_widget:
-                try:
-                    self.main_widget.set_data(config['main widget data'])
-                except KeyError:
-                    pass
-
-            self.special_actions = self.set_special_actions_data(config['special actions'])
-            self.temp_state_data = config['state data']
-        else:
-            self.setup_ports()
-
-
         # TOOLTIP
         if self.parent_node.description != '':
             self.setToolTip('<html><head/><body><p>'+self.parent_node.description+'</p></body></html>')
         self.setCursor(Qt.SizeAllCursor)
 
+
+    def initialized(self):
+        """Gets called at the very end of all manual initialization processes/at the very end of the constructor.
+        All ports and the main widget get finally created here."""
+
+        # LOADING CONFIG
+        if self.init_config is not None:
+            # self.setPos(config['position x'], config['position y'])
+            self.setup_ports(self.init_config['inputs'], self.init_config['outputs'])
+            if self.main_widget:
+                try:
+                    self.main_widget.set_data(self.init_config['main widget data'])
+                except KeyError:
+                    pass
+
+            self.special_actions = self.set_special_actions_data(self.init_config['special actions'])
+            self.temp_state_data = self.init_config['state data']
+        else:
+            self.setup_ports()
+
+        # LOADING DATA
+        if self.temp_state_data is not None:
+            self.set_data(self.temp_state_data)
+
+
         self.initializing = False
+        self.update()
 
     def setup_ui(self):
         """Creates the empty layouts for the NI's widget."""
@@ -133,15 +146,27 @@ class NodeInstance(QGraphicsItem):
         return layout
 
     def rebuild_ui(self):
+        """Due to some really strange and annoying behaviour of these QGraphicsWidgets, they don't want to shrink
+        automatically when content is removed, they just stay large, even with a Minimum SizePolicy. I didn't find a
+        way around that yet, so for now I have to recreate the whole layout and make sure the widget uses the smallest
+        size possible."""
+
+        # if I don't manually remove the ports from the layouts,
+        # they get deleted when setting the widget's layout to None below
         for inp in self.inputs:
             self.inputs_layout.removeAt(0)
         for out in self.outputs:
             self.outputs_layout.removeAt(0)
 
-        self.layout = self.setup_ui()
+        self.layout = self.setup_ui()  # recreate layout
+
+        # forcefully making the widget shrink
+        self.widget.setLayout(None)
+        self.widget.resize(self.widget.minimumSize())
+
         self.widget.setLayout(self.layout)
 
-        # add inputs
+        # add inputs to new layout
         for inp in self.inputs:
             self.add_input_to_layout(inp)
         for out in self.outputs:
@@ -245,9 +270,10 @@ class NodeInstance(QGraphicsItem):
             self.main_widget_proxy.setMaximumSize(self.main_widget.size())
             self.widget.adjustSize()
 
-        self.layout.activate()
+        self.body_layout.invalidate()
         self.layout.invalidate()
-        # both very essential; repositions everything in case content has changed (inputs/outputs/widget)
+        self.layout.activate()
+        # very essential; repositions everything in case content has changed (inputs/outputs/widget)
 
         self.width = self.boundingRect().width()
         self.height = self.boundingRect().height()
@@ -263,14 +289,16 @@ class NodeInstance(QGraphicsItem):
 
 
     # PORTS
-    def create_new_input(self, type_, label, config=None, widget_type='', widget_name='', widget_pos='under', pos=-1):
+    def create_new_input(self, type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1, config=None):
         """Creates and adds a new input. Handy for subclasses."""
-        Debugger.debug('create_new_input called with widget pos:', widget_pos)
+        Debugger.debug('create_new_input called')
         pi = InputPortInstance(self, type_, label,
-                               configuration=config,
+                               config_data=config,
                                widget_type=widget_type,
                                widget_name=widget_name,
                                widget_pos=widget_pos)
+        if pos < -1:
+            pos += len(self.inputs)
         if pos == -1:
             self.inputs.append(pi)
             self.add_input_to_layout(pi)
@@ -288,9 +316,9 @@ class NodeInstance(QGraphicsItem):
         self.inputs_layout.setAlignment(i, Qt.AlignLeft)
 
     def insert_input_into_layout(self, index, i):
-        self.inputs_layout.insertItem(index, i)
+        self.inputs_layout.insertItem(index*2, i)  # *2 because of the stretches
         self.inputs_layout.setAlignment(i, Qt.AlignLeft)
-        self.inputs_layout.addStretch()
+        self.inputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
 
     def delete_input(self, i):
         """Disconnects and removes input. Handy for subclasses."""
@@ -325,12 +353,14 @@ class NodeInstance(QGraphicsItem):
         """Creates and adds a new output. Handy for subclasses."""
 
         pi = OutputPortInstance(self, type_, label)
+        if pos < -1:
+            pos += len(self.outputs)
         if pos == -1:
             self.outputs.append(pi)
             self.add_output_to_layout(pi)
         else:
             self.outputs.insert(pos, pi)
-            self.insert_output_into_layot(pos, pi)
+            self.insert_output_into_layout(pos, pi)
 
         if not self.initializing:
             self.update_shape()
@@ -342,9 +372,9 @@ class NodeInstance(QGraphicsItem):
         self.outputs_layout.setAlignment(o, Qt.AlignRight)
 
     def insert_output_into_layout(self, index, o):
-        self.outputs_layout.insertItem(index, o)
+        self.outputs_layout.insertItem(index*2, o)  # *2 because of the stretches
         self.outputs_layout.setAlignment(o, Qt.AlignRight)
-        self.outputs_layout.addStretch()
+        self.outputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
 
     def delete_output(self, o):
         """Disconnects and removes output. Handy for subclasses."""
@@ -579,7 +609,8 @@ class NodeInstance(QGraphicsItem):
 
         menu.addSeparator()
 
-        for a in self.get_actions(self.special_actions, menu):  # menu needed for 'parent'
+        actions = self.get_actions(self.special_actions, menu)
+        for a in actions:  # menu needed for 'parent'
             if type(a) == NodeInstanceAction:
                 menu.addAction(a)
             elif type(a) == QMenu:
@@ -647,7 +678,8 @@ class NodeInstance(QGraphicsItem):
                 except KeyError:
                     pass
                 action = NodeInstanceAction(k, menu, data)
-                action.custom_triggered.connect(method)
+                action.triggered_with_data.connect(method)  # see NodeInstanceAction for explanation
+                action.triggered_without_data.connect(method)  # see NodeInstanceAction for explanation
                 actions.append(action)
             except KeyError:
                 action_menu = QMenu(k, menu)
@@ -665,7 +697,9 @@ class NodeInstance(QGraphicsItem):
         cleaned_actions = actions.copy()
         for key in cleaned_actions:
             v = cleaned_actions[key]
-            if callable(v):
+            if type(v) == M:  # callable(v):
+                cleaned_actions[key] = v.method_name
+            elif callable(v):
                 cleaned_actions[key] = v.__name__
             elif type(v) == dict:
                 cleaned_actions[key] = self.get_special_actions_data(v)
@@ -677,10 +711,10 @@ class NodeInstance(QGraphicsItem):
         actions = {}
         for key in actions_data:
             if type(actions_data[key]) != dict:
-                try:  # maybe the developer changed some special actions...
-                    actions[key] = getattr(self, actions_data[key])
-                except AttributeError:
-                    pass
+                if key == 'method':
+                    actions['method'] = M(getattr(self, actions_data[key]))
+                elif key == 'data':
+                    actions['data'] = actions_data[key]
             else:
                 actions[key] = self.set_special_actions_data(actions_data[key])
         return actions
@@ -699,17 +733,16 @@ class NodeInstance(QGraphicsItem):
                 out = self.parent_node.outputs[o]
                 self.create_new_output(out.type_, out.label)
         else:  # when loading saved NIs, the port instances might not be synchronised to the parent's ports anymore
-            for i in range(len(self.parent_node.inputs)):
-                inp = self.parent_node.inputs[i]
-                self.create_new_input(inp.type_, inp.label,
-                                      config=inputs_config[i] if inputs_config[i] else None,
-                                      widget_type=self.parent_node.inputs[i].widget_type,
-                                      widget_name=self.parent_node.inputs[i].widget_name,
-                                      widget_pos =self.parent_node.inputs[i].widget_pos)
+            for inp in inputs_config:
+                has_widget = inp['has widget']
+                self.create_new_input(inp['type'], inp['label'],
+                                      widget_type=inp['widget type'] if has_widget else None,
+                                      widget_name=inp['widget name'] if has_widget else None,
+                                      widget_pos =inp['widget position'] if has_widget else None,
+                                      config=inp['widget data'] if has_widget else None)
 
-            for o in range(len(self.parent_node.outputs)):
-                out = self.parent_node.outputs[o]
-                self.create_new_output(out.type_, out.label)
+            for out in outputs_config:
+                self.create_new_output(out['type'], out['label'])
 
     def get_input_widget_class(self, widget_name):
         """Returns a reference to the widget class of a given name for instantiation."""
@@ -750,12 +783,6 @@ class NodeInstance(QGraphicsItem):
         self.outputs.remove(o)
 
     # GENERAL
-    def initialized(self):
-        """Gets called at the very end of all initialization processes/at the very end of the constructor."""
-        if self.temp_state_data is not None:
-            self.set_data(self.temp_state_data)
-        self.update()
-
     def is_active(self):
         for i in self.inputs:
             if i.type_ == 'exec':
@@ -821,9 +848,15 @@ class NodeInstance(QGraphicsItem):
 
 class NodeInstanceAction(QAction):
     """A custom implementation of QAction that additionally stores transmitted 'data' which can be intuitively used
-    in subclasses f.ex. to determine the exact source of the action triggered. For more info see GitHub docs."""
+    in subclasses f.ex. to determine the exact source of the action triggered. For more info see GitHub docs.
+    It shall not be a must to use the data parameter though. For that reason, there are two different signals,
+    one that triggers with transmitted data, one without.
+    So, if a special action does not have 'data', the connected method does not need to have a data parameter.
+    Both signals get connected to the target method but only if data isn't None, the signal with the data parameter
+    is used."""
 
-    custom_triggered = Signal(object)
+    triggered_with_data = Signal(object)
+    triggered_without_data = Signal()
 
     def __init__(self, text, menu, data=None):
         super(NodeInstanceAction, self).__init__(text=text, parent=menu)
@@ -832,7 +865,10 @@ class NodeInstanceAction(QAction):
         self.triggered.connect(self.triggered_)  # yeah, I think that's ugly but I didn't find a nicer way; it works
 
     def triggered_(self):
-        self.custom_triggered.emit(self.data)
+        if self.data is not None:
+            self.triggered_with_data.emit(self.data)
+        else:
+            self.triggered_without_data.emit()
 
 
 
@@ -849,7 +885,7 @@ class TitleLabel(QGraphicsWidget):
                                  QFont('K2D', 20, QFont.Bold, True)
         self.fm = QFontMetricsF(self.font)
 
-        self.width = self.fm.width(get_longest_line(self.title_str))
+        self.width = self.fm.width(get_longest_line(self.title_str)+'___')
         self.height = self.fm.height() * 0.7 * (self.title_str.count('\n') + 1)
 
         self.color = QColor(30, 43, 48)
@@ -880,7 +916,10 @@ class TitleLabel(QGraphicsWidget):
         text_rect = self.boundingRect()
         text_rect.setTop(text_rect.top()-7)
 
-        painter.drawText(text_rect, Qt.AlignTop, self.title_str)
+        if self.design_style() == 'extended':
+            painter.drawText(text_rect, Qt.AlignTop, self.title_str)
+        elif self.design_style() == 'minimalistic':
+            painter.drawText(text_rect, Qt.AlignTop | Qt.AlignHCenter, self.title_str)
 
     def design_style(self):
         return self.parent_node_instance.parent_node.design_style

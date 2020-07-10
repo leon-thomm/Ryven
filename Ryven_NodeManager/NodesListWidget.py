@@ -55,3 +55,8 @@ class NodesListWidget(QWidget):
         self.widgets.remove(w)
         w.setParent(None)
         self.main_window.delete_node(index)
+
+    def clear_list(self):
+        for w in self.widgets:
+            w.setParent(None)
+        self.widgets.clear()

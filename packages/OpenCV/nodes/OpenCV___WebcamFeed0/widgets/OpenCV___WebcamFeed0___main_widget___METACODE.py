@@ -35,7 +35,7 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
         self.capture.set(cv2.CAP_PROP_FRAME_WIDTH, self.video_size.width())
         self.capture.set(cv2.CAP_PROP_FRAME_HEIGHT, self.video_size.height())
 
-        self.timer.timeout.connect(self.display_video_stream)
+        self.timer.timeout.connect(M(self.display_video_stream))
         self.timer.start(30)
 
     def display_video_stream(self):

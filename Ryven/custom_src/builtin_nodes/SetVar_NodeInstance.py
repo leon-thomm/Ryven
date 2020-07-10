@@ -13,7 +13,6 @@ class SetVar_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(SetVar_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        self.special_actions['execute'] = {'method': self.action_execute}
         self.var_name = ''
 
         self.initialized()

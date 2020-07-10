@@ -42,6 +42,8 @@ class MainWindow(QMainWindow):
         # shortcuts
         save_shortcut = QShortcut(QKeySequence.Save, self)
         save_shortcut.activated.connect(self.on_save_project_triggered)
+        import_nodes_shortcut = QShortcut(QKeySequence('Ctrl+i'), self)
+        import_nodes_shortcut.activated.connect(self.on_import_nodes_triggered)
 
         # clear temp folder
         if not os.path.exists('temp'):

@@ -605,6 +605,10 @@ class Flow(QGraphicsView):
 
         self.all_node_instances.append(ni)
 
+    def add_node_instances(self, node_instances):
+        for ni in node_instances:
+            self.add_node_instance(ni)
+
     def remove_node_instance(self, ni):
         ni.about_to_remove_from_scene()  # to stop running threads
 
@@ -702,6 +706,10 @@ class Flow(QGraphicsView):
             drawing_obj.setPos(pos)
         self.drawings.append(drawing_obj)
 
+    def add_drawings(self, drawings):
+        for d in drawings:
+            self.add_drawing(d)
+
     def remove_drawing(self, drawing):
         self.scene().removeItem(drawing)
         self.drawings.remove(drawing)
@@ -791,6 +799,11 @@ class Flow(QGraphicsView):
             if i.ItemIsSelectable:
                 i.setSelected(True)
         self.viewport().repaint()
+
+    def select_components(self, comps):
+        self.scene().clearSelection()
+        for c in comps:
+            c.setSelected(True)
 
     def copy(self):  # ctrl+c
         data = {'nodes': self.get_node_instances_json_data(self.selected_node_instances()),

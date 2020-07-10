@@ -75,7 +75,7 @@ class PortInstance(QGraphicsGridLayout):
                        self.parent_node_instance.inputs.index(
                                 self) if self.direction == 'input' else self.parent_node_instance.outputs.index(self),
                             'of', self.parent_node_instance.parent_node.title)
-        Debugger.debug('my value is', self.val)
+        Debugger.debug('val is', self.val)
 
         if self.direction == 'input':
             if len(self.connected_port_instances) == 0:
@@ -122,13 +122,13 @@ class PortInstance(QGraphicsGridLayout):
 
 class InputPortInstance(PortInstance):
     def __init__(self, parent_node_instance, type_='', label_str='',
-                 configuration=None, widget_type='', widget_name=None, widget_pos=''):
+                 config_data=None, widget_type='', widget_name=None, widget_pos=''):
         super(InputPortInstance, self).__init__(parent_node_instance, 'input', type_, label_str,
                                                 widget_type, widget_name, widget_pos)
 
-        if configuration is not None and configuration['has widget'] and configuration['widget data'] is not None:
+        if config_data is not None:
             self.create_widget()
-            self.widget.set_data(configuration['widget data'])
+            self.widget.set_data(config_data)
         else:
             self.create_widget()
 

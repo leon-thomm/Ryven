@@ -105,6 +105,7 @@ class RemoveComponents_Command(QUndoCommand):
         for i in self.items:
             self.flow.add_component(i)
         self.connect_gates()
+        self.flow.select_components(self.items)
 
     def redo(self):
         self.connect_gates()
@@ -138,21 +139,29 @@ class Paste_Command(QUndoCommand):
         self.flow = flow
         self.data = data
         self.offset_for_middle_pos = offset_for_middle_pos
-        self.pasted_items = []
+        self.pasted_items = None
+        self.pasted_node_instances = None
+        self.pasted_drawing_objects = None
 
     def undo(self):
         for i in self.pasted_items:
             self.flow.remove_component(i)
 
-        self.pasted_items.clear()
-
     def redo(self):
-        new_node_instances = self.flow.place_nodes_from_config(self.data['nodes'],
-                                                               offset_pos=self.offset_for_middle_pos.toPoint())
-
-        self.flow.connect_nodes_from_config(new_node_instances, self.data['connections'])
-
-        new_drawing_objects = self.flow.place_drawings_from_config(self.data['drawings'],
+        if self.pasted_items is None:
+            new_node_instances = self.flow.place_nodes_from_config(self.data['nodes'],
                                                                    offset_pos=self.offset_for_middle_pos.toPoint())
 
-        self.pasted_items = new_node_instances + new_drawing_objects
+            self.flow.connect_nodes_from_config(new_node_instances, self.data['connections'])
+
+            new_drawing_objects = self.flow.place_drawings_from_config(self.data['drawings'],
+                                                                       offset_pos=self.offset_for_middle_pos.toPoint())
+
+            self.pasted_items = new_node_instances + new_drawing_objects
+            self.pasted_node_instances = new_node_instances
+            self.pasted_drawing_objects = new_drawing_objects
+        else:
+            self.flow.add_node_instances(self.pasted_node_instances)
+            self.flow.add_drawings(self.pasted_drawing_objects)
+
+        self.flow.select_components(self.pasted_items)

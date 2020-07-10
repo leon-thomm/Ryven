@@ -1,4 +1,4 @@
-from custom_src.retain import m
+from custom_src.retain import M
 
 # from PySide2.QtWidgets import ...
 from PySide2.QtCore import Qt
@@ -23,11 +23,11 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QSlider):
         self.setMinimum(0)
         self.setMaximum(100000)
         self.setSingleStep(1)
-        self.valueChanged.connect(self.slider_val_changed)
+        self.valueChanged.connect(M(self.slider_val_changed))
 
 
-    def slider_val_changed(self):
-        self.parent_node_instance.update_timer_interval((self.value()/self.maximum()))
+    def slider_val_changed(self, v):
+        self.parent_node_instance.update_timer_interval((v/self.maximum()))
 
     def get_val(self):
         return (self.value()/self.maximum())

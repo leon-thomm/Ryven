@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 
 # GENERAL
@@ -10,11 +10,11 @@ from custom_src.retain import m
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, append=True, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, append=True, pos=-1)
+# self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
-# self.update_shape()                  <- recomputes the whole shape and content positions
+
 
 # LOGGING
 # mylog = self.new_log('Example Log')
@@ -27,7 +27,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        # self.special_actions['action name'] = self.actionmethod ...
+        # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
 
         self.initialized()

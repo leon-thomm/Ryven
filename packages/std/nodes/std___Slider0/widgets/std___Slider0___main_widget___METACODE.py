@@ -1,4 +1,4 @@
-from custom_src.retain import m
+from custom_src.retain import M
 
 # from PySide2.QtWidgets import ...
 from PySide2.QtCore import Qt
@@ -18,11 +18,11 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QSlider):
             background: transparent;
         ''')
 
-        self.valueChanged.connect(self.val_changed)
+        self.valueChanged.connect(M(self.val_changed))
         self.setMinimum(0)
         self.setMaximum(100)
 
-    def val_changed(self):
+    def val_changed(self, v):
         self.parent_node_instance.update()
 
     def get_val(self):

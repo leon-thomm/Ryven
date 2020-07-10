@@ -1,6 +1,6 @@
 # QT
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFileDialog
+from PySide2.QtGui import QIcon, QKeySequence
+from PySide2.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFileDialog, QMessageBox, QShortcut
 from PySide2.QtCore import Qt
 # parent UI
 from NodesListWidget import NodesListWidget
@@ -25,14 +25,22 @@ class MainWindow(QMainWindow):
         self.nodes_list_widget = NodesListWidget(self)
         self.ui.nodes_scrollArea.setWidget(self.nodes_list_widget)
 
+        # shortcuts
+        save_shortcut = QShortcut(QKeySequence.Save, self)
+        save_shortcut.activated.connect(self.save_triggered)
+        import_nodes_shortcut = QShortcut(QKeySequence('Ctrl+i'), self)
+        import_nodes_shortcut.activated.connect(self.import_nodes_triggered)
+
+        # UI
         self.ui.splitter.setSizes([200, 850])
         self.setWindowTitle('Ryven NodeManager')
         self.setWindowIcon(QIcon('resources/pics/program_icon2.png'))
         self.load_stylesheet('dark')
 
         self.ui.add_new_node_pushButton.clicked.connect(self.add_new_node_pushButton_clicked)
-        self.ui.import_nodes_pushButton.clicked.connect(self.import_button_clicked)
-        self.ui.save_pushButton.clicked.connect(self.save_button_clicked)
+        self.ui.import_nodes_pushButton.clicked.connect(self.import_nodes_triggered)
+        self.ui.clear_nodes_pushButton.clicked.connect(self.clear_button_clicked)
+        self.ui.save_pushButton.clicked.connect(self.save_triggered)
 
 
     def add_new_node_pushButton_clicked(self):
@@ -73,6 +81,20 @@ class MainWindow(QMainWindow):
     def add_node_content_widget(self, w):
         self.ui.node_content_placeholder_widget.layout().addWidget(w)
 
+    def clear_button_clicked(self):
+        msg_box = QMessageBox(QMessageBox.Warning, 'Clearing nodes',
+                              'You are about to remove all present nodes. Unsaved changes will be lost. '
+                              'Do you want to proceed?', QMessageBox.Cancel | QMessageBox.Yes, self)
+        msg_box.setDefaultButton(QMessageBox.Cancel)
+        ret = msg_box.exec_()
+        if ret != QMessageBox.Yes:
+            return
+        self.clear_nodes()
+
+    def clear_nodes(self):
+        self.remove_node_content_widget()
+        self.nodes_list_widget.clear_list()
+        self.nodes.clear()
 
     def delete_node(self, index: int):
         del self.nodes[index]
@@ -154,7 +176,7 @@ class MainWindow(QMainWindow):
         print(self.nodes)
 
 
-    def import_button_clicked(self):
+    def import_nodes_triggered(self):
         file_path = QFileDialog.getOpenFileName(self, 'select the json file you want to import', '../packages')[0]
         f_content = ''
         try:
@@ -167,7 +189,7 @@ class MainWindow(QMainWindow):
         self.import_nodes(f_content, os.path.dirname(file_path) + '/nodes')
 
 
-    def save_button_clicked(self):
+    def save_triggered(self):
         # the dialog does the whole saving process
         save_dialog = SaveDialog(self, self.nodes)
         save_dialog.exec_()

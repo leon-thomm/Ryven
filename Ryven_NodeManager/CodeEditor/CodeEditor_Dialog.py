@@ -1,4 +1,5 @@
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QMessageBox
+from PySide2.QtGui import QKeySequence
+from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QMessageBox, QShortcut
 
 from CodeEditor.CodeEditor_TextEdit import CodeEditor_TextEdit
 
@@ -12,6 +13,11 @@ class CodeEditor_Dialog(QDialog):
 
         self.text_edit = CodeEditor_TextEdit()
         self.text_edit.set_code(self.code_initial)
+
+
+        # shortcuts
+        save_shortcut = QShortcut(QKeySequence.Save, self)
+        save_shortcut.activated.connect(self.close)
 
 
         # UI

@@ -1,4 +1,4 @@
-from custom_src.retain import m
+from custom_src.retain import M
 
 # from PySide2.QtWidgets import ...
 # from PySide2.QtCore import ...
@@ -28,6 +28,7 @@ class Button_NodeInstance_MainWidget(QPushButton):
             background-color: #bcbbf2;
         }
         ''')
+        self.clicked.connect(M(self.parent_node_instance.button_clicked))
 
     def get_data(self):
         return {}

@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 import cv2
 
@@ -15,10 +15,9 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        # self.special_actions['action name'] = self.actionmethod ...
+        # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.image_filepath = ''
         self.img = None
-        self.inputs[0].widget.path_chosen.connect(self.path_chosen)
 
         self.initialized()
 

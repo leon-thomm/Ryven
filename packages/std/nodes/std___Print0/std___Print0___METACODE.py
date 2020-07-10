@@ -1,6 +1,6 @@
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-from custom_src.retain import m
+from custom_src.retain import M
 
 
 # USEFUL
@@ -13,9 +13,9 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        self.special_actions['print something 1'] = {'method': m(self.print_something),
+        self.special_actions['print something 1'] = {'method': M(self.print_something),
                                                      'data': 'hello!!'}
-        self.special_actions['print something 2'] = {'method': self.print_something,
+        self.special_actions['print something 2'] = {'method': M(self.print_something),
                                                      'data': 'HELLOO!?!?!?'}
 
         self.initialized()

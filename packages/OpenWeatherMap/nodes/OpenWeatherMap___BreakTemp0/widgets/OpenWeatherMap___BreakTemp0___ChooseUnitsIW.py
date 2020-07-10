@@ -1,4 +1,4 @@
-from custom_src.retain import m
+from custom_src.retain import M
 
 from PySide2.QtWidgets import QWidget, QRadioButton, QVBoxLayout
 # from PySide2.QtCore import ...
@@ -28,13 +28,13 @@ class ChooseUnitsIW_PortInstanceWidget(QWidget):
         layout = QVBoxLayout()
         self.units_kelvin = QRadioButton('Kelvin')
         self.units_kelvin.setChecked(True)
-        self.units_kelvin.toggled.connect(m(self.set_units_kelvin))
+        self.units_kelvin.toggled.connect(M(self.set_units_kelvin))
         layout.addWidget(self.units_kelvin)
         self.units_celsius = QRadioButton('Celsius')
-        self.units_celsius.toggled.connect(m(self.set_units_celsius))
+        self.units_celsius.toggled.connect(M(self.set_units_celsius))
         layout.addWidget(self.units_celsius)
         self.units_fahrenheit = QRadioButton('Fahrenheit')
-        self.units_fahrenheit.toggled.connect(m(self.set_units_fahrenheit))
+        self.units_fahrenheit.toggled.connect(M(self.set_units_fahrenheit))
         layout.addWidget(self.units_fahrenheit)
         self.setLayout(layout)
     
