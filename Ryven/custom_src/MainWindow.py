@@ -109,42 +109,61 @@ class MainWindow(QMainWindow):
         self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
 
         # algorithm
-        self.set_sync_mode_use_existent_data = QAction('Use Existent Data', self)
-        self.set_sync_mode_use_existent_data.setCheckable(True)
+        self.action_set_sync_mode_use_existent_data = QAction('Use Existent Data', self)
+        self.action_set_sync_mode_use_existent_data.setCheckable(True)
 
-        self.set_sync_mode_gen_data = QAction('Generate Data On Request', self)
-        self.set_sync_mode_gen_data.setCheckable(True)
+        self.action_set_sync_mode_gen_data = QAction('Generate Data On Request', self)
+        self.action_set_sync_mode_gen_data.setCheckable(True)
 
         algorithm_sync_mode_AG = QActionGroup(self)
-        algorithm_sync_mode_AG.addAction(self.set_sync_mode_use_existent_data)
-        algorithm_sync_mode_AG.addAction(self.set_sync_mode_gen_data)
-        self.set_sync_mode_use_existent_data.setChecked(True)
+        algorithm_sync_mode_AG.addAction(self.action_set_sync_mode_use_existent_data)
+        algorithm_sync_mode_AG.addAction(self.action_set_sync_mode_gen_data)
+        self.action_set_sync_mode_use_existent_data.setChecked(True)
         algorithm_sync_mode_AG.triggered.connect(self.on_algorithm_sync_mode_changed)
 
         algorithm_menu = QMenu('Algorithm', self)
-        algorithm_menu.addAction(self.set_sync_mode_use_existent_data)
-        algorithm_menu.addAction(self.set_sync_mode_gen_data)
+        algorithm_menu.addAction(self.action_set_sync_mode_use_existent_data)
+        algorithm_menu.addAction(self.action_set_sync_mode_gen_data)
 
         self.ui.menuBar.addMenu(algorithm_menu)
 
         # performance mode
-        self.set_performance_mode_fast = QAction('Fast', self)
-        self.set_performance_mode_fast.setCheckable(True)
+        self.action_set_performance_mode_fast = QAction('Fast', self)
+        self.action_set_performance_mode_fast.setCheckable(True)
 
-        self.set_performance_mode_pretty = QAction('Pretty', self)
-        self.set_performance_mode_pretty.setCheckable(True)
+        self.action_set_performance_mode_pretty = QAction('Pretty', self)
+        self.action_set_performance_mode_pretty.setCheckable(True)
 
         performance_mode_AG = QActionGroup(self)
-        performance_mode_AG.addAction(self.set_performance_mode_fast)
-        performance_mode_AG.addAction(self.set_performance_mode_pretty)
-        self.set_performance_mode_fast.setChecked(True)
+        performance_mode_AG.addAction(self.action_set_performance_mode_fast)
+        performance_mode_AG.addAction(self.action_set_performance_mode_pretty)
+        self.action_set_performance_mode_fast.setChecked(True)
         performance_mode_AG.triggered.connect(self.on_performance_mode_changed)
 
         performance_menu = QMenu('Performance Mode', self)
-        performance_menu.addAction(self.set_performance_mode_fast)
-        performance_menu.addAction(self.set_performance_mode_pretty)
+        performance_menu.addAction(self.action_set_performance_mode_fast)
+        performance_menu.addAction(self.action_set_performance_mode_pretty)
 
         self.ui.menuView.addMenu(performance_menu)
+
+        # animations
+        self.action_set_animation_active = QAction('Enabled', self)
+        self.action_set_animation_active.setCheckable(True)
+
+        self.action_set_animations_inactive = QAction('Disabled', self)
+        self.action_set_animations_inactive.setCheckable(True)
+
+        animation_enabled_AG = QActionGroup(self)
+        animation_enabled_AG.addAction(self.action_set_animation_active)
+        animation_enabled_AG.addAction(self.action_set_animations_inactive)
+        self.action_set_animation_active.setChecked(True)
+        animation_enabled_AG.triggered.connect(self.on_animation_enabling_changed)
+
+        animations_menu = QMenu('Animations', self)
+        animations_menu.addAction(self.action_set_animation_active)
+        animations_menu.addAction(self.action_set_animations_inactive)
+
+        self.ui.menuView.addMenu(animations_menu)
 
     def load_stylesheet(self, ss):
         ss_content = ''
@@ -157,16 +176,32 @@ class MainWindow(QMainWindow):
             self.setStyleSheet(ss_content)
 
     def on_algorithm_sync_mode_changed(self, action):
-        if action == self.set_sync_mode_use_existent_data:
+        if action == self.action_set_sync_mode_use_existent_data:
             Algorithm.gen_data_on_request = False
         else:
             Algorithm.gen_data_on_request = True
 
     def on_performance_mode_changed(self, action):
-        if action == self.set_performance_mode_fast:
+        if action == self.action_set_performance_mode_fast:
+            self.set_performance_mode('fast')
+        else:
+            self.set_performance_mode('pretty')
+
+    def set_performance_mode(self, mode):
+        if mode == 'fast':
             PerformanceMode.mode = 'fast'
+            Design.node_instance_shadows_shown = False
         else:
             PerformanceMode.mode = 'pretty'
+            Design.node_instance_shadows_shown = True
+        for script in self.scripts:
+            script.flow.design_style_changed()
+
+    def on_animation_enabling_changed(self, action):
+        if action == self.action_set_animation_active:
+            Design.animations_enabled = True
+        else:
+            Design.animations_enabled = False
 
     def on_dark_std_design_triggered(self):
         self.set_flow_design('dark std')

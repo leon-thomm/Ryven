@@ -1,6 +1,8 @@
 class Design:
     flow_style = 'dark std'
     ryven_stylesheet = None
+    node_instance_shadows_shown = False
+    animations_enabled = True
 
 
 class Algorithm:

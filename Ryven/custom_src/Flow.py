@@ -135,6 +135,9 @@ class Flow(QGraphicsView):
     def design_style_changed(self):
         self.viewport().update()
 
+        for ni in self.all_node_instances:
+            ni.update_design()
+
     def selection_changed(self):
         selected_items = self.scene().selectedItems()
         selected_node_instances = list(filter(find_NI_in_object, selected_items))

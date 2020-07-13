@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle, QGraphicsLinearLayout, QGraphicsWidget, \
-    QGraphicsLayoutItem
-from PySide2.QtCore import Qt, QRectF, QPointF, Signal, QSizeF
+    QGraphicsLayoutItem, QGraphicsDropShadowEffect
+from PySide2.QtCore import Qt, QRectF, QPointF, Signal, QSizeF, Property, QPropertyAnimation
 from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
     QPainter
 
@@ -31,6 +31,7 @@ class NodeInstance(QGraphicsItem):
         self.movement_pos_from = None
         self.inputs = []
         self.outputs = []
+        self.color = self.parent_node.color
 
         self.default_actions = {'remove': {'method': self.action_remove,
                                            'data': 123},
@@ -46,6 +47,7 @@ class NodeInstance(QGraphicsItem):
 
 
         # UI
+        self.shadow_effect = None
         self.width = -1
         self.height = -1
 
@@ -74,6 +76,11 @@ class NodeInstance(QGraphicsItem):
         self.setCursor(Qt.SizeAllCursor)
 
 
+        # ANIMATION
+        self.title_activation_animation = QPropertyAnimation(self.title_label, b"p_color")
+        self.title_activation_animation.setDuration(700)
+
+
     def initialized(self):
         """Gets called at the very end of all manual initialization processes/at the very end of the constructor.
         All ports and the main widget get finally created here."""
@@ -99,6 +106,7 @@ class NodeInstance(QGraphicsItem):
 
 
         self.initializing = False
+        self.update_design()  # load current design
         self.update()
 
     def setup_ui(self):
@@ -181,6 +189,13 @@ class NodeInstance(QGraphicsItem):
     #                         /____/
 
     def update(self, input_called=-1, output_called=-1):
+        """This is the method used to activate a NodeInstance. Note that this signature hides the update() method from
+        QGraphicsItem used to graphically update a QGraphicsItem which can be accessed via
+        QGraphicsItem.update(self)."""
+
+        if Design.animations_enabled:
+            self.title_activation_animation.start()
+
         Debugger.debug('update in', self.parent_node.title, 'on input', input_called)
         try:
             self.update_event(input_called)
@@ -429,6 +444,25 @@ class NodeInstance(QGraphicsItem):
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
 
+    def update_design(self):
+        if Design.node_instance_shadows_shown:
+            self.shadow_effect = QGraphicsDropShadowEffect()
+            self.shadow_effect.setXOffset(12)
+            self.shadow_effect.setYOffset(12)
+            self.shadow_effect.setBlurRadius(20)
+            self.shadow_effect.setColor(QColor('#2b2b2b'))
+            self.setGraphicsEffect(self.shadow_effect)
+        else:
+            self.setGraphicsEffect(None)
+
+        self.title_label.update_design()
+        self.title_activation_animation.stop()
+        self.title_activation_animation.setKeyValueAt(0, self.title_label.color)
+        self.title_activation_animation.setKeyValueAt(0.3, self.color.lighter().lighter())
+        self.title_activation_animation.setKeyValueAt(1, self.title_label.color)
+
+        QGraphicsItem.update(self)
+
     def boundingRect(self):
         # remember: (0, 0) shall be the NI's center!
         rect = QRectF()
@@ -466,13 +500,13 @@ class NodeInstance(QGraphicsItem):
 
             elif Design.flow_style == 'dark tron':
                 if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
-                    self.draw_tron_minimalistic(painter, background_color=self.parent_node.color.darker())
+                    self.draw_tron_minimalistic(painter, background_color=self.color.darker())
                 else:
                     self.draw_tron_minimalistic(painter)
 
 
     def draw_dark_extended_background(self, painter):
-        c = self.parent_node.color
+        c = self.color
 
         # main rect
         body_gradient = QRadialGradient(self.boundingRect().topLeft(), pythagoras(self.height, self.width))
@@ -494,14 +528,14 @@ class NodeInstance(QGraphicsItem):
         # main rect
         c = QColor('#212224')
         painter.setBrush(c)
-        pen = QPen(self.parent_node.color)
+        pen = QPen(self.color)
         pen.setWidth(2)
         painter.setPen(pen)
         body_path = self.get_extended_body_path_TRON_DESIGN(10)
         painter.drawPath(body_path)
         # painter.drawRoundedRect(self.boundingRect(), 12, 12)
 
-        c = self.parent_node.color
+        c = self.color
         header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
         header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
         header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
@@ -556,7 +590,7 @@ class NodeInstance(QGraphicsItem):
                      -self.width / 2, 0)
         path.closeSubpath()
 
-        c = self.parent_node.color
+        c = self.color
         body_gradient = QLinearGradient(self.boundingRect().bottomLeft(),
                                         self.boundingRect().topRight())
         body_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 150))
@@ -582,7 +616,7 @@ class NodeInstance(QGraphicsItem):
         path.closeSubpath()
 
         painter.setBrush(background_color)
-        pen = QPen(self.parent_node.color)
+        pen = QPen(self.color)
         pen.setWidth(2)
         painter.setPen(pen)
 
@@ -843,9 +877,6 @@ class NodeInstance(QGraphicsItem):
 
 
 
-
-
-
 class NodeInstanceAction(QAction):
     """A custom implementation of QAction that additionally stores transmitted 'data' which can be intuitively used
     in subclasses f.ex. to determine the exact source of the action triggered. For more info see GitHub docs.
@@ -892,7 +923,6 @@ class TitleLabel(QGraphicsWidget):
         self.pen_width = 1.5
         self.hovering = False  # whether the mouse is hovering over the parent NI (!)
 
-
     def boundingRect(self):
         return QRectF(QPointF(0, 0), self.geometry().size())
 
@@ -905,7 +935,6 @@ class TitleLabel(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        self.set_design()
         
         pen = QPen(self.color)
         pen.setWidth(self.pen_width)
@@ -928,29 +957,40 @@ class TitleLabel(QGraphicsWidget):
         self.hovering = hovering
         self.update()
 
-    def set_design(self):
+    def update_design(self):
         if self.design_style() == 'extended':
             if Design.flow_style == 'dark std':
                 if self.hovering:
-                    self.color = self.parent_node_instance.parent_node.color.lighter()
+                    self.color = self.parent_node_instance.color.lighter()
                     self.pen_width = 2
                 else:
                     self.color = QColor(30, 43, 48)
                     self.pen_width = 1.5
             elif Design.flow_style == 'dark tron':
                 if self.hovering:
-                    self.color = self.parent_node_instance.parent_node.color.lighter()
+                    self.color = self.parent_node_instance.color.lighter()
                 else:
-                    self.color = self.parent_node_instance.parent_node.color
+                    self.color = self.parent_node_instance.color
                 self.pen_width = 2
         elif self.design_style() == 'minimalistic':
             if Design.flow_style == 'dark std':
                 if self.hovering:
-                    self.color = self.parent_node_instance.parent_node.color.lighter()
+                    self.color = self.parent_node_instance.color.lighter()
                     self.pen_width = 1.5
                 else:
                     self.color = QColor(30, 43, 48)
                     self.pen_width = 1.5
             elif Design.flow_style == 'dark tron':
-                self.color = self.parent_node_instance.parent_node.color
+                self.color = self.parent_node_instance.color
                 self.pen_width = 2
+
+
+    # ANIMATION STUFF
+    def get_color(self):
+        return self.color
+
+    def set_color(self, val):
+        self.color = val
+        QGraphicsItem.update(self)
+
+    p_color = Property(QColor, get_color, set_color)
