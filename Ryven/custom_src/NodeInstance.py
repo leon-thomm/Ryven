@@ -1,13 +1,14 @@
-from PySide2.QtWidgets import QGraphicsItem, QMenu, QAction, QStyle, QGraphicsLinearLayout, QGraphicsWidget, \
-    QGraphicsLayoutItem
-from PySide2.QtCore import Qt, QRectF, QPointF, Signal, QSizeF
-from PySide2.QtGui import QColor, QBrush, QPen, QPainterPath, QFont, QFontMetricsF, QLinearGradient, QRadialGradient, \
-    QPainter
+from PySide2.QtWidgets import QGraphicsItem, QMenu, QGraphicsLinearLayout, QGraphicsWidget, \
+    QGraphicsDropShadowEffect
+from PySide2.QtCore import Qt, QRectF, QPointF
+from PySide2.QtGui import QColor
 
+from custom_src.NodeInstanceAction import NodeInstanceAction
+from custom_src.NodeInstanceAnimator import NodeInstanceAnimator
+from custom_src.NodeInstancePainter import NodeInstancePainter
+from custom_src.NodeInstance_TitleLabel import TitleLabel
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.global_tools.math import pythagoras
 from custom_src.global_tools.MovementEnum import MovementEnum
-from custom_src.global_tools.strings import get_longest_line
 from custom_src.GlobalAttributes import Design, PerformanceMode
 
 from custom_src.Node import Node
@@ -31,6 +32,8 @@ class NodeInstance(QGraphicsItem):
         self.movement_pos_from = None
         self.inputs = []
         self.outputs = []
+        self.color = self.parent_node.color  # manipulated by self.animator
+        self.node_instance_painter = NodeInstancePainter(self)
 
         self.default_actions = {'remove': {'method': self.action_remove,
                                            'data': 123},
@@ -46,10 +49,13 @@ class NodeInstance(QGraphicsItem):
 
 
         # UI
+        self.shadow_effect = None
         self.width = -1
         self.height = -1
 
         self.title_label = TitleLabel(self)
+
+        self.animator = NodeInstanceAnimator(self)  # needs self.title_label
 
         self.main_widget = None
         self.main_widget_proxy: FlowProxyWidget = None
@@ -72,6 +78,7 @@ class NodeInstance(QGraphicsItem):
         if self.parent_node.description != '':
             self.setToolTip('<html><head/><body><p>'+self.parent_node.description+'</p></body></html>')
         self.setCursor(Qt.SizeAllCursor)
+
 
 
     def initialized(self):
@@ -99,6 +106,7 @@ class NodeInstance(QGraphicsItem):
 
 
         self.initializing = False
+        self.update_design()  # load current design
         self.update()
 
     def setup_ui(self):
@@ -181,6 +189,13 @@ class NodeInstance(QGraphicsItem):
     #                         /____/
 
     def update(self, input_called=-1, output_called=-1):
+        """This is the method used to activate a NodeInstance. Note that this signature hides the update() method from
+        QGraphicsItem used to graphically update a QGraphicsItem which can be accessed via
+        QGraphicsItem.update(self)."""
+
+        if Design.animations_enabled:
+            self.animator.start()
+
         Debugger.debug('update in', self.parent_node.title, 'on input', input_called)
         try:
             self.update_event(input_called)
@@ -429,6 +444,21 @@ class NodeInstance(QGraphicsItem):
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
 
+    def update_design(self):
+        if Design.node_instance_shadows_shown:
+            self.shadow_effect = QGraphicsDropShadowEffect()
+            self.shadow_effect.setXOffset(12)
+            self.shadow_effect.setYOffset(12)
+            self.shadow_effect.setBlurRadius(20)
+            self.shadow_effect.setColor(QColor('#2b2b2b'))
+            self.setGraphicsEffect(self.shadow_effect)
+        else:
+            self.setGraphicsEffect(None)
+
+        self.animator.reload_values()
+
+        QGraphicsItem.update(self)
+
     def boundingRect(self):
         # remember: (0, 0) shall be the NI's center!
         rect = QRectF()
@@ -442,161 +472,9 @@ class NodeInstance(QGraphicsItem):
 
     #   PAINTING
     def paint(self, painter, option, widget=None):
-
-        # unfortunately, the boundingRect() is only not 0 when paint() is called the first time
-        if self.width == -1 or self.height == -1:
-            self.update_shape()
-
-        painter.setRenderHint(QPainter.Antialiasing)
-        brush = QBrush(QColor(100, 100, 100, 150))  # QBrush(QColor('#3B9CD9'))
-        painter.setBrush(brush)
-
-        if self.parent_node.design_style == 'extended':
-
-            if Design.flow_style == 'dark std':
-                self.draw_dark_extended_background(painter)
-
-            elif Design.flow_style == 'dark tron':
-                self.draw_tron_extended_background(painter)
-
-        elif self.parent_node.design_style == 'minimalistic':
-
-            if Design.flow_style == 'dark std':
-                self.draw_dark_minimalistic(painter)
-
-            elif Design.flow_style == 'dark tron':
-                if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
-                    self.draw_tron_minimalistic(painter, background_color=self.parent_node.color.darker())
-                else:
-                    self.draw_tron_minimalistic(painter)
-
-
-    def draw_dark_extended_background(self, painter):
-        c = self.parent_node.color
-
-        # main rect
-        body_gradient = QRadialGradient(self.boundingRect().topLeft(), pythagoras(self.height, self.width))
-        body_gradient.setColorAt(0, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 200))
-        body_gradient.setColorAt(1, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 0))
-
-        painter.setBrush(body_gradient)
-        painter.setPen(Qt.NoPen)
-        painter.drawRoundedRect(self.boundingRect(), 12, 12)
-
-        header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
-        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
-        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
-        painter.setBrush(header_gradient)
-        painter.setPen(Qt.NoPen)
-        painter.drawRoundedRect(self.get_header_rect(), 12, 12)
-
-    def draw_tron_extended_background(self, painter):
-        # main rect
-        c = QColor('#212224')
-        painter.setBrush(c)
-        pen = QPen(self.parent_node.color)
-        pen.setWidth(2)
-        painter.setPen(pen)
-        body_path = self.get_extended_body_path_TRON_DESIGN(10)
-        painter.drawPath(body_path)
-        # painter.drawRoundedRect(self.boundingRect(), 12, 12)
-
-        c = self.parent_node.color
-        header_gradient = QLinearGradient(self.get_header_rect().topRight(), self.get_header_rect().bottomLeft())
-        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
-        header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
-        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
-        painter.setBrush(header_gradient)
-        header_path = self.get_extended_header_path_TRON_DESIGN(10)
-        painter.drawPath(header_path)
-
-    def get_extended_body_path_TRON_DESIGN(self, corner_size):
-        path = QPainterPath()
-        path.moveTo(+self.width/2, -self.height/2+corner_size)
-        path.lineTo(+self.width/2-corner_size, -self.height/2)
-        path.lineTo(-self.width/2+corner_size, -self.height/2)
-        path.lineTo(-self.width/2, -self.height/2+corner_size)
-        path.lineTo(-self.width/2, +self.height/2-corner_size)
-        path.lineTo(-self.width/2+corner_size, +self.height/2)
-        path.lineTo(+self.width/2-corner_size, +self.height/2)
-        path.lineTo(+self.width/2, +self.height/2-corner_size)
-        path.closeSubpath()
-        return path
-
-    def get_extended_header_path_TRON_DESIGN(self, corner_size):
-        header_height = 35 * (self.parent_node.title.count('\n')+1)
-        header_bottom = -self.height/2+header_height
-        path = QPainterPath()
-        path.moveTo(+self.width/2, -self.height/2+corner_size)
-        path.lineTo(+self.width/2-corner_size, -self.height/2)
-        path.lineTo(-self.width/2+corner_size, -self.height/2)
-        path.lineTo(-self.width/2, -self.height/2+corner_size)
-        path.lineTo(-self.width/2, header_bottom-corner_size)
-        path.lineTo(-self.width/2+corner_size, header_bottom)
-        path.lineTo(+self.width/2-corner_size, header_bottom)
-        path.lineTo(+self.width/2, header_bottom-corner_size)
-        path.closeSubpath()
-        return path
-
-    def draw_dark_minimalistic(self, painter):
-        path = QPainterPath()
-        path.moveTo(-self.width / 2, 0)
-
-        path.cubicTo(-self.width / 2, -self.height / 2,
-                     -self.width / 2, -self.height / 2,
-                     0, -self.height / 2)
-        path.cubicTo(+self.width / 2, -self.height / 2,
-                     +self.width / 2, -self.height / 2,
-                     +self.width / 2, 0)
-        path.cubicTo(+self.width / 2, +self.height / 2,
-                     +self.width / 2, +self.height / 2,
-                     0, +self.height / 2)
-        path.cubicTo(-self.width / 2, +self.height / 2,
-                     -self.width / 2, +self.height / 2,
-                     -self.width / 2, 0)
-        path.closeSubpath()
-
-        c = self.parent_node.color
-        body_gradient = QLinearGradient(self.boundingRect().bottomLeft(),
-                                        self.boundingRect().topRight())
-        body_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 150))
-        body_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 80))
-
-        painter.setBrush(body_gradient)
-        painter.setPen(QPen(QColor(30, 43, 48)))
-
-        painter.drawPath(path)
-
-    def draw_tron_minimalistic(self, painter, background_color=QColor('#36383B')):
-        path = QPainterPath()
-        path.moveTo(-self.width / 2, 0)
-
-        corner_size = 10
-        path.lineTo(-self.width / 2 + corner_size / 2, -self.height / 2 + corner_size / 2)
-        path.lineTo(0, -self.height / 2)
-        path.lineTo(+self.width / 2 - corner_size / 2, -self.height / 2 + corner_size / 2)
-        path.lineTo(+self.width / 2, 0)
-        path.lineTo(+self.width / 2 - corner_size / 2, +self.height / 2 - corner_size / 2)
-        path.lineTo(0, +self.height / 2)
-        path.lineTo(-self.width / 2 + corner_size / 2, +self.height / 2 - corner_size / 2)
-        path.closeSubpath()
-
-        painter.setBrush(background_color)
-        pen = QPen(self.parent_node.color)
-        pen.setWidth(2)
-        painter.setPen(pen)
-
-        painter.drawPath(path)
-
-    def get_header_rect(self):
-        header_height = 1.4 * self.title_label.boundingRect().height()  # 35 * (self.parent_node.title.count('\n')+1)
-
-        header_rect = QRectF()
-        header_rect.setTopLeft(QPointF(-self.width/2, -self.height/2))
-        header_rect.setWidth(self.width)
-        header_rect.setHeight(header_height)
-        return header_rect
-
+        """All painting is done by NodeInstancePainter"""
+        self.node_instance_painter.paint(painter, option, self.color, self.width, self.height, self.boundingRect(),
+                                         widget)
 
     def get_context_menu(self):
         menu = QMenu(self.flow)
@@ -617,7 +495,6 @@ class NodeInstance(QGraphicsItem):
                 menu.addMenu(a)
 
         return menu
-
 
     def itemChange(self, change, value):
         """This method ensures that all connections, selection borders etc. that get drawn in the Flow are constantly
@@ -839,118 +716,3 @@ class NodeInstance(QGraphicsItem):
         node_instance_dict['outputs'] = node_instance_outputs_list
 
         return node_instance_dict
-
-
-
-
-
-
-
-class NodeInstanceAction(QAction):
-    """A custom implementation of QAction that additionally stores transmitted 'data' which can be intuitively used
-    in subclasses f.ex. to determine the exact source of the action triggered. For more info see GitHub docs.
-    It shall not be a must to use the data parameter though. For that reason, there are two different signals,
-    one that triggers with transmitted data, one without.
-    So, if a special action does not have 'data', the connected method does not need to have a data parameter.
-    Both signals get connected to the target method but only if data isn't None, the signal with the data parameter
-    is used."""
-
-    triggered_with_data = Signal(object)
-    triggered_without_data = Signal()
-
-    def __init__(self, text, menu, data=None):
-        super(NodeInstanceAction, self).__init__(text=text, parent=menu)
-
-        self.data = data
-        self.triggered.connect(self.triggered_)  # yeah, I think that's ugly but I didn't find a nicer way; it works
-
-    def triggered_(self):
-        if self.data is not None:
-            self.triggered_with_data.emit(self.data)
-        else:
-            self.triggered_without_data.emit()
-
-
-
-
-class TitleLabel(QGraphicsWidget):
-    def __init__(self, parent_node_instance):
-        super(TitleLabel, self).__init__(parent_node_instance)
-
-        self.setGraphicsItem(self)
-
-        self.parent_node_instance: NodeInstance = parent_node_instance
-        self.title_str = self.parent_node_instance.parent_node.title
-        self.font = QFont('Poppins', 15) if self.parent_node_instance.parent_node.design_style == 'extended' else \
-                                 QFont('K2D', 20, QFont.Bold, True)
-        self.fm = QFontMetricsF(self.font)
-
-        self.width = self.fm.width(get_longest_line(self.title_str)+'___')
-        self.height = self.fm.height() * 0.7 * (self.title_str.count('\n') + 1)
-
-        self.color = QColor(30, 43, 48)
-        self.pen_width = 1.5
-        self.hovering = False  # whether the mouse is hovering over the parent NI (!)
-
-
-    def boundingRect(self):
-        return QRectF(QPointF(0, 0), self.geometry().size())
-
-    def setGeometry(self, rect):
-        self.prepareGeometryChange()
-        QGraphicsLayoutItem.setGeometry(self, rect)
-        self.setPos(rect.topLeft())
-
-    def sizeHint(self, which, constraint=...):
-        return QSizeF(self.width, self.height)
-
-    def paint(self, painter, option, widget=None):
-        self.set_design()
-        
-        pen = QPen(self.color)
-        pen.setWidth(self.pen_width)
-
-        painter.setPen(pen)
-        painter.setFont(self.font)
-
-        text_rect = self.boundingRect()
-        text_rect.setTop(text_rect.top()-7)
-
-        if self.design_style() == 'extended':
-            painter.drawText(text_rect, Qt.AlignTop, self.title_str)
-        elif self.design_style() == 'minimalistic':
-            painter.drawText(text_rect, Qt.AlignTop | Qt.AlignHCenter, self.title_str)
-
-    def design_style(self):
-        return self.parent_node_instance.parent_node.design_style
-
-    def set_NI_hover_state(self, hovering: bool):
-        self.hovering = hovering
-        self.update()
-
-    def set_design(self):
-        if self.design_style() == 'extended':
-            if Design.flow_style == 'dark std':
-                if self.hovering:
-                    self.color = self.parent_node_instance.parent_node.color.lighter()
-                    self.pen_width = 2
-                else:
-                    self.color = QColor(30, 43, 48)
-                    self.pen_width = 1.5
-            elif Design.flow_style == 'dark tron':
-                if self.hovering:
-                    self.color = self.parent_node_instance.parent_node.color.lighter()
-                else:
-                    self.color = self.parent_node_instance.parent_node.color
-                self.pen_width = 2
-        elif self.design_style() == 'minimalistic':
-            if Design.flow_style == 'dark std':
-                if self.hovering:
-                    self.color = self.parent_node_instance.parent_node.color.lighter()
-                    self.pen_width = 1.5
-                else:
-                    self.color = QColor(30, 43, 48)
-                    self.pen_width = 1.5
-            elif Design.flow_style == 'dark tron':
-                self.color = self.parent_node_instance.parent_node.color
-                self.pen_width = 2
