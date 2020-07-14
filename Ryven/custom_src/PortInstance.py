@@ -1,7 +1,7 @@
 from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle, QGraphicsGridLayout, QGraphicsWidget, \
     QGraphicsLayoutItem, QSizePolicy
 from PySide2.QtCore import Qt, QRectF, QPointF, QSizeF
-from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont
+from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont, QPainterPath
 
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.GlobalAttributes import Design, Algorithm
@@ -207,9 +207,11 @@ class PortInstanceGate(QGraphicsWidget):
 
         self.parent_port_instance = parent_port_instance
         self.parent_node_instance = parent_node_instance
-        self.width = 15
-        self.height = 15
         self.padding = 2
+        self.painting_width = 15
+        self.painting_height = 15
+        self.width = self.painting_width+2*self.padding
+        self.height = self.painting_height+2*self.padding
         self.port_local_pos = None
 
     def boundingRect(self):
@@ -221,7 +223,7 @@ class PortInstanceGate(QGraphicsWidget):
         self.setPos(rect.topLeft())
 
     def sizeHint(self, which, constraint=...):
-        return QSizeF(self.width+2*self.padding, self.height+2*self.padding)
+        return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
         if Design.flow_style == 'dark std':
@@ -232,6 +234,8 @@ class PortInstanceGate(QGraphicsWidget):
             brush = QBrush(QColor(color))
             painter.setBrush(brush)
             painter.setPen(Qt.NoPen)
+
+            painter.drawEllipse(QRectF(self.padding, self.padding, self.painting_width, self.painting_height))
 
         elif Design.flow_style == 'dark tron':
             color = ''
@@ -252,7 +256,44 @@ class PortInstanceGate(QGraphicsWidget):
                 painter.setBrush(brush)
             else:
                 painter.setBrush(Qt.NoBrush)
-        painter.drawEllipse(QRectF(self.padding, self.padding, self.width, self.height))
+
+            painter.drawEllipse(QRectF(self.padding, self.padding, self.painting_width, self.painting_height))
+
+        elif Design.flow_style == 'ghostly':
+            color = ''
+            if self.parent_port_instance.type_ == 'exec':
+                color = '#FFFFFF'
+
+                if len(self.parent_port_instance.connected_port_instances) > 0 or \
+                        option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
+                    brush = QBrush(QColor(255, 255, 255, 100))
+                    painter.setBrush(brush)
+                else:
+                    painter.setBrush(Qt.NoBrush)
+            elif self.parent_port_instance.type_ == 'data':
+                color = self.parent_node_instance.parent_node.color
+
+                if len(self.parent_port_instance.connected_port_instances) > 0 or \
+                        option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
+                    c = self.parent_node_instance.parent_node.color
+                    r = c.red()
+                    g = c.green()
+                    b = c.blue()
+                    brush = QBrush(QColor(r, g, b, 100))
+                    painter.setBrush(brush)
+                else:
+                    painter.setBrush(Qt.NoBrush)
+
+            pen = QPen(color)
+            pen.setWidth(1)
+            painter.setPen(pen)
+
+            rect = QRectF()
+            rect.moveCenter(QPointF(self.width / 2, self.height / 2))
+            rect.setWidth(self.painting_width)
+            rect.setHeight(self.painting_height)
+            painter.drawEllipse(QPointF(self.width / 2, self.height / 2), self.painting_width/3, self.painting_height/3)
+
 
     def mousePressEvent(self, event):
         event.accept()
@@ -299,7 +340,7 @@ class PortInstanceLabel(QGraphicsWidget):
         c = ''
         if Design.flow_style == 'dark std':
             c = '#ffffff'
-        elif Design.flow_style == 'dark tron':
+        elif Design.flow_style == 'dark tron' or Design.flow_style == 'ghostly':
             if self.parent_port_instance.type_ == 'exec':
                 c = '#ffffff'
             elif self.parent_port_instance.type_ == 'data':

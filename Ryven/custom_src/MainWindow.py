@@ -37,6 +37,7 @@ class MainWindow(QMainWindow):
         self.ui.scripts_tab_widget.removeTab(0)
 
         # menu actions
+        self.flow_design_actions = []
         self.setup_menu_actions()
 
         # shortcuts
@@ -99,10 +100,15 @@ class MainWindow(QMainWindow):
 
 
     def setup_menu_actions(self):
+        # flow designs
+        for d in Design.flow_designs:
+            design_action = QAction(d, self)
+            self.ui.menuFlow_Design_Style.addAction(design_action)
+            design_action.triggered.connect(self.on_design_action_triggered)
+            self.flow_design_actions.append(design_action)
+
         self.ui.actionImport_Nodes.triggered.connect(self.on_import_nodes_triggered)
         self.ui.actionSave_Project.triggered.connect(self.on_save_project_triggered)
-        self.ui.actionDesignDark_Std.triggered.connect(self.on_dark_std_design_triggered)
-        self.ui.actionDesignDark_Tron.triggered.connect(self.on_dark_tron_design_triggered)
         self.ui.actionEnableDebugging.triggered.connect(self.on_enable_debugging_triggered)
         self.ui.actionDisableDebugging.triggered.connect(self.on_disable_debugging_triggered)
         self.ui.actionSave_Pic_Viewport.triggered.connect(self.on_save_scene_pic_viewport_triggered)
@@ -203,11 +209,10 @@ class MainWindow(QMainWindow):
         else:
             Design.animations_enabled = False
 
-    def on_dark_std_design_triggered(self):
-        self.set_flow_design('dark std')
-
-    def on_dark_tron_design_triggered(self):
-        self.set_flow_design('dark tron')
+    def on_design_action_triggered(self):
+        index = self.flow_design_actions.index(self.sender())
+        design = Design.flow_designs[index]
+        self.set_flow_design(design)
 
     def set_flow_design(self, new_design):
         Design.flow_style = new_design

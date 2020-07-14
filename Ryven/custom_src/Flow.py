@@ -14,6 +14,8 @@ from custom_src.FlowProxyWidget import FlowProxyWidget
 from custom_src.FlowStylusModesWidget import FlowStylusModesWidget
 from custom_src.FlowZoomWidget import FlowZoomWidget
 from custom_src.Node import Node
+from custom_src.builtin_nodes.GetVar_Node import GetVariable_Node
+from custom_src.builtin_nodes.SetVar_Node import SetVariable_Node
 from custom_src.node_choice_widget.NodeChoiceWidget import NodeChoiceWidget
 from custom_src.NodeInstance import NodeInstance
 from custom_src.PortInstance import PortInstance, PortInstanceGate
@@ -353,9 +355,18 @@ class Flow(QGraphicsView):
         item: QListWidgetItem = event.mimeData()
         Debugger.debug('drop received in Flow:', text)
 
-        # j_obj = json.loads(text)
-        # if j_obj['type'] == 'variable':
-        # TODO: implement variable drag and drop into the scene - show node_choice_widget with get and set
+        j_obj = None
+        type = ''
+        try:
+            j_obj = json.loads(text)
+            type = j_obj['type']
+        except Exception:
+            return
+
+        if type == 'variable':
+            self.show_node_choice_widget(event.pos(),  # only show get_var and set_var nodes
+                                         [n for n in self.all_nodes if find_type_in_object(n, GetVariable_Node) or
+                                          find_type_in_object(n, SetVariable_Node)])
 
     def drawBackground(self, painter, rect):
         painter.fillRect(rect.intersected(self.sceneRect()), QColor('#333333'))
@@ -376,6 +387,9 @@ class Flow(QGraphicsView):
         elif Design.flow_style == 'dark tron':
             # pen.setColor('#452666')
             pen.setWidth(4)
+            pen.setCapStyle(Qt.RoundCap)
+        elif Design.flow_style == 'ghostly':
+            pen.setWidth(2)
             pen.setCapStyle(Qt.RoundCap)
 
         # DRAW CONNECTIONS
@@ -403,6 +417,11 @@ class Flow(QGraphicsView):
                         r = 0
                         g = 120
                         b = 180
+                    elif Design.flow_style == 'ghostly':
+                        r = 0
+                        g = 34
+                        b = 51
+
                     gradient.setColorAt(0.0, QColor(r, g, b, 255))
                     gradient.setColorAt(0.75, QColor(r, g, b, 200))
                     gradient.setColorAt(0.95, QColor(r, g, b, 0))
@@ -503,7 +522,7 @@ class Flow(QGraphicsView):
         self.zoom_proxy.show()
 
     # NODE CHOICE WIDGET
-    def show_node_choice_widget(self, pos):
+    def show_node_choice_widget(self, pos, nodes=None):
         """Opens the node choice dialog in the scene."""
 
         # calculating position
@@ -522,7 +541,7 @@ class Flow(QGraphicsView):
         # open nodes dialog
         # the dialog emits 'node_chosen' which is connected to self.place_node,
         # so this all continues at self.place_node below
-        self.node_choice_widget.update_list(self.all_nodes)
+        self.node_choice_widget.update_list(nodes if nodes is not None else self.all_nodes)
         self.node_choice_widget.update_view()
         self.node_choice_proxy.setPos(dialog_pos)
         self.node_choice_proxy.show()
