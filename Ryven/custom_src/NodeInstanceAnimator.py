@@ -8,13 +8,16 @@ class NodeInstanceAnimator(QObject):
         super(NodeInstanceAnimator, self).__init__()
 
         self.node_instance = node_instance
+        self.animation_running = False
 
-        self.title_activation_animation = QPropertyAnimation(self, b"title_color")
+        self.title_activation_animation = QPropertyAnimation(self, b"p_title_color")
         self.title_activation_animation.setDuration(700)
-        self.body_activation_animation = QPropertyAnimation(self, b"body_color")
+        self.title_activation_animation.finished.connect(self.finished)
+        self.body_activation_animation = QPropertyAnimation(self, b"p_body_color")
         self.body_activation_animation.setDuration(700)
 
     def start(self):
+        self.animation_running = True
         self.title_activation_animation.start()
         self.body_activation_animation.start()
 
@@ -25,6 +28,12 @@ class NodeInstanceAnimator(QObject):
 
         self.title_activation_animation.stop()
         self.body_activation_animation.stop()
+
+    def finished(self):
+        self.animation_running = False
+
+    def running(self):
+        return self.animation_running
 
     def reload_values(self):
         self.stop()
@@ -45,12 +54,14 @@ class NodeInstanceAnimator(QObject):
         self.node_instance.color = val
         QGraphicsItem.update(self.node_instance)
 
+    p_body_color = Property(QColor, get_body_color, set_body_color)
+
+
     def get_title_color(self):
         return self.node_instance.title_label.color
 
     def set_title_color(self, val):
         self.node_instance.title_label.color = val
-        QGraphicsItem.update(self.node_instance)
+        # QGraphicsItem.update(self.node_instance)
 
-    title_color = Property(QColor, get_title_color, set_title_color)
-    body_color = Property(QColor, get_body_color, set_body_color)
+    p_title_color = Property(QColor, get_title_color, set_title_color)
