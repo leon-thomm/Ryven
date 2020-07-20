@@ -8,8 +8,10 @@ class Debugger:
         Debugger.enabled = False
 
     def debug(*args):
+        if not Debugger.enabled:
+            return
+
         s = ''
         for arg in args:
             s += ' '+str(arg)
-        if Debugger.enabled:
-            print('        --> DEBUG:', s)
+        print('        --> DEBUG:', s)

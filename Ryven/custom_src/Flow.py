@@ -99,15 +99,16 @@ class Flow(QGraphicsView):
 
         # NODE CHOICE WIDGET
         self.node_choice_proxy = FlowProxyWidget(self)
+        self.node_choice_proxy.setZValue(1000)
         self.node_choice_widget = NodeChoiceWidget(self, main_window.all_nodes)  # , main_window.node_images)
         self.node_choice_proxy.setWidget(self.node_choice_widget)
         self.scene().addItem(self.node_choice_proxy)
-        self.node_choice_proxy.setZValue(1000)
         self.hide_node_choice_widget()
 
         # ZOOM WIDGET
         self.zoom_proxy = FlowProxyWidget(self)
         self.zoom_proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
+        self.zoom_proxy.setZValue(1001)
         self.zoom_widget = FlowZoomWidget(self)
         self.zoom_proxy.setWidget(self.zoom_widget)
         self.scene().addItem(self.zoom_proxy)
@@ -120,6 +121,7 @@ class Flow(QGraphicsView):
         self.drawings = []
         self.stylus_modes_proxy = FlowProxyWidget(self)
         self.stylus_modes_proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
+        self.stylus_modes_proxy.setZValue(1001)
         self.stylus_modes_widget = FlowStylusModesWidget(self)
         self.stylus_modes_proxy.setWidget(self.stylus_modes_widget)
         self.scene().addItem(self.stylus_modes_proxy)
@@ -388,7 +390,7 @@ class Flow(QGraphicsView):
             # pen.setColor('#452666')
             pen.setWidth(4)
             pen.setCapStyle(Qt.RoundCap)
-        elif Design.flow_style == 'ghostly':
+        elif Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
             pen.setWidth(2)
             pen.setCapStyle(Qt.RoundCap)
 
@@ -417,10 +419,10 @@ class Flow(QGraphicsView):
                         r = 0
                         g = 120
                         b = 180
-                    elif Design.flow_style == 'ghostly':
+                    elif Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
                         r = 0
-                        g = 34
-                        b = 51
+                        g = 17
+                        b = 25
 
                     gradient.setColorAt(0.0, QColor(r, g, b, 255))
                     gradient.setColorAt(0.75, QColor(r, g, b, 200))

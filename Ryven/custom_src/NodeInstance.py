@@ -106,7 +106,17 @@ class NodeInstance(QGraphicsItem):
 
 
         self.initializing = False
-        self.update_design()  # load current design
+
+        # No self.update_shape() here because for some reason, the bounding rect hasn't been initialized yet, so
+        # self.update_shape() gets called when the item is being drawn the first time (see paint event in NI painter)
+        # TODO: change that ^ once there is a solution for this https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event
+
+        # print('1')
+        self.update_design()  # load current design, update QGraphicsItem
+        # print('2')
+        # self.update_shape()
+        # print('3')
+
         self.update()
 
     def setup_ui(self):
@@ -114,7 +124,7 @@ class NodeInstance(QGraphicsItem):
 
         #   main layout
         layout = QGraphicsLinearLayout(Qt.Vertical)
-        layout.setSpacing(5)
+        layout.setSpacing(10)
 
         if self.parent_node.design_style == 'extended':
             layout.addItem(self.title_label)
@@ -189,7 +199,7 @@ class NodeInstance(QGraphicsItem):
     #                         /____/
 
     def update(self, input_called=-1, output_called=-1):
-        """This is the method used to activate a NodeInstance. Note that this signature hides the update() method from
+        """This is the method used to activate a NodeInstance. Note that this signature shadows the update() method from
         QGraphicsItem used to graphically update a QGraphicsItem which can be accessed via
         QGraphicsItem.update(self)."""
 

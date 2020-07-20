@@ -75,6 +75,8 @@ class TitleLabel(QGraphicsWidget):
                 else:
                     self.color = self.parent_node_instance.color
                 self.pen_width = 2
+            elif Design.flow_style == 'blender':
+                self.color = QColor('#ffffff')
         elif self.design_style() == 'minimalistic':
             if Design.flow_style == 'dark std':
                 if self.hovering:
@@ -83,7 +85,7 @@ class TitleLabel(QGraphicsWidget):
                 else:
                     self.color = QColor(30, 43, 48)
                     self.pen_width = 1.5
-            elif Design.flow_style == 'dark tron' or Design.flow_style == 'ghostly':
+            elif Design.flow_style == 'dark tron' or Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
                 self.color = self.parent_node_instance.color
                 self.pen_width = 2
 

@@ -1,3 +1,5 @@
+from custom_src.retain import M
+
 from PySide2.QtWidgets import QLineEdit
 # from PySide2.QtCore import ...
 from PySide2.QtGui import QFont, QFontMetrics
@@ -24,10 +26,10 @@ class EmailInputWidget_PortInstanceWidget(QLineEdit):
 
         self.setFont(QFont('Corbel', 10))
 
-        self.textChanged.connect(self.email_text_changed)
+        self.textChanged.connect(M(self.email_text_changed))
 
 
-    def email_text_changed(self):
+    def email_text_changed(self, new_text):
         fm = QFontMetrics(self.font())
         text_width = fm.width(self.text())
         new_width = text_width+2*10
