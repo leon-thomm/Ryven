@@ -81,6 +81,7 @@ class NodeContentWidget(QWidget):
             self.ui.design_style_minimalistic_radioButton.setChecked(True)
 
         self.node_color = QColor(node.color)
+        self.ui.color_sample_pushButton.setStyleSheet('background-color: '+node.color)
 
         self.set_has_main_widget(node.has_main_widget)
         if node.has_main_widget:

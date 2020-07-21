@@ -30,6 +30,7 @@ class NodeInstance(QGraphicsItem):
         self.flow = flow
         self.movement_state = None
         self.movement_pos_from = None
+        self.painted_once = False
         self.inputs = []
         self.outputs = []
         self.color = self.parent_node.color  # manipulated by self.animator
@@ -483,8 +484,17 @@ class NodeInstance(QGraphicsItem):
     #   PAINTING
     def paint(self, painter, option, widget=None):
         """All painting is done by NodeInstancePainter"""
+
+        # in order to access a meaningful geometry of GraphicsWidget contents in update_shape(), the paint event
+        # has to be called once. See here:
+        # https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event/4
+        if not self.painted_once:
+            self.update_shape()
+
         self.node_instance_painter.paint(painter, option, self.color, self.width, self.height, self.boundingRect(),
                                          widget)
+
+        self.painted_once = True
 
     def get_context_menu(self):
         menu = QMenu(self.flow)

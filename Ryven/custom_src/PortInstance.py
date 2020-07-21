@@ -415,9 +415,8 @@ class StdLineEdit_PortInstanceWidget(QLineEdit):
             new_width = text_width+15
             self.setFixedWidth(new_width if new_width > self.base_width else self.base_width)
 
-            if not self.parent_node_instance.initializing:  # TODO: remove when there is a solution to this problem: https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event
-                self.parent_node_instance.update_shape()
-                self.parent_node_instance.rebuild_ui()  # see rebuild_ui() for explanation
+            self.parent_node_instance.update_shape()
+            self.parent_node_instance.rebuild_ui()  # see rebuild_ui() for explanation
 
     def editing_finished(self):
         self.parent_node_instance.update(self.parent_node_instance.inputs.index(self.parent_port_instance))

@@ -15,10 +15,6 @@ class NodeInstancePainter:
               c: QColor, w: int, h: int, bounding_rect,
               widget):
 
-        # unfortunately, the boundingRect() is only not 0 once paint() is called the first time, strange Qt behavior
-        if w == -1 or h == -1:
-            self.ni.update_shape()
-
         painter.setRenderHint(QPainter.Antialiasing)
         brush = QBrush(QColor(100, 100, 100, 150))  # QBrush(QColor('#3B9CD9'))
         painter.setBrush(brush)
