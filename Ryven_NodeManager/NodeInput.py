@@ -57,6 +57,7 @@ class NodeInput(QWidget):
         self.widget_type_combo_box.addItem('std line edit l r nb')
         self.widget_type_combo_box.addItem('std spin box')
         self.widget_type_combo_box.addItem('custom widget')
+        self.widget_type_combo_box.setCurrentIndex(1)
         self.widget_type_combo_box.currentTextChanged.connect(self.widget_type_combo_box_changed)
         self.custom_widget_line_edit = QLineEdit()
         self.custom_widget_line_edit.setPlaceholderText('input widget name')
