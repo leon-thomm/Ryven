@@ -315,12 +315,11 @@ class NodeInstance(QGraphicsItem):
 
 
     # PORTS
-    def create_new_input(self, type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1, config=None):
+    def create_new_input(self, type_, label, widget_name=None, widget_pos='under', pos=-1, config=None):
         """Creates and adds a new input. Handy for subclasses."""
         Debugger.debug('create_new_input called')
         pi = InputPortInstance(self, type_, label,
                                config_data=config,
-                               widget_type=widget_type,
                                widget_name=widget_name,
                                widget_pos=widget_pos)
         if pos < -1:
@@ -334,6 +333,7 @@ class NodeInstance(QGraphicsItem):
 
         if not self.initializing:
             self.update_shape()
+            self.update()
 
     def add_input_to_layout(self, i):
         if self.inputs_layout.count() > 0:
@@ -373,6 +373,7 @@ class NodeInstance(QGraphicsItem):
 
         if not self.initializing:
             self.update_shape()
+            self.update()
 
 
     def create_new_output(self, type_, label, pos=-1):
@@ -390,6 +391,7 @@ class NodeInstance(QGraphicsItem):
 
         if not self.initializing:
             self.update_shape()
+            self.update()
 
     def add_output_to_layout(self, o):
         if self.outputs_layout.count() > 0:
@@ -426,6 +428,7 @@ class NodeInstance(QGraphicsItem):
 
         if not self.initializing:
             self.update_shape()
+            self.update()
 
     # GET, SET DATA
     def get_data(self):
@@ -622,7 +625,6 @@ class NodeInstance(QGraphicsItem):
             for i in range(len(self.parent_node.inputs)):
                 inp = self.parent_node.inputs[i]
                 self.create_new_input(inp.type_, inp.label,
-                                      widget_type=self.parent_node.inputs[i].widget_type,
                                       widget_name=self.parent_node.inputs[i].widget_name,
                                       widget_pos =self.parent_node.inputs[i].widget_pos)
 
@@ -632,8 +634,8 @@ class NodeInstance(QGraphicsItem):
         else:  # when loading saved NIs, the port instances might not be synchronised to the parent's ports anymore
             for inp in inputs_config:
                 has_widget = inp['has widget']
+
                 self.create_new_input(inp['type'], inp['label'],
-                                      widget_type=inp['widget type'] if has_widget else None,
                                       widget_name=inp['widget name'] if has_widget else None,
                                       widget_pos =inp['widget position'] if has_widget else None,
                                       config=inp['widget data'] if has_widget else None)

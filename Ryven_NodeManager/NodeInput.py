@@ -45,20 +45,20 @@ class NodeInput(QWidget):
         self.widget_group_box = QGroupBox(self)
         self.widget_group_box.setEnabled(False)
         self.widget_group_box.setLayout(QVBoxLayout())
-        self.widget_type_combo_box = QComboBox(self)
-        self.widget_type_combo_box.addItem('std line edit s')
-        self.widget_type_combo_box.addItem('std line edit m')
-        self.widget_type_combo_box.addItem('std line edit l')
-        self.widget_type_combo_box.addItem('std line edit s r')
-        self.widget_type_combo_box.addItem('std line edit m r')
-        self.widget_type_combo_box.addItem('std line edit l r')
-        self.widget_type_combo_box.addItem('std line edit s r nb')
-        self.widget_type_combo_box.addItem('std line edit m r nb')
-        self.widget_type_combo_box.addItem('std line edit l r nb')
-        self.widget_type_combo_box.addItem('std spin box')
-        self.widget_type_combo_box.addItem('custom widget')
-        self.widget_type_combo_box.setCurrentIndex(1)
-        self.widget_type_combo_box.currentTextChanged.connect(self.widget_type_combo_box_changed)
+        self.std_widget_combo_box = QComboBox(self)
+        self.std_widget_combo_box.addItem('std line edit s')
+        self.std_widget_combo_box.addItem('std line edit m')
+        self.std_widget_combo_box.addItem('std line edit l')
+        self.std_widget_combo_box.addItem('std line edit s r')
+        self.std_widget_combo_box.addItem('std line edit m r')
+        self.std_widget_combo_box.addItem('std line edit l r')
+        self.std_widget_combo_box.addItem('std line edit s r nb')
+        self.std_widget_combo_box.addItem('std line edit m r nb')
+        self.std_widget_combo_box.addItem('std line edit l r nb')
+        self.std_widget_combo_box.addItem('std spin box')
+        self.std_widget_combo_box.addItem('custom widget')
+        self.std_widget_combo_box.setCurrentIndex(1)
+        self.std_widget_combo_box.currentTextChanged.connect(self.widget_type_combo_box_changed)
         self.custom_widget_line_edit = QLineEdit()
         self.custom_widget_line_edit.setPlaceholderText('input widget name')
         self.custom_widget_line_edit.editingFinished.connect(self.widget_name_line_edit_edited)
@@ -68,7 +68,7 @@ class NodeInput(QWidget):
         self.widget_under_label_radio_button.setChecked(True)
         self.widget_besides_label_radio_button = QRadioButton('widget besides label')
 
-        self.widget_group_box.layout().addWidget(self.widget_type_combo_box)
+        self.widget_group_box.layout().addWidget(self.std_widget_combo_box)
         self.widget_group_box.layout().addWidget(self.custom_widget_line_edit)
         self.widget_group_box.layout().addWidget(self.widget_under_label_radio_button)
         self.widget_group_box.layout().addWidget(self.widget_besides_label_radio_button)
@@ -110,17 +110,20 @@ class NodeInput(QWidget):
             self.widget_yes_radio_button.setChecked(False)
             self.widget_no_radio_button.setChecked(True)
 
-    def get_widget_type(self):
-        return self.widget_type_combo_box.currentText()
-
-    def set_widget_type(self, new_widget_type):
-        self.widget_type_combo_box.setCurrentText(new_widget_type)
-
     def get_widget_name(self):
-        return self.content_widget.prepare_class_name(self.custom_widget_line_edit.text())
+        if self.std_widget_combo_box.currentText() == 'custom widget':
+            return self.content_widget.prepare_class_name(self.custom_widget_line_edit.text())
+        else:
+            return self.std_widget_combo_box.currentText()
 
     def set_widget_name(self, name):
-        self.custom_widget_line_edit.setText(name)
+        if self.std_widget_combo_box.findText(name) != -1:
+            self.std_widget_combo_box.setCurrentText(name)
+        elif name == 'std line edit':  # 'std line edit' is an old name for 'std line edit m'
+            self.std_widget_combo_box.setCurrentText('std line edit m')
+        else:
+            self.std_widget_combo_box.setCurrentText('custom widget')
+            self.custom_widget_line_edit.setText(name)
 
     def get_widget_pos(self):
         under = self.widget_under_label_radio_button

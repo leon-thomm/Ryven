@@ -17,7 +17,7 @@ class PortInstance(QGraphicsGridLayout):
     PortInstances."""
 
     def __init__(self, parent_node_instance, direction, type_='', label_str='',
-                 widget_type='', widget_name=None, widget_pos=''):
+                 widget_name=None, widget_pos=''):
         super(PortInstance, self).__init__()
 
         # GENERAL ATTRIBUTES
@@ -32,7 +32,6 @@ class PortInstance(QGraphicsGridLayout):
         # widget
         self.widget: 'StdLineEdit_PortInstanceWidget' = None
         self.proxy: FlowProxyWidget = None
-        self.widget_type = widget_type
         self.widget_name = widget_name
         self.widget_pos = widget_pos
 
@@ -123,9 +122,9 @@ class PortInstance(QGraphicsGridLayout):
 
 class InputPortInstance(PortInstance):
     def __init__(self, parent_node_instance, type_='', label_str='',
-                 config_data=None, widget_type='', widget_name=None, widget_pos=''):
+                 config_data=None, widget_name=None, widget_pos=''):
         super(InputPortInstance, self).__init__(parent_node_instance, 'input', type_, label_str,
-                                                widget_type, widget_name, widget_pos)
+                                                widget_name, widget_pos)
 
         if config_data is not None:
             self.create_widget()
@@ -150,32 +149,32 @@ class InputPortInstance(PortInstance):
 
     def create_widget(self, configuration=None):
         if self.type_ and self.type_ == 'data' or configuration and configuration['type'] == 'data':
-            if self.widget_type == 'None':  # no input widget
+            if self.widget_name is None:  # no input widget
                 return
-            elif self.widget_type == 'std line edit s':
+            elif self.widget_name == 'std line edit s':
                 self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='small')
-            elif self.widget_type == 'std line edit m' or self.widget_type == 'std line edit':
+            elif self.widget_name == 'std line edit m' or self.widget_name == 'std line edit':
                 self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance)
-            elif self.widget_type == 'std line edit l':
+            elif self.widget_name == 'std line edit l':
                 self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='large')
-            elif self.widget_type == 'std line edit s r':
+            elif self.widget_name == 'std line edit s r':
                 self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='small', resize=True)
-            elif self.widget_type == 'std line edit m r':
+            elif self.widget_name == 'std line edit m r':
                 self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, resize=True)
-            elif self.widget_type == 'std line edit l r':
+            elif self.widget_name == 'std line edit l r':
                 self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='large', resize=True)
-            elif self.widget_type == 'std line edit s r nb':
+            elif self.widget_name == 'std line edit s r nb':
                 self.widget = StdLineEdit_NoBorder_PortInstanceWidget(self, self.parent_node_instance, size='small',
                                                                       resize=True)
-            elif self.widget_type == 'std line edit m r nb':
+            elif self.widget_name == 'std line edit m r nb':
                 self.widget = StdLineEdit_NoBorder_PortInstanceWidget(self, self.parent_node_instance,
                                                                       resize=True)
-            elif self.widget_type == 'std line edit l r nb':
+            elif self.widget_name == 'std line edit l r nb':
                 self.widget = StdLineEdit_NoBorder_PortInstanceWidget(self, self.parent_node_instance, size='large',
                                                                       resize=True)
-            elif self.widget_type == 'std spin box':
+            elif self.widget_name == 'std spin box':
                 self.widget = StdSpinBox_PortInstanceWidget(self, self.parent_node_instance)
-            elif self.widget_type == 'custom widget':
+            else:  # custom input widget
                 self.widget = self.get_input_widget_class(self.widget_name)(self, self.parent_node_instance)
             self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
             self.proxy.setWidget(self.widget)
@@ -187,7 +186,6 @@ class InputPortInstance(PortInstance):
         has_widget = True if self.widget else False
         data_dict['has widget'] = has_widget
         if has_widget:
-            data_dict['widget type'] = self.widget_type
             data_dict['widget name'] = self.widget_name
             data_dict['widget data'] = None if self.type_ == 'exec' else self.widget.get_data()
             data_dict['widget position'] = self.widget_pos

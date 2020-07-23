@@ -25,6 +25,5 @@ class NodePort:
         # general attributes
         self.type_ = ''
         self.label = ''
-        self.widget_type = 'std line edit'  # only important for data inputs
-        self.widget_name = ''  # only important for data inputs with custom programmed widgets
-        self.widget_pos = 'under'  # same as above
+        self.widget_name = None
+        self.widget_pos = 'under'

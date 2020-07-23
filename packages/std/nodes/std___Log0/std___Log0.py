@@ -10,7 +10,7 @@ from custom_src.retain import M
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
@@ -43,7 +43,7 @@ class Log_NodeInstance(NodeInstance):
 
     def add_target_option(self):
         self.special_actions['remove target option'] = {'method': M(self.action_remove_target_option)}
-        self.create_new_input('data', 'target', widget_type='custom widget', widget_name='LogTargetComboBox', widget_pos='besides')
+        self.create_new_input('data', 'target', widget_name='LogTargetComboBox', widget_pos='besides')
         self.showing_target_option = True
 
     def action_remove_target_option(self):

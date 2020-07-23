@@ -108,10 +108,9 @@ class NodeContentWidget(QWidget):
             i_type = i['type']
             i_label = i['label']
             i_has_widget = i['has widget'] if i_type == 'data' else None
-            i_widget_type = i['widget type'] if i_has_widget else None
-            i_widget_name = i['widget name'] if i_widget_type == 'custom widget' else None
+            i_widget_name = i['widget name'] if i_has_widget else None
             i_widget_pos = i['widget position'] if i_has_widget else None
-            self.add_new_input(i_type, i_label, i_has_widget, i_widget_type, i_widget_name, i_widget_pos)
+            self.add_new_input(i_type, i_label, i_has_widget, i_widget_name, i_widget_pos)
 
         for o in node.outputs:
             self.add_new_output(o['type'], o['label'])
@@ -177,7 +176,7 @@ class NodeContentWidget(QWidget):
     def add_new_input_clicked(self):
         self.add_new_input()
 
-    def add_new_input(self, _type=None, label=None, has_widget=None, widget_type=None, widget_name=None,
+    def add_new_input(self, _type=None, label=None, has_widget=None, widget_name=None,
                       widget_pos=None):
         new_input = NodeInput(self)
         if _type:
@@ -187,9 +186,8 @@ class NodeContentWidget(QWidget):
         if has_widget is not None:
             new_input.set_has_widget(has_widget)
             if has_widget:
-                new_input.set_widget_type(widget_type)
-                if widget_type == 'custom widget':
-                    new_input.set_widget_name(widget_name)
+
+                new_input.set_widget_name(widget_name)
                 new_input.set_widget_pos(widget_pos)
 
         self.inputs.append(new_input)
@@ -287,9 +285,7 @@ class NodeContentWidget(QWidget):
             if inp.get_type() == 'data':
                 input_data['has widget'] = inp.has_widget()
                 if inp.has_widget():
-                    input_data['widget type'] = inp.get_widget_type()
-                    if inp.get_widget_type() == 'custom widget':
-                        input_data['widget name'] = inp.get_widget_name()
+                    input_data['widget name'] = inp.get_widget_name()
                     input_data['widget position'] = inp.get_widget_pos()
             inputs.append(input_data)
 

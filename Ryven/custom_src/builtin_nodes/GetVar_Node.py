@@ -12,7 +12,7 @@ class GetVariable_Node(Node):
 
         data_input_port = NodePort()
         data_input_port.type_ = 'data'
-        data_input_port.widget_type = 'std line edit'
+        data_input_port.widget_name = 'std line edit'
         data_input_port.widget_pos = 'besides'
         self.inputs.append(data_input_port)
 
