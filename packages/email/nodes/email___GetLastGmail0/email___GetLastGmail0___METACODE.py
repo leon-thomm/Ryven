@@ -16,7 +16,7 @@ import email
 # set_output_val(self, index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index or input)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(index or output)
@@ -94,7 +94,5 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         pass # ...
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

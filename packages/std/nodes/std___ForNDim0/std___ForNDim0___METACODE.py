@@ -7,7 +7,7 @@ from custom_src.retain import M
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
 # self.main_widget                    <- access to main widget
-# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
@@ -43,8 +43,8 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
 
     def action_add_dimension(self):
         new_dim = self.dimensions+1
-        self.create_new_input('data', 'i'+str(new_dim)+' from', widget_type='std spin box', widget_pos='besides')
-        self.create_new_input('data', 'i'+str(new_dim)+' to', widget_type='std spin box', widget_pos='besides')
+        self.create_new_input('data', 'i'+str(new_dim)+' from', widget_name='std spin box', widget_pos='besides')
+        self.create_new_input('data', 'i'+str(new_dim)+' to', widget_name='std spin box', widget_pos='besides')
         self.create_new_output('exec', 'i'+str(new_dim)+' loop')
         self.create_new_output('data', 'i'+str(new_dim))
         self.dimensions += 1
@@ -70,7 +70,5 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.dimensions = data['num dimensions']
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

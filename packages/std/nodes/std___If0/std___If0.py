@@ -8,7 +8,7 @@ from custom_src.retain import M
 # self.outputs[index].set_val(val)    <- set output data port value
 # self.main_widget                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
-# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
@@ -26,7 +26,7 @@ class If_NodeInstance(NodeInstance):
 
 
     def action_add_else_if(self):
-        self.create_new_input('data', 'condition '+str(self.else_if_enlargement_state+1), widget_type='std line edit', widget_pos='under')
+        self.create_new_input('data', 'condition '+str(self.else_if_enlargement_state+1), widget_name='std line edit m', widget_pos='under')
         self.create_new_output('exec', 'elif '+str(self.else_if_enlargement_state+1), pos=len(self.outputs)-1)
         self.else_if_enlargement_state += 1
         self.special_actions['remove else if'] = {'method': M(self.action_remove_else_if)}
@@ -60,7 +60,5 @@ class If_NodeInstance(NodeInstance):
         self.else_if_enlargement_state = data['else if enlargment state']
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

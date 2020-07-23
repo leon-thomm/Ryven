@@ -397,28 +397,21 @@ class MainWindow(QMainWindow):
             i_type = j_input['type']
             i_label = j_input['label']
             i_has_widget = None
-            i_widget_type = ''
             i_widget_name = ''
             i_widget_pos = None
             if i_type == 'data':
                 i_has_widget = j_input['has widget']
                 if i_has_widget:
-                    i_widget_type = j_input['widget type']
+                    i_widget_name = j_input['widget name']
                     i_widget_pos = j_input['widget position']
-                    if i_widget_type == 'custom widget':
-                        i_widget_name = j_input['widget name']
 
             # creating port
             new_input = NodePort()
             new_input.type_ = i_type
             new_input.label = i_label
             if i_has_widget:
-                new_input.widget_type = i_widget_type
                 new_input.widget_name = i_widget_name
-                if i_widget_pos:
-                    new_input.widget_pos = i_widget_pos
-            else:
-                new_input.widget_type = 'None'
+                new_input.widget_pos = i_widget_pos
             inputs.append(new_input)
 
         j_n_outputs = j_node['outputs']

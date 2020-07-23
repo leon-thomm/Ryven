@@ -638,7 +638,6 @@ class Flow(QGraphicsView):
 
         self.scene().removeItem(ni)
 
-        Debugger.debug('calling ni removed')
         self.all_node_instances.remove(ni)
 
     def place_new_node_by_shortcut(self):  # Shift+P

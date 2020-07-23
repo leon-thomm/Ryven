@@ -1,11 +1,6 @@
+from custom_src.retain import M
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
-
-
-# USEFUL
-# self.input(index)                    <- access to input data
-# self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
 
 
 class GetVar_NodeInstance(NodeInstance):
@@ -28,11 +23,11 @@ class GetVar_NodeInstance(NodeInstance):
     def get_current_var_name(self):
         return self.input(0)
 
-    def removed(self):
-        pass
-
     def get_data(self):
         return {}
 
     def set_data(self, data):
+        pass
+
+    def remove_event(self):
         pass

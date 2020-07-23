@@ -10,7 +10,7 @@ from custom_src.retain import M
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under', pos=-1)
+# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
 # self.delete_output(output or index)
@@ -44,7 +44,7 @@ class ReadFile_NodeInstance(NodeInstance):
             self.exec_output(0)
 
     def action_add_size_input(self):
-        self.create_new_input('data', 'size', widget_type='std spin box', widget_pos='besides')
+        self.create_new_input('data', 'size', widget_name='std spin box', widget_pos='besides')
         del self.special_actions['add size input']
         self.special_actions['remove size input'] = {'method': M(self.action_remove_size_input)}
         self.size_input_shown = True
@@ -66,7 +66,5 @@ class ReadFile_NodeInstance(NodeInstance):
         pass # ...
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

@@ -17,12 +17,14 @@ class SetVariable_Node(Node):
         var_name_data_input_port = NodePort()
         var_name_data_input_port.type_ = 'data'
         var_name_data_input_port.label = 'var'
+        var_name_data_input_port.widget_name = 'std line edit m'
         var_name_data_input_port.widget_pos = 'besides'
         self.inputs.append(var_name_data_input_port)
 
         val_name_data_input_port = NodePort()
         val_name_data_input_port.type_ = 'data'
         val_name_data_input_port.label = 'val'
+        val_name_data_input_port.widget_name = 'std line edit m'
         val_name_data_input_port.widget_pos = 'besides'
         self.inputs.append(val_name_data_input_port)
 

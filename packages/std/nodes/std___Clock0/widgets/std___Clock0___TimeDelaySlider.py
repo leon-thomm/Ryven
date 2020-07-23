@@ -39,5 +39,5 @@ class TimeDelaySlider_PortInstanceWidget(QSlider):
     def set_data(self, data):
         self.setValue(data['val'])
 
-    def removing(self):
+    def remove_event(self):
         pass

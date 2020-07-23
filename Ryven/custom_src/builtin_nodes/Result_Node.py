@@ -66,5 +66,5 @@ class Result_Node(Node):
         data_input_port = NodePort()
         data_input_port.type_ = 'data'
         data_input_port.label = ''
-        data_input_port.widget_type = 'None'
+        data_input_port.widget_name = None
         self.inputs.append(data_input_port)

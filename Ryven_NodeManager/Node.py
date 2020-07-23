@@ -17,7 +17,7 @@ class Node(QObject):  # QObject inheritance for the Signal
         self.class_name = None
         self.design_style = ''
         self.color = ''
-        self.has_main_widget = True
+        self.has_main_widget = False
         self.widget_position = ''
         self.custom_input_widgets = []
         self.custom_input_widget_metacodes = []

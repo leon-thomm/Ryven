@@ -9,7 +9,7 @@ import random
 # self.outputs[index].set_val(val)    <- set output data port value
 # self.main_widget                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
-# self.create_new_input(type_, label, widget_type='', widget_name='', widget_pos='under')
+# self.create_new_input(type_, label, widget_name=None, widget_pos='under')
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, append=True)
 # self.delete_output(output or index)
@@ -77,7 +77,5 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.weights = data['weights']
 
 
-
-    # optional - important for threading - stop everything here
     def removed(self):
         pass
