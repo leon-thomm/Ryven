@@ -70,7 +70,5 @@ class ForNDim_NodeInstance(NodeInstance):
         self.dimensions = data['num dimensions']
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

@@ -35,5 +35,5 @@ class SavePathInputWidget_PortInstanceWidget(QPushButton):
     def set_data(self, data):
         self.setText(data)
 
-    def removing(self):
+    def remove_event(self):
         pass

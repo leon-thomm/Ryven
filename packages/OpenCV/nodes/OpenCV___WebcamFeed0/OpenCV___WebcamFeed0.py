@@ -37,7 +37,5 @@ class WebcamFeed_NodeInstance(NodeInstance):
         # ...
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         self.log_message('Webcam feed node instance successfully removed. Have a good day.', target='global')

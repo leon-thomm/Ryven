@@ -49,7 +49,5 @@ class ShowPoints_NodeInstance(NodeInstance):
         self.main_widget.show_points(self.points)
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

@@ -94,7 +94,5 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
             self.main_widget.set_code(i, c)
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

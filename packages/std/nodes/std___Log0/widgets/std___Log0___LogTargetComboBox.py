@@ -40,5 +40,5 @@ class LogTargetComboBox_PortInstanceWidget(QComboBox):
 
 
     # remove logs and stop threads and timers here
-    def removing(self):
+    def remove_event(self):
         pass # ...

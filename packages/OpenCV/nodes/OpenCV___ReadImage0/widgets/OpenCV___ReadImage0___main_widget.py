@@ -35,7 +35,5 @@ class ReadImage_NodeInstance_MainWidget(QLabel):
         self.img_filepath = data['image file path']
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

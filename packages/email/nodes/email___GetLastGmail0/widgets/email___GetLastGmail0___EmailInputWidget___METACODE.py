@@ -48,5 +48,5 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QLineEdit):
         self.setText(data['text'])
 
 
-    def removing(self):
+    def remove_event(self):
         pass # remove log here etc. ...

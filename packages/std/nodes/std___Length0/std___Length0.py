@@ -38,7 +38,5 @@ class Length_NodeInstance(NodeInstance):
         # ...
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

@@ -43,5 +43,5 @@ class EmailPasswordInputWidget_PortInstanceWidget(QLineEdit):
     def set_data(self, data):
         self.setText(data['text'])
 
-    def removing(self):
+    def remove_event(self):
         pass # remove log here etc. ...
