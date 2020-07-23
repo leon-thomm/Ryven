@@ -74,6 +74,5 @@ class Log_NodeInstance(NodeInstance):
         self.showing_target_option =  data['showing target']
 
 
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

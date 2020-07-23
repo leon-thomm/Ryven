@@ -66,7 +66,5 @@ class PointsField_NodeInstance_MainWidget(QWidget):
         self.draw_points(self.points)
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

@@ -1,10 +1,10 @@
-from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QPlainTextEdit, QShortcut
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QPlainTextEdit, QShortcut, QMessageBox
 from PySide2.QtGui import QKeySequence
 
 
-class EditVarVal_Dialog(QDialog):
-    def __init__(self, parent, var):
-        super(EditVarVal_Dialog, self).__init__(parent)
+class EditVal_Dialog(QDialog):
+    def __init__(self, parent, init_val):
+        super(EditVal_Dialog, self).__init__(parent)
 
         # shortcut
         save_shortcut = QShortcut(QKeySequence.Save, self)
@@ -13,12 +13,17 @@ class EditVarVal_Dialog(QDialog):
         main_layout = QVBoxLayout()
 
         self.val_text_edit = QPlainTextEdit()
-        var_val_str = ''
+        val_str = ''
         try:
-            var_val_str = str(var.val)
+            val_str = str(init_val)
         except Exception as e:
-            var_val_str = 'couldn\'nt stringify value'
-        self.val_text_edit.setPlainText(var_val_str)
+            msg_box = QMessageBox(QMessageBox.Warning, 'Value parsing failed',
+                                  'Couldn\'t stringify value', QMessageBox.Ok, self)
+            msg_box.setDefaultButton(QMessageBox.Ok)
+            msg_box.exec_()
+            self.reject()
+
+        self.val_text_edit.setPlainText(val_str)
 
         main_layout.addWidget(self.val_text_edit)
 
@@ -32,7 +37,7 @@ class EditVarVal_Dialog(QDialog):
         self.setLayout(main_layout)
         self.resize(450, 300)
 
-        self.setWindowTitle('edit var val \''+var.name+'\'')
+        self.setWindowTitle('edit val')
 
     def save_triggered(self):
         self.accept()

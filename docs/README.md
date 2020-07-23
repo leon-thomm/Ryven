@@ -1,39 +1,38 @@
+# Creating New Nodes - Basics
+
 This page provides you with the information you need to create nodes for Ryven.
 
-ProTipp for programming the nodes: Use the example projects and Ryven's code preview feature (drag the handle at the bottom of a flow upwards) to get a better look at how the nodes and their GUI components are programmed. You can also edit the source code of the placed nodes and play around. This is really useful.
-
-There is a full example below.
-
-# Creating New Nodes - Basics
+ProTipp for programming the nodes: Use the example projects and Ryven's code preview feature (drag the handle at the bottom of a flow upwards) to get a better look at how the nodes and their GUI components are implemented. You can also edit the source code of methods of the placed nodes and play around. This is really useful.
 
 The overall process looks like this:
 
-- In the NodeManager you can edit existing nodes (by importing a package) and create new ones. A node's general attributes like name and color get specified there.
-- You save the nodes in a package.
-- You open the package folder and write your code into the _METACODE_ files.
-- And then you can use the nodes in Ryven by importing the package there.
+- The _NodeManager_ lets you create new and edit existing nodes imported from a _nodes package_.
+- Programming the nodes and their GUI components can either be done inside the NodeManager or outside by editing the _metacode_ files using your favourite code editor (Atom recommended).
+- You save the nodes in a package when you're done.
+- And then you can import the package in Ryven to use the nodes.
 
-**A node's basic attributes are:**
+A node's basic attributes are:
 
-- Title
-- Class name
-- Type
-- Description
-- Use of MainWidget
-- DesignStyle
-- Color
-- Inputs (initial)
-- InputWidgets used
-- Outputs (initial)
+- title
+- description
+- class name
+- use of _main widget_
+- design style
+- color
+- inputs (initial)
+- outputs (initial)
 
 ## NodeManager Overview
 
-To define a node, you first have to specify its basic properties in the NodeManager. Then click save, select the nodes that you want to be included in the package, **create a new folder for the package** (it's name will be the package's name) and export.
+### Saving nodes
+
+Click _save_ and select the nodes that you want to have included in the package. Then create and select a new folder for the package or an existing one if you want to override an existing package (the folder name will be the package's name!), and click export. You should keep temporary backups of packages when overriding them in case something goes wrong.
 
 ### Name Conventions
 
 #### Classname Conformity
-If your node has a title that, except for spaces, is not class-or file-/foldername conform (like _+_, _&_, _%_), you need to give a custom _Internal Name_ which then will be used internally instead of the node's title. Be careful, you are not getting warned yet if your node title is not conform and you try to save your nodes. It can have spaces though, the example _With File Open_ automatically becomes _WithFileOpen_ as class name when exporting.
+
+If your node has a title that, except for spaces, is not class-or file-/foldername conform (like _+_, _&_, _%_), you need to give a custom _Internal Name_ which then will be used internally instead of the node's title. Be careful, you are not getting warned yet if your node title is not conform when trying to save your nodes. It can have spaces though, for example _With File Open_ automatically becomes _WithFileOpen_ as class name when exporting.
 
 #### Further Name Conventions
 
@@ -43,68 +42,31 @@ If your node has a title that, except for spaces, is not class-or file-/folderna
 
 ![](/resources/images/pyScript2.PNG)
 
-For input widgets like shown in the picture, simply select the widget that you want to use in the drop down menu. You can also program custom widgets, for that see _Data Input Widgets_ section.
-
 ## Updating Packages 
 
-A package is identified by its name. Packages with the same names should never exist. If you are editing an existing package: in the end, you should always choose the original package directory (after you created different versions and tested the final one sufficiently). None of your content will be deleted. Source code files get only created if they do not already exist (see next section) and all your custom files and folders you have put somwhere into the package's directory (like picture that you may use) stay as they are.
+A package is identified by its name. When overriding a package (which you should do after editing one and testing it sufficiently), none of your content will be deleted. Source code files get only created if they do not already exist (see next section) and all your custom files and folders you have put somwhere into the package's directory (like pictures that you may use) stay as they are.
 
 ## Programming Nodes
 
-And there we are. Note that Ryven now has a _preview source code_ feature, so you can use any existing nodes as reference and take a look at their source code right inside the editor. Simply drag the splitter handle from the bottom line upwards to access the preview area and select a placed node.
-The basic concepts are:
+And there we are. Basic concepts:
 
-- For every node (as well as all its widget classes, more on that later), the NodeManager creates _METACODE_ files from templates if they do not already exist. All programming is done by editing these _METACODE_ files.
-- Ryven will create the actual source code files every time the package is being imported. These get created in the same locations as the metacode files.
-- **Do not edit non-metacode source files directly, as these changes will be lost!**
+- For every node (as well as all its widget classes, more on that later), the NodeManager creates _metacode_ files from templates if they do not already exist. If you don't want to program the nodes inside the Nodemanager, you can just edit these _metacode_ files directly.
+- The actual source code files will be created every time you import the package in Ryven. These get created in the same locations as the metacode files.
+- Do not edit the non-metacode files directly, as these changes will be lost!
 
-To start programming a node, simply direct into its folder in the package directory and open the metacode Python file with a code editor. **I strongly recommend using the Atom editor to program the metacode files**.
-
-If you open the file, you will see something like this:
-
-    # some imports
-
-    # some useful info
-
-    class %NODE_TITLE%_NodeInstance(NodeInstance):
-        def __init__(self, parent_node: Node, flow, configuration=None):
-            super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
-
-            # self.special_actions['action name'] = self.actionmethod ...
-            # ...
-
-            self.initialized()
-
-        # don't call self.update_event() directly, use self.update() instead
-        def update_event(self, input_called=-1):
-            pass # ...
-
-        def get_data(self):
-            data = {}
-            # ...
-            return data
-
-        def set_data(self, data):
-            pass # ...
-
-
-        # optional - important for threading - stop everything here
-        def removing(self):
-            pass
-
-That's your node's class.
+By taking a look into the code, you will see some imports, some info and a class. That's your node's actual class. Now you just edit this class following the instructions below.
 
 #### Update Event Method
 
-Now you basically put your code into the update method. If your node has one or more execution inputs, you always need to check for _input_called_. That enables your node having mutliple execution inputs triggering different behaviour.
+You basically put your code into the update method. If your node has one or more execution inputs, you always need to check for _input_called_. That enables your node having mutliple execution inputs triggering different behaviour.
 
         def update_event(self, input_called=-1):
             if input_called == 0:
-                ...
+                ... do something here
             elif input_called == 1:
-                ...
+                ... and something else here
 
-If your node does not have any execution inputs, aka if its _passive_, do not check for _input_called_ as the node is supposed to update every time anything changed.
+I your node does not have any execution inputs (-> if its _passive_, pure data processing) do not check for _input_called_ as the node is supposed to update every time anything changed. Note that _input_called_ refers to the _index_.
 
 A _+_ node's update event could look like this:
 
@@ -112,7 +74,7 @@ A _+_ node's update event could look like this:
             sum_val = self.input(0) + self.input(1)
             self.set_output_val(0, sum_val)
 
-That's it. Everything beyond that is the use of special features. There are a few very useful ones but you don't have to use them. If you successfully created a node, I recommend reading _Special Actions_ and _API_.
+And from this point, you can add further methods to the class, import libraries, create more classes, everything you can do in a Python file. And that's it. Everything beyond that is the use of special features. There are a few very useful ones but you don't have to use them.
 
 ## Special Actions
 
@@ -125,6 +87,10 @@ In this case, a method _action_print_something_ would need to exist which gets t
         def action_print_something(self):
             print('Hello World!')
 
+Do remove an action, simply use
+
+            del self.special_actions['print something']
+
 You can define as many actions for your node as you want and you can totally edit this dict at any time. Just make sure to instead of directly using the method's object, use M(\<method\>) (always do that when referencing methods). It ensures that this method can be live edited in Ryven and that the references get updated.
 
 ## API
@@ -133,46 +99,40 @@ To access the node's contents there is a small 'API' that you can use in the cla
 
 ### Ports
 
-**Getting input data from a data input:**
+**Getting data from a data input:**
 
     self.input(index)
 
-**Setting data output value:**
+**Setting value of data output:**
 
     self.set_output_val(index, val)
 
-**Executing an output:**
+**Executing an exec output:**
 
     self.exec_output(index)
 
-**Adding a new input port:**
+**Adding a new input:**
 
-    self.create_new_input(type_: str, label: str, widget_type='', widget_name='', widget_pos='under', pos=-1)
+    self.create_new_input(type_: str, label: str, widget_name=None, widget_pos='under', pos=-1)
 
 - _type\__ refers to the input's type (_exec_ or _data_)
-- _label_ is the shown name of the port
-after these two I recommend only using unpositional identifiers
+- _label_ is the displayed name of the port
 - _pos=-1_ means the input will be appended at the end, everything else specifies the index at which the input will be inserted
 All widget related arguments are only important for data inputs:
-- The _widget_type_ is the type of the input widget that will be created. Currently possible values are:
-    - _std line edit_
-    - _std spin box_
-    - _custom_
-    - I am planning to add more pre-defined standard widgets in the future
-- If _widget_type_ is _custom_, you must give a _widget_name_ which refers to a custom widget class which you are going to program (or already did)
-- _widget_pos_ determines whether the input widget will be _besides_ or _under_ the the port
+- _widget_name_ holds the name of the input widget you want to use. If you don't want to use a widget, use _None_. Else, the widget name must be a string referring either to one of the std input widgets (see in NodeManager which are currently supported) or to a custom input widget you programmed.
+- _widget_pos_ determines whether the input widget will be placed _besides_ or _under_ the the port
 
-**Adding a new output port:**
+**Adding a new output:**
 
     self.create_new_output(type_: str, label: str, pos=-1)
 
 see above.
 
-**Deleting input port:**
+**Deleting an input:**
 
     self.delete_input(index)
 
-**Deleting output port:**
+**Deleting an output:**
 
     self.delete_output(index)
 

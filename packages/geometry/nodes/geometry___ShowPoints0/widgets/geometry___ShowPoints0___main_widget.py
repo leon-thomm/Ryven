@@ -62,7 +62,5 @@ class ShowPoints_NodeInstance_MainWidget(QWidget):
         self.points = data['points']
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

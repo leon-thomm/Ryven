@@ -6,7 +6,7 @@ import json
 
 from custom_src.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
 from custom_src.global_tools.strings import shorten
-from custom_src.script_variables.EditVarVal_Dialog import EditVarVal_Dialog
+from custom_src.EditVal_Dialog import EditVal_Dialog
 
 
 class VarsList_VarWidget(QWidget):
@@ -103,7 +103,7 @@ class VarsList_VarWidget(QWidget):
 
 
     def action_edit_val_triggered(self):
-        edit_var_val_dialog = EditVarVal_Dialog(self, self.var)
+        edit_var_val_dialog = EditVal_Dialog(self, self.var.val)
         accepted = edit_var_val_dialog.exec_()
         if accepted:
             self.variables_handler.set_var(self.var.name, edit_var_val_dialog.get_val())

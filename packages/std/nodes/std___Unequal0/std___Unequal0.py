@@ -52,7 +52,5 @@ class Unequal_NodeInstance(NodeInstance):
         self.enlargement_state = data['enlargement state']
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

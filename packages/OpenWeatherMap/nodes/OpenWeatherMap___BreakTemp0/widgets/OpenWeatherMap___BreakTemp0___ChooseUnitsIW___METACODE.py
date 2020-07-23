@@ -75,5 +75,5 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QWidget):
 
 
     # remove logs and stop threads and timers here
-    def removing(self):
+    def remove_event(self):
         pass # ...

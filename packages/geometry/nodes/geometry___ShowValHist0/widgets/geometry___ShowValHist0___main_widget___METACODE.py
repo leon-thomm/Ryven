@@ -82,7 +82,5 @@ class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
         self.connect_lines_check_box.setChecked(data['connect lines linear'])
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

@@ -213,10 +213,29 @@ class NodeInstance(QGraphicsItem):
         except Exception as e:
             Debugger.debug('EXCEPTION IN', self.parent_node.title, 'NI:', e)
 
-    def update_event(self, input_called=-1):     # API  (gets overwritten)
+    def update_event(self, input_called=-1):
         """Gets called when an input received a signal. This is where the magic begins in subclasses."""
 
         pass
+
+    def input(self, index):
+        """Returns the value of a data input.
+        If the input is connected, the value of the connected output is used:
+        If not, the value of the widget is used."""
+
+        Debugger.debug('input called in', self.parent_node.title, 'NI:', index)
+        return self.inputs[index].get_val()
+
+    def exec_output(self, index):
+        """Executes an execution output, sending a signal to all connected execution inputs causing the connected
+        NIs to update."""
+        self.outputs[index].exec()
+
+    def set_output_val(self, index, val):
+        """Sets the value of a data output.
+        self.data_outputs_updated() has to be called manually after all values are set."""
+
+        self.outputs[index].set_val(val)
 
     def data_outputs_updated(self):
         """Sends update signals to all data outputs causing connected NIs to update."""
@@ -227,35 +246,9 @@ class NodeInstance(QGraphicsItem):
                 o.updated_val()
         Debugger.debug('data outputs in', self.parent_node.title, 'updated')
 
-    def input(self, index):     # API
-        """Returns the value of a data input.
-        If the input is connected, the value of the connected output is used:
-        If not, the value of the widget is used."""
-
-        Debugger.debug('input called in', self.parent_node.title, 'NI:', index)
-        return self.inputs[index].get_val()
-
-    def set_output_val(self, index, val):       # API
-        """Sets the value of a data output.
-        self.data_outputs_updated() has to be called manually after all values are set."""
-
-        self.outputs[index].set_val(val)
-
-    def exec_output(self, index):       # API
-        """Executes an execution output, sending a signal to all connected execution inputs causing the connected
-        NIs to update."""
-        self.outputs[index].exec()
-
-    def about_to_remove_from_scene(self):
-        """Called from Flow when the NI gets removed from the scene to stop all running threads."""
-        if self.main_widget:
-            self.main_widget.removing()
-        self.removing()
-
-        self.disable_personal_logs()
-
-    def removing(self):     # API  (gets overwritten)  TODO rename to remove_event(), it would make more sense I guess
+    def remove_event(self):
         """Method to stop all threads in hold of the NI itself."""
+
         pass
 
     #                                 _
@@ -265,7 +258,7 @@ class NodeInstance(QGraphicsItem):
     #            \__,_/  / .___/  /_/
     #                   /_/
     #
-    # There are methods in the 'algorithm' section that are part of the API too
+    # all algorithm-unrelated api methods:
 
     #   LOGGING
     def new_log(self, title):
@@ -432,7 +425,7 @@ class NodeInstance(QGraphicsItem):
 
     # GET, SET DATA
     def get_data(self):
-        """ IMPORTANT
+        """
         This method gets subclassed and specified. If the NI has states (so, the behavior depends on certain values),
         all these values must be stored in JSON-able format in a dict here. This dictionary will be used to reload the
         node's state when loading a project or pasting copied/cut nodes in the Flow (the states get copied too), see
@@ -443,7 +436,7 @@ class NodeInstance(QGraphicsItem):
         return {}
 
     def set_data(self, data):
-        """ IMPORTANT
+        """
         If the NI has states, it's state should get reloaded here according to what was previously provided by the same
         class in get_data(), see above.
         :param data: Dictionary representing all values necessary to determine the NI's current state
@@ -664,7 +657,7 @@ class NodeInstance(QGraphicsItem):
         self.flow.scene().removeItem(i.label)
         if i.widget:
             self.flow.scene().removeItem(i.proxy)
-            i.widget.removing()
+            i.widget.remove_event()
         self.inputs.remove(i)
 
 
@@ -682,6 +675,16 @@ class NodeInstance(QGraphicsItem):
         self.outputs.remove(o)
 
     # GENERAL
+    def about_to_remove_from_scene(self):
+        """Called from Flow when the NI gets removed from the scene
+        to stop all running threads and disable personal logs."""
+
+        if self.main_widget:
+            self.main_widget.remove_event()
+        self.remove_event()
+
+        self.disable_personal_logs()
+
     def is_active(self):
         for i in self.inputs:
             if i.type_ == 'exec':

@@ -77,7 +77,5 @@ class Perceptron_NodeInstance(NodeInstance):
         self.weights = data['weights']
 
 
-
-    # optional - important for threading - stop everything here
     def removed(self):
         pass

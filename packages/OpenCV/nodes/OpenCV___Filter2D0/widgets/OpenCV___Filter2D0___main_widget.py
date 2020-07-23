@@ -40,7 +40,5 @@ class Filter2D_NodeInstance_MainWidget(QLabel):
         self.setText(data)
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

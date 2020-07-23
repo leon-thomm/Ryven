@@ -58,7 +58,5 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.num_inputs = data['num inputs']
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass

@@ -65,7 +65,5 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.update()
 
 
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass
