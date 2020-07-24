@@ -4,7 +4,8 @@ from PySide2.QtCore import Qt, QRectF, QPointF, QSizeF
 from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont, QPainterPath, QFontMetrics
 
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.GlobalAttributes import Design, Algorithm
+from custom_src.GlobalAttributes import Algorithm
+from custom_src.Design import Design
 from custom_src.global_tools.strings import get_longest_line, shorten
 
 from custom_src.FlowProxyWidget import FlowProxyWidget
@@ -244,7 +245,7 @@ class PortInstanceGate(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        if Design.flow_style == 'dark std':
+        if Design.flow_theme == 'dark std':
             color = QColor('#2E688C') if self.parent_port_instance.type_ == 'data' else QColor('#3880ad')
             if option.state & QStyle.State_MouseOver:
                 color = color.lighter()
@@ -255,7 +256,7 @@ class PortInstanceGate(QGraphicsWidget):
 
             painter.drawEllipse(QRectF(self.padding, self.padding, self.painting_width, self.painting_height))
 
-        elif Design.flow_style == 'dark tron':
+        elif Design.flow_theme == 'dark tron':
             color = ''
             if self.parent_port_instance.type_ == 'exec':
                 color = '#FFFFFF'
@@ -277,7 +278,7 @@ class PortInstanceGate(QGraphicsWidget):
 
             painter.drawEllipse(QRectF(self.padding, self.padding, self.painting_width, self.painting_height))
 
-        elif Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
+        elif Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
             color = ''
             if self.parent_port_instance.type_ == 'exec':
                 color = '#FFFFFF'
@@ -356,9 +357,9 @@ class PortInstanceLabel(QGraphicsWidget):
     def paint(self, painter, option, widget=None):
         painter.setBrush(Qt.NoBrush)
         c = ''
-        if Design.flow_style == 'dark std':
+        if Design.flow_theme == 'dark std':
             c = '#ffffff'
-        elif Design.flow_style == 'dark tron' or Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
+        elif Design.flow_theme == 'dark tron' or Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
             if self.parent_port_instance.type_ == 'exec':
                 c = '#ffffff'
             elif self.parent_port_instance.type_ == 'data':

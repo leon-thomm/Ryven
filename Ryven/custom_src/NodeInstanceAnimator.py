@@ -38,7 +38,7 @@ class NodeInstanceAnimator(QObject):
     def reload_values(self):
         self.stop()
 
-        self.node_instance.title_label.update_design()
+        # self.node_instance.title_label.update_design()
         self.title_activation_animation.setKeyValueAt(0, self.get_title_color())
         self.title_activation_animation.setKeyValueAt(0.3, self.get_body_color().lighter().lighter())
         self.title_activation_animation.setKeyValueAt(1, self.get_title_color())

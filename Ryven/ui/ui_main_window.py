@@ -165,7 +165,7 @@ class Ui_MainWindow(object):
         self.scripts_tab_widget.setTabText(self.scripts_tab_widget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Main", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuView.setTitle(QCoreApplication.translate("MainWindow", u"View", None))
-        self.menuFlow_Design_Style.setTitle(QCoreApplication.translate("MainWindow", u"Flow Design Style", None))
+        self.menuFlow_Design_Style.setTitle(QCoreApplication.translate("MainWindow", u"Flow Theme", None))
         self.menuSave_Picture.setTitle(QCoreApplication.translate("MainWindow", u"Save Picture", None))
         self.menuDebugging.setTitle(QCoreApplication.translate("MainWindow", u"Debugging", None))
         self.menuDebugging_Messages.setTitle(QCoreApplication.translate("MainWindow", u"Debugging Messages", None))

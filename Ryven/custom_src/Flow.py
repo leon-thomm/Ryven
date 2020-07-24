@@ -22,7 +22,7 @@ from custom_src.PortInstance import PortInstance, PortInstanceGate
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.class_inspection import find_type_in_object, find_type_in_objects
 from custom_src.global_tools.math import pythagoras
-from custom_src.GlobalAttributes import Design
+from custom_src.Design import Design
 
 
 class Flow(QGraphicsView):
@@ -128,6 +128,9 @@ class Flow(QGraphicsView):
         self.set_stylus_proxy_pos()
         self.setAttribute(Qt.WA_TabletTracking)
 
+        # DESIGN THEME
+        Design.flow_theme_changed.connect(self.theme_changed)
+
         if config:
             node_instances = self.place_nodes_from_config(config['nodes'])
             self.connect_nodes_from_config(node_instances, config['connections'])
@@ -136,11 +139,8 @@ class Flow(QGraphicsView):
                 self.place_drawings_from_config(config['drawings'])
             self.undo_stack.clear()
 
-    def design_style_changed(self):
+    def theme_changed(self, t):
         self.viewport().update()
-
-        for ni in self.all_node_instances:
-            ni.update_design()
 
     def selection_changed(self):
         selected_items = self.scene().selectedItems()
@@ -382,15 +382,15 @@ class Flow(QGraphicsView):
         """Draws all connections and borders around selected items."""
 
         pen = QPen()
-        if Design.flow_style == 'dark std':
+        if Design.flow_theme == 'dark std':
             # pen.setColor('#BCBBF2')
             pen.setWidth(5)
             pen.setCapStyle(Qt.RoundCap)
-        elif Design.flow_style == 'dark tron':
+        elif Design.flow_theme == 'dark tron':
             # pen.setColor('#452666')
             pen.setWidth(4)
             pen.setCapStyle(Qt.RoundCap)
-        elif Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
+        elif Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
             pen.setWidth(2)
             pen.setCapStyle(Qt.RoundCap)
 
@@ -411,15 +411,15 @@ class Flow(QGraphicsView):
                     r = 0
                     g = 0
                     b = 0
-                    if Design.flow_style == 'dark std':
+                    if Design.flow_theme == 'dark std':
                         r = 188
                         g = 187
                         b = 242
-                    elif Design.flow_style == 'dark tron':
+                    elif Design.flow_theme == 'dark tron':
                         r = 0
                         g = 120
                         b = 180
-                    elif Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
+                    elif Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
                         r = 0
                         g = 17
                         b = 25

@@ -2,7 +2,6 @@ from PySide2.QtCore import Qt, QPointF, QRectF
 from PySide2.QtGui import QColor, QPainter, QBrush, QRadialGradient, QLinearGradient, QPen, QPainterPath
 from PySide2.QtWidgets import QStyle
 
-from custom_src.GlobalAttributes import Design
 from custom_src.global_tools.math import pythagoras
 
 
@@ -12,7 +11,7 @@ class NodeInstancePainter:
 
 
     def paint(self, painter, option,
-              c: QColor, w: int, h: int, bounding_rect,
+              c: QColor, w: int, h: int, bounding_rect, theme: str,
               widget):
 
         painter.setRenderHint(QPainter.Antialiasing)
@@ -21,36 +20,36 @@ class NodeInstancePainter:
 
         if self.ni.parent_node.design_style == 'extended':
 
-            if Design.flow_style == 'dark std':
+            if theme == 'dark std':
                 self.draw_dark_extended_background(painter, c, w, h, bounding_rect)
 
-            elif Design.flow_style == 'dark tron':
+            elif theme == 'dark tron':
                 self.draw_tron_extended_background(painter, c, w, h, bounding_rect)
 
-            elif Design.flow_style == 'ghostly':
+            elif theme == 'ghostly':
                 self.draw_ghostly_extended_background(painter, c, w, h, bounding_rect)
 
-            elif Design.flow_style == 'blender':
+            elif theme == 'blender':
                 self.draw_blender_extended_background(painter, c, w, h, bounding_rect)
 
         elif self.ni.parent_node.design_style == 'minimalistic':
 
-            if Design.flow_style == 'dark std':
+            if theme == 'dark std':
                 self.draw_dark_minimalistic(painter, c, w, h, bounding_rect)
 
-            elif Design.flow_style == 'dark tron':
+            elif theme == 'dark tron':
                 if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
                     self.draw_tron_minimalistic(painter, 10, c, w, h, background_color=c.darker())
                 else:
                     self.draw_tron_minimalistic(painter, 10, c, w, h)
 
-            elif Design.flow_style == 'ghostly':
+            elif theme == 'ghostly':
                 if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
                     self.draw_ghostly_minimalistic(painter, 15, c, w, h, background_color=c.darker())
                 else:
                     self.draw_ghostly_minimalistic(painter, 15, c, w, h)
 
-            elif Design.flow_style == 'blender':
+            elif theme == 'blender':
                 self.draw_blender_minimalistic(painter, 20, c, w, h, bounding_rect)
 
     def draw_dark_extended_background(self, painter, c, w, h, bounding_rect):

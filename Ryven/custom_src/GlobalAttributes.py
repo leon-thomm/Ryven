@@ -1,11 +1,3 @@
-class Design:
-    flow_designs = ['dark std', 'dark tron', 'ghostly', 'blender']
-    flow_style = None  # initialized by MainWindow
-    ryven_stylesheet = None
-    node_instance_shadows_shown = False
-    animations_enabled = True
-
-
 class Algorithm:
     """gen_data_on_request is used by data OutputPortInstances. This (normally unnecessary) feature allows the user to
     define how the data of the graph is being updated. If gen_data_on_request is set to True, a request of a data

@@ -18,7 +18,8 @@ from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
 from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.GlobalAttributes import Design, Algorithm, PerformanceMode
+from custom_src.GlobalAttributes import Algorithm, PerformanceMode
+from custom_src.Design import Design
 
 
 class MainWindow(QMainWindow):
@@ -95,13 +96,14 @@ class MainWindow(QMainWindow):
         ''')
 
 
-        self.set_flow_design('blender')
+        Design.set_flow_theme()
+
         self.resize(1500, 800)
 
 
     def setup_menu_actions(self):
         # flow designs
-        for d in Design.flow_designs:
+        for d in Design.flow_themes:
             design_action = QAction(d, self)
             self.ui.menuFlow_Design_Style.addAction(design_action)
             design_action.triggered.connect(self.on_design_action_triggered)
@@ -211,13 +213,7 @@ class MainWindow(QMainWindow):
 
     def on_design_action_triggered(self):
         index = self.flow_design_actions.index(self.sender())
-        design = Design.flow_designs[index]
-        self.set_flow_design(design)
-
-    def set_flow_design(self, new_design):
-        Design.flow_style = new_design
-        for script in self.scripts:
-            script.flow.design_style_changed()
+        Design.set_flow_theme(Design.flow_themes[index])
 
     def on_enable_debugging_triggered(self):
         Debugger.enable()

@@ -9,7 +9,8 @@ from custom_src.NodeInstancePainter import NodeInstancePainter
 from custom_src.NodeInstance_TitleLabel import TitleLabel
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.MovementEnum import MovementEnum
-from custom_src.GlobalAttributes import Design, PerformanceMode
+from custom_src.GlobalAttributes import PerformanceMode
+from custom_src.Design import Design
 
 from custom_src.Node import Node
 from custom_src.PortInstance import InputPortInstance, OutputPortInstance
@@ -36,8 +37,7 @@ class NodeInstance(QGraphicsItem):
         self.color = self.parent_node.color  # manipulated by self.animator
         self.node_instance_painter = NodeInstancePainter(self)
 
-        self.default_actions = {'remove': {'method': self.action_remove,
-                                           'data': 123},
+        self.default_actions = {'remove': {'method': self.action_remove},
                                 'update shape': {'method': self.update_shape}}  # for context menus
         self.special_actions = {}  # only gets written in custom NodeInstance-subclasses
         self.personal_logs = []
@@ -73,12 +73,13 @@ class NodeInstance(QGraphicsItem):
         self.widget = QGraphicsWidget(self)
         self.widget.setLayout(self.layout)
 
-
-
         # TOOLTIP
         if self.parent_node.description != '':
             self.setToolTip('<html><head/><body><p>'+self.parent_node.description+'</p></body></html>')
         self.setCursor(Qt.SizeAllCursor)
+
+        # DESIGN THEME
+        Design.flow_theme_changed.connect(self.theme_changed)
 
 
 
@@ -294,6 +295,10 @@ class NodeInstance(QGraphicsItem):
         self.layout.activate()
         # very essential; repositions everything in case content has changed (inputs/outputs/widget)
 
+        if self.parent_node.design_style == 'minimalistic':
+            self.layout.setMinimumWidth(self.title_label.width + 15)
+            self.layout.activate()
+
         self.width = self.boundingRect().width()
         self.height = self.boundingRect().height()
         rect = QRectF(QPointF(-self.width/2, -self.height/2),
@@ -451,7 +456,12 @@ class NodeInstance(QGraphicsItem):
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
 
+    def theme_changed(self, new_theme):
+        self.update_design()
+
     def update_design(self):
+        """Loads the shadow effect option and causes redraw with active theme."""
+
         if Design.node_instance_shadows_shown:
             self.shadow_effect = QGraphicsDropShadowEffect()
             self.shadow_effect.setXOffset(12)
@@ -485,10 +495,11 @@ class NodeInstance(QGraphicsItem):
         # has to be called once. See here:
         # https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event/4
         if not self.painted_once:
+            self.title_label.update_design()  # also necessary
             self.update_shape()
 
         self.node_instance_painter.paint(painter, option, self.color, self.width, self.height, self.boundingRect(),
-                                         widget)
+                                         Design.flow_theme, widget)
 
         self.painted_once = True
 
@@ -583,7 +594,7 @@ class NodeInstance(QGraphicsItem):
 
         return actions
 
-    def action_remove(self, data):
+    def action_remove(self):
         self.flow.remove_node_instance_triggered(self)
 
     def get_special_actions_data(self, actions):

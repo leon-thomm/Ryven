@@ -2,7 +2,7 @@ from PySide2.QtCore import QRectF, QPointF, QSizeF, Qt, Property
 from PySide2.QtGui import QFont, QFontMetricsF, QColor, QPen
 from PySide2.QtWidgets import QGraphicsWidget, QGraphicsLayoutItem, QGraphicsItem
 
-from custom_src.GlobalAttributes import Design
+from custom_src.Design import Design
 from custom_src.global_tools.strings import get_longest_line
 
 
@@ -25,6 +25,9 @@ class TitleLabel(QGraphicsWidget):
         self.pen_width = 1.5
         self.hovering = False  # whether the mouse is hovering over the parent NI (!)
 
+        Design.flow_theme_changed.connect(self.theme_changed)
+        self.update_design()
+
     def boundingRect(self):
         return QRectF(QPointF(0, 0), self.geometry().size())
 
@@ -37,7 +40,6 @@ class TitleLabel(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-
         pen = QPen(self.color)
         pen.setWidth(self.pen_width)
 
@@ -58,36 +60,42 @@ class TitleLabel(QGraphicsWidget):
     def set_NI_hover_state(self, hovering: bool):
         self.hovering = hovering
         self.update_design()
-        self.update()
+    
+    def theme_changed(self, new_theme):
+        self.update_design()
 
     def update_design(self):
+        theme = Design.flow_theme
+
         if self.design_style() == 'extended':
-            if Design.flow_style == 'dark std':
+            if theme == 'dark std':
                 if self.hovering:
                     self.color = self.parent_node_instance.color.lighter()
                     self.pen_width = 2
                 else:
                     self.color = QColor(30, 43, 48)
                     self.pen_width = 1.5
-            elif Design.flow_style == 'dark tron' or Design.flow_style == 'ghostly':
+            elif theme == 'dark tron' or theme == 'ghostly':
                 if self.hovering:
                     self.color = self.parent_node_instance.color.lighter()
                 else:
                     self.color = self.parent_node_instance.color
                 self.pen_width = 2
-            elif Design.flow_style == 'blender':
+            elif theme == 'blender':
                 self.color = QColor('#ffffff')
         elif self.design_style() == 'minimalistic':
-            if Design.flow_style == 'dark std':
+            if theme == 'dark std':
                 if self.hovering:
                     self.color = self.parent_node_instance.color.lighter()
                     self.pen_width = 1.5
                 else:
                     self.color = QColor(30, 43, 48)
                     self.pen_width = 1.5
-            elif Design.flow_style == 'dark tron' or Design.flow_style == 'ghostly' or Design.flow_style == 'blender':
+            elif theme == 'dark tron' or theme == 'ghostly' or theme == 'blender':
                 self.color = self.parent_node_instance.color
                 self.pen_width = 2
+
+        self.update()
 
 
     # ANIMATION STUFF
