@@ -419,7 +419,7 @@ class StdLineEdit_PortInstanceWidget(QLineEdit):
     def editing_finished(self):
         self.parent_node_instance.update(self.parent_node_instance.inputs.index(self.parent_port_instance))
 
-    def removing(self):
+    def remove_event(self):
         pass
 
     def get_val(self):
@@ -478,7 +478,7 @@ class StdSpinBox_PortInstanceWidget(QSpinBox):
     def editing_finished(self):
         self.parent_node_instance.update(self.parent_node_instance.inputs.index(self.parent_port_instance))
 
-    def removing(self):
+    def remove_event(self):
         pass
 
     def get_val(self):

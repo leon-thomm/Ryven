@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
         ''')
 
 
-        self.set_flow_design('dark tron')
+        self.set_flow_design('blender')
         self.resize(1500, 800)
 
 

@@ -1,6 +1,6 @@
 class Design:
     flow_designs = ['dark std', 'dark tron', 'ghostly', 'blender']
-    flow_style = flow_designs[1]
+    flow_style = None  # initialized by MainWindow
     ryven_stylesheet = None
     node_instance_shadows_shown = False
     animations_enabled = True

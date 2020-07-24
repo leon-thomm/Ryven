@@ -38,7 +38,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.initialized()
 
     def update_event(self, input_called=-1):
-        pass # ...
+        self.set_output_val(0, round(self.input(0)))
 
     def get_data(self):
         data = {}

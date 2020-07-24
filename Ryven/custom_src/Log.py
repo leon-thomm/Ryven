@@ -103,9 +103,6 @@ class Log(QWidget):
     def clear(self):
         self.log_view.clear()
 
-    def removing(self):  # old method, delete later
-        self.disable()
-
     def disable(self):
         self.remove_button.show()
         self.setStyleSheet(self.disabled_style_sheet)

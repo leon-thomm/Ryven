@@ -44,10 +44,7 @@ class ValNode_Instance_MainWidget(QLineEdit):
     def set_data(self, data):
         self.setText(data['text'])
 
-
-
-    # optional - important for threading - stop everything here
-    def removing(self):
+    def remove_event(self):
         pass
 
 

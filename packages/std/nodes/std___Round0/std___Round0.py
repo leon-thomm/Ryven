@@ -28,9 +28,9 @@ from custom_src.retain import M
 # ------------------------------------------------------------------------------
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
+class Round_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+        super(Round_NodeInstance, self).__init__(parent_node, flow, configuration)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
@@ -38,7 +38,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.initialized()
 
     def update_event(self, input_called=-1):
-        pass # ...
+        self.set_output_val(0, round(self.input(0)))
 
     def get_data(self):
         data = {}

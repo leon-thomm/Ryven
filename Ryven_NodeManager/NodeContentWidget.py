@@ -92,8 +92,10 @@ class NodeContentWidget(QWidget):
             elif widget_pos == 'between ports':
                 self.ui.main_widget_under_ports_radioButton.setChecked(False)
                 self.ui.main_widget_between_ports_radioButton.setChecked(True)
-            self.edit_main_widget_metacode_dialog.set_code(node.main_widget_meta_code,
-                                                           node.main_widget_meta_code_file_path)
+
+        # also set the code when the node doesn't have a widget YET
+        self.edit_main_widget_metacode_dialog.set_code(node.main_widget_meta_code,
+                                                       node.main_widget_meta_code_file_path)
 
         for i in range(len(node.custom_input_widgets)):
             iw = node.custom_input_widgets[i]
@@ -328,11 +330,11 @@ class NodeContentWidget(QWidget):
             save_file(node_meta_code_file_path, metacode)  # the NI file's name is just the 'module name'
             enmd.set_code(metacode)  # to reset 'initial code'
         else:
-            if enmd.code_edited():
-                if not enmd.code_source_changed() or enmd.code_source_changed() and override_changed_source:
-                    metacode = enmd.get_code()
-                    save_file(node_meta_code_file_path, metacode)
-                    enmd.set_code(metacode)  # to reset 'initial code'
+            # if enmd.code_edited():
+            if not enmd.code_source_changed() or enmd.code_source_changed() and override_changed_source:
+                metacode = enmd.get_code()
+                save_file(node_meta_code_file_path, metacode)
+                enmd.set_code(metacode)  # to reset 'initial code'
 
 
         if self.node_has_main_widget():
@@ -344,11 +346,11 @@ class NodeContentWidget(QWidget):
                 save_file(main_widget_src_code_file_path, metacode)
                 emwmd.set_code(metacode)  # to reset 'initial code'
             else:
-                if emwmd.code_edited():
-                    if not emwmd.code_source_changed() or emwmd.code_source_changed() and override_changed_source:
-                        metacode = emwmd.get_code()
-                        save_file(main_widget_src_code_file_path, metacode)
-                        emwmd.set_code(metacode)  # to reset 'initial code'
+                # if emwmd.code_edited():
+                if not emwmd.code_source_changed() or emwmd.code_source_changed() and override_changed_source:
+                    metacode = emwmd.get_code()
+                    save_file(main_widget_src_code_file_path, metacode)
+                    emwmd.set_code(metacode)  # to reset 'initial code'
 
 
         for iw in self.input_widgets:
@@ -361,8 +363,8 @@ class NodeContentWidget(QWidget):
                 save_file(iw_file_path, metacode)
                 eiwmd.set_code(metacode)  # to reset 'initial code'
             else:
-                if eiwmd.code_edited():
-                    if not eiwmd.code_source_changed() or eiwmd.code_source_changed() and override_changed_source:
-                        metacode = eiwmd.get_code()
-                        save_file(iw_file_path, metacode)
-                        eiwmd.set_code(metacode)  # to reset 'initial code'
+                # if eiwmd.code_edited():
+                if not eiwmd.code_source_changed() or eiwmd.code_source_changed() and override_changed_source:
+                    metacode = eiwmd.get_code()
+                    save_file(iw_file_path, metacode)
+                    eiwmd.set_code(metacode)  # to reset 'initial code'

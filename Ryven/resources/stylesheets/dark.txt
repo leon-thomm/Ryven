@@ -28,6 +28,11 @@ QTextEdit {
 	border: none;
 }
 
+QPlainTextEdit {
+	border: none;
+	background-color: #333333;
+}
+
 QSplitter {
 	border: none;
 }

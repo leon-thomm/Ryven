@@ -32,21 +32,36 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        # self.special_actions['action name'] = {'method': M(self.action_method)}
-        # ...
+        self.special_actions['add param input'] = {'method': M(self.action_add_param_input)}
+        self.param_counter = 0        
 
         self.initialized()
 
+    def action_add_param_input(self):
+        self.param_counter += 1
+        self.create_new_input('data', 'param', widget_name=None, pos=-1)
+        self.special_actions['remove param '+str(self.param_counter)] = {'method': M(self.action_remove_param_input), 'data': self.param_counter}
+
+    def action_remove_param_input(self, data):
+        self.delete_input(data)
+        del self.special_actions['remove param '+str(self.param_counter)]
+        for i in range(1, self.param_counter):
+            self.special_actions['remove param '+str(i)] = {'method': M(self.action_remove_param_input), 'data': i}
+        self.param_counter -= 1
+
     def update_event(self, input_called=-1):
-        pass # ...
+        obj = self.input(0)
+        params = [self.input(i) for i in range(1, self.param_counter+1)]
+        res = eval(self.main_widget.get_text())
+        self.set_output_val(0, res)
 
     def get_data(self):
-        data = {}
-        # ...
+        data = {'param counter': self.param_counter}
         return data
 
     def set_data(self, data):
-        pass # ...
+        self.param_counter = data['param counter']
+
 
     def removing(self):
         pass

@@ -87,7 +87,7 @@ class NodeChoiceWidget(QWidget):
                 self.active_node_widget_index-1 > -1 else len(self.all_current_node_widgets)-1
             self.set_active_node_widget_index(index)
 
-        if event.key() == Qt.Key_Return:
+        if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
             if len(self.all_current_node_widgets) > 0:
                 self.place_node(self.active_node_widget_index)
 
