@@ -134,8 +134,7 @@ class Flow(QGraphicsView):
         if config:
             node_instances = self.place_nodes_from_config(config['nodes'])
             self.connect_nodes_from_config(node_instances, config['connections'])
-            if list(config.keys()).__contains__('drawings'):
-                # the if is here just because it's very new feature and not all project files have drawings arr just yet
+            if list(config.keys()).__contains__('drawings'):  # not all (old) project files have drawings arr
                 self.place_drawings_from_config(config['drawings'])
             self.undo_stack.clear()
 
