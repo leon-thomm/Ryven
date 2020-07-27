@@ -172,25 +172,20 @@ whenever the execution of a node returned an error. That's a very useful feature
 
 ## Nodes With States
 
-A node normally shouldn't have states at all. And if it has, it should not have a complex network of them. For example the only state in a n-dimensional for loop should be the number of dimensions used.
+A node has states if it's behavior depends on the values of intern variables. For example the state of a n-dimensional for loop is determined by the number of dimensions used.
 
-If everything that happens is dependent on what is being triggered (like an execution input) and not on any internal variables, then you don't have to do anything here.
+If your node has states, you can save these state defining attributes by providing their values in the _get_data()_ method and reloading them in the _set_data()_ method of the node's class as well as all the custom widget classes. This ensures that the node's state gets reinitialized correctly when loading a project or pasting copied components. These state defining attributes must be provided in _get_data()_ as a dictionary **in JSON compatible format** and reinitialized correctly in _set_data()_.
 
-If your node has states, you can saves these state defining attributes by providing their values in the _get_data()_ method and reloading them in the _set_data()_ method to make sure that the node's state gets reinitialized correctly when loading a project for example. You don't have to do this though. But if your node's behaviour can be slightly adapted by the user, it often makes sense to save it. Just provide all state defining attribute values **in JSON compatible format** in the _get_data()_ method as dictionary. Then do the opposite in the _set_data()_ method. _get_data()_ is also called when nodes are copied and _set_data()_ when they are pasted.
+All inputs and outputs get saved and reloaded automatically as they are, so if you added some or removed some, you don't have to worry about that in, you just need to reset your custom variables telling your object in which state the node is currently in.
 
-All inputs and outputs get saved and reloaded automatically as they are, so if you added some or removed some, you don't have to worry about that in _get_data()_, _set_data()_, you just need to reset your intern variables telling your class in which state the node is currently in.
+## Remove Event
 
-This applies on the normal node class as well as on all the widgets classes, these have _get_data()_ and _set_data()_ too - same behavior.
-
-## Removing Method
-
-The _removing()_ method is being called when a node gets removed from the flow. This is only important for nodes that autonomously run independent computations like threads or timers. These should all get stopped in this method.
-
-This applies on the normal node class as well as on all the widgets classes, these have _removing()_ too.
+Your node as well as all it's custom widgets has a _remove_event()_ which is being called when a node gets removed from the flow. This is only important for nodes that autonomously run independent computations like threads or timers. These should all get stopped in this method.
 
 ## Programming Widgets
 
-The possibility to program custom widgets for the nodes is one of the core concepts. A widget must derive from [QWidget](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QWidget.html) from Qt either directly or indirectly (like deriving from [QPushButton](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QPushButton.html#qpushbutton)). So you use PySide2 to program widgets. There are no restrictions - your custom widget can be any QWidget (which itself can contain about anything). A node can have a main widget which sits either between or under the ports, and every data input of a node can have a widget too. All widget classes must be stated in the NodeManager (whether a node has a main widget and every custom input widget in its _Input Widgets_ area). When saving the node in a package, the NodeManager will then create template files (_METACODE_) for all these widgets, just like for the node intance class. To program the widgets, simply edit these metacode files. If you are not familiar with Qt but have already worked with other big GUI libraries, getting into PySide2 (aka _Qt for Python_) is not very difficult I guess. Use the existent nodes with widgets as reference.
+The possibility to program custom widgets for the nodes is one of the core concepts. For that, you use PySide2 (aka Qt For Python) directly. A widget must derive from [QWidget](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QWidget.html) either directly or indirectly. Deriving from [QPushButton](https://doc.qt.io/qtforpython/PySide2/QtWidgets/QPushButton.html#qpushbutton) for example would make a valid widget too. There are no restrictions - your custom widget can be any QWidget (which itself can contain about anything). If you are not familiar with Qt but have already worked with other big GUI libraries, getting into PySide2 is not very difficult, I guess. Use the existent nodes with widgets as reference.
+A node can have a main widget which sits either between or under the ports, and every data input of a node can have a custom widget too. All widget classes must be declared in the NodeManager (whether a node has a main widget and every custom input widget in the _Input Widgets_ area). The NodeManager will then create template files for all these widgets which you then can edit either directly in the NodeManager or outside by editing the metacode files directly. All widget metacode files are located in the widgets folder inside the node's folder.
 
 ### Access Parent Node
 
@@ -200,15 +195,13 @@ In both types of widgets, you can access the parent node via
 
 ### Main Widget
 
-The main widget's metacode file is located in the node's 'widgets' folder. Just open it and edit the class that you will see - just like with the node's class. The class must derive from a QWidget class. You can either let the class derive directly from QWidget, or from a specified one like QLineEdit.
-
 #### Using Custom Content - Package Path
 
-As you can see there is a package path which is the path to the package the node is a part of. This is very useful if you want to use resources laying on your file system, images for example. You can put them anywhere you want into the package directory, they will not be removed by the NodeManager when overwrite the package.
+As you can see in the code generated for a widget, there is a package path which is the path to the package the node is a part of. This is very useful if you want to use resources like images laying on your file system. You can put them anywhere you want into the package directory, they will not be removed by the NodeManager when overriding the package. You can also use the package path to import further Python classes you defined and want to use in different widgets (like a widget parent for a certain type of node).
 
 #### Minimal Example
 
-The following code is an example for a button node. Once you press the button, the first and only execution output should get executed. Because all the connecting is done in the node class, this is pretty simple:
+The following code is an example for a button node. Once you press the button, the first and only execution output should get executed:
 
     from PySide2.QtWidgets import QPushButton
 
@@ -230,7 +223,7 @@ The following code is an example for a button node. Once you press the button, t
                 border-radius: 5px;
             ''')
             
-        # get_data, set_data and removing stay empty as there are no states or timers
+        # get_data, set_data and remove event stay empty as there are no states or timers
 
 ![](/resources/images/pyScript9.PNG)
 
@@ -242,12 +235,12 @@ In the node's class, we need to connect this button like that:
         def __init__(self, parent_node: Node, flow, configuration=None):
             super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-            self.main_widget.clicked.connect(self.button_clicked)  # Qt syntax
+            self.main_widget.clicked.connect(M(self.button_clicked))  # Qt syntax
 
             self.initialized()
 
         def button_clicked(self):
-            self.update()  # always call self.update(), never self.updating() directly
+            self.update()  # will result in an update event
 
         def update_event(self, input_called=-1):
             self.exec_output(0)
@@ -256,19 +249,19 @@ In the node's class, we need to connect this button like that:
 
 ### Data Input Widgets
 
-Input widgets are custom widgets you can program for input ports of the node.
+Input widgets are custom widgets you can program for data input ports of a node.
 
-- Custom input widget names must be unique _inside the same node_. Other nodes can have same custom input widget names.
+Custom input widget names must be unique _inside the same node_. Other nodes can have same custom input widget names.
 
-There are standard widgets for data inputs which you can select in the NodeManager for the pre defined ports, or you can also use them when programatically adding new inputs (see section _API_ -> _Ports_ above). But you can also program custom widgets for data inputs.
+There are standard widgets for data inputs which you can select in the NodeManager for the initial ports, or you can also use them when programatically adding new inputs (see section _API_ -> _Ports_). But you can also program custom widgets for data inputs.
 
-When using custom input widgets, you must define them in the _Input Widgets_ area in the NodeManager and give the exact name in the _input widget name_ line edit of the input or in the function call. Multiple inputs can have the same custom widget. The 'Yes' and 'No' radio buttons (in NodeManager) specify whether your input has a widget at all or not. Execution inputs do not have custom widgets, so then you can ignore the whole widgets part of the input's widget in the 'Inputs' field.
+When using custom input widgets, you must define them in the _Input Widgets_ area in the NodeManager and give the exact name in the _input widget name_ line edit of the input or in the equivalent API method call. Different inputs can use the same custom widget.
 
-After you stated the existence of the custom input widget in the NodeManager and saved the node in a package, the metacode files that you can edit should be in the 'widgets' folder of your node. Programming a custom widget almost does not differ from programming a main widget.
+Programming a custom input widget almost does not differ from programming a main widget.
 
-The only difference is that you need to fill the _get_val()_ method which should return the value that the widget represents. This value will be used (when called _self.input(index)_) if the port is not connected to some other node.
+The only difference is that you need to fill the _get_val()_ method which should return the value the widget currently holds. This value will only be used (by calling _self.input(index)_ in the node's class) if the port is not connected to some other node.
 
-## Full Example
+## Full Example \[OUTDATED\]
 
 Because getting into this without a full example is a bit hard at first, here I take you through the process of creating an example node using all standard features.
 
@@ -433,25 +426,35 @@ Now we can import that new package into Ryven and start using the node!
 
 ## Storing Data In Actions
 
-You probably will not need this, so don't let yourself get confused if you didn't search for it.
+If multiple special actions hold the same target method, you will probably need a way to determine which action has actually been clicked. While you won't need this when just using static nodes, you will definitely run into this issue when creating more dynamic ones, so I had to come up with a solution.
 
-Only if you want to create very dynamic nodes with multiple right click operations representing the same action but for different inputs while having a dynamic number of these inputs - then you will definately run into this, so I had to come up with a solution.
+If at some point you have multiple entries in _special_actions_ that would point to the same method like that:
 
-When you have multiple entries in _special_actions_ that point to the same method like that:
+        {'remove custom parameter input 1': {'method' : M(self.action_remove_parameter)},
+         'remove custom parameter input 2': {'method' : M(self.action_remove_parameter)}}
 
-        self.special_actions = {'delete input 1': {'method' : self.action_delete_input},
-                                'delete input 2': {'method' : self.action_delete_input}}
+because the user added some inputs through other actions for example, just extend these entries by the _data_ attribute like that:
 
-because the user added an input through another action for example, then how can we determine in the _delete_input_ method which action was pressed?
+        {'remove custom parameter input 1': {'method' : M(self.action_remove_parameter),
+                                             'data' : 1},
+         'remove custom parameter input 2': {'method' : M(self.action_remove_parameter)},
+                                             'data' : 2}
 
-The solution is another attribute in the action's object in the _special_actions_ dict:
+and add a _data_ parameter to the target method:
 
-        self.special_actions = {'delete input 1': {'method' : self.action_delete_input,
-                                                   'data' : {'input number' : 1}},
-                                'delete input 2': {'method' : self.action_delete_input},
-                                                   'data' : {'input number' : 2}}
+    def action_remove_parameter(self, data):
+        param_number = data
+        ...
 
-and the extension of the _delete_input_ method by a _data_ parameter
+The data attribute in the special_actions dict can be anything. The following special_actions dict would lead to the same result
 
-    def action_delete_input(self, data):
-        input_number = data['input number']
+        {'remove custom parameter input 1': {'method' : M(self.action_remove_parameter),
+                                             'data' : {'param number' : 1}},
+         'remove custom parameter input 2': {'method' : M(self.action_remove_parameter)},
+                                             'data' : {'param number' : 2}}
+
+if you adapt your target method accordingly
+
+    def action_remove_parameter(self, data):
+        param_number = data['param number']
+        ...
