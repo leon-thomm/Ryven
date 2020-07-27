@@ -112,7 +112,7 @@ class MainWindow(QMainWindow):
 
 
     def import_nodes(self, j_nodes, dir):
-        print('importing nodes')
+        # print('importing nodes')
         o_nodes = json.loads(j_nodes)
         nodes_list = o_nodes['nodes']
 
@@ -177,7 +177,8 @@ class MainWindow(QMainWindow):
 
 
     def import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select the json file you want to import', '../packages')[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select the json file you want to import', '../packages',
+                                                '(*.rpc *.rypac)')[0]
         f_content = ''
         try:
             f = open(file_path)

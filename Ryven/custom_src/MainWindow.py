@@ -18,7 +18,7 @@ from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
 from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.GlobalAttributes import Algorithm, PerformanceMode
+from custom_src.GlobalAttributes import Algorithm
 from custom_src.Design import Design
 
 
@@ -97,6 +97,20 @@ class MainWindow(QMainWindow):
 
 
         Design.set_flow_theme()
+        Design.set_flow_theme()  # temporary
+        #   the double call is just a temporary fix for an issue I will address in a future release.
+        #   Problem: because the signal emitted when setting a flow theme is directly connected to the according slots
+        #   in NodeInstance as well as NodeInstance_TitleLabel, the NodeInstance's slot (which starts an animation which
+        #   uses the title label's current and theme dependent color) could get called before the title
+        #   label's slot has been called to reinitialize this color. This results in wrong color end points for the
+        #   title label when activating animations.
+        #   This is pretty nasty since I cannot think of a nice fix for this issue other that not letting the slot
+        #   methods be called directly from the emitted signal but instead through a defined procedure like before.
+
+
+        # maybe this will be necessary due to scheduling issues when loading flows
+        # for s in self.scripts:
+        #     s.flow.viewport().update()
 
         self.resize(1500, 800)
 
@@ -191,19 +205,9 @@ class MainWindow(QMainWindow):
 
     def on_performance_mode_changed(self, action):
         if action == self.action_set_performance_mode_fast:
-            self.set_performance_mode('fast')
+            Design.set_performance_mode('fast')
         else:
-            self.set_performance_mode('pretty')
-
-    def set_performance_mode(self, mode):
-        if mode == 'fast':
-            PerformanceMode.mode = 'fast'
-            Design.node_instance_shadows_shown = False
-        else:
-            PerformanceMode.mode = 'pretty'
-            Design.node_instance_shadows_shown = True
-        for script in self.scripts:
-            script.flow.design_style_changed()
+            Design.set_performance_mode('pretty')
 
     def on_animation_enabling_changed(self, action):
         if action == self.action_set_animation_active:
@@ -272,7 +276,7 @@ class MainWindow(QMainWindow):
 
 
     def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', 'Ryven Packages(*.rypac)',)[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', 'Ryven Packages(*.rpc)',)[0]
         if file_path != '':
             self.import_nodes_package(file_path)
 
@@ -472,7 +476,7 @@ class MainWindow(QMainWindow):
 
     def on_save_project_triggered(self):
         file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                '../saves', 'Ryven Project(*.rypo)')[0]
+                                                '../saves', 'Ryven Project(*.rpo)')[0]
         if file_name != '':
             self.save_project(file_name)
 

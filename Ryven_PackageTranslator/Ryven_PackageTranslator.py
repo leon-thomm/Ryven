@@ -10,7 +10,7 @@ class PackageTranslator:
 
         self.package_name = os.path.basename(package_dir)
 
-        f = open(package_dir+'/'+self.package_name+'.rypac', 'r')
+        f = open(package_dir+'/'+self.package_name+'.rpc', 'r')
         package_config = json.loads(f.read())
         f.close()
 

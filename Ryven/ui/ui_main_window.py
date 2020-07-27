@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
 "This will take a few seconds.", None))
 #endif // QT_CONFIG(tooltip)
         self.scripts_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Scripts", None))
-        self.new_script_name_lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"scripts name", None))
+        self.new_script_name_lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"script title", None))
         self.add_new_script_pushButton.setText(QCoreApplication.translate("MainWindow", u"add new", None))
         self.scripts_tab_widget.setTabText(self.scripts_tab_widget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Main", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))

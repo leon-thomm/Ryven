@@ -268,6 +268,9 @@ class Flow(QGraphicsView):
     def keyPressEvent(self, event):
         QGraphicsView.keyPressEvent(self, event)
 
+        if event.isAccepted():
+            return
+
         if event.key() == Qt.Key_Escape:  # do I need that... ?
             self.clearFocus()
             self.setFocus()

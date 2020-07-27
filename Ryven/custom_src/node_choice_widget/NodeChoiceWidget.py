@@ -78,18 +78,20 @@ class NodeChoiceWidget(QWidget):
         if event.key() == Qt.Key_Escape:
             self.flow.hide_node_choice_widget()
 
-        if event.key() == Qt.Key_Down:
+        elif event.key() == Qt.Key_Down:
             index = self.active_node_widget_index+1 if \
                 self.active_node_widget_index+1 < len(self.all_current_node_widgets) else 0
             self.set_active_node_widget_index(index)
-        if event.key() == Qt.Key_Up:
+        elif event.key() == Qt.Key_Up:
             index = self.active_node_widget_index-1 if \
                 self.active_node_widget_index-1 > -1 else len(self.all_current_node_widgets)-1
             self.set_active_node_widget_index(index)
 
-        if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
+        elif event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
             if len(self.all_current_node_widgets) > 0:
                 self.place_node(self.active_node_widget_index)
+        else:
+            event.setAccepted(False)
 
 
     def wheelEvent(self, event):

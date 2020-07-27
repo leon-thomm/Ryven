@@ -9,7 +9,6 @@ from custom_src.NodeInstancePainter import NodeInstancePainter
 from custom_src.NodeInstance_TitleLabel import TitleLabel
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.MovementEnum import MovementEnum
-from custom_src.GlobalAttributes import PerformanceMode
 from custom_src.Design import Design
 
 from custom_src.Node import Node
@@ -528,7 +527,7 @@ class NodeInstance(QGraphicsItem):
         redrawn during a NI drag. Should get disabled when running in performance mode - not implemented yet."""
 
         if change == QGraphicsItem.ItemPositionChange:
-            if PerformanceMode.mode == 'pretty':
+            if Design.performance_mode == 'pretty':
                 self.flow.viewport().update()
             if self.movement_state == MovementEnum.mouse_clicked:
                 self.movement_state = MovementEnum.position_changed

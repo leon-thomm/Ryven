@@ -10,13 +10,15 @@ from PySide2.QtWidgets import QWidget
 import os
 
 
+package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
+
+
 class ShowPoints_NodeInstance_MainWidget(QWidget):
     def __init__(self, parent_node_instance):
         super(ShowPoints_NodeInstance_MainWidget, self).__init__()
 
         # leave these lines ------------------------------
         self.parent_node_instance = parent_node_instance
-        self.package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
         # ------------------------------------------------
 
         self.setStyleSheet('''
