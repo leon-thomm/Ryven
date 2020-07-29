@@ -14,9 +14,9 @@ from custom_src.retain import M
 # self.exec_output(index)             <- executes an execution output
 
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
-# self.delete_input(index)
+# self.delete_input(index or input)
 # self.create_new_output(type_, label, pos=-1)
-# self.delete_output(index)
+# self.delete_output(index or output)
 
 
 # Logging
@@ -27,10 +27,12 @@ from custom_src.retain import M
 
 # ------------------------------------------------------------------------------
 
+import random
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
+
+class RandSeed_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+        super(RandSeed_NodeInstance, self).__init__(parent_node, flow, configuration)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
@@ -38,7 +40,9 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.initialized()
 
     def update_event(self, input_called=-1):
-        pass # ...
+        if input_called == 0:
+            random.seed(self.input(1))
+            self.exec_output(0)
 
     def get_data(self):
         data = {}

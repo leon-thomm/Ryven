@@ -25,7 +25,7 @@ class TitleLabel(QGraphicsWidget):
         self.pen_width = 1.5
         self.hovering = False  # whether the mouse is hovering over the parent NI (!)
 
-        Design.flow_theme_changed.connect(self.theme_changed)
+        # Design.flow_theme_changed.connect(self.theme_changed)
         self.update_design()
 
     def boundingRect(self):
@@ -62,6 +62,7 @@ class TitleLabel(QGraphicsWidget):
         self.update_design()
     
     def theme_changed(self, new_theme):
+        """Gets called from the parent node instance because the order of the different updates matters.""" # not working yet
         self.update_design()
 
     def update_design(self):

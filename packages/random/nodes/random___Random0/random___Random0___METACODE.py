@@ -14,9 +14,9 @@ from custom_src.retain import M
 # self.exec_output(index)             <- executes an execution output
 
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
-# self.delete_input(index)
+# self.delete_input(index or input)
 # self.create_new_output(type_, label, pos=-1)
-# self.delete_output(index)
+# self.delete_output(index or output)
 
 
 # Logging
@@ -26,27 +26,47 @@ from custom_src.retain import M
 # self.log_message('that\'s not good', target='error')
 
 # ------------------------------------------------------------------------------
+import random
 
 
 class %NODE_TITLE%_NodeInstance(NodeInstance):
     def __init__(self, parent_node: Node, flow, configuration=None):
         super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
 
-        # self.special_actions['action name'] = {'method': M(self.action_method)}
-        # ...
+        self.special_actions['make executable'] = {'method': M(self.action_make_executable)}
+        self.active = False
 
         self.initialized()
 
+    def action_make_executable(self):
+        del self.special_actions['make executable']
+        self.special_actions['make passve'] = {'method': M(self.action_make_passive)}
+        self.create_new_input('exec', '', pos=0)
+        self.create_new_output('exec', '', pos=0)
+        self.active = True
+    
+    def action_make_passive(self):
+        del self.special_actions['make passve']
+        self.special_actions['make executable'] = {'method': M(self.action_make_executable)}
+        self.delete_input(0)
+        self.delete_output(0)
+        self.active = False
+
     def update_event(self, input_called=-1):
-        pass # ...
+        if self.active:
+            if input_called==0:
+                self.set_output_val(1, random.random())
+                self.exec_output(0)
+        else:        
+            self.set_output_val(0, random.random())
+        
 
     def get_data(self):
-        data = {}
-        # ...
+        data = {'active': self.active}
         return data
 
     def set_data(self, data):
-        pass # ...
+        self.active = data['active']
 
     def removing(self):
         pass

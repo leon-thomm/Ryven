@@ -456,6 +456,7 @@ class NodeInstance(QGraphicsItem):
     # UI STUFF ----------------------------------------
 
     def theme_changed(self, new_theme):
+        self.title_label.theme_changed(new_theme)
         self.update_design()
 
     def update_design(self):
@@ -471,6 +472,8 @@ class NodeInstance(QGraphicsItem):
         else:
             self.setGraphicsEffect(None)
 
+        self.title_label.update_design()
+        # print(self.title_label.color)
         self.animator.reload_values()
 
         QGraphicsItem.update(self)
