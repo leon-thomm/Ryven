@@ -3,6 +3,7 @@ from PySide2.QtWidgets import QGraphicsItem, QMenu, QGraphicsLinearLayout, QGrap
 from PySide2.QtCore import Qt, QRectF, QPointF
 from PySide2.QtGui import QColor
 
+from custom_src.GlobalAttributes import ViewportUpdateMode
 from custom_src.NodeInstanceAction import NodeInstanceAction
 from custom_src.NodeInstanceAnimator import NodeInstanceAnimator
 from custom_src.NodeInstancePainter import NodeInstancePainter
@@ -234,6 +235,10 @@ class NodeInstance(QGraphicsItem):
     def set_output_val(self, index, val):
         """Sets the value of a data output.
         self.data_outputs_updated() has to be called manually after all values are set."""
+
+        if not ViewportUpdateMode.sync:  # asynchronous viewport updates
+            vp = self.flow.viewport()
+            vp.repaint(self.flow.mapFromScene(self.sceneBoundingRect()))
 
         self.outputs[index].set_val(val)
 

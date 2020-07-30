@@ -18,7 +18,7 @@ from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
 from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.GlobalAttributes import Algorithm
+from custom_src.GlobalAttributes import Algorithm, ViewportUpdateMode
 from custom_src.Design import Design
 
 
@@ -187,6 +187,25 @@ class MainWindow(QMainWindow):
 
         self.ui.menuView.addMenu(animations_menu)
 
+        # viewport update mode
+        self.action_set_VUM_synchronous = QAction('Sync', self)
+        self.action_set_VUM_synchronous.setCheckable(True)
+
+        self.action_set_VUM_asynchronous = QAction('Async', self)
+        self.action_set_VUM_asynchronous.setCheckable(True)
+
+        viewport_update_mode_AG = QActionGroup(self)
+        viewport_update_mode_AG.addAction(self.action_set_VUM_synchronous)
+        viewport_update_mode_AG.addAction(self.action_set_VUM_asynchronous)
+        self.action_set_VUM_synchronous.setChecked(True)
+        viewport_update_mode_AG.triggered.connect(self.on_viewport_update_mode_changed)
+
+        viewport_update_mode_menu = QMenu('Viewport Update Mode', self)
+        viewport_update_mode_menu.addAction(self.action_set_VUM_synchronous)
+        viewport_update_mode_menu.addAction(self.action_set_VUM_asynchronous)
+
+        self.ui.menuView.addMenu(viewport_update_mode_menu)
+
     def load_stylesheet(self, ss):
         ss_content = ''
         try:
@@ -214,6 +233,12 @@ class MainWindow(QMainWindow):
             Design.animations_enabled = True
         else:
             Design.animations_enabled = False
+
+    def on_viewport_update_mode_changed(self, action):
+        if action == self.action_set_VUM_asynchronous:
+            ViewportUpdateMode.sync = False
+        else:
+            ViewportUpdateMode.sync = True
 
     def on_design_action_triggered(self):
         index = self.flow_design_actions.index(self.sender())
