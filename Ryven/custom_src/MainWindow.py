@@ -131,10 +131,10 @@ class MainWindow(QMainWindow):
         self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
 
         # algorithm
-        self.action_set_sync_mode_use_existent_data = QAction('Use Existent Data', self)
+        self.action_set_sync_mode_use_existent_data = QAction('Data Flow', self)
         self.action_set_sync_mode_use_existent_data.setCheckable(True)
 
-        self.action_set_sync_mode_gen_data = QAction('Generate Data On Request', self)
+        self.action_set_sync_mode_gen_data = QAction('Execution Flow', self)
         self.action_set_sync_mode_gen_data.setCheckable(True)
 
         algorithm_sync_mode_AG = QActionGroup(self)
