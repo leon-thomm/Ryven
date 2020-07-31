@@ -52,7 +52,7 @@ class CustomInputWidget(QWidget):
             self.content_widget.delete_input_widget(self)
 
     def get_name(self):
-        return self.content_widget.prepare_class_name(self.name_line_edit.text())
+        return self.content_widget.generate_class_name(self.name_line_edit.text())
 
     def set_name(self, new_name):
         self.name_line_edit.setText(new_name)
@@ -61,4 +61,4 @@ class CustomInputWidget(QWidget):
         return self.edit_input_widget_metacode_dialog.get_code()
 
     def name_line_edit_edited(self):
-        self.name_line_edit.setText(self.content_widget.prepare_class_name(self.name_line_edit.text()))
+        self.name_line_edit.setText(self.content_widget.generate_class_name(self.name_line_edit.text()))

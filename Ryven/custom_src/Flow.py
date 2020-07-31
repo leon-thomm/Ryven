@@ -13,6 +13,7 @@ from custom_src.FlowCommands import MoveComponents_Command, PlaceNodeInstanceInS
 from custom_src.FlowProxyWidget import FlowProxyWidget
 from custom_src.FlowStylusModesWidget import FlowStylusModesWidget
 from custom_src.FlowZoomWidget import FlowZoomWidget
+from custom_src.GlobalAttributes import Flow_AlgorithmMode, Flow_ViewportUpdateMode
 from custom_src.Node import Node
 from custom_src.builtin_nodes.GetVar_Node import GetVariable_Node
 from custom_src.builtin_nodes.SetVar_Node import SetVariable_Node
@@ -81,6 +82,10 @@ class Flow(QGraphicsView):
         self.current_scale = 1
         self.total_scale_div = 1
 
+        # SETTINGS
+        self.algorithm_mode = Flow_AlgorithmMode()
+        self.viewport_update_mode = Flow_ViewportUpdateMode()
+
         # CREATE UI
         scene = QGraphicsScene(self)
         scene.setItemIndexMethod(QGraphicsScene.NoIndex)
@@ -132,6 +137,26 @@ class Flow(QGraphicsView):
         Design.flow_theme_changed.connect(self.theme_changed)
 
         if config:
+            config: dict
+
+            # algorithm mode
+            if config.keys().__contains__('algorithm mode'):
+                if config['algorithm mode'] == 'data flow':
+                    self.parent_script.widget.ui.algorithm_data_flow_radioButton.setChecked(True)
+                    self.algorithm_mode.mode_data_flow = True
+                else:  # 'exec flow'
+                    self.parent_script.widget.ui.algorithm_exec_flow_radioButton.setChecked(True)
+                    self.algorithm_mode.mode_data_flow = False
+
+            # viewport update mode
+            if config.keys().__contains__('viewport update mode'):
+                if config['viewport update mode'] == 'sync':
+                    self.parent_script.widget.ui.viewport_update_mode_sync_radioButton.setChecked(True)
+                    self.viewport_update_mode.sync = True
+                else:  # 'async'
+                    self.parent_script.widget.ui.viewport_update_mode_async_radioButton.setChecked(True)
+                    self.viewport_update_mode.sync = False
+
             node_instances = self.place_nodes_from_config(config['nodes'])
             self.connect_nodes_from_config(node_instances, config['connections'])
             if list(config.keys()).__contains__('drawings'):  # not all (old) project files have drawings arr
@@ -140,6 +165,12 @@ class Flow(QGraphicsView):
 
     def theme_changed(self, t):
         self.viewport().update()
+
+    def algorithm_mode_data_flow_toggled(self, checked):
+        self.algorithm_mode.mode_data_flow = checked
+
+    def viewport_update_mode_sync_toggled(self, checked):
+        self.viewport_update_mode.sync = checked
 
     def selection_changed(self):
         selected_items = self.scene().selectedItems()
@@ -985,7 +1016,9 @@ class Flow(QGraphicsView):
 
     # GET JSON DATA
     def get_json_data(self):
-        flow_dict = {'nodes': self.get_node_instances_json_data(self.all_node_instances),
+        flow_dict = {'algorithm mode': 'data flow' if self.algorithm_mode.mode_data_flow else 'exec flow',
+                     'viewport update mode': 'sync' if self.viewport_update_mode.sync else 'async',
+                     'nodes': self.get_node_instances_json_data(self.all_node_instances),
                      'connections': self.get_connections_json_data(self.all_node_instances),
                      'drawings': self.get_drawings_json_data(self.drawings)}
         return flow_dict

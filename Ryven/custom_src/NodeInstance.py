@@ -236,7 +236,7 @@ class NodeInstance(QGraphicsItem):
         """Sets the value of a data output.
         self.data_outputs_updated() has to be called manually after all values are set."""
 
-        if not ViewportUpdateMode.sync:  # asynchronous viewport updates
+        if not self.flow.viewport_update_mode.sync:  # asynchronous viewport updates
             vp = self.flow.viewport()
             vp.repaint(self.flow.mapFromScene(self.sceneBoundingRect()))
 

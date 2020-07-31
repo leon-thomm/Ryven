@@ -42,6 +42,8 @@ class Script(QObject):
         self.widget.ui.variables_scrollArea.setWidget(self.variables_handler.list_widget)
         self.widget.ui.add_variable_push_button.clicked.connect(self.add_var_clicked)
         self.widget.ui.new_var_name_lineEdit.returnPressed.connect(self.new_var_line_edit_return_pressed)
+        self.widget.ui.algorithm_data_flow_radioButton.toggled.connect(self.flow.algorithm_mode_data_flow_toggled)
+        self.widget.ui.viewport_update_mode_sync_radioButton.toggled.connect(self.flow.viewport_update_mode_sync_toggled)
 
         # flow
         self.widget.ui.splitter.insertWidget(0, self.flow)

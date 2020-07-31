@@ -112,7 +112,7 @@ class NodeInput(QWidget):
 
     def get_widget_name(self):
         if self.std_widget_combo_box.currentText() == 'custom widget':
-            return self.content_widget.prepare_class_name(self.custom_widget_line_edit.text())
+            return self.content_widget.generate_class_name(self.custom_widget_line_edit.text())
         else:
             return self.std_widget_combo_box.currentText()
 
@@ -144,7 +144,7 @@ class NodeInput(QWidget):
             self.widget_group_box.setEnabled(False)
 
     def widget_name_line_edit_edited(self):
-        self.custom_widget_line_edit.setText(self.content_widget.prepare_class_name(self.custom_widget_line_edit.text()))
+        self.custom_widget_line_edit.setText(self.content_widget.generate_class_name(self.custom_widget_line_edit.text()))
 
 
     def widget_type_combo_box_changed(self, new_text):

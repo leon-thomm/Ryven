@@ -4,7 +4,6 @@ from PySide2.QtCore import Qt, QRectF, QPointF, QSizeF
 from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont, QPainterPath, QFontMetrics
 
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.GlobalAttributes import Algorithm
 from custom_src.Design import Design
 from custom_src.global_tools.strings import get_longest_line, shorten
 
@@ -66,8 +65,9 @@ class PortInstance(QGraphicsGridLayout):
         # note that val COULD be of object type and therefore already changed (because the original object did)
         self.val = val
 
-        # if gen_data_on_request is set to true, all data will be required instead of actively forward propagated
-        if not Algorithm.gen_data_on_request and not self.parent_node_instance.initializing:
+        # if algorithm mode would be exec flow, all data will be required instead of actively forward propagated
+        if self.parent_node_instance.flow.algorithm_mode.mode_data_flow and \
+                not self.parent_node_instance.initializing:
             self.updated_val()
 
     def get_val(self):
@@ -89,7 +89,7 @@ class PortInstance(QGraphicsGridLayout):
                 return self.connected_port_instances[0].get_val()
         elif self.direction == 'output':
             Debugger.debug('returning val directly')
-            if Algorithm.gen_data_on_request:
+            if not self.parent_node_instance.flow.algorithm_mode.mode_data_flow:
                 self.parent_node_instance.update()
             return self.val
 

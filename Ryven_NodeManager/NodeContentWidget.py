@@ -34,7 +34,7 @@ class NodeContentWidget(QWidget):
 
         self.ui.title_lineEdit.editingFinished.connect(self.title_lineEdit_edited)
         self.ui.internal_name_lineEdit.editingFinished.connect(self.internal_name_line_edit_edited)
-        self.ui.use_title_as_internal_name_checkBox.toggled.connect(self.internal_name_check_box_toggled)
+        self.ui.auto_generate_internal_name_checkBox.toggled.connect(self.internal_name_check_box_toggled)
         self.ui.type_comboBox.currentTextChanged.connect(self.type_changed)
         self.ui.edit_node_metacode_pushButton.clicked.connect(self.edit_node_metacode_clicked)
         self.ui.main_widget_checkBox.toggled.connect(self.main_widget_toggled)
@@ -53,9 +53,11 @@ class NodeContentWidget(QWidget):
         # synchronise with node
         self.ui.title_lineEdit.setText(node.title)
         if node.class_name is not None:
-            if self.prepare_class_name(node.title) != node.class_name:
-                self.ui.use_title_as_internal_name_checkBox.setChecked(False)
-                self.ui.internal_name_lineEdit.setText(node.class_name)
+            if self.generate_class_name(node.title) != node.class_name:
+                self.ui.auto_generate_internal_name_checkBox.setChecked(False)
+            self.ui.internal_name_lineEdit.setText(node.class_name)
+        else:
+            self.ui.internal_name_lineEdit.setText(self.generate_class_name(node.title))
         self.ui.description_textEdit.setText(node.description)
 
         if self.ui.type_comboBox.findText(node.type) != -1:
@@ -123,13 +125,35 @@ class NodeContentWidget(QWidget):
         self.node.title = line_edit.text()
         self.node.title_changed.emit()
 
+        if self.ui.auto_generate_internal_name_checkBox.isChecked():
+            if self.check_class_name_conformity(line_edit.text()):
+                self.ui.internal_name_lineEdit.setText(self.generate_class_name(line_edit.text()))
+            else:
+                self.ui.title_lineEdit.blockSignals(True)  # Qt Bug
+                ret = QMessageBox.warning(self, 'Classname Conformity',
+                                          'Your title is not auto class name conform. If this is your final title, please '
+                                          'provide a custom internal name.',
+                                          QMessageBox.Ok)
+                self.ui.internal_name_lineEdit.setText('')
+                self.ui.title_lineEdit.blockSignals(False)  # Qt Bug
+
     def internal_name_line_edit_edited(self):
         line_edit: QLineEdit = self.sender()
-        line_edit.setText(self.prepare_class_name(line_edit.text()))
-        self.node.class_name = line_edit.text()
+
+        if not self.ui.auto_generate_internal_name_checkBox.isChecked():
+            if self.check_class_name_conformity(line_edit.text()):
+                line_edit.setText(self.generate_class_name(line_edit.text()))
+                self.node.class_name = line_edit.text()
+            else:
+                self.ui.internal_name_lineEdit.blockSignals(True)  # Qt Bug
+                ret = QMessageBox.warning(self, 'Classname Conformity',
+                                          'Your custom internal name isn\'t class name conform.',
+                                          QMessageBox.Ok)
+                self.ui.internal_name_lineEdit.blockSignals(True)  # Qt Bug
+
 
     def internal_name_check_box_toggled(self):
-        if self.ui.use_title_as_internal_name_checkBox.isChecked():
+        if self.ui.auto_generate_internal_name_checkBox.isChecked():
             self.ui.internal_name_lineEdit.setEnabled(False)
         else:
             self.ui.internal_name_lineEdit.setEnabled(True)
@@ -225,10 +249,12 @@ class NodeContentWidget(QWidget):
         return self.ui.title_lineEdit.text()
 
     def get_node_class_name(self):
-        if self.ui.use_title_as_internal_name_checkBox.isChecked():
-            return self.prepare_class_name(self.ui.title_lineEdit.text())
-        else:
-            return self.ui.internal_name_lineEdit.text()
+        return self.ui.internal_name_lineEdit.text()
+
+        # if self.ui.auto_generate_internal_name_checkBox.isChecked():
+        #     return self.generate_class_name(self.ui.title_lineEdit.text())
+        # else:
+        #     return self.ui.internal_name_lineEdit.text()
 
     def get_node_description(self):
         return self.ui.description_textEdit.toPlainText()
@@ -249,7 +275,10 @@ class NodeContentWidget(QWidget):
         under = self.ui.main_widget_under_ports_radioButton
         return 'under ports' if under.isChecked() else 'between ports'
 
-    def prepare_class_name(self, s: str):
+    def check_class_name_conformity(self, s: str):
+        return re.match('[a-zA-Z_]+[0-9a-zA-Z_]*', self.generate_class_name(s))
+
+    def generate_class_name(self, s: str):
         # make upper
         s = ''.join([a if a.isupper() else b for a, b in zip(s, s.title())])
 
@@ -258,6 +287,10 @@ class NodeContentWidget(QWidget):
 
         # Remove leading characters until we find a letter or underscore
         s = re.sub('^[^a-zA-Z_]+', '', s)
+
+        # Remove every occurrence of '___' since this is an anchor for Ryven for separation of components
+        while s.__contains__('___'):
+            s = s.replace('___', '__')
 
         return s
 

@@ -46,11 +46,11 @@ class Ui_Form(object):
 
         self.gridLayout_5.addWidget(self.internal_name_lineEdit, 1, 0, 1, 1)
 
-        self.use_title_as_internal_name_checkBox = QCheckBox(Form)
-        self.use_title_as_internal_name_checkBox.setObjectName(u"use_title_as_internal_name_checkBox")
-        self.use_title_as_internal_name_checkBox.setChecked(True)
+        self.auto_generate_internal_name_checkBox = QCheckBox(Form)
+        self.auto_generate_internal_name_checkBox.setObjectName(u"auto_generate_internal_name_checkBox")
+        self.auto_generate_internal_name_checkBox.setChecked(True)
 
-        self.gridLayout_5.addWidget(self.use_title_as_internal_name_checkBox, 1, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.auto_generate_internal_name_checkBox, 1, 1, 1, 1)
 
 
         self.gridLayout.addLayout(self.gridLayout_5, 0, 0, 1, 1)
@@ -107,7 +107,7 @@ class Ui_Form(object):
         self.input_widgets_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 496, 140))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 496, 147))
         self.verticalLayout_11 = QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.input_widgets_scrollArea.setWidget(self.scrollAreaWidgetContents_3)
@@ -221,7 +221,7 @@ class Ui_Form(object):
         self.inputs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 417, 109))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 417, 94))
         sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
         self.verticalLayout_3 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -252,7 +252,7 @@ class Ui_Form(object):
         self.outputs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 416, 109))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 416, 94))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.outputs_scrollArea.setWidget(self.scrollAreaWidgetContents_2)
@@ -286,7 +286,7 @@ class Ui_Form(object):
         self.title_lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Title", None))
         self.name_problems_detected_label.setText(QCoreApplication.translate("Form", u"Name Problems Detected: None", None))
         self.internal_name_lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Internal Name", None))
-        self.use_title_as_internal_name_checkBox.setText(QCoreApplication.translate("Form", u"use title as intern name", None))
+        self.auto_generate_internal_name_checkBox.setText(QCoreApplication.translate("Form", u"auto generate internal name", None))
         self.type_comboBox.setItemText(0, QCoreApplication.translate("Form", u"custom", None))
         self.type_comboBox.setItemText(1, QCoreApplication.translate("Form", u"control structure", None))
 
