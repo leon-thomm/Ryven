@@ -13,6 +13,8 @@ Ey, what's up! Please visit the [website](http://ryven.org) (sorry, no SSL certi
 
 ![](/docs/images/ui.png)
 
+![](/docs/images/checkpoints.png)
+
 ![](/docs/images/opencv_1.png)
 
 ![](/docs/images/extract_property_1.png)
