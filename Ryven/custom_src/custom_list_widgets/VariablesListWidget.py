@@ -67,5 +67,5 @@ class VariablesListWidget(QWidget):
     def del_variable(self, var, var_widget):
         self.widgets.remove(var_widget)
         var_widget.setParent(None)
-        del self.variables_handler.variables[self.variables.index(var)]
+        del self.variables_handler.variables[self.variables_handler.variables.index(var)]
         self.recreate_ui()

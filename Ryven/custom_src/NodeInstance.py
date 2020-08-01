@@ -300,8 +300,13 @@ class NodeInstance(QGraphicsItem):
         # very essential; repositions everything in case content has changed (inputs/outputs/widget)
 
         if self.parent_node.design_style == 'minimalistic':
-            self.layout.setMinimumWidth(self.title_label.width + 15)
-            self.layout.activate()
+
+            # making it recompute its true minimumWidth here
+            self.widget.adjustSize()
+
+            if self.layout.minimumWidth() < self.title_label.width + 15:
+                self.layout.setMinimumWidth(self.title_label.width + 15)
+                self.layout.activate()
 
         self.width = self.boundingRect().width()
         self.height = self.boundingRect().height()
@@ -346,7 +351,8 @@ class NodeInstance(QGraphicsItem):
     def insert_input_into_layout(self, index, i):
         self.inputs_layout.insertItem(index*2, i)  # *2 because of the stretches
         self.inputs_layout.setAlignment(i, Qt.AlignLeft)
-        self.inputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
+        if len(self.inputs) > 1:
+            self.inputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
 
     def delete_input(self, i):
         """Disconnects and removes input. Handy for subclasses."""
@@ -404,7 +410,8 @@ class NodeInstance(QGraphicsItem):
     def insert_output_into_layout(self, index, o):
         self.outputs_layout.insertItem(index*2, o)  # *2 because of the stretches
         self.outputs_layout.setAlignment(o, Qt.AlignRight)
-        self.outputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
+        if len(self.outputs) > 1:
+            self.outputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
 
     def delete_output(self, o):
         """Disconnects and removes output. Handy for subclasses."""
