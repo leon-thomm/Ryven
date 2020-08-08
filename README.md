@@ -5,7 +5,7 @@ Ey, what's up! Please visit the [website](http://ryven.org) (sorry, no SSL certi
 ### Requirements
 
 - Python 3 (3.8+ recommended)
-- PySide2 (2.14+ recommented)
+- PySide2 (2.14+ recommended)
 
 ![](/docs/images/ryven_screenshot2.png)
 
