@@ -400,6 +400,12 @@ class StdLineEdit_PortInstanceWidget(QLineEdit):
                 color: #aaaaaa;
                 padding: 3px;
             }
+            QLineEdit:hover {
+                background-color: rgba(59, 156, 217, 150);
+            }
+            QLineEdit:disabled{
+                color: #777777;
+            }
         """)
         f = self.font()
         f.setPointSize(10)
@@ -448,9 +454,16 @@ class StdLineEdit_NoBorder_PortInstanceWidget(StdLineEdit_PortInstanceWidget):
         self.setStyleSheet("""
             QLineEdit{
                 border: none;
+                border-radius: 5px;
                 background-color: transparent;
                 color: #aaaaaa;
                 padding: 3px;
+            }
+            QLineEdit:hover {
+                background-color: rgba(59, 156, 217, 150);
+            }
+            QLineEdit:disabled{
+                color: #777777;
             }
         """)
 
