@@ -243,7 +243,7 @@ class NodeInstance(QGraphicsItem):
         self.outputs[index].set_val(val)
 
     def data_outputs_updated(self):
-        """Sends update signals to all data outputs causing connected NIs to update."""
+        """(outdated!) Sends update signals to all data outputs causing connected NIs to update."""
 
         Debugger.debug('updating data outputs in', self.parent_node.title)
         for o in self.outputs:

@@ -134,7 +134,7 @@ class SaveDialog(QDialog):
 
         nodes_dict['nodes'] = nodes_list
 
-        info_dict = {'type': 'vyScriptFP nodes package'}
+        info_dict = {'type': 'Ryven nodes package'}
 
         whole_dict = {**info_dict, **nodes_dict}  # merges single two dictionaries to one
 
