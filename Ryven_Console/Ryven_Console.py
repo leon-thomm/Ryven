@@ -1,3 +1,4 @@
+import inspect
 import json
 import os
 import re
@@ -36,7 +37,7 @@ class Loader:
                 script_config = s
                 break
 
-        # required packages
+        # packages
         self.nodes = [SetVariable_Node(), GetVariable_Node(), Val_Node(), Result_Node()]
         self.node_instance_classes = {
             self.nodes[0]: SetVar_NodeInstance,
@@ -44,6 +45,27 @@ class Loader:
             self.nodes[2]: Val_NodeInstance,
             self.nodes[3]: Result_NodeInstance
         }
+
+        # #   dynamically load builtin nodes
+        # builtin_path = '../Ryven/custom_src/builtin_nodes'
+        # sys.path.append(builtin_path)
+        # files = [f for f in os.listdir(builtin_path) if
+        #          os.path.isfile(os.path.join(builtin_path, f)) and f.endswith('.py')]
+        # for fn in [f for f in files if not f.__contains__('NodeInstance')]:
+        #     modname = os.path.splitext(os.path.basename(fn))[0]
+        #     mod = __import__(modname, fromlist=[modname])
+        #     print(inspect.getsource(mod))
+        #     node_class = getattr(mod, modname)
+        #     self.nodes.append(node_class)
+        #     for fn2 in [f for f in files if f.__contains__('NodeInstance')]:
+        #         modname2 = os.path.splitext(os.path.basename(fn2))[0]
+        #         if modname2.__contains__(modname):
+        #             mod2 = __import__(modname2, fromlist=[modname2])
+        #             self.node_instance_classes[node_class] = getattr(mod2, modname2)
+        #             break
+        # print(self.nodes)
+        # print(self.node_instance_classes)
+
         self.buttonNIClass = None
         required_package_names = list(set([n['parent node package'] for n in script_config['flow']['nodes']
                                            if n['parent node package'] != 'built in']))
@@ -242,5 +264,7 @@ Commands:
 
 
 if __name__ == '__main__':
-    project_path = sys.argv[1]
-    Loader(project_path)
+    if len(sys.argv) > 1:
+        Loader(sys.argv[1])
+    else:
+        Loader(input('please enter the path to a project to open: '))
