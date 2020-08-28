@@ -4,6 +4,7 @@ class Node:
         self.type_ = ''
         self.inputs = []
         self.outputs = []
+        self.has_main_widget = False
 
 
 class NodePort:

@@ -61,6 +61,8 @@ class Flow:
                                connected_node_instance.inputs[c['connected input port index']])
 
 
-    def connect_ports(self, parent_port: PortInstance, child_port: PortInstance):
-        parent_port.connected_port_instances.append(child_port)
-        child_port.connected_port_instances.append(parent_port)
+    def connect_ports(self, output_port: PortInstance, input_port: PortInstance):
+        output_port.connected_port_instances.append(input_port)
+        input_port.connected_port_instances.append(output_port)
+        if input_port.type_ == 'data':
+            input_port.update()

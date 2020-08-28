@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import sys
 
 from class_inspection import find_type_in_object
@@ -51,8 +52,8 @@ class Loader:
         for p_n in required_package_names:
             print('    '+p_n)
         while any([n not in self.imported_package_names for n in required_package_names]):
-            package_path = input('input package path or \'ai\': ')
-            if package_path == 'ai':
+            package_path = input('input package path or \'auto\': ')
+            if package_path == 'auto':
                 self.auto_import_packages(required_package_names)
             else:
                 self.import_package(package_path)
@@ -68,25 +69,49 @@ class Loader:
             command = input(
                                 '''
 Commands:
-    eb              - gives you a list of button nodes you can manually execute
+    nodes           - prints a list of all nodes
+    button          - gives you a list of button nodes you can manually execute
     vars            - prints all script variables
+    set var         - sets a new value of a var
     exit            - exits the session
 '''
             )
 
-            if command == 'eb':
+            if command == 'nodes':
+                packages = []
+                for n in self.nodes:
+                    if n.package not in packages:
+                        packages.append(n.package)
+                packages.sort()
+                print(len(self.nodes), 'nodes:')
+                for p in packages:
+                    for n in self.nodes:  # [node for node in self.nodes if node.package == p]:
+                        if n.package == p:
+                            print('['+p+']', n.title)
+            elif command == 'button':
                 button_node_instances = [ni for ni in script.flow.all_node_instances if find_type_in_object(ni, self.buttonNIClass)]
+                if len(button_node_instances) == 0:
+                    print('no existing button nodes found')
+                    continue
                 print('button nodes:')
-                for b in button_node_instances:
-                    print(b)
-                index = int(input('index: '))
-                button_node_instances[index].update()
+                for i in range(len(button_node_instances)):
+                    print(str(i)+':', button_node_instances[i])
+                try:
+                    index = int(input('index: '))
+                    button_node_instances[index].update()
+                except Exception as e:
+                    print('Error:', e)
+                    continue
             elif command == 'vars':
                 print([(v.name, v.val) for v in script.variables_handler.variables])
+            elif command == 'set var':  # re.match('setvar [.]+', command):
+                var_name = input('name: ')
+                var_val = eval(input('val: '))
+                script.variables_handler.set_var(var_name, var_val)
             elif command == 'exit':
                 sys.exit()
             else:
-                print(Flow_AlgorithmMode.mode_data_flow)
+                pass
 
 
     def load_project_config(self, path):
@@ -124,8 +149,9 @@ Commands:
             f = open(package_path)
             j_str = f.read()
             f.close()
-        except FileExistsError or FileNotFoundError:
-            raise Exception('couldn\'t open file')
+        except FileExistsError and FileNotFoundError:
+            print('Error: couldn\'t find an open file')
+            return
 
         # Important: translate the package first (metacore files -> src code files)
         PackageTranslator = self.get_class_from_file(file_path='../Ryven_PackageTranslator',
@@ -153,6 +179,7 @@ Commands:
         new_node.description = node_config['description']
         new_node.type_ = node_config['type']
         new_node.package = package_name
+        new_node.has_main_widget = node_config['has main widget']
 
         inputs_config = node_config['inputs']
         inputs = []
@@ -176,8 +203,6 @@ Commands:
 
         new_node.inputs = inputs
         new_node.outputs = outputs
-
-        self.nodes.append(new_node)
 
 
         node_module_name = node_config['module name']
@@ -210,7 +235,7 @@ Commands:
             new_module = __import__(file_name, fromlist=[class_name])
         except ModuleNotFoundError as e:
             print(e, file_path, file_name, class_name)
-            exit(-1)
+            sys.exit()
         new_class = getattr(new_module, class_name)
         return new_class
 

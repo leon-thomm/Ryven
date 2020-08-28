@@ -24,9 +24,7 @@ class %INPUT_WIDGET_TITLE%_PortInstanceWidget(...):
 
 
     def get_data(self):
-        data = {}
-        # ...
-        return data
+        return self.get_val()
 
     def set_data(self, data):
         pass # ...

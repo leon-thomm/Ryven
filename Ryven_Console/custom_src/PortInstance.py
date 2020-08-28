@@ -53,6 +53,5 @@ class InputPortInstance(PortInstance):
             return self.connected_port_instances[0].get_val()
 
     def update(self):
-        if (self.parent_node_instance.is_active() and self.type_ == 'exec') or \
-                not self.parent_node_instance.is_active():
+        if (self.parent_node_instance.is_active() and self.type_ == 'exec') or not self.parent_node_instance.is_active():
             self.parent_node_instance.update(self.parent_node_instance.inputs.index(self))

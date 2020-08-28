@@ -36,7 +36,8 @@ class PlaceholderWidget:
     #     else:
     #         return super(PlaceholderWidget, self).__getattr__(item)
 
-
+    def y(self):
+        return 'y!'
 
     def __getattr__(self, item):
         print('getting attribute:', item)
@@ -60,6 +61,7 @@ if __name__ == '__main__':
     pw.x = 10
     print(pw.x)
     print('2')
+    print(pw.y())
     pw.foo(15)
     print('3')
 
