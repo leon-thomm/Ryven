@@ -94,8 +94,9 @@ class NodeInstance(QGraphicsItem):
             if self.main_widget:
                 try:
                     self.main_widget.set_data(self.init_config['main widget data'])
-                except KeyError:
-                    pass
+                except Exception as e:
+                    print('Exception while setting data in', self.parent_node.title, 'NodeInstance\'s main widget:', e,
+                          ' (was this intended?)')
 
             self.special_actions = self.set_special_actions_data(self.init_config['special actions'])
             self.temp_state_data = self.init_config['state data']
@@ -104,7 +105,11 @@ class NodeInstance(QGraphicsItem):
 
         # LOADING DATA
         if self.temp_state_data is not None:
-            self.set_data(self.temp_state_data)
+            try:
+                self.set_data(self.temp_state_data)
+            except Exception as e:
+                print('Exception while setting data in', self.parent_node.title, 'NodeInstance:', e,
+                      ' (was this intended?)')
 
 
         self.initializing = False
@@ -243,7 +248,7 @@ class NodeInstance(QGraphicsItem):
         self.outputs[index].set_val(val)
 
     def data_outputs_updated(self):
-        """Sends update signals to all data outputs causing connected NIs to update."""
+        """(outdated!) Sends update signals to all data outputs causing connected NIs to update."""
 
         Debugger.debug('updating data outputs in', self.parent_node.title)
         for o in self.outputs:

@@ -64,11 +64,12 @@ class ChooseFileInputWidget_PortInstanceWidget(QWidget):
 
 
     def get_data(self):
-        data = {'file path': self.file_path}
-        return data
+        # data = {'file path': self.file_path}
+        return self.get_val()
 
     def set_data(self, data):
-        self.set_file_path(data['file path'])
+        # self.set_file_path(data['file path'])
+        self.set_file_path(data)
 
 
     # remove logs and stop threads and timers here

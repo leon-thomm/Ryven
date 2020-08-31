@@ -298,7 +298,7 @@ class MainWindow(QMainWindow):
         j_obj = json.loads(j_str, strict=False)
 
         Debugger.debug(j_obj['type'])
-        if j_obj['type'] != 'vyScriptFP nodes package':
+        if j_obj['type'] != 'Ryven nodes package' and j_obj['type'] != 'vyScriptFP nodes package':  # old syntax
             return
 
         # package_title = j_obj['title']

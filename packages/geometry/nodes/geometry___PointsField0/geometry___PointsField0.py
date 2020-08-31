@@ -10,7 +10,7 @@ from NIENV import *
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, append=True)
 # self.delete_output(output or index)
-
+import random
 
 
 class PointsField_NodeInstance(NodeInstance):
@@ -18,24 +18,33 @@ class PointsField_NodeInstance(NodeInstance):
         super(PointsField_NodeInstance, self).__init__(parent_node, flow, configuration)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
-        # ...
+        self.points = []
 
         self.initialized()
 
 
     def update_event(self, input_called=-1):
         if input_called == 1:
-            new_points = self.main_widget.randomize(self.input(0))
-            self.set_output_val(0, new_points)
+            self.randomize(self.input(0))
+            self.set_output_val(0, self.points)
+
+    def randomize(self, num_points):
+        self.points.clear()
+
+        for i in range(num_points):
+            x = random.random()
+            y = random.random()
+            self.points.append({'x': x, 'y': y})
+
+        self.main_widget.draw_points(self.points)
 
     def get_data(self):
-        data = {}
-        # ...
+        data = {'points': self.points}
         return data
 
     def set_data(self, data):
-        pass
-        # ...
+        self.points = data['points']
+        self.main_widget.draw_points(self.points)
 
 
     def remove_event(self):

@@ -12,9 +12,6 @@ from custom_src.retain import M
 
 
 class PortInstance(QGraphicsGridLayout):
-    """The PortInstance class represents input-as well as output-instances of a NI. It wasn't really necessary yet, but
-    I will probably subclass it later into InputPortInstance and OutputPortInstance - so far both are just
-    PortInstances."""
 
     def __init__(self, parent_node_instance, direction, type_='', label_str='',
                  widget_name=None, widget_pos=''):
@@ -58,7 +55,7 @@ class PortInstance(QGraphicsGridLayout):
 
 
     def set_val(self, val):
-        """applies on INPUT; called NI internally"""
+        """applies on OUTPUT; called NI internally"""
         Debugger.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
                             'NodeInstance to', val)
 
@@ -129,7 +126,11 @@ class InputPortInstance(PortInstance):
 
         if config_data is not None:
             self.create_widget()
-            self.widget.set_data(config_data)
+            try:
+                self.widget.set_data(config_data)
+            except Exception as e:
+                print('Exception while setting data in', self.parent_node_instance.parent_node.title,
+                      'NodeInstance\'s input widget:', e, ' (was this intended?)')
         else:
             self.create_widget()
 
