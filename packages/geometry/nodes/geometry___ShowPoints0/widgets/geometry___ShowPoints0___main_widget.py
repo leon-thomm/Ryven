@@ -32,12 +32,8 @@ class ShowPoints_NodeInstance_MainWidget(QWidget):
         self.layout().addWidget(self.label)
         self.resize(200, 200)
 
-        self.points = []
-
 
     def show_points(self, points):
-        self.points = points
-
         painter = QPainter(self.label.pixmap())
         painter.setRenderHint(QPainter.Antialiasing)
 
@@ -49,19 +45,17 @@ class ShowPoints_NodeInstance_MainWidget(QWidget):
         painter.setPen(pen)
         painter.setBrush(QBrush(Qt.white))
 
-        for p in self.points:
-            painter.drawEllipse(p['x'], p['y'], 4, 4)
+        for p in points:
+            painter.drawEllipse(p['x']*self.label.pixmap().width(), p['y']*self.label.pixmap().height(), 4, 4)
 
         self.repaint()
 
 
     def get_data(self):
-        data = {'pints': self.points}
-        # ...
-        return data
+        return {}
 
     def set_data(self, data):
-        self.points = data['points']
+        pass
 
 
     def remove_event(self):

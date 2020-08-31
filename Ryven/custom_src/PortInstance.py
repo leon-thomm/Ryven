@@ -126,7 +126,11 @@ class InputPortInstance(PortInstance):
 
         if config_data is not None:
             self.create_widget()
-            self.widget.set_data(config_data)
+            try:
+                self.widget.set_data(config_data)
+            except Exception as e:
+                print('Exception while setting data in', self.parent_node_instance.parent_node.title,
+                      'NodeInstance\'s input widget:', e, ' (was this intended?)')
         else:
             self.create_widget()
 
