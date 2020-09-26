@@ -262,9 +262,15 @@ Commands:
         return new_class
 
 
+def clean_path_string(param):
+    if param.startswith('"') and param.endswith('"') or \
+            param.startswith('\'') and param.endswith('\''):
+        param = param[1:-1]
+    return param
+
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         Loader(sys.argv[1])
     else:
-        Loader(input('please enter the path to a project to open: '))
+        Loader(clean_path_string(input('please enter the path to a project to open: ')))

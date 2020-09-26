@@ -1,4 +1,4 @@
-class NodeInstance_MainWidgetPlaceholder:
+class PlaceholderClass:
     def __getattr__(self, item):
         def method(*args):
             pass
@@ -7,4 +7,4 @@ class NodeInstance_MainWidgetPlaceholder:
     def __setattr__(self, key, value):
         if not hasattr(self, key):
             return
-        super(NodeInstance_MainWidgetPlaceholder, self).__setattr__(key, value)
+        super(PlaceholderClass, self).__setattr__(key, value)

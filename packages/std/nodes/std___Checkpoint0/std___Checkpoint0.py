@@ -63,6 +63,7 @@ class Checkpoint_NodeInstance(NodeInstance):
                                                                'data': i}
     
     def action_make_data(self):
+        self.passive = True
         self.delete_input(0)
         for i in range(self.num_exec_outputs):
             self.delete_output(0)

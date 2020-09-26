@@ -1,5 +1,5 @@
 from custom_src.Node import Node
-from custom_src.NodeInstance_MainWidgetPlaceholder import NodeInstance_MainWidgetPlaceholder
+from custom_src.PlaceholderClass import PlaceholderClass
 from custom_src.PortInstance import InputPortInstance, OutputPortInstance
 
 
@@ -14,7 +14,7 @@ class NodeInstance:
         self.initializing = True
         self.init_config = config
         self.special_actions = {}
-        self.main_widget = NodeInstance_MainWidgetPlaceholder() if parent_node.has_main_widget else None
+        self.main_widget = PlaceholderClass() if parent_node.has_main_widget else None
 
 
     def initialized(self):
@@ -59,7 +59,7 @@ class NodeInstance:
     #   FURTHER API
 
     def new_log(self, title):
-        pass
+        return PlaceholderClass()
 
     def log_message(self, message: str, target='global'):
         pass
