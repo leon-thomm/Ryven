@@ -1,3 +1,4 @@
+import os
 import sys
 
 from custom_src.startup_dialog.StartupDialog import StartupDialog
@@ -5,6 +6,7 @@ from custom_src.MainWindow import MainWindow
 from PySide2.QtWidgets import QApplication
 
 if __name__ == '__main__':
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
     app = QApplication(sys.argv)
 
     sw = StartupDialog()

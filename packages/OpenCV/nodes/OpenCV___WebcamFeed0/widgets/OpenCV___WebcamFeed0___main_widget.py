@@ -1,3 +1,4 @@
+from NIWENV import *
 from PySide2.QtWidgets import QLabel, QVBoxLayout
 from PySide2.QtCore import QSize, QTimer
 from PySide2.QtGui import QPixmap, QImage
