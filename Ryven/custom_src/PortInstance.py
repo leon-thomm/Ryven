@@ -246,74 +246,11 @@ class PortInstanceGate(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        if Design.flow_theme == 'dark std':
-            color = QColor('#2E688C') if self.parent_port_instance.type_ == 'data' else QColor('#3880ad')
-            if option.state & QStyle.State_MouseOver:
-                color = color.lighter()
-
-            brush = QBrush(QColor(color))
-            painter.setBrush(brush)
-            painter.setPen(Qt.NoPen)
-
-            painter.drawEllipse(QRectF(self.padding, self.padding, self.painting_width, self.painting_height))
-
-        elif Design.flow_theme == 'dark tron':
-            color = ''
-            if self.parent_port_instance.type_ == 'exec':
-                color = '#FFFFFF'
-            elif self.parent_port_instance.type_ == 'data':
-                color = self.parent_node_instance.parent_node.color
-            pen = QPen(color)
-            pen.setWidth(2)
-            painter.setPen(pen)
-            if len(self.parent_port_instance.connected_port_instances) > 0 or \
-                    option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
-                c = self.parent_node_instance.parent_node.color
-                r = c.red()
-                g = c.green()
-                b = c.blue()
-                brush = QBrush(QColor(r, g, b, 100))
-                painter.setBrush(brush)
-            else:
-                painter.setBrush(Qt.NoBrush)
-
-            painter.drawEllipse(QRectF(self.padding, self.padding, self.painting_width, self.painting_height))
-
-        elif Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
-            color = ''
-            if self.parent_port_instance.type_ == 'exec':
-                color = '#FFFFFF'
-
-                if len(self.parent_port_instance.connected_port_instances) > 0 or \
-                        option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
-                    brush = QBrush(QColor(255, 255, 255, 100))
-                    painter.setBrush(brush)
-                else:
-                    painter.setBrush(Qt.NoBrush)
-            elif self.parent_port_instance.type_ == 'data':
-                color = self.parent_node_instance.parent_node.color
-
-                if len(self.parent_port_instance.connected_port_instances) > 0 or \
-                        option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
-                    c = self.parent_node_instance.parent_node.color
-                    r = c.red()
-                    g = c.green()
-                    b = c.blue()
-                    brush = QBrush(QColor(r, g, b, 100))
-                    painter.setBrush(brush)
-                else:
-                    painter.setBrush(Qt.NoBrush)
-
-            pen = QPen(color)
-            pen.setWidth(1)
-            painter.setPen(pen)
-
-            rect = QRectF()
-            rect.moveCenter(QPointF(self.width / 2, self.height / 2))
-            rect.setWidth(self.painting_width)
-            rect.setHeight(self.painting_height)
-            painter.drawEllipse(QPointF(self.width / 2, self.height / 2), self.painting_width/3, self.painting_height/3)
-
+        Design.flow_theme.node_inst_painter.paint_PI(
+            painter, option, self.parent_node_instance.color,
+            self.parent_port_instance.type_, len(self.parent_port_instance.connected_port_instances) > 0,
+            self.padding, self.painting_width, self.painting_height  # TODO move all padding stuff into the painters
+        )
 
     def mousePressEvent(self, event):
         event.accept()
@@ -337,11 +274,9 @@ class PortInstanceLabel(QGraphicsWidget):
         self.parent_node_instance = parent_node_instance
 
         self.font = QFont("Source Code Pro", 10, QFont.Bold)
-        font_metrics = QFontMetricsF(self.font)
+        font_metrics = QFontMetricsF(self.font)  # approximately! the designs can use different fonts
         self.width = font_metrics.width(get_longest_line(self.parent_port_instance.label_str))
         self.height = font_metrics.height() * (self.parent_port_instance.label_str.count('\n') + 1)
-        # print('self.height:', self.height)
-        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         self.port_local_pos = None
 
     def boundingRect(self):
@@ -356,19 +291,10 @@ class PortInstanceLabel(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        painter.setBrush(Qt.NoBrush)
-        c = ''
-        if Design.flow_theme == 'dark std':
-            c = '#ffffff'
-        elif Design.flow_theme == 'dark tron' or Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
-            if self.parent_port_instance.type_ == 'exec':
-                c = '#ffffff'
-            elif self.parent_port_instance.type_ == 'data':
-                c = self.parent_node_instance.parent_node.color
-        pen = QPen(c)
-        painter.setPen(pen)
-        painter.setFont(self.font)
-        painter.drawText(self.boundingRect(), Qt.AlignCenter, self.parent_port_instance.label_str)
+        Design.flow_theme.node_inst_painter.paint_PI_label(
+            painter, option, self.parent_port_instance.type_, self.parent_port_instance.label_str,
+            self.parent_node_instance.color, self.boundingRect()
+        )
 
 
 class StdLineEdit_PortInstanceWidget(QLineEdit):

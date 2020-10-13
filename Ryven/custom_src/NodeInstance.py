@@ -6,7 +6,6 @@ from PySide2.QtGui import QColor
 from custom_src.GlobalAttributes import ViewportUpdateMode
 from custom_src.NodeInstanceAction import NodeInstanceAction
 from custom_src.NodeInstanceAnimator import NodeInstanceAnimator
-from custom_src.NodeInstancePainter import NodeInstancePainter
 from custom_src.NodeInstance_TitleLabel import TitleLabel
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.MovementEnum import MovementEnum
@@ -35,7 +34,7 @@ class NodeInstance(QGraphicsItem):
         self.inputs = []
         self.outputs = []
         self.color = self.parent_node.color  # manipulated by self.animator
-        self.node_instance_painter = NodeInstancePainter(self)
+        # self.node_instance_painter = NodeInstancePainter(self)
 
         self.default_actions = {'remove': {'method': self.action_remove},
                                 'update shape': {'method': self.update_shape}}  # for context menus
@@ -517,8 +516,15 @@ class NodeInstance(QGraphicsItem):
             self.title_label.update_design()  # also necessary
             self.update_shape()
 
-        self.node_instance_painter.paint(painter, option, self.color, self.width, self.height, self.boundingRect(),
-                                         Design.flow_theme, widget)
+        # self.node_instance_painter.paint(painter, option, self.color, self.width, self.height, self.boundingRect(),
+        #                                  Design.flow_theme, widget)
+        Design.flow_theme.node_inst_painter.paint_NI(
+            design_style=self.parent_node.design_style,
+            painter=painter, option=option,
+            c=self.color, w=self.width, h=self.height,
+            bounding_rect=self.boundingRect(),
+            title_rect=self.title_label.boundingRect()
+        )
 
         self.painted_once = True
 

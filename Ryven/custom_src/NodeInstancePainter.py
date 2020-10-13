@@ -1,64 +1,137 @@
 from PySide2.QtCore import Qt, QPointF, QRectF
-from PySide2.QtGui import QColor, QPainter, QBrush, QRadialGradient, QLinearGradient, QPen, QPainterPath
+from PySide2.QtGui import QColor, QPainter, QBrush, QRadialGradient, QLinearGradient, QPen, QPainterPath, QFont
 from PySide2.QtWidgets import QStyle
 
 from custom_src.global_tools.math import pythagoras
 
 
-class NodeInstancePainter:
-    def __init__(self, node_instance):
-        self.ni = node_instance
+class NIPainter:
+
+    def paint_NI_title_label(painter, option, hovering, design_style, title_str, node_color, bounding_rect):
+        pass
+
+    def paint_NI_title_label_default(painter, design_style, title_str, c, pen_w, font, bounding_rect):
+        pen = QPen(c)
+        pen.setWidth(pen_w)
+
+        painter.setPen(pen)
+        painter.setFont(font)
+
+        text_rect = bounding_rect
+        text_rect.setTop(text_rect.top()-7)
+
+        if design_style == 'extended':
+            painter.drawText(text_rect, Qt.AlignTop, title_str)
+        elif design_style == 'minimalistic':
+            painter.drawText(text_rect, Qt.AlignTop | Qt.AlignHCenter, title_str)
+
+    def paint_PI_label(painter, option, type_, label_str, node_color, bounding_rect):
+        pass
+
+    def paint_PI_label_default(painter, label_str, c, font, bounding_rect):
+        painter.setBrush(Qt.NoBrush)
+        pen = QPen(c)
+        painter.setPen(pen)
+        painter.setFont(font)
+        painter.drawText(bounding_rect, Qt.AlignCenter, label_str)
 
 
-    def paint(self, painter, option,
-              c: QColor, w: int, h: int, bounding_rect, theme: str,
-              widget):
+    def paint_PI(painter, option, c,
+                 exec_type, connected, padding, w, h):
+        pass
+
+    def paint_NI(design_style,
+                 painter, option,
+                 c: QColor, w: int, h: int, bounding_rect, title_rect):
+        pass
+
+    def get_header_rect(w, h, title_rect):
+        """
+        :param w: width
+        :param h: height
+        """
+
+        header_height = 1.4 * title_rect.height()  # 35 * (self.parent_node.title.count('\n')+1)
+
+        header_rect = QRectF()
+        header_rect.setTopLeft(QPointF(-w / 2, -h / 2))
+        header_rect.setWidth(w)
+        header_rect.setHeight(header_height)
+        return header_rect
+
+    def interpolate_color(c1, c2, val):
+        r1 = c1.red()
+        g1 = c1.green()
+        b1 = c2.blue()
+        a1 = c1.alpha()
+
+        r2 = c2.red()
+        g2 = c2.green()
+        b2 = c2.blue()
+        a2 = c2.alpha()
+
+        r = (r2 - r1) * val + r1
+        g = (g2 - g1) * val + g1
+        b = (b2 - b1) * val + b1
+        a = (a2 - a1) * val + a1
+
+        return QColor(r, g, b, a)
+
+
+class NIPainter_DarkStd(NIPainter):
+
+    def paint_NI_title_label(painter, option, hovering, design_style, title_str, node_color, bounding_rect):
+        if design_style == 'extended':
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, QColor(30, 43, 48) if not hovering else node_color.lighter(),
+                2 if hovering else 1.5,
+                QFont('Poppins', 15),
+                bounding_rect
+            )
+        else:
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, QColor(30, 43, 48) if not hovering else node_color.lighter(),
+                1.5,
+                QFont('K2D', 20, QFont.Bold, True),
+                bounding_rect
+            )
+
+    def paint_PI_label(painter, option, type_, label_str, node_color, bounding_rect):
+        c = QColor('#FFFFFF')
+        NIPainter_DarkStd.paint_PI_label_default(painter, label_str, c, QFont("Source Code Pro", 10, QFont.Bold), bounding_rect)
+
+    def paint_PI(painter, option, c,
+                 exec_type, connected, padding, w, h):
+
+        color = QColor('#2E688C') if exec_type == 'data' else QColor('#3880ad')
+        if option.state & QStyle.State_MouseOver:
+            color = color.lighter()
+
+        brush = QBrush(QColor(color))
+        painter.setBrush(brush)
+        painter.setPen(Qt.NoPen)
+
+        painter.drawEllipse(QRectF(padding, padding, w, h))
+
+    def paint_NI(design_style,
+                 painter, option,
+                 c: QColor, w: int, h: int, bounding_rect, title_rect):
 
         painter.setRenderHint(QPainter.Antialiasing)
-        brush = QBrush(QColor(100, 100, 100, 150))  # QBrush(QColor('#3B9CD9'))
-        painter.setBrush(brush)
 
-        if self.ni.parent_node.design_style == 'extended':
+        if design_style == 'extended':
+            NIPainter_DarkStd.draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect)
+        elif design_style == 'minimalistic':
+            NIPainter_DarkStd.draw_NI_minimalistic(painter, c, w, h, bounding_rect)
 
-            if theme == 'dark std':
-                self.draw_dark_extended_background(painter, c, w, h, bounding_rect)
-
-            elif theme == 'dark tron':
-                self.draw_tron_extended_background(painter, c, w, h, bounding_rect)
-
-            elif theme == 'ghostly':
-                self.draw_ghostly_extended_background(painter, c, w, h, bounding_rect)
-
-            elif theme == 'blender':
-                self.draw_blender_extended_background(painter, c, w, h, bounding_rect)
-
-        elif self.ni.parent_node.design_style == 'minimalistic':
-
-            if theme == 'dark std':
-                self.draw_dark_minimalistic(painter, c, w, h, bounding_rect)
-
-            elif theme == 'dark tron':
-                if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
-                    self.draw_tron_minimalistic(painter, 10, c, w, h, background_color=c.darker())
-                else:
-                    self.draw_tron_minimalistic(painter, 10, c, w, h)
-
-            elif theme == 'ghostly':
-                if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
-                    self.draw_ghostly_minimalistic(painter, 15, c, w, h, background_color=c.darker())
-                else:
-                    self.draw_ghostly_minimalistic(painter, 15, c, w, h)
-
-            elif theme == 'blender':
-                self.draw_blender_minimalistic(painter, 20, c, w, h, bounding_rect)
-
-    def draw_dark_extended_background(self, painter, c, w, h, bounding_rect):
+    def draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect):
         """
         :param painter: painter from paint event
         :param c: NodeInstance's theme color
         :param w: width
         :param h: height
         :param bounding_rect: NodeInstance's bounding rect
+        :param title_rect: NI's title label's bounding rect
         """
 
         # main rect
@@ -70,155 +143,15 @@ class NodeInstancePainter:
         painter.setPen(Qt.NoPen)
         painter.drawRoundedRect(bounding_rect, 12, 12)
 
-        header_gradient = QLinearGradient(self.get_header_rect(w, h).topRight(),
-                                          self.get_header_rect(w, h).bottomLeft())
+        header_gradient = QLinearGradient(NIPainter_DarkStd.get_header_rect(w, h, title_rect).topRight(),
+                                          NIPainter_DarkStd.get_header_rect(w, h, title_rect).bottomLeft())
         header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
         header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
         painter.setBrush(header_gradient)
         painter.setPen(Qt.NoPen)
-        painter.drawRoundedRect(self.get_header_rect(w, h), 12, 12)
+        painter.drawRoundedRect(NIPainter_DarkStd.get_header_rect(w, h, title_rect), 12, 12)
 
-    def draw_tron_extended_background(self, painter, c, w, h, bounding_rect):
-        """
-        :param painter: painter from paint event
-        :param c: NodeInstance's theme color
-        :param w: width
-        :param h: height
-        :param bounding_rect: NodeInstance's bounding rect
-        """
-
-        # main rect
-        background_color = QColor('#212224')
-        painter.setBrush(background_color)
-        pen = QPen(c)
-        pen.setWidth(2)
-        painter.setPen(pen)
-        body_path = self.get_extended_body_path_TRON_DESIGN(10, w, h)
-        painter.drawPath(body_path)
-
-        header_gradient = QLinearGradient(self.get_header_rect(w, h).topRight(),
-                                          self.get_header_rect(w, h).bottomLeft())
-        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
-        header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
-        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
-        painter.setBrush(header_gradient)
-        header_path = self.get_extended_header_path_TRON_DESIGN(10, w, h)
-        painter.drawPath(header_path)
-
-
-    def draw_ghostly_extended_background(self, painter, c, w, h, bounding_rect):
-        """
-        :param painter: painter from paint event
-        :param c: NodeInstance's theme color
-        :param w: width
-        :param h: height
-        :param bounding_rect: NodeInstance's bounding rect
-        """
-
-        # main rect
-        background_color = QColor(31, 31, 36, 150)
-
-        body_gradient = QRadialGradient(QPointF(bounding_rect.topLeft().x()+w,
-                                                bounding_rect.topLeft().y()-h),
-                                        pythagoras(2*h, 2*w))
-        body_gradient.setColorAt(0, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 100))
-        body_gradient.setColorAt(0.7, background_color)
-        body_gradient.setColorAt(1, background_color)
-
-        painter.setBrush(body_gradient)
-        painter.setBrush(QColor(28, 28, 28, 170))
-        pen = QPen(c.darker())
-        pen.setWidth(1)
-        painter.setPen(pen)
-        body_path = self.get_extended_body_path_GHOSTLY_DESIGN(5, w, h)
-        painter.drawPath(body_path)
-
-
-    def draw_blender_extended_background(self, painter, c, w, h, bounding_rect):
-        """
-        :param painter: painter from paint event
-        :param c: NodeInstance's theme color
-        :param w: width
-        :param h: height
-        :param bounding_rect: NodeInstance's bounding rect
-        """
-        background_color = QColor(100, 100, 100, 150)
-        header_color = QColor(c.red(), c.green(), c.blue(), 180)
-
-        rel_header_height = self.get_header_rect(w, h).height()/h
-        gradient = QLinearGradient(bounding_rect.topLeft(), bounding_rect.bottomLeft())
-        gradient.setColorAt(0, header_color)
-        gradient.setColorAt(rel_header_height, header_color)
-        gradient.setColorAt(rel_header_height+0.0001, background_color)
-        gradient.setColorAt(1, background_color)
-
-        painter.setBrush(gradient)
-        painter.setPen(QPen(c.darker()))
-        painter.drawRoundedRect(bounding_rect, 7, 7)
-
-
-    def get_extended_body_path_TRON_DESIGN(self, c_s, w, h):
-        """
-        :param c_s: corner size/corner radius
-        :param w: width
-        :param h: height
-        """
-
-        path = QPainterPath()
-        path.moveTo(+w / 2, -h / 2 + c_s)
-        path.lineTo(+w / 2 - c_s, -h / 2)
-        path.lineTo(-w / 2 + c_s, -h / 2)
-        path.lineTo(-w / 2, -h / 2 + c_s)
-        path.lineTo(-w / 2, +h / 2 - c_s)
-        path.lineTo(-w / 2 + c_s, +h / 2)
-        path.lineTo(+w / 2 - c_s, +h / 2)
-        path.lineTo(+w / 2, +h / 2 - c_s)
-        path.closeSubpath()
-        return path
-
-    def get_extended_body_path_GHOSTLY_DESIGN(self, c_s, w, h):
-        """
-        Very similar to 'extended tron'
-        :param c_s: corner size/corner radius
-        :param w: width
-        :param h: height
-        """
-
-        path = QPainterPath()
-        path.moveTo(+w / 2, -h / 2 + c_s)
-        path.lineTo(+w / 2 - c_s, -h / 2)
-        path.lineTo(-w / 2 + c_s, -h / 2)
-        path.lineTo(-w / 2, -h / 2 + c_s)
-        path.lineTo(-w / 2, +h / 2 - c_s)
-        path.lineTo(-w / 2 + c_s, +h / 2)
-        path.lineTo(+w / 2 - c_s, +h / 2)
-        path.lineTo(+w / 2, +h / 2 - c_s)
-        path.closeSubpath()
-        return path
-
-    def get_extended_header_path_TRON_DESIGN(self, c_s, w, h):
-        """
-        :param c_s: corner size/corner radius
-        :param w: width
-        :param h: height
-        """
-
-        # header_height = 35 * (self.ni.parent_node.title.count('\n') + 1)
-        header_height = self.get_header_rect(w, h).height()
-        header_bottom = -h / 2 + header_height
-        path = QPainterPath()
-        path.moveTo(+w / 2, -h / 2 + c_s)
-        path.lineTo(+w / 2 - c_s, -h / 2)
-        path.lineTo(-w / 2 + c_s, -h / 2)
-        path.lineTo(-w / 2, -h / 2 + c_s)
-        path.lineTo(-w / 2, header_bottom - c_s)
-        path.lineTo(-w / 2 + c_s, header_bottom)
-        path.lineTo(+w / 2 - c_s, header_bottom)
-        path.lineTo(+w / 2, header_bottom - c_s)
-        path.closeSubpath()
-        return path
-
-    def draw_dark_minimalistic(self, painter, c, w, h, bounding_rect):
+    def draw_NI_minimalistic(painter, c, w, h, bounding_rect):
         """
         :param painter: painter from paint event
         :param c: color
@@ -254,7 +187,136 @@ class NodeInstancePainter:
 
         painter.drawPath(path)
 
-    def draw_tron_minimalistic(self, painter, c_s, c, w, h, background_color=QColor('#36383B')):
+
+class NIPainter_DarkTron(NIPainter):
+
+    def paint_NI_title_label(painter, option, hovering, design_style, title_str, node_color, bounding_rect):
+        if design_style == 'extended':
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, node_color if not hovering else node_color.lighter(),
+                2,
+                QFont('Poppins', 15),
+                bounding_rect
+            )
+        else:
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, node_color,
+                2,
+                QFont('K2D', 20, QFont.Bold, True),
+                bounding_rect
+            )
+
+    def paint_PI_label(painter, option, type_, label_str, node_color, bounding_rect):
+        if type_ == 'exec':
+            c = QColor('#FFFFFF')
+        else:
+            c = node_color
+        NIPainter_DarkStd.paint_PI_label_default(painter, label_str, c, QFont("Source Code Pro", 10, QFont.Bold), bounding_rect)
+
+    def paint_PI(painter, option, c,
+                 exec_type, connected, padding, w, h):
+
+        color = QColor('#FFFFFF') if exec_type == 'exec' else c
+        pen = QPen(color)
+        pen.setWidth(2)
+        painter.setPen(pen)
+        if connected or \
+                option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
+            r = c.red()
+            g = c.green()
+            b = c.blue()
+            brush = QBrush(QColor(r, g, b, 100))
+            painter.setBrush(brush)
+        else:
+            painter.setBrush(Qt.NoBrush)
+
+        painter.drawEllipse(QRectF(padding, padding, w, h))
+
+    def paint_NI(design_style,
+                 painter, option,
+                 c: QColor, w: int, h: int, bounding_rect, title_rect):
+
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        if design_style == 'extended':
+            NIPainter_DarkTron.draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect)
+        elif design_style == 'minimalistic':
+            if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
+                NIPainter_DarkTron.draw_NI_minimalistic(painter, c, w, h, background_color=c.darker())
+            else:
+                NIPainter_DarkTron.draw_NI_minimalistic(painter, c, w, h)
+
+    def draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect):
+        """
+        :param painter: painter from paint event
+        :param c: NodeInstance's theme color
+        :param w: width
+        :param h: height
+        :param bounding_rect: NodeInstance's bounding rect
+        :param title_rect: NI's title label's bounding rect
+        """
+
+        background_color = QColor('#212224')
+        painter.setBrush(background_color)
+        pen = QPen(c)
+        pen.setWidth(2)
+        painter.setPen(pen)
+        body_path = NIPainter_DarkTron.get_extended_body_path(w, h)
+        painter.drawPath(body_path)
+
+        header_gradient = QLinearGradient(NIPainter_DarkTron.get_header_rect(w, h, title_rect).topRight(),
+                                          NIPainter_DarkTron.get_header_rect(w, h, title_rect).bottomLeft())
+        header_gradient.setColorAt(0, QColor(c.red(), c.green(), c.blue(), 255))
+        header_gradient.setColorAt(0.5, QColor(c.red(), c.green(), c.blue(), 100))
+        header_gradient.setColorAt(1, QColor(c.red(), c.green(), c.blue(), 0))
+        painter.setBrush(header_gradient)
+        header_path = NIPainter_DarkTron.get_extended_header_path(w, h, title_rect)
+        painter.drawPath(header_path)
+
+    def get_extended_body_path(w, h):
+        """
+        :param c_s: corner size/corner radius
+        :param w: width
+        :param h: height
+        """
+        c_s = 10
+
+        path = QPainterPath()
+        path.moveTo(+w / 2, -h / 2 + c_s)
+        path.lineTo(+w / 2 - c_s, -h / 2)
+        path.lineTo(-w / 2 + c_s, -h / 2)
+        path.lineTo(-w / 2, -h / 2 + c_s)
+        path.lineTo(-w / 2, +h / 2 - c_s)
+        path.lineTo(-w / 2 + c_s, +h / 2)
+        path.lineTo(+w / 2 - c_s, +h / 2)
+        path.lineTo(+w / 2, +h / 2 - c_s)
+        path.closeSubpath()
+        return path
+
+    def get_extended_header_path(w, h, title_rect):
+        """
+        :param w: width
+        :param h: height
+        :param title_rect: NI's title label's bounding rect
+        """
+        c_s = 10
+
+        # header_height = 35 * (NIPainter_DarkTron.ni.parent_node.title.count('\n') + 1)
+        header_height = NIPainter_DarkTron.get_header_rect(w, h, title_rect).height()
+        header_bottom = -h / 2 + header_height
+        path = QPainterPath()
+        path.moveTo(+w / 2, -h / 2 + c_s)
+        path.lineTo(+w / 2 - c_s, -h / 2)
+        path.lineTo(-w / 2 + c_s, -h / 2)
+        path.lineTo(-w / 2, -h / 2 + c_s)
+        path.lineTo(-w / 2, header_bottom - c_s)
+        path.lineTo(-w / 2 + c_s, header_bottom)
+        path.lineTo(+w / 2 - c_s, header_bottom)
+        path.lineTo(+w / 2, header_bottom - c_s)
+        path.closeSubpath()
+        return path
+
+    def draw_NI_minimalistic(painter, c, w, h, background_color=QColor('#36383B')):
         """
         :param painter: painter from paint event
         :param c_s: corner size/corner radius
@@ -263,6 +325,8 @@ class NodeInstancePainter:
         :param h: height
         :param background_color: (default) background color
         """
+
+        c_s = 10
 
         path = QPainterPath()
         path.moveTo(-w / 2, 0)
@@ -283,7 +347,122 @@ class NodeInstancePainter:
 
         painter.drawPath(path)
 
-    def draw_ghostly_minimalistic(self, painter, c_s, c, w, h, background_color=QColor(30, 30, 30, 170)):
+
+class NIPainter_Ghostly(NIPainter):
+
+    def paint_NI_title_label(painter, option, hovering, design_style, title_str, node_color, bounding_rect):
+        if design_style == 'extended':
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, node_color if not hovering else node_color.lighter(),
+                2,
+                QFont('Poppins', 15),
+                bounding_rect
+            )
+        else:
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, node_color,
+                2,
+                QFont('K2D', 20, QFont.Bold, True),
+                bounding_rect
+            )
+
+    def paint_PI_label(painter, option, type_, label_str, node_color, bounding_rect):
+        if type_ == 'exec':
+            c = QColor('#FFFFFF')
+        else:
+            c = node_color
+        NIPainter_DarkStd.paint_PI_label_default(painter, label_str, c, QFont("Source Code Pro", 10, QFont.Bold), bounding_rect)
+
+    def paint_PI(painter, option, c,
+                 exec_type, connected, padding, w, h):
+
+        color = QColor('#FFFFFF') if exec_type == 'exec' else c
+
+        if exec_type == 'exec':
+            if connected or \
+                    option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
+                brush = QBrush(QColor(255, 255, 255, 100))
+                painter.setBrush(brush)
+            else:
+                painter.setBrush(Qt.NoBrush)
+        elif exec_type == 'data':
+            if connected or \
+                    option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
+                r = c.red()
+                g = c.green()
+                b = c.blue()
+                brush = QBrush(QColor(r, g, b, 100))
+                painter.setBrush(brush)
+            else:
+                painter.setBrush(Qt.NoBrush)
+
+        pen = QPen(color)
+        pen.setWidth(1)
+        painter.setPen(pen)
+        painter.drawEllipse(QRectF(padding+w/4, padding+h/4, w/2, h/2))
+
+    def paint_NI(design_style,
+                 painter, option,
+                 c: QColor, w: int, h: int, bounding_rect, title_rect):
+
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        if design_style == 'extended':
+            NIPainter_Ghostly.draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect)
+        elif design_style == 'minimalistic':
+            if option.state & QStyle.State_MouseOver:  # use special dark background color when mouse hovers
+                NIPainter_Ghostly.draw_NI_minimalistic(painter, c, w, h, background_color=c.darker())
+            else:
+                NIPainter_Ghostly.draw_NI_minimalistic(painter, c, w, h)
+
+    def draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect):
+        """
+        :param painter: painter from paint event
+        :param c: NodeInstance's theme color
+        :param w: width
+        :param h: height
+        :param bounding_rect: NodeInstance's bounding rect
+        :param title_rect: NI's title label's bounding rect
+        """
+
+        background_color = QColor(31, 31, 36, 150)
+
+        body_gradient = QRadialGradient(QPointF(bounding_rect.topLeft().x() + w,
+                                                bounding_rect.topLeft().y() - h),
+                                        pythagoras(2 * h, 2 * w))
+        body_gradient.setColorAt(0, QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100, 100))
+        body_gradient.setColorAt(0.7, background_color)
+        body_gradient.setColorAt(1, background_color)
+
+        painter.setBrush(body_gradient)
+        painter.setBrush(QColor(28, 28, 28, 170))
+        pen = QPen(c.darker())
+        pen.setWidth(1)
+        painter.setPen(pen)
+        body_path = NIPainter_Ghostly.get_extended_body_path(5, w, h)
+        painter.drawPath(body_path)
+
+    def get_extended_body_path(c_s, w, h):
+        """
+        Very similar to 'extended tron'
+        :param c_s: corner size/corner radius
+        :param w: width
+        :param h: height
+        """
+
+        path = QPainterPath()
+        path.moveTo(+w / 2, -h / 2 + c_s)
+        path.lineTo(+w / 2 - c_s, -h / 2)
+        path.lineTo(-w / 2 + c_s, -h / 2)
+        path.lineTo(-w / 2, -h / 2 + c_s)
+        path.lineTo(-w / 2, +h / 2 - c_s)
+        path.lineTo(-w / 2 + c_s, +h / 2)
+        path.lineTo(+w / 2 - c_s, +h / 2)
+        path.lineTo(+w / 2, +h / 2 - c_s)
+        path.closeSubpath()
+        return path
+
+    def draw_NI_minimalistic(painter, c, w, h, background_color=QColor(30, 30, 30, 170)):
         """
         :param painter: painter from paint event
         :param c_s: corner size/corner radius
@@ -292,8 +471,8 @@ class NodeInstancePainter:
         :param h: height
         :param background_color: std background color
         """
-
-        path = self.get_extended_body_path_GHOSTLY_DESIGN(c_s, w, h)  # equals the minimalistic in this case
+        c_s = 10
+        path = NIPainter_Ghostly.get_extended_body_path(c_s, w, h)  # equals the minimalistic in this case
 
         painter.setBrush(background_color)
         # pen = QPen(QColor('#333333'))  # QPen(c)
@@ -304,7 +483,95 @@ class NodeInstancePainter:
         painter.drawPath(path)
 
 
-    def draw_blender_minimalistic(self, painter, c_s, c, w, h, bounding_rect, background_color=QColor(30, 30, 30, 150)):
+class NIPainter_Blender(NIPainter):
+
+    def paint_NI_title_label(painter, option, hovering, design_style, title_str, node_color, bounding_rect):
+        if design_style == 'extended':
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, QColor('#FFFFFF'),
+                2,
+                QFont('Poppins', 15),
+                bounding_rect
+            )
+        else:
+            NIPainter.paint_NI_title_label_default(
+                painter, design_style, title_str, node_color,
+                2,
+                QFont('K2D', 20, QFont.Bold, True),
+                bounding_rect
+            )
+
+    def paint_PI_label(painter, option, type_, label_str, node_color, bounding_rect):
+        if type_ == 'exec':
+            c = QColor('#FFFFFF')
+        else:
+            c = node_color
+        NIPainter_DarkStd.paint_PI_label_default(painter, label_str, c, QFont("Source Code Pro", 10, QFont.Bold), bounding_rect)
+
+    def paint_PI(painter, option, c,
+                 exec_type, connected, padding, w, h):
+
+        color = QColor('#FFFFFF') if exec_type == 'exec' else c
+
+        if exec_type == 'exec':
+            if connected or \
+                    option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
+                brush = QBrush(QColor(255, 255, 255, 100))
+                painter.setBrush(brush)
+            else:
+                painter.setBrush(Qt.NoBrush)
+        elif exec_type == 'data':
+            if connected or \
+                    option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
+                r = c.red()
+                g = c.green()
+                b = c.blue()
+                brush = QBrush(QColor(r, g, b, 100))
+                painter.setBrush(brush)
+            else:
+                painter.setBrush(Qt.NoBrush)
+
+        pen = QPen(color)
+        pen.setWidth(1)
+        painter.setPen(pen)
+        painter.drawEllipse(QRectF(padding + w / 4, padding + h / 4, w / 2, h / 2))
+
+    def paint_NI(design_style,
+                 painter, option,
+                 c: QColor, w: int, h: int, bounding_rect, title_rect):
+
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        if design_style == 'extended':
+            NIPainter_Blender.draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect)
+        elif design_style == 'minimalistic':
+            NIPainter_Blender.draw_NI_minimalistic(painter, c, w, h, bounding_rect)
+
+    def draw_NI_extended_background(painter, c, w, h, bounding_rect, title_rect):
+        """
+        :param painter: painter from paint event
+        :param c: NodeInstance's theme color
+        :param w: width
+        :param h: height
+        :param bounding_rect: NodeInstance's bounding rect
+        :param title_rect: NI's title label's bounding rect
+        """
+
+        background_color = QColor(100, 100, 100, 150)
+        header_color = QColor(c.red(), c.green(), c.blue(), 180)
+
+        rel_header_height = NIPainter_Blender.get_header_rect(w, h, title_rect).height()/h
+        gradient = QLinearGradient(bounding_rect.topLeft(), bounding_rect.bottomLeft())
+        gradient.setColorAt(0, header_color)
+        gradient.setColorAt(rel_header_height, header_color)
+        gradient.setColorAt(rel_header_height+0.0001, background_color)
+        gradient.setColorAt(1, background_color)
+
+        painter.setBrush(gradient)
+        painter.setPen(QPen(c.darker()))
+        painter.drawRoundedRect(bounding_rect, 7, 7)
+
+    def draw_NI_minimalistic(painter, c, w, h, bounding_rect, background_color=QColor(30, 30, 30, 150)):
         """
         :param painter: painter from paint event
         :param c_s: corner size/corner radius
@@ -313,41 +580,7 @@ class NodeInstancePainter:
         :param h: height
         :param background_color: std background color
         """
-
-        painter.setBrush(self.interpolate_color(c, background_color, 0.97))
+        c_s = 15
+        painter.setBrush(NIPainter_Blender.interpolate_color(c, background_color, 0.97))
         painter.setPen(QPen(c))
         painter.drawRoundedRect(bounding_rect, c_s, c_s)
-
-
-    def get_header_rect(self, w, h):
-        """
-        :param w: width
-        :param h: height
-        """
-
-        header_height = 1.4 * self.ni.title_label.boundingRect().height()  # 35 * (self.parent_node.title.count('\n')+1)
-
-        header_rect = QRectF()
-        header_rect.setTopLeft(QPointF(-w / 2, -h / 2))
-        header_rect.setWidth(w)
-        header_rect.setHeight(header_height)
-        return header_rect
-
-
-    def interpolate_color(self, c1, c2, val):
-        r1 = c1.red()
-        g1 = c1.green()
-        b1 = c2.blue()
-        a1 = c1.alpha()
-
-        r2 = c2.red()
-        g2 = c2.green()
-        b2 = c2.blue()
-        a2 = c2.alpha()
-
-        r = (r2 - r1) * val + r1
-        g = (g2 - g1) * val + g1
-        b = (b2 - b1) * val + b1
-        a = (a2 - a1) * val + a1
-
-        return QColor(r, g, b, a)

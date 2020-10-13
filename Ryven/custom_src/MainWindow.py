@@ -118,7 +118,7 @@ class MainWindow(QMainWindow):
     def setup_menu_actions(self):
         # flow designs
         for d in Design.flow_themes:
-            design_action = QAction(d, self)
+            design_action = QAction(d.name, self)
             self.ui.menuFlow_Design_Style.addAction(design_action)
             design_action.triggered.connect(self.on_design_action_triggered)
             self.flow_design_actions.append(design_action)
