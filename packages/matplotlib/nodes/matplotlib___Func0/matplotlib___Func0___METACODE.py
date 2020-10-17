@@ -24,6 +24,7 @@ from NIENV import *
 # self.log_message('that\'s not good', target='error')
 
 # ------------------------------------------------------------------------------
+import numpy as np
 
 
 class %NODE_TITLE%_NodeInstance(NodeInstance):
@@ -36,7 +37,15 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.initialized()
 
     def update_event(self, input_called=-1):
-        pass # ...
+        x = eval(self.input(0)) if type(self.input(0)) == str else self.input(0)
+        functions = {}
+        for i in range(self.input(1).count('\n')+1):
+            signature = self.input(1).splitlines()[i]
+            if signature != '':
+                functions[signature] = eval(signature)
+        #function_signatures = self.input(1).splitlines()
+        #functions = [eval(l) for l in function_signatures]
+        self.main_widget.redraw(x, functions)
 
     def get_data(self):
         data = {}

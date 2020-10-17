@@ -1,7 +1,8 @@
 from PySide2.QtCore import QObject, Signal, Qt
 from PySide2.QtGui import QPen, QColor, QBrush
 
-from custom_src.NodeInstancePainter import NIPainter_DarkStd, NIPainter_DarkTron, NIPainter_Ghostly, NIPainter_Blender
+from custom_src.NodeInstancePainter import NIPainter_DarkStd, NIPainter_DarkTron, NIPainter_Ghostly, NIPainter_Blender, \
+    NIPainter_Easy, NIPainter_Peasy
 
 
 class FlowTheme:
@@ -96,7 +97,24 @@ class DesignContainer(QObject):
                   2,
                   Qt.DashLine,
                   NIPainter_Blender),
-
+        FlowTheme('easy',
+                  QColor('#989c9f'),
+                  2,
+                  Qt.SolidLine,
+                  QColor('#989c9f'),
+                  2,
+                  Qt.DashLine,
+                  NIPainter_Easy,
+                  QColor('#212429')),
+        FlowTheme('peasy',
+                  QColor('#989c9f'),
+                  2,
+                  Qt.SolidLine,
+                  QColor('#989c9f'),
+                  2,
+                  Qt.DashLine,
+                  NIPainter_Peasy,
+                  QColor('#3f4044'))
     ]
 
     start_flow_theme = flow_themes[-1]

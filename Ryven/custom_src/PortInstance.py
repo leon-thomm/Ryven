@@ -246,11 +246,10 @@ class PortInstanceGate(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        Design.flow_theme.node_inst_painter.paint_PI(
-            painter, option, self.parent_node_instance.color,
-            self.parent_port_instance.type_, len(self.parent_port_instance.connected_port_instances) > 0,
-            self.padding, self.painting_width, self.painting_height  # TODO move all padding stuff into the painters
-        )
+        Design.flow_theme.node_inst_painter.paint_PI(painter, option, self.parent_node_instance.color,
+                                                     self.parent_port_instance.type_,
+                                                     len(self.parent_port_instance.connected_port_instances) > 0,
+                                                     self.padding, self.painting_width, self.painting_height)
 
     def mousePressEvent(self, event):
         event.accept()
@@ -258,7 +257,20 @@ class PortInstanceGate(QGraphicsWidget):
     def hoverEnterEvent(self, event):
         if self.parent_port_instance.type_ == 'data' and self.parent_port_instance.direction == 'output':
             self.setToolTip(shorten(str(self.parent_port_instance.val), 1000, line_break=True))
+
+        # hover all connections
+        self.parent_node_instance.flow.hovered_port_inst_gate = self
+        self.parent_node_instance.flow.update()
+
         QGraphicsItem.hoverEnterEvent(self, event)
+
+    def hoverLeaveEvent(self, event):
+
+        # turn connection highlighting off
+        self.parent_node_instance.flow.hovered_port_inst_gate = None
+        self.parent_node_instance.flow.update()
+
+        QGraphicsItem.hoverLeaveEvent(self, event)
 
     def get_scene_center_pos(self):
         return QPointF(self.scenePos().x() + self.boundingRect().width()/2,
@@ -291,10 +303,12 @@ class PortInstanceLabel(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        Design.flow_theme.node_inst_painter.paint_PI_label(
-            painter, option, self.parent_port_instance.type_, self.parent_port_instance.label_str,
-            self.parent_node_instance.color, self.boundingRect()
-        )
+        Design.flow_theme.node_inst_painter.paint_PI_label(painter, option,
+                                                           self.parent_port_instance.type_,
+                                                           len(self.parent_port_instance.connected_port_instances) > 0,
+                                                           self.parent_port_instance.label_str,
+                                                           self.parent_node_instance.color,
+                                                           self.boundingRect())
 
 
 class StdLineEdit_PortInstanceWidget(QLineEdit):

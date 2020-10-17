@@ -69,6 +69,7 @@ class Flow(QGraphicsView):
         self.all_nodes = main_window.all_nodes  # ref
         self.gate_selected: PortInstanceGate = None
         self.dragging_connection = False
+        self.hovered_port_inst_gate = None  # see drawing connections
         self.ignore_mouse_event = False  # for stylus - see tablet event
         self.last_mouse_move_pos: QPointF = None
         self.node_place_pos = QPointF()
@@ -164,6 +165,7 @@ class Flow(QGraphicsView):
             self.undo_stack.clear()
 
     def theme_changed(self, t):
+        # TODO: repaint background. how?
         self.viewport().update()
 
     def algorithm_mode_data_flow_toggled(self, checked):
@@ -404,7 +406,7 @@ class Flow(QGraphicsView):
                                           find_type_in_object(n, SetVariable_Node)])
 
     def drawBackground(self, painter, rect):
-        painter.fillRect(rect.intersected(self.sceneRect()), QColor('#333333'))
+        painter.fillRect(rect.intersected(self.sceneRect()), Design.flow_theme.flow_background_color)
         painter.setPen(Qt.NoPen)
         painter.drawRect(self.sceneRect())
 
@@ -414,50 +416,25 @@ class Flow(QGraphicsView):
     def drawForeground(self, painter, rect):
         """Draws all connections and borders around selected items."""
 
-        # pen = QPen()
-        # if Design.flow_theme == 'dark std':
-        #     # pen.setColor('#BCBBF2')
-        #     pen.setWidth(5)
-        #     pen.setCapStyle(Qt.RoundCap)
-        # elif Design.flow_theme == 'dark tron':
-        #     # pen.setColor('#452666')
-        #     pen.setWidth(4)
-        #     pen.setCapStyle(Qt.RoundCap)
-        # elif Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
-        #     pen.setWidth(2)
-        #     pen.setCapStyle(Qt.RoundCap)
-
         # DRAW CONNECTIONS
         for ni in self.all_node_instances:
             for o in ni.outputs:
                 for cpi in o.connected_port_instances:
-                    # if o.type_ == 'data':
-                    #     pen.setStyle(Qt.DashLine)
-                    # elif o.type_ == 'exec':
-                    #     pen.setStyle(Qt.SolidLine)
                     path = self.connection_path(o.gate.get_scene_center_pos(),
                                                 cpi.gate.get_scene_center_pos())
                     w = path.boundingRect().width()
                     h = path.boundingRect().height()
                     gradient = QRadialGradient(path.boundingRect().center(),
                                                pythagoras(w, h) / 2)
-                    # r = 0
-                    # g = 0
-                    # b = 0
-                    # if Design.flow_theme == 'dark std':
-                    #     r = 188
-                    #     g = 187
-                    #     b = 242
-                    # elif Design.flow_theme == 'dark tron':
-                    #     r = 0
-                    #     g = 120
-                    #     b = 180s
-                    # elif Design.flow_theme == 'ghostly' or Design.flow_theme == 'blender':
-                    #     r = 0
-                    #     g = 17
-                    #     b = 25
+
                     pen = Design.flow_theme.get_flow_conn_pen_inst(o.type_)
                     c = pen.color()
+
+                    # highlight hovered connections
+                    if self.hovered_port_inst_gate == o.gate or self.hovered_port_inst_gate is cpi.gate:
+                        c = QColor('#c5c5c5')
+                        pen.setWidth(5)
+
                     c_r = c.red()
                     c_g = c.green()
                     c_b = c.blue()

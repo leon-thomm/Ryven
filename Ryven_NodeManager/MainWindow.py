@@ -1,5 +1,5 @@
 # QT
-from PySide2.QtGui import QIcon, QKeySequence
+from PySide2.QtGui import QIcon, QKeySequence, QFontDatabase
 from PySide2.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QFileDialog, QMessageBox, QShortcut
 from PySide2.QtCore import Qt
 # parent UI
@@ -19,6 +19,8 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        QFontDatabase.addApplicationFont('../resources/fonts/source code pro/SourceCodePro-Regular.ttf')
 
         self.nodes = []
 

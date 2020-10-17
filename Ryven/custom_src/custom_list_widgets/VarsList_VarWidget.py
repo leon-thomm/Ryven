@@ -29,7 +29,7 @@ class VarsList_VarWidget(QWidget):
         main_layout = QHBoxLayout()
 
         # create icon via label
-        variable_icon = QIcon('resources/pics/variable_picture.png')
+        variable_icon = QIcon('../resources/pics/variable_picture.png')
         icon_label = QLabel()
         icon_label.setFixedSize(15, 15)
         icon_label.setStyleSheet('border:none;')

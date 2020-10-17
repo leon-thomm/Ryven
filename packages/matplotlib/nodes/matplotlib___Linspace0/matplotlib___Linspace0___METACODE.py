@@ -24,6 +24,7 @@ from NIENV import *
 # self.log_message('that\'s not good', target='error')
 
 # ------------------------------------------------------------------------------
+import numpy as np
 
 
 class %NODE_TITLE%_NodeInstance(NodeInstance):
@@ -36,7 +37,7 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.initialized()
 
     def update_event(self, input_called=-1):
-        pass # ...
+        self.set_output_val(0, np.linspace(self.input(0), self.input(1), self.input(2)))
 
     def get_data(self):
         data = {}

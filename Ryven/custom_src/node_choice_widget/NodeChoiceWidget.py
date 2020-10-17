@@ -61,7 +61,7 @@ class NodeChoiceWidget(QWidget):
         self.update_view('')
 
         try:
-            f = open('resources/stylesheets/dark_node_choice_widget.txt')
+            f = open('../resources/stylesheets/dark_node_choice_widget.txt')
             self.setStyleSheet(f.read())
             f.close()
         except FileNotFoundError:

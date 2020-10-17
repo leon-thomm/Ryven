@@ -17,7 +17,7 @@ class StartupDialog(QDialog):
             <h2 style="font-family: Courier New; font-size: xx-large; color: #a9d5ef;">Welcome to Ryven</h2>
             <div style="font-family: Corbel; font-size: large;">
             
-            <p><img style="float:right;" height=150 src="resources/pics/program_icon2_light.png">Hi,
+            <p><img style="float:right;" height=150 src="../resources/pics/program_icon2_light.png">Hi,
             I am Leon, the creator of Ryven. Please always keep in mind, that this
             is not a professional piece of software. Don\'t forget to save! :)
             I am sure there are bugs and problems but as long as you keep behaving
@@ -53,7 +53,7 @@ class StartupDialog(QDialog):
         self.setLayout(layout)
 
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('resources/pics/program_icon2.png'))
+        self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
         self.setFixedSize(500, 280)
 
         self.load_stylesheet('dark')
@@ -67,7 +67,7 @@ class StartupDialog(QDialog):
 
         ss_content = ''
         try:
-            f = open('resources/stylesheets/'+ss+'.txt')
+            f = open('../resources/stylesheets/'+ss+'.txt')
             ss_content = f.read()
             f.close()
         finally:

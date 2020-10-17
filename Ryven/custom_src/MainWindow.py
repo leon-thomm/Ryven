@@ -26,14 +26,15 @@ class MainWindow(QMainWindow):
     def __init__(self, config):
         super(MainWindow, self).__init__()
 
-        QFontDatabase.addApplicationFont('resources/fonts/poppins/Poppins-Medium.ttf')
-        QFontDatabase.addApplicationFont('resources/fonts/source code pro/SourceCodePro-Regular.ttf')
+        QFontDatabase.addApplicationFont('../resources/fonts/poppins/Poppins-Medium.ttf')
+        QFontDatabase.addApplicationFont('../resources/fonts/source code pro/SourceCodePro-Regular.ttf')
+        QFontDatabase.addApplicationFont('../resources/fonts/asap/Asap-Regular.ttf')
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.splitter.setSizes([120, 800])
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('resources/pics/program_icon2.png'))
+        self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
         self.load_stylesheet('dark')
         self.ui.scripts_tab_widget.removeTab(0)
 
@@ -171,7 +172,7 @@ class MainWindow(QMainWindow):
     def load_stylesheet(self, ss):
         ss_content = ''
         try:
-            f = open('resources/stylesheets/'+ss+'.txt')
+            f = open('../resources/stylesheets/'+ss+'.txt')
             ss_content = f.read()
             f.close()
         finally:
