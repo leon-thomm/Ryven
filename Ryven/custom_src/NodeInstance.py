@@ -293,9 +293,12 @@ class NodeInstance(QGraphicsItem):
     # SHAPE
     def update_shape(self):
         """Causes recompilation of the whole shape."""
+        # if not self.initializing:   # just to make sure
+        #     self.rebuild_ui()       # (hopefully) temporary fix -> see rebuild_ui() docstring
 
         if self.main_widget is not None:  # maybe the main_widget got resized
             self.main_widget_proxy.setMaximumSize(self.main_widget.size())
+            self.widget.adjustSize()
             self.widget.adjustSize()
 
         self.body_layout.invalidate()

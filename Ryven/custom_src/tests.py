@@ -8,6 +8,8 @@
 # import os
 # from pyowm import OWM
 # import librosa
+# import numpy as np
+# np.complex
 
 from PySide2.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QPlainTextEdit, QGraphicsView, QGraphicsScene, QGraphicsProxyWidget, QAction, QMenu
 from PySide2.QtGui import QFont, QColor, QImage, QPainter, QPen, QBrush
