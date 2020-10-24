@@ -7,10 +7,7 @@ from PySide2.QtGui import QPixmap, QPainter, QPen, QColor, QBrush
 from PySide2.QtWidgets import QWidget, QVBoxLayout, QLabel
 
 from PySide2.QtWidgets import QWidget
-import os
 
-
-package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
 
 
 class ShowPoints_NodeInstance_MainWidget(QWidget):

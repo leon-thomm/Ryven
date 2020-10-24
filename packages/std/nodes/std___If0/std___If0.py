@@ -14,13 +14,11 @@ from NIENV import *
 
 
 class If_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(If_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(If_NodeInstance, self).__init__(params)
 
         self.special_actions['add else if'] = {'method': M(self.action_add_else_if)}
         self.else_if_enlargement_state = 0
-
-        self.initialized()
 
 
     def action_add_else_if(self):

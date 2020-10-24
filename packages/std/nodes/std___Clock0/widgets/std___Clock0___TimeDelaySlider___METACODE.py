@@ -7,9 +7,9 @@ from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QSlider
 
 
-class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QSlider):
+class %CLASS%(QSlider):
     def __init__(self, parent_port_instance, parent_node_instance):
-        super(%INPUT_WIDGET_TITLE%_PortInstanceWidget, self).__init__(Qt.Horizontal)
+        super(%CLASS%, self).__init__(Qt.Horizontal)
 
         # leave these lines ------------------------------
         self.parent_port_instance = parent_port_instance

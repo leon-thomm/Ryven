@@ -14,13 +14,11 @@ from NIENV import *
 
 
 class Plus_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Plus_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(Plus_NodeInstance, self).__init__(params)
 
         self.special_actions['add input'] = {'method': M(self.action_add_input)}
         self.num_inputs = 2
-
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

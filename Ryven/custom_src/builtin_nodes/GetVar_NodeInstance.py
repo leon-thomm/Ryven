@@ -1,16 +1,12 @@
-from custom_src.retain import M
-from custom_src.NodeInstance import NodeInstance
-from custom_src.Node import Node
+from NIENV import *
 
 
 class GetVar_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(GetVar_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(GetVar_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = self.actionmethod ...
         self.var_name = ''
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         vars_handler = self.flow.parent_script.variables_handler

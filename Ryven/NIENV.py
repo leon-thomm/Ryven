@@ -4,3 +4,8 @@ file. This file should lie in the same location as Ryven.py in order to be able 
 from custom_src.NodeInstance import NodeInstance
 from custom_src.Node import Node
 from custom_src.retain import M
+from os.path import normpath, join, dirname, abspath
+
+
+def ni_pp(f):
+    return normpath(join(dirname(abspath(f)), '../../'))

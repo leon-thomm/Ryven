@@ -14,10 +14,8 @@ from NIENV import *
 
 
 class While_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(While_NodeInstance, self).__init__(parent_node, flow, configuration)
-
-        self.initialized()
+    def __init__(self, params):
+        super(While_NodeInstance, self).__init__(params)
 
 
     def update_event(self, input_called=-1):

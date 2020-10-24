@@ -4,7 +4,6 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout
 # from PySide2.QtCore import ...
 # from PySide2.QtGui import ...
 
-import os
 import numpy as np
 
 import matplotlib
@@ -14,12 +13,9 @@ from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2Q
 from matplotlib.figure import Figure
 
 
-package_path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../'))
-
-
-class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
+class %CLASS%(QWidget):
     def __init__(self, parent_node_instance):
-        super(%NODE_TITLE%_NodeInstance_MainWidget, self).__init__()
+        super(%CLASS%, self).__init__()
 
         # leave these lines ------------------------------
         self.parent_node_instance = parent_node_instance

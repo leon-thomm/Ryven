@@ -14,13 +14,11 @@ import random
 
 
 class PointsField_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(PointsField_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(PointsField_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.points = []
-
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

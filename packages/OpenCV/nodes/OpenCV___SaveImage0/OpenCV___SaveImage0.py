@@ -28,14 +28,12 @@ from NIENV import *
 import cv2
 
 class SaveImage_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(SaveImage_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(SaveImage_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.image_filepath = ''
         self.img = None
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         if input_called != 0:

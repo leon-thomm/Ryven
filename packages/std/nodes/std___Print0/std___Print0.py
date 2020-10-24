@@ -8,15 +8,13 @@ from NIENV import *
 
 
 class Print_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Print_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(Print_NodeInstance, self).__init__(params)
 
         self.special_actions['print something 1'] = {'method': M(self.print_something),
                                                      'data': 'hello!!'}
         self.special_actions['print something 2'] = {'method': M(self.print_something),
                                                      'data': 'HELLOO!?!?!?'}
-
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

@@ -13,14 +13,12 @@ from NIENV import *
 
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         self.special_actions['reset'] = {'method': M(self.action_reset)}
         self.values = []
-
-        self.initialized()
 
     def action_reset(self):
         self.reset()

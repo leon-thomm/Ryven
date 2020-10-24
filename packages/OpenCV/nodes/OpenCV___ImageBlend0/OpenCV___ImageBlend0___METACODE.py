@@ -9,16 +9,14 @@ import cv2
 # self.main_widget                    <- access to main widget
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unblend1 = None
         self.img_unblend2 = None
         self.img_blend= None
-        
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

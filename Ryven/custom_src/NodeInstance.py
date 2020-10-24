@@ -18,7 +18,7 @@ from custom_src.retain import M
 
 
 class NodeInstance(QGraphicsItem):
-    def __init__(self, parent_node: Node, flow, config=None):
+    def __init__(self, params):
         super(NodeInstance, self).__init__()
 
         self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
@@ -26,6 +26,10 @@ class NodeInstance(QGraphicsItem):
         self.setAcceptHoverEvents(True)
 
         # GENERAL ATTRIBUTES
+
+        # the constructor parameters are stored in a tuple to make the source code of custom NIs cleaner
+        parent_node, flow, config = params
+
         self.parent_node = parent_node
         self.flow = flow
         self.movement_state = None
@@ -83,8 +87,7 @@ class NodeInstance(QGraphicsItem):
 
 
     def initialized(self):
-        """Gets called at the very end of all manual initialization processes/at the very end of the constructor.
-        All ports and the main widget get finally created here."""
+        """All ports and the main widget get finally created here."""
 
         # LOADING CONFIG
         if self.init_config is not None:
@@ -110,20 +113,15 @@ class NodeInstance(QGraphicsItem):
                 print('Exception while setting data in', self.parent_node.title, 'NodeInstance:', e,
                       ' (was this intended?)')
 
-
         self.initializing = False
 
         # No self.update_shape() here because for some reason, the bounding rect hasn't been initialized yet, so
         # self.update_shape() gets called when the item is being drawn the first time (see paint event in NI painter)
-        # TODO: change that ^ once there is a solution for this https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event
+        # TODO: change that ^ once there is a solution for this: https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event
 
-        # print('1')
         self.update_design()  # load current design, update QGraphicsItem
-        # print('2')
-        # self.update_shape()
-        # print('3')
 
-        self.update()
+        self.update()  # and finally update the NodeInstance once
 
     def setup_ui(self):
         """Creates the empty layouts for the NI's widget."""

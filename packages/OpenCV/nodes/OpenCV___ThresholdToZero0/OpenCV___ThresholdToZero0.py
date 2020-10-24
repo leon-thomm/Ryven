@@ -28,13 +28,11 @@ from NIENV import *
 import cv2
 
 class ThresholdToZero_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(ThresholdToZero_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(ThresholdToZero_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
-
-        self.initialized()
 
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):

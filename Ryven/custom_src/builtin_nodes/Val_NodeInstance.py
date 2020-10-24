@@ -1,16 +1,12 @@
-from custom_src.retain import M
-from custom_src.NodeInstance import NodeInstance
-from custom_src.Node import Node
+from NIENV import *
 from custom_src.EditVal_Dialog import EditVal_Dialog
 
 
 class Val_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Val_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(Val_NodeInstance, self).__init__(params)
 
         self.special_actions['edit val via dialog'] = {'method': M(self.action_edit_via_dialog)}
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, self.main_widget.get_val())

@@ -1,12 +1,11 @@
+from NIWENV import *
+
 from PySide2.QtWidgets import QLabel, QVBoxLayout, QPushButton
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QPixmap
 
 from PySide2.QtWidgets import QWidget
-import os
 
-
-package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
 
 
 class Perceptron_NodeInstance_MainWidget(QWidget):

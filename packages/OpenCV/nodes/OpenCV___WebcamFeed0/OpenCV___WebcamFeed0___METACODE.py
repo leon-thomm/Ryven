@@ -7,14 +7,12 @@ from NIENV import *
 # self.main_widget                    <- access to main widget
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.log = self.new_log('Webcam Feed log')
-
-        self.initialized()
 
     def video_picture_updated(self, img):
         self.log.log('video picture updated')

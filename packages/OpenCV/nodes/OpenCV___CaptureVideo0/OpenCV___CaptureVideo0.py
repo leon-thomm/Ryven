@@ -10,14 +10,12 @@ import cv2
 
 
 class CaptureVideo_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(CaptureVideo_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(CaptureVideo_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.vid_uncaptured= None
         self.vid_captured = None
-
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

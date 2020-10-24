@@ -25,6 +25,7 @@ class PackageTranslator:
             src_code_target_filename = n['module name']+'.py'
 
             code = code.replace('%NODE_TITLE%', n['class name'])
+            code = code.replace('%CLASS%', n['class name']+'_NodeInstance')
             code = code.replace('%PACKAGE_NAME%', self.package_name)
 
             self.save(package_dir+'/nodes/'+n['module name']+'/'+src_code_target_filename, code)
@@ -40,6 +41,7 @@ class PackageTranslator:
                 main_widget_target_filename = n['module name'] + self.module_name_separator + 'main_widget.py'
 
                 code = code.replace('%NODE_TITLE%', n['class name'])
+                code = code.replace('%CLASS%', n['class name']+'_NodeInstance_MainWidget')
 
                 self.save(package_dir + '/nodes/' + n['module name'] + '/widgets/' + main_widget_target_filename, code)
 
@@ -54,6 +56,7 @@ class PackageTranslator:
                 input_widget_target_filename = n['module name'] + self.module_name_separator + i_w + '.py'
 
                 code = code.replace('%INPUT_WIDGET_TITLE%', i_w)  # i_w is already class name legal
+                code = code.replace('%CLASS%', i_w+'_PortInstanceWidget')
 
                 self.save(package_dir + '/nodes/' + n['module name'] + '/widgets/' + input_widget_target_filename, code)
 

@@ -27,13 +27,11 @@ from NIENV import *
 
 
 class ExtractProperty_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(ExtractProperty_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(ExtractProperty_NodeInstance, self).__init__(params)
 
         self.special_actions['add param input'] = {'method': M(self.action_add_param_input)}
-        self.param_counter = 0        
-
-        self.initialized()
+        self.param_counter = 0
 
     def action_add_param_input(self):
         self.param_counter += 1

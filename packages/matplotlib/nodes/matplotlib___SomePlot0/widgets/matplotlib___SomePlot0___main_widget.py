@@ -11,9 +11,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.figure import Figure
 
 
-package_path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../'))
-
-
 class SomePlot_NodeInstance_MainWidget(FigureCanvasQTAgg):
     def __init__(self, parent_node_instance):
         fig = Figure(figsize=(5, 4), dpi=100)

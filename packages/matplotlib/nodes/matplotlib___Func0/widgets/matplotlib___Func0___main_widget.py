@@ -14,9 +14,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2Q
 from matplotlib.figure import Figure
 
 
-package_path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../'))
-
-
 class Func_NodeInstance_MainWidget(QWidget):
     def __init__(self, parent_node_instance):
         super(Func_NodeInstance_MainWidget, self).__init__()

@@ -8,13 +8,11 @@ from NIENV import *
 
 
 class WebcamFeed_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(WebcamFeed_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(WebcamFeed_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.log = self.new_log('Webcam Feed log')
-
-        self.initialized()
 
     def video_picture_updated(self, img):
         self.log.log('video picture updated')
