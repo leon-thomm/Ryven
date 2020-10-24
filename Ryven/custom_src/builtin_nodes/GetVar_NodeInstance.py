@@ -29,10 +29,9 @@ class GetVar_NodeInstance(NodeInstance):
                 self.set_output_val(0, None)
 
         else:  # ->> value changed!
-            self.set_output_val(0, self.temp_var_val)
+            self.set_output_val(0, self.get_vars_handler().get_var_val(self.var_name))
 
-    def var_val_changed(self, val):
-        self.temp_var_val = val
+    def var_val_changed(self, name, val):
         self.update()
 
     def get_current_var_name(self):

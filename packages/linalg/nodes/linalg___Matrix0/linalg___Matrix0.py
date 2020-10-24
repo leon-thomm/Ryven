@@ -35,6 +35,7 @@ class Matrix_NodeInstance(NodeInstance):
         self.main_widget_hidden = False
         self.expression_matrix = None
         self.evaluated_matrix = None
+        self.used_variable_names = []
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, self.evaluated_matrix)
@@ -44,6 +45,8 @@ class Matrix_NodeInstance(NodeInstance):
         # the list(filter(...)) creates an array of strings for every line
         try:
             self.expression_matrix = np.array([[exp for exp in list(filter(lambda s: s != '', l.split(' ')))] for l in lines])
+            if not self.register_vars(self.expression_matrix):
+                return  # return if parsing failed
             self.evaluated_matrix = self.eval_matrix(self.expression_matrix)
             if self.evaluated_matrix is None: return  # matrix could not be parsed
             # custom_array = [list(map(number_type, list(filter(lambda s: s != '', l.split(' '))))) for l in lines]
@@ -57,25 +60,41 @@ class Matrix_NodeInstance(NodeInstance):
         self.update()
 
     def eval_matrix(self, lines):
-        try:
-            v = self.get_var_val
-            evaled_exp_array = []
-            for l in lines:
-                evaled_exp_array.append([])
-                for exp in l:
-                    # print(exp)
-                    # print(eval(exp))
-                    evaled_exp_array[-1].append(eval(exp))
-            # exp_array = [[eval(exp) for exp in l] for l in lines]
-            # already convert pure ints to floats
-            float_exp_array = [[float(exp) if type(exp) == int else exp for exp in l] for l in evaled_exp_array]
-            return float_exp_array
-        except Exception as e:
-            print(e)
-            return None
+        v = self.get_var_val
+        evaled_exp_array = []
+        for l in lines:
+            evaled_exp_array.append([])
+            for exp in l:
+                evaled_exp_array[-1].append(eval(exp))
+        float_exp_array = [[float(exp) if type(exp) == int else exp for exp in l] for l in evaled_exp_array]
+        return float_exp_array
 
     def get_var_val(self, name):
-        return self.flow.parent_script.variables_handler.get_var(name).val
+        return self.get_vars_handler().get_var_val(name)
+
+    def register_vars(self, lines):
+        try:
+            # clear used variables
+            for name in self.used_variable_names:
+                self.get_vars_handler().unregister_receiver(self, name)
+            self.used_variable_names.clear()
+
+            v = self.register_variable
+            for l in lines:
+                for exp in l:
+                    eval(exp)
+            return True
+        except Exception as e:
+            return False
+
+    def register_variable(self, name):
+        # connect to variable changes
+        self.get_vars_handler().register_receiver(self, name, self.var_val_updated)
+        self.used_variable_names.append(name)
+
+    def var_val_updated(self, name, val):
+        self.evaluated_matrix = self.eval_matrix(self.expression_matrix)
+        self.update()
 
     def action_hide_mw(self):
         self.main_widget.hide()

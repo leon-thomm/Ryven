@@ -4,7 +4,6 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout
 # from PySide2.QtCore import ...
 # from PySide2.QtGui import ...
 
-import os
 import numpy as np
 
 import matplotlib

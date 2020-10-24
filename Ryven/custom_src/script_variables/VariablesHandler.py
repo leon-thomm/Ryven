@@ -5,6 +5,9 @@ from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.class_inspection import find_type_in_object
 
+import pickle
+import base64
+
 
 class VariablesHandler:
     def __init__(self, script, config_vars=None):
@@ -43,6 +46,10 @@ class VariablesHandler:
                 return v
         return None
 
+    def get_var_val(self, name):
+        var = self.get_var(name)
+        return var.val if var is not None else None
+
     def set_var(self, name, val):
         var_index = self.get_var_index_from_name(name)
         if var_index is None:
@@ -53,7 +60,7 @@ class VariablesHandler:
         # update all variable usages by calling all registered object's methods on updated variable with the new val
         for receiver, var_name in self.var_receivers.keys():
             if var_name == name:
-                self.var_receivers[receiver, var_name](val)  # calling the slot method
+                self.var_receivers[receiver, var_name](var_name, val)  # calling the slot method
 
         return True
 
@@ -77,5 +84,6 @@ class VariablesHandler:
     def get_json_data(self):
         vars_dict = {}
         for v in self.variables:
-            vars_dict[v.name] = v.val
+            pickled = pickle.dumps(v.val)
+            vars_dict[v.name] = {'serialized': base64.b64encode(pickled).decode('ascii')}
         return vars_dict

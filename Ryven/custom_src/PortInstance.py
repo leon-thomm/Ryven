@@ -85,7 +85,7 @@ class PortInstance(QGraphicsGridLayout):
                 Debugger.debug('calling connected port for val')
                 return self.connected_port_instances[0].get_val()
         elif self.direction == 'output':
-            Debugger.debug('returning val directly')
+            # Debugger.debug('returning val directly')
             if not self.parent_node_instance.flow.algorithm_mode.mode_data_flow:
                 self.parent_node_instance.update()
             return self.val

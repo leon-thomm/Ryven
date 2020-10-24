@@ -469,6 +469,9 @@ class NodeInstance(QGraphicsItem):
         """Handy method for subclasses to access the application window's stylesheet for UI content."""
         return Design.ryven_stylesheet
 
+    def get_vars_handler(self):
+        return self.flow.parent_script.variables_handler
+
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
 
@@ -642,7 +645,10 @@ class NodeInstance(QGraphicsItem):
         for key in actions_data:
             if type(actions_data[key]) != dict:
                 if key == 'method':
-                    actions['method'] = M(getattr(self, actions_data[key]))
+                    try:
+                        actions['method'] = M(getattr(self, actions_data[key]))
+                    except AttributeError:  # outdated method referenced
+                        pass
                 elif key == 'data':
                     actions['data'] = actions_data[key]
             else:

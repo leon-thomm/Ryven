@@ -1,4 +1,6 @@
 from PySide2.QtCore import QObject, Signal
+import pickle
+import base64
 
 
 class Variable(QObject):
@@ -11,5 +13,15 @@ class Variable(QObject):
         super(Variable, self).__init__()
 
         self.name = name
-        self.val = val
-        # self.val_changed.emit(val)
+        self.val = None
+        if type(val) != dict:  # backwards compatibility
+            try:
+                self.val = pickle.loads(base64.b64decode(val))
+            except Exception:
+                self.val = val
+        else:
+            # if val.keys().__contains__('json'):
+            #     self.val = val['json']
+            if val.keys().__contains__('serialized'):
+                self.val = pickle.loads(base64.b64decode(val['serialized']))
+
