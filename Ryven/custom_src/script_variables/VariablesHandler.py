@@ -14,6 +14,7 @@ class VariablesHandler:
 
         self.variables = []
         self.list_widget = VariablesListWidget(self)
+        self.var_receivers = {}
 
         if config_vars is not None:
             for name in list(config_vars.keys()):  # variables
@@ -30,7 +31,8 @@ class VariablesHandler:
                 return
 
         self.variables.append(Variable(name))
-        self.update_variable_usages(self.variables[-1])
+        self.set_var(name, None)
+        # self.update_variable_usages(self.variables[-1])
         self.list_widget.recreate_ui()
 
     def get_var(self, name):
@@ -46,9 +48,13 @@ class VariablesHandler:
         if var_index is None:
             return False
 
-        var = self.variables[var_index]
-        var.val = val
-        self.update_variable_usages(var)
+        self.variables[var_index].val = val
+
+        # update all variable usages by calling all registered object's methods on updated variable with the new val
+        for receiver, var_name in self.var_receivers.keys():
+            if var_name == name:
+                self.var_receivers[receiver, var_name](val)  # calling the slot method
+
         return True
 
     def get_var_index_from_name(self, name):
@@ -59,20 +65,14 @@ class VariablesHandler:
 
         return None
 
-    def update_all_var_usages(self):
-        for v in self.variables:
-            self.update_variable_usages(v)
+    def register_receiver(self, receiver, var_name, method):
+        self.var_receivers[(receiver, var_name)] = method
 
-    def update_variable_usages(self, v):
-        get_var_NIs = []
-        for ni in self.flow.all_node_instances:
-            if find_type_in_object(ni, GetVar_NodeInstance):
-                get_var_NIs.append(ni)
-
-        for ni in get_var_NIs:
-            if ni.get_current_var_name() == v.name:
-                ni.update()
-
+    def unregister_receiver(self, receiver, var_name):
+        try:
+            del self.var_receivers[(receiver, var_name)]
+        except Exception:
+            return
 
     def get_json_data(self):
         vars_dict = {}
