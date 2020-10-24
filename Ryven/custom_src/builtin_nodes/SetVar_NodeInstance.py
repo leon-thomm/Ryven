@@ -19,9 +19,6 @@ class SetVar_NodeInstance(NodeInstance):
                 self.set_output_val(1, self.input(2))
             self.exec_output(0)
 
-    def action_execute(self):
-        self.update(0)
-
     def get_data(self):
         return {}
 
