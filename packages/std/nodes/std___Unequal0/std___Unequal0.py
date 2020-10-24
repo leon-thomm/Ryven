@@ -14,13 +14,11 @@ from NIENV import *
 
 
 class Unequal_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Unequal_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(Unequal_NodeInstance, self).__init__(params)
 
         self.special_actions['add input'] = {'method': M(self.action_add_input)}
         self.enlargement_state = 0
-
-        self.initialized()
 
 
     def action_add_input(self):

@@ -28,13 +28,11 @@ import random
 
 
 class Random_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Random_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(Random_NodeInstance, self).__init__(params)
 
         self.special_actions['make executable'] = {'method': M(self.action_make_executable)}
         self.active = False
-
-        self.initialized()
 
     def action_make_executable(self):
         del self.special_actions['make executable']

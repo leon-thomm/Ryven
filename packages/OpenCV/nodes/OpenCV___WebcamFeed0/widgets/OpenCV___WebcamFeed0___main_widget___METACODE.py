@@ -8,9 +8,9 @@ from PySide2.QtWidgets import QWidget
 import cv2
 
 
-class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
+class %CLASS%(QWidget):
     def __init__(self, parent_node_instance):
-        super(%NODE_TITLE%_NodeInstance_MainWidget, self).__init__()
+        super(%CLASS%, self).__init__()
 
         # leave these lines ------------------------------
         self.parent_node_instance = parent_node_instance

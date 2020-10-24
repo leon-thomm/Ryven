@@ -4,10 +4,7 @@ from PySide2.QtWidgets import QPlainTextEdit
 from PySide2.QtCore import Qt
 # from PySide2.QtGui import ...
 
-import os
 
-
-package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
 
 
 class ExtractProperty_NodeInstance_MainWidget(QPlainTextEdit):

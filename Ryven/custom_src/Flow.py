@@ -629,7 +629,15 @@ class Flow(QGraphicsView):
 
     # NODE PLACING: -----
     def create_node_instance(self, node, config):
-        return self.get_node_instance_class_from_node(node)(node, self, config)
+        """This is where a NodeInstance is finally instantiated.
+        - The brackets around node, self, config create a tuple (node, self, config). See NodeInstance constructor.
+        - The initialized() method needs to be called after all manual constructing has been done. This was once called
+        at the end of every custom NI's constructor, which can lead to problems when using custom NI class hierarchies.
+        That's why I moved it here."""
+
+        new_NI = self.get_node_instance_class_from_node(node)((node, self, config))
+        new_NI.initialized()
+        return new_NI
 
     def add_node_instance(self, ni, pos=None):
         self.scene().addItem(ni)

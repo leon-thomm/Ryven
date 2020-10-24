@@ -7,15 +7,12 @@ from PySide2.QtGui import QPixmap, QPainter, QPen, QColor, QBrush
 from PySide2.QtWidgets import QWidget, QVBoxLayout, QLabel
 
 from PySide2.QtWidgets import QWidget
-import os
 
 
-package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
 
-
-class %NODE_TITLE%_NodeInstance_MainWidget(QWidget):
+class %CLASS%(QWidget):
     def __init__(self, parent_node_instance):
-        super(%NODE_TITLE%_NodeInstance_MainWidget, self).__init__()
+        super(%CLASS%, self).__init__()
 
         # leave these lines ------------------------------
         self.parent_node_instance = parent_node_instance

@@ -26,15 +26,13 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         self.special_actions['make exec'] = {'method': M(self.action_make_exec)}
         self.passive = True
         self.num_exec_outputs = 0
-
-        self.initialized()
 
     def action_make_exec(self):
         self.passive = False

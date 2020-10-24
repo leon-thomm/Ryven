@@ -14,10 +14,8 @@ from NIENV import *
 
 
 class Not_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Not_NodeInstance, self).__init__(parent_node, flow, configuration)
-
-        self.initialized()
+    def __init__(self, params):
+        super(Not_NodeInstance, self).__init__(params)
 
     def update_event(self, input_called=-1):
         self.outputs[0].set_val(not self.input(0))

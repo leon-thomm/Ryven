@@ -10,14 +10,12 @@ import cv2
 
 
 class TopHat_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(TopHat_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(TopHat_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unYUV_I420 = None
         self.img_YUV_I420 = None
-
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

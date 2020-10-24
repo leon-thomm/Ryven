@@ -14,16 +14,14 @@ import random
 
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         self.special_actions['reset'] = {'method': M(self.action_reset)}
         self.weights = [random.uniform(-1, 1), random.uniform(-1, 1)]
         self.feeding_log = self.new_log('Perception Feeding Log')
         self.fixing_log = self.new_log('Perceptron Fixing Log')
-
-        self.initialized()
 
 
     def action_reset(self):

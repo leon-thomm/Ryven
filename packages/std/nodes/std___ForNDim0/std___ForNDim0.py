@@ -13,14 +13,12 @@ from NIENV import *
 
 
 class ForNDim_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(ForNDim_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(ForNDim_NodeInstance, self).__init__(params)
 
         self.special_actions['add dimension'] = {'method': M(self.action_add_dimension)}
 
         self.dimensions = 1
-
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

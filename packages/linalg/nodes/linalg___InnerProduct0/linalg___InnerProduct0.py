@@ -28,13 +28,11 @@ from numpy import inner
 
 
 class InnerProduct_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(InnerProduct_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(InnerProduct_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         matrix = inner(self.input(0), self.input(1))

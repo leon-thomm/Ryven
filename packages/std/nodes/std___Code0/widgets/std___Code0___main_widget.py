@@ -2,10 +2,7 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout, QPlainTextEdit
 # from PySide2.QtCore import
 from PySide2.QtGui import QFont
 
-import os
 
-
-package_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../')
 
 
 class Code_NodeInstance_MainWidget(QWidget):

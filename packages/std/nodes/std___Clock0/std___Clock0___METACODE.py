@@ -23,17 +23,15 @@ from NIENV import *
 # self.log_message('that\'s not good', 'error')
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         self.special_actions['start'] = {'method': M(self.action_start)}
         self.special_actions['stop'] = {'method': M(self.action_stop)}
 
         self.timer = QTimer()
         self.timer.timeout.connect(M(self.timeouted))
-
-        self.initialized()
 
 
     def update_event(self, input_called=-1):

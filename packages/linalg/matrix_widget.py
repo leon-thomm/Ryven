@@ -148,7 +148,7 @@ QTextEdit{
 
     def set_data(self, data):
         self.setText(data['text'])
-        self.resize_to_content()
+        self.resize_to_content(data['text'].splitlines())
         if not data['shown']:
             self.hide()
 

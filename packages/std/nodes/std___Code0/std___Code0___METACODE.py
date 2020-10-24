@@ -21,17 +21,15 @@ from NIENV import *
 # self.log_message('that\'s not good', 'error')
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         self.special_actions['add exec input'] = {'method': M(self.action_add_exec_input)}
         self.special_actions['add data input'] = {'method': M(self.action_add_data_input)}
 
         self.num_scripts = 1
         self.num_data_inputs = 0
-
-        self.initialized()
 
 
     def action_add_exec_input(self):

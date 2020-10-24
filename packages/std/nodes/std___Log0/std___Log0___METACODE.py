@@ -21,9 +21,9 @@ from NIENV import *
 # self.log_message('that\'s not good', 'error')
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         self.special_actions['add target option'] = {'method': M(self.action_add_target_option)}
         self.log = self.new_log('Log Node Log')
@@ -31,8 +31,6 @@ class %NODE_TITLE%_NodeInstance(NodeInstance):
         self.showing_target_option = False
 
         self.target = self.default_target
-
-        self.initialized()
 
 
     def action_add_target_option(self):

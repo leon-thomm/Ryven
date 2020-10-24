@@ -28,13 +28,11 @@ import numpy as np
 
 
 class Linspace_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Linspace_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(Linspace_NodeInstance, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, np.linspace(self.input(0), self.input(1), self.input(2)))

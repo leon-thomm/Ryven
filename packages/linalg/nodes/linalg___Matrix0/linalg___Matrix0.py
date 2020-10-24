@@ -28,15 +28,13 @@ import numpy as np
 
 
 class Matrix_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(Matrix_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(Matrix_NodeInstance, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False
         self.expression_matrix = None
         self.evaluated_matrix = None
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, self.evaluated_matrix)
@@ -44,16 +42,10 @@ class Matrix_NodeInstance(NodeInstance):
     def parse_matrix(self, s):
         lines = s.splitlines()
         # the list(filter(...)) creates an array of strings for every line
-        # the map(int, ...) creates a mapping of the values to floats
-        # and the list(map(...)) puts that back into a list (of floats now)
-        # complex_numbers = any(['j' in l for l in lines])  # is there a complex number in some line?
-        # number_type = complex if complex_numbers else float  # if so, use complex dtype instead of float
         try:
             self.expression_matrix = np.array([[exp for exp in list(filter(lambda s: s != '', l.split(' ')))] for l in lines])
             self.evaluated_matrix = self.eval_matrix(self.expression_matrix)
             if self.evaluated_matrix is None: return  # matrix could not be parsed
-            print(self.expression_matrix)
-            print(self.evaluated_matrix)
             # custom_array = [list(map(number_type, list(filter(lambda s: s != '', l.split(' '))))) for l in lines]
         except ValueError:
             # something like 2+ (which could become 2+1j) can't get parsed yet

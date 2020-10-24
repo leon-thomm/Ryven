@@ -27,16 +27,14 @@ from NIENV import *
 import numpy as np
 
 
-class %NODE_TITLE%_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(%NODE_TITLE%_NodeInstance, self).__init__(parent_node, flow, configuration)
+class %CLASS%(NodeInstance):
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False
         self.expression_matrix = None
         self.evaluated_matrix = None
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, self.evaluated_matrix)

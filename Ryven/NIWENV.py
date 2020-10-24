@@ -2,3 +2,8 @@
 this file. his file should lie in the same location as Ryven.py in order to be able to get imported directly."""
 
 from custom_src.retain import M
+from os.path import normpath, join, dirname, abspath
+
+
+def widget_pp(f):
+    return normpath(join(dirname(abspath(f)), '../../../'))

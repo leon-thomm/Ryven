@@ -1,15 +1,11 @@
-from custom_src.retain import M
-from custom_src.NodeInstance import NodeInstance
-from custom_src.Node import Node
+from NIENV import *
 
 
 class SetVar_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(SetVar_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(SetVar_NodeInstance, self).__init__(params)
 
         self.var_name = ''
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         if input_called == 0:

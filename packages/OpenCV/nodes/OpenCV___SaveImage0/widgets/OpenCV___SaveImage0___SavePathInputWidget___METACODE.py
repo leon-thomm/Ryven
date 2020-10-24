@@ -3,9 +3,9 @@ from PySide2.QtWidgets import QPushButton, QFileDialog
 # from PySide2.QtCore import ...
 # from PySide2.QtGui import ...
 
-class %INPUT_WIDGET_TITLE%_PortInstanceWidget(QPushButton):
+class %CLASS%(QPushButton):
     def __init__(self, parent_port_instance, parent_node_instance):
-        super(%INPUT_WIDGET_TITLE%_PortInstanceWidget, self).__init__("Select")
+        super(%CLASS%, self).__init__("Select")
 
         # leave these lines ------------------------------
         self.parent_port_instance = parent_port_instance

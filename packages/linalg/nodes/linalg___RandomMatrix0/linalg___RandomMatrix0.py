@@ -29,13 +29,11 @@ import random
 
 
 class RandomMatrix_NodeInstance(NodeInstance):
-    def __init__(self, parent_node: Node, flow, configuration=None):
-        super(RandomMatrix_NodeInstance, self).__init__(parent_node, flow, configuration)
+    def __init__(self, params):
+        super(RandomMatrix_NodeInstance, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False
-
-        self.initialized()
 
     def update_event(self, input_called=-1):
         m = self.input(0)
