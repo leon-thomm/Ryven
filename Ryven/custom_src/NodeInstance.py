@@ -469,8 +469,22 @@ class NodeInstance(QGraphicsItem):
         """Handy method for subclasses to access the application window's stylesheet for UI content."""
         return Design.ryven_stylesheet
 
+    # VARIABLES
+
     def get_vars_handler(self):
         return self.flow.parent_script.variables_handler
+
+    def get_var_val(self, name):
+        return self.get_vars_handler().get_var_val(name)
+
+    def set_var_val(self, name, val):
+        return self.get_vars_handler().set_var(name, val)
+
+    def register_var_receiver(self, name, method):
+        self.get_vars_handler().register_receiver(self, name, method)
+
+    def unregister_var_receiver(self, name):
+        self.get_vars_handler().unregister_receiver(self, name)
 
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
