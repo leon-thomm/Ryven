@@ -13,11 +13,15 @@ Ey, what's up! Please visit the [website](http://ryven.org) (sorry, no SSL certi
 
 ![](/docs/images/ryven1.png)
 
+![](/docs/images/matrices1.png)
+
 ![](/docs/images/checkpoints.png)
 
 ![](/docs/images/matplotlib.jpeg)
 
 ![](/docs/images/opencv_1.png)
+
+![](/docs/images/matrices2.png)
 
 ![](/docs/images/extract_property_1.png)
 
