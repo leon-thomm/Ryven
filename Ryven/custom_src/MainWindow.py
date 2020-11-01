@@ -23,7 +23,7 @@ from custom_src.Design import Design
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, config):
+    def __init__(self, main_console, config):
         super(MainWindow, self).__init__()
 
         QFontDatabase.addApplicationFont('../resources/fonts/poppins/Poppins-Medium.ttf')
@@ -32,6 +32,8 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.scripts_console_splitter.addWidget(main_console)
+        self.ui.scripts_console_splitter.setSizes([350, 350])
         self.ui.splitter.setSizes([120, 800])
         self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
@@ -89,11 +91,11 @@ class MainWindow(QMainWindow):
             print('finished')
 
         print('''
-        CONTROLS
-            placing nodes: right mouse
-            selecting components: left mouse
-            panning: middle mouse
-            saving: ctrl+s
+CONTROLS
+    placing nodes: right mouse
+    selecting components: left mouse
+    panning: middle mouse
+    saving: ctrl+s
         ''')
 
 

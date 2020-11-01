@@ -214,7 +214,7 @@ class NodeInstance(QGraphicsItem):
         try:
             self.update_event(input_called)
         except Exception as e:
-            Debugger.debug('EXCEPTION IN', self.parent_node.title, 'NI:', e)
+            Debugger.debugerr('EXCEPTION IN', self.parent_node.title, 'NI:', e)
 
     def update_event(self, input_called=-1):
         """Gets called when an input received a signal. This is where the magic begins in subclasses."""

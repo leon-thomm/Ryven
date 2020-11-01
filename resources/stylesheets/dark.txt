@@ -33,15 +33,23 @@ QPlainTextEdit {
 	background-color: #333333;
 }
 
+QPlainTextEdit#ConsoleDisplay {
+	background-color: #2b2b2b;
+}
+
 QSplitter {
 	border: none;
 }
 QSplitter::handle:vertical {
-	margin: 1px 4px;			
+	margin: 1px 4px;
 }
 
 QLineEdit {
 	padding: 3px;
+}
+
+QLineEdit#ConsoleInputLineEdit {
+	border: none;
 }
 
 QLabel, QCheckBox, QRadioButton {
@@ -68,11 +76,11 @@ QRadioButton:indicator:checked {
 	background: rgba(33, 118, 171, 200);
 }
 
-QPushButton:disabled, 
-QSpinBox:disabled, 
-QComboBox:disabled, 
+QPushButton:disabled,
+QSpinBox:disabled,
+QComboBox:disabled,
 QRadioButton:disabled,
-QGroupBox:disabled, 
+QGroupBox:disabled,
 QLabel:disabled {
 	color: grey;
 }
