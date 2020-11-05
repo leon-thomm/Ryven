@@ -1,7 +1,7 @@
 import os
 import sys
 
-from custom_src.Console.MainConsole import MainConsole, RedirectOutput
+import custom_src.Console.MainConsole as MainConsole
 from custom_src.startup_dialog.StartupDialog import StartupDialog
 from custom_src.MainWindow import MainWindow
 from PySide2.QtWidgets import QApplication
@@ -16,15 +16,22 @@ if __name__ == '__main__':
 
     if not sw.editor_startup_configuration == {}:
 
-        # initialize console
-        console = MainConsole()
-        console_stdout_redirect = RedirectOutput(console.write)
-        console_errout_redirect = RedirectOutput(console.errorwrite)
+        if MainConsole.main_console_enabled:
+            # initialize console
+            MainConsole.init_main_console()
+            console_stdout_redirect = MainConsole.RedirectOutput(MainConsole.main_console.write)
+            console_errout_redirect = MainConsole.RedirectOutput(MainConsole.main_console.errorwrite)
 
-        with redirect_stdout(console_stdout_redirect), \
-             redirect_stderr(console_errout_redirect):
+            with redirect_stdout(console_stdout_redirect), \
+                 redirect_stderr(console_errout_redirect):
 
+                # init whole UI
+                mw = MainWindow(sw.editor_startup_configuration)
+                mw.show()
+                sys.exit(app.exec_())
+
+        else:  # just for some debugging
             # init whole UI
-            mw = MainWindow(console, sw.editor_startup_configuration)
+            mw = MainWindow(sw.editor_startup_configuration)
             mw.show()
             sys.exit(app.exec_())

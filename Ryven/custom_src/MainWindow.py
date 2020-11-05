@@ -4,6 +4,7 @@ from PySide2.QtGui import QColor, QFontDatabase, QIcon, QKeySequence
 from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
 # parent UI
+import custom_src.Console.MainConsole as MainConsole
 from custom_src.builtin_nodes.Result_Node import Result_Node
 from custom_src.builtin_nodes.Result_NodeInstance import Result_NodeInstance
 from custom_src.builtin_nodes.Val_Node import Val_Node
@@ -23,7 +24,7 @@ from custom_src.Design import Design
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, main_console, config):
+    def __init__(self, config):
         super(MainWindow, self).__init__()
 
         QFontDatabase.addApplicationFont('../resources/fonts/poppins/Poppins-Medium.ttf')
@@ -32,7 +33,8 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.scripts_console_splitter.addWidget(main_console)
+        if MainConsole.main_console is not None:
+            self.ui.scripts_console_splitter.addWidget(MainConsole.main_console)
         self.ui.scripts_console_splitter.setSizes([350, 350])
         self.ui.splitter.setSizes([120, 800])
         self.setWindowTitle('Ryven')
@@ -92,10 +94,10 @@ class MainWindow(QMainWindow):
 
         print('''
 CONTROLS
-    placing nodes: right mouse
-    selecting components: left mouse
-    panning: middle mouse
-    saving: ctrl+s
+placing: right mouse
+selecting: left mouse
+panning: middle mouse
+saving: ctrl+s
         ''')
 
 

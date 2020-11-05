@@ -1,12 +1,13 @@
 import code
 import re
-from PySide2.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel
+from PySide2.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton
 from PySide2.QtCore import Signal, QEvent, Qt
 from PySide2.QtGui import QTextCharFormat, QBrush, QColor, QFont
 
 
 class MainConsole(QWidget):
-    """Complete console interpreter"""
+    """Complete console interpreter.
+    One instance will be created at the end of this file, when being imported in Ryven.py."""
 
     def __init__(
             self,
@@ -17,16 +18,21 @@ class MainConsole(QWidget):
 
         super(MainConsole, self).__init__()
 
-        self.interp = code.InteractiveConsole(locals())
-        self.buffer = []
+        # CREATE UI
 
         self.content_layout = QGridLayout(self)
         self.content_layout.setContentsMargins(0, 0, 0, 0)
         self.content_layout.setSpacing(0)
 
+        # reset scope button
+        self.reset_scope_button = QPushButton('reset console scope')
+        self.reset_scope_button.clicked.connect(self.reset_scope_clicked)
+        self.content_layout.addWidget(self.reset_scope_button, 0, 0, 1, 2)
+        self.reset_scope_button.hide()
+
         # display for output
         self.out_display = ConsoleDisplay(blockcount, self)
-        self.content_layout.addWidget(self.out_display, 0, 0, 1, 2)
+        self.content_layout.addWidget(self.out_display, 1, 0, 1, 2)
 
         # colors to differentiate input, output and stderr
         self.inpfmt = self.out_display.currentCharFormat()
@@ -39,16 +45,47 @@ class MainConsole(QWidget):
         # display input prompt left besides input edit
         self.prompt_label = QLabel('> ', self)
         self.prompt_label.setFixedWidth(15)
-        self.content_layout.addWidget(self.prompt_label, 1, 0)
+        self.content_layout.addWidget(self.prompt_label, 2, 0)
 
         # command line
         self.inpedit = LineEdit(max_history=history)
         self.inpedit.returned.connect(self.push)
-        self.content_layout.addWidget(self.inpedit, 1, 1)
+        self.content_layout.addWidget(self.inpedit, 2, 1)
+
+
+        self.interp = None
+        self.reset_interpreter()
+
+        self.buffer = []
+        self.num_added_object_contexts = 0
 
 
     def setprompt(self, text: str):
         self.prompt_label.setText(text)
+
+    def reset_scope_clicked(self):
+        self.reset_interpreter()
+
+    def add_obj_context(self, context_obj):
+        """adds the new context to the current context by initializing a new interpreter with both"""
+
+        old_context = {} if self.interp is None else self.interp.locals
+        name = 'obj' + (str(self.num_added_object_contexts+1) if self.num_added_object_contexts > 0 else '')
+        new_context = {name: context_obj}
+        context = {**old_context, **new_context}  # merge dicts
+        self.interp = code.InteractiveConsole(context)
+        print('added as ' + name)
+
+        self.num_added_object_contexts += 1
+        self.reset_scope_button.show()
+
+    def reset_interpreter(self):
+        """Initializes a new plain interpreter"""
+
+        context = locals()
+        self.num_added_object_contexts = 0
+        self.reset_scope_button.hide()
+        self.interp = code.InteractiveConsole(context)
 
     def push(self, commands: str) -> None:
         """execute entered command which may span multiple lines when code was pasted"""
@@ -109,7 +146,7 @@ class LineEdit(QLineEdit):
         self.hist_index = 0
         self.hist_list = []
         self.prompt_pattern = re.compile('^[>\.]')
-        self.setFont(QFont('source code pro', 8))
+        self.setFont(QFont('source code pro', 11))
 
     def event(self, ev: QEvent) -> bool:
         """
@@ -126,12 +163,6 @@ class LineEdit(QLineEdit):
                 return True
             elif ev.key() == Qt.Key_Down:
                 self.recall(self.hist_index + 1)
-                return True
-            elif ev.key() == Qt.Key_Home:
-                self.recall(0)
-                return True
-            elif ev.key() == Qt.Key_End:
-                self.recall(len(self.hist_list) - 1)
                 return True
             elif ev.key() == Qt.Key_Return:
                 self.returnkey()
@@ -171,14 +202,27 @@ class ConsoleDisplay(QPlainTextEdit):
         self.setObjectName('ConsoleDisplay')
         self.setMaximumBlockCount(max_block_count)
         self.setReadOnly(True)
-        self.setFont(QFont('source code pro', 8))
+        self.setFont(QFont('Consolas', 8))
 
 
 class RedirectOutput:
-    """Just redirects 'write() calls to a specified method."""
+    """Just redirects 'write()'-calls to a specified method."""
 
     def __init__(self, func):
         self.func = func
 
     def write(self, line):
         self.func(line)
+
+
+# CREATING ONE MAIN CONSOLE INSTANCE
+
+# note that, for some reason idk, I need to access this variable using MainConsole.main_console. Otherwise all
+# references made when it was None will still hold value None...
+main_console = None
+main_console_enabled = True
+
+
+def init_main_console():
+    global main_console
+    main_console = MainConsole()
