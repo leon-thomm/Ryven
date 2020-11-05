@@ -4,6 +4,7 @@ from PySide2.QtGui import QColor, QFontDatabase, QIcon, QKeySequence
 from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
 # parent UI
+import custom_src.Console.MainConsole as MainConsole
 from custom_src.builtin_nodes.Result_Node import Result_Node
 from custom_src.builtin_nodes.Result_NodeInstance import Result_NodeInstance
 from custom_src.builtin_nodes.Val_Node import Val_Node
@@ -32,6 +33,9 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        if MainConsole.main_console is not None:
+            self.ui.scripts_console_splitter.addWidget(MainConsole.main_console)
+        self.ui.scripts_console_splitter.setSizes([350, 350])
         self.ui.splitter.setSizes([120, 800])
         self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
@@ -89,11 +93,11 @@ class MainWindow(QMainWindow):
             print('finished')
 
         print('''
-        CONTROLS
-            placing nodes: right mouse
-            selecting components: left mouse
-            panning: middle mouse
-            saving: ctrl+s
+CONTROLS
+placing: right mouse
+selecting: left mouse
+panning: middle mouse
+saving: ctrl+s
         ''')
 
 

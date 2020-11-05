@@ -3,6 +3,7 @@ from PySide2.QtWidgets import QGraphicsItem, QMenu, QGraphicsLinearLayout, QGrap
 from PySide2.QtCore import Qt, QRectF, QPointF
 from PySide2.QtGui import QColor
 
+import custom_src.Console.MainConsole as MainConsole
 from custom_src.GlobalAttributes import ViewportUpdateMode
 from custom_src.NodeInstanceAction import NodeInstanceAction
 from custom_src.NodeInstanceAnimator import NodeInstanceAnimator
@@ -41,7 +42,8 @@ class NodeInstance(QGraphicsItem):
         # self.node_instance_painter = NodeInstancePainter(self)
 
         self.default_actions = {'remove': {'method': self.action_remove},
-                                'update shape': {'method': self.update_shape}}  # for context menus
+                                'update shape': {'method': self.update_shape},
+                                'console ref': {'method': self.set_console_scope}}  # for context menus
         self.special_actions = {}  # only gets written in custom NodeInstance-subclasses
         self.personal_logs = []
 
@@ -214,7 +216,7 @@ class NodeInstance(QGraphicsItem):
         try:
             self.update_event(input_called)
         except Exception as e:
-            Debugger.debug('EXCEPTION IN', self.parent_node.title, 'NI:', e)
+            Debugger.debugerr('EXCEPTION IN', self.parent_node.title, 'NI:', e)
 
     def update_event(self, input_called=-1):
         """Gets called when an input received a signal. This is where the magic begins in subclasses."""
@@ -488,6 +490,12 @@ class NodeInstance(QGraphicsItem):
 
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
+
+    def set_console_scope(self):
+        # extensive_dict = {}  # unlike self.__dict__, it also includes methods to call! :)
+        # for att in dir(self):
+        #     extensive_dict[att] = getattr(self, att)
+        MainConsole.main_console.add_obj_context(self)
 
     def theme_changed(self, new_theme):
         self.title_label.theme_changed(new_theme)

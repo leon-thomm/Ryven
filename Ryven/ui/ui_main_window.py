@@ -53,26 +53,36 @@ class Ui_MainWindow(object):
         self.splitter.setOrientation(Qt.Horizontal)
         self.scripts_groupBox = QGroupBox(self.splitter)
         self.scripts_groupBox.setObjectName(u"scripts_groupBox")
-        self.gridLayout = QGridLayout(self.scripts_groupBox)
+        self.gridLayout_3 = QGridLayout(self.scripts_groupBox)
+        self.gridLayout_3.setSpacing(6)
+        self.gridLayout_3.setContentsMargins(11, 11, 11, 11)
+        self.gridLayout_3.setObjectName(u"gridLayout_3")
+        self.scripts_console_splitter = QSplitter(self.scripts_groupBox)
+        self.scripts_console_splitter.setObjectName(u"scripts_console_splitter")
+        self.scripts_console_splitter.setOrientation(Qt.Vertical)
+        self.widget = QWidget(self.scripts_console_splitter)
+        self.widget.setObjectName(u"widget")
+        self.gridLayout = QGridLayout(self.widget)
         self.gridLayout.setSpacing(6)
         self.gridLayout.setContentsMargins(11, 11, 11, 11)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.new_script_name_lineEdit = QLineEdit(self.scripts_groupBox)
-        self.new_script_name_lineEdit.setObjectName(u"new_script_name_lineEdit")
-
-        self.gridLayout.addWidget(self.new_script_name_lineEdit, 1, 0, 1, 1)
-
-        self.scripts_scrollArea = QScrollArea(self.scripts_groupBox)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.scripts_scrollArea = QScrollArea(self.widget)
         self.scripts_scrollArea.setObjectName(u"scripts_scrollArea")
         self.scripts_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 950, 750))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 935, 727))
         self.scripts_scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.gridLayout.addWidget(self.scripts_scrollArea, 0, 0, 1, 1)
 
-        self.add_new_script_pushButton = QPushButton(self.scripts_groupBox)
+        self.new_script_name_lineEdit = QLineEdit(self.widget)
+        self.new_script_name_lineEdit.setObjectName(u"new_script_name_lineEdit")
+
+        self.gridLayout.addWidget(self.new_script_name_lineEdit, 1, 0, 1, 1)
+
+        self.add_new_script_pushButton = QPushButton(self.widget)
         self.add_new_script_pushButton.setObjectName(u"add_new_script_pushButton")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
@@ -81,6 +91,10 @@ class Ui_MainWindow(object):
         self.add_new_script_pushButton.setSizePolicy(sizePolicy1)
 
         self.gridLayout.addWidget(self.add_new_script_pushButton, 2, 0, 1, 1)
+
+        self.scripts_console_splitter.addWidget(self.widget)
+
+        self.gridLayout_3.addWidget(self.scripts_console_splitter, 0, 0, 1, 1)
 
         self.splitter.addWidget(self.scripts_groupBox)
         self.scripts_tab_widget = QTabWidget(self.splitter)
@@ -100,7 +114,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QMenuBar(MainWindow)
         self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 1368, 20))
+        self.menuBar.setGeometry(QRect(0, 0, 1368, 26))
         self.menuFile = QMenu(self.menuBar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuView = QMenu(self.menuBar)
