@@ -1,6 +1,8 @@
 # A simple flow-based visual scripting runtime environment for Python
 
-Ey, what's up! Please visit the [website](http://ryven.org) (sorry, no SSL certificate just yet)
+Ey, what's up! Please visit the [website](https://ryven.org)
+
+For using the software, please use the lastest release which you can donwload from here or on the website.
 
 ### Requirements
 
