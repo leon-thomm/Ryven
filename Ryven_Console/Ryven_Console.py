@@ -1,21 +1,10 @@
-import inspect
 import json
 import os
-import re
 import sys
 
 from class_inspection import find_type_in_object
-from custom_src.GlobalAttributes import Flow_AlgorithmMode
 from custom_src.Node import Node, NodePort
 from custom_src.Script import Script
-from custom_src.builtin_nodes.GetVar_Node import GetVariable_Node
-from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
-from custom_src.builtin_nodes.Result_Node import Result_Node
-from custom_src.builtin_nodes.Result_NodeInstance import Result_NodeInstance
-from custom_src.builtin_nodes.SetVar_Node import SetVariable_Node
-from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
-from custom_src.builtin_nodes.Val_Node import Val_Node
-from custom_src.builtin_nodes.Val_NodeInstance import Val_NodeInstance
 
 
 class Loader:
@@ -37,34 +26,29 @@ class Loader:
                 script_config = s
                 break
 
-        # packages
-        self.nodes = [SetVariable_Node(), GetVariable_Node(), Val_Node(), Result_Node()]
-        self.node_instance_classes = {
-            self.nodes[0]: SetVar_NodeInstance,
-            self.nodes[1]: GetVar_NodeInstance,
-            self.nodes[2]: Val_NodeInstance,
-            self.nodes[3]: Result_NodeInstance
-        }
+        self.nodes = []
+        self.node_instance_classes = {}
 
-        # #   dynamically load builtin nodes
-        # builtin_path = '../Ryven/custom_src/builtin_nodes'
-        # sys.path.append(builtin_path)
-        # files = [f for f in os.listdir(builtin_path) if
-        #          os.path.isfile(os.path.join(builtin_path, f)) and f.endswith('.py')]
-        # for fn in [f for f in files if not f.__contains__('NodeInstance')]:
-        #     modname = os.path.splitext(os.path.basename(fn))[0]
-        #     mod = __import__(modname, fromlist=[modname])
-        #     print(inspect.getsource(mod))
-        #     node_class = getattr(mod, modname)
-        #     self.nodes.append(node_class)
-        #     for fn2 in [f for f in files if f.__contains__('NodeInstance')]:
-        #         modname2 = os.path.splitext(os.path.basename(fn2))[0]
-        #         if modname2.__contains__(modname):
-        #             mod2 = __import__(modname2, fromlist=[modname2])
-        #             self.node_instance_classes[node_class] = getattr(mod2, modname2)
-        #             break
-        # print(self.nodes)
-        # print(self.node_instance_classes)
+        #   dynamically import all builtin nodes from Ryven
+        builtin_path = '../Ryven/custom_src/builtin_nodes'
+        sys.path.append(builtin_path)
+        files = [f for f in os.listdir(builtin_path) if
+                 os.path.isfile(os.path.join(builtin_path, f)) and f.endswith('.py')]
+        for fn in [f for f in files if not f.endswith('_NodeInstance.py')]:
+            modname = os.path.splitext(os.path.basename(fn))[0]
+            mod = __import__(modname, fromlist=[modname])
+            # print(inspect.getsource(mod))
+            node_class = getattr(mod, modname)
+            node_class_inst = node_class()
+            self.nodes.append(node_class_inst)
+            for fn2 in [f for f in files if f.endswith('_NodeInstance.py')]:
+                modname2 = os.path.splitext(os.path.basename(fn2))[0]
+                if modname2.__contains__(modname):
+                    mod2 = __import__(modname2, fromlist=[modname2])
+                    self.node_instance_classes[node_class_inst] = getattr(mod2, modname2)
+                    break
+        print(self.nodes)
+        print(self.node_instance_classes)
 
         self.buttonNIClass = None
         required_package_names = list(set([n['parent node package'] for n in script_config['flow']['nodes']
@@ -84,6 +68,8 @@ class Loader:
         # create script
         script = Script(script_config, self.nodes, self.node_instance_classes)
 
+        obj = None  # for referencing a node instance
+
         print('The flow has been successfully created. What to do next?')
 
         # MAIN LOOP
@@ -91,11 +77,12 @@ class Loader:
             command = input(
                                 '''
 Commands:
+    instances       - prints a list of all node instances for direct access
     nodes           - prints a list of all nodes
-    button          - gives you a list of button nodes you can manually execute
+    button          - gives a list of button nodes you can manually execute
     vars            - prints all script variables
-    set var         - sets a new value of a var
-    exit            - exits the session
+    set var         - sets the value of a variable
+    exit            - closes the session
 '''
             )
 
@@ -110,6 +97,25 @@ Commands:
                     for n in self.nodes:  # [node for node in self.nodes if node.package == p]:
                         if n.package == p:
                             print('['+p+']', n.title)
+
+            elif command.startswith('obj'):
+                print(eval(command))
+            elif command == 'instances':
+                index_counter = 0
+                for ni in script.flow.all_node_instances:
+                    print(index_counter, ni)
+                    index_counter += 1
+                selected_node_instance = None
+                try:
+                    selection_index = int(input('ref by index: '))
+                    selected_node_instance = script.flow.all_node_instances[selection_index]
+                except Exception as e:
+                    print('Error:', e)
+                    continue
+                obj = selected_node_instance
+                print('--> obj:',obj)
+
+
             elif command == 'button':
                 button_node_instances = [ni for ni in script.flow.all_node_instances if find_type_in_object(ni, self.buttonNIClass)]
                 if len(button_node_instances) == 0:
@@ -139,7 +145,7 @@ Commands:
     def load_project_config(self, path):
         j_str = ''
         try:
-            f = open(path)
+            f = open('../saves/'+path)
             j_str = f.read()
             f.close()
         except FileNotFoundError:
@@ -242,7 +248,7 @@ Commands:
                                                            class_name=node_class_name + '_NodeInstance')
         self.node_instance_classes[new_node] = new_node_instance_class
 
-        if new_node.title.lower() == 'button' and new_node.package == 'std':
+        if new_node.title.lower() == 'button' and new_node.package == 'std':  # convenience feature for exec. buttons
             self.buttonNIClass = new_node_instance_class
 
 
@@ -273,4 +279,4 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         Loader(sys.argv[1])
     else:
-        Loader(clean_path_string(input('please enter the path to a project to open: ')))
+        Loader(clean_path_string(input('project name (or path from saves folder): ')))

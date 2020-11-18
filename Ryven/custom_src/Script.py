@@ -32,11 +32,9 @@ class Script(QObject):
             self.name = config['name']
             self.variables_handler = VariablesHandler(self, config['variables'])
             self.flow = Flow(main_window, self, config['flow'])
-            self.variables_handler.flow = self.flow
         else:
             self.flow = Flow(main_window, self)
             self.variables_handler = VariablesHandler(self)
-            self.variables_handler.flow = self.flow
 
         # variables list widget
         self.widget.ui.variables_scrollArea.setWidget(self.variables_handler.list_widget)

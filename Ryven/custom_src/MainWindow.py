@@ -12,8 +12,8 @@ from custom_src.builtin_nodes.Val_NodeInstance import Val_NodeInstance
 from ui.ui_main_window import Ui_MainWindow
 
 from custom_src.Node import Node, NodePort
-from custom_src.builtin_nodes.GetVar_Node import GetVariable_Node
-from custom_src.builtin_nodes.SetVar_Node import SetVariable_Node
+from custom_src.builtin_nodes.GetVar_Node import GetVar_Node
+from custom_src.builtin_nodes.SetVar_Node import SetVar_Node
 from custom_src.Script import Script
 from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
 from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         # GENERAL ATTRIBUTES
         self.scripts = []
         self.custom_nodes = []
-        self.all_nodes = [SetVariable_Node(), GetVariable_Node(), Val_Node(), Result_Node()]
+        self.all_nodes = [SetVar_Node(), GetVar_Node(), Val_Node(), Result_Node()]
         self.package_names = []
 
         #   holds NI subCLASSES for imported nodes:
@@ -285,40 +285,46 @@ saving: ctrl+s
                                                      class_name='PackageTranslator')
         package_translator = PackageTranslator(os.path.dirname(os.path.abspath(file_path)))
 
-        self.parse_nodes(j_str,
-                         package_path=os.path.dirname(file_path),
-                         package_name=os.path.splitext(os.path.basename(file_path))[0])#
+        if self.parse_nodes(j_str,
+                            package_path=os.path.dirname(file_path),
+                            package_name=os.path.splitext(os.path.basename(file_path))[0]):
 
-        self.package_names.append(filename)
+            self.package_names.append(filename)
 
 
-    def parse_nodes(self, j_str, package_path, package_name):
+
+    def parse_nodes(self, j_str, package_path, package_name) -> bool:
         """Parses the nodes from a node package in JSON format.
         Here, all the classes get imported and for every node a Node object with specific attribute values gets
         created."""
 
         import json
 
-        # strict=False is necessary to allow 'control characters' like '\n' for newline when loading the json
+        # strict=False is necessary to allow control characters like '\n' for newline when loading the json
         j_obj = json.loads(j_str, strict=False)
 
         Debugger.debug(j_obj['type'])
         if j_obj['type'] != 'Ryven nodes package' and j_obj['type'] != 'vyScriptFP nodes package':  # old syntax
-            return
+            return False
 
-        # package_title = j_obj['title']
-        # package_description = j_obj['description']
         j_nodes_list = j_obj['nodes']
 
         num_nodes = len(j_nodes_list)
         for ni in range(num_nodes):
             j_node = j_nodes_list[ni]
-            self.parse_node(j_node, package_name, package_path)
+            suc = self.parse_node(j_node, package_name, package_path)
+            if not suc:
+                Debugger.debug('error while importing nodes')
+                return False
 
         Debugger.debug(len(self.custom_nodes), 'nodes imported')
 
+        return True
 
-    def parse_node(self, j_node, package_name, package_path):
+
+    def parse_node(self, j_node, package_name, package_path) -> bool:
+        """returns false if an error occurs"""
+
         new_node = Node()
 
         # loading the node's specifications which get finally set below after importing the classes
@@ -346,6 +352,8 @@ saving: ctrl+s
         new_node_instance_class = self.get_class_from_file(file_path=node_instance_class_file_path,
                                                            file_name=node_instance_filename,
                                                            class_name=node_class_name + '_NodeInstance')
+        if new_node_instance_class is None: return False    # error while import
+
         self.all_node_instance_classes[new_node] = new_node_instance_class
 
         #       IMPORT MAIN WIDGET
@@ -355,6 +363,7 @@ saving: ctrl+s
                                                                   file_name=main_widget_filename,
                                                                   class_name=node_class_name +
                                                                              '_NodeInstance_MainWidget')
+            if new_node.main_widget_class is None: return False     # error while import
 
         #       IMPORT CUSTOM INPUT WIDGETS
         #       I need to create the dict for the node's potential custom input widgets already here
@@ -364,6 +373,7 @@ saving: ctrl+s
             custom_widget_class = self.get_class_from_file(file_path=node_instance_widgets_file_path,
                                                            file_name=input_widget_filename,
                                                            class_name=w_name + '_PortInstanceWidget')
+            if custom_widget_class is None: return False     # error while import
             self.custom_node_input_widget_classes[new_node][w_name] = custom_widget_class
 
         # ---------------------------------------------------------------------------------------------------
@@ -425,6 +435,8 @@ saving: ctrl+s
         self.custom_nodes.append(new_node)
         self.all_nodes.append(new_node)
 
+        return True
+
 
     def get_class_from_file(self, file_path, file_name, class_name):
         """Returns a class with a given name from a file for instantiation by importing the module.
@@ -441,7 +453,8 @@ saving: ctrl+s
             new_module = __import__(file_name, fromlist=[class_name])
         except ModuleNotFoundError as e:
             QMessageBox.warning(self, 'Missing Python module', str(e))
-            sys.exit()
+            return None
+
         new_class = getattr(new_module, class_name)
         return new_class
 

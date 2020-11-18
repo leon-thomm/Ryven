@@ -4,7 +4,6 @@ from class_inspection import find_type_in_object
 from custom_src.GlobalAttributes import Flow_AlgorithmMode
 from custom_src.Node import Node
 from custom_src.PortInstance import PortInstance
-from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 
 
 class Flow:
@@ -20,7 +19,6 @@ class Flow:
                 Flow_AlgorithmMode.mode_data_flow = False
 
         self.all_node_instances = self.load_node_instances(config['nodes'])
-        self.get_var_node_instances = [ni for ni in self.all_node_instances if find_type_in_object(ni, GetVar_NodeInstance)]
         self.connect_nodes(config['connections'])
 
 
@@ -45,7 +43,9 @@ class Flow:
 
 
     def create_node_instance(self, parent_node: Node, config: dict):
-        return self.get_node_instance_class_from_node(parent_node)(parent_node, self, config)
+        new_NI = self.get_node_instance_class_from_node(parent_node)((parent_node, self, config))
+        new_NI.initialized()
+        return new_NI
 
 
     def get_node_instance_class_from_node(self, node: Node):

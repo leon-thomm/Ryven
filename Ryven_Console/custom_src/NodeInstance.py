@@ -4,17 +4,16 @@ from custom_src.PortInstance import InputPortInstance, OutputPortInstance
 
 
 class NodeInstance:
-    def __init__(self, parent_node: Node, flow, config):
+    def __init__(self, params):
         super(NodeInstance, self).__init__()
 
-        self.parent_node = parent_node
-        self.flow = flow
+        self.parent_node, self.flow, config = params
         self.inputs = []
         self.outputs = []
         self.initializing = True
         self.init_config = config
         self.special_actions = {}
-        self.main_widget = PlaceholderClass() if parent_node.has_main_widget else None
+        self.main_widget = PlaceholderClass() if self.parent_node.has_main_widget else None
 
 
     def initialized(self):
@@ -75,6 +74,25 @@ class NodeInstance:
 
     def get_default_stylesheet(self):
         return
+
+
+    # VARIABLES
+
+    def get_vars_handler(self):
+        return self.flow.parent_script.variables_handler
+
+    def get_var_val(self, name):
+        return self.get_vars_handler().get_var_val(name)
+
+    def set_var_val(self, name, val):
+        return self.get_vars_handler().set_var(name, val)
+
+    def register_var_receiver(self, name, method):
+        self.get_vars_handler().register_receiver(self, name, method)
+
+    def unregister_var_receiver(self, name):
+        self.get_vars_handler().unregister_receiver(self, name)
+
 
     def is_active(self):
         for i in self.inputs:

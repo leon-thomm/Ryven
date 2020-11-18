@@ -1,9 +1,7 @@
 from custom_src.script_variables.Variable import Variable
 from custom_src.custom_list_widgets.VariablesListWidget import VariablesListWidget
-from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.global_tools.class_inspection import find_type_in_object
 
 import pickle
 import base64
@@ -13,7 +11,6 @@ class VariablesHandler:
     def __init__(self, script, config_vars=None):
 
         self.script = script
-        self.flow = None  # for get var node instances - gets set by Script manually
 
         self.variables = []
         self.list_widget = VariablesListWidget(self)
@@ -35,7 +32,6 @@ class VariablesHandler:
 
         self.variables.append(Variable(name))
         self.set_var(name, None)
-        # self.update_variable_usages(self.variables[-1])
         self.list_widget.recreate_ui()
 
     def get_var(self, name):

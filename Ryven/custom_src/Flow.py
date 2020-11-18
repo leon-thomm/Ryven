@@ -15,8 +15,8 @@ from custom_src.FlowStylusModesWidget import FlowStylusModesWidget
 from custom_src.FlowZoomWidget import FlowZoomWidget
 from custom_src.GlobalAttributes import Flow_AlgorithmMode, Flow_ViewportUpdateMode
 from custom_src.Node import Node
-from custom_src.builtin_nodes.GetVar_Node import GetVariable_Node
-from custom_src.builtin_nodes.SetVar_Node import SetVariable_Node
+from custom_src.builtin_nodes.GetVar_Node import GetVar_Node
+from custom_src.builtin_nodes.SetVar_Node import SetVar_Node
 from custom_src.node_choice_widget.NodeChoiceWidget import NodeChoiceWidget
 from custom_src.NodeInstance import NodeInstance
 from custom_src.PortInstance import PortInstance, PortInstanceGate
@@ -402,8 +402,8 @@ class Flow(QGraphicsView):
 
         if type == 'variable':
             self.show_node_choice_widget(event.pos(),  # only show get_var and set_var nodes
-                                         [n for n in self.all_nodes if find_type_in_object(n, GetVariable_Node) or
-                                          find_type_in_object(n, SetVariable_Node)])
+                                         [n for n in self.all_nodes if find_type_in_object(n, GetVar_Node) or
+                                          find_type_in_object(n, SetVar_Node)])
 
     def drawBackground(self, painter, rect):
         painter.fillRect(rect.intersected(self.sceneRect()), Design.flow_theme.flow_background_color)

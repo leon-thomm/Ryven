@@ -1,9 +1,9 @@
 from custom_src.Node import Node, NodePort
 
 
-class GetVariable_Node(Node):
+class GetVar_Node(Node):
     def __init__(self):
-        super(GetVariable_Node, self).__init__()
+        super(GetVar_Node, self).__init__()
 
         self.title = 'get var'
         self.type_ = 'get variable node'

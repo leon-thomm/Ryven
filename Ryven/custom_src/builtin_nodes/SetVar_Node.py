@@ -1,9 +1,9 @@
 from custom_src.Node import Node, NodePort
 
 
-class SetVariable_Node(Node):
+class SetVar_Node(Node):
     def __init__(self):
-        super(SetVariable_Node, self).__init__()
+        super(SetVar_Node, self).__init__()
 
         self.title = 'set var'
         self.type_ = 'set variable node'
