@@ -5,14 +5,10 @@ from PySide2.QtWidgets import QLineEdit
 from PySide2.QtGui import QFont, QFontMetrics
 
 
-class EmailInputWidget_PortInstanceWidget(QLineEdit):
-    def __init__(self, parent_port_instance, parent_node_instance):
+class EmailInputWidget_PortInstanceWidget(QLineEdit, IWB):
+    def __init__(self, params):
+        IWB.__init__(self, params)
         super(EmailInputWidget_PortInstanceWidget, self).__init__()
-
-        # leave these lines ------------------------------
-        self.parent_port_instance = parent_port_instance
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
 
         self.setStyleSheet('''
             QLineEdit{

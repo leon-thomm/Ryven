@@ -8,13 +8,12 @@ from PySide2.QtWidgets import QWidget
 import cv2
 
 
-class WebcamFeed_NodeInstance_MainWidget(QWidget):
-    def __init__(self, parent_node_instance):
-        super(WebcamFeed_NodeInstance_MainWidget, self).__init__()
+class WebcamFeed_NodeInstance_MainWidget(QWidget, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
 
         self.video_size = QSize(400, 300)
         self.timer = QTimer()

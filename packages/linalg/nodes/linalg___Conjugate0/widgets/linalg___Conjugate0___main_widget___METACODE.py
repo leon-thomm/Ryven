@@ -11,5 +11,5 @@ spec.loader.exec_module(matrix_widget)
 
 
 class %CLASS%(matrix_widget.MatrixWidget):
-    def __init__(self, parent_node_instance):
-        super(%CLASS%, self).__init__(parent_node_instance)
+    def __init__(self, params):
+        super(%CLASS%, self).__init__(params)

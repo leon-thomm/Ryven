@@ -9,13 +9,11 @@ from PySide2.QtWidgets import QLabel
 import cv2
 
 
-class %CLASS%(QLabel):
-    def __init__(self, parent_node_instance):
-        super(%CLASS%, self).__init__()
+class %CLASS%(QLabel, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QLabel.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
         self.resize(200, 200)
 
     def show_image(self, cv_image):

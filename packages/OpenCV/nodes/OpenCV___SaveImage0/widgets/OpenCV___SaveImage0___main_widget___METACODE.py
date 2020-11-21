@@ -7,13 +7,11 @@ from NIWENV import *
 from PySide2.QtWidgets import QLabel
 
 
-class %CLASS%(QLabel):
-    def __init__(self, parent_node_instance):
-        super(%CLASS%, self).__init__()
+class %CLASS%(QLabel, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QLabel.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
         self.img_filepath = ''
         self.resize(140, 15)
 

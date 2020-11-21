@@ -13,13 +13,12 @@ from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2Q
 from matplotlib.figure import Figure
 
 
-class %CLASS%(QWidget):
-    def __init__(self, parent_node_instance):
-        super(%CLASS%, self).__init__()
+class %CLASS%(QWidget, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
 
         self.setStyleSheet('''
 

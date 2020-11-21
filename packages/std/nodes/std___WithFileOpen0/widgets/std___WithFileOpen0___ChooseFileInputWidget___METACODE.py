@@ -5,14 +5,9 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QFil
 # from PySide2.QtGui import ...
 
 
-class %CLASS%(QWidget):
-    def __init__(self, parent_port_instance, parent_node_instance):
+class %CLASS%(QWidget, IWB):
+    def __init__(self, params):
         super(%CLASS%, self).__init__()
-
-        # leave these lines ------------------------------
-        self.parent_port_instance = parent_port_instance
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
 
         self.file_path = ''
 

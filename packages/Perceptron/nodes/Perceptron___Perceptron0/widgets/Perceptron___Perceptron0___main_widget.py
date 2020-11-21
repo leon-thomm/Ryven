@@ -12,9 +12,7 @@ class Perceptron_NodeInstance_MainWidget(QWidget):
     def __init__(self, parent_node_instance):
         super(Perceptron_NodeInstance_MainWidget, self).__init__()
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
 
         self.label = QLabel()
         pix = QPixmap(package_path+'perceptron.png')

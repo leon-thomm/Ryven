@@ -16,9 +16,7 @@ class %CLASS%(FigureCanvasQTAgg):
         self.axes = fig.add_subplot(111)
         super(%CLASS%, self).__init__(fig)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
 
         self.setStyleSheet('''
 

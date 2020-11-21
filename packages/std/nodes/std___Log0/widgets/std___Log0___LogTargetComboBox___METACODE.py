@@ -5,14 +5,10 @@ from PySide2.QtWidgets import QComboBox
 # from PySide2.QtGui import ...
 
 
-class %CLASS%(QComboBox):
-    def __init__(self, parent_port_instance, parent_node_instance):
-        super(%CLASS%, self).__init__()
-
-        # leave these lines ------------------------------
-        self.parent_port_instance = parent_port_instance
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+class %CLASS%(QComboBox, IWB):
+    def __init__(self, params):
+        IWB.__init__(self, params)
+        QComboBox.__init__(self)
 
         self.addItem('personal')
         self.addItem('global')

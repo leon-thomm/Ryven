@@ -3,14 +3,10 @@ from PySide2.QtWidgets import QPushButton, QFileDialog
 # from PySide2.QtCore import ...
 # from PySide2.QtGui import ...
 
-class SavePathInputWidget_PortInstanceWidget(QPushButton):
-    def __init__(self, parent_port_instance, parent_node_instance):
-        super(SavePathInputWidget_PortInstanceWidget, self).__init__("Select")
-
-        # leave these lines ------------------------------
-        self.parent_port_instance = parent_port_instance
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+class SavePathInputWidget_PortInstanceWidget(QPushButton, IWB):
+    def __init__(self, params):
+        IWB.__init__(self, params)
+        QPushButton.__init__(self, "Select")
 
         self.setStyleSheet('''
             color: #cccccc;

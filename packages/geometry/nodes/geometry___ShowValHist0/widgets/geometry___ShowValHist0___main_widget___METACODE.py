@@ -8,13 +8,12 @@ from PySide2.QtGui import QPixmap, QPainter, QPen, QColor, QBrush
 from PySide2.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QCheckBox, QLabel
 
 
-class %CLASS%(QWidget):
-    def __init__(self, parent_node_instance):
-        super(%CLASS%, self).__init__()
+class %CLASS%(QWidget, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
 
         self.setStyleSheet('''
             background-color: #333333;
