@@ -10,8 +10,15 @@ Ey, what's up! Please visit the [website](https://ryven.org)
 ### Installation
 
 - please use the lastest release
-- requirements file is in the root folder
-- I recommend setting up a virtual env and automatically installing all required packages using the requirements file
+- a requirements file is in the root folder
+- I recommend setting up a virtual env and automatically installing all required packages using the requirements file, which you can do like this (Windows example):
+```
+<open cmd>
+cd <to your Ryven folder (the outer one)>
+python -m venv venv
+venv/Scripts/activate
+pip install -r requirements.txt
+```
 
 ![](/docs/images/ryven_screenshot2.png)
 
