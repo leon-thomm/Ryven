@@ -173,10 +173,12 @@ class CodePreview_Widget(QWidget):
             self.text_edit.disable_highlighting()
 
     def edit_code_button_clicked(self):
-        info_dialog = EditSourceCode_Dialog(self)
-        accepted = info_dialog.exec_()
-        if accepted:
-            self.enable_editing()
+        if not EditSourceCode_Dialog.dont_show_again:
+            info_dialog = EditSourceCode_Dialog(self)
+            accepted = info_dialog.exec_()
+            if not accepted:
+                return
+        self.enable_editing()
 
     def enable_editing(self):
         self.text_edit.enable_editing()

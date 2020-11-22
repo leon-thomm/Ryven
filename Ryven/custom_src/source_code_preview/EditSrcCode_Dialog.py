@@ -1,11 +1,14 @@
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton
+from PySide2.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QCheckBox, QHBoxLayout, QGridLayout
 
 
 class EditSourceCode_Dialog(QDialog):
+
+    dont_show_again = False
+
     def __init__(self, parent):
         super(EditSourceCode_Dialog, self).__init__(parent)
 
-        self.setLayout(QVBoxLayout())
+        self.setLayout(QGridLayout())
 
         # info text edit
         info_text_edit = QTextEdit()
@@ -45,12 +48,21 @@ class EditSourceCode_Dialog(QDialog):
             </div>
         ''')
         info_text_edit.setReadOnly(True)
-        self.layout().addWidget(info_text_edit)
+        self.layout().addWidget(info_text_edit, 0, 0, 1, 2)
+
+        dont_show_again_button = QPushButton('Stop being annoying')
+        dont_show_again_button.clicked.connect(self.close_and_dont_show_again)
+        self.layout().addWidget(dont_show_again_button, 1, 0)
 
         ok_button = QPushButton('Got it')
         ok_button.clicked.connect(self.accept)
-        self.layout().addWidget(ok_button)
+        self.layout().addWidget(ok_button, 1, 1)
+
         ok_button.setFocus()
 
         self.setWindowTitle('Editing Source Code Info')
         self.resize(560, 366)
+
+    def close_and_dont_show_again(self):
+        EditSourceCode_Dialog.dont_show_again = True
+        self.accept()
