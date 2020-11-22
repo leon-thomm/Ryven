@@ -7,14 +7,10 @@ from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QSlider
 
 
-class %CLASS%(QSlider):
-    def __init__(self, parent_port_instance, parent_node_instance):
-        super(%CLASS%, self).__init__(Qt.Horizontal)
-
-        # leave these lines ------------------------------
-        self.parent_port_instance = parent_port_instance
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+class %CLASS%(QSlider, IWB):
+    def __init__(self, params):
+        IWB.__init__(self, params)
+        QSlider.__init__(self, Qt.Horizontal)
 
         self.setStyleSheet('''
             background: transparent;

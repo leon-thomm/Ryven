@@ -7,13 +7,12 @@ from PySide2.QtGui import QFontMetrics, QFont
 import numpy as np
 
 
-class MatrixWidget(QTextEdit):
-    def __init__(self, parent_node_instance, base_width=50, base_height=50):
-        super(MatrixWidget, self).__init__()
+class MatrixWidget(QTextEdit, MWB):
+    def __init__(self, params, base_width=50, base_height=50):
+        MWB.__init__(self, params)
+        QTextEdit.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+
 
         c = self.parent_node_instance.color.name()
         self.setStyleSheet('''

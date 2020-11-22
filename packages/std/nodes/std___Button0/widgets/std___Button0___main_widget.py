@@ -7,13 +7,12 @@ from NIWENV import *
 from PySide2.QtWidgets import QPushButton
 
 
-class Button_NodeInstance_MainWidget(QPushButton):
-    def __init__(self, parent_node_instance):
-        super(Button_NodeInstance_MainWidget, self).__init__()
+class Button_NodeInstance_MainWidget(QPushButton, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QPushButton.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
         self.setStyleSheet('''
         QPushButton {
             background-color: #36383B;

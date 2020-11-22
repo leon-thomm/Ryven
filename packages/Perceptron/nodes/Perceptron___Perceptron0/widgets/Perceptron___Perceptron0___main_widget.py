@@ -1,4 +1,5 @@
-from NIWENV import *
+from NIWEVN import *
+package_path = widget_pp(__file__)
 
 from PySide2.QtWidgets import QLabel, QVBoxLayout, QPushButton
 from PySide2.QtCore import Qt
@@ -6,15 +7,12 @@ from PySide2.QtGui import QPixmap
 
 from PySide2.QtWidgets import QWidget
 
+class Perceptron_NodeInstance_MainWidget(QWidget, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__()
 
-
-class Perceptron_NodeInstance_MainWidget(QWidget):
-    def __init__(self, parent_node_instance):
-        super(Perceptron_NodeInstance_MainWidget, self).__init__()
-
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
 
         self.label = QLabel()
         pix = QPixmap(package_path+'perceptron.png')

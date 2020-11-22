@@ -177,7 +177,7 @@ class InputPortInstance(PortInstance):
             elif self.widget_name == 'std spin box':
                 self.widget = StdSpinBox_PortInstanceWidget(self, self.parent_node_instance)
             else:  # custom input widget
-                self.widget = self.get_input_widget_class(self.widget_name)(self, self.parent_node_instance)
+                self.widget = self.get_input_widget_class(self.widget_name)((self, self.parent_node_instance))
             self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
             self.proxy.setWidget(self.widget)
 

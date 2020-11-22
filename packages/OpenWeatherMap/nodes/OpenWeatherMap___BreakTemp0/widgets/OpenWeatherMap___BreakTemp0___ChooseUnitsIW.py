@@ -5,14 +5,10 @@ from PySide2.QtWidgets import QWidget, QRadioButton, QVBoxLayout
 # from PySide2.QtGui import ...
 
 
-class ChooseUnitsIW_PortInstanceWidget(QWidget):
-    def __init__(self, parent_port_instance, parent_node_instance):
-        super(ChooseUnitsIW_PortInstanceWidget, self).__init__()
-
-        # leave these lines ------------------------------
-        self.parent_port_instance = parent_port_instance
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+class ChooseUnitsIW_PortInstanceWidget(QWidget, IWB):
+    def __init__(self, params):
+        IWB.__init__(self, params)
+        QWidget.__init__(self)
 
         self.setStyleSheet(self.parent_node_instance.get_default_stylesheet()+'''
         QWidget {

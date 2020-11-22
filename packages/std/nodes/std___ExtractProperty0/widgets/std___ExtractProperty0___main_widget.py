@@ -7,13 +7,12 @@ from PySide2.QtCore import Qt
 
 
 
-class ExtractProperty_NodeInstance_MainWidget(QPlainTextEdit):
-    def __init__(self, parent_node_instance):
-        super(ExtractProperty_NodeInstance_MainWidget, self).__init__()
+class ExtractProperty_NodeInstance_MainWidget(QPlainTextEdit, MWB):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QPlainTextEdit.__init__(self)
 
-        # leave these lines ------------------------------
-        self.parent_node_instance = parent_node_instance
-        # ------------------------------------------------
+        
 
         self.setStyleSheet(self.parent_node_instance.get_default_stylesheet())
 
