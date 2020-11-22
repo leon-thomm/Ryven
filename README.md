@@ -2,12 +2,16 @@
 
 Ey, what's up! Please visit the [website](https://ryven.org)
 
-For using the software, please use the lastest release which you can donwload from here or on the website.
-
-### Requirements
+### Basic Requirements
 
 - Python 3 (3.8+ recommended)
 - PySide2 (2.14+ recommended)
+
+### Installation
+
+- please use the lastest release
+- requirements file is in the root folder
+- I recommend setting up a virtual env and automatically installing all required packages using the requirements file
 
 ![](/docs/images/ryven_screenshot2.png)
 
