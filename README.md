@@ -10,8 +10,8 @@ Ey, what's up! Please visit the [website](https://ryven.org)
 ### Installation
 
 - please use the lastest release
-- a requirements file is in the root folder
-- I recommend setting up a virtual env and automatically installing all required packages using the requirements file, which you can do like this (Windows example):
+- a complete requirements file is in the root folder
+- If you experiment a lot, you maybe should set up a virtual env, like this (Windows example):
 ```
 <open cmd>
 cd <to your Ryven folder (the outer one)>
