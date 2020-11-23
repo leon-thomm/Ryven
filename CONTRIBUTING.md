@@ -1,6 +1,6 @@
 Thank you for contributing!! :gem:
 
-# Philosopy :cyclone:
+# Philosophy :cyclone:
 
 Ryven is meant to be a **simple**, **transparent**, and **unrestricted** tool for visual scripting in Python.
 It does not intend to replace textual source code by the diagram representation, but rather to enhance it.
