@@ -20,6 +20,11 @@ venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
+### Ideas and TODOs
+- advanced source code editor widget, with syntax highlighting and autocomplete for Ryven, the NodeManager and an intuitive *code* node (where one can just program the node inside the editor by writing the code into the widget)
+- visual content: logos and splash screen
+- a visually appealing Jupyter integration (the native Jupyter QtConsole I didn't like in terms of appearence and functionality)
+
 ![](/docs/images/ryven_screenshot2.png)
 
 ![](/docs/images/ui.png)
