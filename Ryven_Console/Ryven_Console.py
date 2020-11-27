@@ -144,12 +144,12 @@ Commands:
 
     def load_project_config(self, path):
         j_str = ''
-        try:
-            f = open('../saves/'+path)
-            j_str = f.read()
-            f.close()
-        except FileNotFoundError:
-            raise FileNotFoundError('Project file not found')
+        # try:
+        f = open('../saves/'+path)
+        j_str = f.read()
+        f.close()
+        # except FileNotFoundError:
+        #     raise FileNotFoundError('Project file not found')
 
         return json.loads(j_str, strict=False)
 
@@ -276,7 +276,18 @@ def clean_path_string(param):
 
 
 if __name__ == '__main__':
+    path = ''
+
     if len(sys.argv) > 1:
-        Loader(sys.argv[1])
+        path = sys.argv[1]
     else:
-        Loader(clean_path_string(input('project name (or path from saves folder): ')))
+        path = clean_path_string(input('project name (or path from saves folder): '))
+
+    while True:
+        try:
+            f = open('../saves/'+path)
+            f.close()
+            Loader(path)
+        except FileNotFoundError:
+            print('couldn\'t open file')
+            path = clean_path_string(input('project name (or path from saves folder): '))
