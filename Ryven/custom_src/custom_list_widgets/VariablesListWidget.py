@@ -10,10 +10,10 @@ class VariablesListWidget(QWidget):
     actually represent very different things (scripts and variables) and therefore might develop quite differently
     in the future."""
 
-    def __init__(self, variables_handler):
+    def __init__(self, vars_manager):
         super(VariablesListWidget, self).__init__()
 
-        self.variables_handler = variables_handler
+        self.vars_manager = vars_manager
         self.widgets = []
         self.currently_edited_var = ''
         self.ignore_name_line_edit_signal = False  # because disabling causes firing twice otherwise
@@ -34,8 +34,8 @@ class VariablesListWidget(QWidget):
         self.widgets.clear()
         # self.data_type_line_edits.clear()
 
-        for v in self.variables_handler.variables:
-            new_widget = VarsList_VarWidget(self, self.variables_handler, v)
+        for v in self.vars_manager.variables:
+            new_widget = VarsList_VarWidget(self, self.vars_manager, v)
             new_widget.name_LE_editing_finished.connect(self.name_line_edit_editing_finished)
             self.widgets.append(new_widget)
 
@@ -56,7 +56,7 @@ class VariablesListWidget(QWidget):
 
         # search for name problems
         new_var_name = var_widget.name_line_edit.text()
-        for v in self.variables_handler.variables:
+        for v in self.vars_manager.variables:
             if v.name == new_var_name:
                 var_widget.name_line_edit.setText(self.currently_edited_var.name)
                 return
@@ -67,5 +67,5 @@ class VariablesListWidget(QWidget):
     def del_variable(self, var, var_widget):
         self.widgets.remove(var_widget)
         var_widget.setParent(None)
-        del self.variables_handler.variables[self.variables_handler.variables.index(var)]
+        del self.vars_manager.variables[self.vars_manager.variables.index(var)]
         self.recreate_ui()

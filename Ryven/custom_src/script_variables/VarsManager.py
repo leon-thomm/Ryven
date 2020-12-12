@@ -3,12 +3,11 @@ from custom_src.custom_list_widgets.VariablesListWidget import VariablesListWidg
 
 from custom_src.global_tools.Debugger import Debugger
 
-import pickle
-import base64
 
+class VarsManager:
+    """Manages script variables and triggers receivers when values of variables change"""
 
-class VariablesHandler:
-    def __init__(self, script, config_vars=None):
+    def __init__(self, script, config=None):
 
         self.script = script
 
@@ -16,26 +15,32 @@ class VariablesHandler:
         self.list_widget = VariablesListWidget(self)
         self.var_receivers = {}
 
-        if config_vars is not None:
-            for name in list(config_vars.keys()):  # variables
-                self.variables.append(Variable(name, config_vars[name]))
+        if config is not None:
+            for name in config.keys():  # variables
+                # self.variables.append(Variable(name, config_vars[name]))
+                self.create_new_var(name, val=config[name])
             self.list_widget.recreate_ui()
 
+    def create_new_var_and_update(self, name):
+        """Also updates the GUI"""
 
-    def create_new_var(self, name):
+        self.create_new_var(name)
+        self.list_widget.recreate_ui()
+
+    def create_new_var(self, name, val=None):
+
         if len(name) == 0:
             return
-        # search for name problems
+
+        # search for name issues
         for v in self.variables:
             if v.name == name:
                 return
 
-        self.variables.append(Variable(name))
-        self.set_var(name, None)
-        self.list_widget.recreate_ui()
+        self.variables.append(Variable(name, val))
 
     def get_var(self, name):
-        Debugger.debug('getting variable from script name:', name)
+        Debugger.debug('getting variable with name:', name)
 
         for v in self.variables:
             if v.name == name:
@@ -69,6 +74,9 @@ class VariablesHandler:
         return None
 
     def register_receiver(self, receiver, var_name, method):
+        """A registered receiver (method) gets triggered every time the
+        value of a variable changes"""
+
         self.var_receivers[(receiver, var_name)] = method
 
     def unregister_receiver(self, receiver, var_name):
@@ -77,9 +85,8 @@ class VariablesHandler:
         except Exception:
             return
 
-    def get_json_data(self):
+    def config_data(self):
         vars_dict = {}
         for v in self.variables:
-            pickled = pickle.dumps(v.val)
-            vars_dict[v.name] = {'serialized': base64.b64encode(pickled).decode('ascii')}
+            vars_dict[v.name] = {'serialized': v.serialize()}
         return vars_dict

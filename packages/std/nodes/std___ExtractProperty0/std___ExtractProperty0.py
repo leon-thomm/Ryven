@@ -32,6 +32,7 @@ class ExtractProperty_NodeInstance(NodeInstance):
 
         self.special_actions['add param input'] = {'method': M(self.action_add_param_input)}
         self.param_counter = 0
+        self.text = ''
 
     def action_add_param_input(self):
         self.param_counter += 1
@@ -48,15 +49,17 @@ class ExtractProperty_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         obj = self.input(0)
         params = [self.input(i) for i in range(1, self.param_counter+1)]
-        res = eval(self.main_widget.get_text())
+        res = eval(self.text)
         self.set_output_val(0, res)
 
     def get_data(self):
-        data = {'param counter': self.param_counter}
+        data = {'param counter': self.param_counter,
+                'text': self.text}
         return data
 
     def set_data(self, data):
         self.param_counter = data['param counter']
+        self.text = data['text']
 
 
     def removing(self):

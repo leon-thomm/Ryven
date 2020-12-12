@@ -37,27 +37,36 @@ class Matrix_NodeInstance(NodeInstance):
         self.evaluated_matrix = None
         self.used_variable_names = []
 
+
     def update_event(self, input_called=-1):
         self.set_output_val(0, self.evaluated_matrix)
+        
 
     def parse_matrix(self, s):
         lines = s.splitlines()
         # the list(filter(...)) creates an array of strings for every line
         try:
             self.expression_matrix = np.array([[exp for exp in list(filter(lambda s: s != '', l.split(' ')))] for l in lines])
-            if not self.register_vars(self.expression_matrix):
-                return  # return if parsing failed
-            self.evaluated_matrix = self.eval_matrix(self.expression_matrix)
-            if self.evaluated_matrix is None: return  # matrix could not be parsed
-            # custom_array = [list(map(number_type, list(filter(lambda s: s != '', l.split(' '))))) for l in lines]
+            self.eval_expression_matrix()
+            self.update()
         except ValueError:
             # something like 2+ (which could become 2+1j) can't get parsed yet
             return
+
+    def eval_expression_matrix(self):
+        if not self.register_vars(self.expression_matrix):
+            return  # return if parsing failed
+
+        self.evaluated_matrix = self.eval_matrix(self.expression_matrix)
+
+        if self.evaluated_matrix is None:
+            return  # matrix could not be evaluated
+        # custom_array = [list(map(number_type, list(filter(lambda s: s != '', l.split(' '))))) for l in lines]
+
         try:
             self.evaluated_matrix = np.array(self.evaluated_matrix)
-        except Exception:
+        except Exception:    # TODO: specify this
             return
-        self.update()
 
     def eval_matrix(self, lines):
         v = self.get_var_val
@@ -67,16 +76,13 @@ class Matrix_NodeInstance(NodeInstance):
             for exp in l:
                 evaled_exp_array[-1].append(eval(exp))
         float_exp_array = [[float(exp) if type(exp) == int else exp for exp in l] for l in evaled_exp_array]
-        return float_exp_array
-
-    def get_var_val(self, name):
-        return self.get_vars_handler().get_var_val(name)
+        return np.array(float_exp_array)
 
     def register_vars(self, lines):
         try:
             # clear used variables
             for name in self.used_variable_names:
-                self.get_vars_handler().unregister_receiver(self, name)
+                self.unregister_var_receiver(name)
             self.used_variable_names.clear()
 
             v = self.register_variable
@@ -84,12 +90,12 @@ class Matrix_NodeInstance(NodeInstance):
                 for exp in l:
                     eval(exp)
             return True
-        except Exception as e:
+        except Exception:
             return False
 
     def register_variable(self, name):
         # connect to variable changes
-        self.get_vars_handler().register_receiver(self, name, self.var_val_updated)
+        self.register_var_receiver(name, M(self.var_val_updated))
         self.used_variable_names.append(name)
 
     def var_val_updated(self, name, val):
@@ -111,7 +117,12 @@ class Matrix_NodeInstance(NodeInstance):
         self.update_shape()
 
     def get_data(self):
-        data = {'main widget hidden': self.main_widget_hidden}
+        expression_matrix_list = self.expression_matrix
+        if expression_matrix_list is not None:  # ndarrays are not json serializaple
+            expression_matrix_list = expression_matrix_list.tolist()
+
+        data = {'main widget hidden': self.main_widget_hidden,
+                'expression matrix': expression_matrix_list}
         return data
 
     def set_data(self, data):
@@ -119,6 +130,8 @@ class Matrix_NodeInstance(NodeInstance):
         if self.main_widget_hidden:
             self.action_hide_mw()
         # shown by default
+        self.expression_matrix = np.array(data['expression matrix'])
+        self.eval_expression_matrix()
 
     def removing(self):
         pass

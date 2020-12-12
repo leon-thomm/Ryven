@@ -12,16 +12,33 @@ from files_manager import save_file
 
 
 class SaveDialog(QDialog):
-    def __init__(self, parent, nodes):
-        super(SaveDialog, self).__init__(parent)
+    def __init__(self, main_window, nodes_dict: dict, last_export_dir: str):
+        super(SaveDialog, self).__init__(parent=main_window)
 
-        self.all_nodes = nodes
+        self.create_UI()
+
+        self.main_window = main_window
+        self.nodes = nodes_dict
         self.export_nodes = []
         self.nodes_check_box_list = []
-        self.export_dir = ''
+        self.export_dir = last_export_dir
         self.package_name = ''
+        self.set_package_name(self.export_dir)
 
-        # create UI
+        # add node-checkboxes
+        node_keys = list(self.nodes.keys())
+        nodes_list_widget = self.nodes_scroll_area.takeWidget()
+        for i in range(len(node_keys)):
+            n = node_keys[i]
+            node_check_box = QCheckBox(n.title)
+            node_check_box.setObjectName('node_check_box_'+str(i))
+            node_check_box.setChecked(self.nodes[n])
+            nodes_list_widget.layout().addWidget(node_check_box)
+            self.nodes_check_box_list.append(node_check_box)
+        nodes_list_widget.adjustSize()
+        self.nodes_scroll_area.setWidget(nodes_list_widget)
+
+    def create_UI(self):
 
         # main layouts and widgets
         self.main_vertical_layout = QVBoxLayout(self)
@@ -42,25 +59,26 @@ class SaveDialog(QDialog):
         self.nodes_group_box.setTitle('Select nodes to export')
 
         self.nodes_scroll_area = QScrollArea(self)
-        nodes_list_widget = QWidget()
-        nodes_list_widget.setLayout(self.nodes_vertical_layout)
+        self.nodes_list_widget = QWidget()
+        self.nodes_list_widget.setLayout(self.nodes_vertical_layout)
 
-        for i in range(len(nodes)):
-            n = nodes[i]
-            node_check_box = QCheckBox(n.title)
-            node_check_box.setObjectName('node_check_box_'+str(i))
-            node_check_box.setChecked(True)
-            self.nodes_vertical_layout.addWidget(node_check_box)
-            self.nodes_check_box_list.append(node_check_box)
 
-        self.nodes_scroll_area.setWidget(nodes_list_widget)
+        select_all_button = QPushButton('select all')
+        select_all_button.clicked.connect(self.select_all)
+        deselect_all_button = QPushButton('deselect all')
+        deselect_all_button.clicked.connect(self.deselect_all)
+        self.nodes_vertical_layout.addWidget(select_all_button)
+        self.nodes_vertical_layout.addWidget(deselect_all_button)
+
+
+        self.nodes_scroll_area.setWidget(self.nodes_list_widget)
         self.nodes_group_box.layout().addWidget(self.nodes_scroll_area)
 
         # export settings section
         self.select_package_dir_button = QPushButton('Select package dir', self)
         self.select_package_dir_button.clicked.connect(self.select_package_dir)
 
-        self.package_dir_label = QLabel('package dir: -')
+        self.package_dir_label = QLabel()
 
         self.export_button = QPushButton('export', self)
         self.export_button.clicked.connect(self.export)
@@ -72,7 +90,7 @@ class SaveDialog(QDialog):
         # button box
         self.button_box = QDialogButtonBox(self)
         self.button_box.setStandardButtons(QDialogButtonBox.Ok)
-        self.button_box.button(QDialogButtonBox.Ok).clicked.connect(self.close)
+        self.button_box.button(QDialogButtonBox.Ok).clicked.connect(self.close_)
 
 
         # merge layouts
@@ -85,27 +103,41 @@ class SaveDialog(QDialog):
         self.setWindowTitle('Export Nodes')
         self.resize(500, 300)
 
+
+    def select_all(self):
+        for cb in self.nodes_check_box_list:
+            cb.setChecked(True)
+
+    def deselect_all(self):
+        for cb in self.nodes_check_box_list:
+            cb.setChecked(False)
+
+
     def select_package_dir(self):
         self.export_dir = QFileDialog.getExistingDirectory(
                                             self,
                                             'Select the package folder where your nodes shall be exported at',
                                             '../packages')
-        self.package_name = os.path.basename(self.export_dir)
-        self.package_dir_label.setText('package dir: '+self.export_dir)
+        self.set_package_name(self.export_dir)
+
+    def set_package_name(self, path: str):
+        self.package_name = os.path.basename(path)
+        self.package_dir_label.setText('package dir: '+path)
 
 
-    def update_export_nodes(self):
-        self.export_nodes.clear()
-
+    def get_selected_nodes(self):
+        nodes = []
+        node_keys = list(self.nodes.keys())
         for i in range(len(self.nodes_check_box_list)):
             check_box: QCheckBox = self.nodes_check_box_list[i]
             if check_box.isChecked():
-                self.export_nodes.append(self.all_nodes[int(check_box.objectName()[15:])])
+                nodes.append(node_keys[int(check_box.objectName()[15:])])
 
+        return nodes
 
 
     def export(self):
-        self.update_export_nodes()
+        self.export_nodes = self.get_selected_nodes()
 
 
         nodes_dict = {}
@@ -165,3 +197,8 @@ class SaveDialog(QDialog):
 
             n.content_widget.save_metacode_files(node_dir=node_dir, widgets_dir=widgets_dir,
                                                  module_name_separator=module_name_separator, module_name=module_name)
+
+    def close_(self):
+        self.main_window.last_exported_nodes = self.get_selected_nodes()
+        self.main_window.last_export_path = self.export_dir
+        self.close()

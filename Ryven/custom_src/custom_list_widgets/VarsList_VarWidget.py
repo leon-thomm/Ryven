@@ -15,10 +15,10 @@ class VarsList_VarWidget(QWidget):
 
     name_LE_editing_finished = Signal()
 
-    def __init__(self, vars_list_widget, variables_hander, var):
+    def __init__(self, vars_list_widget, vars_manager, var):
         super(VarsList_VarWidget, self).__init__()
 
-        self.variables_handler = variables_hander
+        self.vars_manager = vars_manager
         self.var = var
         self.vars_list_widget = vars_list_widget
 
@@ -106,7 +106,7 @@ class VarsList_VarWidget(QWidget):
         edit_var_val_dialog = EditVal_Dialog(self, self.var.val)
         accepted = edit_var_val_dialog.exec_()
         if accepted:
-            self.variables_handler.set_var(self.var.name, edit_var_val_dialog.get_val())
+            self.vars_manager.set_var(self.var.name, edit_var_val_dialog.get_val())
 
     def name_line_edit_double_clicked(self):
         self.name_line_edit.setEnabled(True)

@@ -71,7 +71,10 @@ QTextEdit{
             # return
             pass
 
-        if matrix.ndim == 1:
+        if matrix.ndim == 0:    # can happen with scalars
+            lines = [str(m)]
+
+        elif matrix.ndim == 1:
             longest_exp_length = self.get_row_lxl(matrix)
             row = matrix
             lines.append(self.format_row_to_str(row, longest_exp_length))
@@ -135,14 +138,15 @@ QTextEdit{
         self.parent_node_instance.update_shape()
 
     def show(self):
-        self.hidden_size = None
         self.setFixedSize(self.hidden_size)
         self.parent_node_instance.update_shape()
+        self.hidden_size = None
 
 
     def get_data(self):
         data = {'text': self.toPlainText(),
-                'shown': self.hidden_size is None}
+                'shown': self.hidden_size is None
+                }
         return data
 
     def set_data(self, data):

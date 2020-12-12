@@ -24,6 +24,7 @@ from NIENV import *
 # self.log_message('that\'s not good', target='error')
 
 # ------------------------------------------------------------------------------
+import numpy as np
 
 
 class ShowMatrix_NodeInstance(NodeInstance):
@@ -32,11 +33,78 @@ class ShowMatrix_NodeInstance(NodeInstance):
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False
+        self.accessed_columns = []
+        self.accessed_rows = []
 
     def update_event(self, input_called=-1):
         matrix = self.input(0)
         self.main_widget.update_matrix(matrix)
         self.set_output_val(0, matrix)
+
+        # also update individual access outputs for rows and columns
+
+        i = 1
+        for r in sorted(self.accessed_rows):
+            self.set_output_val(i, matrix[r])
+            i+=1
+        for c in sorted(self.accessed_columns):
+            self.set_output_val(i, np.transpose(matrix[:,c][np.newaxis]))
+            i+=1
+
+        # update context menu
+
+        if len(matrix) > 0:
+            rows_access = {}
+            context_rows = set([j for j in range(matrix.shape[0])]) - set(self.accessed_rows)
+            for i in context_rows:    # only show row access options for those wo are not used yet
+                rows_access['access row '+str(i)] = {'method': M(self.add_row_access),
+                                                      'data': i}
+            self.special_actions['add row access'] = rows_access
+        elif self.special_actions.__contains__('add row access'):
+            del self.special_actions['add row access']
+        
+        if len(matrix.shape) > 1:
+            columns_access = {}
+            context_columns = set([j for j in range(matrix.shape[1])]) - set(self.accessed_columns)
+            for i in context_columns:    # # only show column access options for those wo are not used yet
+                columns_access['access column '+str(i)] = {'method': M(self.add_column_access),
+                                                           'data': i}
+            self.special_actions['add col access'] = columns_access
+        elif self.special_actions.__contains__('add col access'):
+            del self.special_actions['add col access']
+
+
+    def add_row_access(self, data):
+        row_index = data
+        self.accessed_rows.append(row_index)
+        self.create_new_output('data', 'row '+str(row_index), pos=sorted(self.accessed_rows).index(row_index)+1)
+        
+        remove_actions = self.special_actions['remove output'] if self.special_actions.__contains__('remove output') else {}
+        remove_actions['row '+str(row_index)] = {'method': M(self.remove_row_access),
+                                                 'data': row_index}
+        self.special_actions['remove output'] = remove_actions
+
+    def add_column_access(self, data):
+        col_index = data
+        self.accessed_columns.append(col_index)
+        self.create_new_output('data', 'col '+str(col_index), pos=1+len(self.accessed_rows)+sorted(self.accessed_columns).index(col_index))
+        
+        remove_actions = self.special_actions['remove output'] if self.special_actions.__contains__('remove output') else {}
+        remove_actions['col '+str(col_index)] = {'method': M(self.remove_col_access),
+                                                 'data': col_index}
+        self.special_actions['remove output'] = remove_actions
+
+    def remove_row_access(self, data):
+        row_index = data
+        self.delete_output(1+sorted(self.accessed_rows).index(row_index))
+        self.accessed_rows.remove(row_index)
+        del self.special_actions['remove output']['row '+str(row_index)]
+
+    def remove_col_access(self, data):
+        col_index = data
+        self.delete_output(1+len(self.accessed_rows)+sorted(self.accessed_columns).index(col_index))
+        self.accessed_columns.remove(col_index)
+        del self.special_actions['remove output']['col '+str(col_index)]
 
     def action_hide_mw(self):
         self.main_widget.hide()
@@ -53,14 +121,19 @@ class ShowMatrix_NodeInstance(NodeInstance):
         self.update_shape()
 
     def get_data(self):
-        data = {'main widget hidden': self.main_widget_hidden}
+        data = {'main widget hidden': self.main_widget_hidden,
+                'accessed rows': self.accessed_rows,
+                'accessed columns': self.accessed_columns}
         return data
 
     def set_data(self, data):
         self.main_widget_hidden = data['main widget hidden']
-        if self.main_widget_hidden:
-            self.action_hide_mw()
+        # if self.main_widget_hidden:
+        #     self.action_hide_mw()
         # shown by default
+        
+        self.accessed_rows = data['accessed rows']
+        self.accessed_columns = data['accessed columns']
 
     def removing(self):
         pass

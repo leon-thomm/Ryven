@@ -49,13 +49,13 @@ class PlaceNodeInstanceInScene_Command(QUndoCommand):
 
 
 class PlaceDrawingObject_Command(QUndoCommand):
-    def __init__(self, flow, pos, drawing_obj):
+    def __init__(self, flow, posF, drawing_obj):
         super(PlaceDrawingObject_Command, self).__init__()
 
         self.flow = flow
 
         self.drawing_obj = drawing_obj
-        self.drawing_obj_place_pos = pos
+        self.drawing_obj_place_pos = posF
         self.drawing_obj_pos = self.drawing_obj_place_pos
 
     def undo(self):

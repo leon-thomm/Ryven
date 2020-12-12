@@ -75,7 +75,6 @@ class Flow(QGraphicsView):
         self.node_place_pos = QPointF()
         self.left_mouse_pressed_in_flow = False
         self.mouse_press_pos: QPointF = None
-        self.tablet_press_pos: QPointF = None
         self.auto_connection_gate = None  # stores the gate that we may try to auto connect to a newly placed NI
         self.panning = False
         self.pan_last_x = None
@@ -133,6 +132,11 @@ class Flow(QGraphicsView):
         self.scene().addItem(self.stylus_modes_proxy)
         self.set_stylus_proxy_pos()
         self.setAttribute(Qt.WA_TabletTracking)
+
+        # # TOUCH GESTURES
+        # recognizer = PanGestureRecognizer()
+        # pan_gesture_id = QGestureRecognizer.registerRecognizer(recognizer) <--- CRASH HERE
+        # self.grabGesture(pan_gesture_id)
 
         # DESIGN THEME
         Design.flow_theme_changed.connect(self.theme_changed)
@@ -330,14 +334,18 @@ class Flow(QGraphicsView):
                 (event.type() == QTabletEvent.TabletPress and event.button() == Qt.RightButton):
             return  # let the mousePress/Move/Release-Events handle it
 
+        scaled_event_pos: QPointF = event.posF()/self.current_scale
+
         if event.type() == QTabletEvent.TabletPress:
-            self.tablet_press_pos = event.pos()
             self.ignore_mouse_event = True
 
             if event.button() == Qt.LeftButton:
                 if self.stylus_mode == 'comment':
-                    new_drawing = self.create_and_place_drawing__cmd(self.mapToScene(self.tablet_press_pos),
-                                                                     config=self.stylus_modes_widget.get_pen_settings())
+                    view_pos = self.mapToScene(self.viewport().pos())
+                    new_drawing = self.create_and_place_drawing__cmd(
+                        view_pos + scaled_event_pos,
+                        config={**self.stylus_modes_widget.get_pen_settings(), 'viewport pos': view_pos}
+                    )
                     self.current_drawing = new_drawing
                     self.drawing = True
             elif event.button() == Qt.RightButton:
@@ -357,14 +365,7 @@ class Flow(QGraphicsView):
                             self.remove_drawing(i)
                             break
             elif self.stylus_mode == 'comment' and self.drawing:
-
-                mapped = self.mapToScene(QPoint(event.posF().x(), event.posF().y()))
-                # rest = QPointF(event.posF().x()%1, event.posF().y()%1)
-                # exact = QPointF(mapped.x()+rest.x()%1, mapped.y()+rest.y()%1)
-                # TODO: use exact position (event.posF() ). Problem: mapToScene() only uses QPoint, not QPointF. The
-                #  calculation above didn't work
-
-                if self.current_drawing.try_to_append_point(mapped):
+                if self.current_drawing.append_point(scaled_event_pos):
                     self.current_drawing.stroke_weights.append(event.pressure())
                 self.current_drawing.update()
                 self.viewport().update()
@@ -378,6 +379,19 @@ class Flow(QGraphicsView):
                 self.current_drawing = None
                 self.drawing = False
 
+    # https://forum.qt.io/topic/121473/qgesturerecognizer-registerrecognizer-crashes-using-pyside2
+    #
+    # def event(self, event) -> bool:
+    #     # if event.type() == QEvent.Gesture:
+    #     #     if event.gesture(PanGesture) is not None:
+    #     #         return self.pan_gesture(event)
+    #
+    #     return QGraphicsView.event(self, event)
+    #
+    # def pan_gesture(self, event: QGestureEvent) -> bool:
+    #     pan: PanGesture = event.gesture(PanGesture)
+    #     print(pan)
+    #     return True
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasFormat('text/plain'):
@@ -745,10 +759,10 @@ class Flow(QGraphicsView):
         new_drawing = DrawingObject(self, config)
         return new_drawing
 
-    def add_drawing(self, drawing_obj, pos=None):
+    def add_drawing(self, drawing_obj, posF=None):
         self.scene().addItem(drawing_obj)
-        if pos:
-            drawing_obj.setPos(pos)
+        if posF:
+            drawing_obj.setPos(posF)
         self.drawings.append(drawing_obj)
 
     def add_drawings(self, drawings):
@@ -775,9 +789,9 @@ class Flow(QGraphicsView):
 
         return new_drawings
 
-    def create_and_place_drawing__cmd(self, pos, config=None):
+    def create_and_place_drawing__cmd(self, posF, config=None):
         new_drawing_obj = self.create_drawing(config)
-        place_command = PlaceDrawingObject_Command(self, pos, new_drawing_obj)
+        place_command = PlaceDrawingObject_Command(self, posF, new_drawing_obj)
         self.undo_stack.push(place_command)
         return new_drawing_obj
 
@@ -851,15 +865,15 @@ class Flow(QGraphicsView):
             c.setSelected(True)
 
     def copy(self):  # ctrl+c
-        data = {'nodes': self.get_node_instances_json_data(self.selected_node_instances()),
-                'connections': self.get_connections_json_data(self.selected_node_instances()),
-                'drawings': self.get_drawings_json_data(self.selected_drawings())}
+        data = {'nodes': self.get_node_instances_config_data(self.selected_node_instances()),
+                'connections': self.get_connections_config_data(self.selected_node_instances()),
+                'drawings': self.get_drawings_config_data(self.selected_drawings())}
         QGuiApplication.clipboard().setText(json.dumps(data))
 
     def cut(self):  # called from shortcut ctrl+x
-        data = {'nodes': self.get_node_instances_json_data(self.selected_node_instances()),
-                'connections': self.get_connections_json_data(self.selected_node_instances()),
-                'drawings': self.get_drawings_json_data(self.selected_drawings())}
+        data = {'nodes': self.get_node_instances_config_data(self.selected_node_instances()),
+                'connections': self.get_connections_config_data(self.selected_node_instances()),
+                'drawings': self.get_drawings_config_data(self.selected_drawings())}
         QGuiApplication.clipboard().setText(json.dumps(data))
         self.remove_selected_components()
 
@@ -1003,24 +1017,23 @@ class Flow(QGraphicsView):
                          p2.x(), p2.y())
         return path
 
-    # GET JSON DATA
-    def get_json_data(self):
+    def config_data(self):
         flow_dict = {'algorithm mode': 'data flow' if self.algorithm_mode.mode_data_flow else 'exec flow',
                      'viewport update mode': 'sync' if self.viewport_update_mode.sync else 'async',
-                     'nodes': self.get_node_instances_json_data(self.all_node_instances),
-                     'connections': self.get_connections_json_data(self.all_node_instances),
-                     'drawings': self.get_drawings_json_data(self.drawings)}
+                     'nodes': self.get_node_instances_config_data(self.all_node_instances),
+                     'connections': self.get_connections_config_data(self.all_node_instances),
+                     'drawings': self.get_drawings_config_data(self.drawings)}
         return flow_dict
 
-    def get_node_instances_json_data(self, node_instances):
+    def get_node_instances_config_data(self, node_instances):
         script_node_instances_list = []
         for ni in node_instances:
-            node_instance_dict = ni.get_json_data()
+            node_instance_dict = ni.config_data()
             script_node_instances_list.append(node_instance_dict)
 
         return script_node_instances_list
 
-    def get_connections_json_data(self, node_instances, only_with_connections_to=None):
+    def get_connections_config_data(self, node_instances, only_with_connections_to=None):
         script_ni_connections_list = []
         for ni in node_instances:
             for out in ni.outputs:
@@ -1054,10 +1067,10 @@ class Flow(QGraphicsView):
 
         return script_ni_connections_list
 
-    def get_drawings_json_data(self, drawings):
+    def get_drawings_config_data(self, drawings):
         drawings_list = []
         for drawing in drawings:
-            drawing_dict = drawing.get_json_data()
+            drawing_dict = drawing.config_data()
 
             drawings_list.append(drawing_dict)
 

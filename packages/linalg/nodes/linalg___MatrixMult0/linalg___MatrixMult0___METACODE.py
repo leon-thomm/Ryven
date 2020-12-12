@@ -37,7 +37,6 @@ class %CLASS%(NodeInstance):
     def update_event(self, input_called=-1):
         matrix = matmul(self.input(0), self.input(1))
         self.set_output_val(0, matrix)
-        self.main_widget.update_matrix(matrix)
 
     def get_data(self):
         data = {}

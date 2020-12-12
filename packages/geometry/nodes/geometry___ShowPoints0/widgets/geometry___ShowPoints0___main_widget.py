@@ -18,13 +18,15 @@ class ShowPoints_NodeInstance_MainWidget(QWidget, MWB):
         
 
         self.setStyleSheet('''
-            background-color: #333333;
+background-color: #0C1C23;
+border: none;
         ''')
 
         self.setLayout(QVBoxLayout())
         self.label = QLabel()
-        pix = QPixmap(200,200)
+        pix = QPixmap(200, 200)
         self.label.setPixmap(pix)
+        #self.setContentMargins(0)
         self.layout().addWidget(self.label)
         self.resize(200, 200)
 
@@ -33,16 +35,16 @@ class ShowPoints_NodeInstance_MainWidget(QWidget, MWB):
         painter = QPainter(self.label.pixmap())
         painter.setRenderHint(QPainter.Antialiasing)
 
-        painter.setPen(QPen('#333333'))
-        painter.setBrush(QColor('#333333'))
+        painter.setPen(Qt.NoPen)
+        painter.setBrush(QColor('#0C1C23'))
         painter.drawRect(self.rect())
 
-        pen = QPen(QColor(255, 255, 255))
+        pen = QPen(QColor('#ffffff'))
         painter.setPen(pen)
-        painter.setBrush(QBrush(Qt.white))
+        painter.setBrush(QBrush(QColor('#ffffff')))
 
         for p in points:
-            painter.drawEllipse(p['x']*self.label.pixmap().width(), p['y']*self.label.pixmap().height(), 4, 4)
+            painter.drawEllipse(p[0]*self.label.pixmap().width(), p[1]*self.label.pixmap().height(), 2, 2)
 
         self.repaint()
 

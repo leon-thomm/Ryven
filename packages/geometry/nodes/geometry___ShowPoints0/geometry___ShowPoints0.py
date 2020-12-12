@@ -37,7 +37,6 @@ class ShowPoints_NodeInstance(NodeInstance):
 
     def get_data(self):
         data = {'points': self.points}
-        # ...
         return data
 
     def set_data(self, data):

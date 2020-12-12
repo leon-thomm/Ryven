@@ -1,6 +1,7 @@
 from PySide2.QtWidgets import QWidget, QGridLayout, QLineEdit, QPushButton, QMessageBox
 
 from CodeEditor.CodeEditor_Dialog import CodeEditor_Dialog
+from EditSrcCode_PushButton import EditSrcCode_PushButton
 
 
 class CustomInputWidget(QWidget):
@@ -25,7 +26,7 @@ class CustomInputWidget(QWidget):
         self.name_line_edit.editingFinished.connect(self.name_line_edit_edited)
         self.main_grid_layout.addWidget(self.name_line_edit, 0, 0, 1, 2)
 
-        edit_metacode_button = QPushButton('edit metacode')
+        edit_metacode_button = EditSrcCode_PushButton('edit metacode')
         edit_metacode_button.clicked.connect(self.edit_metacode_button_clicked)
         self.main_grid_layout.addWidget(edit_metacode_button, 1, 0, 1, 1)
 

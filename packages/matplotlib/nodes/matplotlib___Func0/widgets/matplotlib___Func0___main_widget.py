@@ -6,11 +6,12 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout
 
 import numpy as np
 
-import matplotlib
-import matplotlib.pyplot as plt
-matplotlib.use('Qt5Agg')
-from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+# import matplotlib
+# import matplotlib.pyplot as plt
+# matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvas#, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
+from qbstyles import mpl_style
 
 
 class Func_NodeInstance_MainWidget(QWidget, MWB):
@@ -21,8 +22,9 @@ class Func_NodeInstance_MainWidget(QWidget, MWB):
         
 
         self.setStyleSheet('''
-
+background-color: transparent;
         ''')
+        mpl_style(dark=True)
         
         self.setLayout(QVBoxLayout())
         self.canvas = FigureCanvas(Figure(figsize=(5, 3)))

@@ -24,6 +24,11 @@ class MainWindow(QMainWindow):
 
         self.nodes = []
 
+        # convenience features for exporting
+        self.nodes_at_last_export = []
+        self.last_exported_nodes = []
+        self.last_export_path = ''
+
         self.nodes_list_widget = NodesListWidget(self)
         self.ui.nodes_scrollArea.setWidget(self.nodes_list_widget)
 
@@ -193,6 +198,26 @@ class MainWindow(QMainWindow):
 
 
     def save_triggered(self):
-        # the dialog does the whole saving process
-        save_dialog = SaveDialog(self, self.nodes)
+        """creates the dialog that manages the whole saving process"""
+
+        selected_nodes = []
+        if len(self.nodes_at_last_export) == 0:
+            selected_nodes = self.nodes
+        elif self.nodes_at_last_export == self.nodes:
+            # no nodes added or removed
+            selected_nodes = self.last_exported_nodes
+        else:
+            selected_nodes = self.nodes
+
+        nodes_dict = {}         # {node: selected}
+        for n in self.nodes:    # add all nodes, unselected
+            nodes_dict[n] = False
+        for n in selected_nodes:    # select
+            nodes_dict[n] = True
+
+        save_dialog = SaveDialog(self,
+                                 nodes_dict=nodes_dict,
+                                 last_export_dir=self.last_export_path)
         save_dialog.exec_()
+
+        self.nodes_at_last_export = self.nodes.copy()

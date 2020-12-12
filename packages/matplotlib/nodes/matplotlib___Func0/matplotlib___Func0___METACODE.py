@@ -35,7 +35,12 @@ class %CLASS%(NodeInstance):
         # ...
 
     def update_event(self, input_called=-1):
-        x = eval(self.input(0)) if type(self.input(0)) == str else self.input(0)
+        x = None
+        if type(self.input(0)) == str:
+            x = np.linspace(*eval(self.input(0)))
+        else:
+            x = self.input(0)
+        # x = eval('np.linspace('+self.input(0)+')') if type(self.input(0)) == str else self.input(0)
         functions = {}
         for i in range(self.input(1).count('\n')+1):
             signature = self.input(1).splitlines()[i]

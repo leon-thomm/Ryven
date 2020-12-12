@@ -22,8 +22,8 @@ class %CLASS%(NodeInstance):
 
 
     def update_event(self, input_called=-1):
-        self.outputs[0].set_val(self.input(0)['x'])
-        self.outputs[1].set_val(self.input(0)['y'])
+        self.outputs[0].set_val(self.input(0)[0])
+        self.outputs[1].set_val(self.input(0)[1])
 
     def get_data(self):
         data = {}

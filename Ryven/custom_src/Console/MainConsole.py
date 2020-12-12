@@ -1,5 +1,6 @@
 import code
 import re
+
 from PySide2.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton
 from PySide2.QtCore import Signal, QEvent, Qt
 from PySide2.QtGui import QTextCharFormat, QBrush, QColor, QFont
@@ -11,15 +12,18 @@ class MainConsole(QWidget):
 
     def __init__(
             self,
-            context=locals(),       # context for interpreter
             history: int = 100,     # max lines in history buffer
             blockcount: int = 5000  # max lines in output buffer
     ):
 
         super(MainConsole, self).__init__()
 
-        # CREATE UI
+        # self.main_window = None  # set manually after initialization
 
+        self.init_ui(history, blockcount)
+
+
+    def init_ui(self, history, blockcount):
         self.content_layout = QGridLayout(self)
         self.content_layout.setContentsMargins(0, 0, 0, 0)
         self.content_layout.setSpacing(0)
@@ -82,7 +86,14 @@ class MainConsole(QWidget):
     def reset_interpreter(self):
         """Initializes a new plain interpreter"""
 
-        context = locals()
+        # # --------------------------------------
+        # # def generate_code():
+        # #     return print('generating code...')
+        # def script():
+        #     return self.main_window.get_current_script()
+        # # --------------------------------------
+
+        context = {**locals()}
         self.num_added_object_contexts = 0
         self.reset_scope_button.hide()
         self.interp = code.InteractiveConsole(context)
@@ -146,7 +157,7 @@ class LineEdit(QLineEdit):
         self.hist_index = 0
         self.hist_list = []
         self.prompt_pattern = re.compile('^[>\.]')
-        self.setFont(QFont('source code pro', 11))
+        self.setFont(QFont('Consolas', 12))
 
     def event(self, ev: QEvent) -> bool:
         """
@@ -202,7 +213,7 @@ class ConsoleDisplay(QPlainTextEdit):
         self.setObjectName('ConsoleDisplay')
         self.setMaximumBlockCount(max_block_count)
         self.setReadOnly(True)
-        self.setFont(QFont('Consolas', 8))
+        self.setFont(QFont('Consolas', 12))
 
 
 class RedirectOutput:
@@ -215,14 +226,17 @@ class RedirectOutput:
         self.func(line)
 
 
-# CREATING ONE MAIN CONSOLE INSTANCE
 
-# note that, for some reason idk, I need to access this variable using MainConsole.main_console. Otherwise all
-# references made when it was None will still hold value None...
+
+
 main_console = None
-main_console_enabled = True
 
 
 def init_main_console():
     global main_console
     main_console = MainConsole()
+
+    console_stdout_redirect = RedirectOutput(main_console.write)
+    console_errout_redirect = RedirectOutput(main_console.errorwrite)
+
+    return console_stdout_redirect, console_errout_redirect

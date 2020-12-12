@@ -3,16 +3,13 @@
 ################################################################################
 ## Form generated from reading UI file 'node_manager_node_content_widget.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.0
+## Created by: Qt User Interface Compiler version 5.15.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
-    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
-    QPixmap, QRadialGradient)
+from PySide2.QtCore import *
+from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
@@ -28,32 +25,39 @@ class Ui_Form(object):
         Form.setSizePolicy(sizePolicy)
         self.gridLayout = QGridLayout(Form)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout_5 = QGridLayout()
-        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.top_horizontalLayout = QHBoxLayout()
+        self.top_horizontalLayout.setObjectName(u"top_horizontalLayout")
+        self.nodeTitle_gridLayout = QGridLayout()
+        self.nodeTitle_gridLayout.setObjectName(u"nodeTitle_gridLayout")
         self.title_lineEdit = QLineEdit(Form)
         self.title_lineEdit.setObjectName(u"title_lineEdit")
 
-        self.gridLayout_5.addWidget(self.title_lineEdit, 0, 0, 1, 1)
+        self.nodeTitle_gridLayout.addWidget(self.title_lineEdit, 0, 0, 1, 1)
 
         self.name_problems_detected_label = QLabel(Form)
         self.name_problems_detected_label.setObjectName(u"name_problems_detected_label")
 
-        self.gridLayout_5.addWidget(self.name_problems_detected_label, 0, 1, 1, 1)
+        self.nodeTitle_gridLayout.addWidget(self.name_problems_detected_label, 0, 1, 1, 1)
 
         self.internal_name_lineEdit = QLineEdit(Form)
         self.internal_name_lineEdit.setObjectName(u"internal_name_lineEdit")
         self.internal_name_lineEdit.setEnabled(False)
 
-        self.gridLayout_5.addWidget(self.internal_name_lineEdit, 1, 0, 1, 1)
+        self.nodeTitle_gridLayout.addWidget(self.internal_name_lineEdit, 1, 0, 1, 1)
 
         self.auto_generate_internal_name_checkBox = QCheckBox(Form)
         self.auto_generate_internal_name_checkBox.setObjectName(u"auto_generate_internal_name_checkBox")
         self.auto_generate_internal_name_checkBox.setChecked(True)
 
-        self.gridLayout_5.addWidget(self.auto_generate_internal_name_checkBox, 1, 1, 1, 1)
+        self.nodeTitle_gridLayout.addWidget(self.auto_generate_internal_name_checkBox, 1, 1, 1, 1)
 
 
-        self.gridLayout.addLayout(self.gridLayout_5, 0, 0, 1, 1)
+        self.top_horizontalLayout.addLayout(self.nodeTitle_gridLayout)
+
+        self.edit_node_metacode_placeholderButton = QPushButton(Form)
+        self.edit_node_metacode_placeholderButton.setObjectName(u"edit_node_metacode_placeholderButton")
+
+        self.top_horizontalLayout.addWidget(self.edit_node_metacode_placeholderButton)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -61,44 +65,49 @@ class Ui_Form(object):
         self.type_comboBox.addItem("")
         self.type_comboBox.addItem("")
         self.type_comboBox.setObjectName(u"type_comboBox")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.type_comboBox.sizePolicy().hasHeightForWidth())
+        self.type_comboBox.setSizePolicy(sizePolicy1)
 
         self.verticalLayout.addWidget(self.type_comboBox)
 
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.custom_type_lineEdit = QLineEdit(Form)
         self.custom_type_lineEdit.setObjectName(u"custom_type_lineEdit")
         self.custom_type_lineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.custom_type_lineEdit.sizePolicy().hasHeightForWidth())
+        self.custom_type_lineEdit.setSizePolicy(sizePolicy1)
 
-        self.horizontalLayout.addWidget(self.custom_type_lineEdit)
-
-        self.edit_node_metacode_pushButton = QPushButton(Form)
-        self.edit_node_metacode_pushButton.setObjectName(u"edit_node_metacode_pushButton")
-
-        self.horizontalLayout.addWidget(self.edit_node_metacode_pushButton)
+        self.verticalLayout.addWidget(self.custom_type_lineEdit)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.top_horizontalLayout.addLayout(self.verticalLayout)
 
 
-        self.gridLayout.addLayout(self.verticalLayout, 0, 1, 1, 1)
+        self.gridLayout.addLayout(self.top_horizontalLayout, 0, 0, 1, 1)
 
-        self.splitter = QSplitter(Form)
-        self.splitter.setObjectName(u"splitter")
-        self.splitter.setOrientation(Qt.Vertical)
-        self.description_textEdit = QTextEdit(self.splitter)
+        self.splitter_2 = QSplitter(Form)
+        self.splitter_2.setObjectName(u"splitter_2")
+        self.splitter_2.setOrientation(Qt.Vertical)
+        self.description_textEdit = QTextEdit(self.splitter_2)
         self.description_textEdit.setObjectName(u"description_textEdit")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.description_textEdit.sizePolicy().hasHeightForWidth())
+        self.description_textEdit.setSizePolicy(sizePolicy2)
         font = QFont()
         font.setFamily(u"MS Reference Sans Serif")
         font.setPointSize(11)
         self.description_textEdit.setFont(font)
-        self.splitter.addWidget(self.description_textEdit)
-        self.layoutWidget = QWidget(self.splitter)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.horizontalLayout_5 = QHBoxLayout(self.layoutWidget)
+        self.splitter_2.addWidget(self.description_textEdit)
+        self.widget = QWidget(self.splitter_2)
+        self.widget.setObjectName(u"widget")
+        self.horizontalLayout_5 = QHBoxLayout(self.widget)
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.input_widgets_groupBox = QGroupBox(self.layoutWidget)
+        self.input_widgets_groupBox = QGroupBox(self.widget)
         self.input_widgets_groupBox.setObjectName(u"input_widgets_groupBox")
         self.gridLayout_4 = QGridLayout(self.input_widgets_groupBox)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
@@ -107,7 +116,7 @@ class Ui_Form(object):
         self.input_widgets_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 496, 147))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 438, 124))
         self.verticalLayout_11 = QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.input_widgets_scrollArea.setWidget(self.scrollAreaWidgetContents_3)
@@ -124,7 +133,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.groupBox = QGroupBox(self.layoutWidget)
+        self.groupBox = QGroupBox(self.widget)
         self.groupBox.setObjectName(u"groupBox")
         self.horizontalLayout_4 = QHBoxLayout(self.groupBox)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
@@ -150,10 +159,10 @@ class Ui_Form(object):
 
         self.verticalLayout_12.addWidget(self.main_widget_between_ports_radioButton)
 
-        self.edit_main_widget_metacode_pushButton = QPushButton(self.main_widget_position_widget)
-        self.edit_main_widget_metacode_pushButton.setObjectName(u"edit_main_widget_metacode_pushButton")
+        self.edit_main_widget_metacode_placeholderButton = QPushButton(self.main_widget_position_widget)
+        self.edit_main_widget_metacode_placeholderButton.setObjectName(u"edit_main_widget_metacode_placeholderButton")
 
-        self.verticalLayout_12.addWidget(self.edit_main_widget_metacode_pushButton)
+        self.verticalLayout_12.addWidget(self.edit_main_widget_metacode_placeholderButton)
 
 
         self.horizontalLayout_4.addWidget(self.main_widget_position_widget)
@@ -163,7 +172,7 @@ class Ui_Form(object):
 
         self.verticalLayout_10 = QVBoxLayout()
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.design_style_groupBox = QGroupBox(self.layoutWidget)
+        self.design_style_groupBox = QGroupBox(self.widget)
         self.design_style_groupBox.setObjectName(u"design_style_groupBox")
         self.verticalLayout_2 = QVBoxLayout(self.design_style_groupBox)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -181,7 +190,7 @@ class Ui_Form(object):
 
         self.verticalLayout_10.addWidget(self.design_style_groupBox)
 
-        self.node_color_groupBox = QGroupBox(self.layoutWidget)
+        self.node_color_groupBox = QGroupBox(self.widget)
         self.node_color_groupBox.setObjectName(u"node_color_groupBox")
         self.verticalLayout_13 = QVBoxLayout(self.node_color_groupBox)
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
@@ -204,15 +213,18 @@ class Ui_Form(object):
 
         self.horizontalLayout_5.addLayout(self.horizontalLayout_3)
 
-        self.splitter.addWidget(self.layoutWidget)
-        self.layoutWidget1 = QWidget(self.splitter)
-        self.layoutWidget1.setObjectName(u"layoutWidget1")
-        self.horizontalLayout_2 = QHBoxLayout(self.layoutWidget1)
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_5 = QVBoxLayout()
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.inputs_groupBox = QGroupBox(self.layoutWidget1)
+        self.splitter_2.addWidget(self.widget)
+        self.splitter = QSplitter(self.splitter_2)
+        self.splitter.setObjectName(u"splitter")
+        sizePolicy2.setHeightForWidth(self.splitter.sizePolicy().hasHeightForWidth())
+        self.splitter.setSizePolicy(sizePolicy2)
+        self.splitter.setOrientation(Qt.Horizontal)
+        self.layoutWidget = QWidget(self.splitter)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.inputs_verticalLayout = QVBoxLayout(self.layoutWidget)
+        self.inputs_verticalLayout.setObjectName(u"inputs_verticalLayout")
+        self.inputs_verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.inputs_groupBox = QGroupBox(self.layoutWidget)
         self.inputs_groupBox.setObjectName(u"inputs_groupBox")
         self.verticalLayout_8 = QVBoxLayout(self.inputs_groupBox)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
@@ -221,7 +233,7 @@ class Ui_Form(object):
         self.inputs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 417, 94))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 416, 159))
         sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy)
         self.verticalLayout_3 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -236,13 +248,14 @@ class Ui_Form(object):
         self.verticalLayout_8.addWidget(self.add_new_input_pushButton)
 
 
-        self.verticalLayout_5.addWidget(self.inputs_groupBox)
+        self.inputs_verticalLayout.addWidget(self.inputs_groupBox)
 
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout_5)
-
-        self.verticalLayout_6 = QVBoxLayout()
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.splitter.addWidget(self.layoutWidget)
+        self.layoutWidget1 = QWidget(self.splitter)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.outputs_verticalLayout = QVBoxLayout(self.layoutWidget1)
+        self.outputs_verticalLayout.setObjectName(u"outputs_verticalLayout")
+        self.outputs_verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.outputs_groupBox = QGroupBox(self.layoutWidget1)
         self.outputs_groupBox.setObjectName(u"outputs_groupBox")
         self.verticalLayout_7 = QVBoxLayout(self.outputs_groupBox)
@@ -252,7 +265,7 @@ class Ui_Form(object):
         self.outputs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 416, 94))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 415, 159))
         self.verticalLayout_4 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.outputs_scrollArea.setWidget(self.scrollAreaWidgetContents_2)
@@ -265,14 +278,12 @@ class Ui_Form(object):
         self.verticalLayout_7.addWidget(self.add_new_output_pushButton)
 
 
-        self.verticalLayout_6.addWidget(self.outputs_groupBox)
-
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout_6)
+        self.outputs_verticalLayout.addWidget(self.outputs_groupBox)
 
         self.splitter.addWidget(self.layoutWidget1)
+        self.splitter_2.addWidget(self.splitter)
 
-        self.gridLayout.addWidget(self.splitter, 1, 0, 1, 2)
+        self.gridLayout.addWidget(self.splitter_2, 1, 0, 1, 1)
 
 
         self.retranslateUi(Form)
@@ -287,12 +298,12 @@ class Ui_Form(object):
         self.name_problems_detected_label.setText(QCoreApplication.translate("Form", u"Name Problems Detected: None", None))
         self.internal_name_lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Internal Name", None))
         self.auto_generate_internal_name_checkBox.setText(QCoreApplication.translate("Form", u"auto generate internal name", None))
+        self.edit_node_metacode_placeholderButton.setText(QCoreApplication.translate("Form", u"(edit src placeholder)", None))
         self.type_comboBox.setItemText(0, QCoreApplication.translate("Form", u"custom", None))
         self.type_comboBox.setItemText(1, QCoreApplication.translate("Form", u"control structure", None))
 
         self.type_comboBox.setCurrentText(QCoreApplication.translate("Form", u"custom", None))
         self.custom_type_lineEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Custom Type", None))
-        self.edit_node_metacode_pushButton.setText(QCoreApplication.translate("Form", u"edit node metacode", None))
         self.description_textEdit.setPlaceholderText(QCoreApplication.translate("Form", u"Node Description", None))
         self.input_widgets_groupBox.setTitle(QCoreApplication.translate("Form", u"Input Widgets", None))
         self.add_new_input_widget_pushButton.setText(QCoreApplication.translate("Form", u"add new", None))
@@ -300,7 +311,7 @@ class Ui_Form(object):
         self.main_widget_checkBox.setText(QCoreApplication.translate("Form", u"None", None))
         self.main_widget_under_ports_radioButton.setText(QCoreApplication.translate("Form", u"main widget under ports", None))
         self.main_widget_between_ports_radioButton.setText(QCoreApplication.translate("Form", u"main widget between ports", None))
-        self.edit_main_widget_metacode_pushButton.setText(QCoreApplication.translate("Form", u"edit metacode", None))
+        self.edit_main_widget_metacode_placeholderButton.setText(QCoreApplication.translate("Form", u"edit metacode", None))
         self.design_style_groupBox.setTitle(QCoreApplication.translate("Form", u"Design Style", None))
         self.design_style_extended_radioButton.setText(QCoreApplication.translate("Form", u"Extended", None))
         self.design_style_minimalistic_radioButton.setText(QCoreApplication.translate("Form", u"Minimalistic", None))
@@ -312,4 +323,3 @@ class Ui_Form(object):
         self.outputs_groupBox.setTitle(QCoreApplication.translate("Form", u"Outputs", None))
         self.add_new_output_pushButton.setText(QCoreApplication.translate("Form", u"add new", None))
     # retranslateUi
-
