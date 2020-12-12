@@ -173,6 +173,10 @@ saving: ctrl+s
 
         self.ui.menuView.addMenu(animations_menu)
 
+        gen_code_action = QAction('gen src code', self)
+        gen_code_action.triggered.connect(self.on_gen_code_triggered)
+        self.ui.menuFile.addAction(gen_code_action)
+
     def load_stylesheet(self, ss):
         ss_content = ''
         try:
@@ -223,6 +227,9 @@ saving: ctrl+s
         img = self.scripts[self.ui.scripts_tab_widget.currentIndex()].flow.get_whole_scene_img()
         img.save(file_path)
 
+    def on_gen_code_triggered(self):
+        self.get_current_script().generate_code()
+
 
     def create_new_script_button_pressed(self):
         self.try_to_create_new_script(name=self.ui.new_script_name_lineEdit.text())
@@ -253,6 +260,9 @@ saving: ctrl+s
         index = self.scripts.index(script)
         self.ui.scripts_tab_widget.removeTab(index)
         del self.scripts[index]
+
+    def get_current_script(self):
+        return self.scripts[self.ui.scripts_tab_widget.currentIndex()]
 
 
     def on_import_nodes_triggered(self):
@@ -491,14 +501,14 @@ saving: ctrl+s
 
         scripts_data = []
         for script in self.scripts:
-            scripts_data.append(script.get_json_data())
+            scripts_data.append(script.config_data())
 
         whole_project_dict = {'general info': general_project_info_dict,
                               'scripts': scripts_data}
 
-        json_str = json.dumps(whole_project_dict)
-        Debugger.debug(json_str)
+        data = json.dumps(whole_project_dict)
+        Debugger.debug(data)
 
 
-        file.write(json_str)
+        file.write(data)
         file.close()

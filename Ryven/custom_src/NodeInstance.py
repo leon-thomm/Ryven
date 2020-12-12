@@ -356,7 +356,7 @@ class NodeInstance(QGraphicsItem):
         self.inputs_layout.setAlignment(i, Qt.AlignLeft)
 
     def insert_input_into_layout(self, index, i):
-        self.inputs_layout.insertItem(index*2, i)  # *2 because of the stretches
+        self.inputs_layout.insertItem(index*2+1, i)  # *2 because of the stretches
         self.inputs_layout.setAlignment(i, Qt.AlignLeft)
         if len(self.inputs) > 1:
             self.inputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
@@ -415,7 +415,7 @@ class NodeInstance(QGraphicsItem):
         self.outputs_layout.setAlignment(o, Qt.AlignRight)
 
     def insert_output_into_layout(self, index, o):
-        self.outputs_layout.insertItem(index*2, o)  # *2 because of the stretches
+        self.outputs_layout.insertItem(index*2-1, o)  # *2 because of the stretches
         self.outputs_layout.setAlignment(o, Qt.AlignRight)
         if len(self.outputs) > 1:
             self.outputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
@@ -473,20 +473,20 @@ class NodeInstance(QGraphicsItem):
 
     # VARIABLES
 
-    def get_vars_handler(self):
-        return self.flow.parent_script.variables_handler
+    def get_vars_manager(self):
+        return self.flow.parent_script.vars_manager
 
     def get_var_val(self, name):
-        return self.get_vars_handler().get_var_val(name)
+        return self.get_vars_manager().get_var_val(name)
 
     def set_var_val(self, name, val):
-        return self.get_vars_handler().set_var(name, val)
+        return self.get_vars_manager().set_var(name, val)
 
     def register_var_receiver(self, name, method):
-        self.get_vars_handler().register_receiver(self, name, method)
+        self.get_vars_manager().register_receiver(self, name, method)
 
     def unregister_var_receiver(self, name):
-        self.get_vars_handler().unregister_receiver(self, name)
+        self.get_vars_manager().unregister_receiver(self, name)
 
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
@@ -774,7 +774,7 @@ class NodeInstance(QGraphicsItem):
                 input_widgets.append({i: inp.widget})
         return input_widgets
 
-    def get_json_data(self):
+    def config_data(self):
         """Returns all metadata of the NI including position, package etc. in a JSON-able dict format.
         Used to rebuild the Flow when loading a project."""
 
@@ -794,14 +794,14 @@ class NodeInstance(QGraphicsItem):
         # inputs
         node_instance_inputs_list = []
         for i in self.inputs:
-            input_dict = i.get_json_data()
+            input_dict = i.config_data()
             node_instance_inputs_list.append(input_dict)
         node_instance_dict['inputs'] = node_instance_inputs_list
 
         # outputs
         node_instance_outputs_list = []
         for o in self.outputs:
-            output_dict = o.get_json_data()
+            output_dict = o.config_data()
             node_instance_outputs_list.append(output_dict)
         node_instance_dict['outputs'] = node_instance_outputs_list
 

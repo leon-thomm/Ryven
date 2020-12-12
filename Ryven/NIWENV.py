@@ -7,4 +7,4 @@ from os.path import normpath, join, dirname, abspath
 
 
 def widget_pp(f):
-    return normpath(join(dirname(abspath(f)), '../../../'))
+    return normpath(join(dirname(abspath(f)), '../../../'))+'/'

@@ -1,11 +1,12 @@
 from PySide2.QtCore import QObject, Signal
 
 # UI
+from custom_src.code_gen.CodeGenerator import CodeGenerator
 from ui.w_ui_script import WUIScript
 
 from custom_src.Flow import Flow
 from custom_src.Log import Logger
-from custom_src.script_variables.VariablesHandler import VariablesHandler
+from custom_src.script_variables.VarsManager import VarsManager
 from custom_src.source_code_preview.CodePreview_Widget import CodePreview_Widget
 
 
@@ -21,8 +22,8 @@ class Script(QObject):
 
         # GENERAL ATTRIBUTES
         self.logger = Logger(self)
-        self.variables = []
-        self.variables_handler = None
+        # self.variables = []
+        self.vars_manager = None
         self.name = name
         self.flow = None
         self.thumbnail_source = ''  # URL to the Script's thumbnail picture
@@ -30,14 +31,14 @@ class Script(QObject):
 
         if config:
             self.name = config['name']
-            self.variables_handler = VariablesHandler(self, config['variables'])
+            self.vars_manager = VarsManager(self, config['variables'])
             self.flow = Flow(main_window, self, config['flow'])
         else:
             self.flow = Flow(main_window, self)
-            self.variables_handler = VariablesHandler(self)
+            self.vars_manager = VarsManager(self)
 
         # variables list widget
-        self.widget.ui.variables_scrollArea.setWidget(self.variables_handler.list_widget)
+        self.widget.ui.variables_scrollArea.setWidget(self.vars_manager.list_widget)
         self.widget.ui.add_variable_push_button.clicked.connect(self.add_var_clicked)
         self.widget.ui.new_var_name_lineEdit.returnPressed.connect(self.new_var_line_edit_return_pressed)
         self.widget.ui.algorithm_data_flow_radioButton.toggled.connect(self.flow.algorithm_mode_data_flow_toggled)
@@ -59,15 +60,27 @@ class Script(QObject):
         self.code_preview_widget.set_new_NI(ni)
 
     def add_var_clicked(self):
-        self.variables_handler.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
+        self.vars_manager.create_new_var_and_update(self.widget.ui.new_var_name_lineEdit.text())
 
     def new_var_line_edit_return_pressed(self):
-        self.variables_handler.create_new_var(self.widget.ui.new_var_name_lineEdit.text())
+        self.vars_manager.create_new_var_and_update(self.widget.ui.new_var_name_lineEdit.text())
+
+    def generate_code(self):
+        """In production, no working prototype"""
+        cg = CodeGenerator(self.main_window,
+                           self.flow.all_node_instances,
+                           self.vars_manager.config_data(),
+                           self.flow.algorithm_mode)
+        code = cg.generate()
+        if code is None:
+            print('couldn\'t generate code')
+        else:
+            print(code)
 
 
-    def get_json_data(self):
+    def config_data(self):
         script_dict = {'name': self.name,
-                       'variables': self.variables_handler.get_json_data(),
-                       'flow': self.flow.get_json_data()}
+                       'variables': self.vars_manager.config_data(),
+                       'flow': self.flow.config_data()}
 
         return script_dict

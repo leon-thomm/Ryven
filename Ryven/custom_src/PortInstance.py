@@ -27,7 +27,7 @@ class PortInstance(QGraphicsGridLayout):
 
         # CONTENTS
         # widget
-        self.widget: 'StdLineEdit_PortInstanceWidget' = None
+        self.widget = None
         self.proxy: FlowProxyWidget = None
         self.widget_name = widget_name
         self.widget_pos = widget_pos
@@ -114,7 +114,7 @@ class PortInstance(QGraphicsGridLayout):
         if self.widget:
             self.widget.setEnabled(True)
 
-    def get_json_data(self):
+    def config_data(self):
         pass  # reimplemented
 
 
@@ -181,7 +181,7 @@ class InputPortInstance(PortInstance):
             self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
             self.proxy.setWidget(self.widget)
 
-    def get_json_data(self):
+    def config_data(self):
         data_dict = {'type': self.type_,
                      'label': self.label_str}
 
@@ -208,7 +208,7 @@ class OutputPortInstance(PortInstance):
 
         self.setAlignment(self.gate, Qt.AlignVCenter | Qt.AlignRight)
 
-    def get_json_data(self):
+    def config_data(self):
         data_dict = {'type': self.type_,
                      'label': self.label_str}
 

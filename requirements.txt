@@ -1,6 +1,8 @@
-matplotlib==3.3.3
+matplotlib
 numpy==1.19.3
-opencv-python==4.4.0.46
-PySide2==5.15.2
-scipy==1.5.4
-pyowm==3.1.1
+opencv-python
+PySide2
+scipy
+pyowm
+qbstyles
+autopep8

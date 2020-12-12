@@ -5,6 +5,7 @@ from PySide2.QtCore import Qt
 from PySide2.QtGui import QFontMetrics, QColor
 
 from CodeEditor.CodeEditor_Dialog import CodeEditor_Dialog
+from EditSrcCode_PushButton import EditSrcCode_PushButton
 from files_manager import save_file
 from ui_node_manager_node_content_widget import Ui_Form
 from Node import Node
@@ -36,9 +37,19 @@ class NodeContentWidget(QWidget):
         self.ui.internal_name_lineEdit.editingFinished.connect(self.internal_name_line_edit_edited)
         self.ui.auto_generate_internal_name_checkBox.toggled.connect(self.internal_name_check_box_toggled)
         self.ui.type_comboBox.currentTextChanged.connect(self.type_changed)
-        self.ui.edit_node_metacode_pushButton.clicked.connect(self.edit_node_metacode_clicked)
+
+        # replace src code placeholder buttons
+        self.ui.edit_node_metacode_placeholderButton.setParent(None)
+        edit_node_MC_button = EditSrcCode_PushButton('edit node metacode')
+        self.ui.top_horizontalLayout.insertWidget(1, edit_node_MC_button)
+        edit_node_MC_button.clicked.connect(self.edit_node_metacode_clicked)
+        self.ui.edit_main_widget_metacode_placeholderButton.setParent(None)
+        edit_MW_MC_button = EditSrcCode_PushButton('edit metacode')
+        self.ui.main_widget_position_widget.layout().addWidget(edit_MW_MC_button)
+        edit_MW_MC_button.clicked.connect(self.edit_main_widget_metacode_clicked)
         self.ui.main_widget_checkBox.toggled.connect(self.main_widget_toggled)
-        self.ui.edit_main_widget_metacode_pushButton.clicked.connect(self.edit_main_widget_metacode_clicked)
+        # self.ui.edit_main_widget_metacode_pushButton.clicked.connect(self.edit_main_widget_metacode_clicked)
+
         self.ui.select_color_pushButton.clicked.connect(self.select_node_color_clicked)
         self.ui.add_new_input_widget_pushButton.clicked.connect(self.add_new_input_widget_clicked)
         self.ui.add_new_input_pushButton.clicked.connect(self.add_new_input_clicked)

@@ -32,10 +32,8 @@ class %CLASS%(NodeInstance):
     def update_event(self, input_called=-1):
         if input_called == 0:
             var_name = self.input(1)
-            var_handler = self.flow.parent_script.variables_handler
-            new_val = var_handler.get_var(self.input(1)).val + 1
-            var_handler.set_var(var_name, new_val)
-            self.outputs[1].set_val(new_val)
+            self.set_var_val(var_name, self.get_var_val(var_name)+1)
+            self.outputs[1].set_val(self.input(1))
             self.exec_output(0)
 
     def get_data(self):

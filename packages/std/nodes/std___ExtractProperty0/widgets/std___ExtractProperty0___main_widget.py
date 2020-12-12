@@ -38,6 +38,7 @@ class ExtractProperty_NodeInstance_MainWidget(QPlainTextEdit, MWB):
             QPlainTextEdit.keyPressEvent(self, event)
     
     def editing_finished(self, text):
+        self.parent_node_instance.text = text
         self.parent_node_instance.update()
 
     def get_text(self):

@@ -16,9 +16,11 @@ class Variable:
                 self.val = pickle.loads(base64.b64decode(val))
             except Exception:
                 self.val = val
-        else:
-            # if val.keys().__contains__('json'):
-            #     self.val = val['json']
-            if val.keys().__contains__('serialized'):
-                self.val = pickle.loads(base64.b64decode(val['serialized']))
 
+        elif 'serialized' in val.keys():
+            self.val = pickle.loads(base64.b64decode(val['serialized']))
+
+    def serialize(self):
+        pickled = pickle.dumps(self.val)
+        serialized = base64.b64encode(pickled).decode('ascii')
+        return serialized

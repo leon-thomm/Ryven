@@ -23,6 +23,10 @@ class DrawingObject(QGraphicsItem):
         self.width = -1
         self.height = -1
 
+        # viewport_pos enables global floating points for precise pen positions
+        self.viewport_pos: QPointF = config['viewport pos'] if 'viewport pos' in config else None
+        # if the drawing gets loaded, its correct global floating pos is already correct (gets set by flow then)
+
         self.movement_state = None  # ugly - should get replaced later, see NodeInstance, same issue
         self.movement_pos_from = None
 
@@ -58,12 +62,18 @@ class DrawingObject(QGraphicsItem):
             painter.setRenderHint(QPainter.HighQualityAntialiasing)
             painter.drawLine(self.points[i-1], self.points[i])
 
-    def try_to_append_point(self, p_abs):
-        p: QPointF = p_abs - self.pos()
+    def append_point(self, posF_in_view: QPointF) -> bool:
+        """Only used for active drawing.
+        Appends a point (floating, in viewport coordinates),
+        if the distance to the last one isn't oo small"""
+
+        p: QPointF = (self.viewport_pos + posF_in_view) - self.pos()
+
         if len(self.points) > 0:
             line = QLineF(self.points[-1], p)
             if line.length() < 0.5:
                 return False
+
         self.points.append(p)
         return True
 
@@ -123,7 +133,7 @@ class DrawingObject(QGraphicsItem):
         self.movement_state = None
         return QGraphicsItem.mouseReleaseEvent(self, event)
 
-    def get_json_data(self):
+    def config_data(self):
         drawing_dict = {'pos x': self.pos().x(),
                         'pos y': self.pos().y(),
                         'color': self.color.name(),
