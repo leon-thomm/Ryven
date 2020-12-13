@@ -17,7 +17,7 @@ class %CLASS%(QComboBox, IWB):
         self.currentTextChanged.connect(M(self.text_changed))
         self.setCurrentText('personal')
 
-        self.setStyleSheet(self.parent_node_instance.get_default_stylesheet())
+        self.setStyleSheet(self.parent_node_instance.session_stylesheet())
 
 
     def text_changed(self, t):

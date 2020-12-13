@@ -1,14 +1,14 @@
-from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QStyle, QGraphicsGridLayout, QGraphicsWidget, \
-    QGraphicsLayoutItem, QSizePolicy
+from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QGraphicsGridLayout, QGraphicsWidget, \
+    QGraphicsLayoutItem
 from PySide2.QtCore import Qt, QRectF, QPointF, QSizeF
-from PySide2.QtGui import QColor, QBrush, QPen, QFontMetricsF, QFont, QPainterPath, QFontMetrics
+from PySide2.QtGui import QFontMetricsF, QFont, QFontMetrics
 
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.Design import Design
 from custom_src.global_tools.strings import get_longest_line, shorten
 
 from custom_src.FlowProxyWidget import FlowProxyWidget
-from custom_src.retain import M
+from NIWENV import *
 
 
 class PortInstance(QGraphicsGridLayout):
@@ -42,31 +42,6 @@ class PortInstance(QGraphicsGridLayout):
     def setup_ui(self):
         pass  # reimplemented in subclasses
 
-    def exec(self):
-        """applies on OUTPUT; called NI internally (from parentNI)"""
-        for cpi in self.connected_port_instances:
-            cpi.update()
-
-    def update(self):
-        """applies on INPUT; called NI externally (from another NI)"""
-        if (self.parent_node_instance.is_active() and self.type_ == 'exec') or \
-           not self.parent_node_instance.is_active():
-            self.parent_node_instance.update(self.parent_node_instance.inputs.index(self))
-
-
-    def set_val(self, val):
-        """applies on OUTPUT; called NI internally"""
-        Debugger.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
-                            'NodeInstance to', val)
-
-        # note that val COULD be of object type and therefore already changed (because the original object did)
-        self.val = val
-
-        # if algorithm mode would be exec flow, all data will be required instead of actively forward propagated
-        if self.parent_node_instance.flow.algorithm_mode.mode_data_flow and \
-                not self.parent_node_instance.initializing:
-            self.updated_val()
-
     def get_val(self):
         """applies on DATA; called NI internally AND externally"""
         Debugger.debug('get value in', self.direction, 'port instance',
@@ -89,18 +64,6 @@ class PortInstance(QGraphicsGridLayout):
             if not self.parent_node_instance.flow.algorithm_mode.mode_data_flow:
                 self.parent_node_instance.update()
             return self.val
-
-    def updated_val(self):
-        """applies on DATA OUTPUT; called NI internally"""
-        for cpi in self.connected_port_instances:
-            cpi.update()
-
-    def get_input_widget_class(self, widget_name):
-        """Returns the CLASS of a defined custom input widget by given name"""
-        custom_node_input_widget_classes = \
-            self.parent_node_instance.flow.parent_script.main_window.custom_node_input_widget_classes
-        widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
-        return widget_class
 
     def connected(self):
         """Disables the widget and causes update"""
@@ -181,6 +144,19 @@ class InputPortInstance(PortInstance):
             self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
             self.proxy.setWidget(self.widget)
 
+    def get_input_widget_class(self, widget_name):
+        """Returns the CLASS of a defined custom input widget by given name"""
+        custom_node_input_widget_classes = \
+            self.parent_node_instance.flow.parent_script.main_window.custom_node_input_widget_classes
+        widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
+        return widget_class
+
+    def update(self):
+        """applies on INPUT; called NI externally (from another NI)"""
+        if (self.parent_node_instance.is_active() and self.type_ == 'exec') or \
+           not self.parent_node_instance.is_active():
+            self.parent_node_instance.update(self.parent_node_instance.inputs.index(self))
+
     def config_data(self):
         data_dict = {'type': self.type_,
                      'label': self.label_str}
@@ -207,6 +183,29 @@ class OutputPortInstance(PortInstance):
         self.addItem(self.gate, 0, 1)
 
         self.setAlignment(self.gate, Qt.AlignVCenter | Qt.AlignRight)
+
+    def exec(self):
+        """applies on OUTPUT; called NI internally (from parentNI)"""
+        for cpi in self.connected_port_instances:
+            cpi.update()
+
+    def set_val(self, val):
+        """applies on OUTPUT; called NI internally"""
+        Debugger.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
+                            'NodeInstance to', val)
+
+        # note that val COULD be of object type and therefore already changed (because the original object did)
+        self.val = val
+
+        # if algorithm mode would be exec flow, all data will be required instead of actively forward propagated
+        if self.parent_node_instance.flow.algorithm_mode.mode_data_flow and \
+                not self.parent_node_instance.initializing:
+            self.updated_val()
+
+    def updated_val(self):
+        """applies on DATA OUTPUT; called NI internally"""
+        for cpi in self.connected_port_instances:
+            cpi.update()
 
     def config_data(self):
         data_dict = {'type': self.type_,
@@ -311,7 +310,7 @@ class PortInstanceLabel(QGraphicsWidget):
                                                            self.boundingRect())
 
 
-class StdLineEdit_PortInstanceWidget(QLineEdit):
+class StdLineEdit_PortInstanceWidget(QLineEdit, IWB):
     def __init__(self, parent_port_instance, parent_node_instance, size='medium', resize=False):
         # PortInstanceWidget.__init__(self)
         # QLineEdit.__init__(self)
@@ -387,7 +386,7 @@ class StdLineEdit_PortInstanceWidget(QLineEdit):
             self.setText(data)
 
 
-class StdLineEdit_NoBorder_PortInstanceWidget(StdLineEdit_PortInstanceWidget):
+class StdLineEdit_NoBorder_PortInstanceWidget(StdLineEdit_PortInstanceWidget, IWB):
     def __init__(self, parent_port_instance, parent_node_instance, size='medium', resize=False):
         super(StdLineEdit_NoBorder_PortInstanceWidget, self).__init__(parent_port_instance, parent_node_instance, size,
                                                                       resize)
@@ -409,7 +408,7 @@ class StdLineEdit_NoBorder_PortInstanceWidget(StdLineEdit_PortInstanceWidget):
         """)
 
 
-class StdSpinBox_PortInstanceWidget(QSpinBox):
+class StdSpinBox_PortInstanceWidget(QSpinBox, IWB):
     def __init__(self, parent_port_instance, parent_node_instance):
         # PortInstanceWidget.__init__(self)
         # QLineEdit.__init__(self)

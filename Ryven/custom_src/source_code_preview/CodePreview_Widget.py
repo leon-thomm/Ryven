@@ -1,14 +1,14 @@
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout, \
-    QPushButton, QSizePolicy
+    QPushButton
 from PySide2.QtGui import QFont
 import inspect
 
 from custom_src.NodeInstance import NodeInstance
-from custom_src.source_code_preview.EditSrcCode_Dialog import EditSourceCode_Dialog
+from custom_src.source_code_preview.EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from custom_src.source_code_preview.CodePreview_TextEdit import CodePreview_TextEdit
 from custom_src.global_tools.class_inspection import find_type_in_object
-from custom_src.source_code_preview.SourceCodeUpdater import override_code
+from custom_src.source_code_preview.SourceCodeUpdater import SrcCodeUpdater
 
 
 class CodePreview_Widget(QWidget):
@@ -173,8 +173,8 @@ class CodePreview_Widget(QWidget):
             self.text_edit.disable_highlighting()
 
     def edit_code_button_clicked(self):
-        if not EditSourceCode_Dialog.dont_show_again:
-            info_dialog = EditSourceCode_Dialog(self)
+        if not EditSrcCodeInfoDialog.dont_show_again:
+            info_dialog = EditSrcCodeInfoDialog(self)
             accepted = info_dialog.exec_()
             if not accepted:
                 return
@@ -190,7 +190,7 @@ class CodePreview_Widget(QWidget):
 
     def override_code_button_clicked(self):
         new_code = self.text_edit.get_code()
-        override_code(self.get_current_code_obj(), new_code)
+        SrcCodeUpdater.override_code(self.get_current_code_obj(), new_code)
         self.disable_editing()
 
         self.edited_codes[self.get_current_code_obj()] = new_code
@@ -199,7 +199,7 @@ class CodePreview_Widget(QWidget):
 
     def reset_code_button_clicked(self):
         code = inspect.getsource(self.get_current_code_class())
-        override_code(self.get_current_code_obj(), code)
+        SrcCodeUpdater.override_code(self.get_current_code_obj(), code)
         del self.edited_codes[self.get_current_code_obj()]
         self.update_code()
         self.update_edit_status()

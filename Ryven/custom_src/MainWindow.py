@@ -19,7 +19,6 @@ from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
 from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 from custom_src.global_tools.Debugger import Debugger
-from custom_src.GlobalAttributes import Flow_AlgorithmMode, ViewportUpdateMode
 from custom_src.Design import Design
 
 

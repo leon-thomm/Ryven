@@ -10,9 +10,6 @@ class Flow_AlgorithmMode:
 
 
 class Flow_ViewportUpdateMode:
-    sync = True
-
-class ViewportUpdateMode:
     """A synchronous viewport update mode means that the viewport of a flow, in case of some node activation, is
     updated once the whole execution is finished (once every affected NodeInstance's update event has returned).
     Asynchronous mode causes the viewport to update the rect of a NodeInstance every time a data output value of this

@@ -4,7 +4,6 @@ from PySide2.QtCore import Qt, QRectF, QPointF
 from PySide2.QtGui import QColor
 
 import custom_src.Console.MainConsole as MainConsole
-from custom_src.GlobalAttributes import ViewportUpdateMode
 from custom_src.NodeInstanceAction import NodeInstanceAction
 from custom_src.NodeInstanceAnimator import NodeInstanceAnimator
 from custom_src.NodeInstance_TitleLabel import TitleLabel
@@ -184,7 +183,7 @@ class NodeInstance(QGraphicsItem):
 
         self.layout = self.setup_ui()  # recreate layout
 
-        # forcefully making the widget shrink
+        # forcing the widget to shrink
         self.widget.setLayout(None)
         self.widget.resize(self.widget.minimumSize())
 
@@ -245,15 +244,6 @@ class NodeInstance(QGraphicsItem):
             vp.repaint(self.flow.mapFromScene(self.sceneBoundingRect()))
 
         self.outputs[index].set_val(val)
-
-    def data_outputs_updated(self):
-        """(outdated!) Sends update signals to all data outputs causing connected NIs to update."""
-
-        Debugger.debug('updating data outputs in', self.parent_node.title)
-        for o in self.outputs:
-            if o.type_ == 'data':
-                o.updated_val()
-        Debugger.debug('data outputs in', self.parent_node.title, 'updated')
 
     def remove_event(self):
         """Method to stop all threads in hold of the NI itself."""
@@ -467,8 +457,7 @@ class NodeInstance(QGraphicsItem):
         pass
 
     @staticmethod
-    def get_default_stylesheet():
-        """Handy method for subclasses to access the application window's stylesheet for UI content."""
+    def session_stylesheet():
         return Design.ryven_stylesheet
 
     # VARIABLES

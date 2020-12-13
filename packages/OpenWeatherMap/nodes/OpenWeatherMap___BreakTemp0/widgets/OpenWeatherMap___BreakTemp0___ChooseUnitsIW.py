@@ -10,7 +10,7 @@ class ChooseUnitsIW_PortInstanceWidget(QWidget, IWB):
         IWB.__init__(self, params)
         QWidget.__init__(self)
 
-        self.setStyleSheet(self.parent_node_instance.get_default_stylesheet()+'''
+        self.setStyleSheet(self.parent_node_instance.session_stylesheet()+'''
         QWidget {
             background: transparent;
         }

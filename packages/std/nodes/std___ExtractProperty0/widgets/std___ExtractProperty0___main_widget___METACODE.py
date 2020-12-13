@@ -14,7 +14,7 @@ class %CLASS%(QPlainTextEdit, MWB):
 
         
 
-        self.setStyleSheet(self.parent_node_instance.get_default_stylesheet())
+        self.setStyleSheet(self.parent_node_instance.session_stylesheet())
 
         self.setFixedSize(250, 30)
         self.setPlainText('obj.')

@@ -1,12 +1,12 @@
 from PySide2.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QCheckBox, QHBoxLayout, QGridLayout
 
 
-class EditSourceCode_Dialog(QDialog):
+class EditSrcCodeInfoDialog(QDialog):
 
     dont_show_again = False
 
     def __init__(self, parent):
-        super(EditSourceCode_Dialog, self).__init__(parent)
+        super(EditSrcCodeInfoDialog, self).__init__(parent)
 
         self.setLayout(QGridLayout())
 
@@ -64,5 +64,5 @@ class EditSourceCode_Dialog(QDialog):
         self.resize(560, 366)
 
     def close_and_dont_show_again(self):
-        EditSourceCode_Dialog.dont_show_again = True
+        EditSrcCodeInfoDialog.dont_show_again = True
         self.accept()

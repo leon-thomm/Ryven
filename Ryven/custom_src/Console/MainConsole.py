@@ -52,7 +52,7 @@ class MainConsole(QWidget):
         self.content_layout.addWidget(self.prompt_label, 2, 0)
 
         # command line
-        self.inpedit = LineEdit(max_history=history)
+        self.inpedit = ConsoleInputLineEdit(max_history=history)
         self.inpedit.returned.connect(self.push)
         self.content_layout.addWidget(self.inpedit, 2, 1)
 
@@ -144,7 +144,7 @@ class MainConsole(QWidget):
         self.out_display.appendPlainText(line.rstrip())
 
 
-class LineEdit(QLineEdit):
+class ConsoleInputLineEdit(QLineEdit):
     """Input line edit with a history buffer for recalling previous lines."""
 
     returned = Signal(str)
