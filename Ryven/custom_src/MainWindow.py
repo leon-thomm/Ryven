@@ -15,12 +15,10 @@ from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 
 # ryvencore
-import ryvencore_ as rc
+import ryvencore.ryvencore as rc
 
 
 class MainWindow(QMainWindow):
-
-    # new_script_created = Signal(Script)
 
     def __init__(self, config):
         super(MainWindow, self).__init__()

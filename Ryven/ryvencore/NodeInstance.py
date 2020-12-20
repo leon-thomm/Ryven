@@ -309,8 +309,7 @@ class NodeInstance(QGraphicsItem):
         """
         pass
 
-    @staticmethod
-    def session_stylesheet():
+    def session_stylesheet(self):
         return self.session_design.global_stylesheet
 
     # VARIABLES

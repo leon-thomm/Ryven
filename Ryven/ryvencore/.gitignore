@@ -1,0 +1,7 @@
+custom stuff (ignore)/
+ui_stuff/
+.idea/
+notizen.md
+__pycache__/
+venv/
+temp/
