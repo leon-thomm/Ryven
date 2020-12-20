@@ -7,8 +7,8 @@ from custom_src.global_tools.strings import get_longest_line
 
 
 class TitleLabel(QGraphicsWidget):
-    def __init__(self, parent_node_instance):
-        super(TitleLabel, self).__init__(parent_node_instance)
+    def __init__(self, parent_node_instance, parent):
+        super(TitleLabel, self).__init__(parent)
 
         self.setGraphicsItem(self)
 
@@ -26,8 +26,8 @@ class TitleLabel(QGraphicsWidget):
         self.pen_width = 1.5
         self.hovering = False  # whether the mouse is hovering over the parent NI (!)
 
-        # Design.flow_theme_changed.connect(self.theme_changed)
-        self.update_design()
+        # # Design.flow_theme_changed.connect(self.theme_changed)
+        # self.update_design()
 
     def boundingRect(self):
         return QRectF(QPointF(0, 0), self.geometry().size())
@@ -53,15 +53,16 @@ class TitleLabel(QGraphicsWidget):
 
     def set_NI_hover_state(self, hovering: bool):
         self.hovering = hovering
-        self.update_design()
-    
-    def theme_changed(self, new_theme):
-        """Gets called from the parent node instance because the order of the different updates matters.""" # not working yet
-        self.update_design()
-
-    def update_design(self):
-
+        # self.update_design()
         self.update()
+
+    # def theme_changed(self, new_theme):
+    #     """Gets called from the parent node instance because the order of the different updates matters.""" # not working yet
+    #     self.update_design()
+    #
+    # def update_design(self):
+    #
+    #     self.update()
 
 
     # ANIMATION STUFF

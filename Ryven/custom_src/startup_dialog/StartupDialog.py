@@ -90,7 +90,7 @@ class StartupDialog(QDialog):
             j_str = f.read()
             f.close()
         except FileNotFoundError:
-            Debugger.debug('couldn\'t open file')
+            Debugger.write('couldn\'t open file')
             return
 
 

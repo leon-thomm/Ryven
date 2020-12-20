@@ -3,16 +3,13 @@
 ################################################################################
 ## Form generated from reading UI file 'main_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.0
+## Created by: Qt User Interface Compiler version 5.15.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
-    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
-    QPixmap, QRadialGradient)
+from PySide2.QtCore import *
+from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
@@ -44,72 +41,37 @@ class Ui_MainWindow(object):
         self.actionSave_Pic_Whole_Scene_scaled.setObjectName(u"actionSave_Pic_Whole_Scene_scaled")
         self.centralWidget = QWidget(MainWindow)
         self.centralWidget.setObjectName(u"centralWidget")
-        self.gridLayout_2 = QGridLayout(self.centralWidget)
-        self.gridLayout_2.setSpacing(6)
-        self.gridLayout_2.setContentsMargins(11, 11, 11, 11)
-        self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.splitter = QSplitter(self.centralWidget)
-        self.splitter.setObjectName(u"splitter")
-        self.splitter.setOrientation(Qt.Horizontal)
-        self.scripts_groupBox = QGroupBox(self.splitter)
-        self.scripts_groupBox.setObjectName(u"scripts_groupBox")
-        self.gridLayout_3 = QGridLayout(self.scripts_groupBox)
-        self.gridLayout_3.setSpacing(6)
-        self.gridLayout_3.setContentsMargins(11, 11, 11, 11)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.scripts_console_splitter = QSplitter(self.scripts_groupBox)
-        self.scripts_console_splitter.setObjectName(u"scripts_console_splitter")
-        self.scripts_console_splitter.setOrientation(Qt.Vertical)
-        self.widget = QWidget(self.scripts_console_splitter)
-        self.widget.setObjectName(u"widget")
-        self.gridLayout = QGridLayout(self.widget)
+        self.gridLayout = QGridLayout(self.centralWidget)
         self.gridLayout.setSpacing(6)
         self.gridLayout.setContentsMargins(11, 11, 11, 11)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.scripts_scrollArea = QScrollArea(self.widget)
-        self.scripts_scrollArea.setObjectName(u"scripts_scrollArea")
-        self.scripts_scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 935, 727))
-        self.scripts_scrollArea.setWidget(self.scrollAreaWidgetContents)
-
-        self.gridLayout.addWidget(self.scripts_scrollArea, 0, 0, 1, 1)
-
-        self.new_script_name_lineEdit = QLineEdit(self.widget)
-        self.new_script_name_lineEdit.setObjectName(u"new_script_name_lineEdit")
-
-        self.gridLayout.addWidget(self.new_script_name_lineEdit, 1, 0, 1, 1)
-
-        self.add_new_script_pushButton = QPushButton(self.widget)
-        self.add_new_script_pushButton.setObjectName(u"add_new_script_pushButton")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.main_splitter = QSplitter(self.centralWidget)
+        self.main_splitter.setObjectName(u"main_splitter")
+        self.main_splitter.setOrientation(Qt.Horizontal)
+        self.scripts_console_splitter = QSplitter(self.main_splitter)
+        self.scripts_console_splitter.setObjectName(u"scripts_console_splitter")
+        self.scripts_console_splitter.setOrientation(Qt.Vertical)
+        self.scripts_groupBox = QGroupBox(self.scripts_console_splitter)
+        self.scripts_groupBox.setObjectName(u"scripts_groupBox")
+        self.gridLayout_2 = QGridLayout(self.scripts_groupBox)
+        self.gridLayout_2.setSpacing(6)
+        self.gridLayout_2.setContentsMargins(11, 11, 11, 11)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.scripts_console_splitter.addWidget(self.scripts_groupBox)
+        self.main_splitter.addWidget(self.scripts_console_splitter)
+        self.scripts_tab_widget = QTabWidget(self.main_splitter)
+        self.scripts_tab_widget.setObjectName(u"scripts_tab_widget")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.add_new_script_pushButton.sizePolicy().hasHeightForWidth())
-        self.add_new_script_pushButton.setSizePolicy(sizePolicy1)
-
-        self.gridLayout.addWidget(self.add_new_script_pushButton, 2, 0, 1, 1)
-
-        self.scripts_console_splitter.addWidget(self.widget)
-
-        self.gridLayout_3.addWidget(self.scripts_console_splitter, 0, 0, 1, 1)
-
-        self.splitter.addWidget(self.scripts_groupBox)
-        self.scripts_tab_widget = QTabWidget(self.splitter)
-        self.scripts_tab_widget.setObjectName(u"scripts_tab_widget")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.scripts_tab_widget.sizePolicy().hasHeightForWidth())
-        self.scripts_tab_widget.setSizePolicy(sizePolicy2)
+        sizePolicy1.setHeightForWidth(self.scripts_tab_widget.sizePolicy().hasHeightForWidth())
+        self.scripts_tab_widget.setSizePolicy(sizePolicy1)
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.scripts_tab_widget.addTab(self.tab, "")
-        self.splitter.addWidget(self.scripts_tab_widget)
+        self.main_splitter.addWidget(self.scripts_tab_widget)
 
-        self.gridLayout_2.addWidget(self.splitter, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.main_splitter, 0, 0, 1, 1)
 
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QMenuBar(MainWindow)
@@ -174,8 +136,6 @@ class Ui_MainWindow(object):
 "This will take a few seconds.", None))
 #endif // QT_CONFIG(tooltip)
         self.scripts_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Scripts", None))
-        self.new_script_name_lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"script title", None))
-        self.add_new_script_pushButton.setText(QCoreApplication.translate("MainWindow", u"add new", None))
         self.scripts_tab_widget.setTabText(self.scripts_tab_widget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Main", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuView.setTitle(QCoreApplication.translate("MainWindow", u"View", None))

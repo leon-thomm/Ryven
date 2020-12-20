@@ -12,7 +12,7 @@ class Debugger:
     def disable():
         Debugger.enabled = False
 
-    def debug(*args):
+    def write(*args):
         if not Debugger.enabled:
             return
 
@@ -21,7 +21,7 @@ class Debugger:
             s += ' '+str(arg)
         print('--> DEBUG:', s)
 
-    def debugerr(*args):
+    def write_err(*args):
         if not Debugger.enabled:
             return
 

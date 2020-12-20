@@ -155,8 +155,8 @@ class CodeGenerator:
             for o in range(len(ni.outputs)):
                 out = ni.outputs[o]
                 outgoing_connections = []
-                for j in range(len(out.connected_port_instances)):
-                    cpi = out.connected_port_instances[j]
+                for j in range(len(out.connections)):
+                    cpi = out.connections[j]
                     outgoing_connections.append(f'node_instances[{self.node_instances.index(cpi.parent_node_instance)}]'
                                                 f'.inputs[{cpi.parent_node_instance.inputs.index(cpi)}]')
                 outgoing_connections_str = ', '.join(outgoing_connections)
@@ -164,8 +164,8 @@ class CodeGenerator:
             for i in range(len(ni.inputs)):
                 inp = ni.inputs[i]
                 incoming_connections = []
-                for j in range(len(inp.connected_port_instances)):
-                    cpi = inp.connected_port_instances[j]
+                for j in range(len(inp.connections)):
+                    cpi = inp.connections[j]
                     incoming_connections.append(f'node_instances[{self.node_instances.index(cpi.parent_node_instance)}]'
                                                 f'.outputs[{cpi.parent_node_instance.outputs.index(cpi)}]')
                 incoming_connections_str = ', '.join(incoming_connections)

@@ -1,5 +1,5 @@
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QWidget, QMessageBox, QVBoxLayout
+from PySide2.QtWidgets import QWidget, QMessageBox, QVBoxLayout, QLineEdit
 
 from custom_src.custom_list_widgets.ScriptsList_ScriptWidget import ScriptsList_ScriptWidget
 
@@ -11,60 +11,93 @@ class ScriptsListWidget(QWidget):
     actually represent very different things (scripts and variables) and therefore might develop quite differently
     in the future."""
 
-    def __init__(self, main_window, scripts):
+
+
+    def __init__(self, main_window):
         super(ScriptsListWidget, self).__init__()
 
         self.main_window = main_window
-        self.scripts = scripts
-        self.widgets = []
-        self.currently_edited_script = ''
+        self.main_window.new_script_created.connect(self.add_new_script)
+
+        # self.scripts = []
+        self.list_widgets = []
+        # self.currently_edited_script = ''
         self.ignore_name_line_edit_signal = False  # because disabling causes firing twice otherwise
         # self.data_type_line_edits = []  # same here
 
+        self.setup_UI()
+
+
+    def setup_UI(self):
         main_layout = QVBoxLayout()
-        main_layout.setAlignment(Qt.AlignTop)
+        # main_layout.setAlignment(Qt.AlignBottom)
+
+        self.list_layout = QVBoxLayout()
+        self.list_layout.setAlignment(Qt.AlignTop)
+
+        main_layout.addLayout(self.list_layout)
+
+        self.new_script_title_lineedit = QLineEdit()
+        self.new_script_title_lineedit.setPlaceholderText('new script\'s title')
+        self.new_script_title_lineedit.returnPressed.connect(self.new_script_LE_return_pressed)
+
+        main_layout.addWidget(self.new_script_title_lineedit)
+
         self.setLayout(main_layout)
 
-        self.recreate_ui()
+        self.recreate_list()
 
 
-    def recreate_ui(self):
-        for w in self.widgets:
+    def recreate_list(self):
+        for w in self.list_widgets:
             w.hide()
             del w
 
-        self.widgets.clear()
+        self.list_widgets.clear()
         # self.data_type_line_edits.clear()
 
-        for s in self.scripts:
-            new_widget = ScriptsList_ScriptWidget(self, s)
-            new_widget.name_LE_editing_finished.connect(self.name_line_edit_editing_finished)
-            self.widgets.append(new_widget)
+        for s in self.main_window.scripts:
+            new_widget = ScriptsList_ScriptWidget(self, self.main_window, s)
+            # new_widget.title_LE_editing_finished.connect(self.name_line_edit_editing_finished)
+            self.list_widgets.append(new_widget)
 
-        self.rebuild_ui()
+        self.rebuild_list()
 
 
-    def rebuild_ui(self):
+    def rebuild_list(self):
         for i in range(self.layout().count()):
-            self.layout().removeItem(self.layout().itemAt(0))
+            self.list_layout.removeItem(self.layout().itemAt(0))
 
-        for w in self.widgets:
-            self.layout().addWidget(w)
+        for w in self.list_widgets:
+            self.list_layout.addWidget(w)
 
 
+    def new_script_LE_return_pressed(self):
+        title = self.new_script_title_lineedit.text()
 
-    def name_line_edit_editing_finished(self):
-        script_widget: ScriptsList_ScriptWidget = self.sender()
-        script_widget.name_line_edit.setEnabled(False)
+        if not self.main_window.check_new_script_title_validity(title):
+            return
 
-        # search for name problems
-        new_script_name = script_widget.name_line_edit.text()
-        for s in self.scripts:
-            if s.name == new_script_name:
-                script_widget.name_line_edit.setText(self.currently_edited_script.name)
-                return
+        self.main_window.create_new_script(title=title)
 
-        self.main_window.rename_script(script_widget.script, new_script_name)
+
+    # def name_line_edit_editing_finished(self):
+    #     script_widget: ScriptsList_ScriptWidget = self.sender()
+    #     script_widget.title_line_edit.setEnabled(False)
+    #
+    #     # search for name problems
+    #     new_script_name = script_widget.title_line_edit.text()
+    #     for s in self.main_window.scripts:
+    #         if s.title == new_script_name:
+    #             script_widget.title_line_edit.setText(self.currently_edited_script.name)
+    #             return
+    #
+    #     self.main_window.rename_script(script_widget.script, new_script_name)
+
+
+    def add_new_script(self, script):
+        # self.scripts.append(script)
+        self.recreate_list()
 
 
     def del_script(self, script, script_widget):
@@ -76,7 +109,8 @@ class ScriptsListWidget(QWidget):
         if ret != QMessageBox.Yes:
             return
 
-        self.widgets.remove(script_widget)
+        self.list_widgets.remove(script_widget)
         script_widget.setParent(None)
+        # self.scripts.remove(script)
         self.main_window.delete_script(script)
-        self.recreate_ui()
+        self.recreate_list()

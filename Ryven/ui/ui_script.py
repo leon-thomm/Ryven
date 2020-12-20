@@ -3,16 +3,13 @@
 ################################################################################
 ## Form generated from reading UI file 'script.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.0
+## Created by: Qt User Interface Compiler version 5.15.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
-    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
-from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
-    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
-    QPixmap, QRadialGradient)
+from PySide2.QtCore import *
+from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
@@ -41,7 +38,9 @@ class Ui_script_widget(object):
         self.logs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 392, 815))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 297, 812))
+        self.horizontalLayout_3 = QHBoxLayout(self.scrollAreaWidgetContents)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.logs_scrollArea.setWidget(self.scrollAreaWidgetContents)
 
         self.gridLayout_2.addWidget(self.logs_scrollArea, 0, 0, 1, 1)
@@ -62,10 +61,18 @@ class Ui_script_widget(object):
         sizePolicy.setHeightForWidth(self.contents_widget.sizePolicy().hasHeightForWidth())
         self.contents_widget.setSizePolicy(sizePolicy)
         self.contents_widget.setMinimumSize(QSize(200, 0))
-        self.verticalLayout = QVBoxLayout(self.contents_widget)
-        self.verticalLayout.setObjectName(u"verticalLayout")
-        self.settings_groupBox = QGroupBox(self.contents_widget)
+        self.gridLayout_5 = QGridLayout(self.contents_widget)
+        self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.settings_vars_splitter = QSplitter(self.contents_widget)
+        self.settings_vars_splitter.setObjectName(u"settings_vars_splitter")
+        self.settings_vars_splitter.setOrientation(Qt.Vertical)
+        self.settings_groupBox = QGroupBox(self.settings_vars_splitter)
         self.settings_groupBox.setObjectName(u"settings_groupBox")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.settings_groupBox.sizePolicy().hasHeightForWidth())
+        self.settings_groupBox.setSizePolicy(sizePolicy1)
         self.verticalLayout_4 = QVBoxLayout(self.settings_groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout_2 = QHBoxLayout()
@@ -129,35 +136,14 @@ class Ui_script_widget(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout)
 
-
-        self.verticalLayout.addWidget(self.settings_groupBox)
-
-        self.variables_group_box = QGroupBox(self.contents_widget)
+        self.settings_vars_splitter.addWidget(self.settings_groupBox)
+        self.variables_group_box = QGroupBox(self.settings_vars_splitter)
         self.variables_group_box.setObjectName(u"variables_group_box")
         self.gridLayout_3 = QGridLayout(self.variables_group_box)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.variables_scrollArea = QScrollArea(self.variables_group_box)
-        self.variables_scrollArea.setObjectName(u"variables_scrollArea")
-        self.variables_scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents_3 = QWidget()
-        self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 628, 593))
-        self.variables_scrollArea.setWidget(self.scrollAreaWidgetContents_3)
+        self.settings_vars_splitter.addWidget(self.variables_group_box)
 
-        self.gridLayout_3.addWidget(self.variables_scrollArea, 0, 0, 1, 1)
-
-        self.add_variable_push_button = QPushButton(self.variables_group_box)
-        self.add_variable_push_button.setObjectName(u"add_variable_push_button")
-
-        self.gridLayout_3.addWidget(self.add_variable_push_button, 2, 0, 1, 1)
-
-        self.new_var_name_lineEdit = QLineEdit(self.variables_group_box)
-        self.new_var_name_lineEdit.setObjectName(u"new_var_name_lineEdit")
-
-        self.gridLayout_3.addWidget(self.new_var_name_lineEdit, 1, 0, 1, 1)
-
-
-        self.verticalLayout.addWidget(self.variables_group_box)
+        self.gridLayout_5.addWidget(self.settings_vars_splitter, 0, 0, 1, 1)
 
         self.splitter_3.addWidget(self.contents_widget)
 
@@ -181,7 +167,5 @@ class Ui_script_widget(object):
         self.viewport_update_mode_sync_radioButton.setText(QCoreApplication.translate("script_widget", u"Sync", None))
         self.viewport_update_mode_async_radioButton.setText(QCoreApplication.translate("script_widget", u"Async", None))
         self.variables_group_box.setTitle(QCoreApplication.translate("script_widget", u"Variables", None))
-        self.add_variable_push_button.setText(QCoreApplication.translate("script_widget", u"add", None))
-        self.new_var_name_lineEdit.setPlaceholderText(QCoreApplication.translate("script_widget", u"new var name", None))
     # retranslateUi
 

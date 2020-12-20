@@ -23,7 +23,7 @@ class PortInstance(QGraphicsGridLayout):
         self.direction = direction
         self.type_ = type_
         self.label_str = label_str
-        self.connected_port_instances = []  # connections stored here
+        self.connections = []  # connections stored here
 
         # CONTENTS
         # widget
@@ -33,10 +33,10 @@ class PortInstance(QGraphicsGridLayout):
         self.widget_pos = widget_pos
 
         # gate/pin
-        self.gate = PortInstanceGate(self, parent_node_instance)
+        self.pin = PortInstPin(self, parent_node_instance)
 
         # label
-        self.label = PortInstanceLabel(self, parent_node_instance)
+        self.label = PortInstLabel(self, parent_node_instance)
 
 
     def setup_ui(self):
@@ -44,21 +44,21 @@ class PortInstance(QGraphicsGridLayout):
 
     def get_val(self):
         """applies on DATA; called NI internally AND externally"""
-        Debugger.debug('get value in', self.direction, 'port instance',
+        Debugger.write('get value in', self.direction, 'port instance',
                        self.parent_node_instance.inputs.index(
                                 self) if self.direction == 'input' else self.parent_node_instance.outputs.index(self),
                             'of', self.parent_node_instance.parent_node.title)
-        Debugger.debug('val is', self.val)
+        Debugger.write('val is', self.val)
 
         if self.direction == 'input':
-            if len(self.connected_port_instances) == 0:
+            if len(self.connections) == 0:
                 if self.widget:
                     return self.widget.get_val()
                 else:
                     return None
             else:
-                Debugger.debug('calling connected port for val')
-                return self.connected_port_instances[0].get_val()
+                Debugger.write('calling connected port for val')
+                return self.connections[0].get_val()
         elif self.direction == 'output':
             # Debugger.debug('returning val directly')
             if not self.parent_node_instance.flow.algorithm_mode.mode_data_flow:
@@ -101,8 +101,8 @@ class InputPortInstance(PortInstance):
 
     def setup_ui(self):
         self.setSpacing(5)
-        self.addItem(self.gate, 0, 0)
-        self.setAlignment(self.gate, Qt.AlignVCenter | Qt.AlignLeft)
+        self.addItem(self.pin, 0, 0)
+        self.setAlignment(self.pin, Qt.AlignVCenter | Qt.AlignLeft)
         self.addItem(self.label, 0, 1)
         self.setAlignment(self.label, Qt.AlignVCenter | Qt.AlignLeft)
         if self.widget is not None:
@@ -117,28 +117,28 @@ class InputPortInstance(PortInstance):
             if self.widget_name is None:  # no input widget
                 return
             elif self.widget_name == 'std line edit s':
-                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='small')
+                self.widget = StdLineEdit_PortInstWidget(self, self.parent_node_instance, size='small')
             elif self.widget_name == 'std line edit m' or self.widget_name == 'std line edit':
-                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance)
+                self.widget = StdLineEdit_PortInstWidget(self, self.parent_node_instance)
             elif self.widget_name == 'std line edit l':
-                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='large')
+                self.widget = StdLineEdit_PortInstWidget(self, self.parent_node_instance, size='large')
             elif self.widget_name == 'std line edit s r':
-                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='small', resize=True)
+                self.widget = StdLineEdit_PortInstWidget(self, self.parent_node_instance, size='small', resize=True)
             elif self.widget_name == 'std line edit m r':
-                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, resize=True)
+                self.widget = StdLineEdit_PortInstWidget(self, self.parent_node_instance, resize=True)
             elif self.widget_name == 'std line edit l r':
-                self.widget = StdLineEdit_PortInstanceWidget(self, self.parent_node_instance, size='large', resize=True)
+                self.widget = StdLineEdit_PortInstWidget(self, self.parent_node_instance, size='large', resize=True)
             elif self.widget_name == 'std line edit s r nb':
-                self.widget = StdLineEdit_NoBorder_PortInstanceWidget(self, self.parent_node_instance, size='small',
-                                                                      resize=True)
+                self.widget = StdLineEdit_NoBorder_PortInstWidget(self, self.parent_node_instance, size='small',
+                                                                  resize=True)
             elif self.widget_name == 'std line edit m r nb':
-                self.widget = StdLineEdit_NoBorder_PortInstanceWidget(self, self.parent_node_instance,
-                                                                      resize=True)
+                self.widget = StdLineEdit_NoBorder_PortInstWidget(self, self.parent_node_instance,
+                                                                  resize=True)
             elif self.widget_name == 'std line edit l r nb':
-                self.widget = StdLineEdit_NoBorder_PortInstanceWidget(self, self.parent_node_instance, size='large',
-                                                                      resize=True)
+                self.widget = StdLineEdit_NoBorder_PortInstWidget(self, self.parent_node_instance, size='large',
+                                                                  resize=True)
             elif self.widget_name == 'std spin box':
-                self.widget = StdSpinBox_PortInstanceWidget(self, self.parent_node_instance)
+                self.widget = StdSpinBox_PortInstWidget(self, self.parent_node_instance)
             else:  # custom input widget
                 self.widget = self.get_input_widget_class(self.widget_name)((self, self.parent_node_instance))
             self.proxy = FlowProxyWidget(self.parent_node_instance.flow, self.parent_node_instance)
@@ -147,7 +147,7 @@ class InputPortInstance(PortInstance):
     def get_input_widget_class(self, widget_name):
         """Returns the CLASS of a defined custom input widget by given name"""
         custom_node_input_widget_classes = \
-            self.parent_node_instance.flow.parent_script.main_window.custom_node_input_widget_classes
+            self.parent_node_instance.flow.script.main_window.custom_node_input_widget_classes
         widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
         return widget_class
 
@@ -180,18 +180,18 @@ class OutputPortInstance(PortInstance):
         self.setSpacing(5)
         self.addItem(self.label, 0, 0)
         self.setAlignment(self.label, Qt.AlignVCenter | Qt.AlignRight)
-        self.addItem(self.gate, 0, 1)
+        self.addItem(self.pin, 0, 1)
 
-        self.setAlignment(self.gate, Qt.AlignVCenter | Qt.AlignRight)
+        self.setAlignment(self.pin, Qt.AlignVCenter | Qt.AlignRight)
 
     def exec(self):
         """applies on OUTPUT; called NI internally (from parentNI)"""
-        for cpi in self.connected_port_instances:
-            cpi.update()
+        for c in self.connections:
+            c.activate()
 
     def set_val(self, val):
         """applies on OUTPUT; called NI internally"""
-        Debugger.debug('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
+        Debugger.write('setting value of', self.direction, 'port of', self.parent_node_instance.parent_node.title,
                             'NodeInstance to', val)
 
         # note that val COULD be of object type and therefore already changed (because the original object did)
@@ -204,8 +204,8 @@ class OutputPortInstance(PortInstance):
 
     def updated_val(self):
         """applies on DATA OUTPUT; called NI internally"""
-        for cpi in self.connected_port_instances:
-            cpi.update()
+        for c in self.connections:
+            c.activate()
 
     def config_data(self):
         data_dict = {'type': self.type_,
@@ -215,12 +215,13 @@ class OutputPortInstance(PortInstance):
 
 # CONTENTS -------------------------------------------------------------------------------------------------------------
 
-class PortInstanceGate(QGraphicsWidget):
+class PortInstPin(QGraphicsWidget):
     def __init__(self, parent_port_instance, parent_node_instance):
-        super(PortInstanceGate, self).__init__(parent_node_instance)
+        super(PortInstPin, self).__init__(parent_node_instance)
 
         self.setGraphicsItem(self)
         self.setAcceptHoverEvents(True)
+        self.hovered = False
         self.setCursor(Qt.CrossCursor)
         self.tool_tip_pos = None
 
@@ -247,7 +248,7 @@ class PortInstanceGate(QGraphicsWidget):
     def paint(self, painter, option, widget=None):
         Design.flow_theme.node_inst_painter.paint_PI(painter, option, self.parent_node_instance.color,
                                                      self.parent_port_instance.type_,
-                                                     len(self.parent_port_instance.connected_port_instances) > 0,
+                                                     len(self.parent_port_instance.connections) > 0,
                                                      self.padding, self.painting_width, self.painting_height)
 
     def mousePressEvent(self, event):
@@ -258,16 +259,18 @@ class PortInstanceGate(QGraphicsWidget):
             self.setToolTip(shorten(str(self.parent_port_instance.val), 1000, line_break=True))
 
         # hover all connections
-        self.parent_node_instance.flow.hovered_port_inst_gate = self
-        self.parent_node_instance.flow.update()
+        # self.parent_node_instance.flow.hovered_port_inst_gate = self
+        # self.parent_node_instance.flow.update()
+        self.hovered = True
 
         QGraphicsItem.hoverEnterEvent(self, event)
 
     def hoverLeaveEvent(self, event):
 
         # turn connection highlighting off
-        self.parent_node_instance.flow.hovered_port_inst_gate = None
-        self.parent_node_instance.flow.update()
+        # self.parent_node_instance.flow.hovered_port_inst_gate = None
+        # self.parent_node_instance.flow.update()
+        self.hovered = False
 
         QGraphicsItem.hoverLeaveEvent(self, event)
 
@@ -276,9 +279,9 @@ class PortInstanceGate(QGraphicsWidget):
                        self.scenePos().y() + self.boundingRect().height()/2)
 
 
-class PortInstanceLabel(QGraphicsWidget):
+class PortInstLabel(QGraphicsWidget):
     def __init__(self, parent_port_instance, parent_node_instance):
-        super(PortInstanceLabel, self).__init__(parent_node_instance)
+        super(PortInstLabel, self).__init__(parent_node_instance)
         self.setGraphicsItem(self)
 
         self.parent_port_instance = parent_port_instance
@@ -304,17 +307,17 @@ class PortInstanceLabel(QGraphicsWidget):
     def paint(self, painter, option, widget=None):
         Design.flow_theme.node_inst_painter.paint_PI_label(painter, option,
                                                            self.parent_port_instance.type_,
-                                                           len(self.parent_port_instance.connected_port_instances) > 0,
+                                                           len(self.parent_port_instance.connections) > 0,
                                                            self.parent_port_instance.label_str,
                                                            self.parent_node_instance.color,
                                                            self.boundingRect())
 
 
-class StdLineEdit_PortInstanceWidget(QLineEdit, IWB):
+class StdLineEdit_PortInstWidget(QLineEdit, IWB):
     def __init__(self, parent_port_instance, parent_node_instance, size='medium', resize=False):
         # PortInstanceWidget.__init__(self)
         # QLineEdit.__init__(self)
-        super(StdLineEdit_PortInstanceWidget, self).__init__()
+        super(StdLineEdit_PortInstWidget, self).__init__()
 
         self.parent_port_instance = parent_port_instance
         self.parent_node_instance = parent_node_instance
@@ -386,10 +389,10 @@ class StdLineEdit_PortInstanceWidget(QLineEdit, IWB):
             self.setText(data)
 
 
-class StdLineEdit_NoBorder_PortInstanceWidget(StdLineEdit_PortInstanceWidget, IWB):
+class StdLineEdit_NoBorder_PortInstWidget(StdLineEdit_PortInstWidget, IWB):
     def __init__(self, parent_port_instance, parent_node_instance, size='medium', resize=False):
-        super(StdLineEdit_NoBorder_PortInstanceWidget, self).__init__(parent_port_instance, parent_node_instance, size,
-                                                                      resize)
+        super(StdLineEdit_NoBorder_PortInstWidget, self).__init__(parent_port_instance, parent_node_instance, size,
+                                                                  resize)
 
         self.setStyleSheet("""
             QLineEdit{
@@ -408,11 +411,11 @@ class StdLineEdit_NoBorder_PortInstanceWidget(StdLineEdit_PortInstanceWidget, IW
         """)
 
 
-class StdSpinBox_PortInstanceWidget(QSpinBox, IWB):
+class StdSpinBox_PortInstWidget(QSpinBox, IWB):
     def __init__(self, parent_port_instance, parent_node_instance):
         # PortInstanceWidget.__init__(self)
         # QLineEdit.__init__(self)
-        super(StdSpinBox_PortInstanceWidget, self).__init__()
+        super(StdSpinBox_PortInstWidget, self).__init__()
 
         self.parent_port_instance = parent_port_instance
         self.parent_node_instance = parent_node_instance

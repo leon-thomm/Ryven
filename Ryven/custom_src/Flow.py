@@ -5,8 +5,8 @@ from PySide2.QtWidgets import QGraphicsView, QGraphicsScene, QListWidgetItem, QS
     QUndoStack
 
 import json
-import math
 
+from custom_src.Connection import Connection, DataConnection, ExecConnection
 from custom_src.DrawingObject import DrawingObject
 from custom_src.FlowCommands import MoveComponents_Command, PlaceNodeInstanceInScene_Command, \
     PlaceDrawingObject_Command, RemoveComponents_Command, ConnectGates_Command, Paste_Command
@@ -19,36 +19,16 @@ from custom_src.builtin_nodes.GetVar_Node import GetVar_Node
 from custom_src.builtin_nodes.SetVar_Node import SetVar_Node
 from custom_src.node_choice_widget.NodeChoiceWidget import NodeChoiceWidget
 from custom_src.NodeInstance import NodeInstance
-from custom_src.PortInstance import PortInstance, PortInstanceGate
+from custom_src.PortInstance import PortInstance, PortInstPin
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.class_inspection import find_type_in_object, find_type_in_objects
-from custom_src.global_tools.math import pythagoras
 from custom_src.Design import Design
 
 
 class Flow(QGraphicsView):
-    def __init__(self, main_window, parent_script, config=None):
+    def __init__(self, main_window, script, config=None):
         super(Flow, self).__init__()
 
-        # SHORTCUTS
-        place_new_node_shortcut = QShortcut(QKeySequence('Shift+P'), self)
-        place_new_node_shortcut.activated.connect(self.place_new_node_by_shortcut)
-        move_selected_nodes_left_shortcut = QShortcut(QKeySequence('Shift+Left'), self)
-        move_selected_nodes_left_shortcut.activated.connect(self.move_selected_nodes_left)
-        move_selected_nodes_up_shortcut = QShortcut(QKeySequence('Shift+Up'), self)
-        move_selected_nodes_up_shortcut.activated.connect(self.move_selected_nodes_up)
-        move_selected_nodes_right_shortcut = QShortcut(QKeySequence('Shift+Right'), self)
-        move_selected_nodes_right_shortcut.activated.connect(self.move_selected_nodes_right)
-        move_selected_nodes_down_shortcut = QShortcut(QKeySequence('Shift+Down'), self)
-        move_selected_nodes_down_shortcut.activated.connect(self.move_selected_nodes_down)
-        select_all_shortcut = QShortcut(QKeySequence('Ctrl+A'), self)
-        select_all_shortcut.activated.connect(self.select_all)
-        copy_shortcut = QShortcut(QKeySequence.Copy, self)
-        copy_shortcut.activated.connect(self.copy)
-        cut_shortcut = QShortcut(QKeySequence.Cut, self)
-        cut_shortcut.activated.connect(self.cut)
-        paste_shortcut = QShortcut(QKeySequence.Paste, self)
-        paste_shortcut.activated.connect(self.paste)
 
         # UNDO/REDO
         self.undo_stack = QUndoStack(self)
@@ -57,25 +37,23 @@ class Flow(QGraphicsView):
         self.redo_action = self.undo_stack.createRedoAction(self, 'redo')
         self.redo_action.setShortcuts(QKeySequence.Redo)
 
-        undo_shortcut = QShortcut(QKeySequence.Undo, self)
-        undo_shortcut.activated.connect(self.undo_activated)
-        redo_shortcut = QShortcut(QKeySequence.Redo, self)
-        redo_shortcut.activated.connect(self.redo_activated)
+        # SHORTCUTS
+        self.init_shortcuts()
 
         # GENERAL ATTRIBUTES
-        self.parent_script = parent_script
+        self.script = script
         self.all_node_instances: [NodeInstance] = []
+        self.connections: [Connection] = []
         self.all_node_instance_classes = main_window.all_node_instance_classes  # ref
         self.all_nodes = main_window.all_nodes  # ref
-        self.gate_selected: PortInstanceGate = None
+        self.pin_selected: PortInstPin = None
         self.dragging_connection = False
-        self.hovered_port_inst_gate = None  # see drawing connections
         self.ignore_mouse_event = False  # for stylus - see tablet event
         self.last_mouse_move_pos: QPointF = None
         self.node_place_pos = QPointF()
         self.left_mouse_pressed_in_flow = False
         self.mouse_press_pos: QPointF = None
-        self.auto_connection_gate = None  # stores the gate that we may try to auto connect to a newly placed NI
+        self.auto_connection_pin = None  # stores the gate that we may try to auto connect to a newly placed NI
         self.panning = False
         self.pan_last_x = None
         self.pan_last_y = None
@@ -147,19 +125,19 @@ class Flow(QGraphicsView):
             # algorithm mode
             if config.keys().__contains__('algorithm mode'):
                 if config['algorithm mode'] == 'data flow':
-                    self.parent_script.widget.ui.algorithm_data_flow_radioButton.setChecked(True)
+                    self.script.widget.ui.algorithm_data_flow_radioButton.setChecked(True)
                     self.algorithm_mode.mode_data_flow = True
                 else:  # 'exec flow'
-                    self.parent_script.widget.ui.algorithm_exec_flow_radioButton.setChecked(True)
+                    self.script.widget.ui.algorithm_exec_flow_radioButton.setChecked(True)
                     self.algorithm_mode.mode_data_flow = False
 
             # viewport update mode
             if config.keys().__contains__('viewport update mode'):
                 if config['viewport update mode'] == 'sync':
-                    self.parent_script.widget.ui.viewport_update_mode_sync_radioButton.setChecked(True)
+                    self.script.widget.ui.viewport_update_mode_sync_radioButton.setChecked(True)
                     self.viewport_update_mode.sync = True
                 else:  # 'async'
-                    self.parent_script.widget.ui.viewport_update_mode_async_radioButton.setChecked(True)
+                    self.script.widget.ui.viewport_update_mode_async_radioButton.setChecked(True)
                     self.viewport_update_mode.sync = False
 
             node_instances = self.place_nodes_from_config(config['nodes'])
@@ -167,6 +145,31 @@ class Flow(QGraphicsView):
             if list(config.keys()).__contains__('drawings'):  # not all (old) project files have drawings arr
                 self.place_drawings_from_config(config['drawings'])
             self.undo_stack.clear()
+
+    def init_shortcuts(self):
+        place_new_node_shortcut = QShortcut(QKeySequence('Shift+P'), self)
+        place_new_node_shortcut.activated.connect(self.place_new_node_by_shortcut)
+        move_selected_nodes_left_shortcut = QShortcut(QKeySequence('Shift+Left'), self)
+        move_selected_nodes_left_shortcut.activated.connect(self.move_selected_nodes_left)
+        move_selected_nodes_up_shortcut = QShortcut(QKeySequence('Shift+Up'), self)
+        move_selected_nodes_up_shortcut.activated.connect(self.move_selected_nodes_up)
+        move_selected_nodes_right_shortcut = QShortcut(QKeySequence('Shift+Right'), self)
+        move_selected_nodes_right_shortcut.activated.connect(self.move_selected_nodes_right)
+        move_selected_nodes_down_shortcut = QShortcut(QKeySequence('Shift+Down'), self)
+        move_selected_nodes_down_shortcut.activated.connect(self.move_selected_nodes_down)
+        select_all_shortcut = QShortcut(QKeySequence('Ctrl+A'), self)
+        select_all_shortcut.activated.connect(self.select_all)
+        copy_shortcut = QShortcut(QKeySequence.Copy, self)
+        copy_shortcut.activated.connect(self.copy)
+        cut_shortcut = QShortcut(QKeySequence.Cut, self)
+        cut_shortcut.activated.connect(self.cut)
+        paste_shortcut = QShortcut(QKeySequence.Paste, self)
+        paste_shortcut.activated.connect(self.paste)
+
+        undo_shortcut = QShortcut(QKeySequence.Undo, self)
+        undo_shortcut.activated.connect(self.undo_activated)
+        redo_shortcut = QShortcut(QKeySequence.Redo, self)
+        redo_shortcut.activated.connect(self.redo_activated)
 
     def theme_changed(self, t):
         # TODO: repaint background. how?
@@ -182,9 +185,9 @@ class Flow(QGraphicsView):
         selected_items = self.scene().selectedItems()
         selected_node_instances = list(filter(find_NI_in_object, selected_items))
         if len(selected_node_instances) == 1:
-            self.parent_script.show_NI_code(selected_node_instances[0])
+            self.script.show_NI_code(selected_node_instances[0])
         elif len(selected_node_instances) == 0:
-            self.parent_script.show_NI_code(None)
+            self.script.show_NI_code(None)
 
     def contextMenuEvent(self, event):
         QGraphicsView.contextMenuEvent(self, event)
@@ -210,7 +213,7 @@ class Flow(QGraphicsView):
         self.viewport().update()
 
     def mousePressEvent(self, event):
-        Debugger.debug('mouse press event received, point:', event.pos())
+        Debugger.write('mouse press event received, point:', event.pos())
 
         # to catch tablet events (for some reason, it results in a mousePrEv too)
         if self.ignore_mouse_event:
@@ -230,8 +233,8 @@ class Flow(QGraphicsView):
             if self.node_choice_proxy.isVisible():
                 self.hide_node_choice_widget()
             else:
-                if find_type_in_object(self.itemAt(event.pos()), PortInstanceGate):
-                    self.gate_selected = self.itemAt(event.pos())
+                if find_type_in_object(self.itemAt(event.pos()), PortInstPin):
+                    self.pin_selected = self.itemAt(event.pos())
                     self.dragging_connection = True
 
             self.left_mouse_pressed_in_flow = True
@@ -277,8 +280,9 @@ class Flow(QGraphicsView):
 
         # connection dropped over specific gate
         if self.dragging_connection and self.itemAt(event.pos()) and \
-                find_type_in_object(self.itemAt(event.pos()), PortInstanceGate):
-            self.connect_gates__cmd(self.gate_selected, self.itemAt(event.pos()))
+                find_type_in_object(self.itemAt(event.pos()), PortInstPin):
+            self.connect_port_insts__cmd(self.pin_selected.parent_port_instance,
+                                         self.itemAt(event.pos()).parent_port_instance)
 
         # connection dropped over NodeInstance - auto connect
         elif self.dragging_connection and find_type_in_objects(self.items(event.pos()), NodeInstance):
@@ -289,16 +293,16 @@ class Flow(QGraphicsView):
                     ni_under_drop = item
                     break
             # connect
-            self.try_conn_gate_and_ni(self.gate_selected, ni_under_drop)
+            self.try_conn_port_and_ni(self.pin_selected.parent_port_instance, ni_under_drop)
 
         # connection dropped somewhere else - show node choice widget
         elif self.dragging_connection:
-            self.auto_connection_gate = self.gate_selected
+            self.auto_connection_pin = self.pin_selected
             self.show_node_choice_widget(event.pos())
 
         self.left_mouse_pressed_in_flow = False
         self.dragging_connection = False
-        self.gate_selected = None
+        self.pin_selected = None
 
         self.viewport().repaint()
 
@@ -374,7 +378,7 @@ class Flow(QGraphicsView):
             if self.panning:
                 self.panning = False
             if self.stylus_mode == 'comment' and self.drawing:
-                Debugger.debug('drawing obj finished')
+                Debugger.write('drawing obj finished')
                 self.current_drawing.finished()
                 self.current_drawing = None
                 self.drawing = False
@@ -404,7 +408,7 @@ class Flow(QGraphicsView):
     def dropEvent(self, event):
         text = event.mimeData().text()
         item: QListWidgetItem = event.mimeData()
-        Debugger.debug('drop received in Flow:', text)
+        Debugger.write('drop received in Flow:', text)
 
         j_obj = None
         type = ''
@@ -428,37 +432,12 @@ class Flow(QGraphicsView):
         self.set_zoom_proxy_pos()
 
     def drawForeground(self, painter, rect):
-        """Draws all connections and borders around selected items."""
 
-        # DRAW CONNECTIONS
-        for ni in self.all_node_instances:
-            for o in ni.outputs:
-                for cpi in o.connected_port_instances:
-                    path = self.connection_path(o.gate.get_scene_center_pos(),
-                                                cpi.gate.get_scene_center_pos())
-                    w = path.boundingRect().width()
-                    h = path.boundingRect().height()
-                    gradient = QRadialGradient(path.boundingRect().center(),
-                                               pythagoras(w, h) / 2)
+        # repaint all connections
+        # otherwise they get overdrawn by node instances
+        for c in self.connections:
+            c.update()
 
-                    pen = Design.flow_theme.get_flow_conn_pen_inst(o.type_)
-                    c = pen.color()
-
-                    # highlight hovered connections
-                    if self.hovered_port_inst_gate == o.gate or self.hovered_port_inst_gate is cpi.gate:
-                        c = QColor('#c5c5c5')
-                        pen.setWidth(5)
-
-                    c_r = c.red()
-                    c_g = c.green()
-                    c_b = c.blue()
-                    gradient.setColorAt(0.0, QColor(c_r, c_g, c_b, 255))
-                    gradient.setColorAt(0.75, QColor(c_r, c_g, c_b, 200))
-                    gradient.setColorAt(0.95, QColor(c_r, c_g, c_b, 0))
-                    gradient.setColorAt(1.0, QColor(c_r, c_g, c_b, 0))
-                    pen.setBrush(gradient)
-                    painter.setPen(pen)
-                    painter.drawPath(path)
 
         # DRAW CURRENTLY DRAGGED CONNECTION
         if self.dragging_connection:
@@ -466,16 +445,23 @@ class Flow(QGraphicsView):
             pen.setWidth(3)
             pen.setStyle(Qt.DotLine)
             painter.setPen(pen)
-            gate_pos = self.gate_selected.get_scene_center_pos()
-            if self.gate_selected.parent_port_instance.direction == 'output':
+
+            pin_pos = self.pin_selected.get_scene_center_pos()
+            sppi = self.pin_selected.parent_port_instance
+            cursor_pos = self.last_mouse_move_pos
+
+            pos1 = pin_pos if sppi.direction == 'output' else cursor_pos
+            pos2 = pin_pos if sppi.direction == 'input' else cursor_pos
+
+            if sppi.type_ == 'data':
                 painter.drawPath(
-                    self.connection_path(gate_pos,
-                                         self.last_mouse_move_pos)
+                    DataConnection.connection_path(pos1, pos2)
                 )
-            else:
+            elif sppi.type_ == 'exec':
                 painter.drawPath(
-                    self.connection_path(self.last_mouse_move_pos, gate_pos)
+                    ExecConnection.connection_path(pos1, pos2)
                 )
+
 
         # DRAW SELECTED NIs BORDER
         for ni in self.selected_node_instances():
@@ -490,6 +476,7 @@ class Flow(QGraphicsView):
             w = ni.boundingRect().width() * size_factor
             h = ni.boundingRect().height() * size_factor
             painter.drawRoundedRect(x, y, w, h, 10, 10)
+
 
         # DRAW SELECTED DRAWINGS BORDER
         for p_o in self.selected_drawings():
@@ -580,7 +567,7 @@ class Flow(QGraphicsView):
     def hide_node_choice_widget(self):
         self.node_choice_proxy.hide()
         self.node_choice_widget.clearFocus()
-        self.auto_connection_gate = None
+        self.auto_connection_pin = None
 
     # PAN
     def pan(self, new_pos):
@@ -655,7 +642,7 @@ class Flow(QGraphicsView):
 
     def add_node_instance(self, ni, pos=None):
         self.scene().addItem(ni)
-        ni.enable_personal_logs()
+        ni.enable_logs()
         if pos:
             ni.setPos(pos)
 
@@ -722,8 +709,9 @@ class Flow(QGraphicsView):
 
         self.undo_stack.push(place_command)
 
-        if self.auto_connection_gate:
-            self.try_conn_gate_and_ni(self.auto_connection_gate, place_command.node_instance)
+        if self.auto_connection_pin:
+            self.try_conn_port_and_ni(self.auto_connection_pin.parent_port_instance,
+                                      place_command.node_instance)
 
         return place_command.node_instance
 
@@ -738,7 +726,7 @@ class Flow(QGraphicsView):
         return self.all_node_instance_classes[node]
 
     def get_custom_input_widget_classes(self):
-        return self.parent_script.main_window.custom_node_input_widget_classes
+        return self.script.main_window.custom_node_input_widget_classes
 
     def connect_nodes_from_config(self, node_instances, connections_config):
         for c in connections_config:
@@ -751,8 +739,8 @@ class Flow(QGraphicsView):
                 parent_node_instance = node_instances[c_parent_node_instance_index]
                 connected_node_instance = node_instances[c_connected_node_instance]
 
-                self.connect_gates(parent_node_instance.outputs[c_output_port_index].gate,
-                                   connected_node_instance.inputs[c_connected_input_port_index].gate)
+                self.connect_pins(parent_node_instance.outputs[c_output_port_index],
+                                  connected_node_instance.inputs[c_connected_input_port_index])
 
     # DRAWINGS
     def create_drawing(self, config=None):
@@ -937,85 +925,77 @@ class Flow(QGraphicsView):
         self.scene().clearSelection()
 
     # CONNECTIONS: ----
-    def connect_gates__cmd(self, parent_gate: PortInstanceGate, child_gate: PortInstanceGate):
+    def connect_port_insts__cmd(self, p1: PortInstance, p2: PortInstance):
+
+        out = None
+        inp = None
+        if p1.direction == 'output' and \
+                p2.direction == 'input':
+            out = p1
+            inp = p2
+        elif p1.direction == 'input' and \
+                p2.direction == 'output':
+            out = p2
+            inp = p1
+        else:
+            # ports have same direction
+            return
+
+        if out.type_ != inp.type_:
+            return
+
         self.undo_stack.push(ConnectGates_Command(self,
-                                                  parent_port=parent_gate.parent_port_instance,
-                                                  child_port=child_gate.parent_port_instance))
+                                                  out=out,
+                                                  inp=inp))
 
-    def connect_gates(self, parent_gate: PortInstanceGate, child_gate: PortInstanceGate):
-        parent_port_instance: PortInstance = parent_gate.parent_port_instance
-        child_port_instance: PortInstance = child_gate.parent_port_instance
+    def connect_pins(self, out: PortInstance, inp: PortInstance):
 
-        # if they, their directions and their parent node instances are not equal and if their types are equal
-        if parent_port_instance.direction != child_port_instance.direction and \
-                parent_port_instance.parent_node_instance != child_port_instance.parent_node_instance and \
-                parent_port_instance.type_ == child_port_instance.type_:
-            try:  # remove connection if port instances are already connected
-                index = parent_port_instance.connected_port_instances.index(child_port_instance)
-                parent_port_instance.connected_port_instances.remove(child_port_instance)
-                parent_port_instance.disconnected()
-                child_port_instance.connected_port_instances.remove(parent_port_instance)
-                child_port_instance.disconnected()
+        for c in out.connections:
+            if c.inp == inp:
+                # disconnect
+                out.connections.remove(c)
+                inp.connections.remove(c)
+                self.connections.remove(c)
+                self.scene().removeItem(c)
+                return
 
-            except ValueError:  # connect port instances
-                # remove all connections from parent port instance if it's a data input
-                if parent_port_instance.direction == 'input' and parent_port_instance.type_ == 'data':
-                    for cpi in parent_port_instance.connected_port_instances:
-                        self.connect_gates__cmd(parent_gate, cpi.gate)  # actually disconnects the gates
 
-                # remove all connections from child port instance it it's a data input
-                if child_port_instance.direction == 'input' and child_port_instance.type_ == 'data':
-                    for cpi in child_port_instance.connected_port_instances:
-                        self.connect_gates__cmd(child_gate, cpi.gate)  # actually disconnects the gates
+        # CONNECT
 
-                parent_port_instance.connected_port_instances.append(child_port_instance)
-                child_port_instance.connected_port_instances.append(parent_port_instance)
-                parent_port_instance.connected()
-                child_port_instance.connected()
+        # remove all connections from input port instance if it's a data input
+        if inp.type_ == 'data':
+            for c in inp.connections:
+                self.connect_port_insts__cmd(c.out, inp)
+
+        c = None
+        if inp.type_ == 'data':
+            c = DataConnection(out, inp)
+        elif inp.type_ == 'exec':
+            c = ExecConnection(out, inp)
+        c.setZValue(10)
+        self.scene().addItem(c)
+        out.connections.append(c)
+        inp.connections.append(c)
+        self.connections.append(c)
+
+        out.connected()
+        inp.connected()
 
         self.viewport().repaint()
 
-    def try_conn_gate_and_ni(self, parent_gate: PortInstanceGate, child_ni: NodeInstance):
-        parent_port_instance: PortInstance = parent_gate.parent_port_instance
+    def try_conn_port_and_ni(self, p1: PortInstance, ni: NodeInstance):
+        # p1 = p1.parent_port_instance
 
-        if parent_port_instance.direction == 'output':
-            for inp in child_ni.inputs:
-                if parent_port_instance.type_ == inp.type_:
-                    self.connect_gates__cmd(parent_gate, inp.gate)
+        if p1.direction == 'output':
+            for inp in ni.inputs:
+                if p1.type_ != inp.type_:
                     return
-        elif parent_port_instance.direction == 'input':
-            for out in child_ni.outputs:
-                if parent_port_instance.type_ == out.type_:
-                    self.connect_gates__cmd(parent_gate, out.gate)
+                self.connect_port_insts__cmd(p1, inp)
+        elif p1.direction == 'input':
+            for out in ni.outputs:
+                if p1.type_ != out.type_:
                     return
-
-    @staticmethod
-    def connection_path(p1: QPointF, p2: QPointF):
-        """Returns the nice looking QPainterPath of a connection for two given points."""
-
-        path = QPainterPath()
-
-        path.moveTo(p1)
-
-        distance_x = abs(p1.x()) - abs(p2.x())
-        distance_y = abs(p1.y()) - abs(p2.y())
-
-        if ((p1.x() < p2.x() - 30) or math.sqrt((distance_x ** 2) + (distance_y ** 2)) < 100) and (p1.x() < p2.x()):
-            path.cubicTo(p1.x() + ((p2.x() - p1.x()) / 2), p1.y(),
-                         p1.x() + ((p2.x() - p1.x()) / 2), p2.y(),
-                         p2.x(), p2.y())
-        elif p2.x() < p1.x() - 100 and abs(distance_x) / 2 > abs(distance_y):
-            path.cubicTo(p1.x() + 100 + (p1.x() - p2.x()) / 10, p1.y(),
-                         p1.x() + 100 + (p1.x() - p2.x()) / 10, p1.y() - (distance_y / 2),
-                         p1.x() - (distance_x / 2), p1.y() - (distance_y / 2))
-            path.cubicTo(p2.x() - 100 - (p1.x() - p2.x()) / 10, p2.y() + (distance_y / 2),
-                         p2.x() - 100 - (p1.x() - p2.x()) / 10, p2.y(),
-                         p2.x(), p2.y())
-        else:
-            path.cubicTo(p1.x() + 100 + (p1.x() - p2.x()) / 3, p1.y(),
-                         p2.x() - 100 - (p1.x() - p2.x()) / 3, p2.y(),
-                         p2.x(), p2.y())
-        return path
+                self.connect_port_insts__cmd(p1, out)
 
     def config_data(self):
         flow_dict = {'algorithm mode': 'data flow' if self.algorithm_mode.mode_data_flow else 'exec flow',
@@ -1037,8 +1017,9 @@ class Flow(QGraphicsView):
         script_ni_connections_list = []
         for ni in node_instances:
             for out in ni.outputs:
-                if len(out.connected_port_instances) > 0:
-                    for connected_port in out.connected_port_instances:
+                if len(out.connections) > 0:
+                    for c in out.connections:
+                        connected_port = c.inp
 
                         # this only applies when saving config data through deleting node instances:
                         if only_with_connections_to is not None and \

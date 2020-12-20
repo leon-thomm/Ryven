@@ -1,5 +1,6 @@
 import os,  sys
 
+from PySide2.QtCore import Signal
 from PySide2.QtGui import QColor, QFontDatabase, QIcon, QKeySequence
 from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
@@ -23,6 +24,9 @@ from custom_src.Design import Design
 
 
 class MainWindow(QMainWindow):
+
+    new_script_created = Signal(Script)
+
     def __init__(self, config):
         super(MainWindow, self).__init__()
 
@@ -35,7 +39,7 @@ class MainWindow(QMainWindow):
         if MainConsole.main_console is not None:
             self.ui.scripts_console_splitter.addWidget(MainConsole.main_console)
         self.ui.scripts_console_splitter.setSizes([350, 350])
-        self.ui.splitter.setSizes([120, 800])
+        self.ui.main_splitter.setSizes([120, 800])
         self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
         self.load_stylesheet('dark')
@@ -76,14 +80,16 @@ class MainWindow(QMainWindow):
         self.custom_node_input_widget_classes = {}
 
         # UI
-        self.scripts_list_widget = ScriptsListWidget(self, self.scripts)
-        self.ui.scripts_scrollArea.setWidget(self.scripts_list_widget)
-        self.ui.add_new_script_pushButton.clicked.connect(self.create_new_script_button_pressed)
-        self.ui.new_script_name_lineEdit.returnPressed.connect(self.create_new_script_LE_return_pressed)
+        self.scripts_list_widget = ScriptsListWidget(self)
+        self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
+
+        # self.ui.scripts_scrollArea.setWidget(self.scripts_list_widget)
+        # self.ui.add_new_script_pushButton.clicked.connect(self.create_new_script_button_pressed)
+        # self.ui.new_script_name_lineEdit.returnPressed.connect(self.create_new_script_LE_return_pressed)
 
 
         if config['config'] == 'create plain new project':
-            self.try_to_create_new_script()
+            self.create_new_script(title='hello world')
         elif config['config'] == 'open project':
             print('importing packages...')
             self.import_packages(config['required packages'])
@@ -230,30 +236,33 @@ saving: ctrl+s
         self.get_current_script().generate_code()
 
 
-    def create_new_script_button_pressed(self):
-        self.try_to_create_new_script(name=self.ui.new_script_name_lineEdit.text())
+    # def create_new_script_button_pressed(self):
+    #     self.create_new_script(title=self.ui.new_script_name_lineEdit.text())
 
-    def create_new_script_LE_return_pressed(self):
-        self.try_to_create_new_script(name=self.ui.new_script_name_lineEdit.text())
+    # def create_new_script_LE_return_pressed(self):
+    #     self.create_new_script(title=self.ui.new_script_name_lineEdit.text())
 
 
-    def try_to_create_new_script(self, name='fancy script', config=None):
-        """Tries to create a new script with a given name. If the name is already used or '', it fails."""
-        if len(name) == 0:
-            return
+    def check_new_script_title_validity(self, title: str) -> bool:
+        if len(title) == 0:
+            return False
         for s in self.scripts:
-            if s.name == name:
-                return
+            if s.title == title:
+                return False
 
-        new_script = Script(self, name, config)
-        new_script.name_changed.connect(self.rename_script)
-        self.ui.scripts_tab_widget.addTab(new_script.widget, new_script.name)
+        return True
+
+    def create_new_script(self, title: str = None, config: dict = None):
+        new_script = Script(self, title, config)
+        # new_script.name_changed.connect(self.rename_script)
+        self.ui.scripts_tab_widget.addTab(new_script.widget, new_script.title)
         self.scripts.append(new_script)
-        self.scripts_list_widget.recreate_ui()
+        self.new_script_created.emit(new_script)
+        # self.scripts_list_widget.recreate_ui()
 
-    def rename_script(self, script, new_name):
-        self.ui.scripts_tab_widget.setTabText(self.scripts.index(script), new_name)
-        script.name = new_name
+    def rename_script(self, script: Script, new_title: str):
+        self.ui.scripts_tab_widget.setTabText(self.scripts.index(script), new_title)
+        script.title = new_title
 
     def delete_script(self, script):
         index = self.scripts.index(script)
@@ -280,7 +289,7 @@ saving: ctrl+s
             j_str = f.read()
             f.close()
         except FileExistsError or FileNotFoundError:
-            Debugger.debug('couldn\'t open file')
+            Debugger.write('couldn\'t open file')
             return
 
         # don't import a package twice if it already has been imported
@@ -312,7 +321,7 @@ saving: ctrl+s
         # strict=False is necessary to allow control characters like '\n' for newline when loading the json
         j_obj = json.loads(j_str, strict=False)
 
-        Debugger.debug(j_obj['type'])
+        Debugger.write(j_obj['type'])
         if j_obj['type'] != 'Ryven nodes package' and j_obj['type'] != 'vyScriptFP nodes package':  # old syntax
             return False
 
@@ -323,10 +332,10 @@ saving: ctrl+s
             j_node = j_nodes_list[ni]
             suc = self.parse_node(j_node, package_name, package_path)
             if not suc:
-                Debugger.debug('error while importing nodes')
+                Debugger.write('error while importing nodes')
                 return False
 
-        Debugger.debug(len(self.custom_nodes), 'nodes imported')
+        Debugger.write(len(self.custom_nodes), 'nodes imported')
 
         return True
 
@@ -473,7 +482,7 @@ saving: ctrl+s
             return
 
         for s in j_obj['scripts']:  # fill flows
-            self.try_to_create_new_script(config=s)
+            self.create_new_script(config=s)
 
 
     def on_save_project_triggered(self):
@@ -492,7 +501,7 @@ saving: ctrl+s
                 os.remove(file_name)
             file = open(file_name, 'w')
         except FileNotFoundError:
-            Debugger.debug('couldn\'t open file')
+            Debugger.write('couldn\'t open file')
             return
 
 
@@ -506,7 +515,7 @@ saving: ctrl+s
                               'scripts': scripts_data}
 
         data = json.dumps(whole_project_dict)
-        Debugger.debug(data)
+        Debugger.write(data)
 
 
         file.write(data)

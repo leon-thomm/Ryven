@@ -155,7 +155,7 @@ class NodeChoiceWidget(QWidget):
     def get_sorted_dict_matching_search(self, items_dict, text):
         indices_dict = {}
         for item, name in items_dict.items():  # the strings are already lowered here
-            Debugger.debug(item, name, text)
+            Debugger.write(item, name, text)
             if name.__contains__(text):
                 index = name.index(text)
                 indices_dict[item] = index

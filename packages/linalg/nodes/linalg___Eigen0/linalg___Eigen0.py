@@ -31,33 +31,16 @@ class Eigen_NodeInstance(NodeInstance):
     def __init__(self, params):
         super(Eigen_NodeInstance, self).__init__(params)
 
-        self.special_actions['add matrix input'] = {'method': M(self.action_add_matrix_input)}
-        self.num_matrix_inputs = 1
-
-    def action_add_matrix_input(self):
-        self.create_new_input('data', '')
-        self.num_matrix_input += 1
-        self.special_actions['remove matrix input'] = {'method': M(self.action_rem_matrix_input)}
-
-    def action_rem_matrix_input(self):
-        self.delete_input(-1)
-        self.num_matrix_input -= 1
-        if self.num_matrix_input == 1:
-            del self.special_actions['remove matrix input']
-
     def update_event(self, input_called=-1):
         w, v = eig(self.input(0))
         self.set_output_val(0, w)
         self.set_output_val(1, v)
 
     def get_data(self):
-        data = {'number matrix inputs': self.num_matrix_inputs}
-        return data
+        return {}
 
     def set_data(self, data):
-        self.num_matrix_inputs = data['number matrix inputs']
-        for i in range(self.num_matrix_inputs-1):
-            self.action_add_matrix_input()
+        pass
 
     def removing(self):
         pass

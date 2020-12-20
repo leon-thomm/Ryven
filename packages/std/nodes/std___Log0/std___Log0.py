@@ -55,7 +55,7 @@ class Log_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         if input_called == 0:
             if self.target == 'personal':
-                self.log.log(self.input(1))
+                self.log.write(self.input(1))
             else:
                 self.log_message(self.input(1), target=self.target)
             self.exec_output(0)

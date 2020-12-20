@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QVBoxLayout, QWidget
+from PySide2.QtWidgets import QVBoxLayout, QWidget, QLineEdit
 from PySide2.QtCore import Qt
 
 from custom_src.custom_list_widgets.VarsList_VarWidget import VarsList_VarWidget
@@ -10,23 +10,40 @@ class VariablesListWidget(QWidget):
     actually represent very different things (scripts and variables) and therefore might develop quite differently
     in the future."""
 
+
     def __init__(self, vars_manager):
         super(VariablesListWidget, self).__init__()
 
         self.vars_manager = vars_manager
+        self.vars_manager.new_var_created.connect(self.add_new_var)
         self.widgets = []
         self.currently_edited_var = ''
         self.ignore_name_line_edit_signal = False  # because disabling causes firing twice otherwise
         # self.data_type_line_edits = []  # same here
 
+        self.setup_UI()
+
+
+    def setup_UI(self):
         main_layout = QVBoxLayout()
-        main_layout.setAlignment(Qt.AlignTop)
+
+        self.list_layout = QVBoxLayout()
+        self.list_layout.setAlignment(Qt.AlignTop)
+
+        main_layout.addLayout(self.list_layout)
+
+        self.new_var_name_lineedit = QLineEdit()
+        self.new_var_name_lineedit.setPlaceholderText('new var\'s title')
+        self.new_var_name_lineedit.returnPressed.connect(self.new_var_LE_return_pressed)
+
+        main_layout.addWidget(self.new_var_name_lineedit)
+
         self.setLayout(main_layout)
 
-        self.recreate_ui()
+        self.recreate_list()
 
 
-    def recreate_ui(self):
+    def recreate_list(self):
         for w in self.widgets:
             w.hide()
             del w
@@ -36,36 +53,50 @@ class VariablesListWidget(QWidget):
 
         for v in self.vars_manager.variables:
             new_widget = VarsList_VarWidget(self, self.vars_manager, v)
-            new_widget.name_LE_editing_finished.connect(self.name_line_edit_editing_finished)
+            # new_widget.name_LE_editing_finished.connect(self.name_line_edit_editing_finished)
             self.widgets.append(new_widget)
 
-        self.rebuild_ui()
+        self.rebuild_list()
 
 
-    def rebuild_ui(self):
+    def rebuild_list(self):
         for i in range(self.layout().count()):
-            self.layout().removeItem(self.layout().itemAt(0))
+            self.list_layout.removeItem(self.layout().itemAt(0))
 
         for w in self.widgets:
-            self.layout().addWidget(w)
+            self.list_layout.addWidget(w)
 
 
-    def name_line_edit_editing_finished(self):
-        var_widget: VarsList_VarWidget = self.sender()
-        var_widget.name_line_edit.setEnabled(False)
+    def new_var_LE_return_pressed(self):
+        name = self.new_var_name_lineedit.text()
 
-        # search for name problems
-        new_var_name = var_widget.name_line_edit.text()
-        for v in self.vars_manager.variables:
-            if v.name == new_var_name:
-                var_widget.name_line_edit.setText(self.currently_edited_var.name)
-                return
+        if not self.vars_manager.check_new_var_name_validity(name=name):
+            return
 
-        var_widget.var.name = new_var_name
+        self.vars_manager.create_new_var(name=name)
+
+
+    def add_new_var(self, var):
+        self.recreate_list()
+
+
+    # def name_line_edit_editing_finished(self):
+    #     var_widget: VarsList_VarWidget = self.sender()
+    #     var_widget.name_line_edit.setEnabled(False)
+    #
+    #     # search for name issues
+    #     new_var_name = var_widget.name_line_edit.text()
+    #     for v in self.vars_manager.variables:
+    #         if v.name == new_var_name:
+    #             var_widget.name_line_edit.setText(self.currently_edited_var.name)
+    #             return
+    #
+    #     var_widget.var.name = new_var_name
 
 
     def del_variable(self, var, var_widget):
         self.widgets.remove(var_widget)
         var_widget.setParent(None)
-        del self.vars_manager.variables[self.vars_manager.variables.index(var)]
-        self.recreate_ui()
+        self.vars_manager.delete_variable(var)
+        # del self.vars_manager.variables[self.vars_manager.variables.index(var)]
+        self.recreate_list()

@@ -15,7 +15,7 @@ class WebcamFeed_NodeInstance(NodeInstance):
         self.log = self.new_log('Webcam Feed log')
 
     def video_picture_updated(self, img):
-        self.log.log('video picture updated')
+        self.log.write('video picture updated')
         self.set_output_val(0, img)
         # self.update()
 
@@ -34,4 +34,5 @@ class WebcamFeed_NodeInstance(NodeInstance):
 
 
     def remove_event(self):
-        self.log_message('Webcam feed node instance successfully removed. Have a good day.', target='global')
+        # self.log_message('Webcam feed node instance successfully removed. Have a good day.', target='Global')
+        pass

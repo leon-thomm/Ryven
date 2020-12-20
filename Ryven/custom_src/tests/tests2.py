@@ -858,37 +858,37 @@ def create_node_instances():
 
 
 def connect_node_instances():
-    node_instances[0].outputs[0].connected_port_instances = []
-    node_instances[0].inputs[0].connected_port_instances = [
+    node_instances[0].outputs[0].connections = []
+    node_instances[0].inputs[0].connections = [
         node_instances[6].outputs[0]]
-    node_instances[1].outputs[0].connected_port_instances = []
-    node_instances[1].inputs[0].connected_port_instances = [
+    node_instances[1].outputs[0].connections = []
+    node_instances[1].inputs[0].connections = [
         node_instances[2].outputs[0]]
-    node_instances[1].inputs[1].connected_port_instances = []
-    node_instances[2].outputs[0].connected_port_instances = [
+    node_instances[1].inputs[1].connections = []
+    node_instances[2].outputs[0].connections = [
         node_instances[1].inputs[0], node_instances[3].inputs[0], node_instances[3].inputs[1]]
-    node_instances[2].inputs[0].connected_port_instances = [
+    node_instances[2].inputs[0].connections = [
         node_instances[7].outputs[0]]
-    node_instances[2].inputs[1].connected_port_instances = []
-    node_instances[3].outputs[0].connected_port_instances = [
+    node_instances[2].inputs[1].connections = []
+    node_instances[3].outputs[0].connections = [
         node_instances[4].inputs[0], node_instances[6].inputs[0]]
-    node_instances[3].inputs[0].connected_port_instances = [
+    node_instances[3].inputs[0].connections = [
         node_instances[2].outputs[0]]
-    node_instances[3].inputs[1].connected_port_instances = [
+    node_instances[3].inputs[1].connections = [
         node_instances[2].outputs[0]]
-    node_instances[4].outputs[0].connected_port_instances = []
-    node_instances[4].inputs[0].connected_port_instances = [
+    node_instances[4].outputs[0].connections = []
+    node_instances[4].inputs[0].connections = [
         node_instances[3].outputs[0]]
-    node_instances[5].outputs[0].connected_port_instances = [
+    node_instances[5].outputs[0].connections = [
         node_instances[7].inputs[0]]
-    node_instances[6].outputs[0].connected_port_instances = [
+    node_instances[6].outputs[0].connections = [
         node_instances[0].inputs[0]]
-    node_instances[6].inputs[0].connected_port_instances = [
+    node_instances[6].inputs[0].connections = [
         node_instances[3].outputs[0]]
-    node_instances[6].inputs[1].connected_port_instances = []
-    node_instances[7].outputs[0].connected_port_instances = [
+    node_instances[6].inputs[1].connections = []
+    node_instances[7].outputs[0].connections = [
         node_instances[2].inputs[0]]
-    node_instances[7].inputs[0].connected_port_instances = [
+    node_instances[7].inputs[0].connections = [
         node_instances[5].outputs[0]]
 
 

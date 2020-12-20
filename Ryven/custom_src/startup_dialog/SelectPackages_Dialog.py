@@ -83,7 +83,7 @@ class SelectPackages_Dialog(QDialog):
                 f.close()
                 self.file_paths.append(file_name)
             except FileNotFoundError:
-                Debugger.debug('couldn\'t open file')
+                Debugger.write('couldn\'t open file')
 
         self.rebuild_selected_packages_list_widget()
 

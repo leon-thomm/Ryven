@@ -6,14 +6,13 @@ from PySide2.QtGui import QColor
 import custom_src.Console.MainConsole as MainConsole
 from custom_src.NodeInstanceAction import NodeInstanceAction
 from custom_src.NodeInstanceAnimator import NodeInstanceAnimator
-from custom_src.NodeInstance_TitleLabel import TitleLabel
+from custom_src.NodeInstanceWidget import NodeInstanceWidget
 from custom_src.global_tools.Debugger import Debugger
 from custom_src.global_tools.MovementEnum import MovementEnum
 from custom_src.Design import Design
 
 from custom_src.Node import Node
 from custom_src.PortInstance import InputPortInstance, OutputPortInstance
-from custom_src.FlowProxyWidget import FlowProxyWidget
 from custom_src.retain import M
 
 
@@ -21,9 +20,6 @@ class NodeInstance(QGraphicsItem):
     def __init__(self, params):
         super(NodeInstance, self).__init__()
 
-        self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
-                      QGraphicsItem.ItemSendsScenePositionChanges)
-        self.setAcceptHoverEvents(True)
 
         # GENERAL ATTRIBUTES
 
@@ -32,13 +28,13 @@ class NodeInstance(QGraphicsItem):
 
         self.parent_node = parent_node
         self.flow = flow
+        self.script = flow.script
         self.movement_state = None
         self.movement_pos_from = None
         self.painted_once = False
         self.inputs = []
         self.outputs = []
         self.color = self.parent_node.color  # manipulated by self.animator
-        # self.node_instance_painter = NodeInstancePainter(self)
 
         self.default_actions = {'remove': {'method': self.action_remove},
                                 'update shape': {'method': self.update_shape},
@@ -53,29 +49,21 @@ class NodeInstance(QGraphicsItem):
         self.init_config = config
 
 
+        # FLAGS
+        self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
+                      QGraphicsItem.ItemSendsScenePositionChanges)
+        self.setAcceptHoverEvents(True)
+
+
+
         # UI
         self.shadow_effect = None
-        self.width = -1
-        self.height = -1
-
-        self.title_label = TitleLabel(self)
-
-        self.animator = NodeInstanceAnimator(self)  # needs self.title_label
-
         self.main_widget = None
-        self.main_widget_proxy: FlowProxyWidget = None
         if self.parent_node.has_main_widget:
             self.main_widget = self.parent_node.main_widget_class(self)
-            self.main_widget_proxy = FlowProxyWidget(self.flow)
-            self.main_widget_proxy.setWidget(self.main_widget)
+        self.widget = NodeInstanceWidget(self)  # QGraphicsWidget(self)
 
-        # LOADING UI
-        self.body_layout: QGraphicsLinearLayout = None
-        self.inputs_layout: QGraphicsLinearLayout = None
-        self.outputs_layout: QGraphicsLinearLayout = None
-        self.layout: QGraphicsLinearLayout = self.setup_ui()
-        self.widget = QGraphicsWidget(self)
-        self.widget.setLayout(self.layout)
+        self.animator = NodeInstanceAnimator(self)  # needs self.title_label
 
         # TOOLTIP
         if self.parent_node.description != '':
@@ -83,7 +71,7 @@ class NodeInstance(QGraphicsItem):
         self.setCursor(Qt.SizeAllCursor)
 
         # DESIGN THEME
-        Design.flow_theme_changed.connect(self.theme_changed)
+        Design.flow_theme_changed.connect(self.update_design)
 
 
 
@@ -124,78 +112,6 @@ class NodeInstance(QGraphicsItem):
 
         self.update()  # and finally update the NodeInstance once
 
-    def setup_ui(self):
-        """Creates the empty layouts for the NI's widget."""
-
-        #   main layout
-        layout = QGraphicsLinearLayout(Qt.Vertical)
-        layout.setSpacing(10)
-
-        if self.parent_node.design_style == 'extended':
-            layout.addItem(self.title_label)
-            layout.setAlignment(self.title_label, Qt.AlignTop)
-
-        #   inputs
-        self.inputs_layout = QGraphicsLinearLayout(Qt.Vertical)
-        self.inputs_layout.setSpacing(2)
-
-        #   outputs
-        self.outputs_layout = QGraphicsLinearLayout(Qt.Vertical)
-        self.outputs_layout.setSpacing(2)
-
-        #   body
-        self.body_layout = QGraphicsLinearLayout(Qt.Horizontal)
-
-        self.body_layout.setSpacing(4)
-        self.body_layout.addItem(self.inputs_layout)
-        self.body_layout.setAlignment(self.inputs_layout, Qt.AlignVCenter | Qt.AlignLeft)
-        self.body_layout.addStretch()
-        self.body_layout.addItem(self.outputs_layout)
-        self.body_layout.setAlignment(self.outputs_layout, Qt.AlignVCenter | Qt.AlignRight)
-
-        if self.main_widget is not None:
-            if self.parent_node.main_widget_pos == 'between ports':
-                self.body_layout.insertItem(1, self.main_widget_proxy)
-                self.body_layout.insertStretch(2)
-                layout.addItem(self.body_layout)
-
-            elif self.parent_node.main_widget_pos == 'under ports':
-                layout.addItem(self.body_layout)
-                layout.addItem(self.main_widget_proxy)
-                layout.setAlignment(self.main_widget_proxy, Qt.AlignHCenter)
-        else:
-            layout.addItem(self.body_layout)
-
-        return layout
-
-    def rebuild_ui(self):
-        """Due to some really strange and annoying behaviour of these QGraphicsWidgets, they don't want to shrink
-        automatically when content is removed, they just stay large, even with a Minimum SizePolicy. I didn't find a
-        way around that yet, so for now I have to recreate the whole layout and make sure the widget uses the smallest
-        size possible."""
-
-        # if I don't manually remove the ports from the layouts,
-        # they get deleted when setting the widget's layout to None below
-        for inp in self.inputs:
-            self.inputs_layout.removeAt(0)
-        for out in self.outputs:
-            self.outputs_layout.removeAt(0)
-
-        self.layout = self.setup_ui()  # recreate layout
-
-        # forcing the widget to shrink
-        self.widget.setLayout(None)
-        self.widget.resize(self.widget.minimumSize())
-
-        self.widget.setLayout(self.layout)
-
-        # add inputs to new layout
-        for inp in self.inputs:
-            self.add_input_to_layout(inp)
-        for out in self.outputs:
-            self.add_output_to_layout(out)
-
-
     #                        __                             _    __     __
     #              ____ _   / /  ____ _   ____     _____   (_)  / /_   / /_     ____ ___
     #             / __ `/  / /  / __ `/  / __ \   / ___/  / /  / __/  / __ \   / __ `__ \
@@ -211,11 +127,11 @@ class NodeInstance(QGraphicsItem):
         if Design.animations_enabled:
             self.animator.start()
 
-        Debugger.debug('update in', self.parent_node.title, 'on input', input_called)
+        Debugger.write('update in', self.parent_node.title, 'on input', input_called)
         try:
             self.update_event(input_called)
         except Exception as e:
-            Debugger.debugerr('EXCEPTION IN', self.parent_node.title, 'NI:', e)
+            Debugger.write_err('EXCEPTION IN', self.parent_node.title, 'NI:', e)
 
     def update_event(self, input_called=-1):
         """Gets called when an input received a signal. This is where the magic begins in subclasses."""
@@ -227,7 +143,7 @@ class NodeInstance(QGraphicsItem):
         If the input is connected, the value of the connected output is used:
         If not, the value of the widget is used."""
 
-        Debugger.debug('input called in', self.parent_node.title, 'NI:', index)
+        Debugger.write('input called in', self.parent_node.title, 'NI:', index)
         return self.inputs[index].get_val()
 
     def exec_output(self, index):
@@ -262,66 +178,37 @@ class NodeInstance(QGraphicsItem):
     #   LOGGING
     def new_log(self, title):
         """Requesting a new personal Log. Handy method for subclasses."""
-        new_log = self.flow.parent_script.logger.new_log(self, title)
+        # new_log = self.script.logger.new_log(self, title)
+        new_log = self.script.logger.new_log(title)
         self.personal_logs.append(new_log)
         return new_log
 
-    def disable_personal_logs(self):
+    def disable_logs(self):
         """Disables personal Logs. They remain visible unless the user closes them via the appearing button."""
         for log in self.personal_logs:
             log.disable()
 
-    def enable_personal_logs(self):
+    def enable_logs(self):
         """Resets personal Logs to normal state (hiding close button, changing style sheet)."""
         for log in self.personal_logs:
             log.enable()
 
-    def log_message(self, message: str, target='global'):
-        """Access to global_tools Script Logs ('global' or 'error')."""
-        self.flow.parent_script.logger.log_message(message, target)
+    def log_message(self, message: str, target: str):
+        """Writes a string to a default log with title target"""
+
+        self.script.logger.log_message(message, target)
 
     # SHAPE
     def update_shape(self):
         """Causes recompilation of the whole shape."""
-        # if not self.initializing:   # just to make sure
-        #     self.rebuild_ui()       # (hopefully) temporary fix -> see rebuild_ui() docstring
-
-        if self.main_widget is not None:  # maybe the main_widget got resized
-            self.main_widget_proxy.setMaximumSize(self.main_widget.size())
-            self.widget.adjustSize()
-            self.widget.adjustSize()
-
-        self.body_layout.invalidate()
-        self.layout.invalidate()
-        self.layout.activate()
-        # very essential; repositions everything in case content has changed (inputs/outputs/widget)
-
-        if self.parent_node.design_style == 'minimalistic':
-
-            # making it recompute its true minimumWidth here
-            self.widget.adjustSize()
-
-            if self.layout.minimumWidth() < self.title_label.width + 15:
-                self.layout.setMinimumWidth(self.title_label.width + 15)
-                self.layout.activate()
-
-        self.width = self.boundingRect().width()
-        self.height = self.boundingRect().height()
-        rect = QRectF(QPointF(-self.width/2, -self.height/2),
-                      QPointF(self.width/2, self.height/2))
-        self.widget.setPos(rect.left(), rect.top())
-
-        if not self.parent_node.design_style == 'extended':
-            self.title_label.setPos(QPointF(-self.title_label.boundingRect().width()/2,
-                                            -self.title_label.boundingRect().height()/2))
-
+        self.widget.update_shape()
         self.flow.viewport().update()
 
 
     # PORTS
     def create_new_input(self, type_, label, widget_name=None, widget_pos='under', pos=-1, config=None):
         """Creates and adds a new input. Handy for subclasses."""
-        Debugger.debug('create_new_input called')
+        Debugger.write('create_new_input called')
         pi = InputPortInstance(self, type_, label,
                                config_data=config,
                                widget_name=widget_name,
@@ -330,26 +217,14 @@ class NodeInstance(QGraphicsItem):
             pos += len(self.inputs)
         if pos == -1:
             self.inputs.append(pi)
-            self.add_input_to_layout(pi)
+            self.widget.add_input_to_layout(pi)
         else:
             self.inputs.insert(pos, pi)
-            self.insert_input_into_layout(pos, pi)
+            self.widget.insert_input_into_layout(pos, pi)
 
         if not self.initializing:
             self.update_shape()
             self.update()
-
-    def add_input_to_layout(self, i):
-        if self.inputs_layout.count() > 0:
-            self.inputs_layout.addStretch()
-        self.inputs_layout.addItem(i)
-        self.inputs_layout.setAlignment(i, Qt.AlignLeft)
-
-    def insert_input_into_layout(self, index, i):
-        self.inputs_layout.insertItem(index*2+1, i)  # *2 because of the stretches
-        self.inputs_layout.setAlignment(i, Qt.AlignLeft)
-        if len(self.inputs) > 1:
-            self.inputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
 
     def delete_input(self, i):
         """Disconnects and removes input. Handy for subclasses."""
@@ -359,22 +234,18 @@ class NodeInstance(QGraphicsItem):
         elif type(i) == InputPortInstance:
             inp = i
 
-        for cpi in inp.connected_port_instances:
-            self.flow.connect_gates(inp.gate, cpi.gate)
+        for c in inp.connections:
+            self.flow.connect_pins(c.out, inp)
 
         # for some reason, I have to remove all widget items manually from the scene too. setting the items to
         # ownedByLayout(True) does not work, I don't know why.
-        self.scene().removeItem(inp.gate)
+        self.scene().removeItem(inp.pin)
         self.scene().removeItem(inp.label)
         if inp.proxy is not None:
             self.scene().removeItem(inp.proxy)
 
-        self.inputs_layout.removeItem(inp)
         self.inputs.remove(inp)
-
-        # just a temporary workaround for the issues discussed here:
-        # https://forum.qt.io/topic/116268/qgraphicslayout-not-properly-resizing-to-change-of-content
-        self.rebuild_ui()
+        self.widget.remove_input_from_layout(inp)
 
         if not self.initializing:
             self.update_shape()
@@ -389,26 +260,14 @@ class NodeInstance(QGraphicsItem):
             pos += len(self.outputs)
         if pos == -1:
             self.outputs.append(pi)
-            self.add_output_to_layout(pi)
+            self.widget.add_output_to_layout(pi)
         else:
             self.outputs.insert(pos, pi)
-            self.insert_output_into_layout(pos, pi)
+            self.widget.insert_output_into_layout(pos, pi)
 
         if not self.initializing:
             self.update_shape()
             self.update()
-
-    def add_output_to_layout(self, o):
-        if self.outputs_layout.count() > 0:
-            self.outputs_layout.addStretch()
-        self.outputs_layout.addItem(o)
-        self.outputs_layout.setAlignment(o, Qt.AlignRight)
-
-    def insert_output_into_layout(self, index, o):
-        self.outputs_layout.insertItem(index*2-1, o)  # *2 because of the stretches
-        self.outputs_layout.setAlignment(o, Qt.AlignRight)
-        if len(self.outputs) > 1:
-            self.outputs_layout.insertStretch(index*2+1)  # *2+1 because of the stretches, too
 
     def delete_output(self, o):
         """Disconnects and removes output. Handy for subclasses."""
@@ -418,19 +277,15 @@ class NodeInstance(QGraphicsItem):
         elif type(o) == OutputPortInstance:
             out = o
 
-        for cpi in out.connected_port_instances:
-            self.flow.connect_gates(out.gate, cpi.gate)
+        for cpi in out.connections:
+            self.flow.connect_pins(out, cpi)
 
         # see delete_input() for info!
-        self.scene().removeItem(out.gate)
+        self.scene().removeItem(out.pin)
         self.scene().removeItem(out.label)
 
-        self.outputs_layout.removeItem(out)
         self.outputs.remove(out)
-
-        # just a temporary workaround for the issues discussed here:
-        # https://forum.qt.io/topic/116268/qgraphicslayout-not-properly-resizing-to-change-of-content
-        self.rebuild_ui()
+        self.widget.remove_output_from_layout(out)
 
         if not self.initializing:
             self.update_shape()
@@ -463,7 +318,7 @@ class NodeInstance(QGraphicsItem):
     # VARIABLES
 
     def get_vars_manager(self):
-        return self.flow.parent_script.vars_manager
+        return self.script.vars_manager
 
     def get_var_val(self, name):
         return self.get_vars_manager().get_var_val(name)
@@ -486,10 +341,6 @@ class NodeInstance(QGraphicsItem):
         #     extensive_dict[att] = getattr(self, att)
         MainConsole.main_console.add_obj_context(self)
 
-    def theme_changed(self, new_theme):
-        self.title_label.theme_changed(new_theme)
-        self.update_design()
-
     def update_design(self):
         """Loads the shadow effect option and causes redraw with active theme."""
 
@@ -503,8 +354,7 @@ class NodeInstance(QGraphicsItem):
         else:
             self.setGraphicsEffect(None)
 
-        self.title_label.update_design()
-        # print(self.title_label.color)
+        self.widget.update()
         self.animator.reload_values()
 
         QGraphicsItem.update(self)
@@ -512,8 +362,8 @@ class NodeInstance(QGraphicsItem):
     def boundingRect(self):
         # remember: (0, 0) shall be the NI's center!
         rect = QRectF()
-        w = self.layout.geometry().width()
-        h = self.layout.geometry().height()
+        w = self.widget.layout().geometry().width()
+        h = self.widget.layout().geometry().height()
         rect.setLeft(-w/2)
         rect.setTop(-h/2)
         rect.setWidth(w)
@@ -528,17 +378,25 @@ class NodeInstance(QGraphicsItem):
         # has to be called once. See here:
         # https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event/4
         if not self.painted_once:
-            self.title_label.update_design()  # also necessary
-            self.update_shape()
 
-        # self.node_instance_painter.paint(painter, option, self.color, self.width, self.height, self.boundingRect(),
-        #                                  Design.flow_theme, widget)
+            # ok, quick notice. Since I am using a NodeInstanceWidget, calling self.update_design() here (again)
+            # leads to a QT crash without error, which is really strange. Calling update_design multiple times
+            # principally isn't a problem, but, for some reason, here it leads to a crash in QT. It's not necessary
+            # anymore, so I just removed it.
+            # self.update_design()
+
+            self.update_shape()
+            self.update_conn_pos()
+
         Design.flow_theme.node_inst_painter.paint_NI(
             design_style=self.parent_node.design_style,
-            painter=painter, option=option,
-            c=self.color, w=self.width, h=self.height,
+            painter=painter,
+            option=option,
+            c=self.color,
+            w=self.boundingRect().width(),
+            h=self.boundingRect().height(),
             bounding_rect=self.boundingRect(),
-            title_rect=self.title_label.boundingRect()
+            title_rect=self.widget.title_label.boundingRect()
         )
 
         self.painted_once = True
@@ -565,7 +423,7 @@ class NodeInstance(QGraphicsItem):
 
     def itemChange(self, change, value):
         """This method ensures that all connections, selection borders etc. that get drawn in the Flow are constantly
-        redrawn during a NI drag. Should get disabled when running in performance mode - not implemented yet."""
+        redrawn during a NI drag. Also updates the positions of connections"""
 
         if change == QGraphicsItem.ItemPositionChange:
             if Design.performance_mode == 'pretty':
@@ -573,14 +431,22 @@ class NodeInstance(QGraphicsItem):
             if self.movement_state == MovementEnum.mouse_clicked:
                 self.movement_state = MovementEnum.position_changed
 
+        self.update_conn_pos()
+
         return QGraphicsItem.itemChange(self, change, value)
 
+    def update_conn_pos(self):
+        """Updates the global positions of connections at outputs"""
+        for o in self.outputs:
+            for c in o.connections:
+                c.update_pos()
+
     def hoverEnterEvent(self, event):
-        self.title_label.set_NI_hover_state(hovering=True)
+        self.widget.title_label.set_NI_hover_state(hovering=True)
         QGraphicsItem.hoverEnterEvent(self, event)
 
     def hoverLeaveEvent(self, event):
-        self.title_label.set_NI_hover_state(hovering=False)
+        self.widget.title_label.set_NI_hover_state(hovering=False)
         QGraphicsItem.hoverLeaveEvent(self, event)
 
     def mousePressEvent(self, event):
@@ -692,41 +558,41 @@ class NodeInstance(QGraphicsItem):
 
     def get_input_widget_class(self, widget_name):
         """Returns a reference to the widget class of a given name for instantiation."""
-        custom_node_input_widget_classes = self.flow.parent_script.main_window.custom_node_input_widget_classes
+        custom_node_input_widget_classes = self.script.main_window.custom_node_input_widget_classes
         widget_class = custom_node_input_widget_classes[self.parent_node][widget_name]
         return widget_class
 
     def add_input_to_scene(self, i):
-        self.flow.scene().addItem(i.gate)
+        self.flow.scene().addItem(i.pin)
         self.flow.scene().addItem(i.label)
         if i.widget:
             self.flow.scene().addItem(i.proxy)
 
     def del_and_remove_input_from_scene(self, i_index):
-        i = self.inputs[i_index]
-        for p in self.inputs[i_index].connected_port_instances:
-            self.flow.connect_gates(i.gate, p.gate)
+        inp = self.inputs[i_index]
+        for c in self.inputs[i_index].connections:
+            self.flow.connect_pins(c.out, inp)
 
-        self.flow.scene().removeItem(i.gate)
-        self.flow.scene().removeItem(i.label)
-        if i.widget:
-            self.flow.scene().removeItem(i.proxy)
-            i.widget.remove_event()
-        self.inputs.remove(i)
+        self.flow.scene().removeItem(inp.pin)
+        self.flow.scene().removeItem(inp.label)
+        if inp.widget:
+            self.flow.scene().removeItem(inp.proxy)
+            inp.widget.remove_event()
+        self.inputs.remove(inp)
 
 
     def add_output_to_scene(self, o):
-        self.flow.scene().addItem(o.gate)
+        self.flow.scene().addItem(o.pin)
         self.flow.scene().addItem(o.label)
 
     def del_and_remove_output_from_scene(self, o_index):
-        o = self.outputs[o_index]
-        for p in self.outputs[o_index].connected_port_instances:
-            self.flow.connect_gates(o.gate, p.gate)
+        out = self.outputs[o_index]
+        for c in self.outputs[o_index].connections:
+            self.flow.connect_pins(out, c.inp)
 
-        self.flow.scene().removeItem(o.gate)
-        self.flow.scene().removeItem(o.label)
-        self.outputs.remove(o)
+        self.flow.scene().removeItem(out.pin)
+        self.flow.scene().removeItem(out.label)
+        self.outputs.remove(out)
 
     # GENERAL
     def about_to_remove_from_scene(self):
@@ -737,7 +603,7 @@ class NodeInstance(QGraphicsItem):
             self.main_widget.remove_event()
         self.remove_event()
 
-        self.disable_personal_logs()
+        self.disable_logs()
 
     def is_active(self):
         for i in self.inputs:

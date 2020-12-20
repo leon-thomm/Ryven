@@ -1,46 +1,56 @@
+from PySide2.QtCore import Signal, QObject
+
 from custom_src.script_variables.Variable import Variable
-from custom_src.custom_list_widgets.VariablesListWidget import VariablesListWidget
 
 from custom_src.global_tools.Debugger import Debugger
 
 
-class VarsManager:
+class VarsManager(QObject):
     """Manages script variables and triggers receivers when values of variables change"""
 
+    new_var_created = Signal(Variable)
+    var_deleted = Signal(Variable)
+
     def __init__(self, script, config=None):
+        super().__init__()
 
         self.script = script
 
         self.variables = []
-        self.list_widget = VariablesListWidget(self)
+        # self.list_widget = VariablesListWidget(self)
         self.var_receivers = {}
 
         if config is not None:
             for name in config.keys():  # variables
                 # self.variables.append(Variable(name, config_vars[name]))
                 self.create_new_var(name, val=config[name])
-            self.list_widget.recreate_ui()
+            # self.list_widget.recreate_list()
 
-    def create_new_var_and_update(self, name):
-        """Also updates the GUI"""
+    # def create_new_var_and_update(self, name):
+    #     """Also updates the GUI"""
+    #
+    #     self.create_new_var(name)
+    #     self.list_widget.recreate_ui()
 
-        self.create_new_var(name)
-        self.list_widget.recreate_ui()
-
-    def create_new_var(self, name, val=None):
-
+    def check_new_var_name_validity(self, name: str) -> bool:
         if len(name) == 0:
-            return
+            return False
 
         # search for name issues
         for v in self.variables:
             if v.name == name:
-                return
+                return False
 
-        self.variables.append(Variable(name, val))
+        return True
+
+
+    def create_new_var(self, name: str, val=None):
+        v = Variable(name, val)
+        self.variables.append(v)
+        self.new_var_created.emit(v)
 
     def get_var(self, name):
-        Debugger.debug('getting variable with name:', name)
+        Debugger.write('getting variable with name:', name)
 
         for v in self.variables:
             if v.name == name:
@@ -72,6 +82,10 @@ class VarsManager:
                 return i
 
         return None
+
+    def delete_variable(self, var: Variable):
+        self.variables.remove(var)
+        self.var_deleted.emit(var)
 
     def register_receiver(self, receiver, var_name, method):
         """A registered receiver (method) gets triggered every time the

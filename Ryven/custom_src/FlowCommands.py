@@ -87,14 +87,16 @@ class RemoveComponents_Command(QUndoCommand):
         self.connected_node_instances_indices_not_in_del_selection = []
         for n in self.node_instances:
             for i in n.inputs:
-                for cpi in i.connected_port_instances:
+                for c in i.connections:
+                    cpi = c.out
                     cni = cpi.parent_node_instance
                     if cni not in self.node_instances:
                         self.broken_connections.append({
                             cpi: i
                         })
             for o in n.outputs:
-                for cpi in o.connected_port_instances:
+                for c in o.connections:
+                    cpi = c.inp
                     cni = cpi.parent_node_instance
                     if cni not in self.node_instances:
                         self.broken_connections.append({
@@ -114,22 +116,22 @@ class RemoveComponents_Command(QUndoCommand):
 
     def connect_gates(self):
         for b_c in self.broken_connections:
-            self.flow.connect_gates(list(b_c.keys())[0].gate, list(b_c.values())[0].gate)
+            self.flow.connect_pins(list(b_c.keys())[0], list(b_c.values())[0])
 
 
 class ConnectGates_Command(QUndoCommand):
-    def __init__(self, flow, parent_port, child_port):
+    def __init__(self, flow, out, inp):
         super(ConnectGates_Command, self).__init__()
 
         self.flow = flow
-        self.parent_port = parent_port
-        self.child_port = child_port
+        self.out = out
+        self.inp = inp
 
     def undo(self):
-        self.flow.connect_gates(self.parent_port.gate, self.child_port.gate)
+        self.flow.connect_pins(self.out, self.inp)
 
     def redo(self):
-        self.flow.connect_gates(self.parent_port.gate, self.child_port.gate)
+        self.flow.connect_pins(self.out, self.inp)
 
 
 class Paste_Command(QUndoCommand):

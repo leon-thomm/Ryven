@@ -27,9 +27,9 @@ class %CLASS%(NodeInstance):
     def action_reset(self):
         self.weights = [random.uniform(-1, 1), random.uniform(-1, 1)]
         self.fixing_log.clear()
-        self.fixing_log.log('new weights created:')
-        self.fixing_log.log('x1:',str(self.weights[0]))
-        self.fixing_log.log('x2:',str(self.weights[1]))
+        self.fixing_log.write('new weights created:')
+        self.fixing_log.write('x1:',str(self.weights[0]))
+        self.fixing_log.('x2:',str(self.weights[1]))
         self.feeding_log.clear()
 
 
@@ -46,7 +46,7 @@ class %CLASS%(NodeInstance):
             guess = self.guess(x1, x2)
             signed_guess = self.sign(guess)
             self.outputs[1].set_val(signed_guess)
-            self.feeding_log.log('input:',str(x1),',',str(x2),'   guess:',signed_guess)
+            self.feeding_log.write('input:',str(x1),',',str(x2),'   guess:',signed_guess)
             self.exec_output(0)
 
         elif input_called == 3:  # correct
@@ -54,16 +54,16 @@ class %CLASS%(NodeInstance):
             x1 = self.input(1)
             x2 = self.input(2)
             err = self.input(4)
-            self.fixing_log.log('----------------------------')
-            self.fixing_log.log('err:',err)
-            self.fixing_log.log('old x1:',str(self.weights[0]))
-            self.fixing_log.log('old x2:',str(self.weights[1]))
+            self.fixing_log.write('----------------------------')
+            self.fixing_log.write('err:',err)
+            self.fixing_log.write('old x1:',str(self.weights[0]))
+            self.fixing_log.write('old x2:',str(self.weights[1]))
             d_w1 = x1*err*fix_factor
             self.weights[0] += d_w1
             d_w2 = x2*err*fix_factor
             self.weights[1] += d_w2
-            self.fixing_log.log('new x1:',str(self.weights[0]))
-            self.fixing_log.log('new x2:',str(self.weights[1]))
+            self.fixing_log.write('new x1:',str(self.weights[0]))
+            self.fixing_log.write('new x2:',str(self.weights[1]))
 
     def get_data(self):
         data = {'weights': self.weights}

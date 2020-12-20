@@ -13,7 +13,7 @@ class VarsList_VarWidget(QWidget):
     """Single variable representing component for VariablesListWidget.
     See VariablesListWidget for further info."""
 
-    name_LE_editing_finished = Signal()
+    # name_LE_editing_finished = Signal()
 
     def __init__(self, vars_list_widget, vars_manager, var):
         super(VarsList_VarWidget, self).__init__()
@@ -21,6 +21,7 @@ class VarsList_VarWidget(QWidget):
         self.vars_manager = vars_manager
         self.var = var
         self.vars_list_widget = vars_list_widget
+        self.previous_var_name = ''  # for editing
 
         self.ignore_name_line_edit_signal = False
 
@@ -36,16 +37,15 @@ class VarsList_VarWidget(QWidget):
         icon_label.setPixmap(variable_icon.pixmap(15, 15))
         main_layout.addWidget(icon_label)
 
-        # create name and data_type line edits
         self.name_line_edit = ListWidget_NameLineEdit(var.name, self)
         self.name_line_edit.setPlaceholderText('name')
         self.name_line_edit.setEnabled(False)
         self.name_line_edit.editingFinished.connect(self.name_line_edit_editing_finished)
         self.name_line_edit.unfocused.connect(self.name_line_edit_editing_finished)
 
-        name_type_layout = QVBoxLayout()
-        name_type_layout.addWidget(self.name_line_edit)
-        main_layout.addLayout(name_type_layout)
+        # name_type_layout = QVBoxLayout()
+        # name_type_layout.addWidget(self.name_line_edit)
+        main_layout.addWidget(self.name_line_edit)
 
         self.setLayout(main_layout)
 
@@ -113,7 +113,8 @@ class VarsList_VarWidget(QWidget):
         self.name_line_edit.setFocus()
         self.name_line_edit.selectAll()
 
-        self.vars_list_widget.currently_edited_var = self.var
+        # self.vars_list_widget.currently_edited_var = self.var
+        self.previous_var_name = self.name_line_edit.text()
 
 
     def get_drag_data(self):
@@ -128,6 +129,17 @@ class VarsList_VarWidget(QWidget):
     def name_line_edit_editing_finished(self):
         if self.ignore_name_line_edit_signal:
             return
+
+        name = self.name_line_edit.text()
+
         self.ignore_name_line_edit_signal = True
-        self.name_LE_editing_finished.emit()
+        # self.name_LE_editing_finished.emit()
+        if not self.vars_manager.check_new_var_name_validity(name):
+            self.name_line_edit.setText(self.previous_var_name)
+            return
+
+        # rename var
+        self.name_line_edit.setEnabled(False)
+        self.var.name = name
+
         self.ignore_name_line_edit_signal = False

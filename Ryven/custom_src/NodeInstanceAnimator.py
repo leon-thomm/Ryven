@@ -58,10 +58,10 @@ class NodeInstanceAnimator(QObject):
 
 
     def get_title_color(self):
-        return self.node_instance.title_label.color
+        return self.node_instance.widget.title_label.color
 
     def set_title_color(self, val):
-        self.node_instance.title_label.color = val
+        self.node_instance.widget.title_label.color = val
         # QGraphicsItem.update(self.node_instance)
 
     p_title_color = Property(QColor, get_title_color, set_title_color)
