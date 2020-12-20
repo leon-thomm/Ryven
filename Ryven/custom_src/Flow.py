@@ -15,8 +15,6 @@ from custom_src.FlowStylusModesWidget import FlowStylusModesWidget
 from custom_src.FlowZoomWidget import FlowZoomWidget
 from custom_src.GlobalAttributes import Flow_AlgorithmMode, Flow_ViewportUpdateMode
 from custom_src.Node import Node
-from custom_src.builtin_nodes.GetVar_Node import GetVar_Node
-from custom_src.builtin_nodes.SetVar_Node import SetVar_Node
 from custom_src.node_choice_widget.NodeChoiceWidget import NodeChoiceWidget
 from custom_src.NodeInstance import NodeInstance
 from custom_src.PortInstance import PortInstance, PortInstPin
@@ -26,7 +24,7 @@ from custom_src.Design import Design
 
 
 class Flow(QGraphicsView):
-    def __init__(self, main_window, script, config=None):
+    def __init__(self, session, script, config=None):
         super(Flow, self).__init__()
 
 
@@ -42,10 +40,11 @@ class Flow(QGraphicsView):
 
         # GENERAL ATTRIBUTES
         self.script = script
+        self.session = session
         self.all_node_instances: [NodeInstance] = []
         self.connections: [Connection] = []
-        self.all_node_instance_classes = main_window.all_node_instance_classes  # ref
-        self.all_nodes = main_window.all_nodes  # ref
+        # self.all_node_instance_classes = main_window.all_node_instance_classes  # ref
+        # self.all_nodes = session.all_nodes  # ref
         self.pin_selected: PortInstPin = None
         self.dragging_connection = False
         self.ignore_mouse_event = False  # for stylus - see tablet event
@@ -61,8 +60,8 @@ class Flow(QGraphicsView):
         self.total_scale_div = 1
 
         # SETTINGS
-        self.algorithm_mode = Flow_AlgorithmMode()
-        self.viewport_update_mode = Flow_ViewportUpdateMode()
+        self.algorithm_mode = 'data flow'    # Flow_AlgorithmMode()
+        self.viewport_update_mode = 'sync'  # Flow_ViewportUpdateMode()
 
         # CREATE UI
         scene = QGraphicsScene(self)
@@ -83,7 +82,7 @@ class Flow(QGraphicsView):
         # NODE CHOICE WIDGET
         self.node_choice_proxy = FlowProxyWidget(self)
         self.node_choice_proxy.setZValue(1000)
-        self.node_choice_widget = NodeChoiceWidget(self, main_window.all_nodes)  # , main_window.node_images)
+        self.node_choice_widget = NodeChoiceWidget(self, self.session.nodes)  # , main_window.node_images)
         self.node_choice_proxy.setWidget(self.node_choice_widget)
         self.scene().addItem(self.node_choice_proxy)
         self.hide_node_choice_widget()
@@ -123,22 +122,16 @@ class Flow(QGraphicsView):
             config: dict
 
             # algorithm mode
-            if config.keys().__contains__('algorithm mode'):
-                if config['algorithm mode'] == 'data flow':
-                    self.script.widget.ui.algorithm_data_flow_radioButton.setChecked(True)
-                    self.algorithm_mode.mode_data_flow = True
-                else:  # 'exec flow'
-                    self.script.widget.ui.algorithm_exec_flow_radioButton.setChecked(True)
-                    self.algorithm_mode.mode_data_flow = False
+            if config['algorithm mode'] == 'data flow':
+                self.algorithm_mode = 'data flow'
+            elif config['algorithm mode'] == 'exec flow':
+                self.algorithm_mode = 'exec flow'
 
             # viewport update mode
-            if config.keys().__contains__('viewport update mode'):
-                if config['viewport update mode'] == 'sync':
-                    self.script.widget.ui.viewport_update_mode_sync_radioButton.setChecked(True)
-                    self.viewport_update_mode.sync = True
-                else:  # 'async'
-                    self.script.widget.ui.viewport_update_mode_async_radioButton.setChecked(True)
-                    self.viewport_update_mode.sync = False
+            if config['viewport update mode'] == 'sync':
+                self.viewport_update_mode = 'sync'
+            elif config['viewport update mode'] == 'async':
+                self.viewport_update_mode = 'async'
 
             node_instances = self.place_nodes_from_config(config['nodes'])
             self.connect_nodes_from_config(node_instances, config['connections'])
@@ -175,15 +168,17 @@ class Flow(QGraphicsView):
         # TODO: repaint background. how?
         self.viewport().update()
 
-    def algorithm_mode_data_flow_toggled(self, checked):
-        self.algorithm_mode.mode_data_flow = checked
-
-    def viewport_update_mode_sync_toggled(self, checked):
-        self.viewport_update_mode.sync = checked
+    # def algorithm_mode_data_flow_toggled(self, checked):
+    #     self.algorithm_mode.mode_data_flow = checked
+    #
+    # def viewport_update_mode_sync_toggled(self, checked):
+    #     self.viewport_update_mode = 'synch' checked
 
     def selection_changed(self):
         selected_items = self.scene().selectedItems()
         selected_node_instances = list(filter(find_NI_in_object, selected_items))
+
+        return  # code preview disabled for now
         if len(selected_node_instances) == 1:
             self.script.show_NI_code(selected_node_instances[0])
         elif len(selected_node_instances) == 0:
@@ -405,23 +400,23 @@ class Flow(QGraphicsView):
         if event.mimeData().hasFormat('text/plain'):
             event.acceptProposedAction()
 
-    def dropEvent(self, event):
-        text = event.mimeData().text()
-        item: QListWidgetItem = event.mimeData()
-        Debugger.write('drop received in Flow:', text)
-
-        j_obj = None
-        type = ''
-        try:
-            j_obj = json.loads(text)
-            type = j_obj['type']
-        except Exception:
-            return
-
-        if type == 'variable':
-            self.show_node_choice_widget(event.pos(),  # only show get_var and set_var nodes
-                                         [n for n in self.all_nodes if find_type_in_object(n, GetVar_Node) or
-                                          find_type_in_object(n, SetVar_Node)])
+    # def dropEvent(self, event):
+    #     text = event.mimeData().text()
+    #     item: QListWidgetItem = event.mimeData()
+    #     Debugger.write('drop received in Flow:', text)
+    #
+    #     j_obj = None
+    #     type = ''
+    #     try:
+    #         j_obj = json.loads(text)
+    #         type = j_obj['type']
+    #     except Exception:
+    #         return
+    #
+    #     if type == 'variable':
+    #         self.show_node_choice_widget(event.pos(),  # only show get_var and set_var nodes
+    #                                      [n for n in self.session.nodes if find_type_in_object(n, GetVar_Node) or
+    #                                       find_type_in_object(n, SetVar_Node)])
 
     def drawBackground(self, painter, rect):
         painter.fillRect(rect.intersected(self.sceneRect()), Design.flow_theme.flow_background_color)
@@ -558,7 +553,7 @@ class Flow(QGraphicsView):
         # open nodes dialog
         # the dialog emits 'node_chosen' which is connected to self.place_node,
         # so this all continues at self.place_node below
-        self.node_choice_widget.update_list(nodes if nodes is not None else self.all_nodes)
+        self.node_choice_widget.update_list(nodes if nodes is not None else self.session.nodes)
         self.node_choice_widget.update_view()
         self.node_choice_proxy.setPos(dialog_pos)
         self.node_choice_proxy.show()
@@ -636,7 +631,7 @@ class Flow(QGraphicsView):
         at the end of every custom NI's constructor, which can lead to problems when using custom NI class hierarchies.
         That's why I moved it here."""
 
-        new_NI = self.get_node_instance_class_from_node(node)((node, self, config))
+        new_NI = (node.node_inst_class)((node, self, config))
         new_NI.initialized()
         return new_NI
 
@@ -684,14 +679,15 @@ class Flow(QGraphicsView):
         new_node_instances = []
 
         for n_c in nodes_config:
-            # find parent node by title, type, package name and description as identifiers
+            # find parent node by title, type, and description as identifiers
             parent_node_title = n_c['parent node title']
-            parent_node_package_name = n_c['parent node package']
+            # parent_node_package_name = n_c['parent node package']
             parent_node = None
-            for pn in self.all_nodes:
+            for pn in self.session.nodes:
                 pn: Node = pn
-                if pn.title == parent_node_title and \
-                        pn.package == parent_node_package_name:
+                if pn.title == parent_node_title:
+                    # and \
+                    #     pn.package == parent_node_package_name:
                     parent_node = pn
                     break
 
@@ -722,11 +718,11 @@ class Flow(QGraphicsView):
         else:
             self.undo_stack.push(RemoveComponents_Command(self, [node_instance]))
 
-    def get_node_instance_class_from_node(self, node):
-        return self.all_node_instance_classes[node]
+    # def get_node_instance_class_from_node(self, node):
+    #     return self.all_node_instance_classes[node]
 
-    def get_custom_input_widget_classes(self):
-        return self.script.main_window.custom_node_input_widget_classes
+    # def get_custom_input_widget_classes(self):
+    #     return self.script.main_window.custom_node_input_widget_classes
 
     def connect_nodes_from_config(self, node_instances, connections_config):
         for c in connections_config:
@@ -998,8 +994,8 @@ class Flow(QGraphicsView):
                 self.connect_port_insts__cmd(p1, out)
 
     def config_data(self):
-        flow_dict = {'algorithm mode': 'data flow' if self.algorithm_mode.mode_data_flow else 'exec flow',
-                     'viewport update mode': 'sync' if self.viewport_update_mode.sync else 'async',
+        flow_dict = {'algorithm mode': self.algorithm_mode,
+                     'viewport update mode': self.viewport_update_mode,
                      'nodes': self.get_node_instances_config_data(self.all_node_instances),
                      'connections': self.get_connections_config_data(self.all_node_instances),
                      'drawings': self.get_drawings_config_data(self.drawings)}

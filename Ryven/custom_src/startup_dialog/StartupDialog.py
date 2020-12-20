@@ -101,18 +101,9 @@ class StartupDialog(QDialog):
             return
 
         # scan for all required packages
-        packages = []
+        packages = self.extract_required_packages(j_obj)
+
         package_file_paths = []
-
-        scripts = j_obj['scripts']
-        for script in scripts:
-            flow = script['flow']
-            for n in flow['nodes']:
-                package = n['parent node package']
-                if package != 'built in' and not packages.__contains__(package):
-                    packages.append(package)
-
-
         if len(packages) > 0:
             select_packages_dialog = SelectPackages_Dialog(self, packages)
             select_packages_dialog.exec_()
@@ -123,3 +114,20 @@ class StartupDialog(QDialog):
         self.editor_startup_configuration['content'] = j_obj
 
         self.accept()
+
+    def extract_required_packages(self, j_obj):
+
+        if 'required packages' in j_obj:
+            return j_obj['required packages']
+
+        # backwards compatibility
+        packages = []
+        scripts = j_obj['scripts']
+        for script in scripts:
+            flow = script['flow']
+            for n in flow['nodes']:
+                package = n['parent node package']
+                if package != 'built in' and not packages.__contains__(package):
+                    packages.append(package)
+
+        return packages

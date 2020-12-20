@@ -13,17 +13,14 @@ class ScriptsListWidget(QWidget):
 
 
 
-    def __init__(self, main_window):
+    def __init__(self, session):
         super(ScriptsListWidget, self).__init__()
 
-        self.main_window = main_window
-        self.main_window.new_script_created.connect(self.add_new_script)
+        self.session = session
+        self.session.new_script_created.connect(self.add_new_script)
 
-        # self.scripts = []
         self.list_widgets = []
-        # self.currently_edited_script = ''
         self.ignore_name_line_edit_signal = False  # because disabling causes firing twice otherwise
-        # self.data_type_line_edits = []  # same here
 
         self.setup_UI()
 
@@ -54,11 +51,9 @@ class ScriptsListWidget(QWidget):
             del w
 
         self.list_widgets.clear()
-        # self.data_type_line_edits.clear()
 
-        for s in self.main_window.scripts:
-            new_widget = ScriptsList_ScriptWidget(self, self.main_window, s)
-            # new_widget.title_LE_editing_finished.connect(self.name_line_edit_editing_finished)
+        for s in self.session.scripts:
+            new_widget = ScriptsList_ScriptWidget(self, self.session, s)
             self.list_widgets.append(new_widget)
 
         self.rebuild_list()
@@ -75,28 +70,12 @@ class ScriptsListWidget(QWidget):
     def new_script_LE_return_pressed(self):
         title = self.new_script_title_lineedit.text()
 
-        if not self.main_window.check_new_script_title_validity(title):
+        if not self.session.check_new_script_title_validity(title):
             return
 
-        self.main_window.create_new_script(title=title)
-
-
-    # def name_line_edit_editing_finished(self):
-    #     script_widget: ScriptsList_ScriptWidget = self.sender()
-    #     script_widget.title_line_edit.setEnabled(False)
-    #
-    #     # search for name problems
-    #     new_script_name = script_widget.title_line_edit.text()
-    #     for s in self.main_window.scripts:
-    #         if s.title == new_script_name:
-    #             script_widget.title_line_edit.setText(self.currently_edited_script.name)
-    #             return
-    #
-    #     self.main_window.rename_script(script_widget.script, new_script_name)
-
+        self.session.create_script(title=title)
 
     def add_new_script(self, script):
-        # self.scripts.append(script)
         self.recreate_list()
 
 
@@ -111,6 +90,5 @@ class ScriptsListWidget(QWidget):
 
         self.list_widgets.remove(script_widget)
         script_widget.setParent(None)
-        # self.scripts.remove(script)
-        self.main_window.delete_script(script)
+        self.session.delete_script(script)
         self.recreate_list()

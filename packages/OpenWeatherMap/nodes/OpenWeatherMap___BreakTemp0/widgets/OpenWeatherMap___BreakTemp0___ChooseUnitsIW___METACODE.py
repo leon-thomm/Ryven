@@ -15,7 +15,7 @@ class %CLASS%(QWidget, IWB):
             background: transparent;
         }
         QRadioButton {
-            color: '''+self.parent_node_instance.parent_node.color.lighter().name()+''';
+            color: '''+self.parent_node_instance.color.lighter().name()+''';
         }
         ''')
 

@@ -34,7 +34,7 @@ class NodeInstance(QGraphicsItem):
         self.painted_once = False
         self.inputs = []
         self.outputs = []
-        self.color = self.parent_node.color  # manipulated by self.animator
+        self.color = QColor(self.parent_node.color)  # manipulated by self.animator
 
         self.default_actions = {'remove': {'method': self.action_remove},
                                 'update shape': {'method': self.update_shape},
@@ -59,7 +59,7 @@ class NodeInstance(QGraphicsItem):
         # UI
         self.shadow_effect = None
         self.main_widget = None
-        if self.parent_node.has_main_widget:
+        if self.parent_node.main_widget_class is not None:
             self.main_widget = self.parent_node.main_widget_class(self)
         self.widget = NodeInstanceWidget(self)  # QGraphicsWidget(self)
 
@@ -155,7 +155,7 @@ class NodeInstance(QGraphicsItem):
         """Sets the value of a data output.
         self.data_outputs_updated() has to be called manually after all values are set."""
 
-        if not self.flow.viewport_update_mode.sync:  # asynchronous viewport updates
+        if self.flow.viewport_update_mode == 'async':  # asynchronous viewport updates
             vp = self.flow.viewport()
             vp.repaint(self.flow.mapFromScene(self.sceneBoundingRect()))
 
@@ -556,11 +556,11 @@ class NodeInstance(QGraphicsItem):
             for out in outputs_config:
                 self.create_new_output(out['type'], out['label'])
 
-    def get_input_widget_class(self, widget_name):
-        """Returns a reference to the widget class of a given name for instantiation."""
-        custom_node_input_widget_classes = self.script.main_window.custom_node_input_widget_classes
-        widget_class = custom_node_input_widget_classes[self.parent_node][widget_name]
-        return widget_class
+    # def get_input_widget_class(self, widget_name):
+    #     """Returns a reference to the widget class of a given name for instantiation."""
+    #     custom_node_input_widget_classes = self.script.main_window.custom_node_input_widget_classes
+    #     widget_class = custom_node_input_widget_classes[self.parent_node][widget_name]
+    #     return widget_class
 
     def add_input_to_scene(self, i):
         self.flow.scene().addItem(i.pin)
@@ -636,7 +636,7 @@ class NodeInstance(QGraphicsItem):
         # general attributes
         node_instance_dict = {'parent node title': self.parent_node.title,
                               'parent node type': self.parent_node.type_,
-                              'parent node package': self.parent_node.package,
+                              # 'parent node package': self.parent_node.package,
                               'parent node description': self.parent_node.description,
                               'position x': self.pos().x(),
                               'position y': self.pos().y()}

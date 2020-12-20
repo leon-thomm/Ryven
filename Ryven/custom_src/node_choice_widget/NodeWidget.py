@@ -25,7 +25,7 @@ NodeWidget {
         '''
         self.contents_stylesheet = '''
 QLabel {
-    color: '''+node.color.name()+''';
+    color: '''+node.color+''';
     border: None;
     background: transparent;
 }
@@ -44,18 +44,18 @@ QToolTip {
         name_label = QLabel(node.title)
         name_label.setFont(QFont('Poppins', 12))
 
-        package_name_layout = QHBoxLayout()
+        type_layout = QHBoxLayout()
 
-        package_name_label = QLabel(node.package)
-        package_name_label.setFont(QFont('Arial', 8, italic=True))
-        package_name_label.setStyleSheet('color: white;')
+        type_label = QLabel(node.type_)
+        type_label.setFont(QFont('Arial', 8, italic=True))
+        type_label.setStyleSheet('color: white;')
 
         package_name_layout_spacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-        package_name_layout.addItem(package_name_layout_spacer)
-        package_name_layout.addWidget(package_name_label)
+        type_layout.addItem(package_name_layout_spacer)
+        type_layout.addWidget(type_label)
 
         main_layout.addWidget(name_label, 0, 0)
-        main_layout.addLayout(package_name_layout, 1, 0)
+        main_layout.addLayout(type_layout, 1, 0)
 
 
         # # ------------------------------------------

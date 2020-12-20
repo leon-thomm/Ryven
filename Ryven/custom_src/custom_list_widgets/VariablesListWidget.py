@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QVBoxLayout, QWidget, QLineEdit
+from PySide2.QtWidgets import QVBoxLayout, QWidget, QLineEdit, QScrollArea
 from PySide2.QtCore import Qt
 
 from custom_src.custom_list_widgets.VarsList_VarWidget import VarsList_VarWidget
@@ -30,6 +30,14 @@ class VariablesListWidget(QWidget):
         self.list_layout = QVBoxLayout()
         self.list_layout.setAlignment(Qt.AlignTop)
 
+        # w = QWidget()
+        # w.setLayout(self.list_layout)
+        #
+        # scroll_area = QScrollArea()
+        # scroll_area.setLayout(QVBoxLayout())
+        # scroll_area.setWidget(w)
+        #
+        # main_layout.addWidget(scroll_area)
         main_layout.addLayout(self.list_layout)
 
         self.new_var_name_lineedit = QLineEdit()

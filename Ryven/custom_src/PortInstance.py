@@ -61,7 +61,7 @@ class PortInstance(QGraphicsGridLayout):
                 return self.connections[0].get_val()
         elif self.direction == 'output':
             # Debugger.debug('returning val directly')
-            if not self.parent_node_instance.flow.algorithm_mode.mode_data_flow:
+            if self.parent_node_instance.flow.algorithm_mode == 'exec flow':
                 self.parent_node_instance.update()
             return self.val
 
@@ -146,10 +146,11 @@ class InputPortInstance(PortInstance):
 
     def get_input_widget_class(self, widget_name):
         """Returns the CLASS of a defined custom input widget by given name"""
-        custom_node_input_widget_classes = \
-            self.parent_node_instance.flow.script.main_window.custom_node_input_widget_classes
-        widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
-        return widget_class
+        # custom_node_input_widget_classes = \
+        #     self.parent_node_instance.flow.script.main_window.custom_node_input_widget_classes
+        # widget_class = custom_node_input_widget_classes[self.parent_node_instance.parent_node][widget_name]
+        # return widget_class
+        return self.parent_node_instance.parent_node.custom_input_widgets[widget_name]
 
     def update(self):
         """applies on INPUT; called NI externally (from another NI)"""
@@ -198,7 +199,7 @@ class OutputPortInstance(PortInstance):
         self.val = val
 
         # if algorithm mode would be exec flow, all data will be required instead of actively forward propagated
-        if self.parent_node_instance.flow.algorithm_mode.mode_data_flow and \
+        if self.parent_node_instance.flow.algorithm_mode == 'data flow' and \
                 not self.parent_node_instance.initializing:
             self.updated_val()
 

@@ -12,44 +12,23 @@ class Logger(QObject):
     def __init__(self, script):
         super(Logger, self).__init__()
 
-        # # UI
-        # main_layout = QHBoxLayout()
-        # main_layout.setSizeConstraint(QLayout.SetMinimumSize)
-
         self.script = script
         self.logs: [Log] = []
-        # self.custom_log_holders = {}  # sender (NodeInstance) : Log
-        # self.global_log: Log = None
-        # main_layout.addWidget(self.global_log)
-        # self.error_log: Log = None
-        # main_layout.addWidget(self.error_log)
-        #
-        # self.setLayout(main_layout)
-        #
-        # self.setStyleSheet('''
-        # QScrollArea {
-        #     background-color: grey;
-        # }
-        # ''')
+
+        self.create_default_logs()
 
     def create_default_logs(self):
-        self.logs.append(self.new_log(title='Global'))
-        self.logs.append(self.new_log(title='Errors'))
+        self.new_log(title='Global')
+        self.new_log(title='Errors')
 
     def log_message(self, msg: str, target: str = ''):
         for log in self.logs:
             if log.title == target:
                 log.write(msg)
-        # if target == 'global':
-        #     self.global_log.write(message)
-        # elif target == 'error':
-        #     self.error_log.write(message)
 
     def new_log(self, title: str) -> Log:
-        # new_log = Log(title)
-        # self.custom_log_holders[new_sender] = new_log
-        # self.layout().addWidget(new_log)
 
         log = Log(title=title)
+        self.logs.append(log)
         self.new_log_created.emit(log)
         return log

@@ -13,10 +13,10 @@ class ScriptsList_ScriptWidget(QWidget):
 
     # title_LE_editing_finished = Signal()
 
-    def __init__(self, scripts_list_widget, main_window, script):
+    def __init__(self, scripts_list_widget, session, script):
         super(ScriptsList_ScriptWidget, self).__init__()
 
-        self.main_window = main_window
+        self.session = session
         self.script = script
         self.scripts_list_widget = scripts_list_widget
         self.previous_script_title = ''
@@ -122,13 +122,13 @@ class ScriptsList_ScriptWidget(QWidget):
 
         self.ignore_title_line_edit_signal = True
         # self.title_LE_editing_finished.emit()
-        if not self.main_window.check_new_script_title_validity(title):
+        if not self.session.check_new_script_title_validity(title):
             self.title_line_edit.setText(self.previous_script_title)
             return
 
         # rename script
         self.title_line_edit.setEnabled(False)
         self.script.title = title
-        self.main_window.rename_script(script=self.script, new_title=title)
+        self.session.rename_script(script=self.script, title=title)
 
         self.ignore_title_line_edit_signal = False
