@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QGraphicsItem
 from PySide2.QtGui import QPen, QPainter, QColor
 from PySide2.QtCore import Qt, QRectF, QPointF, QLineF
 
-from custom_src.global_tools.MovementEnum import MovementEnum
+from ryvencore.global_tools.MovementEnum import MovementEnum
 
 
 class DrawingObject(QGraphicsItem):

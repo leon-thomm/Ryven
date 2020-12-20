@@ -1,12 +1,11 @@
 import math
 
 from PySide2.QtCore import QRectF, QPointF
-from PySide2.QtGui import QPainter, QPen, QColor, QRadialGradient, QPainterPath
+from PySide2.QtGui import QPainter, QColor, QRadialGradient, QPainterPath
 from PySide2.QtWidgets import QGraphicsItem, QStyleOptionGraphicsItem
 
-from custom_src.Design import Design
-from custom_src.PortInstance import OutputPortInstance, InputPortInstance
-from custom_src.global_tools.math import pythagoras
+from ryvencore.PortInstance import OutputPortInstance, InputPortInstance
+from ryvencore.global_tools.math import pythagoras
 
 
 class Connection(QGraphicsItem):
@@ -80,8 +79,10 @@ class DataConnBase(Connection):
 
 
 class ExecConnection(ExecConnBase):
-    def __init__(self, out_port_inst: OutputPortInstance, inp_port_inst: InputPortInstance):
+    def __init__(self, out_port_inst: OutputPortInstance, inp_port_inst: InputPortInstance, session_design):
         super(ExecConnBase, self).__init__(out_port_inst, inp_port_inst)
+
+        self.session_design = session_design
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget=...) -> None:
 
@@ -92,7 +93,7 @@ class ExecConnection(ExecConnBase):
         gradient = QRadialGradient(path.boundingRect().center(),
                                    pythagoras(w, h) / 2)
 
-        pen = Design.flow_theme.get_flow_conn_pen_inst(self.out.type_)
+        pen = self.session_design.flow_theme.get_flow_conn_pen_inst(self.out.type_)
         c = pen.color()
 
         # highlight hovered connections
@@ -117,8 +118,10 @@ class ExecConnection(ExecConnBase):
 
 
 class DataConnection(DataConnBase):
-    def __init__(self, out_port_inst: OutputPortInstance, inp_port_inst: InputPortInstance):
+    def __init__(self, out_port_inst: OutputPortInstance, inp_port_inst: InputPortInstance, session_design):
         super(DataConnBase, self).__init__(out_port_inst, inp_port_inst)
+
+        self.session_design = session_design
 
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget=...) -> None:
@@ -131,7 +134,7 @@ class DataConnection(DataConnBase):
         gradient = QRadialGradient(path.boundingRect().center(),
                                    pythagoras(w, h) / 2)
 
-        pen = Design.flow_theme.get_flow_conn_pen_inst(self.out.type_)
+        pen = self.session_design.flow_theme.get_flow_conn_pen_inst(self.out.type_)
         c = pen.color()
 
         # highlight hovered connections

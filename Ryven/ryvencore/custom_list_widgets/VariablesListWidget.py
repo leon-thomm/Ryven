@@ -1,7 +1,7 @@
-from PySide2.QtWidgets import QVBoxLayout, QWidget, QLineEdit, QScrollArea
+from PySide2.QtWidgets import QVBoxLayout, QWidget, QLineEdit
 from PySide2.QtCore import Qt
 
-from custom_src.custom_list_widgets.VarsList_VarWidget import VarsList_VarWidget
+from ryvencore.custom_list_widgets.VarsList_VarWidget import VarsList_VarWidget
 
 
 class VariablesListWidget(QWidget):

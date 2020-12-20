@@ -1,3 +1,7 @@
+"""This module should actually rather be part of Ryven, but the retain mechanism is needed in std input widgets,
+so I decided to keep it in the core as a feature for now"""
+
+
 def retain(foo):
     """This method is very important for live source code manipulation. It ensures, that every reference to an object's
     method is going to change when the method has been edited (and therefore been overridden). If a reference to a

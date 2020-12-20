@@ -3,12 +3,12 @@ from PySide2.QtWidgets import QGraphicsItem, QLineEdit, QSpinBox, QGraphicsGridL
 from PySide2.QtCore import Qt, QRectF, QPointF, QSizeF
 from PySide2.QtGui import QFontMetricsF, QFont, QFontMetrics
 
-from custom_src.global_tools.Debugger import Debugger
-from custom_src.Design import Design
-from custom_src.global_tools.strings import get_longest_line, shorten
+from ryvencore.global_tools.Debugger import Debugger
+from ryvencore.global_tools.strings import get_longest_line, shorten
+from ryvencore.WidgetBaseClasses import MWB, IWB
+from ryvencore.retain import M
 
-from custom_src.FlowProxyWidget import FlowProxyWidget
-from NIWENV import *
+from ryvencore.FlowProxyWidget import FlowProxyWidget
 
 
 class PortInstance(QGraphicsGridLayout):
@@ -247,10 +247,12 @@ class PortInstPin(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        Design.flow_theme.node_inst_painter.paint_PI(painter, option, self.parent_node_instance.color,
-                                                     self.parent_port_instance.type_,
-                                                     len(self.parent_port_instance.connections) > 0,
-                                                     self.padding, self.painting_width, self.painting_height)
+        self.parent_node_instance.session_design.flow_theme.node_inst_painter.paint_PI(
+            painter, option, self.parent_node_instance.color,
+            self.parent_port_instance.type_,
+            len(self.parent_port_instance.connections) > 0,
+            self.padding, self.painting_width, self.painting_height
+        )
 
     def mousePressEvent(self, event):
         event.accept()
@@ -306,12 +308,14 @@ class PortInstLabel(QGraphicsWidget):
         return QSizeF(self.width, self.height)
 
     def paint(self, painter, option, widget=None):
-        Design.flow_theme.node_inst_painter.paint_PI_label(painter, option,
-                                                           self.parent_port_instance.type_,
-                                                           len(self.parent_port_instance.connections) > 0,
-                                                           self.parent_port_instance.label_str,
-                                                           self.parent_node_instance.color,
-                                                           self.boundingRect())
+        self.parent_node_instance.session_design.flow_theme.node_inst_painter.paint_PI_label(
+            painter, option,
+            self.parent_port_instance.type_,
+            len(self.parent_port_instance.connections) > 0,
+            self.parent_port_instance.label_str,
+            self.parent_node_instance.color,
+            self.boundingRect()
+        )
 
 
 class StdLineEdit_PortInstWidget(QLineEdit, IWB):

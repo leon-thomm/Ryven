@@ -2,9 +2,9 @@ from PySide2.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QLabel, QScrollAr
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QFont
 
-from custom_src.global_tools.Debugger import Debugger
-from custom_src.global_tools.stuff import sort_nodes
-from custom_src.node_choice_widget.NodeWidget import NodeWidget
+from ryvencore.global_tools.Debugger import Debugger
+from ryvencore.global_tools.stuff import sort_nodes
+from ryvencore.node_choice_widget.NodeWidget import NodeWidget
 
 
 class NodeChoiceWidget(QWidget):
@@ -60,12 +60,7 @@ class NodeChoiceWidget(QWidget):
 
         self.update_view('')
 
-        try:
-            f = open('../resources/stylesheets/dark_node_choice_widget.txt')
-            self.setStyleSheet(f.read())
-            f.close()
-        except FileNotFoundError:
-            pass
+        self.setStyleSheet(self.flow.session.design.node_choice_stylesheet)
 
         self.search_line_edit.setFocus()
 

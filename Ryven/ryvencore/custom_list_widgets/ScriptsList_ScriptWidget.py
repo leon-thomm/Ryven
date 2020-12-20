@@ -1,10 +1,10 @@
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QMenu, QAction
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QLabel, QMenu, QAction
 from PySide2.QtGui import QIcon, QImage
-from PySide2.QtCore import Signal, Qt, QEvent
+from PySide2.QtCore import Qt, QEvent
 
 import json
 
-from custom_src.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
+from ryvencore.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
 
 
 class ScriptsList_ScriptWidget(QWidget):

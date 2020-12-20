@@ -1,19 +1,16 @@
-from PySide2.QtWidgets import QGraphicsItem, QMenu, QGraphicsLinearLayout, QGraphicsWidget, \
-    QGraphicsDropShadowEffect
-from PySide2.QtCore import Qt, QRectF, QPointF
+from PySide2.QtWidgets import QGraphicsItem, QMenu, QGraphicsDropShadowEffect
+from PySide2.QtCore import Qt, QRectF
 from PySide2.QtGui import QColor
 
-import custom_src.Console.MainConsole as MainConsole
-from custom_src.NodeInstanceAction import NodeInstanceAction
-from custom_src.NodeInstanceAnimator import NodeInstanceAnimator
-from custom_src.NodeInstanceWidget import NodeInstanceWidget
-from custom_src.global_tools.Debugger import Debugger
-from custom_src.global_tools.MovementEnum import MovementEnum
-from custom_src.Design import Design
+# import custom_src.Console.MainConsole as MainConsole
+from ryvencore.NodeInstanceAction import NodeInstanceAction
+from ryvencore.NodeInstanceAnimator import NodeInstanceAnimator
+from ryvencore.NodeInstanceWidget import NodeInstanceWidget
+from ryvencore.global_tools.Debugger import Debugger
+from ryvencore.global_tools.MovementEnum import MovementEnum
 
-from custom_src.Node import Node
-from custom_src.PortInstance import InputPortInstance, OutputPortInstance
-from custom_src.retain import M
+from ryvencore.PortInstance import InputPortInstance, OutputPortInstance
+from ryvencore.retain import M
 
 
 class NodeInstance(QGraphicsItem):
@@ -24,10 +21,11 @@ class NodeInstance(QGraphicsItem):
         # GENERAL ATTRIBUTES
 
         # the constructor parameters are stored in a tuple to make the source code of custom NIs cleaner
-        parent_node, flow, config = params
+        parent_node, flow, design, config = params
 
         self.parent_node = parent_node
         self.flow = flow
+        self.session_design = design
         self.script = flow.script
         self.movement_state = None
         self.movement_pos_from = None
@@ -37,8 +35,8 @@ class NodeInstance(QGraphicsItem):
         self.color = QColor(self.parent_node.color)  # manipulated by self.animator
 
         self.default_actions = {'remove': {'method': self.action_remove},
-                                'update shape': {'method': self.update_shape},
-                                'console ref': {'method': self.set_console_scope}}  # for context menus
+                                'update shape': {'method': self.update_shape}}
+                                # 'console ref': {'method': self.set_console_scope}}  # for context menus
         self.special_actions = {}  # only gets written in custom NodeInstance-subclasses
         self.personal_logs = []
 
@@ -71,7 +69,7 @@ class NodeInstance(QGraphicsItem):
         self.setCursor(Qt.SizeAllCursor)
 
         # DESIGN THEME
-        Design.flow_theme_changed.connect(self.update_design)
+        self.session_design.flow_theme_changed.connect(self.update_design)
 
 
 
@@ -124,7 +122,7 @@ class NodeInstance(QGraphicsItem):
         QGraphicsItem used to graphically update a QGraphicsItem which can be accessed via
         QGraphicsItem.update(self)."""
 
-        if Design.animations_enabled:
+        if self.session_design.animations_enabled:
             self.animator.start()
 
         Debugger.write('update in', self.parent_node.title, 'on input', input_called)
@@ -313,7 +311,7 @@ class NodeInstance(QGraphicsItem):
 
     @staticmethod
     def session_stylesheet():
-        return Design.ryven_stylesheet
+        return self.session_design.global_stylesheet
 
     # VARIABLES
 
@@ -335,16 +333,16 @@ class NodeInstance(QGraphicsItem):
     # --------------------------------------------------------------------------------------
     # UI STUFF ----------------------------------------
 
-    def set_console_scope(self):
-        # extensive_dict = {}  # unlike self.__dict__, it also includes methods to call! :)
-        # for att in dir(self):
-        #     extensive_dict[att] = getattr(self, att)
-        MainConsole.main_console.add_obj_context(self)
+    # def set_console_scope(self):
+    #     # extensive_dict = {}  # unlike self.__dict__, it also includes methods to call! :)
+    #     # for att in dir(self):
+    #     #     extensive_dict[att] = getattr(self, att)
+    #     MainConsole.main_console.add_obj_context(self)
 
     def update_design(self):
         """Loads the shadow effect option and causes redraw with active theme."""
 
-        if Design.node_instance_shadows_shown:
+        if self.session_design.node_instance_shadows_shown:
             self.shadow_effect = QGraphicsDropShadowEffect()
             self.shadow_effect.setXOffset(12)
             self.shadow_effect.setYOffset(12)
@@ -388,7 +386,7 @@ class NodeInstance(QGraphicsItem):
             self.update_shape()
             self.update_conn_pos()
 
-        Design.flow_theme.node_inst_painter.paint_NI(
+        self.session_design.flow_theme.node_inst_painter.paint_NI(
             design_style=self.parent_node.design_style,
             painter=painter,
             option=option,
@@ -426,7 +424,7 @@ class NodeInstance(QGraphicsItem):
         redrawn during a NI drag. Also updates the positions of connections"""
 
         if change == QGraphicsItem.ItemPositionChange:
-            if Design.performance_mode == 'pretty':
+            if self.session_design.performance_mode == 'pretty':
                 self.flow.viewport().update()
             if self.movement_state == MovementEnum.mouse_clicked:
                 self.movement_state = MovementEnum.position_changed

@@ -1,7 +1,7 @@
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QWidget, QMessageBox, QVBoxLayout, QLineEdit
 
-from custom_src.custom_list_widgets.ScriptsList_ScriptWidget import ScriptsList_ScriptWidget
+from ryvencore.custom_list_widgets.ScriptsList_ScriptWidget import ScriptsList_ScriptWidget
 
 
 

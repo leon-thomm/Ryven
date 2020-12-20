@@ -2,7 +2,7 @@ from PySide2.QtCore import Qt, QPointF, QRectF
 from PySide2.QtGui import QColor, QPainter, QBrush, QRadialGradient, QLinearGradient, QPen, QPainterPath, QFont
 from PySide2.QtWidgets import QStyle
 
-from custom_src.global_tools.math import pythagoras
+from ryvencore.global_tools.math import pythagoras
 
 
 class NIPainter:

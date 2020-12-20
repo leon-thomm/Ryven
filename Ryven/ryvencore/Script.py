@@ -1,18 +1,8 @@
 from PySide2.QtCore import QObject, Signal
 
-# UI
-from PySide2.QtWidgets import QHBoxLayout, QWidget
-
-from custom_src.code_gen.CodeGenerator import CodeGenerator
-from custom_src.custom_list_widgets.VariablesListWidget import VariablesListWidget
-from custom_src.logging.Log import Log
-from custom_src.logging.LogWidget import LogWidget
-from ui.w_ui_script import WUIScript
-
-from custom_src.Flow import Flow
-from custom_src.logging.Logger import Logger
-from custom_src.script_variables.VarsManager import VarsManager
-from custom_src.source_code_preview.CodePreview_Widget import CodePreview_Widget
+from ryvencore.Flow import Flow
+from ryvencore.logging.Logger import Logger
+from ryvencore.script_variables.VarsManager import VarsManager
 
 
 class Script(QObject):
@@ -21,7 +11,7 @@ class Script(QObject):
     flow_algorithm_mode_changed = Signal(str)
     flow_viewport_update_mode_changed = Signal(str)
 
-    def __init__(self, session, title: str = None, config: dict = None):
+    def __init__(self, session, title: str = None, config: dict = None, flow_size: list = None):
         super(Script, self).__init__()
 
         self.session = session
@@ -38,9 +28,9 @@ class Script(QObject):
         if config:
             self.title = config['name']
             self.vars_manager = VarsManager(self, config['variables'])
-            self.flow = Flow(session, self, config['flow'])
+            self.flow = Flow(session, self, flow_size, config['flow'])
         else:
-            self.flow = Flow(session, self)
+            self.flow = Flow(session, self, flow_size)
             self.vars_manager = VarsManager(self)
 
 

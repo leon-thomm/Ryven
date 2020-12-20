@@ -1,9 +1,8 @@
-from PySide2.QtCore import QRectF, QPointF, QSizeF, Qt, Property
-from PySide2.QtGui import QFont, QFontMetricsF, QColor, QPen
+from PySide2.QtCore import QRectF, QPointF, QSizeF, Property
+from PySide2.QtGui import QFont, QFontMetricsF, QColor
 from PySide2.QtWidgets import QGraphicsWidget, QGraphicsLayoutItem, QGraphicsItem
 
-from custom_src.Design import Design
-from custom_src.global_tools.strings import get_longest_line
+from ryvencore.global_tools.strings import get_longest_line
 
 
 class TitleLabel(QGraphicsWidget):
@@ -42,7 +41,7 @@ class TitleLabel(QGraphicsWidget):
 
     def paint(self, painter, option, widget=None):
 
-        Design.flow_theme.node_inst_painter.paint_NI_title_label(
+        self.parent_node_instance.session_design.flow_theme.node_inst_painter.paint_NI_title_label(
             painter, option, self.hovering,
             self.design_style(), self.title_str, self.parent_node_instance.color,
             self.boundingRect()

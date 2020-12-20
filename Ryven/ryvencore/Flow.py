@@ -1,30 +1,28 @@
 from PySide2.QtCore import Qt, QPointF, QPoint, QRectF, QSizeF
-from PySide2.QtGui import QPainter, QPainterPath, QPen, QColor, QRadialGradient, QKeySequence, QTabletEvent, \
+from PySide2.QtGui import QPainter, QPen, QColor, QKeySequence, QTabletEvent, \
     QImage, QGuiApplication
-from PySide2.QtWidgets import QGraphicsView, QGraphicsScene, QListWidgetItem, QShortcut, QMenu, QGraphicsItem, \
+from PySide2.QtWidgets import QGraphicsView, QGraphicsScene, QShortcut, QMenu, QGraphicsItem, \
     QUndoStack
 
 import json
 
-from custom_src.Connection import Connection, DataConnection, ExecConnection
-from custom_src.DrawingObject import DrawingObject
-from custom_src.FlowCommands import MoveComponents_Command, PlaceNodeInstanceInScene_Command, \
+from ryvencore.Connection import Connection, DataConnection, ExecConnection
+from ryvencore.DrawingObject import DrawingObject
+from ryvencore.FlowCommands import MoveComponents_Command, PlaceNodeInstanceInScene_Command, \
     PlaceDrawingObject_Command, RemoveComponents_Command, ConnectGates_Command, Paste_Command
-from custom_src.FlowProxyWidget import FlowProxyWidget
-from custom_src.FlowStylusModesWidget import FlowStylusModesWidget
-from custom_src.FlowZoomWidget import FlowZoomWidget
-from custom_src.GlobalAttributes import Flow_AlgorithmMode, Flow_ViewportUpdateMode
-from custom_src.Node import Node
-from custom_src.node_choice_widget.NodeChoiceWidget import NodeChoiceWidget
-from custom_src.NodeInstance import NodeInstance
-from custom_src.PortInstance import PortInstance, PortInstPin
-from custom_src.global_tools.Debugger import Debugger
-from custom_src.global_tools.class_inspection import find_type_in_object, find_type_in_objects
-from custom_src.Design import Design
+from ryvencore.FlowProxyWidget import FlowProxyWidget
+from ryvencore.FlowStylusModesWidget import FlowStylusModesWidget
+from ryvencore.FlowZoomWidget import FlowZoomWidget
+from ryvencore.Node import Node
+from ryvencore.node_choice_widget.NodeChoiceWidget import NodeChoiceWidget
+from ryvencore.NodeInstance import NodeInstance
+from ryvencore.PortInstance import PortInstance, PortInstPin
+from ryvencore.global_tools.Debugger import Debugger
+from ryvencore.global_tools.class_inspection import find_type_in_object, find_type_in_objects
 
 
 class Flow(QGraphicsView):
-    def __init__(self, session, script, config=None):
+    def __init__(self, session, script, flow_size: list = None, config=None):
         super(Flow, self).__init__()
 
 
@@ -43,8 +41,6 @@ class Flow(QGraphicsView):
         self.session = session
         self.all_node_instances: [NodeInstance] = []
         self.connections: [Connection] = []
-        # self.all_node_instance_classes = main_window.all_node_instance_classes  # ref
-        # self.all_nodes = session.all_nodes  # ref
         self.pin_selected: PortInstPin = None
         self.dragging_connection = False
         self.ignore_mouse_event = False  # for stylus - see tablet event
@@ -66,7 +62,10 @@ class Flow(QGraphicsView):
         # CREATE UI
         scene = QGraphicsScene(self)
         scene.setItemIndexMethod(QGraphicsScene.NoIndex)
-        scene.setSceneRect(0, 0, 10 * self.width(), 10 * self.height())
+        if flow_size is None:
+            scene.setSceneRect(0, 0, 10 * self.width(), 10 * self.height())
+        else:
+            scene.setSceneRect(0, 0, flow_size[0], flow_size[1])
 
         self.setScene(scene)
         self.setCacheMode(QGraphicsView.CacheBackground)
@@ -116,7 +115,7 @@ class Flow(QGraphicsView):
         # self.grabGesture(pan_gesture_id)
 
         # DESIGN THEME
-        Design.flow_theme_changed.connect(self.theme_changed)
+        self.session.design.flow_theme_changed.connect(self.theme_changed)
 
         if config:
             config: dict
@@ -419,7 +418,7 @@ class Flow(QGraphicsView):
     #                                       find_type_in_object(n, SetVar_Node)])
 
     def drawBackground(self, painter, rect):
-        painter.fillRect(rect.intersected(self.sceneRect()), Design.flow_theme.flow_background_color)
+        painter.fillRect(rect.intersected(self.sceneRect()), self.session.design.flow_theme.flow_background_color)
         painter.setPen(Qt.NoPen)
         painter.drawRect(self.sceneRect())
 
@@ -631,7 +630,7 @@ class Flow(QGraphicsView):
         at the end of every custom NI's constructor, which can lead to problems when using custom NI class hierarchies.
         That's why I moved it here."""
 
-        new_NI = (node.node_inst_class)((node, self, config))
+        new_NI = (node.node_inst_class)((node, self, self.session.design, config))
         new_NI.initialized()
         return new_NI
 
@@ -965,9 +964,9 @@ class Flow(QGraphicsView):
 
         c = None
         if inp.type_ == 'data':
-            c = DataConnection(out, inp)
+            c = DataConnection(out, inp, self.session.design)
         elif inp.type_ == 'exec':
-            c = ExecConnection(out, inp)
+            c = ExecConnection(out, inp, self.session.design)
         c.setZValue(10)
         self.scene().addItem(c)
         out.connections.append(c)

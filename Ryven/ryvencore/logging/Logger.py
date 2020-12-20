@@ -1,7 +1,6 @@
 from PySide2.QtCore import QObject, Signal
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QLayout
 
-from custom_src.logging.Log import Log
+from ryvencore.logging.Log import Log
 
 
 class Logger(QObject):

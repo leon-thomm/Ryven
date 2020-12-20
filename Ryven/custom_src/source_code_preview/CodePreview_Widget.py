@@ -4,10 +4,10 @@ from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, Q
 from PySide2.QtGui import QFont
 import inspect
 
-from custom_src.NodeInstance import NodeInstance
+import ryvencore_ as rc
+
 from custom_src.source_code_preview.EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from custom_src.source_code_preview.CodePreview_TextEdit import CodePreview_TextEdit
-from custom_src.global_tools.class_inspection import find_type_in_object
 from custom_src.source_code_preview.SourceCodeUpdater import SrcCodeUpdater
 
 
@@ -122,7 +122,7 @@ class CodePreview_Widget(QWidget):
         self.buttons_obj_dict = {}
         self.active_class_index = -1
 
-        if find_type_in_object(obj, NodeInstance):
+        if isinstance(obj, rc.NodeInstance):
             # NI class
             node_inst_class_RB = QRadioButton('NodeInstance')
             node_inst_class_RB.toggled.connect(self.class_RB_toggled)

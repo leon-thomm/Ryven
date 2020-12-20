@@ -6,17 +6,16 @@ from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QAct
 # parent UI
 import custom_src.Console.MainConsole as MainConsole
 from custom_src.ScriptUI import ScriptUI
-from custom_src.Session import Session
-from custom_src.builtin_nodes.Result_NodeInstance import Result_NodeInstance, Result_NodeInstance_MainWidget
-from custom_src.builtin_nodes.Val_NodeInstance import Val_NodeInstance, ValNode_Instance_MainWidget
 from ui.ui_main_window import Ui_MainWindow
 
-from custom_src.Node import Node, NodePort
-from custom_src.custom_list_widgets.ScriptsListWidget import ScriptsListWidget
+# builtin node instances
+from custom_src.builtin_nodes.Result_NodeInstance import Result_NodeInstance, Result_NodeInstance_MainWidget
+from custom_src.builtin_nodes.Val_NodeInstance import Val_NodeInstance, ValNode_Instance_MainWidget
 from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
-from custom_src.global_tools.Debugger import Debugger
-from custom_src.Design import Design
+
+# ryvencore
+import ryvencore_ as rc
 
 
 class MainWindow(QMainWindow):
@@ -32,14 +31,9 @@ class MainWindow(QMainWindow):
             self.ui.scripts_console_splitter.addWidget(MainConsole.main_console)
         self.ui.scripts_console_splitter.setSizes([350, 350])
         self.ui.main_splitter.setSizes([120, 800])
-        self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
-        self.load_stylesheet('dark')
-        self.ui.scripts_tab_widget.removeTab(0)
 
         # menu actions
         self.flow_design_actions = []
-        self.setup_menu_actions()
 
         # shortcuts
         save_shortcut = QShortcut(QKeySequence.Save, self)
@@ -53,43 +47,31 @@ class MainWindow(QMainWindow):
         for f in os.listdir('temp'):
             os.remove('temp/'+f)
 
-        # GENERAL ATTRIBUTES
-        # self.scripts = []
-        # self.custom_nodes = []
-        # self.all_nodes = [SetVar_Node(), GetVar_Node(), Val_Node(), Result_Node()]
         self.package_names = []
         self.node_packages = {}  # {Node: str}
 
         self.script_UIs = []
 
-        self.session = Session()
+        self.session = rc.Session()
         self.session.new_script_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
         self.session.script_deleted.connect(self.script_deleted)
 
-
-        # #   holds NI subCLASSES for imported nodes:
-        # self.all_node_instance_classes = {
-        #     self.all_nodes[0]: SetVar_NodeInstance,
-        #     self.all_nodes[1]: GetVar_NodeInstance,
-        #     self.all_nodes[2]: Val_NodeInstance,
-        #     self.all_nodes[3]: Result_NodeInstance
-        # }  # (key: node obj, val: NI subclass) (used in Flow)
-
         self.register_builtin_nodes()
 
-        #   custom subclasses for input widgets
-        #   {node : {str: PortInstanceWidget-subclass}} (used in PortInstance)
-
-        # self.custom_node_input_widget_classes = {}
-
         # UI
-        self.scripts_list_widget = ScriptsListWidget(self.session)
+        self.scripts_list_widget = rc.ConvUI.ScriptsList(self.session)
         self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
-        # self.ui.scripts_scrollArea.setWidget(self.scripts_list_widget)
-        # self.ui.add_new_script_pushButton.clicked.connect(self.create_new_script_button_pressed)
-        # self.ui.new_script_name_lineEdit.returnPressed.connect(self.create_new_script_LE_return_pressed)
+        self.setup_menu_actions()
+        self.setWindowTitle('Ryven')
+        self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
+        self.load_stylesheet('dark')
+        self.ui.scripts_tab_widget.removeTab(0)
+
+        f = open('../resources/stylesheets/dark_node_choice_widget.txt')
+        self.session.design.set_node_choice_stylesheet(f.read())
+        f.close()
 
 
         if config['config'] == 'create plain new project':
@@ -111,29 +93,12 @@ panning: middle mouse
 saving: ctrl+s
         ''')
 
-
-        Design.set_flow_theme()
-        Design.set_flow_theme()  # temporary
-        #   the double call is just a temporary fix for an issue I will address in a future release.
-        #   Problem: because the signal emitted when setting a flow theme is directly connected to the according slots
-        #   in NodeInstance as well as NodeInstance_TitleLabel, the NodeInstance's slot (which starts an animation which
-        #   uses the title label's current and theme dependent color) could get called before the title
-        #   label's slot has been called to reinitialize this color. This results in wrong color end points for the
-        #   title label when activating animations.
-        #   This is pretty nasty since I cannot think of a nice fix for this issue other that not letting the slot
-        #   methods be called directly from the emitted signal but instead through a defined procedure like before.
-
-
-        # maybe this will be necessary due to scheduling issues when loading flows
-        # for s in self.scripts:
-        #     s.flow.viewport().update()
-
         self.resize(1500, 800)
 
 
     def setup_menu_actions(self):
         # flow designs
-        for d in Design.flow_themes:
+        for d in self.session.design.flow_themes:
             design_action = QAction(d.name, self)
             self.ui.menuFlow_Design_Style.addAction(design_action)
             design_action.triggered.connect(self.on_design_action_triggered)
@@ -156,7 +121,8 @@ saving: ctrl+s
         performance_mode_AG = QActionGroup(self)
         performance_mode_AG.addAction(self.action_set_performance_mode_fast)
         performance_mode_AG.addAction(self.action_set_performance_mode_pretty)
-        self.action_set_performance_mode_fast.setChecked(True)
+        self.action_set_performance_mode_fast.setChecked(self.session.design.performance_mode=='fast')
+        self.action_set_performance_mode_pretty.setChecked(self.session.design.performance_mode=='pretty')
         performance_mode_AG.triggered.connect(self.on_performance_mode_changed)
 
         performance_menu = QMenu('Performance Mode', self)
@@ -195,62 +161,62 @@ saving: ctrl+s
             ss_content = f.read()
             f.close()
         finally:
-            Design.ryven_stylesheet = ss_content
+            self.session.set_stylesheet(ss_content)
             self.setStyleSheet(ss_content)
 
     def register_builtin_nodes(self):
 
         nodes = self.session.register_nodes(
             [
-                Node(
+                rc.Node(
                     title='get var',
                     node_inst_class=GetVar_NodeInstance,
                     description='get the value of a script variable',
                     inputs=[
-                        NodePort(type_='data', widget='std line edit', widget_pos='besides')
+                        rc.NodePort(type_='data', widget='std line edit', widget_pos='besides')
                     ],
                     outputs=[
-                        NodePort(type_='data', label='val')
+                        rc.NodePort(type_='data', label='val')
                     ],
                     style='extended',
                     color='#c69a15'
                 ),
-                Node(
+                rc.Node(
                     title='set var',
                     node_inst_class=SetVar_NodeInstance,
                     description='sets the value of a script variable',
                     inputs=[
-                        NodePort(type_='exec'),
-                        NodePort(type_='data', label='var',
+                        rc.NodePort(type_='exec'),
+                        rc.NodePort(type_='data', label='var',
                                  widget='std line edit m', widget_pos='besides'),
-                        NodePort(type_='data', label='val',
+                        rc.NodePort(type_='data', label='val',
                                  widget='std line edit m', widget_pos='besides')
                     ],
                     outputs=[
-                        NodePort(type_='exec'),
-                        NodePort(type_='data', label='val')
+                        rc.NodePort(type_='exec'),
+                        rc.NodePort(type_='data', label='val')
                     ],
                     style='extended',
                     color='#c69a15'
                 ),
-                Node(
+                rc.Node(
                     title='result',
                     node_inst_class=Result_NodeInstance,
                     description='displays a value converted to string',
                     inputs=[
-                        NodePort(type_='data')
+                        rc.NodePort(type_='data')
                     ],
                     widget=Result_NodeInstance_MainWidget,
                     widget_pos='between ports',
                     style='extended',
                     color='#c69a15'
                 ),
-                Node(
+                rc.Node(
                     title='val',
                     node_inst_class=Val_NodeInstance,
                     description='returns the evaluated value that is typed into the input field',
                     outputs=[
-                        NodePort(type_='data')
+                        rc.NodePort(type_='data')
                     ],
                     widget=ValNode_Instance_MainWidget,
                     widget_pos='between ports',
@@ -265,25 +231,25 @@ saving: ctrl+s
 
     def on_performance_mode_changed(self, action):
         if action == self.action_set_performance_mode_fast:
-            Design.set_performance_mode('fast')
+            self.session.design.set_performance_mode('fast')
         else:
-            Design.set_performance_mode('pretty')
+            self.session.design.set_performance_mode('pretty')
 
     def on_animation_enabling_changed(self, action):
         if action == self.action_set_animation_active:
-            Design.animations_enabled = True
+            self.session.design.animations_enabled = True
         else:
-            Design.animations_enabled = False
+            self.session.design.animations_enabled = False
 
     def on_design_action_triggered(self):
         index = self.flow_design_actions.index(self.sender())
-        Design.set_flow_theme(Design.flow_themes[index])
+        self.session.design.set_flow_theme(self.session.design.flow_themes[index])
 
     def on_enable_debugging_triggered(self):
-        Debugger.enable()
+        rc.Debugger.enable()
 
     def on_disable_debugging_triggered(self):
-        Debugger.disable()
+        rc.Debugger.disable()
 
     def on_save_scene_pic_viewport_triggered(self):
         """Saves a picture of the currently visible viewport."""
@@ -384,7 +350,7 @@ saving: ctrl+s
             j_str = f.read()
             f.close()
         except FileExistsError or FileNotFoundError:
-            Debugger.write('couldn\'t open file')
+            rc.Debugger.write('couldn\'t open file')
             return
 
         # don't import a package twice if it already has been imported
@@ -511,7 +477,7 @@ saving: ctrl+s
                 i_widget_pos = j_input['widget position']
 
             # creating port
-            new_input = NodePort(
+            new_input = rc.NodePort(
                 type_=i_type,
                 label=i_label,
                 widget=i_widget_name,
@@ -534,7 +500,7 @@ saving: ctrl+s
             o_label = j_output['label']
 
             # creating port
-            new_output = NodePort(
+            new_output = rc.NodePort(
                 type_=o_type,
                 label=o_label
             )
@@ -543,7 +509,7 @@ saving: ctrl+s
             outputs.append(new_output)
 
         n = self.session.register_node(
-            Node(
+            rc.Node(
                 title=node_title,
                 type_=node_type,
                 description=node_description,
@@ -624,7 +590,7 @@ saving: ctrl+s
                 os.remove(file_name)
             file = open(file_name, 'w')
         except FileNotFoundError:
-            Debugger.write('couldn\'t open file')
+            rc.Debugger.write('couldn\'t open file')
             return
 
 
@@ -645,7 +611,7 @@ saving: ctrl+s
                               'required packages': list(required_packages)}
 
         data = json.dumps(whole_project_dict)
-        Debugger.write(data)
+        rc.Debugger.write(data)
 
 
         file.write(data)

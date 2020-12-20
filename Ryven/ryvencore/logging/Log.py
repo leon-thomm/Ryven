@@ -1,8 +1,4 @@
 from PySide2.QtCore import QObject, Signal
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QPlainTextEdit, QLabel
-from PySide2.QtGui import QFont
-
-from custom_src.global_tools.strings import shorten
 
 
 class Log(QObject):

@@ -1,12 +1,12 @@
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QLabel, QMenu, QAction
+from PySide2.QtWidgets import QWidget, QHBoxLayout, QLabel, QMenu, QAction
 from PySide2.QtGui import QIcon, QDrag
-from PySide2.QtCore import Signal, QMimeData, Qt, QEvent, QByteArray
+from PySide2.QtCore import QMimeData, Qt, QEvent, QByteArray
 
 import json
 
-from custom_src.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
-from custom_src.global_tools.strings import shorten
-from custom_src.EditVal_Dialog import EditVal_Dialog
+from ryvencore.custom_list_widgets.ListWidget_NameLineEdit import ListWidget_NameLineEdit
+from ryvencore.global_tools.strings import shorten
+from ryvencore.EditVal_Dialog import EditVal_Dialog
 
 
 class VarsList_VarWidget(QWidget):

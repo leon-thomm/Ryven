@@ -1,8 +1,7 @@
 from PySide2.QtWidgets import QWidget, QHBoxLayout
 
-from custom_src.custom_list_widgets.VariablesListWidget import VariablesListWidget
-from custom_src.logging.Log import Log
-from custom_src.logging.LogWidget import LogWidget
+import ryvencore_ as rc
+
 from custom_src.source_code_preview.CodePreview_Widget import CodePreview_Widget
 from ui.ui_script import Ui_script_widget
 
@@ -25,7 +24,7 @@ class ScriptUI(QWidget):
         self.flow_vp_update_mode_changed(self.script.flow_viewport_update_mode())
 
         # variables list widget
-        self.vars_list_widget = VariablesListWidget(self.script.vars_manager)
+        self.vars_list_widget = rc.ConvUI.VarsList(self.script.vars_manager)
         self.ui.variables_group_box.layout().addWidget(self.vars_list_widget)
         self.ui.settings_vars_splitter.setSizes([40, 700])
 
@@ -61,8 +60,8 @@ class ScriptUI(QWidget):
         return w
 
 
-    def add_log_widget(self, log: Log):
-        self.ui.logs_scrollArea.widget().layout().addWidget(LogWidget(log))
+    def add_log_widget(self, log):
+        self.ui.logs_scrollArea.widget().layout().addWidget(rc.ConvUI.LogWidget(log))
 
 
     def show_NI_code(self, ni):

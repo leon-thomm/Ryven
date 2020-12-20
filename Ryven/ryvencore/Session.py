@@ -1,9 +1,10 @@
 from PySide2.QtCore import QObject, Signal
 from PySide2.QtGui import QFontDatabase
 
-from custom_src.Node import Node
-from custom_src.Script import Script
-from custom_src.global_tools.Debugger import Debugger
+from ryvencore.Node import Node
+from ryvencore.Script import Script
+from ryvencore.global_tools.Debugger import Debugger
+from ryvencore.Design import Design
 
 
 class Session(QObject):
@@ -23,15 +24,24 @@ class Session(QObject):
         self.scripts: [Script] = []
         self.nodes: [Node] = []
 
+        self.design = Design()
+
+        self.design.set_flow_theme()
+        self.design.set_flow_theme()  # temporary
+        #   the double call is just a temporary fix for an issue I will address in a future release.
+        #   Problem: because the signal emitted when setting a flow theme is directly connected to the according slots
+        #   in NodeInstance as well as NodeInstance_TitleLabel, the NodeInstance's slot (which starts an animation which
+        #   uses the title label's current and theme dependent color) could get called before the title
+        #   label's slot has been called to reinitialize this color. This results in wrong color end points for the
+        #   title label when activating animations.
+        #   This is pretty nasty since I cannot think of a nice fix for this issue other that not letting the slot
+        #   methods be called directly from the emitted signal but instead through a defined procedure like before.
+
 
     def __register_fonts(self):
-        QFontDatabase.addApplicationFont('../resources/fonts/poppins/Poppins-Medium.ttf')
-        QFontDatabase.addApplicationFont('../resources/fonts/source code pro/SourceCodePro-Regular.ttf')
-        QFontDatabase.addApplicationFont('../resources/fonts/asap/Asap-Regular.ttf')
-
-
-
-
+        QFontDatabase.addApplicationFont('ryvencore/fonts/poppins/Poppins-Medium.ttf')
+        QFontDatabase.addApplicationFont('ryvencore/fonts/source code pro/SourceCodePro-Regular.ttf')
+        QFontDatabase.addApplicationFont('ryvencore/fonts/asap/Asap-Regular.ttf')
 
 
     def register_nodes(self, nodes: [Node]) -> [Node]:
@@ -50,12 +60,13 @@ class Session(QObject):
         return node
 
 
-    def create_script(self, title: str) -> Script:
+    def create_script(self, title: str, flow_size: list = None) -> Script:
         """Creates and returns a new script"""
 
-        script = Script(session=self, title=title)
+        script = Script(session=self, title=title, flow_size=flow_size)
         self.scripts.append(script)
         self.new_script_created.emit(script)
+        return script
 
 
     def __load_script(self, config: dict):
@@ -130,4 +141,5 @@ class Session(QObject):
 
     def set_stylesheet(self, s: str):
         """Sets the session's stylesheet"""
-        pass
+
+        self.design.global_stylesheet = s
