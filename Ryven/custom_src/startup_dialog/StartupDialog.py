@@ -1,7 +1,8 @@
 from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog
 from PySide2.QtGui import QIcon
 
-from ryvencore.ryvencore import Debugger
+from ryvencore import Debugger
+
 
 from custom_src.startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
 

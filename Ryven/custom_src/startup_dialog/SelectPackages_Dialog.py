@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QF
     QListWidget, QListWidgetItem
 import os
 
-from ryvencore.ryvencore import Debugger
+from ryvencore import Debugger
 
 
 class SelectPackages_Dialog(QDialog):

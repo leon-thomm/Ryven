@@ -15,7 +15,7 @@ from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
 from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 
 # ryvencore
-import ryvencore.ryvencore as rc
+import ryvencore as rc
 
 
 class MainWindow(QMainWindow):

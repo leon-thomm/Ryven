@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QWidget, QHBoxLayout
 
-import ryvencore.ryvencore as rc
+import ryvencore as rc
 
 from custom_src.source_code_preview.CodePreview_Widget import CodePreview_Widget
 from ui.ui_script import Ui_script_widget
