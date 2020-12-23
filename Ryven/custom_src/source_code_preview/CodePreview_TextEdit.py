@@ -1,7 +1,7 @@
 from PySide2.QtWidgets import QTextEdit
 from PySide2.QtGui import QFont, QFontMetrics
 
-from custom_src.source_code_preview.CodePreview_Highlighter import CodePreview_Highlighter
+from ..source_code_preview.CodePreview_Highlighter import CodePreview_Highlighter
 
 
 class CodePreview_TextEdit(QTextEdit):

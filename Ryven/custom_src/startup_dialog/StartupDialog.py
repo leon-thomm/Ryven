@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QT
 from PySide2.QtGui import QIcon
 
 
-from custom_src.startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
+from ..startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
 
 
 class StartupDialog(QDialog):

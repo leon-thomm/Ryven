@@ -2,7 +2,7 @@ import inspect
 import ast
 import autopep8
 
-from custom_src.code_gen.CodeGenDialog import CodeGenDialog
+from ..code_gen.CodeGenDialog import CodeGenDialog
 
 
 class CodeGenerator:

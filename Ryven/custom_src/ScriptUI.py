@@ -3,9 +3,9 @@ from PySide2.QtWidgets import QWidget, QHBoxLayout
 # import ryvencore as rc
 
 # from ..Ryven import *
-from custom_src.ryvencore.src.ryvencore import ConvUI
+from .ryvencore.src.ryvencore import ConvUI
 
-from custom_src.source_code_preview.CodePreview_Widget import CodePreview_Widget
+from .source_code_preview.CodePreview_Widget import CodePreview_Widget
 from ui.ui_script import Ui_script_widget
 
 

@@ -15,7 +15,7 @@ class Val_NodeInstance(NodeInstance):
         self.set_output_val(0, self.main_widget.get_val())
 
     def action_edit_via_dialog(self):
-        from custom_src.EditVal_Dialog import EditVal_Dialog
+        from ..EditVal_Dialog import EditVal_Dialog
 
         val_dialog = EditVal_Dialog(self.flow, self.main_widget.get_val())
         accepted = val_dialog.exec_()

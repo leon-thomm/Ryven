@@ -7,9 +7,9 @@ import inspect
 # import ryvencore as rc
 import custom_src.ryvencore.src.ryvencore as rc
 
-from custom_src.source_code_preview.EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
-from custom_src.source_code_preview.CodePreview_TextEdit import CodePreview_TextEdit
-from custom_src.source_code_preview.SourceCodeUpdater import SrcCodeUpdater
+from .EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
+from .CodePreview_TextEdit import CodePreview_TextEdit
+from .SourceCodeUpdater import SrcCodeUpdater
 
 
 class CodePreview_Widget(QWidget):

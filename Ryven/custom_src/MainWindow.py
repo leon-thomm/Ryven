@@ -5,14 +5,14 @@ from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QAct
 
 # parent UI
 import custom_src.Console.MainConsole as MainConsole
-from custom_src.ScriptUI import ScriptUI
+from .ScriptUI import ScriptUI
 from ui.ui_main_window import Ui_MainWindow
 
 # builtin node instances
-from custom_src.builtin_nodes.Result_NodeInstance import Result_NodeInstance, Result_NodeInstance_MainWidget
-from custom_src.builtin_nodes.Val_NodeInstance import Val_NodeInstance, ValNode_Instance_MainWidget
-from custom_src.builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
-from custom_src.builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
+from .builtin_nodes.Result_NodeInstance import Result_NodeInstance, Result_NodeInstance_MainWidget
+from .builtin_nodes.Val_NodeInstance import Val_NodeInstance, ValNode_Instance_MainWidget
+from .builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
+from .builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 
 # ryvencore
 # from custom_src.ryvencore.src import Session, ConvUI, Node, NodePort
