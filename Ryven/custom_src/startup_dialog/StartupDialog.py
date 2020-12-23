@@ -1,8 +1,6 @@
 from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog
 from PySide2.QtGui import QIcon
 
-from ryvencore import Debugger
-
 
 from custom_src.startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
 
@@ -92,7 +90,7 @@ class StartupDialog(QDialog):
             j_str = f.read()
             f.close()
         except FileNotFoundError:
-            Debugger.write('couldn\'t open file')
+            # Debugger.write('couldn\'t open file')
             return
 
 

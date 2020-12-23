@@ -12,6 +12,7 @@ from contextlib import redirect_stdout, redirect_stderr
 if __name__ == '__main__':
 
     # change directory to current to this file's location
+    # sys.path.append('../../ryvencore/ryvencore/src/ryvencore.py')
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
     # init application, StartupDialog

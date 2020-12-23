@@ -4,7 +4,8 @@ from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, Q
 from PySide2.QtGui import QFont
 import inspect
 
-import ryvencore as rc
+# import ryvencore as rc
+import custom_src.ryvencore.src.ryvencore as rc
 
 from custom_src.source_code_preview.EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from custom_src.source_code_preview.CodePreview_TextEdit import CodePreview_TextEdit

@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QF
     QListWidget, QListWidgetItem
 import os
 
-from ryvencore import Debugger
+# from ryvencore import Debugger
 
 
 class SelectPackages_Dialog(QDialog):
@@ -83,7 +83,8 @@ class SelectPackages_Dialog(QDialog):
                 f.close()
                 self.file_paths.append(file_name)
             except FileNotFoundError:
-                Debugger.write('couldn\'t open file')
+                # Debugger.write('couldn\'t open file')
+                pass
 
         self.rebuild_selected_packages_list_widget()
 
