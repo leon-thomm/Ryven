@@ -13,8 +13,10 @@ from .SourceCodeUpdater import SrcCodeUpdater
 
 
 class CodePreview_Widget(QWidget):
-    def __init__(self):
+    def __init__(self, flow):
         super(CodePreview_Widget, self).__init__()
+
+        flow.node_inst_selection_changed.connect(self.set_selected_node_instances)
 
         self.text_edit = CodePreview_TextEdit()
         self.node_instance = None
@@ -72,9 +74,15 @@ class CodePreview_Widget(QWidget):
         main_layout.addWidget(self.text_edit)
         self.setLayout(main_layout)
 
-        self.set_new_NI(None)
+        self.set_node_inst(None)
 
-    def set_new_NI(self, ni):
+    def set_selected_node_instances(self, node_insts):
+        if len(node_insts) == 0:
+            self.set_node_inst(None)
+        else:
+            self.set_node_inst(node_insts[-1])
+
+    def set_node_inst(self, ni):
         self.disable_editing()
 
         self.rebuild_class_selection(ni)

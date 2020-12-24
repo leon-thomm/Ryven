@@ -2,7 +2,6 @@ import json
 import os
 import sys
 
-from class_inspection import find_type_in_object
 from custom_src.Node import Node, NodePort
 from custom_src.Script import Script
 
@@ -117,7 +116,7 @@ Commands:
 
 
             elif command == 'button':
-                button_node_instances = [ni for ni in script.flow.all_node_instances if find_type_in_object(ni, self.buttonNIClass)]
+                button_node_instances = [ni for ni in script.flow.all_node_instances if isinstance(ni, self.buttonNIClass)]
                 if len(button_node_instances) == 0:
                     print('no existing button nodes found')
                     continue

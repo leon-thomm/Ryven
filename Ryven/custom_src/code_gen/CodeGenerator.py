@@ -19,7 +19,7 @@ class CodeGenerator:
         self.vars_manager_config = vars_manager_config
         self.flow_algorithm_mode = flow_algorithm_mode
 
-    def generate(self):
+    def generate(self) -> str:
 
         code = ''
 
@@ -156,20 +156,25 @@ class CodeGenerator:
                 out = ni.outputs[o]
                 outgoing_connections = []
                 for j in range(len(out.connections)):
-                    cpi = out.connections[j]
-                    outgoing_connections.append(f'node_instances[{self.node_instances.index(cpi.parent_node_instance)}]'
-                                                f'.inputs[{cpi.parent_node_instance.inputs.index(cpi)}]')
-                outgoing_connections_str = ', '.join(outgoing_connections)
-                connections.append(f'node_instances[{k}].outputs[{o}].connected_port_instances=[{outgoing_connections_str}]')
-            for i in range(len(ni.inputs)):
-                inp = ni.inputs[i]
-                incoming_connections = []
-                for j in range(len(inp.connections)):
-                    cpi = inp.connections[j]
-                    incoming_connections.append(f'node_instances[{self.node_instances.index(cpi.parent_node_instance)}]'
-                                                f'.outputs[{cpi.parent_node_instance.outputs.index(cpi)}]')
-                incoming_connections_str = ', '.join(incoming_connections)
-                connections.append(f'node_instances[{k}].inputs[{i}].connected_port_instances=[{incoming_connections_str}]')
+                    c = out.connections[j]
+                    cpi = c.inp
+                    connections.append(f'c({k}, {o}, {self.node_instances.index(cpi.parent_node_instance)}, '
+                                       f'{cpi.parent_node_instance.inputs.index(cpi)})')
+                #     outgoing_connections.append(f'node_instances[{self.node_instances.index(cpi.parent_node_instance)}]'
+                #                                 f'.inputs[{cpi.parent_node_instance.inputs.index(cpi)}]')
+                # outgoing_connections_str = ', '.join(outgoing_connections)
+                # connections.append(f'node_instances[{k}].outputs[{o}].connected_port_instances=[{outgoing_connections_str}]')
+            # for i in range(len(ni.inputs)):
+            #     inp = ni.inputs[i]
+            #     incoming_connections = []
+            #     for j in range(len(inp.connections)):
+            #         c = inp.connections[j]
+            #         cpi = c.out
+            #         connections.append(f'c({self.node_instances.index(cpi.parent_node_instance)}, '
+            #                            f'{cpi.parent_node_instance.outputs.index(cpi)}, {k}, {i})')
+            #         # incoming_connections.append(f'node_instances[{self.node_instances.index(cpi.parent_node_instance)}]'
+            #         #                             f'.outputs[{cpi.parent_node_instance.outputs.index(cpi)}]')
+            #     # incoming_connections_str = ', '.join(incoming_connections)
 
         connections_decl = '\n    '.join(connections)
 
@@ -181,7 +186,7 @@ def create_nodes():
     ]
     return nodes
 
-def create_node_instances():
+def create_node_instances():    
     node_instances = [
         {autopep8.fix_code(node_inst_decl)}
     ]
@@ -190,6 +195,14 @@ def create_node_instances():
     return node_instances
 
 def connect_node_instances():
+    def c(i1, o, i2, i):
+        ni1 = node_instances[i1]
+        ni2 = node_instances[i2]
+        out = ni1.outputs[o]
+        inp = ni2.inputs[i]
+        out.connected_port_instances.append(inp)
+        inp.connected_port_instances.append(out)
+    
     {connections_decl}
 
 def init_vars():

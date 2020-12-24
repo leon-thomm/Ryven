@@ -17,6 +17,7 @@ from .builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
 # ryvencore
 # from custom_src.ryvencore.src import Session, ConvUI, Node, NodePort
 import custom_src.ryvencore.src.ryvencore as rc
+from .code_gen.CodeGenerator import CodeGenerator
 
 
 class MainWindow(QMainWindow):
@@ -59,7 +60,7 @@ class MainWindow(QMainWindow):
         self.register_builtin_nodes()
 
         # UI
-        self.scripts_list_widget = rc.ConvUI.ScriptsList(self.session)
+        self.scripts_list_widget = rc.GUI.Lists.ScriptsList(self.session)
         self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
         self.setup_menu_actions()
@@ -187,9 +188,9 @@ saving: ctrl+s
                     inputs=[
                         rc.NodePort(type_='exec'),
                         rc.NodePort(type_='data', label='var',
-                                 widget='std line edit m', widget_pos='besides'),
+                                    widget='std line edit m', widget_pos='besides'),
                         rc.NodePort(type_='data', label='val',
-                                 widget='std line edit m', widget_pos='besides')
+                                    widget='std line edit m', widget_pos='besides')
                     ],
                     outputs=[
                         rc.NodePort(type_='exec'),
@@ -269,7 +270,15 @@ saving: ctrl+s
         img.save(file_path)
 
     def on_gen_code_triggered(self):
-        self.get_current_script().generate_code()
+        script = self.get_current_script()
+        generator = CodeGenerator(
+            main_window=self,
+            node_instances=script.flow.node_instances,
+            vars_manager_config=script.vars_manager.config_data(),
+            flow_algorithm_mode=script.flow_algorithm_mode()
+        )
+        code = generator.generate()
+        print(code)
 
 
     def script_created(self, script):
@@ -406,7 +415,7 @@ saving: ctrl+s
 
         # new_node = Node()
 
-        # loading the node's specifications which get finally set below after importing the classes
+        # loading the node's specifications which get finally set below, after importing the classes
         node_title = j_node['title']
         node_class_name = j_node['class name']
         node_description = j_node['description']
@@ -432,8 +441,8 @@ saving: ctrl+s
         node_instance_widgets_file_path = node_instance_class_file_path + '/widgets'
         node_instance_filename = node_module_name  # the NI file's name is just the 'module name'
         node_inst_class = self.get_class_from_file(file_path=node_instance_class_file_path,
-                                                           file_name=node_instance_filename,
-                                                           class_name=node_class_name + '_NodeInstance')
+                                                   file_name=node_instance_filename,
+                                                   class_name=node_class_name + '_NodeInstance')
         if node_inst_class is None:
             return False    # error during import
 

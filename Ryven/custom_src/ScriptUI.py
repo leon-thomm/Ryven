@@ -3,7 +3,8 @@ from PySide2.QtWidgets import QWidget, QHBoxLayout
 # import ryvencore as rc
 
 # from ..Ryven import *
-from .ryvencore.src.ryvencore import ConvUI
+from .ryvencore.src.RC import FlowAlg
+from .ryvencore.src.ryvencore import GUI
 
 from .source_code_preview.CodePreview_Widget import CodePreview_Widget
 from ui.ui_script import Ui_script_widget
@@ -27,7 +28,7 @@ class ScriptUI(QWidget):
         self.flow_vp_update_mode_changed(self.script.flow_viewport_update_mode())
 
         # variables list widget
-        self.vars_list_widget = ConvUI.VarsList(self.script.vars_manager)
+        self.vars_list_widget = GUI.Lists.VarsList(self.script.vars_manager)
         self.ui.variables_group_box.layout().addWidget(self.vars_list_widget)
         self.ui.settings_vars_splitter.setSizes([40, 700])
 
@@ -42,7 +43,7 @@ class ScriptUI(QWidget):
         self.ui.splitter.insertWidget(0, self.script.flow)
 
         # code preview
-        self.code_preview_widget = CodePreview_Widget()
+        self.code_preview_widget = CodePreview_Widget(self.script.flow)
         self.ui.source_code_groupBox.layout().addWidget(self.code_preview_widget)
 
         # logs
@@ -64,18 +65,13 @@ class ScriptUI(QWidget):
 
 
     def add_log_widget(self, log):
-        self.ui.logs_scrollArea.widget().layout().addWidget(ConvUI.LogWidget(log))
-
-
-    def show_NI_code(self, ni):
-        """Called from flow when the selection changed."""
-        self.code_preview_widget.set_new_NI(ni)
+        self.ui.logs_scrollArea.widget().layout().addWidget(GUI.Logging.LogWidget(log))
 
 
     def flow_alg_mode_changed(self, mode: str):
-        if mode == 'data flow':
+        if mode == FlowAlg.DATA:
             self.ui.algorithm_data_flow_radioButton.setChecked(True)
-        elif mode == 'exec flow':
+        elif mode == FlowAlg.EXEC:
             self.ui.algorithm_exec_flow_radioButton.setChecked(True)
     
     
@@ -89,9 +85,9 @@ class ScriptUI(QWidget):
     def flow_algorithm_mode_toggled(self):
         mode = ''
         if self.ui.algorithm_data_flow_radioButton.isChecked():
-            mode = 'data flow'
+            mode = FlowAlg.DATA
         elif self.ui.algorithm_exec_flow_radioButton.isChecked():
-            mode = 'exec flow'
+            mode = FlowAlg.EXEC
         self.script.set_flow_algorithm_mode(mode)
 
 

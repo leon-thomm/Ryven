@@ -1,6 +1,5 @@
 import sys
-sys.path.append('../Ryven/custom_src/script_variables/')
-from Variable import Variable
+from .Variable import Variable
 
 import pickle
 import base64
