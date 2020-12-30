@@ -275,7 +275,7 @@ saving: ctrl+s
             main_window=self,
             node_instances=script.flow.node_instances,
             vars_manager_config=script.vars_manager.config_data(),
-            flow_algorithm_mode=script.flow_algorithm_mode()
+            flow_algorithm_mode=script.flow.algorithm_mode()
         )
         code = generator.generate()
         print(code)
@@ -422,7 +422,7 @@ saving: ctrl+s
         node_type = j_node['type']
         node_has_main_widget = j_node['has main widget']
         node_main_widget_pos = j_node['widget position'] if node_has_main_widget else None
-        node_design_style = j_node['design style']
+        node_design_style = j_node['design style'] if j_node['design style'] != 'minimalistic' else 'small'
         node_color = j_node['color']
 
         # Every node has a custom module name which differs from it's name to prevent import issues when using

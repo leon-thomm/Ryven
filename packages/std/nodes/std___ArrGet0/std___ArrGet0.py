@@ -32,7 +32,7 @@ class ArrGet_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         arr = self.input(0)
         index = self.input(1)
-        self.outputs[0].set_val(arr[index])
+        self.set_output_val(0, arr[index])
 
     def get_data(self):
         data = {}

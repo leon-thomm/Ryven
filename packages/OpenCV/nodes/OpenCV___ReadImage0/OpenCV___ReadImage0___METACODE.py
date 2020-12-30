@@ -19,9 +19,9 @@ class %CLASS%(NodeInstance):
 
     def update_event(self, input_called=-1):
         try:
-            self.log_message(message='loading image, fpath: '+
+            self.log_message('loading image, fpath: '+
                                 self.image_filepath,
-                             target='global')
+                             target='Global')
             self.img = cv2.imread(self.image_filepath)
             self.set_output_val(0, self.img)
             self.main_widget.set_path_text(self.image_filepath)
