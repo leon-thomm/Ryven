@@ -165,66 +165,14 @@ saving: ctrl+s
             self.setStyleSheet(ss_content)
 
     def register_builtin_nodes(self):
+        nodes = [
+            GetVar_NodeInstance,
+            SetVar_NodeInstance,
+            Val_NodeInstance,
+            Result_NodeInstance
+        ]
 
-        nodes = self.session.register_nodes(
-            [
-                rc.Node(
-                    title='get var',
-                    node_inst_class=GetVar_NodeInstance,
-                    description='get the value of a script variable',
-                    inputs=[
-                        rc.NodePort(type_='data', widget='std line edit', widget_pos='besides')
-                    ],
-                    outputs=[
-                        rc.NodePort(type_='data', label='val')
-                    ],
-                    style='extended',
-                    color='#c69a15'
-                ),
-                rc.Node(
-                    title='set var',
-                    node_inst_class=SetVar_NodeInstance,
-                    description='sets the value of a script variable',
-                    inputs=[
-                        rc.NodePort(type_='exec'),
-                        rc.NodePort(type_='data', label='var',
-                                    widget='std line edit m', widget_pos='besides'),
-                        rc.NodePort(type_='data', label='val',
-                                    widget='std line edit m', widget_pos='besides')
-                    ],
-                    outputs=[
-                        rc.NodePort(type_='exec'),
-                        rc.NodePort(type_='data', label='val')
-                    ],
-                    style='extended',
-                    color='#c69a15'
-                ),
-                rc.Node(
-                    title='result',
-                    node_inst_class=Result_NodeInstance,
-                    description='displays a value converted to string',
-                    inputs=[
-                        rc.NodePort(type_='data')
-                    ],
-                    widget=Result_NodeInstance_MainWidget,
-                    widget_pos='between ports',
-                    style='extended',
-                    color='#c69a15'
-                ),
-                rc.Node(
-                    title='val',
-                    node_inst_class=Val_NodeInstance,
-                    description='returns the evaluated value that is typed into the input field',
-                    outputs=[
-                        rc.NodePort(type_='data')
-                    ],
-                    widget=ValNode_Instance_MainWidget,
-                    widget_pos='between ports',
-                    style='extended',
-                    color='#c69a15'
-                ),
-            ]
-        )
+        self.session.register_nodes(nodes)
 
         for n in nodes:
             self.node_packages[n] = None
@@ -421,7 +369,10 @@ saving: ctrl+s
         node_description = j_node['description']
         node_type = j_node['type']
         node_has_main_widget = j_node['has main widget']
-        node_main_widget_pos = j_node['widget position'] if node_has_main_widget else None
+        node_main_widget_pos = None
+        if node_has_main_widget:
+            node_main_widget_pos = j_node['widget position'] \
+                if j_node['widget position'] != 'under ports' else 'below ports'  # backwards compatibility
         node_design_style = j_node['design style'] if j_node['design style'] != 'minimalistic' else 'small'
         node_color = j_node['color']
 
@@ -516,39 +467,25 @@ saving: ctrl+s
             # new_output.label = o_label
             outputs.append(new_output)
 
-        n = self.session.register_node(
-            rc.Node(
-                title=node_title,
-                type_=node_type,
-                description=node_description,
-                node_inst_class=node_inst_class,
-                widget=main_widget_class,
-                widget_pos=node_main_widget_pos,
-                inputs=inputs,
-                input_widgets=input_widget_classes,
-                outputs=outputs,
-                style=node_design_style,
-                color=node_color
-            )
-        )
 
-        self.node_packages[n] = package_name
+        # SET FIELDS
+        nic = node_inst_class
+        nic.title = node_title
+        nic.type_ = package_name  # node_type
+        nic.description = node_description
+        nic.main_widget_class = main_widget_class
+        nic.main_widget_pos = node_main_widget_pos
+        nic.init_inputs = inputs
+        nic.input_widget_classes = input_widget_classes
+        nic.init_outputs = outputs
+        nic.style = node_design_style
+        nic.color = node_color
 
-        # # setting the Node's attributes
-        # new_node.title = node_title
-        # new_node.description = node_description
-        # new_node.type_ = node_type
-        # new_node.package = package_name
-        # new_node.has_main_widget = node_has_main_widget
-        # if node_has_main_widget:
-        #     new_node.main_widget_pos = node_main_widget_pos
-        # new_node.design_style = node_design_style
-        # new_node.color = QColor(node_color)
-        # new_node.inputs = inputs
-        # new_node.outputs = outputs
+        # print(nic.__dict__)
 
-        # self.custom_nodes.append(new_node)
-        # self.all_nodes.append(new_node)
+        self.session.register_node(nic)
+
+        self.node_packages[nic] = package_name
 
         return True
 
@@ -608,10 +545,10 @@ saving: ctrl+s
 
         required_packages = set()
         for ni in self.session.all_node_instances():
-            if self.node_packages[ni.parent_node] is None:
+            if self.node_packages[ni.__class__] is None:
                 continue
             required_packages.add(
-                self.node_packages[ni.parent_node]
+                self.node_packages[ni.__class__]
             )
 
         whole_project_dict = {'general info': general_project_info_dict,

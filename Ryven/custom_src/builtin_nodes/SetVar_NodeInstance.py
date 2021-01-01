@@ -1,7 +1,25 @@
 from NIENV import *
+from ..ryvencore.src.ryvencore import NodePort
 
 
 class SetVar_NodeInstance(NodeInstance):
+
+    title = 'set var'
+    description = 'sets the value of a script variable'
+    init_inputs = [
+        NodePort(type_='exec'),
+        NodePort(type_='data', label='var',
+                 widget='std line edit m', widget_pos='besides'),
+        NodePort(type_='data', label='val',
+                 widget='std line edit m', widget_pos='besides')
+    ]
+    init_outputs = [
+        NodePort(type_='exec'),
+        NodePort(type_='data', label='val')
+    ]
+    style = 'extended'
+    color = '#c69a15'
+
     def __init__(self, params):
         super(SetVar_NodeInstance, self).__init__(params)
 

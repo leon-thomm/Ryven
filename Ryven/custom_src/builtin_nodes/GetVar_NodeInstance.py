@@ -1,7 +1,20 @@
 from NIENV import *
+from ..ryvencore.src.ryvencore import NodePort
 
 
 class GetVar_NodeInstance(NodeInstance):
+
+    title = 'get var'
+    description = 'get the value of a script variable'
+    init_inputs = [
+        NodePort(type_='data', widget='std line edit', widget_pos='besides')
+    ]
+    init_outputs = [
+        NodePort(type_='data', label='val')
+    ]
+    style = 'extended'
+    color = '#c69a15'
+
     def __init__(self, params):
         super(GetVar_NodeInstance, self).__init__(params)
 

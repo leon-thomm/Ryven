@@ -3,37 +3,7 @@ import os
 from PySide2.QtWidgets import QLineEdit
 
 from NIENV import *
-
-
-class Val_NodeInstance(NodeInstance):
-    def __init__(self, params):
-        super(Val_NodeInstance, self).__init__(params)
-
-        self.special_actions['edit val via dialog'] = {'method': M(self.action_edit_via_dialog)}
-
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, self.main_widget.get_val())
-
-    def action_edit_via_dialog(self):
-        from ..EditVal_Dialog import EditVal_Dialog
-
-        val_dialog = EditVal_Dialog(self.flow, self.main_widget.get_val())
-        accepted = val_dialog.exec_()
-        if accepted:
-            self.main_widget.setText(str(val_dialog.get_val()))
-            self.update()
-
-    def get_current_var_name(self):
-        return self.input(0)
-
-    def get_data(self):
-        return {}
-
-    def set_data(self, data):
-        pass
-
-    def remove_event(self):
-        pass
+from ..ryvencore.src.ryvencore import NodePort
 
 
 class ValNode_Instance_MainWidget(QLineEdit):
@@ -75,6 +45,48 @@ class ValNode_Instance_MainWidget(QLineEdit):
 
     def set_data(self, data):
         self.setText(data['text'])
+
+    def remove_event(self):
+        pass
+
+
+class Val_NodeInstance(NodeInstance):
+
+    title = 'val'
+    description = 'returns the evaluated value that is typed into the input field'
+    init_outputs = [
+        NodePort(type_='data')
+    ]
+    main_widget_class = ValNode_Instance_MainWidget
+    main_widget_pos = 'between ports'
+    style = 'extended'
+    color = '#c69a15'
+
+    def __init__(self, params):
+        super(Val_NodeInstance, self).__init__(params)
+
+        self.special_actions['edit val via dialog'] = {'method': M(self.action_edit_via_dialog)}
+
+    def update_event(self, input_called=-1):
+        self.set_output_val(0, self.main_widget.get_val())
+
+    def action_edit_via_dialog(self):
+        from ..EditVal_Dialog import EditVal_Dialog
+
+        val_dialog = EditVal_Dialog(self.flow, self.main_widget.get_val())
+        accepted = val_dialog.exec_()
+        if accepted:
+            self.main_widget.setText(str(val_dialog.get_val()))
+            self.update()
+
+    def get_current_var_name(self):
+        return self.input(0)
+
+    def get_data(self):
+        return {}
+
+    def set_data(self, data):
+        pass
 
     def remove_event(self):
         pass

@@ -3,25 +3,7 @@ import os
 from PySide2.QtWidgets import QLineEdit
 
 from NIENV import *
-
-
-class Result_NodeInstance(NodeInstance):
-    def __init__(self, params):
-        super(Result_NodeInstance, self).__init__(params)
-
-    def update_event(self, input_called=-1):
-        self.main_widget.show_val(self.input(0))
-
-    def get_data(self):
-        data = {}
-        # ...
-        return data
-
-    def set_data(self, data):
-        pass
-
-    def remove_event(self):
-        pass
+from ..ryvencore.src.ryvencore import NodePort
 
 
 class Result_NodeInstance_MainWidget(QLineEdit):
@@ -50,6 +32,36 @@ class Result_NodeInstance_MainWidget(QLineEdit):
     def show_val(self, new_val):
         self.setText(str(new_val))
         self.setCursorPosition(0)
+
+    def get_data(self):
+        data = {}
+        # ...
+        return data
+
+    def set_data(self, data):
+        pass
+
+    def remove_event(self):
+        pass
+
+
+class Result_NodeInstance(NodeInstance):
+
+    title = 'result'
+    description = 'displays a value converted to string'
+    init_inputs = [
+        NodePort(type_='data')
+    ]
+    main_widget_class = Result_NodeInstance_MainWidget
+    main_widget_pos = 'between ports'
+    style = 'extended'
+    color = '#c69a15'
+
+    def __init__(self, params):
+        super(Result_NodeInstance, self).__init__(params)
+
+    def update_event(self, input_called=-1):
+        self.main_widget.show_val(self.input(0))
 
     def get_data(self):
         data = {}
