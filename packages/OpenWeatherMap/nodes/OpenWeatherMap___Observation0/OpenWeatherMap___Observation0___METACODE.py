@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -26,7 +26,7 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 

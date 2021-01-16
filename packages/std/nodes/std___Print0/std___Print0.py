@@ -4,12 +4,12 @@ from NIENV import *
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class Print_NodeInstance(NodeInstance):
+class Print_Node(Node):
     def __init__(self, params):
-        super(Print_NodeInstance, self).__init__(params)
+        super(Print_Node, self).__init__(params)
 
         self.special_actions['print something 1'] = {'method': M(self.print_something),
                                                      'data': 'hello!!'}

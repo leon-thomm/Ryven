@@ -23,7 +23,7 @@ class SavePathInputWidget_PortInstanceWidget(QPushButton, IWB):
 
     def button_clicked(self):
         file_path = QFileDialog.getSaveFileName(self, 'Save')[0]
-        self.parent_node_instance.path_chosen(file_path)
+        self.node.path_chosen(file_path)
 
     def get_data(self):
         return self.text()

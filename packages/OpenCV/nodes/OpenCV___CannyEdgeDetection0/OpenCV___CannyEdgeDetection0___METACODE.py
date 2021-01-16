@@ -6,16 +6,22 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
+
+    new_img = Signal(object)
+
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_normal = None
         self.img_canny = None
+
+    def initialized(self):
+        self.new_img.connect(M(self.main_widget().show_image))
 
 
     def update_event(self, input_called=-1):
@@ -27,7 +33,8 @@ class %CLASS%(NodeInstance):
         canny_max_val = int(canny_max_val)
 
         self.img_canny = cv2.Canny(self.img_normal, canny_min_val, canny_max_val)
-        self.main_widget.show_image(self.img_canny)
+        # self.main_widget().show_image(self.img_canny)
+        self.new_img.emit(self.img_canny)
         self.set_output_val(0, self.img_canny)
 
     def get_data(self):

@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,9 +27,9 @@ from NIENV import *
 import random
 
 
-class Shuffle_NodeInstance(NodeInstance):
+class Shuffle_Node(Node):
     def __init__(self, params):
-        super(Shuffle_NodeInstance, self).__init__(params)
+        super(Shuffle_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

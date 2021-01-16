@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS --------------
 
-# self.main_widget
+# self.main_widget()
 # self.update_shape()
 
 # Ports
@@ -25,9 +25,9 @@ from NIENV import *
 # --------------------------
 
 
-class LeastSquares_NodeInstance(NodeInstance):
+class LeastSquares_Node(Node):
     def __init__(self, params):
-        super(LeastSquares_NodeInstance, self).__init__(params)
+        super(LeastSquares_Node, self).__init__(params)
 
         self.special_actions['use data instead'] = {'method': M(self.action_use_data)}
         self.using_function = True
@@ -63,12 +63,12 @@ class LeastSquares_NodeInstance(NodeInstance):
             m = self.input(2)
             min_deg, max_deg = self.input(3) # should be a tuple (min, max)
             min_x, max_x = self.input(4)    # same, here: (min, max)
-            self.main_widget.redraw_by_func(f, noise_range, m, min_deg, max_deg, min_x, max_x)
+            self.main_widget().redraw_by_func(f, noise_range, m, min_deg, max_deg, min_x, max_x)
         else:
             data = self.input(0)
             min_deg, max_deg = self.input(1) # should be a tuple (min, max)
             min_x, max_x = self.input(2)    # same, here: (min, max)
-            self.main_widget.redraw_by_data(data, min_deg, max_deg, min_x, max_x)
+            self.main_widget().redraw_by_data(data, min_deg, max_deg, min_x, max_x)
             
 
     def get_data(self):

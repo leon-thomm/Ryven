@@ -6,13 +6,13 @@ import math
 # GENERAL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 
 
@@ -23,9 +23,9 @@ import math
 # self.log_message('that\'s not good', 'error')
 
 
-class Tan_NodeInstance(NodeInstance):
+class Tan_Node(Node):
     def __init__(self, params):
-        super(Tan_NodeInstance, self).__init__(params)
+        super(Tan_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

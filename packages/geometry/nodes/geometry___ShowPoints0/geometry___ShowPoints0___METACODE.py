@@ -4,7 +4,7 @@ from NIENV import *
 # GENERAL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
@@ -21,7 +21,7 @@ from NIENV import *
 # self.log_message('that\'s not good', 'error')
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -32,7 +32,7 @@ class %CLASS%(NodeInstance):
     def update_event(self, input_called=-1):
         if input_called == 0:
             self.points = self.input(1)
-            self.main_widget.show_points(self.points)
+            self.main_widget().show_points(self.points)
             self.exec_output(0)
 
     def get_data(self):
@@ -41,7 +41,7 @@ class %CLASS%(NodeInstance):
 
     def set_data(self, data):
         self.points = data['points']
-        self.main_widget.show_points(self.points)
+        self.main_widget().show_points(self.points)
 
 
     def remove_event(self):

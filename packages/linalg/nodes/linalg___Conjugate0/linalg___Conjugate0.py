@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,9 +27,9 @@ from NIENV import *
 from numpy import conjugate
 
 
-class Conjugate_NodeInstance(NodeInstance):
+class Conjugate_Node(Node):
     def __init__(self, params):
-        super(Conjugate_NodeInstance, self).__init__(params)
+        super(Conjugate_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
@@ -37,7 +37,7 @@ class Conjugate_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         conjugated = conjugate(self.input(0))
         self.set_output_val(0, conjugated)
-        self.main_widget.update_matrix(conjugated)
+        self.main_widget().update_matrix(conjugated)
 
     def get_data(self):
         data = {}

@@ -5,7 +5,7 @@ import random
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under')
 # self.delete_input(input or index)
@@ -14,7 +14,7 @@ import random
 
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 

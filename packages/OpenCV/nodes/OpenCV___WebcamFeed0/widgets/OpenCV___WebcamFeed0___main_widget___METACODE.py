@@ -16,7 +16,7 @@ class %CLASS%(QWidget, MWB):
         
 
         self.video_size = QSize(400, 300)
-        self.timer = QTimer()
+        self.timer = QTimer(self)
         self.capture = None
 
         self.image_label = QLabel()

@@ -1,27 +1,28 @@
 from NIENV import *
-from ..ryvencore.src.ryvencore import NodePort
+from ..ryvencore.src.ryvencore import Node
+from ..ryvencore.src.NodePort import NodeInput, NodeOutput
 
 
-class SetVar_NodeInstance(NodeInstance):
+class SetVar_Node(Node):
 
     title = 'set var'
     description = 'sets the value of a script variable'
     init_inputs = [
-        NodePort(type_='exec'),
-        NodePort(type_='data', label='var',
+        NodeInput(type_='exec'),
+        NodeInput(type_='data', label='var',
                  widget='std line edit m', widget_pos='besides'),
-        NodePort(type_='data', label='val',
+        NodeInput(type_='data', label='val',
                  widget='std line edit m', widget_pos='besides')
     ]
     init_outputs = [
-        NodePort(type_='exec'),
-        NodePort(type_='data', label='val')
+        NodeOutput(type_='exec'),
+        NodeOutput(type_='data', label='val')
     ]
     style = 'extended'
     color = '#c69a15'
 
     def __init__(self, params):
-        super(SetVar_NodeInstance, self).__init__(params)
+        super(SetVar_Node, self).__init__(params)
 
         self.special_actions['make passive'] = {'method': M(self.action_make_passive)}
         self.active = True
@@ -49,8 +50,8 @@ class SetVar_NodeInstance(NodeInstance):
 
     def action_make_active(self):
         self.active = True
-        self.create_new_input('exec', '', pos=0)
-        self.create_new_output('exec', '', pos=0)
+        self.create_input('exec', '', pos=0)
+        self.create_output('exec', '', pos=0)
         del self.special_actions['make active']
         self.special_actions['make passive'] = {'method': M(self.action_make_passive)}
 

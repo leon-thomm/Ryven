@@ -10,6 +10,6 @@ matrix_widget = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(matrix_widget)
 
 
-class Real_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
+class Real_Node_MainWidget(matrix_widget.MatrixWidget):
     def __init__(self, params):
-        super(Real_NodeInstance_MainWidget, self).__init__(params)
+        super(Real_Node_MainWidget, self).__init__(params)

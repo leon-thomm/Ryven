@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,9 +27,9 @@ from NIENV import *
 import numpy as np
 
 
-class Func_NodeInstance(NodeInstance):
+class Func_Node(Node):
     def __init__(self, params):
-        super(Func_NodeInstance, self).__init__(params)
+        super(Func_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
@@ -48,7 +48,7 @@ class Func_NodeInstance(NodeInstance):
                 functions[signature] = eval(signature)
         #function_signatures = self.input(1).splitlines()
         #functions = [eval(l) for l in function_signatures]
-        self.main_widget.redraw(x, functions)
+        self.main_widget().redraw(x, functions)
 
     def get_data(self):
         data = {}

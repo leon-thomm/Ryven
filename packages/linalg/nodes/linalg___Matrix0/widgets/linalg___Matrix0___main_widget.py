@@ -7,9 +7,9 @@ matrix_widget = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(matrix_widget)
 
 
-class Matrix_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
+class Matrix_Node_MainWidget(matrix_widget.MatrixWidget):
     def __init__(self, parent_node_instance):
-        super(Matrix_NodeInstance_MainWidget, self).__init__(parent_node_instance, 100, 80)
+        super(Matrix_Node_MainWidget, self).__init__(parent_node_instance, 100, 80)
 
         self.setReadOnly(False)
 

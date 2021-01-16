@@ -16,10 +16,10 @@ class CodePreview_Widget(QWidget):
     def __init__(self, flow):
         super(CodePreview_Widget, self).__init__()
 
-        flow.node_inst_selection_changed.connect(self.set_selected_node_instances)
+        flow.nodes_selection_changed.connect(self.set_selected_nodes)
 
         self.text_edit = CodePreview_TextEdit()
-        self.node_instance = None
+        self.node = None
         self.buttons_obj_dict = {}
         self.active_class_index = -1
         self.edited_codes = {}
@@ -74,23 +74,23 @@ class CodePreview_Widget(QWidget):
         main_layout.addWidget(self.text_edit)
         self.setLayout(main_layout)
 
-        self.set_node_inst(None)
+        self.set_node(None)
 
-    def set_selected_node_instances(self, node_insts):
-        if len(node_insts) == 0:
-            self.set_node_inst(None)
+    def set_selected_nodes(self, nodes):
+        if len(nodes) == 0:
+            self.set_node(None)
         else:
-            self.set_node_inst(node_insts[-1])
+            self.set_node(nodes[-1])
 
-    def set_node_inst(self, ni):
+    def set_node(self, node):
         self.disable_editing()
 
-        self.rebuild_class_selection(ni)
+        self.rebuild_class_selection(node)
         self.update_edit_status()
 
-        self.node_instance = ni
+        self.node = node
 
-        if ni is None:  # no NI selected
+        if node is None:  # no node selected
             self.text_edit.set_code('')
             self.edit_code_button.setEnabled(False)
             self.override_code_button.setEnabled(False)
@@ -104,7 +104,7 @@ class CodePreview_Widget(QWidget):
 
         self.disable_editing()
 
-        if self.active_class_index == -1 or self.node_instance is None:
+        if self.active_class_index == -1 or self.node is None:
             return
 
         if self.get_current_code_obj() not in self.edited_codes:
@@ -131,31 +131,31 @@ class CodePreview_Widget(QWidget):
         self.buttons_obj_dict = {}
         self.active_class_index = -1
 
-        if isinstance(obj, rc.NodeInstance):
+        if isinstance(obj, rc.Node):
             # NI class
-            node_inst_class_RB = QRadioButton('NodeInstance')
-            node_inst_class_RB.toggled.connect(self.class_RB_toggled)
-            self.buttons_obj_dict[node_inst_class_RB] = obj
-            self.class_selection_layout.addWidget(node_inst_class_RB, 0, 0)
+            node_class_RB = QRadioButton('Node')
+            node_class_RB.toggled.connect(self.class_RB_toggled)
+            self.buttons_obj_dict[node_class_RB] = obj
+            self.class_selection_layout.addWidget(node_class_RB, 0, 0)
 
             # main_widget class
-            if obj.main_widget is not None:
+            if obj.item.main_widget is not None:
                 main_widget_class_RB = QRadioButton('MainWidget')
                 main_widget_class_RB.toggled.connect(self.class_RB_toggled)
-                self.buttons_obj_dict[main_widget_class_RB] = obj.main_widget
+                self.buttons_obj_dict[main_widget_class_RB] = obj.item.main_widget
                 self.class_selection_layout.addWidget(main_widget_class_RB, 1, 0)
 
             # data input widgets
             row_count = 0
             for inp in obj.inputs:
-                if inp.widget is not None:
+                if inp.item.widget is not None:
                     inp_widget_class_RB = QRadioButton('Input '+str(obj.inputs.index(inp)))
                     inp_widget_class_RB.toggled.connect(self.class_RB_toggled)
-                    self.buttons_obj_dict[inp_widget_class_RB] = inp.widget
+                    self.buttons_obj_dict[inp_widget_class_RB] = inp.item.widget
                     self.class_selection_layout.addWidget(inp_widget_class_RB, row_count, 1)
                     row_count += 1
 
-            node_inst_class_RB.setChecked(True)
+            node_class_RB.setChecked(True)
 
     def update_edit_status(self):
         for o in list(self.buttons_obj_dict.keys()):

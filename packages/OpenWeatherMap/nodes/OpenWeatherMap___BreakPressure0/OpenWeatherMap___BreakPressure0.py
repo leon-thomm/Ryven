@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -26,9 +26,9 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class BreakPressure_NodeInstance(NodeInstance):
+class BreakPressure_Node(Node):
     def __init__(self, params):
-        super(BreakPressure_NodeInstance, self).__init__(params)
+        super(BreakPressure_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,7 +27,7 @@ from NIENV import *
 import numpy as np
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -39,7 +39,7 @@ class %CLASS%(NodeInstance):
         n = self.input(1)
         matrix = np.array([[0.0 for n in range(n)] for m in range(m)])
         self.set_output_val(0, matrix)
-        self.main_widget.update_matrix(matrix)
+        self.main_widget().update_matrix(matrix)
 
     def get_data(self):
         data = {}

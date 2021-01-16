@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,41 +27,41 @@ from NIENV import *
 from numpy import zeros
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
-        self.main_widget_hidden = False
+        self.main_widget()_hidden = False
 
     def update_event(self, input_called=-1):
         m = self.input(0)
         n = self.input(1)
         matrix = np.zeros((m, n))
         self.set_output_val(0, matrix)
-        self.main_widget.update_matrix(matrix)
+        self.main_widget().update_matrix(matrix)
 
     def action_hide_mw(self):
-        self.main_widget.hide()
+        self.main_widget().hide()
         del self.special_actions['hide preview']
         self.special_actions['show preview'] = {'method': M(self.action_show_mw)}
-        self.main_widget_hidden = True
+        self.main_widget()_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
-        self.main_widget.show()
+        self.main_widget().show()
         del self.special_actions['show preview']
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
-        self.main_widget_hidden = False
+        self.main_widget()_hidden = False
         self.update_shape()
 
     def get_data(self):
-        data = {'main widget hidden': self.main_widget_hidden}
+        data = {'main widget hidden': self.main_widget()_hidden}
         return data
 
     def set_data(self, data):
-        self.main_widget_hidden = data['main widget hidden']
-        if self.main_widget_hidden:
+        self.main_widget()_hidden = data['main widget hidden']
+        if self.main_widget()_hidden:
             self.action_hide_mw()
         # shown by default
 

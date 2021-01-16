@@ -158,8 +158,8 @@ class CodeGenerator:
                 for j in range(len(out.connections)):
                     c = out.connections[j]
                     cpi = c.inp
-                    connections.append(f'c({k}, {o}, {self.node_instances.index(cpi.parent_node_instance)}, '
-                                       f'{cpi.parent_node_instance.inputs.index(cpi)})')
+                    connections.append(f'c({k}, {o}, {self.node_instances.index(cpi.parent_node)}, '
+                                       f'{cpi.parent_node.inputs.index(cpi)})')
                 #     outgoing_connections.append(f'node_instances[{self.node_instances.index(cpi.parent_node_instance)}]'
                 #                                 f'.inputs[{cpi.parent_node_instance.inputs.index(cpi)}]')
                 # outgoing_connections_str = ', '.join(outgoing_connections)

@@ -6,10 +6,10 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -23,7 +23,7 @@ class %CLASS%(NodeInstance):
       
         self.img_Rgba= cv2.cvtColor(self.img_unRgba,cv2.COLOR_BGRA2RGBA)
         #self.cnvt=cv2.imshow('gray_image',self.img_Rgb)
-        self.main_widget.show_image(self.img_Rgba)
+        self.main_widget().show_image(self.img_Rgba)
         self.set_output_val(0, self.img_Rgba)
 
     def get_data(self):

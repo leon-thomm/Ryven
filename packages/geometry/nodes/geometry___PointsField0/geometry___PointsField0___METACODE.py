@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS --------------
 
-# self.main_widget
+# self.main_widget()
 # self.update_shape()
 
 # Ports
@@ -25,7 +25,7 @@ from NIENV import *
 # --------------------------
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -48,7 +48,7 @@ class %CLASS%(NodeInstance):
 
     def set_data(self, data):
         self.points = data['points']
-        self.main_widget.draw()
+        self.main_widget().draw()
 
     def removing(self):
         pass

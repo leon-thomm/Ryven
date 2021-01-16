@@ -5,14 +5,15 @@ from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QAct
 
 # parent UI
 import custom_src.Console.MainConsole as MainConsole
+import custom_src.ryvencore.src.NodePort
 from .ScriptUI import ScriptUI
 from ui.ui_main_window import Ui_MainWindow
 
-# builtin node instances
-from .builtin_nodes.Result_NodeInstance import Result_NodeInstance, Result_NodeInstance_MainWidget
-from .builtin_nodes.Val_NodeInstance import Val_NodeInstance, ValNode_Instance_MainWidget
-from .builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
-from .builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
+# builtin nodes
+from .builtin_nodes.Result_Node import Result_Node
+from .builtin_nodes.Val_Node import Val_Node
+from .builtin_nodes.GetVar_Node import GetVar_Node
+from .builtin_nodes.SetVar_Node import SetVar_Node
 
 # ryvencore
 # from custom_src.ryvencore.src import Session, ConvUI, Node, NodePort
@@ -52,7 +53,7 @@ class MainWindow(QMainWindow):
 
         self.script_UIs = []
 
-        self.session = rc.Session()
+        self.session = rc.Session(threaded=False)
         self.session.new_script_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
         self.session.script_deleted.connect(self.script_deleted)
@@ -166,10 +167,10 @@ saving: ctrl+s
 
     def register_builtin_nodes(self):
         nodes = [
-            GetVar_NodeInstance,
-            SetVar_NodeInstance,
-            Val_NodeInstance,
-            Result_NodeInstance
+            GetVar_Node,
+            SetVar_Node,
+            Val_Node,
+            Result_Node
         ]
 
         self.session.register_nodes(nodes)
@@ -221,7 +222,7 @@ saving: ctrl+s
         script = self.get_current_script()
         generator = CodeGenerator(
             main_window=self,
-            node_instances=script.flow.node_instances,
+            node_instances=script.flow.node_items,
             vars_manager_config=script.vars_manager.config_data(),
             flow_algorithm_mode=script.flow.algorithm_mode()
         )
@@ -241,17 +242,19 @@ saving: ctrl+s
         )
 
     def script_deleted(self, script):
-        self.ui.scripts_tab_widget.removeTab(
-            self.script_UIs.index(self.get_script_UI(script))
-        )
+        script_UI, index = self.get_script_UI(script)
+        self.ui.scripts_tab_widget.removeTab(index)
+        self.script_UIs.remove(script_UI)
 
     def get_script_UI(self, script):
         script_UI = None
-        for sui in self.script_UIs:
+        index = -1
+        for index in range(len(self.script_UIs)):
+            sui = self.script_UIs[index]
             if sui.script == script:
                 script_UI = sui
                 break
-        return script_UI
+        return script_UI, index
 
     # def create_new_script_button_pressed(self):
     #     self.create_new_script(title=self.ui.new_script_name_lineEdit.text())
@@ -382,28 +385,28 @@ saving: ctrl+s
         module_name_separator = '___'
 
         # CUSTOM CLASS IMPORTS ----------------------------------------------------------------------------
-        node_inst_class = None
+        node_class = None
         main_widget_class = None
         input_widget_classes = {}
         # creating all the necessary path variables here for all potentially imported classes
 
-        #       IMPORT NODE INSTANCE SUBCLASS
-        node_instance_class_file_path = package_path + '/nodes/' + node_module_name + '/'
-        node_instance_widgets_file_path = node_instance_class_file_path + '/widgets'
-        node_instance_filename = node_module_name  # the NI file's name is just the 'module name'
-        node_inst_class = self.get_class_from_file(file_path=node_instance_class_file_path,
-                                                   file_name=node_instance_filename,
-                                                   class_name=node_class_name + '_NodeInstance')
-        if node_inst_class is None:
+        #       IMPORT NODE SUBCLASS
+        node_class_file_path = package_path + '/nodes/' + node_module_name + '/'
+        node_widgets_file_path = node_class_file_path + '/widgets'
+        node_filename = node_module_name  # the NI file's name is just the 'module name'
+        node_class = self.get_class_from_file(file_path=node_class_file_path,
+                                                   file_name=node_filename,
+                                                   class_name=node_class_name + '_Node')
+        if node_class is None:
             return False    # error during import
 
         #       IMPORT MAIN WIDGET
         if node_has_main_widget:
             main_widget_filename = node_module_name + module_name_separator + 'main_widget'
-            main_widget_class = self.get_class_from_file(file_path=node_instance_widgets_file_path,
+            main_widget_class = self.get_class_from_file(file_path=node_widgets_file_path,
                                                          file_name=main_widget_filename,
                                                          class_name=node_class_name +
-                                                                             '_NodeInstance_MainWidget')
+                                                                             '_Node_MainWidget')
             if main_widget_class is None:
                 return False     # error during import
 
@@ -411,7 +414,7 @@ saving: ctrl+s
         #       I need to create the dict for the node's potential custom input widgets already here
         for w_name in j_node['custom input widgets']:
             input_widget_filename = node_module_name + module_name_separator + w_name
-            custom_widget_class = self.get_class_from_file(file_path=node_instance_widgets_file_path,
+            custom_widget_class = self.get_class_from_file(file_path=node_widgets_file_path,
                                                            file_name=input_widget_filename,
                                                            class_name=w_name + '_PortInstanceWidget')
             if custom_widget_class is None:
@@ -436,7 +439,7 @@ saving: ctrl+s
                 i_widget_pos = j_input['widget position']
 
             # creating port
-            new_input = rc.NodePort(
+            new_input = custom_src.ryvencore.src.NodePort.NodeInput(
                 type_=i_type,
                 label=i_label,
                 widget=i_widget_name,
@@ -459,7 +462,7 @@ saving: ctrl+s
             o_label = j_output['label']
 
             # creating port
-            new_output = rc.NodePort(
+            new_output = custom_src.ryvencore.src.NodePort.NodeOutput(
                 type_=o_type,
                 label=o_label
             )
@@ -469,23 +472,23 @@ saving: ctrl+s
 
 
         # SET FIELDS
-        nic = node_inst_class
-        nic.title = node_title
-        nic.type_ = package_name  # node_type
-        nic.description = node_description
-        nic.main_widget_class = main_widget_class
-        nic.main_widget_pos = node_main_widget_pos
-        nic.init_inputs = inputs
-        nic.input_widget_classes = input_widget_classes
-        nic.init_outputs = outputs
-        nic.style = node_design_style
-        nic.color = node_color
+        nc = node_class
+        nc.title = node_title
+        nc.type_ = package_name  # node_type
+        nc.description = node_description
+        nc.main_widget_class = main_widget_class
+        nc.main_widget_pos = node_main_widget_pos
+        nc.init_inputs = inputs
+        nc.input_widget_classes = input_widget_classes
+        nc.init_outputs = outputs
+        nc.style = node_design_style
+        nc.color = node_color
 
         # print(nic.__dict__)
 
-        self.session.register_node(nic)
+        self.session.register_node(nc)
 
-        self.node_packages[nic] = package_name
+        self.node_packages[nc] = package_name
 
         return True
 
@@ -493,9 +496,9 @@ saving: ctrl+s
     def get_class_from_file(self, file_path, file_name, class_name):
         """Returns a class with a given name from a file for instantiation by importing the module.
         Used for all the dynamically imported classes:
-            - NodeInstances
-            - A NodeInstance's main widget
-            - A NodeInstance's custom input widgets
+            - Nodes
+            - A Node's main widget
+            - A Node's custom input widgets
         """
         # Debugger.debug(file_path)
         # Debugger.debug(file_name)
@@ -544,16 +547,17 @@ saving: ctrl+s
         scripts_data_list = self.session.serialize()
 
         required_packages = set()
-        for ni in self.session.all_node_instances():
-            if self.node_packages[ni.__class__] is None:
+        for node in self.session.all_nodes():
+            if node.__class__ not in self.node_packages.keys() or \
+                    self.node_packages[node.__class__] is None:
                 continue
             required_packages.add(
-                self.node_packages[ni.__class__]
+                self.node_packages[node.__class__]
             )
 
         whole_project_dict = {'general info': general_project_info_dict,
-                              'scripts': scripts_data_list,
-                              'required packages': list(required_packages)}
+                              'required packages': list(required_packages),
+                              'scripts': scripts_data_list}
 
         data = json.dumps(whole_project_dict)
         rc.Debugger.write(data)

@@ -25,10 +25,18 @@ class PackageTranslator:
             src_code_target_filename = n['module name']+'.py'
 
             code = code.replace('%NODE_TITLE%', n['class name'])
-            code = code.replace('%CLASS%', n['class name']+'_NodeInstance')
+            code = code.replace('%CLASS%', n['class name']+'_Node')
             code = code.replace('%PACKAGE_NAME%', self.package_name)
 
+            # backwards compatibility for old Ryven versions
+            code = code.replace('(NodeInstance):', '(Node):')
+            code = code.replace('self.create_new_input', 'self.create_input')
+            code = code.replace('self.create_new_output', 'self.create_output')
+
             self.save(package_dir+'/nodes/'+n['module name']+'/'+src_code_target_filename, code)
+
+
+
 
 
             # MAIN WIDGET
@@ -41,7 +49,10 @@ class PackageTranslator:
                 main_widget_target_filename = n['module name'] + self.module_name_separator + 'main_widget.py'
 
                 code = code.replace('%NODE_TITLE%', n['class name'])
-                code = code.replace('%CLASS%', n['class name']+'_NodeInstance_MainWidget')
+                code = code.replace('%CLASS%', n['class name']+'_Node_MainWidget')
+
+                # backwards compatibility for old Ryven versions
+                code = code.replace('parent_node_instance', 'node')
 
                 self.save(package_dir + '/nodes/' + n['module name'] + '/widgets/' + main_widget_target_filename, code)
 
@@ -57,6 +68,9 @@ class PackageTranslator:
 
                 code = code.replace('%INPUT_WIDGET_TITLE%', i_w)  # i_w is already class name legal
                 code = code.replace('%CLASS%', i_w+'_PortInstanceWidget')
+
+                # backwards compatibility for old Ryven versions
+                code = code.replace('parent_node_instance', 'node')
 
                 self.save(package_dir + '/nodes/' + n['module name'] + '/widgets/' + input_widget_target_filename, code)
 

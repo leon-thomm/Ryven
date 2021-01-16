@@ -7,14 +7,14 @@ from PySide2.QtCore import Qt
 
 
 
-class ExtractProperty_NodeInstance_MainWidget(QPlainTextEdit, MWB):
+class ExtractProperty_Node_MainWidget(QPlainTextEdit, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QPlainTextEdit.__init__(self)
 
         
 
-        self.setStyleSheet(self.parent_node_instance.session_stylesheet())
+        self.setStyleSheet(self.node.session_stylesheet())
 
         self.setFixedSize(250, 30)
         self.setPlainText('obj.')
@@ -38,8 +38,8 @@ class ExtractProperty_NodeInstance_MainWidget(QPlainTextEdit, MWB):
             QPlainTextEdit.keyPressEvent(self, event)
     
     def editing_finished(self, text):
-        self.parent_node_instance.text = text
-        self.parent_node_instance.update()
+        self.node.text = text
+        self.node.update()
 
     def get_text(self):
         return self.toPlainText()

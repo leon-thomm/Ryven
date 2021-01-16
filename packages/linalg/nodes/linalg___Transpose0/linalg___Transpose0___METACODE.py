@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,7 +27,7 @@ from NIENV import *
 from numpy import transpose
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -37,7 +37,7 @@ class %CLASS%(NodeInstance):
     def update_event(self, input_called=-1):
         transposed = transpose(self.input(0))
         self.set_output_val(0, transposed)
-        self.main_widget.update_matrix(transposed)
+        self.main_widget().update_matrix(transposed)
 
     def get_data(self):
         data = {}

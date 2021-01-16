@@ -7,7 +7,7 @@ from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QSlider
 
 
-class Slider_NodeInstance_MainWidget(QSlider, MWB):
+class Slider_Node_MainWidget(QSlider, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QSlider.__init__(self, Qt.Horizontal)
@@ -41,7 +41,7 @@ QSlider::handle:horizontal {
         self.setMaximum(100)
 
     def val_changed(self, v):
-        self.parent_node_instance.update()
+        self.node.update()
 
     def get_val(self):
         return self.value()/100

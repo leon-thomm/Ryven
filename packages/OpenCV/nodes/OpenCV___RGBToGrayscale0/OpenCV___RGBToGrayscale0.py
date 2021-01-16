@@ -6,12 +6,12 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class RGBToGrayscale_NodeInstance(NodeInstance):
+class RGBToGrayscale_Node(Node):
     def __init__(self, params):
-        super(RGBToGrayscale_NodeInstance, self).__init__(params)
+        super(RGBToGrayscale_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_ungrayed = None
@@ -23,7 +23,7 @@ class RGBToGrayscale_NodeInstance(NodeInstance):
       
         self.img_grayed = cv2.cvtColor(self.img_ungrayed,cv2.COLOR_BGRA2GRAY)
         #self.cnvt=cv2.imshow('gray_image',self.img_grayed)
-        self.main_widget.show_image(self.img_grayed)
+        self.main_widget().show_image(self.img_grayed)
         self.set_output_val(0, self.img_grayed)
 
     def get_data(self):

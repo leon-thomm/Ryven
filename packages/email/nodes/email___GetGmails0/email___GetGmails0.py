@@ -6,7 +6,7 @@ import email
 # GENERAL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
@@ -23,9 +23,9 @@ import email
 # self.log_message('that\'s not good', 'error')
 
 
-class GetGmails_NodeInstance(NodeInstance):
+class GetGmails_Node(Node):
     def __init__(self, params):
-        super(GetGmails_NodeInstance, self).__init__(params)
+        super(GetGmails_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

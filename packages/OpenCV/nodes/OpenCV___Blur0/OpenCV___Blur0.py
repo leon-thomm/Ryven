@@ -6,12 +6,12 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class Blur_NodeInstance(NodeInstance):
+class Blur_Node(Node):
     def __init__(self, params):
-        super(Blur_NodeInstance, self).__init__(params)
+        super(Blur_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unblurred = None
@@ -23,7 +23,7 @@ class Blur_NodeInstance(NodeInstance):
         blur_val = self.input(1)
         blur_val = int(blur_val)
         self.img_blurred = cv2.blur(self.img_unblurred, (blur_val, blur_val))
-        self.main_widget.show_image(self.img_blurred)
+        self.main_widget().show_image(self.img_blurred)
         self.set_output_val(0, self.img_blurred)
 
     def get_data(self):

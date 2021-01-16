@@ -5,7 +5,7 @@ import random
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under')
 # self.delete_input(input or index)
@@ -14,9 +14,9 @@ import random
 
 
 
-class Perceptron_NodeInstance(NodeInstance):
+class Perceptron_Node(Node):
     def __init__(self, params):
-        super(Perceptron_NodeInstance, self).__init__(params)
+        super(Perceptron_Node, self).__init__(params)
 
         self.special_actions['reset'] = {'method': M(self.action_reset)}
         self.weights = [random.uniform(-1, 1), random.uniform(-1, 1)]

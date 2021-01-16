@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,9 +27,9 @@ from NIENV import *
 from numpy.linalg import solve
 
 
-class Solve_NodeInstance(NodeInstance):
+class Solve_Node(Node):
     def __init__(self, params):
-        super(Solve_NodeInstance, self).__init__(params)
+        super(Solve_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
@@ -37,7 +37,7 @@ class Solve_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         solution = solve(self.input(0), self.input(1))
         self.set_output_val(0, solution)
-        self.main_widget.update_matrix(solution)
+        self.main_widget().update_matrix(solution)
 
     def get_data(self):
         data = {}

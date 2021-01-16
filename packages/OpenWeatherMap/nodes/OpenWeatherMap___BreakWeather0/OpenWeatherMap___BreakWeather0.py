@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -11,9 +11,9 @@ from NIENV import *
 # self.set_output_val(self, index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index or input)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index or output)
 
 
@@ -26,9 +26,9 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class BreakWeather_NodeInstance(NodeInstance):
+class BreakWeather_Node(Node):
     def __init__(self, params):
-        super(BreakWeather_NodeInstance, self).__init__(params)
+        super(BreakWeather_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

@@ -5,7 +5,7 @@ import email
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -28,9 +28,9 @@ import email
 # ------------------------------------------------------------------------------
 
 
-class GetLastGmail_NodeInstance(NodeInstance):
+class GetLastGmail_Node(Node):
     def __init__(self, params):
-        super(GetLastGmail_NodeInstance, self).__init__(params)
+        super(GetLastGmail_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

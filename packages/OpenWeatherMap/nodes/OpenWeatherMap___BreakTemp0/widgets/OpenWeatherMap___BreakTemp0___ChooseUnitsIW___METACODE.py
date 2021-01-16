@@ -2,7 +2,7 @@ from NIWENV import *
 
 from PySide2.QtWidgets import QWidget, QRadioButton, QVBoxLayout
 # from PySide2.QtCore import ...
-# from PySide2.QtGui import ...
+from PySide2.QtGui import QColor
 
 
 class %CLASS%(QWidget, IWB):
@@ -15,7 +15,7 @@ class %CLASS%(QWidget, IWB):
             background: transparent;
         }
         QRadioButton {
-            color: '''+self.parent_node_instance.color.lighter().name()+''';
+            color: '''+QColor(self.parent_node_instance.color).lighter().name()+''';
         }
         ''')
 

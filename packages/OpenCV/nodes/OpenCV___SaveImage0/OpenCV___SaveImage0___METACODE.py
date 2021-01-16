@@ -2,7 +2,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -27,13 +27,19 @@ from NIENV import *
 
 import cv2
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
+
+    set_path_text_triggered = Signal(str)
+
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.image_filepath = ''
         self.img = None
+
+    def initialized(self):
+        self.set_path_text_triggered.connect(M(self.main_widget().set_path_text))
 
     def update_event(self, input_called=-1):
         if input_called != 0:
@@ -43,10 +49,12 @@ class %CLASS%(NodeInstance):
         try:
             self.log_message('Saving pic to '+self.image_filepath, 'global')
             cv2.imwrite(self.image_filepath, self.img)
-            self.main_widget.set_path_text(self.image_filepath)
-            self.main_widget.setText('Success')
+            # self.main_widget().set_path_text(self.image_filepath)
+            # self.main_widget().setText('Success')
+            self.set_path_text_triggered.emit('Success')
         except Exception as e:
-            self.main_widget.setText('Error')
+            # self.main_widget().setText('Error')
+            self.set_path_text_triggered.emit('Error')
 
     def get_data(self):
         data = {'image file path': self.image_filepath}
@@ -57,7 +65,8 @@ class %CLASS%(NodeInstance):
 
     def path_chosen(self, file_path):
         self.image_filepath = file_path
-        self.main_widget.setText('')
+        # self.main_widget().setText('')
+        self.set_path_text_triggered.emit('')
         self.update()
 
 

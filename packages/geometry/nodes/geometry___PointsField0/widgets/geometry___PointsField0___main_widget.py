@@ -4,7 +4,7 @@ from PySide2.QtGui import QPainter, QColor, QPen
 from PySide2.QtCore import Qt
 
 
-class PointsField_NodeInstance_MainWidget(QGraphicsView, MWB):
+class PointsField_Node_MainWidget(QGraphicsView, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QGraphicsView.__init__(self)
@@ -25,7 +25,7 @@ border: none;
     def mousePressEvent(self, event):
         p = [event.pos().x()/self.scene().width(), 
              event.pos().y()/self.scene().height()]
-        self.parent_node_instance.add_point(p)
+        self.node.add_point(p)
         self.update()
 
     def drawBackground(self, painter, rect):
@@ -38,7 +38,7 @@ border: none;
         painter.setPen(pen)
         w = self.scene().width()
         h = self.scene().height()
-        for p in self.parent_node_instance.points:
+        for p in self.node.points:
             painter.drawEllipse(p[0]*w, p[1]*h, 3, 3)
 
     def draw(self):

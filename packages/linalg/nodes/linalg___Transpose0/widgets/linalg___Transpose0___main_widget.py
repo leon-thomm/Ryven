@@ -10,6 +10,6 @@ matrix_widget = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(matrix_widget)
 
 
-class Transpose_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
+class Transpose_Node_MainWidget(matrix_widget.MatrixWidget):
     def __init__(self, params):
-        super(Transpose_NodeInstance_MainWidget, self).__init__(params)
+        super(Transpose_Node_MainWidget, self).__init__(params)

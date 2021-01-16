@@ -7,6 +7,6 @@ matrix_widget = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(matrix_widget)
 
 
-class Herm_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
+class Herm_Node_MainWidget(matrix_widget.MatrixWidget):
     def __init__(self, params):
-        super(Herm_NodeInstance_MainWidget, self).__init__(params)
+        super(Herm_Node_MainWidget, self).__init__(params)

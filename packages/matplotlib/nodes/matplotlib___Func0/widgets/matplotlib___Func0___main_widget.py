@@ -14,7 +14,7 @@ from matplotlib.figure import Figure
 from qbstyles import mpl_style
 
 
-class Func_NodeInstance_MainWidget(QWidget, MWB):
+class Func_Node_MainWidget(QWidget, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QWidget.__init__(self)

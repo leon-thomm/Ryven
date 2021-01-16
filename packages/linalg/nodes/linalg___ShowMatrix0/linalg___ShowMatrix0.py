@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,18 +27,18 @@ from NIENV import *
 import numpy as np
 
 
-class ShowMatrix_NodeInstance(NodeInstance):
+class ShowMatrix_Node(Node):
     def __init__(self, params):
-        super(ShowMatrix_NodeInstance, self).__init__(params)
+        super(ShowMatrix_Node, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
-        self.main_widget_hidden = False
+        self.main_widget()_hidden = False
         self.accessed_columns = []
         self.accessed_rows = []
 
     def update_event(self, input_called=-1):
         matrix = self.input(0)
-        self.main_widget.update_matrix(matrix)
+        self.main_widget().update_matrix(matrix)
         self.set_output_val(0, matrix)
 
         # also update individual access outputs for rows and columns
@@ -107,28 +107,28 @@ class ShowMatrix_NodeInstance(NodeInstance):
         del self.special_actions['remove output']['col '+str(col_index)]
 
     def action_hide_mw(self):
-        self.main_widget.hide()
+        self.main_widget().hide()
         del self.special_actions['hide preview']
         self.special_actions['show preview'] = {'method': M(self.action_show_mw)}
-        self.main_widget_hidden = True
+        self.main_widget()_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
-        self.main_widget.show()
+        self.main_widget().show()
         del self.special_actions['show preview']
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
-        self.main_widget_hidden = False
+        self.main_widget()_hidden = False
         self.update_shape()
 
     def get_data(self):
-        data = {'main widget hidden': self.main_widget_hidden,
+        data = {'main widget hidden': self.main_widget()_hidden,
                 'accessed rows': self.accessed_rows,
                 'accessed columns': self.accessed_columns}
         return data
 
     def set_data(self, data):
-        self.main_widget_hidden = data['main widget hidden']
-        # if self.main_widget_hidden:
+        self.main_widget()_hidden = data['main widget hidden']
+        # if self.main_widget()_hidden:
         #     self.action_hide_mw()
         # shown by default
         

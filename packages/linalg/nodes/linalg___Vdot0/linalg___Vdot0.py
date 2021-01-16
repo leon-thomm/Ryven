@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,9 +27,9 @@ from NIENV import *
 from numpy import vdot
 
 
-class Vdot_NodeInstance(NodeInstance):
+class Vdot_Node(Node):
     def __init__(self, params):
-        super(Vdot_NodeInstance, self).__init__(params)
+        super(Vdot_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
@@ -37,7 +37,7 @@ class Vdot_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         product = vdot(self.input(0), self.input(1))
         self.set_output_val(0, product)
-        self.main_widget.update_matrix(product)
+        self.main_widget().update_matrix(product)
 
     def get_data(self):
         data = {}

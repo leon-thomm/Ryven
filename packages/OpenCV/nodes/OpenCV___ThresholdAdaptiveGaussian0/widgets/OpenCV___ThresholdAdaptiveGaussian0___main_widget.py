@@ -10,7 +10,7 @@ from PySide2.QtWidgets import QLabel
 import cv2
 
 
-class ThresholdAdaptiveGaussian_NodeInstance_MainWidget(QLabel, MWB):
+class ThresholdAdaptiveGaussian_Node_MainWidget(QLabel, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QLabel.__init__(self)
@@ -29,7 +29,7 @@ class ThresholdAdaptiveGaussian_NodeInstance_MainWidget(QLabel, MWB):
         self.resize(self.width() * proportion, self.height())
         qt_image = qt_image.scaled(self.width(), self.height())
         self.setPixmap(QPixmap(qt_image))
-        self.parent_node_instance.update_shape()
+        self.node.update_shape()
 
     def get_data(self):
         return self.text()

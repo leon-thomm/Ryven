@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -28,7 +28,7 @@ from NIENV import *
 import cv2
 import numpy as np
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -49,7 +49,7 @@ class %CLASS%(NodeInstance):
             # draw the center of the circle
             cv2.circle(self.image,(i[0],i[1]),2,(0,0,255),3)
 
-        self.main_widget.show_image(self.image)
+        self.main_widget().show_image(self.image)
         self.set_output_val(0, self.image)
 
     def get_data(self):

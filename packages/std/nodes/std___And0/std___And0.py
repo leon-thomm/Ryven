@@ -1,16 +1,16 @@
 from NIENV import *
 
 
-class And_NodeInstance(NodeInstance):
+class And_Node(Node):
     def __init__(self, params):
-        super(And_NodeInstance, self).__init__(params)
+        super(And_Node, self).__init__(params)
 
         self.special_actions['add input'] = {'method': M(self.action_add_input)}
         self.enlargement_state = 0
 
 
     def action_add_input(self):
-        self.create_new_input('data', '', widget_name='std line edit s r nb', widget_pos='besides')
+        self.create_input('data', '', widget_name='std line edit s r nb', widget_pos='besides')
         self.enlargement_state += 1
         self.special_actions['remove input'] = {'method': M(self.action_remove_input)}
 

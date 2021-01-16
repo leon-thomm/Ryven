@@ -7,6 +7,8 @@ M = Retain.M
 
 from os.path import normpath, join, dirname, abspath
 
+from PySide2.QtCore import Signal
+
 
 def widget_pp(f):
     return normpath(join(dirname(abspath(f)), '../../../'))+'/'

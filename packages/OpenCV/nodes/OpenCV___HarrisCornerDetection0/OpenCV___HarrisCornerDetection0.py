@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -11,9 +11,9 @@ from NIENV import *
 # set_output_val(self, index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index or input)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index or output)
 
 
@@ -27,17 +27,17 @@ from NIENV import *
 
 import cv2
 
-class HarrisCornerDetection_NodeInstance(NodeInstance):
-    def __init__(self, params):
-        super(HarrisCornerDetection_NodeInstance, self).__init__(params)
+class HarrisCornerDetection_Node(Node):
 
-        # self.special_actions['action name'] = {'method': M(self.action_method)}
-        # ...
+    new_img = Signal(object)
 
-    # don't call self.update_event() directly, use self.update() instead
+    def initialized(self):
+        self.new_img.connect(M(self.main_widget().show_image))
+
     def update_event(self, input_called=-1):
         result = cv2.cornerHarris(self.input(0), self.input(1), self.input(2), self.input(3))
-        self.main_widget.show_image(result)
+        # self.main_widget().show_image(result)
+        self.new_img.emit(result)
         self.set_output_val(0, result)
 
     def get_data(self):

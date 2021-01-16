@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,9 +27,9 @@ from NIENV import *
 import numpy as np
 
 
-class Linspace_NodeInstance(NodeInstance):
+class Linspace_Node(Node):
     def __init__(self, params):
-        super(Linspace_NodeInstance, self).__init__(params)
+        super(Linspace_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

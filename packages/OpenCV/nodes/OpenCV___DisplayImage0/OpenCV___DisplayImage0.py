@@ -4,7 +4,7 @@ import cv2
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -12,9 +12,9 @@ import cv2
 # set_output_val(self, index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index or input)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index or output)
 
 
@@ -27,9 +27,9 @@ import cv2
 # ------------------------------------------------------------------------------
 
 
-class DisplayImage_NodeInstance(NodeInstance):
+class DisplayImage_Node(Node):
     def __init__(self, params):
-        super(DisplayImage_NodeInstance, self).__init__(params)
+        super(DisplayImage_Node, self).__init__(params)
 
         # self.special_actions['update'] = {'method': M(self.update)}
 
@@ -37,7 +37,7 @@ class DisplayImage_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         self.res = self.input(0)
      
-        self.main_widget.show_image(self.res)
+        self.main_widget().show_image(self.res)
         self.set_output_val(0, self.res)
 
     def get_data(self):

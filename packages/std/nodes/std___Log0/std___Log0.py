@@ -4,13 +4,13 @@ from NIENV import *
 # GENERAL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 
 
@@ -21,9 +21,9 @@ from NIENV import *
 # self.log_message('that\'s not good', 'error')
 
 
-class Log_NodeInstance(NodeInstance):
+class Log_Node(Node):
     def __init__(self, params):
-        super(Log_NodeInstance, self).__init__(params)
+        super(Log_Node, self).__init__(params)
 
         self.special_actions['add target option'] = {'method': M(self.action_add_target_option)}
         self.log = self.new_log('Log Node Log')
@@ -39,7 +39,7 @@ class Log_NodeInstance(NodeInstance):
 
     def add_target_option(self):
         self.special_actions['remove target option'] = {'method': M(self.action_remove_target_option)}
-        self.create_new_input('data', 'target', widget_name='LogTargetComboBox', widget_pos='besides')
+        self.create_input('data', 'target', widget_name='LogTargetComboBox', widget_pos='besides')
         self.showing_target_option = True
 
     def action_remove_target_option(self):

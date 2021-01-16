@@ -6,10 +6,10 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -26,7 +26,7 @@ class %CLASS%(NodeInstance):
         thickness=self.input(4)
         
         self.img_lined = cv2.line( self.img_unlined,startpoint,endpoint,color,thickness)
-        self.main_widget.show_image(self.img_lined)
+        self.main_widget().show_image(self.img_lined)
         self.set_output_val(0, self.img_lined)
 
     def get_data(self):

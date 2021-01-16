@@ -6,16 +6,22 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class BlurMedian_NodeInstance(NodeInstance):
+class BlurMedian_Node(Node):
+
+    new_img = Signal(object)
+
     def __init__(self, params):
-        super(BlurMedian_NodeInstance, self).__init__(params)
+        super(BlurMedian_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unblurred = None
         self.img_blurred = None
+
+    def initialized(self):
+        self.new_img.connect(M(self.main_widget().show_image))
 
 
     def update_event(self, input_called=-1):
@@ -23,7 +29,8 @@ class BlurMedian_NodeInstance(NodeInstance):
         blur_val = self.input(1)
        # blur_val = int(blur_val)
         self.img_blurred = cv2.medianBlur( self.img_unblurred, int(blur_val))
-        self.main_widget.show_image(self.img_blurred)
+        # self.main_widget().show_image(self.img_blurred)
+        self.new_img.emit(self.img_blurred)
         self.set_output_val(0, self.img_blurred)
 
     def get_data(self):

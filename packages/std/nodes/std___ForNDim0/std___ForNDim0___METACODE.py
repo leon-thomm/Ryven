@@ -4,7 +4,7 @@ from NIENV import *
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
 # self.create_new_output(type_, label, pos=-1)
@@ -12,7 +12,7 @@ from NIENV import *
 
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 

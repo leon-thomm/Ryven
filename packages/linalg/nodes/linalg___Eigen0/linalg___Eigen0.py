@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -27,9 +27,9 @@ from NIENV import *
 from numpy.linalg import eig
 
 
-class Eigen_NodeInstance(NodeInstance):
+class Eigen_Node(Node):
     def __init__(self, params):
-        super(Eigen_NodeInstance, self).__init__(params)
+        super(Eigen_Node, self).__init__(params)
 
     def update_event(self, input_called=-1):
         w, v = eig(self.input(0))

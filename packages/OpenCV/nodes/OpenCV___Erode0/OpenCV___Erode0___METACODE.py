@@ -4,7 +4,7 @@ import cv2
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -27,7 +27,7 @@ import cv2
 # ------------------------------------------------------------------------------
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -41,7 +41,7 @@ class %CLASS%(NodeInstance):
         self.iter = self.input(2)
 
         self.res = cv2.erode(self.img, self.kern, iterations=self.iter)
-        self.main_widget.show_image(self.res)
+        self.main_widget().show_image(self.res)
 
         self.set_output_val(0, self.res)
 

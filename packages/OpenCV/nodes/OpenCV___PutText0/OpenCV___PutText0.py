@@ -6,12 +6,12 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class PutText_NodeInstance(NodeInstance):
+class PutText_Node(Node):
     def __init__(self, params):
-        super(PutText_NodeInstance, self).__init__(params)
+        super(PutText_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unTexed = None
@@ -29,7 +29,7 @@ class PutText_NodeInstance(NodeInstance):
         thickness=self.input(5)
 
         self.img_Texed = cv2.putText( self.img_unTexed,text,org,cv2.FONT_HERSHEY_SIMPLEX,fontScale,color,thickness,cv2.LINE_AA)
-        self.main_widget.show_image(self.img_Texed)
+        self.main_widget().show_image(self.img_Texed)
         self.set_output_val(0, self.img_Texed)
 
     def get_data(self):

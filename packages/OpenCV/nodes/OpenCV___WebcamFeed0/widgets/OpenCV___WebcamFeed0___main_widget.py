@@ -8,7 +8,7 @@ from PySide2.QtWidgets import QWidget
 import cv2
 
 
-class WebcamFeed_NodeInstance_MainWidget(QWidget, MWB):
+class WebcamFeed_Node_MainWidget(QWidget, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QWidget.__init__(self)
@@ -16,7 +16,7 @@ class WebcamFeed_NodeInstance_MainWidget(QWidget, MWB):
         
 
         self.video_size = QSize(400, 300)
-        self.timer = QTimer()
+        self.timer = QTimer(self)
         self.capture = None
 
         self.image_label = QLabel()
@@ -47,7 +47,7 @@ class WebcamFeed_NodeInstance_MainWidget(QWidget, MWB):
         scaled_image = image.scaled(self.video_size)
         self.image_label.setPixmap(QPixmap.fromImage(scaled_image))
 
-        self.parent_node_instance.video_picture_updated(frame)
+        self.node.video_picture_updated(frame)
 
     def get_data(self):
         return {}  # self.text()

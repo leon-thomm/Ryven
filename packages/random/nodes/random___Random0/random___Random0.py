@@ -3,7 +3,7 @@ from NIENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -11,9 +11,9 @@ from NIENV import *
 # self.set_output_val(index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index or input)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index or output)
 
 
@@ -27,9 +27,9 @@ from NIENV import *
 import random
 
 
-class Random_NodeInstance(NodeInstance):
+class Random_Node(Node):
     def __init__(self, params):
-        super(Random_NodeInstance, self).__init__(params)
+        super(Random_Node, self).__init__(params)
 
         self.special_actions['make executable'] = {'method': M(self.action_make_executable)}
         self.active = False
@@ -37,8 +37,8 @@ class Random_NodeInstance(NodeInstance):
     def action_make_executable(self):
         del self.special_actions['make executable']
         self.special_actions['make passve'] = {'method': M(self.action_make_passive)}
-        self.create_new_input('exec', '', pos=0)
-        self.create_new_output('exec', '', pos=0)
+        self.create_input('exec', '', pos=0)
+        self.create_output('exec', '', pos=0)
         self.active = True
     
     def action_make_passive(self):
