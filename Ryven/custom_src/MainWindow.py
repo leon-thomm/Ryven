@@ -223,7 +223,7 @@ saving: ctrl+s
         generator = CodeGenerator(
             main_window=self,
             node_instances=script.flow.node_items,
-            vars_manager_config=script.vars_manager.config_data(),
+            vars_manager_config=script.vars_manager.content_data(),
             flow_algorithm_mode=script.flow.algorithm_mode()
         )
         code = generator.generate()
