@@ -239,6 +239,9 @@ saving: ctrl+s
 
     def try_to_create_new_script(self, name='fancy script', config=None):
         """Tries to create a new script with a given name. If the name is already used or '', it fails."""
+        if config:
+            name = config['name']
+        
         if len(name) == 0:
             return
         for s in self.scripts:
