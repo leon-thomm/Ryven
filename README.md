@@ -21,9 +21,18 @@ pip install -r requirements.txt
 ```
 
 ### Ideas and TODOs
-- advanced source code editor widget, with syntax highlighting and autocomplete for Ryven, the NodeManager and an intuitive *code* node (where one can just program the node inside the editor by writing the code into the widget)
-- visual content: logos and splash screen
-- a visually appealing Jupyter integration (the native Jupyter QtConsole I didn't like in terms of appearence and functionality)
+- visual content: logos, splash screen, industrial flow theme (and more?)
+- hide/show unconnected inputs and outputs action
+- code node, interpreter node
+- reload imported packages
+- modifiable display title for nodes
+- tutorials
+
+rather long term:
+- subgraphs
+- advanced source code editor widget, with syntax highlighting and autocomplete for Ryven, the NodeManager and a *code* node
+- Jupyter integration (the native Jupyter QtConsole I seems kinda sketchy)
+- better touch controls (not gonna happen until the [guys at QtCompany finally fix this](https://bugreports.qt.io/browse/PYSIDE-287))
 
 ![](/docs/images/ryven_screenshot2.png)
 
