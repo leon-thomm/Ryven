@@ -20,7 +20,7 @@ class BlurMedian_Node(Node):
         self.img_unblurred = None
         self.img_blurred = None
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
 

@@ -19,7 +19,7 @@ class %CLASS%(Node):
         self.image_filepath = ''
         self.img = None
     
-    def initialized(self):
+    def place_event(self):
         self.input_widget(0).path_chosen.connect(self.path_chosen)
         self.main_widget_message.connect(self.main_widget().show_path)
 

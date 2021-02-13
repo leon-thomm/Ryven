@@ -37,7 +37,7 @@ class %CLASS%(Node):
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
     # don't call self.update_event() directly, use self.update() instead

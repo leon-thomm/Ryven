@@ -20,12 +20,12 @@ class ScriptUI(QWidget):
         self.ui = Ui_script_widget()
         self.ui.setupUi(self)
 
-        self.script.abstract_flow.algorithm_mode_changed.connect(self.flow_alg_mode_changed)
-        self.script.flow_widget.viewport_update_mode_changed.connect(self.flow_vp_update_mode_changed)
+        self.script.flow.algorithm_mode_changed.connect(self.flow_alg_mode_changed)
+        self.script.flow_view.viewport_update_mode_changed.connect(self.flow_vp_update_mode_changed)
         
         # catch up on flow modes
-        self.flow_alg_mode_changed(self.script.abstract_flow.algorithm_mode())
-        self.flow_vp_update_mode_changed(self.script.flow_widget.viewport_update_mode())
+        self.flow_alg_mode_changed(self.script.flow.algorithm_mode())
+        self.flow_vp_update_mode_changed(self.script.flow_view.viewport_update_mode())
 
         # variables list widget
         self.vars_list_widget = GUI.Lists.VarsList(self.script.vars_manager)
@@ -40,10 +40,10 @@ class ScriptUI(QWidget):
         )
 
         # flow
-        self.ui.splitter.insertWidget(0, self.script.flow_widget)
+        self.ui.splitter.insertWidget(0, self.script.flow_view)
 
         # code preview
-        self.code_preview_widget = CodePreview_Widget(self.script.flow_widget)
+        self.code_preview_widget = CodePreview_Widget(self.script.flow_view)
         self.ui.source_code_groupBox.layout().addWidget(self.code_preview_widget)
 
         # logs
@@ -88,7 +88,7 @@ class ScriptUI(QWidget):
             mode = 'data'
         elif self.ui.algorithm_exec_flow_radioButton.isChecked():
             mode = 'exec'
-        self.script.abstract_flow.set_algorithm_mode(mode)
+        self.script.flow.set_algorithm_mode(mode)
 
 
     def flow_viewport_update_mode_toggled(self):
@@ -97,4 +97,4 @@ class ScriptUI(QWidget):
             mode = 'sync'
         elif self.ui.viewport_update_mode_async_radioButton.isChecked():
             mode = 'async'
-        self.script.flow_widget.set_viewport_update_mode(mode)
+        self.script.flow_view.set_viewport_update_mode(mode)

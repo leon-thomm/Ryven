@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
         self.ui.main_splitter.setSizes([120, 800])
 
         # menu actions
-        self.flow_design_actions = []
+        self.flow_view_theme_actions = []
 
         # shortcuts
         save_shortcut = QShortcut(QKeySequence.Save, self)
@@ -103,7 +103,7 @@ saving: ctrl+s
             design_action = QAction(d.name, self)
             self.ui.menuFlow_Design_Style.addAction(design_action)
             design_action.triggered.connect(self.on_design_action_triggered)
-            self.flow_design_actions.append(design_action)
+            self.flow_view_theme_actions.append(design_action)
 
         self.ui.actionImport_Nodes.triggered.connect(self.on_import_nodes_triggered)
         self.ui.actionSave_Project.triggered.connect(self.on_save_project_triggered)
@@ -191,7 +191,7 @@ saving: ctrl+s
             self.session.design.animations_enabled = False
 
     def on_design_action_triggered(self):
-        index = self.flow_design_actions.index(self.sender())
+        index = self.flow_view_theme_actions.index(self.sender())
         self.session.design.set_flow_theme(self.session.design.flow_themes[index])
 
     def on_enable_debugging_triggered(self):
@@ -206,7 +206,7 @@ saving: ctrl+s
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow.get_viewport_img()
+        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_viewport_img()
         img.save(file_path)
 
     def on_save_scene_pic_whole_triggered(self):
@@ -215,16 +215,16 @@ saving: ctrl+s
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow.get_whole_scene_img()
+        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_whole_scene_img()
         img.save(file_path)
 
     def on_gen_code_triggered(self):
         script = self.get_current_script()
         generator = CodeGenerator(
             main_window=self,
-            node_instances=script.flow.node_items,
+            node_instances=script.flow_view.node_items,
             vars_manager_config=script.vars_manager.content_data(),
-            flow_algorithm_mode=script.flow.algorithm_mode()
+            flow_algorithm_mode=script.flow_view.algorithm_mode()
         )
         code = generator.generate()
         print(code)
@@ -544,7 +544,7 @@ saving: ctrl+s
 
         general_project_info_dict = {'type': 'Ryven project file'}
 
-        scripts_data_list = self.session.serialize()
+        scripts_data = self.session.serialize()
 
         required_packages = set()
         for node in self.session.all_nodes():
@@ -557,9 +557,9 @@ saving: ctrl+s
 
         whole_project_dict = {'general info': general_project_info_dict,
                               'required packages': list(required_packages),
-                              'scripts': scripts_data_list}
+                              **scripts_data}
 
-        data = json.dumps(whole_project_dict)
+        data = json.dumps(whole_project_dict, indent=4)
         rc.Debugger.write(data)
 
 

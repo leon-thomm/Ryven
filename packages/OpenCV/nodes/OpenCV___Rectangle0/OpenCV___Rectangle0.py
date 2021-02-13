@@ -20,7 +20,7 @@ class Rectangle_Node(Node):
         self.img_unrectangled = None
         self.img_rectangled = None
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
 

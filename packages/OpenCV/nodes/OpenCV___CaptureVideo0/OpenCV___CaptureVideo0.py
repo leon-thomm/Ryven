@@ -21,7 +21,7 @@ class CaptureVideo_Node(Node):
         self.vid_captured = None
 
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
 

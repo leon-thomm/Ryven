@@ -21,7 +21,7 @@ class ImageBlend_Node(Node):
         self.img_unblend2 = None
         self.img_blend= None
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
 

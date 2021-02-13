@@ -33,7 +33,7 @@ class Clock_Node(Node):
         self.timer = QTimer(self)
         self.timer.timeout.connect(M(self.timeouted))
 
-    def initialized(self):
+    def place_event(self):
         self.input_widget(0).val_changed.connect(self.update_timer_interval)
 
     def update_event(self, input_called=-1):

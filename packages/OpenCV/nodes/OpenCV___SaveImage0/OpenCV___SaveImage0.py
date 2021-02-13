@@ -38,7 +38,7 @@ class SaveImage_Node(Node):
         self.image_filepath = ''
         self.img = None
 
-    def initialized(self):
+    def place_event(self):
         self.set_path_text_triggered.connect(M(self.main_widget().set_path_text))
 
     def update_event(self, input_called=-1):

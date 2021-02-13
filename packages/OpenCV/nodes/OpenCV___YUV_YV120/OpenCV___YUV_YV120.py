@@ -20,7 +20,7 @@ class YUV_YV12_Node(Node):
         self.img_unYUV_YV12 = None
         self.img_YUV_YV12 = None
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(self.main_widget().show_image)
 
     def update_event(self, input_called=-1):

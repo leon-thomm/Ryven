@@ -20,7 +20,7 @@ class AdjustBrightness_Node(Node):
         self.img_unbright = None
         self.img_bright= None
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
 

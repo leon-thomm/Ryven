@@ -20,7 +20,7 @@ class CannyEdgeDetection_Node(Node):
         self.img_normal = None
         self.img_canny = None
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
 

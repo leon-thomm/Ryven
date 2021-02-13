@@ -36,7 +36,7 @@ class Diag_Node(Node):
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget()_hidden = False
 
-    def initialized(self):
+    def place_event(self):
         self.new_img.connect(M(self.main_widget().show_image))
 
     def update_event(self, input_called=-1):

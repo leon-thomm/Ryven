@@ -21,7 +21,7 @@ class %CLASS%(Node):
         self.img_unblurred = None
         self.img_blurred = None
 
-    def initialized(self):
+    def place_event(self):
         self.new_img_computed.connect(M(self.main_widget().show_image))
 
     def update_event(self, input_called=-1):
