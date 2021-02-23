@@ -1,3 +1,5 @@
+*you can find a project update about the current state of the project in the discussions*
+
 # A simple flow-based visual scripting runtime environment for Python
 
 Ey, what's up! Please visit the [website](https://ryven.org)
@@ -9,29 +11,24 @@ Ey, what's up! Please visit the [website](https://ryven.org)
 
 ### Installation
 
-- please use the lastest release
-- a complete requirements file is in the root folder
-- If you experiment a lot, you maybe should set up a virtual env, like this (Windows example):
+download or clone the repo, install the dependencies via
+
 ```
-<open cmd>
-cd <to your Ryven folder (the outer one)>
-python -m venv venv
-venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
+and run `Ryven.py`
+
 ### Ideas and TODOs
-- visual content: logos, splash screen, industrial flow theme (and more?)
-- hide/show unconnected inputs and outputs action
+- visual content: logos, splash screen etc.
 - code node, interpreter node
 - reload imported packages
 - modifiable display title for nodes
 - tutorials
 
 rather long term:
-- subgraphs
 - advanced source code editor widget, with syntax highlighting and autocomplete for Ryven, the NodeManager and a *code* node
-- Jupyter integration (the native Jupyter QtConsole I seems kinda sketchy)
+- Jupyter integration?
 - better touch controls (not gonna happen until the [guys at QtCompany finally fix this](https://bugreports.qt.io/browse/PYSIDE-287))
 
 ![](/docs/images/ryven_screenshot2.png)
