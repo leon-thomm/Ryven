@@ -56,22 +56,7 @@ class StartupDialog(QDialog):
         self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
         self.setFixedSize(500, 280)
 
-        self.load_stylesheet('dark')
-
         self.editor_startup_configuration = {}
-
-
-    def load_stylesheet(self, ss):  # TODO: move to global_tools
-        """Using the parent's SS doesn't work here, because this dialog does not have any parent -
-        MainWindow is yet to be created."""
-
-        ss_content = ''
-        try:
-            f = open('../resources/stylesheets/'+ss+'.txt')
-            ss_content = f.read()
-            f.close()
-        finally:
-            self.setStyleSheet(ss_content)
 
 
     def plain_project_button_clicked(self):
@@ -90,7 +75,7 @@ class StartupDialog(QDialog):
             j_str = f.read()
             f.close()
         except FileNotFoundError:
-            # Debugger.write('couldn\'t open file')
+            # InfoMsgs.write('couldn\'t open file')
             return
 
 

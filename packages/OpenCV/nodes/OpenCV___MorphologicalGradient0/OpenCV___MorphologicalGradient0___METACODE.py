@@ -1,10 +1,10 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -27,21 +27,21 @@ import cv2
 # ------------------------------------------------------------------------------
 
 
-class %CLASS%(NodeInstance):
-    def __init__(self, params):
-        super(%CLASS%, self).__init__(params)
+class %CLASS%(Node):
 
-        # self.special_actions['action name'] = {'method': M(self.action_method)}
-        # ...
+    new_img = Signal(object)
 
-    # don't call self.update_event() directly, use self.update() instead
+    def place_event(self):
+        self.new_img.connect(M(self.main_widget().show_image))
+
     def update_event(self, input_called=-1):
         self.img = self.input(0)
         self.kern = self.input(1)
        # self.iter = self.input(2)
 
         self.res = cv2.morphologyEx(self.img, cv2.MORPH_GRADIENT,self.kern)
-        self.main_widget.show_image(self.res)
+        # self.main_widget().show_image(self.res)
+        self.new_img.emit(self.res)
 
         self.set_output_val(0, self.res)
 

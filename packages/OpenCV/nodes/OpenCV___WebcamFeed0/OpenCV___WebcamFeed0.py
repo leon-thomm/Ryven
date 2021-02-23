@@ -1,15 +1,15 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class WebcamFeed_NodeInstance(NodeInstance):
+class WebcamFeed_Node(Node):
     def __init__(self, params):
-        super(WebcamFeed_NodeInstance, self).__init__(params)
+        super(WebcamFeed_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.log = self.new_log('Webcam Feed log')

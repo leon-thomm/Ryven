@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
@@ -6,17 +6,23 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class ImageBlend_NodeInstance(NodeInstance):
+class ImageBlend_Node(Node):
+
+    new_img = Signal(object)
+
     def __init__(self, params):
-        super(ImageBlend_NodeInstance, self).__init__(params)
+        super(ImageBlend_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unblend1 = None
         self.img_unblend2 = None
         self.img_blend= None
+
+    def place_event(self):
+        self.new_img.connect(M(self.main_widget().show_image))
 
 
     def update_event(self, input_called=-1):
@@ -27,7 +33,8 @@ class ImageBlend_NodeInstance(NodeInstance):
         beta=int(1.0-alpha)
 
         self.img_blend = cv2.addWeighted(self.img_unblend1,alpha,self.img_unblend2,beta,0.0)
-        self.main_widget.show_image(self.img_blend)
+        # self.main_widget().show_image(self.img_blend)
+        self.new_img.emit(self.img_blend)
         self.set_output_val(0, self.img_blend)
 
     def get_data(self):

@@ -1,8 +1,8 @@
-from NIENV import *
+from NENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -10,9 +10,9 @@ from NIENV import *
 # set_output_val(index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index or input)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index or output)
 
 
@@ -27,13 +27,19 @@ from NIENV import *
 
 import cv2
 
-class SaveImage_NodeInstance(NodeInstance):
+class SaveImage_Node(Node):
+
+    set_path_text_triggered = Signal(str)
+
     def __init__(self, params):
-        super(SaveImage_NodeInstance, self).__init__(params)
+        super(SaveImage_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.image_filepath = ''
         self.img = None
+
+    def place_event(self):
+        self.set_path_text_triggered.connect(M(self.main_widget().set_path_text))
 
     def update_event(self, input_called=-1):
         if input_called != 0:
@@ -43,10 +49,12 @@ class SaveImage_NodeInstance(NodeInstance):
         try:
             self.log_message('Saving pic to '+self.image_filepath, 'global')
             cv2.imwrite(self.image_filepath, self.img)
-            self.main_widget.set_path_text(self.image_filepath)
-            self.main_widget.setText('Success')
+            # self.main_widget().set_path_text(self.image_filepath)
+            # self.main_widget().setText('Success')
+            self.set_path_text_triggered.emit('Success')
         except Exception as e:
-            self.main_widget.setText('Error')
+            # self.main_widget().setText('Error')
+            self.set_path_text_triggered.emit('Error')
 
     def get_data(self):
         data = {'image file path': self.image_filepath}
@@ -57,7 +65,8 @@ class SaveImage_NodeInstance(NodeInstance):
 
     def path_chosen(self, file_path):
         self.image_filepath = file_path
-        self.main_widget.setText('')
+        # self.main_widget().setText('')
+        self.set_path_text_triggered.emit('')
         self.update()
 
 

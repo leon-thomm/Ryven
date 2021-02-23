@@ -1,29 +1,29 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 
 
 
-class If_NodeInstance(NodeInstance):
+class If_Node(Node):
     def __init__(self, params):
-        super(If_NodeInstance, self).__init__(params)
+        super(If_Node, self).__init__(params)
 
         self.special_actions['add else if'] = {'method': M(self.action_add_else_if)}
         self.else_if_enlargement_state = 0
 
 
     def action_add_else_if(self):
-        self.create_new_input('data', 'condition '+str(self.else_if_enlargement_state+1), widget_name='std line edit m', widget_pos='under')
-        self.create_new_output('exec', 'elif '+str(self.else_if_enlargement_state+1), pos=len(self.outputs)-1)
+        self.create_input('data', 'condition '+str(self.else_if_enlargement_state+1), widget_name='std line edit m', widget_pos='under')
+        self.create_output('exec', 'elif '+str(self.else_if_enlargement_state+1), pos=len(self.outputs)-1)
         self.else_if_enlargement_state += 1
         self.special_actions['remove else if'] = {'method': M(self.action_remove_else_if)}
 

@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 import math
 
@@ -6,7 +6,7 @@ import math
 # GENERAL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
@@ -23,7 +23,7 @@ import math
 # self.log_message('that\'s not good', 'error')
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 

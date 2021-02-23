@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 # from PySide2.QtCore import ...
@@ -7,7 +7,7 @@ from NIWENV import *
 from PySide2.QtWidgets import QLabel
 
 
-class SaveImage_NodeInstance_MainWidget(QLabel, MWB):
+class SaveImage_Node_MainWidget(QLabel, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QLabel.__init__(self)

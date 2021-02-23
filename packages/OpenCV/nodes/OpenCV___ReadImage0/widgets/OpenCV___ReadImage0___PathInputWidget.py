@@ -1,11 +1,14 @@
-from NIWENV import *
+from NWENV import *
 
 from PySide2.QtWidgets import QPushButton, QFileDialog
-# from PySide2.QtCore import ...
+from PySide2.QtCore import QObject, Signal
 # from PySide2.QtGui import ...
 import os
 
 class PathInputWidget_PortInstanceWidget(QPushButton, IWB):
+
+    path_chosen = Signal(str)
+
     def __init__(self, params):
         IWB.__init__(self, params)
         QPushButton.__init__(self, "Select")
@@ -28,7 +31,8 @@ class PathInputWidget_PortInstanceWidget(QPushButton, IWB):
             file_path = os.path.relpath(file_path)
         except ValueError:
             pass  # keep absolute path
-        self.parent_node_instance.path_chosen(file_path)
+        # self.node.path_chosen(file_path)
+        self.path_chosen.emit(file_path)
 
     def get_data(self):
         return self.text()

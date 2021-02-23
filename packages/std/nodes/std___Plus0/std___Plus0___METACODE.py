@@ -1,10 +1,10 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
@@ -13,7 +13,7 @@ from NIENV import *
 
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -24,7 +24,8 @@ class %CLASS%(NodeInstance):
     def update_event(self, input_called=-1):
         try:
             sum_val = sum([self.input(i) for i in range(len(self.inputs))])
-            self.outputs[0].set_val(sum_val)
+            self.set_output_val(0, sum_val)
+            # self.outputs[0].set_val(sum_val)
         except Exception as e:
             sum_val = ''
             for i in range(len(self.inputs)):

@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -26,9 +26,9 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class MaskDiag_NodeInstance(NodeInstance):
+class MaskDiag_Node(Node):
     def __init__(self, params):
-        super(MaskDiag_NodeInstance, self).__init__(params)
+        super(MaskDiag_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

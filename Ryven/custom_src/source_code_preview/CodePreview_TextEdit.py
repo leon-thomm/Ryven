@@ -36,32 +36,32 @@ class CodePreview_TextEdit(QTextEdit):
         if self.highlighting:
             if self.editing:
                 self.highlighter.setDocument(self.document())
-                self.setStyleSheet('''
-                QTextEdit {
-                    background-color: #353535;
-                    color: #eeeeff;
-                    border-radius: 3px;
-                    border: 1px solid #4f5d66;
-                }
-                ''')
+                # self.setStyleSheet('''
+                # QTextEdit {
+                #     background-color: #353535;
+                #     color: #eeeeff;
+                #     border-radius: 3px;
+                #     border: 1px solid #4f5d66;
+                # }
+                # ''')
             else:
                 self.highlighter.setDocument(self.document())
-                self.setStyleSheet('''
-                QTextEdit {
-                    background-color: #323232;
-                    color: #eeeeff;
-                    border-radius: 3px;
-                }
-                ''')
+                # self.setStyleSheet('''
+                # QTextEdit {
+                #     background-color: #323232;
+                #     color: #eeeeff;
+                #     border-radius: 3px;
+                # }
+                # ''')
         else:
             self.highlighter.setDocument(None)
-            self.setStyleSheet('''
-            QTextEdit {
-                background-color: #202020;
-                color: #eeeeff;
-                border-radius: 3px;
-            }
-            ''')
+            # self.setStyleSheet('''
+            # QTextEdit {
+            #     background-color: #202020;
+            #     color: #eeeeff;
+            #     border-radius: 3px;
+            # }
+            # ''')
 
     def enable_editing(self):
         self.editing = True

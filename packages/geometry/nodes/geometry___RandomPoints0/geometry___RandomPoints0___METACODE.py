@@ -1,10 +1,10 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under')
 # self.delete_input(input or index)
@@ -13,7 +13,7 @@ from NIENV import *
 from random import random
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -32,7 +32,7 @@ class %CLASS%(NodeInstance):
         for i in range(num_points):
             self.points.append([random(), random()])
 
-        self.main_widget.draw_points(self.points)
+        self.main_widget().draw_points(self.points)
 
     def get_data(self):
         data = {'points': self.points}
@@ -40,7 +40,7 @@ class %CLASS%(NodeInstance):
 
     def set_data(self, data):
         self.points = data['points']
-        self.main_widget.draw_points(self.points)
+        self.main_widget().draw_points(self.points)
 
 
     def remove_event(self):

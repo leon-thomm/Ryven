@@ -1,8 +1,8 @@
-from NIENV import *
+from NENV import *
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -26,18 +26,25 @@ from NIENV import *
 
 import cv2
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
+
+    new_img = Signal(object)
+
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
 
+    def place_event(self):
+        self.new_img.connect(M(self.main_widget().show_image))
+
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
         img = self.input(0).copy()
         result = cv2.arrowedLine(img, self.input(1), self.input(2), self.input(3), 3)
-        self.main_widget.show_image(result)
+        # self.main_widget().show_image(result)
+        self.new_img.emit(result)
         self.set_output_val(0, result)
 
 

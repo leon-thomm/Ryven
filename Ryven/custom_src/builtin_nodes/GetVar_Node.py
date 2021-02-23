@@ -1,9 +1,22 @@
-from NIENV import *
+from NENV import *
+from ryvencore import Node, NodeInput, NodeOutput
 
 
-class GetVar_NodeInstance(NodeInstance):
+class GetVar_Node(Node):
+
+    title = 'get var'
+    description = 'get the value of a script variable'
+    init_inputs = [
+        NodeInput(type_='data', widget='std line edit', widget_pos='besides')
+    ]
+    init_outputs = [
+        NodeOutput(type_='data', label='val')
+    ]
+    style = 'extended'
+    color = '#c69a15'
+
     def __init__(self, params):
-        super(GetVar_NodeInstance, self).__init__(params)
+        super(GetVar_Node, self).__init__(params)
 
         # self.special_actions['action name'] = self.actionmethod ...
         self.var_name = ''

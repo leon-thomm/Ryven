@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS --------------
 
-# self.main_widget
+# self.main_widget()
 # self.update_shape()
 
 # Ports
@@ -25,7 +25,7 @@ from NIENV import *
 # --------------------------
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 

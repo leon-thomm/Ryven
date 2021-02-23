@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 from PySide2.QtWidgets import QLabel, QVBoxLayout
 from PySide2.QtCore import QSize, QTimer
 from PySide2.QtGui import QPixmap, QImage
@@ -16,7 +16,7 @@ class %CLASS%(QWidget, MWB):
         
 
         self.video_size = QSize(400, 300)
-        self.timer = QTimer()
+        self.timer = QTimer(self)
         self.capture = None
 
         self.image_label = QLabel()

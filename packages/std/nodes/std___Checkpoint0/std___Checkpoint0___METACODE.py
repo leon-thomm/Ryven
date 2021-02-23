@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -26,7 +26,7 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 

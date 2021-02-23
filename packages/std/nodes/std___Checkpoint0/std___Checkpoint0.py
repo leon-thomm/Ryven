@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -11,9 +11,9 @@ from NIENV import *
 # self.set_output_val(index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index)
 
 
@@ -26,9 +26,9 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class Checkpoint_NodeInstance(NodeInstance):
+class Checkpoint_Node(Node):
     def __init__(self, params):
-        super(Checkpoint_NodeInstance, self).__init__(params)
+        super(Checkpoint_Node, self).__init__(params)
 
         self.special_actions['make exec'] = {'method': M(self.action_make_exec)}
         self.passive = True
@@ -38,14 +38,14 @@ class Checkpoint_NodeInstance(NodeInstance):
         self.passive = False
         self.delete_input(0)
         self.delete_output(0)
-        self.create_new_input('exec', '')
+        self.create_input('exec', '')
         del self.special_actions['make exec']
         self.special_actions['make data'] = {'method': M(self.action_make_data)}
         self.special_actions['add sequence output'] = {'method': M(self.action_add_sequence_output)}
         self.action_add_sequence_output()
     
     def action_add_sequence_output(self):
-        self.create_new_output('exec', '')
+        self.create_output('exec', '')
         self.num_exec_outputs += 1
         self.special_actions['remove output '+str(self.num_exec_outputs)] = {'method': M(self.action_remove_sequence_output),
                                                                              'data': self.num_exec_outputs-1}  # -1 because index
@@ -67,8 +67,8 @@ class Checkpoint_NodeInstance(NodeInstance):
             self.delete_output(0)
             del self.special_actions['remove output '+str(i+1)]
         self.num_exec_outputs = 0
-        self.create_new_input('data', '')
-        self.create_new_output('data', '')
+        self.create_input('data', '')
+        self.create_output('data', '')
         del self.special_actions['make data']
         del self.special_actions['add sequence output']
         self.special_actions['make exec'] = {'method': M(self.action_make_exec)}

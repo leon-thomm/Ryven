@@ -1,8 +1,8 @@
-from NIWENV import *
+from NWENV import *
 
 from PySide2.QtWidgets import QWidget, QRadioButton, QVBoxLayout
 # from PySide2.QtCore import ...
-# from PySide2.QtGui import ...
+from PySide2.QtGui import QColor
 
 
 class ChooseUnitsIW_PortInstanceWidget(QWidget, IWB):
@@ -10,12 +10,12 @@ class ChooseUnitsIW_PortInstanceWidget(QWidget, IWB):
         IWB.__init__(self, params)
         QWidget.__init__(self)
 
-        self.setStyleSheet(self.parent_node_instance.session_stylesheet()+'''
+        self.setStyleSheet(self.node.session_stylesheet()+'''
         QWidget {
             background: transparent;
         }
         QRadioButton {
-            color: '''+self.parent_node_instance.color.lighter().name()+''';
+            color: '''+QColor(self.node.color).lighter().name()+''';
         }
         ''')
 
@@ -40,17 +40,17 @@ class ChooseUnitsIW_PortInstanceWidget(QWidget, IWB):
     def set_units_kelvin(self, checked):
         if checked:
             self.units = 'kelvin'
-            self.parent_node_instance.update()
+            self.node.update()
 
     def set_units_celsius(self, checked):
         if checked:
             self.units = 'celsius'
-            self.parent_node_instance.update()
+            self.node.update()
 
     def set_units_fahrenheit(self, checked):
         if checked:
             self.units = 'fahrenheit'
-            self.parent_node_instance.update()
+            self.node.update()
 
     def get_val(self):
         return self.units

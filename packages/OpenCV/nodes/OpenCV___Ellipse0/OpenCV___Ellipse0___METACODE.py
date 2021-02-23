@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -27,7 +27,7 @@ from NIENV import *
 
 import cv2
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -37,7 +37,7 @@ class %CLASS%(NodeInstance):
     # don't call self.update_event() directly, use self.update() instead
     def update_event(self, input_called=-1):
         result = cv2.ellipse(self.input(0), self.input(1), self.input(2))
-        self.main_widget.show_image(result)
+        self.main_widget().show_image(result)
         self.set_output_val(0, result)
 
 

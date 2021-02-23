@@ -1,4 +1,4 @@
-from PySide2.QtCore import QRectF
+from PySide2.QtCore import QRectF, QPointF, QSizeF
 from PySide2.QtGui import QColor
 from PySide2.QtWidgets import QGraphicsItem, QGraphicsView, QGraphicsScene, QMainWindow, QApplication
 
@@ -10,10 +10,16 @@ class Item(QGraphicsItem):
         self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
                       QGraphicsItem.ItemSendsScenePositionChanges)
 
+    def mousePressEvent(self, event):
+        event.accept()
+
+        print('doing something here!!')
+        # ...
+
     def boundingRect(self) -> QRectF:
         return QRectF(0,0,50,50)
 
-    def paint(self, painter, option, widget) -> None:
+    def paint(self, painter, option, widget=...) -> None:
         painter.fillRect(self.boundingRect(), QColor('#555555'))
 
 
@@ -27,6 +33,10 @@ class View(QGraphicsView):
         self.setScene(scene)
 
     def mousePressEvent(self, event) -> None:
+        QGraphicsView.mousePressEvent(self, event)
+        if event.isAccepted():
+            return
+
         newitem = Item()
         self.scene().addItem(newitem)
         newitem.setPos(event.pos())

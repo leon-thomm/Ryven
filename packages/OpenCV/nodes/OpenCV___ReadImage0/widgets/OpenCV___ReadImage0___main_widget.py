@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 # from PySide2.QtCore import ...
@@ -7,7 +7,7 @@ from NIWENV import *
 from PySide2.QtWidgets import QLabel
 
 
-class ReadImage_NodeInstance_MainWidget(QLabel, MWB):
+class ReadImage_Node_MainWidget(QLabel, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QLabel.__init__(self)
@@ -21,7 +21,7 @@ class ReadImage_NodeInstance_MainWidget(QLabel, MWB):
             border: none;
         ''')
 
-    def set_path_text(self, path):
+    def show_path(self, path):
         self.img_filepath = path
         path_short = path if len(path) < 15 else '...' + path[-15:]
         self.setText('path: ' + path_short)

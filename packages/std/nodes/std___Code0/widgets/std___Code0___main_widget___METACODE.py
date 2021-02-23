@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 from PySide2.QtWidgets import QWidget, QVBoxLayout, QPlainTextEdit
 # from PySide2.QtCore import

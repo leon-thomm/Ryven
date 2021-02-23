@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
@@ -6,12 +6,12 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class BilateralFilter_NodeInstance(NodeInstance):
+class BilateralFilter_Node(Node):
     def __init__(self, params):
-        super(BilateralFilter_NodeInstance, self).__init__(params)
+        super(BilateralFilter_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unfiltered = None
@@ -28,7 +28,7 @@ class BilateralFilter_NodeInstance(NodeInstance):
         sigmaSpace_val=int(sigmaSpace_val)
     
         self.img_filtered = cv2.bilateralFilter( self.img_unfiltered, d_val, sigmaColor_val,sigmaSpace_val)
-        self.main_widget.show_image(self.img_filtered)
+        self.main_widget().show_image(self.img_filtered)
         self.set_output_val(0, self.img_filtered)
 
     def get_data(self):

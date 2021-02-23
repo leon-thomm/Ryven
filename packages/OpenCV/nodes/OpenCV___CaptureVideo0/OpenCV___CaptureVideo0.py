@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
@@ -6,16 +6,23 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class CaptureVideo_NodeInstance(NodeInstance):
+class CaptureVideo_Node(Node):
+
+    new_img = Signal(object)
+
     def __init__(self, params):
-        super(CaptureVideo_NodeInstance, self).__init__(params)
+        super(CaptureVideo_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.vid_uncaptured= None
         self.vid_captured = None
+
+
+    def place_event(self):
+        self.new_img.connect(M(self.main_widget().show_image))
 
 
     def update_event(self, input_called=-1):
@@ -38,7 +45,8 @@ class CaptureVideo_NodeInstance(NodeInstance):
       
       #  self.vid_captured = cv2.VideoCapture(showvid)
         #self.cnvt=cv2.imshow('gray_image',self.img_grayed)
-        self.main_widget.show_image(self.play)
+        # self.main_widget().show_image(self.play)
+        self.new_img.emit(self.play)
         self.set_output_val(0, self.play)
 
     def get_data(self):

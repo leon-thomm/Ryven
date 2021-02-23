@@ -1,18 +1,18 @@
 from PySide2.QtCore import QTimer
 
-from NIENV import *
+from NENV import *
 
 
 # GENERAL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 
 
@@ -23,16 +23,18 @@ from NIENV import *
 # self.log_message('that\'s not good', 'error')
 
 
-class Clock_NodeInstance(NodeInstance):
+class Clock_Node(Node):
     def __init__(self, params):
-        super(Clock_NodeInstance, self).__init__(params)
+        super(Clock_Node, self).__init__(params)
 
         self.special_actions['start'] = {'method': M(self.action_start)}
         self.special_actions['stop'] = {'method': M(self.action_stop)}
 
-        self.timer = QTimer()
+        self.timer = QTimer(self)
         self.timer.timeout.connect(M(self.timeouted))
 
+    def place_event(self):
+        self.input_widget(0).val_changed.connect(self.update_timer_interval)
 
     def update_event(self, input_called=-1):
         pass

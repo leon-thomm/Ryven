@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 # from PySide2.QtCore import ...
@@ -21,7 +21,7 @@ class %CLASS%(QLabel, MWB):
             border: none;
         ''')
 
-    def set_path_text(self, path):
+    def show_path(self, path):
         self.img_filepath = path
         path_short = path if len(path) < 15 else '...' + path[-15:]
         self.setText('path: ' + path_short)

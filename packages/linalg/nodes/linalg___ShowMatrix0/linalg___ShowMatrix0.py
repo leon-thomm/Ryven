@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -11,9 +11,9 @@ from NIENV import *
 # self.set_output_val(index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index)
 
 
@@ -27,9 +27,9 @@ from NIENV import *
 import numpy as np
 
 
-class ShowMatrix_NodeInstance(NodeInstance):
+class ShowMatrix_Node(Node):
     def __init__(self, params):
-        super(ShowMatrix_NodeInstance, self).__init__(params)
+        super(ShowMatrix_Node, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False
@@ -38,7 +38,7 @@ class ShowMatrix_NodeInstance(NodeInstance):
 
     def update_event(self, input_called=-1):
         matrix = self.input(0)
-        self.main_widget.update_matrix(matrix)
+        self.main_widget().update_matrix(matrix)
         self.set_output_val(0, matrix)
 
         # also update individual access outputs for rows and columns
@@ -77,7 +77,7 @@ class ShowMatrix_NodeInstance(NodeInstance):
     def add_row_access(self, data):
         row_index = data
         self.accessed_rows.append(row_index)
-        self.create_new_output('data', 'row '+str(row_index), pos=sorted(self.accessed_rows).index(row_index)+1)
+        self.create_output('data', 'row '+str(row_index), pos=sorted(self.accessed_rows).index(row_index)+1)
         
         remove_actions = self.special_actions['remove output'] if self.special_actions.__contains__('remove output') else {}
         remove_actions['row '+str(row_index)] = {'method': M(self.remove_row_access),
@@ -87,7 +87,7 @@ class ShowMatrix_NodeInstance(NodeInstance):
     def add_column_access(self, data):
         col_index = data
         self.accessed_columns.append(col_index)
-        self.create_new_output('data', 'col '+str(col_index), pos=1+len(self.accessed_rows)+sorted(self.accessed_columns).index(col_index))
+        self.create_output('data', 'col '+str(col_index), pos=1+len(self.accessed_rows)+sorted(self.accessed_columns).index(col_index))
         
         remove_actions = self.special_actions['remove output'] if self.special_actions.__contains__('remove output') else {}
         remove_actions['col '+str(col_index)] = {'method': M(self.remove_col_access),
@@ -107,14 +107,14 @@ class ShowMatrix_NodeInstance(NodeInstance):
         del self.special_actions['remove output']['col '+str(col_index)]
 
     def action_hide_mw(self):
-        self.main_widget.hide()
+        self.main_widget().hide()
         del self.special_actions['hide preview']
         self.special_actions['show preview'] = {'method': M(self.action_show_mw)}
         self.main_widget_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
-        self.main_widget.show()
+        self.main_widget().show()
         del self.special_actions['show preview']
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False

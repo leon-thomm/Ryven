@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -26,9 +26,9 @@ from NIENV import *
 # ------------------------------------------------------------------------------
 
 
-class BreakRain_NodeInstance(NodeInstance):
+class BreakRain_Node(Node):
     def __init__(self, params):
-        super(BreakRain_NodeInstance, self).__init__(params)
+        super(BreakRain_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

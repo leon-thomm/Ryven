@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 from PySide2.QtWidgets import QComboBox
 # from PySide2.QtCore import ...
@@ -17,11 +17,11 @@ class LogTargetComboBox_PortInstanceWidget(QComboBox, IWB):
         self.currentTextChanged.connect(M(self.text_changed))
         self.setCurrentText('personal')
 
-        self.setStyleSheet(self.parent_node_instance.session_stylesheet())
+        self.setStyleSheet(self.node.session_stylesheet())
 
 
     def text_changed(self, t):
-        self.parent_node_instance.target = t
+        self.node.target = t
 
     def get_val(self):
         return self.currentText()

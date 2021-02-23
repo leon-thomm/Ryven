@@ -1,10 +1,10 @@
-from NIENV import *
+from NENV import *
 
 
 # GENERAL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 
 # EDITING
@@ -21,9 +21,9 @@ from NIENV import *
 # self.log_message('that\'s not good', 'error')
 
 
-class Code_NodeInstance(NodeInstance):
+class Code_Node(Node):
     def __init__(self, params):
-        super(Code_NodeInstance, self).__init__(params)
+        super(Code_Node, self).__init__(params)
 
         self.special_actions['add exec input'] = {'method': M(self.action_add_exec_input)}
         self.special_actions['add data input'] = {'method': M(self.action_add_data_input)}
@@ -36,16 +36,16 @@ class Code_NodeInstance(NodeInstance):
         self.num_scripts += 1
         self.create_new_input('exec', '', pos=self.num_scripts-1)
         self.create_new_output('exec', '')
-        print('node before:', self.main_widget.height())
-        self.main_widget.add_new_script()  # shape gets updated in main_widget
-        print('node after:', self.main_widget.height())
+        print('node before:', self.main_widget().height())
+        self.main_widget().add_new_script()  # shape gets updated in main_widget
+        print('node after:', self.main_widget().height())
         self.special_actions['remove exec input'] = {'method': M(self.action_remove_exec_input)}
 
     def action_remove_exec_input(self):
         self.delete_input(self.num_scripts-1)
         self.delete_output(-1)
         self.num_scripts -= 1
-        self.main_widget.delete_script()  # shape gets updated in main_widget
+        self.main_widget().delete_script()  # shape gets updated in main_widget
         if self.num_scripts == 1:
             del self.special_actions['remove exec input']
 
@@ -63,7 +63,7 @@ class Code_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         if input_called > -1 < self.num_scripts:
             try:
-                exec(self.main_widget.get_code(input_called))
+                exec(self.main_widget().get_code(input_called))
                 self.exec_output(input_called)
             except Exception as e:
                 self.log_message('couldn\'t execute script number '+str(input_called+1)+'\n    '+str(e), 'error')
@@ -71,7 +71,7 @@ class Code_NodeInstance(NodeInstance):
     def get_data(self):
         codes = []
         for i in range(self.num_scripts):
-            code = self.main_widget.get_code(i)
+            code = self.main_widget().get_code(i)
             codes.append(code)
         data = {'num scripts': self.num_scripts,
                 'num data inputs': self.num_data_inputs,
@@ -87,7 +87,7 @@ class Code_NodeInstance(NodeInstance):
 
         for i in range(len(data['codes'])):
             c = data['codes'][i]
-            self.main_widget.set_code(i, c)
+            self.main_widget().set_code(i, c)
 
 
     def remove_event(self):

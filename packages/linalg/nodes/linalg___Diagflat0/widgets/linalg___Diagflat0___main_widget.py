@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 # from PySide2.QtCore import ...
@@ -10,6 +10,6 @@ matrix_widget = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(matrix_widget)
 
 
-class Diagflat_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
+class Diagflat_Node_MainWidget(matrix_widget.MatrixWidget):
     def __init__(self, params):
-        super(Diagflat_NodeInstance_MainWidget, self).__init__(params)
+        super(Diagflat_Node_MainWidget, self).__init__(params)

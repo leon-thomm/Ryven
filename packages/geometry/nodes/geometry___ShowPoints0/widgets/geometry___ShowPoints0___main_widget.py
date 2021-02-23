@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 from PySide2.QtCore import Qt
@@ -10,7 +10,7 @@ from PySide2.QtWidgets import QWidget
 
 
 
-class ShowPoints_NodeInstance_MainWidget(QWidget, MWB):
+class ShowPoints_Node_MainWidget(QWidget, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QWidget.__init__(self)

@@ -1,20 +1,20 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.main_widget()                    <- access to main widget
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 
 
 
-class ForNDim_NodeInstance(NodeInstance):
+class ForNDim_Node(Node):
     def __init__(self, params):
-        super(ForNDim_NodeInstance, self).__init__(params)
+        super(ForNDim_Node, self).__init__(params)
 
         self.special_actions['add dimension'] = {'method': M(self.action_add_dimension)}
 
@@ -39,10 +39,10 @@ class ForNDim_NodeInstance(NodeInstance):
 
     def action_add_dimension(self):
         new_dim = self.dimensions+1
-        self.create_new_input('data', 'i'+str(new_dim)+' from', widget_name='std spin box', widget_pos='besides')
-        self.create_new_input('data', 'i'+str(new_dim)+' to', widget_name='std spin box', widget_pos='besides')
-        self.create_new_output('exec', 'i'+str(new_dim)+' loop')
-        self.create_new_output('data', 'i'+str(new_dim))
+        self.create_input('data', 'i'+str(new_dim)+' from', widget_name='std spin box', widget_pos='besides')
+        self.create_input('data', 'i'+str(new_dim)+' to', widget_name='std spin box', widget_pos='besides')
+        self.create_output('exec', 'i'+str(new_dim)+' loop')
+        self.create_output('data', 'i'+str(new_dim))
         self.dimensions += 1
 
 

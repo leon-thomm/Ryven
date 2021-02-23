@@ -1,23 +1,24 @@
 import os,  sys
 
 from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox, \
+    QApplication
 
 # parent UI
 import custom_src.Console.MainConsole as MainConsole
 from .ScriptUI import ScriptUI
 from ui.ui_main_window import Ui_MainWindow
 
-# builtin node instances
-from .builtin_nodes.Result_NodeInstance import Result_NodeInstance, Result_NodeInstance_MainWidget
-from .builtin_nodes.Val_NodeInstance import Val_NodeInstance, ValNode_Instance_MainWidget
-from .builtin_nodes.GetVar_NodeInstance import GetVar_NodeInstance
-from .builtin_nodes.SetVar_NodeInstance import SetVar_NodeInstance
+# builtin nodes
+from .builtin_nodes.And_Node import And_Node
+from .builtin_nodes.Result_Node import Result_Node
+from .builtin_nodes.Val_Node import Val_Node
+from .builtin_nodes.GetVar_Node import GetVar_Node
+from .builtin_nodes.SetVar_Node import SetVar_Node
 
 # ryvencore
-# from custom_src.ryvencore.src import Session, ConvUI, Node, NodePort
-import custom_src.ryvencore.src.ryvencore as rc
-from .code_gen.CodeGenerator import CodeGenerator
+import ryvencore as rc
+# from .code_gen.CodeGenerator import CodeGenerator
 
 
 class MainWindow(QMainWindow):
@@ -28,12 +29,12 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         if MainConsole.main_console is not None:
-            self.ui.scripts_console_splitter.addWidget(MainConsole.main_console)
+            self.ui.scripts_console_splitter.addWidget(MainConsole.main_console_group_box)
         self.ui.scripts_console_splitter.setSizes([350, 350])
         self.ui.main_splitter.setSizes([120, 800])
 
         # menu actions
-        self.flow_design_actions = []
+        self.flow_view_theme_actions = []
 
         # shortcuts
         save_shortcut = QShortcut(QKeySequence.Save, self)
@@ -52,7 +53,15 @@ class MainWindow(QMainWindow):
 
         self.script_UIs = []
 
-        self.session = rc.Session()
+        self.session = rc.Session(
+            threaded=False,
+            flow_theme_name='Ueli',
+            performance_mode='pretty'
+        )
+        self.session.design.load_from_config('design_config.json')
+
+        app = QApplication.instance()
+        self.session.set_stylesheet(app.styleSheet())
         self.session.new_script_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
         self.session.script_deleted.connect(self.script_deleted)
@@ -60,17 +69,17 @@ class MainWindow(QMainWindow):
         self.register_builtin_nodes()
 
         # UI
-        self.scripts_list_widget = rc.GUI.Lists.ScriptsList(self.session)
+        self.scripts_list_widget = rc.GUI.ScriptsList(self.session)
         self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
         self.setup_menu_actions()
         self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
-        self.load_stylesheet('dark')
+        # self.load_stylesheet('dark')
         self.ui.scripts_tab_widget.removeTab(0)
 
         f = open('../resources/stylesheets/dark_node_choice_widget.txt')
-        self.session.design.set_node_choice_stylesheet(f.read())
+        self.session.design.node_selection_stylesheet = f.read()
         f.close()
 
 
@@ -97,17 +106,25 @@ saving: ctrl+s
 
 
     def setup_menu_actions(self):
+
         # flow designs
+        light_themes_menu = QMenu('light')
         for d in self.session.design.flow_themes:
             design_action = QAction(d.name, self)
-            self.ui.menuFlow_Design_Style.addAction(design_action)
+            if d.type_ == 'dark':
+                self.ui.menuFlow_Design_Style.addAction(design_action)
+            else:
+                light_themes_menu.addAction(design_action)
+
             design_action.triggered.connect(self.on_design_action_triggered)
-            self.flow_design_actions.append(design_action)
+            self.flow_view_theme_actions.append(design_action)
+
+        self.ui.menuFlow_Design_Style.addMenu(light_themes_menu)
 
         self.ui.actionImport_Nodes.triggered.connect(self.on_import_nodes_triggered)
         self.ui.actionSave_Project.triggered.connect(self.on_save_project_triggered)
-        self.ui.actionEnableDebugging.triggered.connect(self.on_enable_debugging_triggered)
-        self.ui.actionDisableDebugging.triggered.connect(self.on_disable_debugging_triggered)
+        self.ui.actionEnableInfoMessages.triggered.connect(self.on_enable_info_msgs_triggered)
+        self.ui.actionDisableInfoMessages.triggered.connect(self.on_disable_info_msgs_triggered)
         self.ui.actionSave_Pic_Viewport.triggered.connect(self.on_save_scene_pic_viewport_triggered)
         self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
 
@@ -165,66 +182,15 @@ saving: ctrl+s
             self.setStyleSheet(ss_content)
 
     def register_builtin_nodes(self):
+        nodes = [
+            GetVar_Node,
+            SetVar_Node,
+            Val_Node,
+            Result_Node,
+            And_Node
+        ]
 
-        nodes = self.session.register_nodes(
-            [
-                rc.Node(
-                    title='get var',
-                    node_inst_class=GetVar_NodeInstance,
-                    description='get the value of a script variable',
-                    inputs=[
-                        rc.NodePort(type_='data', widget='std line edit', widget_pos='besides')
-                    ],
-                    outputs=[
-                        rc.NodePort(type_='data', label='val')
-                    ],
-                    style='extended',
-                    color='#c69a15'
-                ),
-                rc.Node(
-                    title='set var',
-                    node_inst_class=SetVar_NodeInstance,
-                    description='sets the value of a script variable',
-                    inputs=[
-                        rc.NodePort(type_='exec'),
-                        rc.NodePort(type_='data', label='var',
-                                    widget='std line edit m', widget_pos='besides'),
-                        rc.NodePort(type_='data', label='val',
-                                    widget='std line edit m', widget_pos='besides')
-                    ],
-                    outputs=[
-                        rc.NodePort(type_='exec'),
-                        rc.NodePort(type_='data', label='val')
-                    ],
-                    style='extended',
-                    color='#c69a15'
-                ),
-                rc.Node(
-                    title='result',
-                    node_inst_class=Result_NodeInstance,
-                    description='displays a value converted to string',
-                    inputs=[
-                        rc.NodePort(type_='data')
-                    ],
-                    widget=Result_NodeInstance_MainWidget,
-                    widget_pos='between ports',
-                    style='extended',
-                    color='#c69a15'
-                ),
-                rc.Node(
-                    title='val',
-                    node_inst_class=Val_NodeInstance,
-                    description='returns the evaluated value that is typed into the input field',
-                    outputs=[
-                        rc.NodePort(type_='data')
-                    ],
-                    widget=ValNode_Instance_MainWidget,
-                    widget_pos='between ports',
-                    style='extended',
-                    color='#c69a15'
-                ),
-            ]
-        )
+        self.session.register_nodes(nodes)
 
         for n in nodes:
             self.node_packages[n] = None
@@ -242,43 +208,43 @@ saving: ctrl+s
             self.session.design.animations_enabled = False
 
     def on_design_action_triggered(self):
-        index = self.flow_design_actions.index(self.sender())
+        index = self.flow_view_theme_actions.index(self.sender())
         self.session.design.set_flow_theme(self.session.design.flow_themes[index])
 
-    def on_enable_debugging_triggered(self):
-        rc.Debugger.enable()
+    def on_enable_info_msgs_triggered(self):
+        rc.InfoMsgs.enable()
 
-    def on_disable_debugging_triggered(self):
-        rc.Debugger.disable()
+    def on_disable_info_msgs_triggered(self):
+        rc.InfoMsgs.disable()
 
     def on_save_scene_pic_viewport_triggered(self):
         """Saves a picture of the currently visible viewport."""
-        if len(self.session.scripts) == 0:
+        if len(self.session.all_scripts()) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow.get_viewport_img()
+        # TODO: fix this...
+        img = self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_viewport_img()
         img.save(file_path)
 
     def on_save_scene_pic_whole_triggered(self):
         """Saves a picture of the whole currently visible scene."""
-        if len(self.session.scripts) == 0:
+        if len(self.session.all_scripts()) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow.get_whole_scene_img()
+        img = self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_whole_scene_img()
         img.save(file_path)
 
     def on_gen_code_triggered(self):
-        script = self.get_current_script()
-        generator = CodeGenerator(
-            main_window=self,
-            node_instances=script.flow.node_instances,
-            vars_manager_config=script.vars_manager.config_data(),
-            flow_algorithm_mode=script.flow.algorithm_mode()
-        )
-        code = generator.generate()
-        print(code)
+        pass
+
+        # script = self.get_current_script()
+        # generator = CodeGenerator(script)
+        # code = generator.generate([
+        #     'NENV'
+        # ])
+        # print(code)
 
 
     def script_created(self, script):
@@ -287,59 +253,32 @@ saving: ctrl+s
         self.ui.scripts_tab_widget.addTab(script_widget, script.title)
 
     def script_renamed(self, script):
-        self.ui.scripts_tab_widget.setTabText(
-            self.script_UIs.index(self.get_script_UI(script)),
-            script.title
-        )
+        script_UI, index = self.get_script_UI(script)
+        if index != -1:
+
+            self.ui.scripts_tab_widget.setTabText(
+                index,
+                script.title
+            )
 
     def script_deleted(self, script):
-        self.ui.scripts_tab_widget.removeTab(
-            self.script_UIs.index(self.get_script_UI(script))
-        )
+        script_UI, index = self.get_script_UI(script)
+        self.ui.scripts_tab_widget.removeTab(index)
+        self.script_UIs.remove(script_UI)
 
     def get_script_UI(self, script):
         script_UI = None
-        for sui in self.script_UIs:
+        index = -1
+        for index in range(len(self.script_UIs)):
+            sui = self.script_UIs[index]
             if sui.script == script:
                 script_UI = sui
                 break
-        return script_UI
+        return script_UI, index
 
-    # def create_new_script_button_pressed(self):
-    #     self.create_new_script(title=self.ui.new_script_name_lineEdit.text())
-
-    # def create_new_script_LE_return_pressed(self):
-    #     self.create_new_script(title=self.ui.new_script_name_lineEdit.text())
-
-
-    # def check_new_script_title_validity(self, title: str) -> bool:
-    #     if len(title) == 0:
-    #         return False
-    #     for s in self.scripts:
-    #         if s.title == title:
-    #             return False
-    #
-    #     return True
-
-    # def create_new_script(self, title: str = None, config: dict = None):
-    #     new_script = Script(self, title, config)
-    #     # new_script.name_changed.connect(self.rename_script)
-    #     self.ui.scripts_tab_widget.addTab(new_script.widget, new_script.title)
-    #     self.scripts.append(new_script)
-    #     self.new_script_created.emit(new_script)
-    #     # self.scripts_list_widget.recreate_ui()
-
-    # def rename_script(self, script: Script, new_title: str):
-    #     self.ui.scripts_tab_widget.setTabText(self.scripts.index(script), new_title)
-    #     script.title = new_title
-
-    # def delete_script(self, script):
-    #     index = self.scripts.index(script)
-    #     self.ui.scripts_tab_widget.removeTab(index)
-    #     del self.scripts[index]
 
     def get_current_script(self):
-        return self.session.scripts[self.ui.scripts_tab_widget.currentIndex()]
+        return self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()]
 
 
     def on_import_nodes_triggered(self):
@@ -358,7 +297,7 @@ saving: ctrl+s
             j_str = f.read()
             f.close()
         except FileExistsError or FileNotFoundError:
-            rc.Debugger.write('couldn\'t open file')
+            rc.InfoMsgs.write('couldn\'t open file')
             return
 
         # don't import a package twice if it already has been imported
@@ -390,7 +329,7 @@ saving: ctrl+s
         # strict=False is necessary to allow control characters like '\n' for newline when loading the json
         j_obj = json.loads(j_str, strict=False)
 
-        # Debugger.write(j_obj['type'])
+        # InfoMsgs.write(j_obj['type'])
         if j_obj['type'] != 'Ryven nodes package' and j_obj['type'] != 'vyScriptFP nodes package':  # old syntax
             return False
 
@@ -401,10 +340,10 @@ saving: ctrl+s
             j_node = j_nodes_list[ni]
             suc = self.parse_node(j_node, package_name, package_path)
             if not suc:
-                # Debugger.write('error while importing nodes')
+                # InfoMsgs.write('error while importing nodes')
                 return False
 
-        # Debugger.write(len(self.custom_nodes), 'nodes imported')
+        # InfoMsgs.write(len(self.custom_nodes), 'nodes imported')
 
         return True
 
@@ -421,7 +360,10 @@ saving: ctrl+s
         node_description = j_node['description']
         node_type = j_node['type']
         node_has_main_widget = j_node['has main widget']
-        node_main_widget_pos = j_node['widget position'] if node_has_main_widget else None
+        node_main_widget_pos = None
+        if node_has_main_widget:
+            node_main_widget_pos = j_node['widget position'] \
+                if j_node['widget position'] != 'under ports' else 'below ports'  # backwards compatibility
         node_design_style = j_node['design style'] if j_node['design style'] != 'minimalistic' else 'small'
         node_color = j_node['color']
 
@@ -431,28 +373,28 @@ saving: ctrl+s
         module_name_separator = '___'
 
         # CUSTOM CLASS IMPORTS ----------------------------------------------------------------------------
-        node_inst_class = None
+        node_class = None
         main_widget_class = None
         input_widget_classes = {}
         # creating all the necessary path variables here for all potentially imported classes
 
-        #       IMPORT NODE INSTANCE SUBCLASS
-        node_instance_class_file_path = package_path + '/nodes/' + node_module_name + '/'
-        node_instance_widgets_file_path = node_instance_class_file_path + '/widgets'
-        node_instance_filename = node_module_name  # the NI file's name is just the 'module name'
-        node_inst_class = self.get_class_from_file(file_path=node_instance_class_file_path,
-                                                   file_name=node_instance_filename,
-                                                   class_name=node_class_name + '_NodeInstance')
-        if node_inst_class is None:
+        #       IMPORT NODE SUBCLASS
+        node_class_file_path = package_path + '/nodes/' + node_module_name + '/'
+        node_widgets_file_path = node_class_file_path + '/widgets'
+        node_filename = node_module_name  # the NI file's name is just the 'module name'
+        node_class = self.get_class_from_file(file_path=node_class_file_path,
+                                                   file_name=node_filename,
+                                                   class_name=node_class_name + '_Node')
+        if node_class is None:
             return False    # error during import
 
         #       IMPORT MAIN WIDGET
         if node_has_main_widget:
             main_widget_filename = node_module_name + module_name_separator + 'main_widget'
-            main_widget_class = self.get_class_from_file(file_path=node_instance_widgets_file_path,
+            main_widget_class = self.get_class_from_file(file_path=node_widgets_file_path,
                                                          file_name=main_widget_filename,
                                                          class_name=node_class_name +
-                                                                             '_NodeInstance_MainWidget')
+                                                                             '_Node_MainWidget')
             if main_widget_class is None:
                 return False     # error during import
 
@@ -460,7 +402,7 @@ saving: ctrl+s
         #       I need to create the dict for the node's potential custom input widgets already here
         for w_name in j_node['custom input widgets']:
             input_widget_filename = node_module_name + module_name_separator + w_name
-            custom_widget_class = self.get_class_from_file(file_path=node_instance_widgets_file_path,
+            custom_widget_class = self.get_class_from_file(file_path=node_widgets_file_path,
                                                            file_name=input_widget_filename,
                                                            class_name=w_name + '_PortInstanceWidget')
             if custom_widget_class is None:
@@ -485,7 +427,7 @@ saving: ctrl+s
                 i_widget_pos = j_input['widget position']
 
             # creating port
-            new_input = rc.NodePort(
+            new_input = rc.NodeInput(
                 type_=i_type,
                 label=i_label,
                 widget=i_widget_name,
@@ -508,7 +450,7 @@ saving: ctrl+s
             o_label = j_output['label']
 
             # creating port
-            new_output = rc.NodePort(
+            new_output = rc.NodeOutput(
                 type_=o_type,
                 label=o_label
             )
@@ -516,39 +458,25 @@ saving: ctrl+s
             # new_output.label = o_label
             outputs.append(new_output)
 
-        n = self.session.register_node(
-            rc.Node(
-                title=node_title,
-                type_=node_type,
-                description=node_description,
-                node_inst_class=node_inst_class,
-                widget=main_widget_class,
-                widget_pos=node_main_widget_pos,
-                inputs=inputs,
-                input_widgets=input_widget_classes,
-                outputs=outputs,
-                style=node_design_style,
-                color=node_color
-            )
-        )
 
-        self.node_packages[n] = package_name
+        # SET FIELDS
+        nc = node_class
+        nc.title = node_title
+        nc.type_ = package_name  # node_type
+        nc.description = node_description
+        nc.main_widget_class = main_widget_class
+        nc.main_widget_pos = node_main_widget_pos
+        nc.init_inputs = inputs
+        nc.input_widget_classes = input_widget_classes
+        nc.init_outputs = outputs
+        nc.style = node_design_style
+        nc.color = node_color
 
-        # # setting the Node's attributes
-        # new_node.title = node_title
-        # new_node.description = node_description
-        # new_node.type_ = node_type
-        # new_node.package = package_name
-        # new_node.has_main_widget = node_has_main_widget
-        # if node_has_main_widget:
-        #     new_node.main_widget_pos = node_main_widget_pos
-        # new_node.design_style = node_design_style
-        # new_node.color = QColor(node_color)
-        # new_node.inputs = inputs
-        # new_node.outputs = outputs
+        # print(nic.__dict__)
 
-        # self.custom_nodes.append(new_node)
-        # self.all_nodes.append(new_node)
+        self.session.register_node(nc)
+
+        self.node_packages[nc] = package_name
 
         return True
 
@@ -556,13 +484,13 @@ saving: ctrl+s
     def get_class_from_file(self, file_path, file_name, class_name):
         """Returns a class with a given name from a file for instantiation by importing the module.
         Used for all the dynamically imported classes:
-            - NodeInstances
-            - A NodeInstance's main widget
-            - A NodeInstance's custom input widgets
+            - Nodes
+            - A Node's main widget
+            - A Node's custom input widgets
         """
-        # Debugger.debug(file_path)
-        # Debugger.debug(file_name)
-        # Debugger.debug(class_name)
+        # InfoMsgs.debug(file_path)
+        # InfoMsgs.debug(file_name)
+        # InfoMsgs.debug(class_name)
         sys.path.append(file_path)
         try:
             new_module = __import__(file_name, fromlist=[class_name])
@@ -598,28 +526,29 @@ saving: ctrl+s
                 os.remove(file_name)
             file = open(file_name, 'w')
         except FileNotFoundError:
-            rc.Debugger.write('couldn\'t open file')
+            rc.InfoMsgs.write('couldn\'t open file')
             return
 
 
         general_project_info_dict = {'type': 'Ryven project file'}
 
-        scripts_data_list = self.session.serialize()
+        scripts_data = self.session.serialize()
 
         required_packages = set()
-        for ni in self.session.all_node_instances():
-            if self.node_packages[ni.parent_node] is None:
+        for node in self.session.all_nodes():
+            if node.__class__ not in self.node_packages.keys() or \
+                    self.node_packages[node.__class__] is None:
                 continue
             required_packages.add(
-                self.node_packages[ni.parent_node]
+                self.node_packages[node.__class__]
             )
 
         whole_project_dict = {'general info': general_project_info_dict,
-                              'scripts': scripts_data_list,
-                              'required packages': list(required_packages)}
+                              'required packages': list(required_packages),
+                              **scripts_data}
 
-        data = json.dumps(whole_project_dict)
-        rc.Debugger.write(data)
+        data = json.dumps(whole_project_dict, indent=4)
+        rc.InfoMsgs.write(data)
 
 
         file.write(data)

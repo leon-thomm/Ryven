@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 # from PySide2.QtCore import ...
@@ -12,6 +12,6 @@ matrix_widget = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(matrix_widget)
 
 
-class MaskDiag_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
+class MaskDiag_Node_MainWidget(matrix_widget.MatrixWidget):
     def __init__(self, parent_node_instance):
-        super(MaskDiag_NodeInstance_MainWidget, self).__init__(parent_node_instance)
+        super(MaskDiag_Node_MainWidget, self).__init__(parent_node_instance)

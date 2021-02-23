@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 from PySide2.QtWidgets import QTextEdit
 import importlib.util
 package_path = widget_pp(__file__)
@@ -7,9 +7,9 @@ matrix_widget = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(matrix_widget)
 
 
-class Matrix_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
-    def __init__(self, parent_node_instance):
-        super(Matrix_NodeInstance_MainWidget, self).__init__(parent_node_instance, 100, 80)
+class Matrix_Node_MainWidget(matrix_widget.MatrixWidget):
+    def __init__(self, node):
+        super(Matrix_Node_MainWidget, self).__init__(node, 100, 80)
 
         self.setReadOnly(False)
 
@@ -17,9 +17,9 @@ class Matrix_NodeInstance_MainWidget(matrix_widget.MatrixWidget):
 
 
     def text_changed(self):
-        self.parent_node_instance.parse_matrix(self.toPlainText())
+        self.node.parse_matrix(self.toPlainText())
         self.resize_to_content(lines=self.toPlainText().splitlines())
 
     def focusOutEvent(self, e):
-        self.update_matrix(self.parent_node_instance.expression_matrix)
+        self.update_matrix(self.node.expression_matrix)
         QTextEdit.focusOutEvent(self, e)

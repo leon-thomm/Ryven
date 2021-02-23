@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS --------------
 
-# self.main_widget
+# self.main_widget()
 # self.update_shape()
 
 # Ports
@@ -26,7 +26,7 @@ from NIENV import *
 from numpy.linalg import det
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -36,7 +36,7 @@ class %CLASS%(NodeInstance):
     def update_event(self, input_called=-1):
         matrix = det(self.input(0))
         self.set_output_val(0, matrix)
-        self.main_widget.update_matrix(matrix)
+        self.main_widget().update_matrix(matrix)
 
     def get_data(self):
         data = {}

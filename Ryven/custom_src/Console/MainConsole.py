@@ -1,7 +1,8 @@
 import code
 import re
 
-from PySide2.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton
+from PySide2.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton, QGroupBox, \
+    QVBoxLayout
 from PySide2.QtCore import Signal, QEvent, Qt
 from PySide2.QtGui import QTextCharFormat, QBrush, QColor, QFont
 
@@ -25,8 +26,8 @@ class MainConsole(QWidget):
 
     def init_ui(self, history, blockcount):
         self.content_layout = QGridLayout(self)
-        self.content_layout.setContentsMargins(0, 0, 0, 0)
-        self.content_layout.setSpacing(0)
+        # self.content_layout.setContentsMargins(0, 0, 0, 0)
+        # self.content_layout.setSpacing(0)
 
         # reset scope button
         self.reset_scope_button = QPushButton('reset console scope')
@@ -46,15 +47,16 @@ class MainConsole(QWidget):
         self.errfmt = QTextCharFormat(self.inpfmt)
         self.errfmt.setForeground(QBrush(QColor('#B55730')))
 
-        # display input prompt left besides input edit
-        self.prompt_label = QLabel('> ', self)
-        self.prompt_label.setFixedWidth(15)
-        self.content_layout.addWidget(self.prompt_label, 2, 0)
+        # # display input prompt left besides input edit
+        # self.prompt_label = QLabel('> ', self)
+        # self.prompt_label.setFixedWidth(15)
+        # self.content_layout.addWidget(self.prompt_label, 2, 0)
 
         # command line
         self.inpedit = ConsoleInputLineEdit(max_history=history)
         self.inpedit.returned.connect(self.push)
-        self.content_layout.addWidget(self.inpedit, 2, 1)
+        # self.content_layout.addWidget(self.inpedit, 2, 1)
+        self.content_layout.addWidget(self.inpedit, 2, 0, 1, 2)
 
 
         self.interp = None
@@ -213,7 +215,12 @@ class ConsoleDisplay(QPlainTextEdit):
         self.setObjectName('ConsoleDisplay')
         self.setMaximumBlockCount(max_block_count)
         self.setReadOnly(True)
-        self.setFont(QFont('Consolas', 12))
+        self.setFont(QFont('Source Code Pro', 11))
+#         self.setStyleSheet('''
+# QPlainTextEdit {
+#     background-color: rgba(255, 255, 255, 0.04);
+# }
+#         ''')
 
 
 class RedirectOutput:
@@ -230,11 +237,18 @@ class RedirectOutput:
 
 
 main_console = None
+main_console_group_box = None
 
 
 def init_main_console():
     global main_console
+    global main_console_group_box
+
     main_console = MainConsole()
+
+    main_console_group_box = QGroupBox('Console')
+    main_console_group_box.setLayout(QVBoxLayout())
+    main_console_group_box.layout().addWidget(main_console)
 
     console_stdout_redirect = RedirectOutput(main_console.write)
     console_errout_redirect = RedirectOutput(main_console.errorwrite)

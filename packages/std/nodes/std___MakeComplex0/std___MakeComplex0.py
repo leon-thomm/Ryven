@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS --------------
 
-# self.main_widget
+# self.main_widget()
 # self.update_shape()
 
 # Ports
@@ -11,9 +11,9 @@ from NIENV import *
 # self.set_output_val(index, val)
 # self.exec_output(index)
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index)
 
 # Logging
@@ -25,9 +25,9 @@ from NIENV import *
 # --------------------------
 
 
-class MakeComplex_NodeInstance(NodeInstance):
+class MakeComplex_Node(Node):
     def __init__(self, params):
-        super(MakeComplex_NodeInstance, self).__init__(params)
+        super(MakeComplex_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...

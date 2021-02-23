@@ -7,10 +7,6 @@ from numpy.linalg import matrix_power
 """All required static components for building the flow in the target source"""
 
 
-class Flow_AlgorithmMode:
-    mode_data_flow = '''+str(self.flow_algorithm_mode.mode_data_flow)+'''
-
-
 class Node:
     """Base node class with very basic properties"""
 

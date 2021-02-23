@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -27,7 +27,7 @@ from NIENV import *
 
 import cv2
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -39,7 +39,7 @@ class %CLASS%(NodeInstance):
         self.image = self.input(0)
         grayImage = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         ret, result = cv2.threshold(grayImage, self.input(1), self.input(2), cv2.THRESH_BINARY)
-        self.main_widget.show_image(result)
+        self.main_widget().show_image(result)
         self.set_output_val(0, result)
 
     def get_data(self):

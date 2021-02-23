@@ -1,11 +1,11 @@
-from NIENV import *
+from NENV import *
 
 import imaplib
 import email
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -28,7 +28,7 @@ import email
 # ------------------------------------------------------------------------------
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 

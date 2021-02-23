@@ -1,10 +1,10 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
 # self.create_new_input(type_, label, widget_name=None, widget_pos='under')
 # self.delete_input(input or index)
@@ -13,9 +13,9 @@ from NIENV import *
 
 
 
-class ValueHist_NodeInstance(NodeInstance):
+class ValueHist_Node(Node):
     def __init__(self, params):
-        super(ValueHist_NodeInstance, self).__init__(params)
+        super(ValueHist_Node, self).__init__(params)
 
         self.special_actions['reset'] = {'method': M(self.action_reset)}
         self.values = []
@@ -25,12 +25,12 @@ class ValueHist_NodeInstance(NodeInstance):
 
     def reset(self):
         self.values.clear()
-        self.main_widget.update(self.values)
+        self.main_widget().update(self.values)
 
     def update_event(self, input_called=-1):
         if input_called == 0:  # exec
             self.values.append(self.input(1))
-            self.main_widget.update(self.values)
+            self.main_widget().update(self.values)
             self.exec_output(0)
         elif input_called == 2:
             self.reset()
@@ -41,7 +41,7 @@ class ValueHist_NodeInstance(NodeInstance):
 
     def set_data(self, data):
         self.values = data['values']
-        self.main_widget.update(self.values)
+        self.main_widget().update(self.values)
 
 
     def remove_event(self):

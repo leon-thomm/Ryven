@@ -7,7 +7,7 @@ from PySide2.QtGui import QPixmap
 
 from PySide2.QtWidgets import QWidget
 
-class Perceptron_NodeInstance_MainWidget(QWidget, MWB):
+class Perceptron_Node_MainWidget(QWidget, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QWidget.__init__()

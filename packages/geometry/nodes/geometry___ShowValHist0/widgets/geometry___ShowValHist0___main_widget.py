@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 from PySide2.QtCore import Qt
@@ -8,7 +8,7 @@ from PySide2.QtGui import QPixmap, QPainter, QPen, QColor, QBrush
 from PySide2.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QCheckBox, QLabel
 
 
-class ShowValHist_NodeInstance_MainWidget(QWidget, MWB):
+class ShowValHist_Node_MainWidget(QWidget, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QWidget.__init__(self)

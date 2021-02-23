@@ -7,21 +7,32 @@ from custom_src.startup_dialog.StartupDialog import StartupDialog
 from custom_src.MainWindow import MainWindow
 from PySide2.QtWidgets import QApplication
 from contextlib import redirect_stdout, redirect_stderr
+import qt_material
+
 
 
 if __name__ == '__main__':
 
     # change directory to current to this file's location
-    # sys.path.append('../../ryvencore/ryvencore/src/ryvencore.py')
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-    # os.chdir(os.path.dirname(os.path.realpath(__file__)))
-
-    # init application, StartupDialog
+    # init application
     app = QApplication(sys.argv)
+
+    # apply style
+    qt_material.apply_stylesheet(app, theme='light_ryven.xml', invert_secondary=True)
+    # qt_material.apply_stylesheet(app, theme='dark_ryven.xml')
+
+    # THIS DOESNT WORK... -.-
+    # f = open('ui/custom__material.css.template')
+    # app.setStyleSheet(app.styleSheet() + f.read())
+    # f.close()
+
+    # StartupDialog
     sw = StartupDialog()
     sw.exec_()
 
-    # return if dialog couldn't initialize
+    # exit if dialog couldn't initialize
     if sw.editor_startup_configuration == {}:
         sys.exit()
 

@@ -6,7 +6,7 @@ class SrcCodeUpdater:
 
     @staticmethod
     def override_code(obj: object, new_class_code):
-        """This method is used when editing the source of an existing object in the Flow (NodeInstance or a widget).
+        """This method is used when editing the source of an existing object in the Flow (Node or a widget).
         It overrides the implementation of any custom method of the original object according to the code
         provided through the new_class_code parameter."""
 

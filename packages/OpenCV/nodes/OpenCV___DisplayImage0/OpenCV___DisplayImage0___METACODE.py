@@ -1,10 +1,10 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -27,7 +27,7 @@ import cv2
 # ------------------------------------------------------------------------------
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -37,7 +37,7 @@ class %CLASS%(NodeInstance):
     def update_event(self, input_called=-1):
         self.res = self.input(0)
      
-        self.main_widget.show_image(self.res)
+        self.main_widget().show_image(self.res)
         self.set_output_val(0, self.res)
 
     def get_data(self):

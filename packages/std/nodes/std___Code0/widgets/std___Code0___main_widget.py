@@ -5,9 +5,9 @@ from PySide2.QtGui import QFont
 
 
 
-class Code_NodeInstance_MainWidget(QWidget):
+class Code_Node_MainWidget(QWidget):
     def __init__(self, parent_node_instance):
-        super(Code_NodeInstance_MainWidget, self).__init__()
+        super(Code_Node_MainWidget, self).__init__()
 
         
 

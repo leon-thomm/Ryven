@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 # from PySide2.QtWidgets import ...
 # from PySide2.QtCore import ...
@@ -7,7 +7,7 @@ from NIWENV import *
 from PySide2.QtWidgets import QPushButton
 
 
-class Button_NodeInstance_MainWidget(QPushButton, MWB):
+class Button_Node_MainWidget(QPushButton, MWB):
     def __init__(self, params):
         MWB.__init__(self, params)
         QPushButton.__init__(self)
@@ -27,7 +27,7 @@ class Button_NodeInstance_MainWidget(QPushButton, MWB):
             background-color: #bcbbf2;
         }
         ''')
-        self.clicked.connect(M(self.parent_node_instance.button_clicked))
+        self.clicked.connect(M(self.node.button_clicked))
 
     def get_data(self):
         return {}

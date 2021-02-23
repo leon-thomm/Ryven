@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 # self.update_shape()     <- recomputes the whole shape and content positions
 
 # Ports
@@ -11,9 +11,9 @@ from NIENV import *
 # self.set_output_val(index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index)
 
 
@@ -27,9 +27,9 @@ from NIENV import *
 from scipy.linalg import inv
 
 
-class InverseMatrix_NodeInstance(NodeInstance):
+class InverseMatrix_Node(Node):
     def __init__(self, params):
-        super(InverseMatrix_NodeInstance, self).__init__(params)
+        super(InverseMatrix_Node, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False
@@ -37,17 +37,17 @@ class InverseMatrix_NodeInstance(NodeInstance):
     def update_event(self, input_called=-1):
         m = inv(self.input(0))
         self.set_output_val(0, m)
-        self.main_widget.update_matrix(m)
+        self.main_widget().update_matrix(m)
 
     def action_hide_mw(self):
-        self.main_widget.hide()
+        self.main_widget().hide()
         del self.special_actions['hide preview']
         self.special_actions['show preview'] = {'method': M(self.action_show_mw)}
         self.main_widget_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
-        self.main_widget.show()
+        self.main_widget().show()
         del self.special_actions['show preview']
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
         self.main_widget_hidden = False

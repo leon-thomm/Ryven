@@ -1,28 +1,28 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
 # self.input(index)                   <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 # self.exec_output(index)             <- executes an execution output
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(input or index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(output or index)
 
 
 
-class GreaterOrEqual_NodeInstance(NodeInstance):
+class GreaterOrEqual_Node(Node):
     def __init__(self, params):
-        super(GreaterOrEqual_NodeInstance, self).__init__(params)
+        super(GreaterOrEqual_Node, self).__init__(params)
 
         self.special_actions['add input'] = {'method': M(self.action_add_input)}
         self.enlargement_state = 0
 
 
     def action_add_input(self):
-        self.create_new_input('data', '', widget_name='std line edit s r nb', widget_pos='besides')
+        self.create_input('data', '', widget_name='std line edit s r nb', widget_pos='besides')
         self.enlargement_state += 1
         self.special_actions['remove input'] = {'method': M(self.action_remove_input)}
 

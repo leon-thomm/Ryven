@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
@@ -6,12 +6,12 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class Line_NodeInstance(NodeInstance):
+class Line_Node(Node):
     def __init__(self, params):
-        super(Line_NodeInstance, self).__init__(params)
+        super(Line_Node, self).__init__(params)
 
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         self.img_unlined = None
@@ -26,7 +26,7 @@ class Line_NodeInstance(NodeInstance):
         thickness=self.input(4)
         
         self.img_lined = cv2.line( self.img_unlined,startpoint,endpoint,color,thickness)
-        self.main_widget.show_image(self.img_lined)
+        self.main_widget().show_image(self.img_lined)
         self.set_output_val(0, self.img_lined)
 
     def get_data(self):

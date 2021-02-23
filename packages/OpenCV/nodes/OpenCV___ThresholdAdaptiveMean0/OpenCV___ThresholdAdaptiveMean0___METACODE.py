@@ -1,9 +1,9 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -27,19 +27,19 @@ from NIENV import *
 
 import cv2
 
-class %CLASS%(NodeInstance):
-    def __init__(self, params):
-        super(%CLASS%, self).__init__(params)
+class %CLASS%(Node):
 
-        # self.special_actions['action name'] = {'method': M(self.action_method)}
-        # ...
+    new_img = Signal(object)
 
-    # don't call self.update_event() directly, use self.update() instead
+    def place_event(self):
+        self.new_img.connect(self.main_widget().show_image)
+
     def update_event(self, input_called=-1):
         self.image = self.input(0)
         grayImage = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
         result = cv2.adaptiveThreshold(grayImage, self.input(1), cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 11, 2)
-        self.main_widget.show_image(result)
+        # self.main_widget().show_image(result)
+        self.new_img.emit(result)
         self.set_output_val(0, result)
 
     def get_data(self):

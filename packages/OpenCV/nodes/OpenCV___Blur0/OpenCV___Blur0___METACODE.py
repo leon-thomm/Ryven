@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
@@ -6,10 +6,10 @@ import cv2
 # USEFUL
 # self.input(index)                    <- access to input data
 # self.outputs[index].set_val(val)    <- set output data port value
-# self.main_widget                    <- access to main widget
+# self.main_widget()                    <- access to main widget
 
 
-class %CLASS%(NodeInstance):
+class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
@@ -23,7 +23,7 @@ class %CLASS%(NodeInstance):
         blur_val = self.input(1)
         blur_val = int(blur_val)
         self.img_blurred = cv2.blur(self.img_unblurred, (blur_val, blur_val))
-        self.main_widget.show_image(self.img_blurred)
+        self.main_widget().show_image(self.img_blurred)
         self.set_output_val(0, self.img_blurred)
 
     def get_data(self):

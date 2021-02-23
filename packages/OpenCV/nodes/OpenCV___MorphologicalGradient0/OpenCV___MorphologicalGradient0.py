@@ -1,10 +1,10 @@
-from NIENV import *
+from NENV import *
 
 import cv2
 
 # API METHODS
 
-# self.main_widget        <- access to main widget
+# self.main_widget()        <- access to main widget
 
 
 # Ports
@@ -12,9 +12,9 @@ import cv2
 # set_output_val(self, index, val)    <- set output data port value
 # self.exec_output(index)             <- executes an execution output
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index or input)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index or output)
 
 
@@ -27,21 +27,21 @@ import cv2
 # ------------------------------------------------------------------------------
 
 
-class MorphologicalGradient_NodeInstance(NodeInstance):
-    def __init__(self, params):
-        super(MorphologicalGradient_NodeInstance, self).__init__(params)
+class MorphologicalGradient_Node(Node):
 
-        # self.special_actions['action name'] = {'method': M(self.action_method)}
-        # ...
+    new_img = Signal(object)
 
-    # don't call self.update_event() directly, use self.update() instead
+    def place_event(self):
+        self.new_img.connect(M(self.main_widget().show_image))
+
     def update_event(self, input_called=-1):
         self.img = self.input(0)
         self.kern = self.input(1)
        # self.iter = self.input(2)
 
         self.res = cv2.morphologyEx(self.img, cv2.MORPH_GRADIENT,self.kern)
-        self.main_widget.show_image(self.res)
+        # self.main_widget().show_image(self.res)
+        self.new_img.emit(self.res)
 
         self.set_output_val(0, self.res)
 
