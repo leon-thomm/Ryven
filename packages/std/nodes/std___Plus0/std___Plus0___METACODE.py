@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 
 # USEFUL
@@ -24,7 +24,8 @@ class %CLASS%(Node):
     def update_event(self, input_called=-1):
         try:
             sum_val = sum([self.input(i) for i in range(len(self.inputs))])
-            self.outputs[0].set_val(sum_val)
+            self.set_output_val(0, sum_val)
+            # self.outputs[0].set_val(sum_val)
         except Exception as e:
             sum_val = ''
             for i in range(len(self.inputs)):

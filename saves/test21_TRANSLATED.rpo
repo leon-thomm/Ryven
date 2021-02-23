@@ -1,0 +1,279 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        "std"
+    ],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "SetVar_Node",
+                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIhzLg==",
+                        "special actions": {
+                            "make passive": {
+                                "method": "action_make_passive"
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "has widget": true,
+                                "widget name": "std line edit m",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "has widget": true,
+                                "widget name": "std line edit m",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 462.00147275277976,
+                        "pos y": 241.73623808563988
+                    },
+                    {
+                        "identifier": "Unequal_Node",
+                        "state data": "gASVGgAAAAAAAAB9lIwRZW5sYXJnZW1lbnQgc3RhdGWUSwBzLg==",
+                        "special actions": {
+                            "add input": {
+                                "method": "action_add_input"
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit s r nb",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit s r nb",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 636.4776308060085,
+                        "pos y": 367.42795314679427
+                    },
+                    {
+                        "identifier": "SetVar_Node",
+                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIhzLg==",
+                        "special actions": {
+                            "make passive": {
+                                "method": "action_make_passive"
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "has widget": true,
+                                "widget name": "std line edit m",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "has widget": true,
+                                "widget name": "std line edit m",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 734.8559062935884,
+                        "pos y": 232.5304693342795
+                    },
+                    {
+                        "identifier": "GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 427.796440377809,
+                        "pos y": 432.26818017269915
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 248.1815586163945,
+                        "pos y": 435.2493400359591,
+                        "main widget data": "gASVDgAAAAAAAAB9lIwEdGV4dJSMAJRzLg=="
+                    },
+                    {
+                        "identifier": "Result_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 746.7805457466284,
+                        "pos y": 479.966737984859,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "Plus_Node",
+                        "state data": "gASVEwAAAAAAAAB9lIwKbnVtIGlucHV0c5RLAnMu",
+                        "special actions": {
+                            "add input": {
+                                "method": "action_add_input"
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit s r nb",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit s r nb",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 276.50257731736446,
+                        "pos y": 303.3330160867044
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 2,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 0,
+                        "output port index": 1,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 2,
+                        "connected input port index": 2
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 5,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 4,
+                        "output port index": 0,
+                        "connected node": 3,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 0,
+                        "connected node": 0,
+                        "connected input port index": 2
+                    }
+                ]
+            },
+            "flow widget config": {
+                "viewport update mode": "sync",
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

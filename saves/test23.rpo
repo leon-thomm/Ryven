@@ -1,0 +1,79 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 548.0,
+                        "pos y": 335.0
+                    },
+                    {
+                        "identifier": "GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit",
+                                "widget data": "gASVBAAAAAAAAACMAJQu",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 244.0,
+                        "pos y": 326.0
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 1,
+                        "output port index": 0,
+                        "connected node": 0,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow widget config": {
+                "viewport update mode": "sync",
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

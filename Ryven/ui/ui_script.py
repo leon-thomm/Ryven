@@ -75,67 +75,6 @@ class Ui_script_widget(object):
         self.settings_groupBox.setSizePolicy(sizePolicy1)
         self.verticalLayout_4 = QVBoxLayout(self.settings_groupBox)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.label_2 = QLabel(self.settings_groupBox)
-        self.label_2.setObjectName(u"label_2")
-
-        self.horizontalLayout_2.addWidget(self.label_2)
-
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.algorithm_data_flow_radioButton = QRadioButton(self.settings_groupBox)
-        self.algorithm_buttonGroup = QButtonGroup(script_widget)
-        self.algorithm_buttonGroup.setObjectName(u"algorithm_buttonGroup")
-        self.algorithm_buttonGroup.addButton(self.algorithm_data_flow_radioButton)
-        self.algorithm_data_flow_radioButton.setObjectName(u"algorithm_data_flow_radioButton")
-        self.algorithm_data_flow_radioButton.setMaximumSize(QSize(16777210, 16777215))
-        self.algorithm_data_flow_radioButton.setChecked(True)
-
-        self.verticalLayout_3.addWidget(self.algorithm_data_flow_radioButton)
-
-        self.algorithm_exec_flow_radioButton = QRadioButton(self.settings_groupBox)
-        self.algorithm_buttonGroup.addButton(self.algorithm_exec_flow_radioButton)
-        self.algorithm_exec_flow_radioButton.setObjectName(u"algorithm_exec_flow_radioButton")
-
-        self.verticalLayout_3.addWidget(self.algorithm_exec_flow_radioButton)
-
-
-        self.horizontalLayout_2.addLayout(self.verticalLayout_3)
-
-
-        self.verticalLayout_4.addLayout(self.horizontalLayout_2)
-
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.label = QLabel(self.settings_groupBox)
-        self.label.setObjectName(u"label")
-
-        self.horizontalLayout.addWidget(self.label)
-
-        self.verticalLayout_2 = QVBoxLayout()
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.viewport_update_mode_sync_radioButton = QRadioButton(self.settings_groupBox)
-        self.viewport_update_mode_buttonGroup = QButtonGroup(script_widget)
-        self.viewport_update_mode_buttonGroup.setObjectName(u"viewport_update_mode_buttonGroup")
-        self.viewport_update_mode_buttonGroup.addButton(self.viewport_update_mode_sync_radioButton)
-        self.viewport_update_mode_sync_radioButton.setObjectName(u"viewport_update_mode_sync_radioButton")
-        self.viewport_update_mode_sync_radioButton.setChecked(True)
-
-        self.verticalLayout_2.addWidget(self.viewport_update_mode_sync_radioButton)
-
-        self.viewport_update_mode_async_radioButton = QRadioButton(self.settings_groupBox)
-        self.viewport_update_mode_buttonGroup.addButton(self.viewport_update_mode_async_radioButton)
-        self.viewport_update_mode_async_radioButton.setObjectName(u"viewport_update_mode_async_radioButton")
-
-        self.verticalLayout_2.addWidget(self.viewport_update_mode_async_radioButton)
-
-
-        self.horizontalLayout.addLayout(self.verticalLayout_2)
-
-
-        self.verticalLayout_4.addLayout(self.horizontalLayout)
-
         self.settings_vars_splitter.addWidget(self.settings_groupBox)
         self.variables_group_box = QGroupBox(self.settings_vars_splitter)
         self.variables_group_box.setObjectName(u"variables_group_box")
@@ -160,12 +99,6 @@ class Ui_script_widget(object):
         self.log_groupBox.setTitle(QCoreApplication.translate("script_widget", u"Log", None))
         self.source_code_groupBox.setTitle(QCoreApplication.translate("script_widget", u"Source Code", None))
         self.settings_groupBox.setTitle(QCoreApplication.translate("script_widget", u"Settings", None))
-        self.label_2.setText(QCoreApplication.translate("script_widget", u"Algorithm", None))
-        self.algorithm_data_flow_radioButton.setText(QCoreApplication.translate("script_widget", u"Data Flow", None))
-        self.algorithm_exec_flow_radioButton.setText(QCoreApplication.translate("script_widget", u"Exec Flow", None))
-        self.label.setText(QCoreApplication.translate("script_widget", u"Viewport Update Mode", None))
-        self.viewport_update_mode_sync_radioButton.setText(QCoreApplication.translate("script_widget", u"Sync", None))
-        self.viewport_update_mode_async_radioButton.setText(QCoreApplication.translate("script_widget", u"Async", None))
         self.variables_group_box.setTitle(QCoreApplication.translate("script_widget", u"Variables", None))
     # retranslateUi
 

@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 
 import importlib.util
 package_path = widget_pp(__file__)

@@ -1,4 +1,4 @@
-from NIWENV import *
+from NWENV import *
 from PySide2.QtWidgets import QGraphicsView, QGraphicsScene
 from PySide2.QtGui import QPainter, QColor, QPen
 from PySide2.QtCore import Qt

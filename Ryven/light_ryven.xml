@@ -1,0 +1,27 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<resources>
+
+  <!-- main theme color; mainly used for borders, headers and buttons -->
+  <color name="primaryColor">#448aff</color>
+
+  <!--  -->
+  <color name="primaryLightColor">#508AD8</color>
+
+  <!-- main widget background -->
+  <color name="secondaryColor">#FFFFFF</color>
+
+  <!-- widgets background -->
+  <color name="secondaryLightColor">#ECEDEF</color>
+
+  <!-- main window background -->
+  <color name="secondaryDarkColor">#E8EAEC</color>
+
+  <!--  -->
+  <color name="primaryTextColor">#1A1A1A</color>
+
+  <!--  -->
+  <color name="secondaryTextColor">#6E6E6E</color>
+
+  <!--  -->
+</resources>
+

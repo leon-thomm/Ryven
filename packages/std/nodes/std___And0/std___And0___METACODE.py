@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 
 class %CLASS%(Node):

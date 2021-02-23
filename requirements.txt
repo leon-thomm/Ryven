@@ -6,3 +6,4 @@ scipy
 pyowm
 qbstyles
 autopep8
+qt-material

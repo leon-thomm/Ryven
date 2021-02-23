@@ -2,9 +2,9 @@ import os
 
 from PySide2.QtWidgets import QLineEdit
 
-from NIENV import *
-from NIWENV import *
-from ..ryvencore.src.NodePort import NodeInput, NodeOutput
+from NENV import *
+from NWENV import *
+from ryvencore import NodeInput, NodeOutput, MWB, IWB
 
 
 class ValNode_MainWidget(MWB, QLineEdit):

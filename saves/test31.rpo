@@ -1,0 +1,192 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [],
+    "function scripts": [
+        {
+            "name": "ueli",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "BUILTIN_FunctionInputNode",
+                        "state data": "gARLAS4=",
+                        "special actions": {
+                            "add parameter": {
+                                "data": {
+                                    "method": "add_function_parameter",
+                                    "data": "data"
+                                },
+                                "exec": {
+                                    "method": "add_function_parameter",
+                                    "data": "exec"
+                                }
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "param 1"
+                            }
+                        ],
+                        "pos x": 205.0,
+                        "pos y": 257.0
+                    },
+                    {
+                        "identifier": "BUILTIN_FunctionOutputNode",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "add return": {
+                                "data": {
+                                    "method": "add_return",
+                                    "data": "data"
+                                },
+                                "exec": {
+                                    "method": "add_return",
+                                    "data": "exec"
+                                }
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 753.0,
+                        "pos y": 277.0
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow widget config": {
+                "viewport update mode": "sync",
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            },
+            "parameters": [
+                {
+                    "type": "data",
+                    "label": "param 1"
+                }
+            ],
+            "returns": [
+                {
+                    "type": "data",
+                    "label": ""
+                }
+            ]
+        }
+    ],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {
+                "ueli": {
+                    "serialized": "gARLKi4="
+                }
+            },
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "FUNCTION_NODE_ueli",
+                        "state data": "gASVCAAAAAAAAACMBHVlbGmULg==",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "param 1",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 493.0,
+                        "pos y": 288.0
+                    },
+                    {
+                        "identifier": "GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit",
+                                "widget data": "gASVCAAAAAAAAACMBHVlbGmULg==",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 238.0,
+                        "pos y": 285.0
+                    },
+                    {
+                        "identifier": "Result_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 752.0,
+                        "pos y": 283.0,
+                        "main widget data": "gAR9lC4="
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 2,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 1,
+                        "output port index": 0,
+                        "connected node": 0,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow widget config": {
+                "viewport update mode": "sync",
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

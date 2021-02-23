@@ -4,5 +4,6 @@ ui_stuff/
 notizen.md
 __pycache__/
 venv/
+venv38/
 temp/
 ryvencore/

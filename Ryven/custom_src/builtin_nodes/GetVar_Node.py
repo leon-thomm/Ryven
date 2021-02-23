@@ -1,5 +1,5 @@
-from NIENV import *
-from ..ryvencore.src.NodePort import NodeInput, NodeOutput
+from NENV import *
+from ryvencore import Node, NodeInput, NodeOutput
 
 
 class GetVar_Node(Node):
