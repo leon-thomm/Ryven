@@ -1,6 +1,6 @@
 from PySide2.QtCore import QTimer
 
-from NIENV import *
+from NENV import *
 
 
 # GENERAL

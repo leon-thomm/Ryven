@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS
@@ -32,7 +32,7 @@ class %CLASS%(Node):
         super(%CLASS%, self).__init__(params)
 
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
-        self.main_widget()_hidden = False
+        self.main_widget_hidden = False
         self.accessed_columns = []
         self.accessed_rows = []
 
@@ -110,25 +110,25 @@ class %CLASS%(Node):
         self.main_widget().hide()
         del self.special_actions['hide preview']
         self.special_actions['show preview'] = {'method': M(self.action_show_mw)}
-        self.main_widget()_hidden = True
+        self.main_widget_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
         self.main_widget().show()
         del self.special_actions['show preview']
         self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
-        self.main_widget()_hidden = False
+        self.main_widget_hidden = False
         self.update_shape()
 
     def get_data(self):
-        data = {'main widget hidden': self.main_widget()_hidden,
+        data = {'main widget hidden': self.main_widget_hidden,
                 'accessed rows': self.accessed_rows,
                 'accessed columns': self.accessed_columns}
         return data
 
     def set_data(self, data):
-        self.main_widget()_hidden = data['main widget hidden']
-        # if self.main_widget()_hidden:
+        self.main_widget_hidden = data['main widget hidden']
+        # if self.main_widget_hidden:
         #     self.action_hide_mw()
         # shown by default
         

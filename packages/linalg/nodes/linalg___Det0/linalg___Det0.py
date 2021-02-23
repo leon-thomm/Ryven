@@ -1,4 +1,4 @@
-from NIENV import *
+from NENV import *
 
 
 # API METHODS --------------
@@ -11,9 +11,9 @@ from NIENV import *
 # self.set_output_val(index, val)
 # self.exec_output(index)
 
-# self.create_new_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
+# self.create_input(type_, label, widget_name=None, widget_pos='under', pos=-1)
 # self.delete_input(index)
-# self.create_new_output(type_, label, pos=-1)
+# self.create_output(type_, label, pos=-1)
 # self.delete_output(index)
 
 # Logging

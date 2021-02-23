@@ -1,11 +1,9 @@
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout, \
     QPushButton
-from PySide2.QtGui import QFont
 import inspect
 
-# import ryvencore as rc
-import custom_src.ryvencore.src.ryvencore as rc
+import ryvencore as rc
 
 from .EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from .CodePreview_TextEdit import CodePreview_TextEdit
@@ -24,31 +22,19 @@ class CodePreview_Widget(QWidget):
         self.active_class_index = -1
         self.edited_codes = {}
 
-        settings_layout = QHBoxLayout()
 
-        info_and_SH_layout = QVBoxLayout()
+        secondary_layout = QHBoxLayout()
 
-        # info label
-        info_label = QLabel('Click on edit for more info!')
-        info_label.setFont(QFont('Poppins', 8))
-        info_and_SH_layout.addWidget(info_label)
-
-        # syntax highlighting
-        self.syntax_highlighting_check_box = QCheckBox('syntax highlighting (alpha)')
-        self.syntax_highlighting_check_box.toggled.connect(self.syntax_highlighting_toggled)
-        self.syntax_highlighting_check_box.setChecked(True)
-        info_and_SH_layout.addWidget(self.syntax_highlighting_check_box)
-
-        settings_layout.addLayout(info_and_SH_layout)
 
         # class radio buttons widget
         self.class_selection_layout = QGridLayout()
 
-        settings_layout.addLayout(self.class_selection_layout)
-        settings_layout.setAlignment(self.class_selection_layout, Qt.AlignRight)
+        secondary_layout.addLayout(self.class_selection_layout)
+        self.class_selection_layout.setAlignment(Qt.AlignLeft)
+        # secondary_layout.setAlignment(self.class_selection_layout, Qt.AlignLeft)
+
 
         # edit source code buttons
-        edit_buttons_layout = QVBoxLayout()
         self.edit_code_button = QPushButton('edit')
         self.edit_code_button.setMaximumWidth(100)
         self.edit_code_button.clicked.connect(self.edit_code_button_clicked)
@@ -60,17 +46,24 @@ class CodePreview_Widget(QWidget):
         self.reset_code_button.setMaximumWidth(206)
         self.reset_code_button.setEnabled(False)
         self.reset_code_button.clicked.connect(self.reset_code_button_clicked)
-        edit_buttons_top_layout = QHBoxLayout()
-        edit_buttons_top_layout.addWidget(self.edit_code_button)
-        edit_buttons_top_layout.addWidget(self.override_code_button)
-        edit_buttons_layout.addLayout(edit_buttons_top_layout)
+
+        edit_buttons_layout = QHBoxLayout()
+        edit_buttons_layout.addWidget(self.edit_code_button)
+        edit_buttons_layout.addWidget(self.override_code_button)
         edit_buttons_layout.addWidget(self.reset_code_button)
 
-        settings_layout.addLayout(edit_buttons_layout)
+        secondary_layout.addLayout(edit_buttons_layout)
+        edit_buttons_layout.setAlignment(Qt.AlignRight)
 
+
+        # syntax highlighting
+        self.syntax_highlighting_check_box = QCheckBox('syntax highlighting (alpha)')
+        self.syntax_highlighting_check_box.toggled.connect(self.syntax_highlighting_toggled)
+        self.syntax_highlighting_check_box.setChecked(True)
 
         main_layout = QVBoxLayout()
-        main_layout.addLayout(settings_layout)
+        main_layout.addLayout(secondary_layout)
+        main_layout.addWidget(self.syntax_highlighting_check_box)
         main_layout.addWidget(self.text_edit)
         self.setLayout(main_layout)
 
@@ -146,26 +139,26 @@ class CodePreview_Widget(QWidget):
                 self.class_selection_layout.addWidget(main_widget_class_RB, 1, 0)
 
             # data input widgets
-            row_count = 0
+            count = 0
             for inp in obj.inputs:
                 if inp.item.widget is not None:
                     inp_widget_class_RB = QRadioButton('Input '+str(obj.inputs.index(inp)))
                     inp_widget_class_RB.toggled.connect(self.class_RB_toggled)
                     self.buttons_obj_dict[inp_widget_class_RB] = inp.item.widget
-                    self.class_selection_layout.addWidget(inp_widget_class_RB, row_count, 1)
-                    row_count += 1
+                    self.class_selection_layout.addWidget(inp_widget_class_RB, 0, 1+count)
+                    count += 1
 
             node_class_RB.setChecked(True)
 
     def update_edit_status(self):
         for o in list(self.buttons_obj_dict.keys()):
             if self.edited_codes.keys().__contains__(self.buttons_obj_dict[o]):
-                o.setStyleSheet('color: #3B9CD9;')
+                # o.setStyleSheet('color: #3B9CD9;')
                 f = o.font()
                 f.setBold(True)
                 o.setFont(f)
             else:
-                o.setStyleSheet('color: white;')
+                # o.setStyleSheet('color: white;')
                 f = o.font()
                 f.setBold(False)
                 o.setFont(f)

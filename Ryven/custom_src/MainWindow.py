@@ -1,24 +1,24 @@
 import os,  sys
 
 from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox, \
+    QApplication
 
 # parent UI
 import custom_src.Console.MainConsole as MainConsole
-import custom_src.ryvencore.src.NodePort
 from .ScriptUI import ScriptUI
 from ui.ui_main_window import Ui_MainWindow
 
 # builtin nodes
+from .builtin_nodes.And_Node import And_Node
 from .builtin_nodes.Result_Node import Result_Node
 from .builtin_nodes.Val_Node import Val_Node
 from .builtin_nodes.GetVar_Node import GetVar_Node
 from .builtin_nodes.SetVar_Node import SetVar_Node
 
 # ryvencore
-# from custom_src.ryvencore.src import Session, ConvUI, Node, NodePort
-import custom_src.ryvencore.src.ryvencore as rc
-from .code_gen.CodeGenerator import CodeGenerator
+import ryvencore as rc
+# from .code_gen.CodeGenerator import CodeGenerator
 
 
 class MainWindow(QMainWindow):
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         if MainConsole.main_console is not None:
-            self.ui.scripts_console_splitter.addWidget(MainConsole.main_console)
+            self.ui.scripts_console_splitter.addWidget(MainConsole.main_console_group_box)
         self.ui.scripts_console_splitter.setSizes([350, 350])
         self.ui.main_splitter.setSizes([120, 800])
 
@@ -53,7 +53,15 @@ class MainWindow(QMainWindow):
 
         self.script_UIs = []
 
-        self.session = rc.Session(threaded=False)
+        self.session = rc.Session(
+            threaded=False,
+            flow_theme_name='Ueli',
+            performance_mode='pretty'
+        )
+        self.session.design.load_from_config('design_config.json')
+
+        app = QApplication.instance()
+        self.session.set_stylesheet(app.styleSheet())
         self.session.new_script_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
         self.session.script_deleted.connect(self.script_deleted)
@@ -61,17 +69,17 @@ class MainWindow(QMainWindow):
         self.register_builtin_nodes()
 
         # UI
-        self.scripts_list_widget = rc.GUI.Lists.ScriptsList(self.session)
+        self.scripts_list_widget = rc.GUI.ScriptsList(self.session)
         self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
         self.setup_menu_actions()
         self.setWindowTitle('Ryven')
         self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
-        self.load_stylesheet('dark')
+        # self.load_stylesheet('dark')
         self.ui.scripts_tab_widget.removeTab(0)
 
         f = open('../resources/stylesheets/dark_node_choice_widget.txt')
-        self.session.design.set_node_choice_stylesheet(f.read())
+        self.session.design.node_selection_stylesheet = f.read()
         f.close()
 
 
@@ -98,17 +106,25 @@ saving: ctrl+s
 
 
     def setup_menu_actions(self):
+
         # flow designs
+        light_themes_menu = QMenu('light')
         for d in self.session.design.flow_themes:
             design_action = QAction(d.name, self)
-            self.ui.menuFlow_Design_Style.addAction(design_action)
+            if d.type_ == 'dark':
+                self.ui.menuFlow_Design_Style.addAction(design_action)
+            else:
+                light_themes_menu.addAction(design_action)
+
             design_action.triggered.connect(self.on_design_action_triggered)
             self.flow_view_theme_actions.append(design_action)
 
+        self.ui.menuFlow_Design_Style.addMenu(light_themes_menu)
+
         self.ui.actionImport_Nodes.triggered.connect(self.on_import_nodes_triggered)
         self.ui.actionSave_Project.triggered.connect(self.on_save_project_triggered)
-        self.ui.actionEnableDebugging.triggered.connect(self.on_enable_debugging_triggered)
-        self.ui.actionDisableDebugging.triggered.connect(self.on_disable_debugging_triggered)
+        self.ui.actionEnableInfoMessages.triggered.connect(self.on_enable_info_msgs_triggered)
+        self.ui.actionDisableInfoMessages.triggered.connect(self.on_disable_info_msgs_triggered)
         self.ui.actionSave_Pic_Viewport.triggered.connect(self.on_save_scene_pic_viewport_triggered)
         self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
 
@@ -170,7 +186,8 @@ saving: ctrl+s
             GetVar_Node,
             SetVar_Node,
             Val_Node,
-            Result_Node
+            Result_Node,
+            And_Node
         ]
 
         self.session.register_nodes(nodes)
@@ -194,40 +211,40 @@ saving: ctrl+s
         index = self.flow_view_theme_actions.index(self.sender())
         self.session.design.set_flow_theme(self.session.design.flow_themes[index])
 
-    def on_enable_debugging_triggered(self):
-        rc.Debugger.enable()
+    def on_enable_info_msgs_triggered(self):
+        rc.InfoMsgs.enable()
 
-    def on_disable_debugging_triggered(self):
-        rc.Debugger.disable()
+    def on_disable_info_msgs_triggered(self):
+        rc.InfoMsgs.disable()
 
     def on_save_scene_pic_viewport_triggered(self):
         """Saves a picture of the currently visible viewport."""
-        if len(self.session.scripts) == 0:
+        if len(self.session.all_scripts()) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_viewport_img()
+        # TODO: fix this...
+        img = self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_viewport_img()
         img.save(file_path)
 
     def on_save_scene_pic_whole_triggered(self):
         """Saves a picture of the whole currently visible scene."""
-        if len(self.session.scripts) == 0:
+        if len(self.session.all_scripts()) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        img = self.session.scripts[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_whole_scene_img()
+        img = self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_whole_scene_img()
         img.save(file_path)
 
     def on_gen_code_triggered(self):
-        script = self.get_current_script()
-        generator = CodeGenerator(
-            main_window=self,
-            node_instances=script.flow_view.node_items,
-            vars_manager_config=script.vars_manager.content_data(),
-            flow_algorithm_mode=script.flow_view.algorithm_mode()
-        )
-        code = generator.generate()
-        print(code)
+        pass
+
+        # script = self.get_current_script()
+        # generator = CodeGenerator(script)
+        # code = generator.generate([
+        #     'NENV'
+        # ])
+        # print(code)
 
 
     def script_created(self, script):
@@ -236,10 +253,13 @@ saving: ctrl+s
         self.ui.scripts_tab_widget.addTab(script_widget, script.title)
 
     def script_renamed(self, script):
-        self.ui.scripts_tab_widget.setTabText(
-            self.script_UIs.index(self.get_script_UI(script)),
-            script.title
-        )
+        script_UI, index = self.get_script_UI(script)
+        if index != -1:
+
+            self.ui.scripts_tab_widget.setTabText(
+                index,
+                script.title
+            )
 
     def script_deleted(self, script):
         script_UI, index = self.get_script_UI(script)
@@ -256,41 +276,9 @@ saving: ctrl+s
                 break
         return script_UI, index
 
-    # def create_new_script_button_pressed(self):
-    #     self.create_new_script(title=self.ui.new_script_name_lineEdit.text())
-
-    # def create_new_script_LE_return_pressed(self):
-    #     self.create_new_script(title=self.ui.new_script_name_lineEdit.text())
-
-
-    # def check_new_script_title_validity(self, title: str) -> bool:
-    #     if len(title) == 0:
-    #         return False
-    #     for s in self.scripts:
-    #         if s.title == title:
-    #             return False
-    #
-    #     return True
-
-    # def create_new_script(self, title: str = None, config: dict = None):
-    #     new_script = Script(self, title, config)
-    #     # new_script.name_changed.connect(self.rename_script)
-    #     self.ui.scripts_tab_widget.addTab(new_script.widget, new_script.title)
-    #     self.scripts.append(new_script)
-    #     self.new_script_created.emit(new_script)
-    #     # self.scripts_list_widget.recreate_ui()
-
-    # def rename_script(self, script: Script, new_title: str):
-    #     self.ui.scripts_tab_widget.setTabText(self.scripts.index(script), new_title)
-    #     script.title = new_title
-
-    # def delete_script(self, script):
-    #     index = self.scripts.index(script)
-    #     self.ui.scripts_tab_widget.removeTab(index)
-    #     del self.scripts[index]
 
     def get_current_script(self):
-        return self.session.scripts[self.ui.scripts_tab_widget.currentIndex()]
+        return self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()]
 
 
     def on_import_nodes_triggered(self):
@@ -309,7 +297,7 @@ saving: ctrl+s
             j_str = f.read()
             f.close()
         except FileExistsError or FileNotFoundError:
-            rc.Debugger.write('couldn\'t open file')
+            rc.InfoMsgs.write('couldn\'t open file')
             return
 
         # don't import a package twice if it already has been imported
@@ -341,7 +329,7 @@ saving: ctrl+s
         # strict=False is necessary to allow control characters like '\n' for newline when loading the json
         j_obj = json.loads(j_str, strict=False)
 
-        # Debugger.write(j_obj['type'])
+        # InfoMsgs.write(j_obj['type'])
         if j_obj['type'] != 'Ryven nodes package' and j_obj['type'] != 'vyScriptFP nodes package':  # old syntax
             return False
 
@@ -352,10 +340,10 @@ saving: ctrl+s
             j_node = j_nodes_list[ni]
             suc = self.parse_node(j_node, package_name, package_path)
             if not suc:
-                # Debugger.write('error while importing nodes')
+                # InfoMsgs.write('error while importing nodes')
                 return False
 
-        # Debugger.write(len(self.custom_nodes), 'nodes imported')
+        # InfoMsgs.write(len(self.custom_nodes), 'nodes imported')
 
         return True
 
@@ -439,7 +427,7 @@ saving: ctrl+s
                 i_widget_pos = j_input['widget position']
 
             # creating port
-            new_input = custom_src.ryvencore.src.NodePort.NodeInput(
+            new_input = rc.NodeInput(
                 type_=i_type,
                 label=i_label,
                 widget=i_widget_name,
@@ -462,7 +450,7 @@ saving: ctrl+s
             o_label = j_output['label']
 
             # creating port
-            new_output = custom_src.ryvencore.src.NodePort.NodeOutput(
+            new_output = rc.NodeOutput(
                 type_=o_type,
                 label=o_label
             )
@@ -500,9 +488,9 @@ saving: ctrl+s
             - A Node's main widget
             - A Node's custom input widgets
         """
-        # Debugger.debug(file_path)
-        # Debugger.debug(file_name)
-        # Debugger.debug(class_name)
+        # InfoMsgs.debug(file_path)
+        # InfoMsgs.debug(file_name)
+        # InfoMsgs.debug(class_name)
         sys.path.append(file_path)
         try:
             new_module = __import__(file_name, fromlist=[class_name])
@@ -538,7 +526,7 @@ saving: ctrl+s
                 os.remove(file_name)
             file = open(file_name, 'w')
         except FileNotFoundError:
-            rc.Debugger.write('couldn\'t open file')
+            rc.InfoMsgs.write('couldn\'t open file')
             return
 
 
@@ -560,7 +548,7 @@ saving: ctrl+s
                               **scripts_data}
 
         data = json.dumps(whole_project_dict, indent=4)
-        rc.Debugger.write(data)
+        rc.InfoMsgs.write(data)
 
 
         file.write(data)
