@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, Q
     QPushButton
 import inspect
 
-import ryvencore as rc
+import ryvencore_qt as rc
 
 from .EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from .CodePreview_TextEdit import CodePreview_TextEdit

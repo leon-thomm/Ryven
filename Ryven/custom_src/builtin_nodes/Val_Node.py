@@ -4,7 +4,7 @@ from PySide2.QtWidgets import QLineEdit
 
 from NENV import *
 from NWENV import *
-from ryvencore import NodeInput, NodeOutput, MWB, IWB
+from ryvencore_qt import NodeInput, NodeOutput, MWB, IWB
 
 
 class ValNode_MainWidget(MWB, QLineEdit):

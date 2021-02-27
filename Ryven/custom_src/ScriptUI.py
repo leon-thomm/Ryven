@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QWidget, QHBoxLayout, QComboBox
 
-from ryvencore import GUI
+from ryvencore_qt import GUI
 
 from .source_code_preview.CodePreview_Widget import CodePreview_Widget
 from ui.ui_script import Ui_script_widget

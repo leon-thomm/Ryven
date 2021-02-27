@@ -5,7 +5,7 @@ from PySide2.QtWidgets import QLineEdit
 from NENV import *
 from NWENV import *
 
-from ryvencore import Node, NodeInput, NodeOutput, MWB, IWB
+from ryvencore_qt import Node, NodeInput, NodeOutput, MWB, IWB
 
 
 class Result_Node_MainWidget(MWB, QLineEdit):

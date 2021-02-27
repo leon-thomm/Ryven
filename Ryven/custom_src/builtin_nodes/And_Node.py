@@ -1,4 +1,4 @@
-from ryvencore import *
+from ryvencore_qt import *
 from NENV import *
 
 

@@ -16,8 +16,8 @@ from .builtin_nodes.Val_Node import Val_Node
 from .builtin_nodes.GetVar_Node import GetVar_Node
 from .builtin_nodes.SetVar_Node import SetVar_Node
 
-# ryvencore
-import ryvencore as rc
+# ryvencore_qt
+import ryvencore_qt as rc
 # from .code_gen.CodeGenerator import CodeGenerator
 
 

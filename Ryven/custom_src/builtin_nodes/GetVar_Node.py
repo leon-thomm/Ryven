@@ -1,5 +1,5 @@
 from NENV import *
-from ryvencore import Node, NodeInput, NodeOutput
+from ryvencore_qt import Node, NodeInput, NodeOutput
 
 
 class GetVar_Node(Node):

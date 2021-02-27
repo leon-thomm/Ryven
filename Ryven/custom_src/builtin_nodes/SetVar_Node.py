@@ -1,5 +1,5 @@
 from NENV import *
-from ryvencore import Node, NodeInput, NodeOutput
+from ryvencore_qt import Node, NodeInput, NodeOutput
 
 
 class SetVar_Node(Node):
@@ -19,7 +19,7 @@ class SetVar_Node(Node):
     ]
     style = 'extended'
     color = '#c69a15'
-    icon = 'custom_src/builtin_nodes/test.svg'
+    # icon = 'custom_src/builtin_nodes/test.svg'
 
     def __init__(self, params):
         super(SetVar_Node, self).__init__(params)
