@@ -30,20 +30,20 @@ class ExtractProperty_Node(Node):
     def __init__(self, params):
         super(ExtractProperty_Node, self).__init__(params)
 
-        self.special_actions['add param input'] = {'method': M(self.action_add_param_input)}
+        self.special_actions['add param input'] = {'method': self.action_add_param_input}
         self.param_counter = 0
         self.text = ''
 
     def action_add_param_input(self):
         self.param_counter += 1
         self.create_input('data', 'param', widget_name=None, pos=-1)
-        self.special_actions['remove param '+str(self.param_counter)] = {'method': M(self.action_remove_param_input), 'data': self.param_counter}
+        self.special_actions['remove param '+str(self.param_counter)] = {'method': self.action_remove_param_input, 'data': self.param_counter}
 
     def action_remove_param_input(self, data):
         self.delete_input(data)
         del self.special_actions['remove param '+str(self.param_counter)]
         for i in range(1, self.param_counter):
-            self.special_actions['remove param '+str(i)] = {'method': M(self.action_remove_param_input), 'data': i}
+            self.special_actions['remove param '+str(i)] = {'method': self.action_remove_param_input, 'data': i}
         self.param_counter -= 1
 
     def update_event(self, input_called=-1):

@@ -31,7 +31,7 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
+        self.special_actions['hide preview'] = {'method': self.action_hide_mw}
         self.main_widget_hidden = False
 
     def update_event(self, input_called=-1):
@@ -44,14 +44,14 @@ class %CLASS%(Node):
     def action_hide_mw(self):
         self.main_widget().hide()
         del self.special_actions['hide preview']
-        self.special_actions['show preview'] = {'method': M(self.action_show_mw)}
+        self.special_actions['show preview'] = {'method': self.action_show_mw}
         self.main_widget_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
         self.main_widget().show()
         del self.special_actions['show preview']
-        self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
+        self.special_actions['hide preview'] = {'method': self.action_hide_mw}
         self.main_widget_hidden = False
         self.update_shape()
 

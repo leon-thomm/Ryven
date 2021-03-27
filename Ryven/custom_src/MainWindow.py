@@ -53,16 +53,18 @@ class MainWindow(QMainWindow):
 
         self.script_UIs = []
 
-        self.session = rc.Session(
-            threaded=False,
-            flow_theme_name='Ueli',
-            performance_mode='pretty'
-        )
+        if 'info_msgs' in sys.argv:
+            rc.InfoMsgs.enable()
+
+        self.session = rc.Session()
         self.session.design.load_from_config('design_config.json')
+
+        if 'light' in sys.argv:
+            self.session.design.set_flow_theme(name='Samuel 1l')
 
         app = QApplication.instance()
         self.session.set_stylesheet(app.styleSheet())
-        self.session.new_script_created.connect(self.script_created)
+        self.session.script_flow_view_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
         self.session.script_deleted.connect(self.script_deleted)
 
@@ -74,13 +76,14 @@ class MainWindow(QMainWindow):
 
         self.setup_menu_actions()
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
+        self.setWindowIcon(QIcon('../resources/pics/Ryven_icon.png'))
         # self.load_stylesheet('dark')
         self.ui.scripts_tab_widget.removeTab(0)
 
-        f = open('../resources/stylesheets/dark_node_choice_widget.txt')
-        self.session.design.node_selection_stylesheet = f.read()
-        f.close()
+        # f = open('../resources/stylesheets/dark_node_choice_widget.txt')
+        # self.session.design.node_selection_stylesheet = f.read()
+        # f.close()
+        # print(self.session.design.node_selection_stylesheet)
 
 
         if config['config'] == 'create plain new project':
@@ -224,7 +227,9 @@ saving: ctrl+s
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
         # TODO: fix this...
-        img = self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_viewport_img()
+        script = self.ui.scripts_tab_widget.currentWidget().script
+        view = self.session.script_view_assignment[script]
+        img = view.get_viewport_img()
         img.save(file_path)
 
     def on_save_scene_pic_whole_triggered(self):
@@ -233,7 +238,9 @@ saving: ctrl+s
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        img = self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()].flow_view.get_whole_scene_img()
+        script = self.ui.scripts_tab_widget.currentWidget().script
+        view = self.session.script_view_assignment[script]
+        img = view.get_whole_scene_img()
         img.save(file_path)
 
     def on_gen_code_triggered(self):
@@ -247,8 +254,8 @@ saving: ctrl+s
         # print(code)
 
 
-    def script_created(self, script):
-        script_widget = ScriptUI(script)
+    def script_created(self, script, flow_view):
+        script_widget = ScriptUI(script, flow_view)
         self.script_UIs.append(script_widget)
         self.ui.scripts_tab_widget.addTab(script_widget, script.title)
 
@@ -426,12 +433,16 @@ saving: ctrl+s
                 i_widget_name = j_input['widget name']
                 i_widget_pos = j_input['widget position']
 
+                if i_widget_pos == 'under':
+                    i_widget_pos = 'below'
+
             # creating port
-            new_input = rc.NodeInput(
+            new_input = rc.NodeInputBP(
                 type_=i_type,
                 label=i_label,
-                widget=i_widget_name,
-                widget_pos=i_widget_pos
+                add_config={} if not i_widget_name else {'widget name': i_widget_name, 'widget pos': i_widget_pos}
+                # widget=i_widget_name,
+                # widget_pos=i_widget_pos
             )
             # new_input.type_ = i_type
             # new_input.label = i_label
@@ -450,7 +461,7 @@ saving: ctrl+s
             o_label = j_output['label']
 
             # creating port
-            new_output = rc.NodeOutput(
+            new_output = rc.NodeOutputBP(
                 type_=o_type,
                 label=o_label
             )

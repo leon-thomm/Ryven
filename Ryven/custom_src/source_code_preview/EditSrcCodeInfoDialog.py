@@ -15,36 +15,20 @@ class EditSrcCodeInfoDialog(QDialog):
         info_text_edit.setHtml('''
             <h2 style="font-family: Poppins; font-size: xx-large; color: #a9d5ef;">Some info before you delete the
             universe</h2>
-            <div style="font-family: Corbel; font-size: large;">
-
-            <p>Yes, you can change method implementations of objects.
-            This can be an extremely powerful feature! Especially when trying to understand nodes more 
-            deeply, when creating new nodes and for debugging. But since changing an instance's implementation
-            at runtime is pretty deep stuff, you should be a bit careful, this feature is not exactly bulletproof.
-            This is what you can do:
-            <ul>
-                <li>You can edit the implementation of existing custom methods of...</li>
-                <li>And you can add new methods to...</li>
-            </ul>
-            ... any <i>object</i> (a placed node and all its widgets). Other nodes of the same type won't be affected.
-            </p>
-            <p>
-            <b>You can write any code that would be valid in the class's original source file.</b> If you defined some further
-            classes in the metacode file, for example, you can still totally use them here.
-            <br>
-            There is just one issue that you may want to consider:
-            <br>
-            If you edit a method that gets called somewhere and you cannot see any effect, it may be due to a
-            problem in the class's implementation that you are editing. Because whenever a reference of a <i>method</i>
-            is used (like
-            <i>self.print_something</i>, e.g. for connecting Qt signals to
-            slots or in the <i>special_actions</i> dict),
-            instead of directly using the object, it should be passed using M() (<i>M(self.print_something)</i>)
-            which ensures that a referenced and edited method gets called correctly.
-            Otherwise the method reference would always link to the original method, not the edited one.
-            <br><br>
-            Have fun.
-            </p>
+            <div style="font-family: Corbel; font-size: x-large;">
+                <p>
+                    Yes, you can change method implementations of objects.
+                    This can be quite useful for understanding a node's implementation, for designing new nodes 
+                    and for debugging. But since changing an instance's implementation at runtime is kinda sketchy, 
+                    you should be a bit careful, this feature is not exactly bulletproof, and doesnt <i>always</i> work.
+                    You can override implementations of methods and add new methods to a single node object
+                    or its custom widgets.
+                    Other nodes of the same type won't be affected.
+                    Changes made to the source code are temporary and don't get saved.
+                </p>
+                <p>
+                    Have fun.
+                </p>
             </div>
         ''')
         info_text_edit.setReadOnly(True)

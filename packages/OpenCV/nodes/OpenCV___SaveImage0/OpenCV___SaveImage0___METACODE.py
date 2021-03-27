@@ -39,7 +39,7 @@ class %CLASS%(Node):
         self.img = None
 
     def place_event(self):
-        self.set_path_text_triggered.connect(M(self.main_widget().set_path_text))
+        self.set_path_text_triggered.connect(self.main_widget().set_path_text)
 
     def update_event(self, input_called=-1):
         if input_called != 0:

@@ -27,11 +27,11 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['start'] = {'method': M(self.action_start)}
-        self.special_actions['stop'] = {'method': M(self.action_stop)}
+        self.special_actions['start'] = {'method': self.action_start}
+        self.special_actions['stop'] = {'method': self.action_stop}
 
         self.timer = QTimer(self)
-        self.timer.timeout.connect(M(self.timeouted))
+        self.timer.timeout.connect(self.timeouted)  # TODO: use sth else than QTimer
 
     def place_event(self):
         self.input_widget(0).val_changed.connect(self.update_timer_interval)

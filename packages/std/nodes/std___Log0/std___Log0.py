@@ -25,9 +25,9 @@ class Log_Node(Node):
     def __init__(self, params):
         super(Log_Node, self).__init__(params)
 
-        self.special_actions['add target option'] = {'method': M(self.action_add_target_option)}
+        self.special_actions['add target option'] = {'method': self.action_add_target_option}
         self.log = self.new_log('Log Node Log')
-        self.default_target = 'personal'
+        self.default_target = 'own'
         self.showing_target_option = False
 
         self.target = self.default_target
@@ -38,7 +38,7 @@ class Log_Node(Node):
         self.add_target_option()
 
     def add_target_option(self):
-        self.special_actions['remove target option'] = {'method': M(self.action_remove_target_option)}
+        self.special_actions['remove target option'] = {'method': self.action_remove_target_option}
         self.create_input('data', 'target', widget_name='LogTargetComboBox', widget_pos='besides')
         self.showing_target_option = True
 
@@ -47,14 +47,14 @@ class Log_Node(Node):
         self.remove_target_option()
 
     def remove_target_option(self):
-        self.special_actions['add target option'] = {'method': M(self.action_add_target_option)}
+        self.special_actions['add target option'] = {'method': self.action_add_target_option}
         self.delete_input(-1)
         self.target = self.default_target
         self.showing_target_option = False
 
     def update_event(self, input_called=-1):
         if input_called == 0:
-            if self.target == 'personal':
+            if self.target == 'own':
                 self.log.write(self.input(1))
             else:
                 self.log_message(self.input(1), target=self.target)

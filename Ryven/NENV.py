@@ -1,13 +1,13 @@
-"""This file automatically imports all requirements for custom Nodes, so that they only need to import this
-file. This file should lie in the same location as Ryven.py in order to be able to get imported directly."""
+"""This file automatically imports all requirements for custom nodes.
+It should lie in the same location as Ryven.py so it can get imported directly from the custom sources."""
 
-from ryvencore_qt import Node, Retain
-M = Retain.M
-
-from os.path import normpath, join, dirname, abspath
+from ryvencore_qt import Node
 
 from PySide2.QtCore import Signal
 
 
-def ni_pp(f):
+from os.path import normpath, join, dirname, abspath
+def node_pp(f):
     return normpath(join(dirname(abspath(f)), '../../'))
+def ni_pp(f):  # old signature
+    return node_pp(f)

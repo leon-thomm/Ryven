@@ -22,7 +22,7 @@ class CaptureVideo_Node(Node):
 
 
     def place_event(self):
-        self.new_img.connect(M(self.main_widget().show_image))
+        self.new_img.connect(self.main_widget().show_image)
 
 
     def update_event(self, input_called=-1):

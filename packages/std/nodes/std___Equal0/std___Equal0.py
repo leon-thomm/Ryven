@@ -17,7 +17,7 @@ class Equal_Node(Node):
     def __init__(self, params):
         super(Equal_Node, self).__init__(params)
 
-        self.special_actions['add input'] = {'method': M(self.action_add_input)}
+        self.special_actions['add input'] = {'method': self.action_add_input}
         self.enlargement_state = 0
 
 

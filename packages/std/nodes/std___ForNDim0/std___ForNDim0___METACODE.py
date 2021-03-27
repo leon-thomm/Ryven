@@ -16,7 +16,7 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['add dimension'] = {'method': M(self.action_add_dimension)}
+        self.special_actions['add dimension'] = {'method': self.action_add_dimension}
 
         self.dimensions = 1
 
@@ -46,7 +46,7 @@ class %CLASS%(Node):
         self.dimensions += 1
 
 
-        self.special_actions['remove dimension'] = {'method': M(self.action_remove_dimension)}
+        self.special_actions['remove dimension'] = {'method': self.action_remove_dimension}
 
     def action_remove_dimension(self):
         self.delete_input(-1)

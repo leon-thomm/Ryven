@@ -22,7 +22,7 @@ class TimeDelaySlider_PortInstanceWidget(QSlider, IWB):
         self.setMinimum(0)
         self.setMaximum(100000)
         self.setSingleStep(1)
-        self.valueChanged.connect(M(self.slider_val_changed))
+        self.valueChanged.connect(self.slider_val_changed)
 
 
     def slider_val_changed(self, v):

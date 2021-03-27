@@ -17,14 +17,14 @@ class Unequal_Node(Node):
     def __init__(self, params):
         super(Unequal_Node, self).__init__(params)
 
-        self.special_actions['add input'] = {'method': M(self.action_add_input)}
+        self.special_actions['add input'] = {'method': self.action_add_input}
         self.enlargement_state = 0
 
 
     def action_add_input(self):
         self.create_input('data', '', widget_name='std line edit s r nb', widget_pos='besides')
         self.enlargement_state += 1
-        self.special_actions['remove input'] = {'method': M(self.action_remove_input)}
+        self.special_actions['remove input'] = {'method': self.action_remove_input}
 
 
     def action_remove_input(self):

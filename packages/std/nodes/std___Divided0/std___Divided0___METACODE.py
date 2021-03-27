@@ -17,7 +17,7 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['add input'] = {'method': M(self.action_add_input)}
+        self.special_actions['add input'] = {'method': self.action_add_input}
         self.num_inputs = 2
 
 
@@ -30,7 +30,7 @@ class %CLASS%(Node):
     def action_add_input(self):
         self.create_new_input('data', '', widget_name='std line edit s r nb', widget_pos='besides')
         self.num_inputs += 1
-        self.special_actions['remove input'] = {'method': M(self.action_remove_input)}
+        self.special_actions['remove input'] = {'method': self.action_remove_input}
 
     def action_remove_input(self):
         self.delete_input(self.inputs[-1])

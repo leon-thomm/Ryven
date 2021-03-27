@@ -22,10 +22,8 @@ class SrcCodeUpdater:
         # extracting the class
         new_obj_class = getattr(module, type(obj).__name__)
 
-        # get all custom method names (string list)
-        method_names = [func for func in dir(new_obj_class)
-                        if callable(getattr(new_obj_class, func)) and not func.startswith("__")]
-
-        for m in method_names:
-            method = getattr(new_obj_class, m)  # get actual method object
-            setattr(obj, m, types.MethodType(method, obj))  # override the original method or add if not existing yet
+        # get all custom methods/functions from the new class and override/add them in obj
+        methods = inspect.getmembers(new_obj_class, predicate=inspect.ismethod)
+        functions = inspect.getmembers(new_obj_class, predicate=inspect.isfunction)
+        for m_name, m_obj in methods + functions:
+            setattr(obj, m_name, types.MethodType(m_obj, obj))

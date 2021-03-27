@@ -22,7 +22,7 @@ class %CLASS%(QLineEdit, IWB):
 
         self.setFont(QFont('Corbel', 10))
 
-        self.textChanged.connect(M(self.email_text_changed))
+        self.textChanged.connect(self.email_text_changed)
 
 
     def email_text_changed(self, new_text):

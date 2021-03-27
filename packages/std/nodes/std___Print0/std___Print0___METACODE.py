@@ -11,9 +11,9 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['print something 1'] = {'method': M(self.print_something),
+        self.special_actions['print something 1'] = {'method': self.print_something,
                                                      'data': 'hello!!'}
-        self.special_actions['print something 2'] = {'method': M(self.print_something),
+        self.special_actions['print something 2'] = {'method': self.print_something,
                                                      'data': 'HELLOO!?!?!?'}
 
 

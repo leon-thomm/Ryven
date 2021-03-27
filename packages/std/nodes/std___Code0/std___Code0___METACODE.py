@@ -25,8 +25,8 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['add exec input'] = {'method': M(self.action_add_exec_input)}
-        self.special_actions['add data input'] = {'method': M(self.action_add_data_input)}
+        self.special_actions['add exec input'] = {'method': self.action_add_exec_input}
+        self.special_actions['add data input'] = {'method': self.action_add_data_input}
 
         self.num_scripts = 1
         self.num_data_inputs = 0
@@ -39,7 +39,7 @@ class %CLASS%(Node):
         print('node before:', self.main_widget().height())
         self.main_widget().add_new_script()  # shape gets updated in main_widget
         print('node after:', self.main_widget().height())
-        self.special_actions['remove exec input'] = {'method': M(self.action_remove_exec_input)}
+        self.special_actions['remove exec input'] = {'method': self.action_remove_exec_input}
 
     def action_remove_exec_input(self):
         self.delete_input(self.num_scripts-1)
@@ -52,7 +52,7 @@ class %CLASS%(Node):
     def action_add_data_input(self):
         self.num_data_inputs += 1
         self.create_new_input('data', '')
-        self.special_actions['remove data input'] = {'method': M(self.action_remove_data_input)}
+        self.special_actions['remove data input'] = {'method': self.action_remove_data_input}
 
     def action_remove_data_input(self):
         self.delete_input(-1)

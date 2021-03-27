@@ -15,19 +15,13 @@ class StartupDialog(QDialog):
         info_text_edit = QTextEdit()
         info_text_edit.setHtml('''
             <h2 style="font-family: Courier New; font-size: xx-large; color: #a9d5ef;">Welcome to Ryven</h2>
-            <div style="font-family: Corbel; font-size: large;">
+            <div style="font-family: Corbel; font-size: x-large;">
             
-            <p><img style="float:right;" height=150 src="../resources/pics/program_icon2_light.png">Hi,
-            I am Leon, the creator of Ryven. Please always keep in mind, that this
-            is not a professional piece of software. Don\'t forget to save! :)
-            I am sure there are bugs and problems but as long as you keep behaving
-            as intended, you shouldn\'t get into too much trouble.
-            <br>
-            Note that this software uses Qt
-            which is not free for commercial use. All rights remain to their lawful owners.
-            All Ryven source code is written by me.
-            <br>
-            Enjoy!</p>
+            <p><img style="float:right;" height=120 src="../resources/pics/Ryven_icon_blurred.png">Hey,
+            it's Leon, the creator of Ryven. Keep in mind, that this
+            is not a professional piece of software. Don\'t forget to save!
+            There are fore sure some bugs, but as long as you keep behaving
+            as intended, you shouldn\'t get into too much trouble. Have fun!</p>
             <br>
             <br>
             Please select a mode to start the editor with. You can either create a plain new
@@ -38,7 +32,7 @@ class StartupDialog(QDialog):
         layout.addWidget(info_text_edit)
 
         # buttons
-        plain_project_push_button = QPushButton('create new plain project')
+        plain_project_push_button = QPushButton('create new project')
         plain_project_push_button.setFocus()
         plain_project_push_button.clicked.connect(self.plain_project_button_clicked)
         load_project_push_button = QPushButton('load project')
@@ -53,8 +47,8 @@ class StartupDialog(QDialog):
         self.setLayout(layout)
 
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('../resources/pics/program_icon2.png'))
-        self.setFixedSize(500, 280)
+        self.setWindowIcon(QIcon('../resources/pics/Ryven_icon.png'))
+        self.setFixedSize(550, 300)
 
         self.editor_startup_configuration = {}
 

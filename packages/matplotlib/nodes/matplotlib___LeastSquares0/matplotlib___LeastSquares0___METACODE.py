@@ -29,12 +29,12 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['use data instead'] = {'method': M(self.action_use_data)}
+        self.special_actions['use data instead'] = {'method': self.action_use_data}
         self.using_function = True
 
     def action_use_data(self):
         del self.special_actions['use data instead']
-        self.special_actions['use func instead'] = {'method': M(self.action_use_func)}
+        self.special_actions['use func instead'] = {'method': self.action_use_func}
         
         self.delete_input(0)
         self.delete_input(0)
@@ -46,7 +46,7 @@ class %CLASS%(Node):
 
     def action_use_func(self):
         del self.special_actions['use func instead']
-        self.special_actions['use data instead'] = {'method': M(self.action_use_data)}
+        self.special_actions['use data instead'] = {'method': self.action_use_data}
         
         self.delete_input(0)
         

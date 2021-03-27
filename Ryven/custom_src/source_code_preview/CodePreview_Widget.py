@@ -140,11 +140,13 @@ class CodePreview_Widget(QWidget):
 
             # data input widgets
             count = 0
-            for inp in obj.inputs:
-                if inp.item.widget is not None:
-                    inp_widget_class_RB = QRadioButton('Input '+str(obj.inputs.index(inp)))
+            for i in range(len(obj.inputs)):
+                inp_widget = obj.input_widget(i)
+
+                if inp_widget:
+                    inp_widget_class_RB = QRadioButton('Input '+str(i))
                     inp_widget_class_RB.toggled.connect(self.class_RB_toggled)
-                    self.buttons_obj_dict[inp_widget_class_RB] = inp.item.widget
+                    self.buttons_obj_dict[inp_widget_class_RB] = inp_widget
                     self.class_selection_layout.addWidget(inp_widget_class_RB, 0, 1+count)
                     count += 1
 

@@ -13,30 +13,30 @@ class %CLASS%(QSlider, MWB):
         QSlider.__init__(self, Qt.Horizontal)
 
         
-        self.setStyleSheet('''
-QSlider {
-    background: transparent;
-}
+#         self.setStyleSheet('''
+# QSlider {
+#     background: transparent;
+# }
+#
+# QSlider::groove:horizontal {
+#     border: 1px solid #6bbef2;
+#     background: rgba(59, 156, 217, 100);
+#     height: 8px;
+#     margin: 2px 0;
+#     border-radius: 3px;
+# }
+#
+# QSlider::handle:horizontal {
+#     background: rgba(59, 156, 217, 200);
+#     border: 2px solid #ffffff;
+#     width: 15px;
+#     height: 15px;
+#     margin: -4px 0;
+#     border-radius: 5px;
+# }
+#         ''')
 
-QSlider::groove:horizontal {
-    border: 1px solid #6bbef2;
-    background: rgba(59, 156, 217, 100);
-    height: 8px;
-    margin: 2px 0;
-    border-radius: 3px;
-}
-
-QSlider::handle:horizontal {
-    background: rgba(59, 156, 217, 200);
-    border: 2px solid #ffffff;
-    width: 15px;
-    height: 15px;
-    margin: -4px 0;
-    border-radius: 5px;
-}
-        ''')
-
-        self.valueChanged.connect(M(self.val_changed))
+        self.valueChanged.connect(self.val_changed)
         self.setMinimum(0)
         self.setMaximum(100)
 

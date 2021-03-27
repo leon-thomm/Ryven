@@ -1,5 +1,5 @@
 from NENV import *
-from ryvencore_qt import Node, NodeInput, NodeOutput
+from ryvencore_qt import Node, NodeInputBP, NodeOutputBP
 
 
 class SetVar_Node(Node):
@@ -7,24 +7,24 @@ class SetVar_Node(Node):
     title = 'set var'
     description = 'sets the value of a script variable'
     init_inputs = [
-        NodeInput(type_='exec'),
-        NodeInput(type_='data', label='var',
-                 widget='std line edit m', widget_pos='besides'),
-        NodeInput(type_='data', label='val',
-                 widget='std line edit m', widget_pos='besides')
+        NodeInputBP(type_='exec'),
+        NodeInputBP(type_='data', label='var', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
+                 # widget='std line edit m', widget_pos='besides'),
+        NodeInputBP(type_='data', label='val', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
+                 # widget='std line edit m', widget_pos='besides')
     ]
     init_outputs = [
-        NodeOutput(type_='exec'),
-        NodeOutput(type_='data', label='val')
+        NodeOutputBP(type_='exec'),
+        NodeOutputBP(type_='data', label='val')
     ]
     style = 'extended'
     color = '#c69a15'
-    # icon = 'custom_src/builtin_nodes/test.svg'
+    icon = 'custom_src/builtin_nodes/test.svg'
 
     def __init__(self, params):
         super(SetVar_Node, self).__init__(params)
 
-        self.special_actions['make passive'] = {'method': M(self.action_make_passive)}
+        self.special_actions['make passive'] = {'method': self.action_make_passive}
         self.active = True
 
         self.var_name = ''
@@ -46,14 +46,14 @@ class SetVar_Node(Node):
         self.delete_input(0)
         self.delete_output(0)
         del self.special_actions['make passive']
-        self.special_actions['make active'] = {'method': M(self.action_make_active)}
+        self.special_actions['make active'] = {'method': self.action_make_active}
 
     def action_make_active(self):
         self.active = True
         self.create_input('exec', '', pos=0)
         self.create_output('exec', '', pos=0)
         del self.special_actions['make active']
-        self.special_actions['make passive'] = {'method': M(self.action_make_passive)}
+        self.special_actions['make passive'] = {'method': self.action_make_passive}
 
     def get_data(self):
         return {'active': self.active}

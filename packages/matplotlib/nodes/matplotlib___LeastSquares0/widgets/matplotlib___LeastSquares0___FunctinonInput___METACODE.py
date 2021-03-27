@@ -21,7 +21,7 @@ QTextEdit{
         ''')
         self.base_width = 200
         self.setFixedWidth(self.base_width)
-        self.textChanged.connect(M(self.text_changed))
+        self.textChanged.connect(self.text_changed)
         self.setFont(QFont('source code pro'))
 
 

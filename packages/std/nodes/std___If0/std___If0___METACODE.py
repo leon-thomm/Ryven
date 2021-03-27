@@ -17,7 +17,7 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['add else if'] = {'method': M(self.action_add_else_if)}
+        self.special_actions['add else if'] = {'method': self.action_add_else_if}
         self.else_if_enlargement_state = 0
 
 
@@ -25,7 +25,7 @@ class %CLASS%(Node):
         self.create_new_input('data', 'condition '+str(self.else_if_enlargement_state+1), widget_name='std line edit m', widget_pos='under')
         self.create_new_output('exec', 'elif '+str(self.else_if_enlargement_state+1), pos=len(self.outputs)-1)
         self.else_if_enlargement_state += 1
-        self.special_actions['remove else if'] = {'method': M(self.action_remove_else_if)}
+        self.special_actions['remove else if'] = {'method': self.action_remove_else_if}
 
 
     def action_remove_else_if(self):

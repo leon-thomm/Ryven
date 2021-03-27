@@ -20,8 +20,9 @@ class ReadImage_Node(Node):
         self.img = None
     
     def place_event(self):
-        self.input_widget(0).path_chosen.connect(self.path_chosen)
-        self.main_widget_message.connect(self.main_widget().show_path)
+        if self.session.gui:
+            self.input_widget(0).path_chosen.connect(self.path_chosen)
+            self.main_widget_message.connect(self.main_widget().show_path)
 
 
     def update_event(self, input_called=-1):
@@ -43,7 +44,8 @@ class ReadImage_Node(Node):
         return data
 
     def set_data(self, data):
-        self.image_filepath = data['image file path']
+        self.path_chosen(data['image file path'])
+        # self.image_filepath = data['image file path']
 
     def path_chosen(self, file_path):
         self.image_filepath = file_path

@@ -15,11 +15,11 @@ class %CLASS%(QLabel, MWB):
         self.img_filepath = ''
         self.resize(140, 15)
 
-        self.setStyleSheet('''
-            color: #bbbbbb;
-            background: transparent;
-            border: none;
-        ''')
+        # self.setStyleSheet('''
+        #     color: #bbbbbb;
+        #     background: transparent;
+        #     border: none;
+        # ''')
 
     def show_path(self, path):
         self.img_filepath = path

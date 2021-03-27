@@ -20,8 +20,10 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     # apply style
-    # qt_material.apply_stylesheet(app, theme='light_ryven.xml', invert_secondary=True)
-    qt_material.apply_stylesheet(app, theme='dark_ryven.xml')
+    if 'light' in sys.argv:
+        qt_material.apply_stylesheet(app, theme='light_ryven.xml', invert_secondary=True)
+    else:
+        qt_material.apply_stylesheet(app, theme='dark_ryven.xml')
 
     # THIS DOESNT WORK... -.-
     # f = open('ui/custom__material.css.template')

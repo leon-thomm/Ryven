@@ -10,11 +10,11 @@ class %CLASS%(QComboBox, IWB):
         IWB.__init__(self, params)
         QComboBox.__init__(self)
 
-        self.addItem('personal')
-        self.addItem('global')
-        self.addItem('error')
+        self.addItem('own')
+        self.addItem('Global')
+        self.addItem('Errors')
 
-        self.currentTextChanged.connect(M(self.text_changed))
+        self.currentTextChanged.connect(self.text_changed)
         self.setCurrentText('personal')
 
         self.setStyleSheet(self.parent_node_instance.session_stylesheet())

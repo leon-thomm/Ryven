@@ -12,18 +12,18 @@ class %CLASS%(QPushButton, IWB):
     def __init__(self, params):
         IWB.__init__(self, params)
         QPushButton.__init__(self, "Select")
-        self.setStyleSheet('''
-            color: #cccccc;
-            border-radius: 5px;
-            border: 1px solid #aaaaaa;
-            padding-top: 3px;
-            padding-bottom: 3px;
-            padding-left: 25px;
-            padding-right: 25px;
-            background: transparent;
-        ''')
+        # self.setStyleSheet('''
+        #     color: #cccccc;
+        #     border-radius: 5px;
+        #     border: 1px solid #aaaaaa;
+        #     padding-top: 3px;
+        #     padding-bottom: 3px;
+        #     padding-left: 25px;
+        #     padding-right: 25px;
+        #     background: transparent;
+        # ''')
 
-        self.clicked.connect(M(self.button_clicked))
+        self.clicked.connect(self.button_clicked)
 
     def button_clicked(self):
         file_path = QFileDialog.getOpenFileName(self, 'Select image')[0]

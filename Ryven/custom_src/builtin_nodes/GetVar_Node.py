@@ -1,5 +1,5 @@
 from NENV import *
-from ryvencore_qt import Node, NodeInput, NodeOutput
+from ryvencore_qt import Node, NodeInputBP, NodeOutputBP
 
 
 class GetVar_Node(Node):
@@ -7,10 +7,10 @@ class GetVar_Node(Node):
     title = 'get var'
     description = 'get the value of a script variable'
     init_inputs = [
-        NodeInput(type_='data', widget='std line edit', widget_pos='besides')
+        NodeInputBP(type_='data', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
     ]
     init_outputs = [
-        NodeOutput(type_='data', label='val')
+        NodeOutputBP(type_='data', label='val')
     ]
     style = 'extended'
     color = '#c69a15'
@@ -22,6 +22,9 @@ class GetVar_Node(Node):
         self.var_name = ''
         self.temp_var_val = None
 
+    def place_event(self):
+        self.update()
+
     def update_event(self, input_called=-1):
         if self.input(0) != self.var_name:
 
@@ -31,7 +34,7 @@ class GetVar_Node(Node):
             self.var_name = self.input(0)
 
             # create new var update connection
-            self.register_var_receiver(self.var_name, M(self.var_val_changed))
+            self.register_var_receiver(self.var_name, self.var_val_changed)
 
             val = self.get_var_val(self.input(0))
             if val is not None:
@@ -41,6 +44,7 @@ class GetVar_Node(Node):
 
         else:  # ->> value changed!
             self.set_output_val(0, self.get_var_val(self.var_name))
+
 
     def var_val_changed(self, name, val):
         self.update()

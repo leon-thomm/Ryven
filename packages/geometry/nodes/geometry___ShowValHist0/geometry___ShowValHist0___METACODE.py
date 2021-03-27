@@ -17,7 +17,7 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['reset'] = {'method': M(self.action_reset)}
+        self.special_actions['reset'] = {'method': self.action_reset}
         self.values = []
 
     def action_reset(self):

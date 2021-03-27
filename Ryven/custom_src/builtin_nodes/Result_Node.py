@@ -5,7 +5,7 @@ from PySide2.QtWidgets import QLineEdit
 from NENV import *
 from NWENV import *
 
-from ryvencore_qt import Node, NodeInput, NodeOutput, MWB, IWB
+from ryvencore_qt import Node, NodeInputBP, NodeOutputBP, MWB, IWB
 
 
 class Result_Node_MainWidget(MWB, QLineEdit):
@@ -48,7 +48,7 @@ class Result_Node(Node):
     title = 'result'
     description = 'displays a value converted to string'
     init_inputs = [
-        NodeInput(type_='data')
+        NodeInputBP(type_='data')
     ]
     main_widget_class = Result_Node_MainWidget
     main_widget_pos = 'between ports'
@@ -59,7 +59,8 @@ class Result_Node(Node):
         super(Result_Node, self).__init__(params)
 
     def update_event(self, input_called=-1):
-        self.main_widget().show_val(self.input(0))
+        if self.item:
+            self.main_widget().show_val(self.input(0))
 
     def get_data(self):
         data = {}

@@ -4,7 +4,7 @@ from PySide2.QtWidgets import QLineEdit
 
 from NENV import *
 from NWENV import *
-from ryvencore_qt import NodeInput, NodeOutput, MWB, IWB
+from ryvencore_qt import *
 
 
 class ValNode_MainWidget(MWB, QLineEdit):
@@ -56,7 +56,7 @@ class Val_Node(Node):
     title = 'val'
     description = 'returns the evaluated value that is typed into the input field'
     init_outputs = [
-        NodeInput(type_='data')
+        NodeInputBP(type_='data')
     ]
     main_widget_class = ValNode_MainWidget
     main_widget_pos = 'between ports'
@@ -66,23 +66,23 @@ class Val_Node(Node):
     def __init__(self, params):
         super(Val_Node, self).__init__(params)
 
-        self.special_actions['edit val via dialog'] = {'method': M(self.action_edit_via_dialog)}
-        self.main_widget_val = None
+        self.special_actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
+        self.val = None
 
     def place_event(self):
         self.main_widget().value_changed.connect(self.main_widget_val_changed)
 
     def main_widget_val_changed(self, val):
-        self.main_widget_val = val
+        self.val = val
         self.update()
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, self.main_widget().get_val())
+        self.set_output_val(0, self.val)
 
     def action_edit_via_dialog(self):
         from ..EditVal_Dialog import EditVal_Dialog
 
-        val_dialog = EditVal_Dialog(parent=None, init_val=self.main_widget_val)
+        val_dialog = EditVal_Dialog(parent=None, init_val=self.val)
         accepted = val_dialog.exec_()
         if accepted:
             self.main_widget().setText(str(val_dialog.get_val()))
@@ -92,10 +92,12 @@ class Val_Node(Node):
         return self.input(0)
 
     def get_data(self):
-        return {}
+        return {
+            'val': self.main_widget().get_val()
+        }
 
     def set_data(self, data):
-        pass
+        self.val = data['val']
 
     def remove_event(self):
         pass

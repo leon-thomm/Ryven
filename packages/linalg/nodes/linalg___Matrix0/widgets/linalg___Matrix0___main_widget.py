@@ -13,7 +13,7 @@ class Matrix_Node_MainWidget(matrix_widget.MatrixWidget):
 
         self.setReadOnly(False)
 
-        self.textChanged.connect(M(self.text_changed))
+        self.textChanged.connect(self.text_changed)
 
 
     def text_changed(self):

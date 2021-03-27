@@ -25,7 +25,7 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-        self.special_actions['add size input'] = {'method': M(self.action_add_size_input)}
+        self.special_actions['add size input'] = {'method': self.action_add_size_input}
         self.size_input_shown = False
 
 
@@ -42,14 +42,14 @@ class %CLASS%(Node):
     def action_add_size_input(self):
         self.create_new_input('data', 'size', widget_name='std spin box', widget_pos='besides')
         del self.special_actions['add size input']
-        self.special_actions['remove size input'] = {'method': M(self.action_remove_size_input)}
+        self.special_actions['remove size input'] = {'method': self.action_remove_size_input}
         self.size_input_shown = True
 
 
     def action_remove_size_input(self):
         self.delete_input(-1)
         del self.special_actions['remove size input']
-        self.special_actions['add size input'] = {'method': M(self.action_add_size_input)}
+        self.special_actions['add size input'] = {'method': self.action_add_size_input}
         self.size_input_shown = False
 
 

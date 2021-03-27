@@ -31,7 +31,7 @@ class ShowMatrix_Node(Node):
     def __init__(self, params):
         super(ShowMatrix_Node, self).__init__(params)
 
-        self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
+        self.special_actions['hide preview'] = {'method': self.action_hide_mw}
         self.main_widget_hidden = False
         self.accessed_columns = []
         self.accessed_rows = []
@@ -57,7 +57,7 @@ class ShowMatrix_Node(Node):
             rows_access = {}
             context_rows = set([j for j in range(matrix.shape[0])]) - set(self.accessed_rows)
             for i in context_rows:    # only show row access options for those wo are not used yet
-                rows_access['access row '+str(i)] = {'method': M(self.add_row_access),
+                rows_access['access row '+str(i)] = {'method': self.add_row_access,
                                                       'data': i}
             self.special_actions['add row access'] = rows_access
         elif self.special_actions.__contains__('add row access'):
@@ -67,7 +67,7 @@ class ShowMatrix_Node(Node):
             columns_access = {}
             context_columns = set([j for j in range(matrix.shape[1])]) - set(self.accessed_columns)
             for i in context_columns:    # # only show column access options for those wo are not used yet
-                columns_access['access column '+str(i)] = {'method': M(self.add_column_access),
+                columns_access['access column '+str(i)] = {'method': self.add_column_access,
                                                            'data': i}
             self.special_actions['add col access'] = columns_access
         elif self.special_actions.__contains__('add col access'):
@@ -80,7 +80,7 @@ class ShowMatrix_Node(Node):
         self.create_output('data', 'row '+str(row_index), pos=sorted(self.accessed_rows).index(row_index)+1)
         
         remove_actions = self.special_actions['remove output'] if self.special_actions.__contains__('remove output') else {}
-        remove_actions['row '+str(row_index)] = {'method': M(self.remove_row_access),
+        remove_actions['row '+str(row_index)] = {'method': self.remove_row_access,
                                                  'data': row_index}
         self.special_actions['remove output'] = remove_actions
 
@@ -90,7 +90,7 @@ class ShowMatrix_Node(Node):
         self.create_output('data', 'col '+str(col_index), pos=1+len(self.accessed_rows)+sorted(self.accessed_columns).index(col_index))
         
         remove_actions = self.special_actions['remove output'] if self.special_actions.__contains__('remove output') else {}
-        remove_actions['col '+str(col_index)] = {'method': M(self.remove_col_access),
+        remove_actions['col '+str(col_index)] = {'method': self.remove_col_access,
                                                  'data': col_index}
         self.special_actions['remove output'] = remove_actions
 
@@ -109,14 +109,14 @@ class ShowMatrix_Node(Node):
     def action_hide_mw(self):
         self.main_widget().hide()
         del self.special_actions['hide preview']
-        self.special_actions['show preview'] = {'method': M(self.action_show_mw)}
+        self.special_actions['show preview'] = {'method': self.action_show_mw}
         self.main_widget_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
         self.main_widget().show()
         del self.special_actions['show preview']
-        self.special_actions['hide preview'] = {'method': M(self.action_hide_mw)}
+        self.special_actions['hide preview'] = {'method': self.action_hide_mw}
         self.main_widget_hidden = False
         self.update_shape()
 

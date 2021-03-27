@@ -33,19 +33,19 @@ class RandInts_Node(Node):
         super(RandInts_Node, self).__init__(params)
 
         
-        self.special_actions['make executable'] = {'method': M(self.action_make_executable)}
+        self.special_actions['make executable'] = {'method': self.action_make_executable}
         self.active = False
 
     def action_make_executable(self):
         del self.special_actions['make executable']
-        self.special_actions['make passve'] = {'method': M(self.action_make_passive)}
+        self.special_actions['make passve'] = {'method': self.action_make_passive}
         self.create_input('exec', '', pos=0)
         self.create_output('exec', '', pos=0)
         self.active = True
     
     def action_make_passive(self):
         del self.special_actions['make passve']
-        self.special_actions['make executable'] = {'method': M(self.action_make_executable)}
+        self.special_actions['make executable'] = {'method': self.action_make_executable}
         self.delete_input(0)
         self.delete_output(0)
         self.active = False

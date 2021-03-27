@@ -30,7 +30,7 @@ class Checkpoint_Node(Node):
     def __init__(self, params):
         super(Checkpoint_Node, self).__init__(params)
 
-        self.special_actions['make exec'] = {'method': M(self.action_make_exec)}
+        self.special_actions['make exec'] = {'method': self.action_make_exec}
         self.passive = True
         self.num_exec_outputs = 0
 
@@ -40,14 +40,14 @@ class Checkpoint_Node(Node):
         self.delete_output(0)
         self.create_input('exec', '')
         del self.special_actions['make exec']
-        self.special_actions['make data'] = {'method': M(self.action_make_data)}
-        self.special_actions['add sequence output'] = {'method': M(self.action_add_sequence_output)}
+        self.special_actions['make data'] = {'method': self.action_make_data}
+        self.special_actions['add sequence output'] = {'method': self.action_add_sequence_output}
         self.action_add_sequence_output()
     
     def action_add_sequence_output(self):
         self.create_output('exec', '')
         self.num_exec_outputs += 1
-        self.special_actions['remove output '+str(self.num_exec_outputs)] = {'method': M(self.action_remove_sequence_output),
+        self.special_actions['remove output '+str(self.num_exec_outputs)] = {'method': self.action_remove_sequence_output,
                                                                              'data': self.num_exec_outputs-1}  # -1 because index
     def action_remove_sequence_output(self, index):
         self.delete_output(index)
@@ -57,7 +57,7 @@ class Checkpoint_Node(Node):
             del self.special_actions['remove output '+str(i+1)]
         self.num_exec_outputs -= 1
         for i in range(self.num_exec_outputs):
-            self.special_actions['remove output '+str(i+1)] = {'method': M(self.action_remove_sequence_output),
+            self.special_actions['remove output '+str(i+1)] = {'method': self.action_remove_sequence_output,
                                                                'data': i}
     
     def action_make_data(self):
@@ -71,7 +71,7 @@ class Checkpoint_Node(Node):
         self.create_output('data', '')
         del self.special_actions['make data']
         del self.special_actions['add sequence output']
-        self.special_actions['make exec'] = {'method': M(self.action_make_exec)}
+        self.special_actions['make exec'] = {'method': self.action_make_exec}
 
     def update_event(self, input_called=-1):
         if self.passive:

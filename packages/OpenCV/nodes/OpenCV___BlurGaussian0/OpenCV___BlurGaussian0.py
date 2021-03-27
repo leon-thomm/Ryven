@@ -22,7 +22,7 @@ class BlurGaussian_Node(Node):
         self.img_blurred = None
 
     def place_event(self):
-        self.new_img_computed.connect(M(self.main_widget().show_image))
+        self.new_img_computed.connect(self.main_widget().show_image)
 
     def update_event(self, input_called=-1):
         self.img_unblurred = self.input(0)
