@@ -8,18 +8,17 @@ from PySide2.QtGui import QTextCharFormat, QBrush, QColor, QFont
 
 
 class MainConsole(QWidget):
-    """Complete console interpreter.
-    One instance will be created at the end of this file, when being imported in Ryven.py."""
+    """Interpreter with interactive console."""
 
     def __init__(
             self,
             history: int = 100,     # max lines in history buffer
-            blockcount: int = 5000  # max lines in output buffer
+            blockcount: int = 5000,  # max lines in output buffer
     ):
 
         super(MainConsole, self).__init__()
 
-        # self.main_window = None  # set manually after initialization
+        self.session = None  # set by MainWindow
 
         self.init_ui(history, blockcount)
 
@@ -36,7 +35,7 @@ class MainConsole(QWidget):
         self.reset_scope_button.hide()
 
         # display for output
-        self.out_display = ConsoleDisplay(blockcount, self)
+        self.out_display = ConsoleDisplay(blockcount)
         self.content_layout.addWidget(self.out_display, 1, 0, 1, 2)
 
         # colors to differentiate input, output and stderr
@@ -67,7 +66,8 @@ class MainConsole(QWidget):
 
 
     def setprompt(self, text: str):
-        self.prompt_label.setText(text)
+        # self.prompt_label.setText(text)
+        ...
 
     def reset_scope_clicked(self):
         self.reset_interpreter()
@@ -88,12 +88,11 @@ class MainConsole(QWidget):
     def reset_interpreter(self):
         """Initializes a new plain interpreter"""
 
-        # # --------------------------------------
-        # # def generate_code():
-        # #     return print('generating code...')
-        # def script():
-        #     return self.main_window.get_current_script()
-        # # --------------------------------------
+        # --------------------------------------
+        # def generate_code():
+        #     return print('generating code...')
+        session = self.session
+        # --------------------------------------
 
         context = {**locals()}
         self.num_added_object_contexts = 0
@@ -116,10 +115,13 @@ class MainConsole(QWidget):
                     line = line[2:]
 
                 # print input
-                self.writeoutput(self.prompt_label.text() + line, self.inpfmt)
+                self.writeoutput(
+                    # self.prompt_label.text() +
+                    line, self.inpfmt
+                )
 
                 # prepare for multi-line input
-                self.setprompt('. ')
+                # self.setprompt('. ')
                 self.buffer.append(line)
 
             # merge commands
@@ -127,7 +129,7 @@ class MainConsole(QWidget):
             more = self.interp.runsource(source, '<console>')
 
             if not more:  # no more input required
-                self.setprompt('> ')
+                # self.setprompt('> ')
                 self.buffer = []  # reset buffer
 
     def write(self, line: str) -> None:
@@ -207,24 +209,18 @@ class ConsoleInputLineEdit(QLineEdit):
             self.hist_index = len(self.hist_list)
 
 
-
 class ConsoleDisplay(QPlainTextEdit):
-    def __init__(self, max_block_count, parent=None):
-        super(ConsoleDisplay, self).__init__(parent)
+    def __init__(self, max_block_count):
+        super(ConsoleDisplay, self).__init__()
 
         self.setObjectName('ConsoleDisplay')
         self.setMaximumBlockCount(max_block_count)
         self.setReadOnly(True)
-        self.setFont(QFont('Source Code Pro', 11))
-#         self.setStyleSheet('''
-# QPlainTextEdit {
-#     background-color: rgba(255, 255, 255, 0.04);
-# }
-#         ''')
+        self.setFont(QFont('Comic Sans MS', 11))  # it just won't work...
 
 
 class RedirectOutput:
-    """Just redirects 'write()'-calls to a specified method."""
+    """Redirects 'write()'-calls to a specified method."""
 
     def __init__(self, func):
         self.func = func

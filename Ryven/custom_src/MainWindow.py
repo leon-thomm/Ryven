@@ -1,3 +1,4 @@
+import json
 import os,  sys
 
 from PySide2.QtGui import QIcon, QKeySequence
@@ -5,12 +6,12 @@ from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QAct
     QApplication
 
 # parent UI
-import custom_src.Console.MainConsole as MainConsole
+import custom_src.console.MainConsole as MainConsole
 from .ScriptUI import ScriptUI
 from ui.ui_main_window import Ui_MainWindow
 
 # builtin nodes
-from .builtin_nodes.And_Node import And_Node
+# from .builtin_nodes.And_Node import And_Node
 from .builtin_nodes.Result_Node import Result_Node
 from .builtin_nodes.Val_Node import Val_Node
 from .builtin_nodes.GetVar_Node import GetVar_Node
@@ -57,6 +58,10 @@ class MainWindow(QMainWindow):
             rc.InfoMsgs.enable()
 
         self.session = rc.Session()
+
+        MainConsole.main_console.session = self.session
+        MainConsole.main_console.reset_interpreter()
+
         self.session.design.load_from_config('design_config.json')
 
         if 'light' in sys.argv:
@@ -190,7 +195,7 @@ saving: ctrl+s
             SetVar_Node,
             Val_Node,
             Result_Node,
-            And_Node
+            # And_Node
         ]
 
         self.session.register_nodes(nodes)
@@ -228,7 +233,7 @@ saving: ctrl+s
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
         # TODO: fix this...
         script = self.ui.scripts_tab_widget.currentWidget().script
-        view = self.session.script_view_assignment[script]
+        view = self.session.flow_views[script]
         img = view.get_viewport_img()
         img.save(file_path)
 
@@ -239,7 +244,7 @@ saving: ctrl+s
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
         script = self.ui.scripts_tab_widget.currentWidget().script
-        view = self.session.script_view_assignment[script]
+        view = self.session.flow_views[script]
         img = view.get_whole_scene_img()
         img.save(file_path)
 
@@ -311,6 +316,17 @@ saving: ctrl+s
         filename = os.path.splitext(os.path.basename(file_path))
         if filename in self.package_names:
             return
+
+        # ---------------------
+        pkg = json.loads(j_str)
+        if pkg['type'] == 'Ryven auto generated nodes package':
+            sys.path.append(os.path.abspath('../packages/auto_generated'))
+            autogen = __import__('autogen', fromlist=['get_nodes'])
+            nodes = autogen.get_nodes(file_path)
+            self.session.register_nodes(nodes)
+            print('nodes registered!')
+            return
+        # ---------------------
 
         # Important: translate the package first (metacore files -> src code files)
         PackageTranslator = self.get_class_from_file(file_path='../Ryven_PackageTranslator',

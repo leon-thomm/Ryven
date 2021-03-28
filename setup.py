@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 
@@ -10,7 +10,7 @@ setup(
     author='Leon Thomm',
     author_email='l.thomm@mailbox.org',
     packages=[
-
+        
     ],
     include_package_data=True,
     classifiers=[

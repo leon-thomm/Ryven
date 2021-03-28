@@ -18,7 +18,7 @@ class StartupDialog(QDialog):
             <div style="font-family: Corbel; font-size: x-large;">
             
             <p><img style="float:right;" height=120 src="../resources/pics/Ryven_icon_blurred.png">Hey,
-            it's Leon, the creator of Ryven. Keep in mind, that this
+            it's Leon, the creator of Ryven. Keep in mind that this
             is not a professional piece of software. Don\'t forget to save!
             There are fore sure some bugs, but as long as you keep behaving
             as intended, you shouldn\'t get into too much trouble. Have fun!</p>

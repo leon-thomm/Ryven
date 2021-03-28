@@ -1,7 +1,7 @@
 """This file automatically imports all requirements for custom nodes.
 It should lie in the same location as Ryven.py so it can get imported directly from the custom sources."""
 
-from ryvencore_qt import Node
+from ryvencore_qt import Node, NodeInputBP, NodeOutputBP
 
 from PySide2.QtCore import Signal
 

@@ -1,5 +1,4 @@
 from NENV import *
-from ryvencore_qt import Node, NodeInputBP, NodeOutputBP
 
 
 class GetVar_Node(Node):
@@ -7,10 +6,10 @@ class GetVar_Node(Node):
     title = 'get var'
     description = 'get the value of a script variable'
     init_inputs = [
-        NodeInputBP(type_='data', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
+        NodeInputBP(add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
     ]
     init_outputs = [
-        NodeOutputBP(type_='data', label='val')
+        NodeOutputBP(label='val')
     ]
     style = 'extended'
     color = '#c69a15'
@@ -18,7 +17,6 @@ class GetVar_Node(Node):
     def __init__(self, params):
         super(GetVar_Node, self).__init__(params)
 
-        # self.special_actions['action name'] = self.actionmethod ...
         self.var_name = ''
         self.temp_var_val = None
 
@@ -51,12 +49,3 @@ class GetVar_Node(Node):
 
     def get_current_var_name(self):
         return self.input(0)
-
-    def get_data(self):
-        return {}
-
-    def set_data(self, data):
-        pass
-
-    def remove_event(self):
-        pass

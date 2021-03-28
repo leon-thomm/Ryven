@@ -1,10 +1,7 @@
-import os
-
 from PySide2.QtWidgets import QLineEdit
 
 from NENV import *
 from NWENV import *
-from ryvencore_qt import *
 
 
 class ValNode_MainWidget(MWB, QLineEdit):
@@ -14,16 +11,6 @@ class ValNode_MainWidget(MWB, QLineEdit):
     def __init__(self, params):
         MWB.__init__(self, params)
         QLineEdit.__init__(self)
-
-        self.setStyleSheet('''
-            QLineEdit{
-                border-radius: 10px;
-                background-color: transparent;
-                border: 1px solid #404040;
-                color: #aaaaaa;
-                padding: 3px;
-            }
-        ''')
 
         self.setFixedWidth(80)
         self.editingFinished.connect(self.editing_finished)
@@ -46,9 +33,6 @@ class ValNode_MainWidget(MWB, QLineEdit):
 
     def set_data(self, data):
         self.setText(data['text'])
-
-    def remove_event(self):
-        pass
 
 
 class Val_Node(Node):
@@ -98,6 +82,3 @@ class Val_Node(Node):
 
     def set_data(self, data):
         self.val = data['val']
-
-    def remove_event(self):
-        pass

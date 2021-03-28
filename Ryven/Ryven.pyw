@@ -1,7 +1,7 @@
 import os
 import sys
 
-from custom_src.Console.MainConsole import init_main_console
+from custom_src.console.MainConsole import init_main_console
 
 from custom_src.startup_dialog.StartupDialog import StartupDialog
 from custom_src.MainWindow import MainWindow

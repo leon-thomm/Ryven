@@ -1,5 +1,4 @@
 from NENV import *
-from ryvencore_qt import Node, NodeInputBP, NodeOutputBP
 
 
 class SetVar_Node(Node):
@@ -9,9 +8,7 @@ class SetVar_Node(Node):
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(type_='data', label='var', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
-                 # widget='std line edit m', widget_pos='besides'),
         NodeInputBP(type_='data', label='val', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
-                 # widget='std line edit m', widget_pos='besides')
     ]
     init_outputs = [
         NodeOutputBP(type_='exec'),
@@ -19,7 +16,6 @@ class SetVar_Node(Node):
     ]
     style = 'extended'
     color = '#c69a15'
-    icon = 'custom_src/builtin_nodes/test.svg'
 
     def __init__(self, params):
         super(SetVar_Node, self).__init__(params)
@@ -40,7 +36,6 @@ class SetVar_Node(Node):
             if self.set_var_val(self.input(0), self.input(1)):
                 self.set_output_val(0, self.get_var_val(self.var_name))
 
-
     def action_make_passive(self):
         self.active = False
         self.delete_input(0)
@@ -60,6 +55,3 @@ class SetVar_Node(Node):
 
     def set_data(self, data):
         self.active = data['active']
-
-    def remove_event(self):
-        pass

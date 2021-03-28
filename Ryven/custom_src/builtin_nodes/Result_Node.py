@@ -1,27 +1,13 @@
-import os
-
 from PySide2.QtWidgets import QLineEdit
 
 from NENV import *
 from NWENV import *
-
-from ryvencore_qt import Node, NodeInputBP, NodeOutputBP, MWB, IWB
 
 
 class Result_Node_MainWidget(MWB, QLineEdit):
     def __init__(self, params):
         MWB.__init__(self, params)
         QLineEdit.__init__(self)
-
-        self.setStyleSheet('''
-            QLineEdit{
-                border-radius: 10px;
-                background-color: transparent;
-                border: 1px solid #404040;
-                color: #aaaaaa;
-                padding: 3px;
-            }
-        ''')
 
         self.setReadOnly(True)
         self.setFixedWidth(120)
@@ -30,17 +16,6 @@ class Result_Node_MainWidget(MWB, QLineEdit):
     def show_val(self, new_val):
         self.setText(str(new_val))
         self.setCursorPosition(0)
-
-    def get_data(self):
-        data = {}
-        # ...
-        return data
-
-    def set_data(self, data):
-        pass
-
-    def remove_event(self):
-        pass
 
 
 class Result_Node(Node):
@@ -58,17 +33,10 @@ class Result_Node(Node):
     def __init__(self, params):
         super(Result_Node, self).__init__(params)
 
-    def update_event(self, input_called=-1):
-        if self.item:
+    def place_event(self):
+        if self.session.gui:
             self.main_widget().show_val(self.input(0))
 
-    def get_data(self):
-        data = {}
-        # ...
-        return data
-
-    def set_data(self, data):
-        pass
-
-    def remove_event(self):
-        pass
+    def update_event(self, input_called=-1):
+        if self.session.gui:
+            self.main_widget().show_val(self.input(0))
