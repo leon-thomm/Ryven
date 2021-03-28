@@ -7,3 +7,7 @@ venv/
 venv38/
 temp/
 ryvencore/
+dist/
+ryven.egg-info/
+Ryven/custom_src/tests
+packages/auto_generated/
