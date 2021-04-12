@@ -1,0 +1,1 @@
+{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_getpass__raw_input", "AutoNode_getpass_fallback_getpass", "AutoNode_getpass_getpass", "AutoNode_getpass_getuser", "AutoNode_getpass_unix_getpass", "AutoNode_getpass_win_getpass"]}

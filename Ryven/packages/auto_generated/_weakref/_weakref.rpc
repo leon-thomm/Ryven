@@ -1,0 +1,7 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode__weakref__remove_dead_weakref",
+        "AutoNode__weakref_getweakrefcount"
+    ]
+}

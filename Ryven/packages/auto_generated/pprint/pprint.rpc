@@ -1,0 +1,1 @@
+{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_pprint__perfcheck", "AutoNode_pprint__recursion", "AutoNode_pprint__safe_repr", "AutoNode_pprint__safe_tuple", "AutoNode_pprint__wrap_bytes_repr", "AutoNode_pprint_isreadable", "AutoNode_pprint_isrecursive", "AutoNode_pprint_pformat", "AutoNode_pprint_pp", "AutoNode_pprint_pprint", "AutoNode_pprint_saferepr"]}

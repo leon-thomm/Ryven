@@ -1,0 +1,10 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode__signal_getsignal",
+        "AutoNode__signal_raise_signal",
+        "AutoNode__signal_signal",
+        "AutoNode__signal_strsignal",
+        "AutoNode__signal_valid_signals"
+    ]
+}

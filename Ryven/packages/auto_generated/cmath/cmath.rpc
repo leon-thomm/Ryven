@@ -1,0 +1,27 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode_cmath_acos",
+        "AutoNode_cmath_acosh",
+        "AutoNode_cmath_asin",
+        "AutoNode_cmath_asinh",
+        "AutoNode_cmath_atan",
+        "AutoNode_cmath_atanh",
+        "AutoNode_cmath_cos",
+        "AutoNode_cmath_cosh",
+        "AutoNode_cmath_exp",
+        "AutoNode_cmath_isclose",
+        "AutoNode_cmath_isfinite",
+        "AutoNode_cmath_isinf",
+        "AutoNode_cmath_isnan",
+        "AutoNode_cmath_log10",
+        "AutoNode_cmath_phase",
+        "AutoNode_cmath_polar",
+        "AutoNode_cmath_rect",
+        "AutoNode_cmath_sin",
+        "AutoNode_cmath_sinh",
+        "AutoNode_cmath_sqrt",
+        "AutoNode_cmath_tan",
+        "AutoNode_cmath_tanh"
+    ]
+}

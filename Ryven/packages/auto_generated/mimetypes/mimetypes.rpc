@@ -1,0 +1,1 @@
+{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_mimetypes__default_mime_types", "AutoNode_mimetypes__main", "AutoNode_mimetypes_add_type", "AutoNode_mimetypes_guess_all_extensions", "AutoNode_mimetypes_guess_extension", "AutoNode_mimetypes_guess_type", "AutoNode_mimetypes_init", "AutoNode_mimetypes_read_mime_types"]}

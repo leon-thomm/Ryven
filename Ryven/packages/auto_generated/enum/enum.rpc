@@ -1,0 +1,1 @@
+{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_enum__decompose", "AutoNode_enum__high_bit", "AutoNode_enum__is_descriptor", "AutoNode_enum__is_dunder", "AutoNode_enum__is_sunder", "AutoNode_enum__make_class_unpicklable", "AutoNode_enum__power_of_two", "AutoNode_enum__reduce_ex_by_name", "AutoNode_enum_unique"]}

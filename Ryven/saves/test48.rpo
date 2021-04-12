@@ -1,0 +1,111 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        "std"
+    ],
+    "function scripts": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "Button_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 206.0,
+                        "pos y": 146.0,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "Print_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "print something 1": {
+                                "method": "print_something",
+                                "data": "hello!!"
+                            },
+                            "print something 2": {
+                                "method": "print_something",
+                                "data": "HELLOO!?!?!?"
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "std line edit m r",
+                                "widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjQylHMu",
+                                "widget pos": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 567.0,
+                        "pos y": 241.0
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEsqcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 339.0,
+                        "pos y": 310.0,
+                        "main widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjQylHMu"
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 2,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 1
+                    }
+                ]
+            },
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

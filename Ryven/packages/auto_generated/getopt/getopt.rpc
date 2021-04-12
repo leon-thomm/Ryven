@@ -1,0 +1,1 @@
+{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_getopt__", "AutoNode_getopt_do_longs", "AutoNode_getopt_do_shorts", "AutoNode_getopt_getopt", "AutoNode_getopt_gnu_getopt", "AutoNode_getopt_long_has_args", "AutoNode_getopt_short_has_arg"]}
