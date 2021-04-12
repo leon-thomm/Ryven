@@ -1,0 +1,80 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        "OpenCV"
+    ],
+    "function scripts": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "DisplayImage_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "image",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 613.0,
+                        "pos y": 375.0,
+                        "main widget data": "gASVBAAAAAAAAACMAJQu"
+                    },
+                    {
+                        "identifier": "ReadImage_Node",
+                        "state data": "gASVUgAAAAAAAAB9lIwPaW1hZ2UgZmlsZSBwYXRolIw5Li5cLi5cLi5cLi5cLi5cT25lRHJpdmVcQmlsZGVyXGFic29sdXRlbHlfcmlkaWN1bG91czIucG5nlHMu",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": true,
+                                "widget name": "PathInputWidget",
+                                "widget data": "gASVCgAAAAAAAACMBlNlbGVjdJQu",
+                                "widget pos": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 241.0,
+                        "pos y": 211.0,
+                        "main widget data": "gASVUgAAAAAAAAB9lIwPaW1hZ2UgZmlsZSBwYXRolIw5Li5cLi5cLi5cLi5cLi5cT25lRHJpdmVcQmlsZGVyXGFic29sdXRlbHlfcmlkaWN1bG91czIucG5nlHMu"
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 1,
+                        "output port index": 0,
+                        "connected node": 0,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

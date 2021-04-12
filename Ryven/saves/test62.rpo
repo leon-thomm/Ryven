@@ -1,0 +1,427 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        "threading_tests",
+        "builtin_nodes",
+        "OpenCV_"
+    ],
+    "function scripts": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "ReadImage",
+                        "state data": "gASVSwAAAAAAAAB9lIwPaW1hZ2UgZmlsZSBwYXRolIwyLi5cLi5cLi5cLi5cLi5cT25lRHJpdmVcQmlsZGVyXEthdHplblxQMzMxMDA4NC5KUEeUcy4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "f_path",
+                                "val": "gAROLg==",
+                                "has widget": true,
+                                "widget name": "choose file IW",
+                                "widget data": "gAR9lC4=",
+                                "widget pos": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "img"
+                            }
+                        ],
+                        "pos x": 258.81677560577253,
+                        "pos y": 517.7532283587298
+                    },
+                    {
+                        "identifier": "BlurMedian",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "ksize",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 780.2469512298428,
+                        "pos y": 383.5712136460206,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEszcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 563.4941837021674,
+                        "pos y": 311.02139814786574,
+                        "main widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjUxlHMu"
+                    },
+                    {
+                        "identifier": "ThreadSplitter",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 485.44819547369025,
+                        "pos y": 515.4058227359133
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEszcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1174.638095141282,
+                        "pos y": 319.3368963028473,
+                        "main widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjUxlHMu"
+                    },
+                    {
+                        "identifier": "BlurMedian",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "ksize",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1391.3908626689572,
+                        "pos y": 391.8867118010021,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEszcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1712.6454752150821,
+                        "pos y": 320.9974129080133,
+                        "main widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjUxlHMu"
+                    },
+                    {
+                        "identifier": "BlurMedian",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "ksize",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1929.3982427427572,
+                        "pos y": 393.5472284061682,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEszcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1714.3428921892528,
+                        "pos y": 687.9780402142862,
+                        "main widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjUxlHMu"
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEszcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 565.1916006763377,
+                        "pos y": 678.0020254541389,
+                        "main widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjUxlHMu"
+                    },
+                    {
+                        "identifier": "BlurMedian",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "ksize",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1931.095659716928,
+                        "pos y": 760.5278557124411,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "BlurMedian",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "ksize",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1393.0882796431272,
+                        "pos y": 758.8673391072753,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "BlurMedian",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "ksize",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 781.9443682040128,
+                        "pos y": 750.5518409522938,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEszcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 1176.3355121154518,
+                        "pos y": 686.3175236091204,
+                        "main widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjUxlHMu"
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 3,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 1,
+                        "output port index": 0,
+                        "connected node": 5,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 2,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 1,
+                        "connected node": 12,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 4,
+                        "output port index": 0,
+                        "connected node": 5,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 5,
+                        "output port index": 0,
+                        "connected node": 7,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 0,
+                        "connected node": 7,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 8,
+                        "output port index": 0,
+                        "connected node": 10,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 9,
+                        "output port index": 0,
+                        "connected node": 12,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 11,
+                        "output port index": 0,
+                        "connected node": 10,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 12,
+                        "output port index": 0,
+                        "connected node": 11,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 13,
+                        "output port index": 0,
+                        "connected node": 11,
+                        "connected input port index": 1
+                    }
+                ]
+            },
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

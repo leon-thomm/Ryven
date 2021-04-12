@@ -1,0 +1,14 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode__tracemalloc__get_object_traceback",
+        "AutoNode__tracemalloc__get_traces",
+        "AutoNode__tracemalloc_clear_traces",
+        "AutoNode__tracemalloc_get_traceback_limit",
+        "AutoNode__tracemalloc_get_traced_memory",
+        "AutoNode__tracemalloc_get_tracemalloc_memory",
+        "AutoNode__tracemalloc_is_tracing",
+        "AutoNode__tracemalloc_start",
+        "AutoNode__tracemalloc_stop"
+    ]
+}

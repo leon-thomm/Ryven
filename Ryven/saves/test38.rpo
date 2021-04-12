@@ -1,0 +1,336 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [],
+    "function scripts": [
+        {
+            "name": "foo",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "BUILTIN_FunctionInputNode",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "add parameter": {
+                                "data": {
+                                    "method": "add_function_param",
+                                    "data": "data"
+                                },
+                                "exec": {
+                                    "method": "add_function_param",
+                                    "data": "exec"
+                                }
+                            },
+                            "remove parameter": {
+                                "1": {
+                                    "method": "remove_function_param",
+                                    "data": 0
+                                }
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 203.0,
+                        "pos y": 173.0
+                    },
+                    {
+                        "identifier": "BUILTIN_FunctionOutputNode",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "add return": {
+                                "data": {
+                                    "method": "add_function_return",
+                                    "data": "data"
+                                },
+                                "exec": {
+                                    "method": "add_function_return",
+                                    "data": "exec"
+                                }
+                            },
+                            "remove return": {
+                                "1": {
+                                    "method": "remove_function_return",
+                                    "data": 0
+                                }
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 599.0,
+                        "pos y": 191.0
+                    },
+                    {
+                        "identifier": "FUNCTION_NODE_foo",
+                        "state data": "gASVEgAAAAAAAAB9lIwFdGl0bGWUjANmb2+Ucy4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 492.0,
+                        "pos y": 320.0
+                    },
+                    {
+                        "identifier": "FUNCTION_NODE_foo2",
+                        "state data": "gASVEwAAAAAAAAB9lIwFdGl0bGWUjARmb28ylHMu",
+                        "special actions": {},
+                        "inputs": [],
+                        "outputs": [],
+                        "pos x": 265.0,
+                        "pos y": 402.0
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow widget config": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            },
+            "parameters": [
+                {
+                    "type": "data",
+                    "label": ""
+                }
+            ],
+            "returns": [
+                {
+                    "type": "data",
+                    "label": ""
+                }
+            ]
+        },
+        {
+            "name": "foo2",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "BUILTIN_FunctionInputNode",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "add parameter": {
+                                "data": {
+                                    "method": "add_function_param",
+                                    "data": "data"
+                                },
+                                "exec": {
+                                    "method": "add_function_param",
+                                    "data": "exec"
+                                }
+                            },
+                            "remove parameter": {}
+                        },
+                        "inputs": [],
+                        "outputs": [],
+                        "pos x": 0.0,
+                        "pos y": 0.0
+                    },
+                    {
+                        "identifier": "BUILTIN_FunctionOutputNode",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "add return": {
+                                "data": {
+                                    "method": "add_function_return",
+                                    "data": "data"
+                                },
+                                "exec": {
+                                    "method": "add_function_return",
+                                    "data": "exec"
+                                }
+                            },
+                            "remove return": {}
+                        },
+                        "inputs": [],
+                        "outputs": [],
+                        "pos x": 0.0,
+                        "pos y": 0.0
+                    }
+                ],
+                "connections": []
+            },
+            "flow widget config": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            },
+            "parameters": [],
+            "returns": []
+        }
+    ],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "SetVar_Node",
+                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIhzLg==",
+                        "special actions": {
+                            "make passive": {
+                                "method": "action_make_passive"
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "has widget": true,
+                                "widget name": "std line edit m",
+                                "widget data": "gASVDgAAAAAAAAB9lIwEdGV4dJSMAJRzLg==",
+                                "widget position": "besides"
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "has widget": true,
+                                "widget name": "std line edit m",
+                                "widget data": "gASVDgAAAAAAAAB9lIwEdGV4dJSMAJRzLg==",
+                                "widget position": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 416.0,
+                        "pos y": 207.0
+                    },
+                    {
+                        "identifier": "Result_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 756.0,
+                        "pos y": 342.0,
+                        "main widget data": "gAR9lC4="
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 214.0,
+                        "pos y": 337.0,
+                        "main widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMAzQyMZRzLg=="
+                    },
+                    {
+                        "identifier": "FUNCTION_NODE_foo",
+                        "state data": "gASVEgAAAAAAAAB9lIwFdGl0bGWUjANmb2+Ucy4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 463.0,
+                        "pos y": 338.0
+                    },
+                    {
+                        "identifier": "FUNCTION_NODE_foo2",
+                        "state data": "gASVEwAAAAAAAAB9lIwFdGl0bGWUjARmb28ylHMu",
+                        "special actions": {},
+                        "inputs": [],
+                        "outputs": [],
+                        "pos x": 718.0,
+                        "pos y": 172.0
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 2,
+                        "output port index": 0,
+                        "connected node": 3,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow widget config": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

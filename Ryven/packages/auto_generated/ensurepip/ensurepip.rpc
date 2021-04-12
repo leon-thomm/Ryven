@@ -1,0 +1,1 @@
+{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_ensurepip__bootstrap", "AutoNode_ensurepip__disable_pip_configuration_settings", "AutoNode_ensurepip__main", "AutoNode_ensurepip__run_pip", "AutoNode_ensurepip__uninstall_helper", "AutoNode_ensurepip_bootstrap", "AutoNode_ensurepip_version"]}

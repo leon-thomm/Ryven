@@ -1,0 +1,13 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode__heapq__heapify_max",
+        "AutoNode__heapq__heappop_max",
+        "AutoNode__heapq__heapreplace_max",
+        "AutoNode__heapq_heapify",
+        "AutoNode__heapq_heappop",
+        "AutoNode__heapq_heappush",
+        "AutoNode__heapq_heappushpop",
+        "AutoNode__heapq_heapreplace"
+    ]
+}

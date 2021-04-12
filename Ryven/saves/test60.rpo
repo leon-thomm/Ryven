@@ -1,0 +1,381 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        "linalg_"
+    ],
+    "function scripts": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {
+                "mat": {
+                    "serialized": "gASV0gAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwNLA4aUaAOMBWR0eXBllJOUjAJmOJSJiIeUUpQoSwOMATyUTk5OSv////9K/////0sAdJRiiUNIAAAAAACAQUAAAAAAAGBlQAAAAAAAgFdAAAAAAACAXUAAAAAAAEScQAAAAAAAYHpAAAAAAAAASkAAAAAAAOBzQAAAAAAAoGNAlHSUYi4="
+                },
+                "v": {
+                    "serialized": "gASVLgAAAAAAAACMCGJ1aWx0aW5zlIwHY29tcGxleJSTlEdARQAAAAAAAEfACAAAAAAAAIaUUpQu"
+                }
+            },
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "DotProduct",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 923.6858199572465,
+                        "pos y": 455.336913356052,
+                        "main widget data": "gASVcQAAAAAAAAB9lCiMBHRleHSUjFkgIDI2MjkxLjAgIDM0NTIxNi4wICAgOTAyMTAuMAogMjM5NTM2LjAgMzQyNjg1NS4wICA4NDA3NDQuMAogIDQ3NTA4LjAgIDYzNDA4MC4wICAxNjM3MzMuMJSMBXNob3dulIh1Lg=="
+                    },
+                    {
+                        "identifier": "Transpose",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 562.4017304387223,
+                        "pos y": 555.691688847548,
+                        "main widget data": "gASVVgAAAAAAAAB9lCiMBHRleHSUjD4wLjY5MzUgMC43NDU3IDAuNjM1OQowLjY0MDMgMC43NDQ5IDAuOTM4MQowLjg3OTIgMC45MjUxIDAuNjEwNpSMBXNob3dulIh1Lg=="
+                    },
+                    {
+                        "identifier": "MatPower",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 814.0522308302058,
+                        "pos y": 120.14418906788195,
+                        "main widget data": "gASVgwAAAAAAAAB9lCiMBHRleHSUjGsgICAgKDM1KzBqKSAgICAoMTE4LTZqKSAgICAgKDUyKzBqKQogICAoMTcxLTlqKSAoMTgwOS0yNTJqKSAgICgzMTgtMThqKQogICAgKDk0KzBqKSAgICg0MjItMjRqKSAgICAoMTU3KzBqKZSMBXNob3dulIh1Lg=="
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEsCcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 532.2335627104667,
+                        "pos y": 132.2133659272747,
+                        "main widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMATKUcy4="
+                    },
+                    {
+                        "identifier": "HermMatrix",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 433.26834801928453,
+                        "pos y": 308.89031300920686,
+                        "main widget data": "gASVgwAAAAAAAAB9lCiMBHRleHSUjGsgICAgKDM1LTBqKSAgICAoMTcxKzlqKSAgICAgKDk0LTBqKQogICAoMTE4KzZqKSAoMTgwOSsyNTJqKSAgICg0MjIrMjRqKQogICAgKDUyLTBqKSAgICgzMTgrMThqKSAgICAoMTU3LTBqKZSMBXNob3dulIh1Lg=="
+                    },
+                    {
+                        "identifier": "SetVar_Node",
+                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
+                        "special actions": {
+                            "make active": {
+                                "method": "action_make_active"
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "val": "gASVBwAAAAAAAACMA21hdJQu",
+                                "has widget": true,
+                                "widget name": "std line edit",
+                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA21hdJRzLg==",
+                                "widget pos": "besides"
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "has widget": true,
+                                "widget name": "std line edit",
+                                "widget data": "gASVTQAAAAAAAAB9lIwEdGV4dJSMP1tbICAzNS4gIDE3MS4gICA5NC5dCiBbIDExOC4gMTgwOS4gIDQyMi5dCiBbICA1Mi4gIDMxOC4gIDE1Ny5dXZRzLg==",
+                                "widget pos": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 877.4846550180295,
+                        "pos y": 312.24641936272457
+                    },
+                    {
+                        "identifier": "GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "val": "gASVBwAAAAAAAACMA21hdJQu",
+                                "has widget": true,
+                                "widget name": "std line edit",
+                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA21hdJRzLg==",
+                                "widget pos": "besides"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 689.0654378309504,
+                        "pos y": 411.78898098407495
+                    },
+                    {
+                        "identifier": "Matrix_Node",
+                        "state data": "gASVaAAAAAAAAAB9lCiMEm1haW4gd2lkZ2V0IGhpZGRlbpSJjBFleHByZXNzaW9uIG1hdHJpeJRdlChdlCiMATGUjAEylIwBNJRlXZQojAEzlIwGdigndicplIwBNpRlXZQojAE3lIwBOJSMATmUZWV1Lg==",
+                        "special actions": {
+                            "hide preview": {
+                                "method": "action_hide_mw"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 155.4046046859919,
+                        "pos y": 118.5560901728186,
+                        "main widget data": "gASVVgAAAAAAAAB9lCiMBHRleHSUjD4gICAgIDEgICAgICAyICAgICAgNAogICAgIDMgdigndicpICAgICAgNgogICAgIDcgICAgICA4ICAgICAgOZSMBXNob3dulIh1Lg=="
+                    },
+                    {
+                        "identifier": "ShowMatrix",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 345.9772060969267,
+                        "pos y": 150.07205426921448,
+                        "main widget data": "gASVXwAAAAAAAAB9lCiMBHRleHSUjEcgKDErMGopICAoMiswaikgICg0KzBqKQogKDMrMGopICg0Mi0zaikgICg2KzBqKQogKDcrMGopICAoOCswaikgICg5KzBqKZSMBXNob3dulIh1Lg=="
+                    },
+                    {
+                        "identifier": "Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEsDcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 189.67777868254626,
+                        "pos y": 519.3913889374523,
+                        "main widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMATOUcy4="
+                    },
+                    {
+                        "identifier": "RandomMatrix",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 361.36060930537803,
+                        "pos y": 550.6131049013852,
+                        "main widget data": "gASVVgAAAAAAAAB9lCiMBHRleHSUjD4wLjY5MzUgMC42NDAzIDAuODc5MgowLjc0NTcgMC43NDQ5IDAuOTI1MQowLjYzNTkgMC45MzgxIDAuNjEwNpSMBXNob3dulIh1Lg=="
+                    },
+                    {
+                        "identifier": "RealMatrix",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 655.065455424683,
+                        "pos y": 308.8805222617527,
+                        "main widget data": "gASVVgAAAAAAAAB9lCiMBHRleHSUjD4gIDM1LjAgIDE3MS4wICAgOTQuMAogMTE4LjAgMTgwOS4wICA0MjIuMAogIDUyLjAgIDMxOC4wICAxNTcuMJSMBXNob3dulIh1Lg=="
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 2,
+                        "output port index": 0,
+                        "connected node": 4,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 2,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 4,
+                        "output port index": 0,
+                        "connected node": 11,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 0,
+                        "connected node": 0,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 0,
+                        "connected node": 0,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 7,
+                        "output port index": 0,
+                        "connected node": 2,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 7,
+                        "output port index": 0,
+                        "connected node": 8,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 9,
+                        "output port index": 0,
+                        "connected node": 10,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 9,
+                        "output port index": 0,
+                        "connected node": 10,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 10,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 11,
+                        "output port index": 0,
+                        "connected node": 5,
+                        "connected input port index": 1
+                    }
+                ]
+            },
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

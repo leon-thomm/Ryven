@@ -1,0 +1,10 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode__struct__clearcache",
+        "AutoNode__struct_calcsize",
+        "AutoNode__struct_iter_unpack",
+        "AutoNode__struct_unpack",
+        "AutoNode__struct_unpack_from"
+    ]
+}

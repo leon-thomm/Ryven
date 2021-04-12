@@ -1,0 +1,7 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode__sha512_sha384",
+        "AutoNode__sha512_sha512"
+    ]
+}

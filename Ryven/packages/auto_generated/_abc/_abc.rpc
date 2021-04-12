@@ -1,0 +1,13 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode__abc__abc_init",
+        "AutoNode__abc__abc_instancecheck",
+        "AutoNode__abc__abc_register",
+        "AutoNode__abc__abc_subclasscheck",
+        "AutoNode__abc__get_dump",
+        "AutoNode__abc__reset_caches",
+        "AutoNode__abc__reset_registry",
+        "AutoNode__abc_get_cache_token"
+    ]
+}

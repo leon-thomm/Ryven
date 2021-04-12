@@ -1,0 +1,9 @@
+{
+    "type": "Ryven auto generated nodes package",
+    "nodes": [
+        "AutoNode_marshal_dump",
+        "AutoNode_marshal_dumps",
+        "AutoNode_marshal_load",
+        "AutoNode_marshal_loads"
+    ]
+}

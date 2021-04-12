@@ -1,0 +1,1 @@
+{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_lzma__decode_filter_properties", "AutoNode_lzma__encode_filter_properties", "AutoNode_lzma_compress", "AutoNode_lzma_decompress", "AutoNode_lzma_is_check_supported", "AutoNode_lzma_open"]}
