@@ -34,7 +34,7 @@
         <property name="title">
          <string>Scripts</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_2"/>
+        <layout class="QVBoxLayout" name="verticalLayout"/>
        </widget>
       </widget>
       <widget class="QTabWidget" name="scripts_tab_widget">

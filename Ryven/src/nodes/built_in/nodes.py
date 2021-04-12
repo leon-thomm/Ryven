@@ -144,7 +144,7 @@ class SetVar_Node(Node):
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.String(), label='var'),
-        NodeInputBP(dtype=dtypes.String(size='s'), label='val'),
+        NodeInputBP(dtype=dtypes.Data(size='s'), label='val'),
         # NodeInputBP(type_='data', label='var', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
         # NodeInputBP(type_='data', label='val', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
     ]

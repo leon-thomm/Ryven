@@ -102,6 +102,7 @@ saving: ctrl+s
         ''')
 
         self.resize(1500, 800)
+        # self.showMaximized()
 
 
     def setup_menu_actions(self):
