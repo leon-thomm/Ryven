@@ -22,11 +22,6 @@ class StartupDialog(QDialog):
             is not a professional piece of software. Don\'t forget to save! :)
             I am sure there are bugs and problems but as long as you keep behaving
             as intended, you shouldn\'t get into too much trouble.
-            <br>
-            Note that this software uses Qt
-            which is not free for commercial use. All rights remain to their lawful owners.
-            All Ryven source code is written by me.
-            <br>
             Enjoy!</p>
             <br>
             <br>
