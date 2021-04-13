@@ -48,9 +48,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="25.765446"
-     inkscape:cx="12.748281"
-     inkscape:cy="9.5810136"
+     inkscape:zoom="36.437843"
+     inkscape:cx="10.992371"
+     inkscape:cy="9.4007326"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -101,7 +101,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -117,37 +117,12 @@
        inkscape:connector-curvature="0" />
     <g
        inkscape:label="Layer 1"
-       id="layer1-56"
-       transform="translate(-59.859613,-55.568187)">
-      <g
-         inkscape:label="Layer 1"
-         id="layer1-5"
-         transform="translate(-56.972037,-49.17285)">
-        <g
-           id="g886"
-           transform="matrix(1.0536482,0,0,0.80757085,-6.4239482,76.820696)">
-          <g
-             id="g854"
-             transform="matrix(0,1.304713,-0.76645208,0,425.35635,243.16517)">
-            <rect
-               style="fill:#ff0000;stroke:none;stroke-width:1.42418;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-               id="rect890"
-               width="3.0133398"
-               height="3.931536"
-               x="117.98428"
-               y="397.1008" />
-            <path
-               style="fill:none;stroke:#0000ff;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-               d="m 118.56013,397.42841 1.75778,1.63814 -1.75778,1.63815"
-               id="path871"
-               sodipodi:nodetypes="ccc" />
-          </g>
-        </g>
-      </g>
-    </g>
-    <g
-       inkscape:label="Layer 1"
        id="layer1-6"
        transform="translate(-58.698999,-53.366804)" />
+    <path
+       style="fill:#0000ff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 4.2333332,293.03126 -1.5875,2.64584 -1.5875,-2.64584 z"
+       id="path969"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>

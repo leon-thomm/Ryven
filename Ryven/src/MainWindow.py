@@ -3,10 +3,11 @@ import sys
 from os.path import join, dirname
 
 from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu
+from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget
 
 # parent UI
 import MainConsole as MainConsole
+from NodesListWidget import NodesListWidget
 from ScriptUI import ScriptUI
 from uic.ui_main_window import Ui_MainWindow
 
@@ -23,65 +24,61 @@ class MainWindow(QMainWindow):
     def __init__(self, config):
         super(MainWindow, self).__init__()
 
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        if MainConsole.main_console is not None:
-            self.ui.scripts_console_splitter.addWidget(MainConsole.main_console_group_box)
-        self.ui.scripts_console_splitter.setSizes([350, 350])
-        self.ui.main_splitter.setSizes([120, 800])
+        self.session = None
+        # self.package_names = []
+        self.node_packages = {}  # {Node: str}
+        self.script_UIs = []
 
-        # menu actions
+        # SESSION
+        self.session = rc.Session(node_class=NodeBase)
+
+        self.session.script_flow_view_created.connect(self.script_created)
+        self.session.script_renamed.connect(self.script_renamed)
+        self.session.script_deleted.connect(self.script_deleted)
+
+        # UI
+        self.setup_ui()
+        self.scripts_list_widget = rc.GUI.ScriptsList(self.session)
+        self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
+
         self.flow_view_theme_actions = []
+        self.setup_menu_actions()
 
-        # shortcuts
+        self.setWindowTitle('Ryven')
+        self.setWindowIcon(QIcon('../resources/pics/Ryven_icon.png'))
+        self.ui.scripts_tab_widget.removeTab(0)  # remove placeholder tab
+
+        # SHORTCUTS
         save_shortcut = QShortcut(QKeySequence.Save, self)
         save_shortcut.activated.connect(self.on_save_project_triggered)
         import_nodes_shortcut = QShortcut(QKeySequence('Ctrl+i'), self)
         import_nodes_shortcut.activated.connect(self.on_import_nodes_triggered)
 
-        # clear temp folder
+        # TEMP FOLDER
         if not os.path.exists('../temp'):
             os.mkdir('../temp')
         for f in os.listdir('../temp'):
             os.remove('temp/'+f)
 
-        self.package_names = []
-        self.node_packages = {}  # {Node: str}
-
-        self.script_UIs = []
-
+        # PROJECT SETUP
         if 'info_msgs' in sys.argv:
             rc.InfoMsgs.enable()
 
-        self.session = rc.Session(node_class=NodeBase)
-
+        #   SETUP MAIN CONSOLE
         MainConsole.main_console.session = self.session
         MainConsole.main_console.reset_interpreter()
         NodeBase.main_console = MainConsole.main_console
 
+        #   LOAD DESIGN AND FLOW THEME
         self.session.design.load_from_config('design_config.json')
 
         if 'light' in sys.argv:
             self.session.design.set_flow_theme(name='Samuel 1l')
 
-        # app = QApplication.instance()
-        # self.session.set_stylesheet(app.styleSheet())
-        self.session.script_flow_view_created.connect(self.script_created)
-        self.session.script_renamed.connect(self.script_renamed)
-        self.session.script_deleted.connect(self.script_deleted)
-
-        # register built-in nodes
+        #   REGISTER BUILT-IN NODES
         self.import_nodes(join(dirname(__file__), 'nodes/built_in/nodes.py'))
 
-        # UI
-        self.scripts_list_widget = rc.GUI.ScriptsList(self.session)
-        self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
-
-        self.setup_menu_actions()
-        self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('../resources/pics/Ryven_icon.png'))
-        self.ui.scripts_tab_widget.removeTab(0)
-
+        #   LOAD PROJECT
         if config['config'] == 'create plain new project':
             # self.create_new_script(title='hello world')
             self.session.create_script(title='hello world')
@@ -93,17 +90,33 @@ class MainWindow(QMainWindow):
             self.session.load(config['content'])
             print('finished')
 
+        # FINISH SETUP
+
         print('''
 CONTROLS
-placing: right mouse
-selecting: left mouse
-panning: middle mouse
-saving: ctrl+s
+place: right mouse
+select: left mouse
+pan: right mouse
+save: ctrl+s
+import: ctrl+i
         ''')
 
         self.resize(1500, 800)
         # self.showMaximized()
 
+    # UI
+
+    def setup_ui(self):
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        self.console_nodes_tabs = QTabWidget()
+        if MainConsole.main_console is not None:
+            self.console_nodes_tabs.addTab(MainConsole.main_console, 'console')
+        self.nodes_widget = NodesListWidget(self, self.session)
+        self.console_nodes_tabs.addTab(self.nodes_widget, 'nodes')
+        self.ui.scripts_console_splitter.addWidget(self.console_nodes_tabs)
+        self.ui.scripts_console_splitter.setSizes([350, 350])
+        self.ui.main_splitter.setSizes([120, 800])
 
     def setup_menu_actions(self):
 
@@ -177,6 +190,8 @@ saving: ctrl+s
             self.session.set_stylesheet(ss_content)
             self.setStyleSheet(ss_content)
 
+    # SLOTS
+
     def on_performance_mode_changed(self, action):
         if action == self.action_set_performance_mode_fast:
             self.session.design.set_performance_mode('fast')
@@ -222,6 +237,13 @@ saving: ctrl+s
         img = view.get_whole_scene_img()
         img.save(file_path)
 
+    def on_save_project_triggered(self):
+        file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
+                                                '../saves', 'Ryven Project(*.rpo)')[0]
+        if file_name != '':
+            self.save_project(file_name)
+
+    # SESSION
 
     def script_created(self, script, flow_view):
         script_widget = ScriptUI(script, flow_view)
@@ -229,7 +251,7 @@ saving: ctrl+s
         self.ui.scripts_tab_widget.addTab(script_widget, script.title)
 
     def script_renamed(self, script):
-        script_UI, index = self.get_script_UI(script)
+        script_UI, index = self.get_script_ui(script)
         if index != -1:
 
             self.ui.scripts_tab_widget.setTabText(
@@ -238,11 +260,11 @@ saving: ctrl+s
             )
 
     def script_deleted(self, script):
-        script_UI, index = self.get_script_UI(script)
+        script_UI, index = self.get_script_ui(script)
         self.ui.scripts_tab_widget.removeTab(index)
         self.script_UIs.remove(script_UI)
 
-    def get_script_UI(self, script):
+    def get_script_ui(self, script):
         script_UI = None
         index = -1
         for index in range(len(self.script_UIs)):
@@ -252,10 +274,8 @@ saving: ctrl+s
                 break
         return script_UI, index
 
-
     def get_current_script(self):
         return self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()]
-
 
     def on_import_nodes_triggered(self):
         file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', '(*.py)',)[0]
@@ -275,13 +295,7 @@ saving: ctrl+s
         for n in nodes:
             self.node_packages[n] = package_name
 
-
-    def on_save_project_triggered(self):
-        file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                '../saves', 'Ryven Project(*.rpo)')[0]
-        if file_name != '':
-            self.save_project(file_name)
-
+        self.nodes_widget.update_list()
 
     def save_project(self, file_name):
         import json
@@ -295,13 +309,12 @@ saving: ctrl+s
             rc.InfoMsgs.write('couldn\'t open file')
             return
 
-
         general_project_info_dict = {'type': 'Ryven project file'}
 
         scripts_data = self.session.serialize()
 
         required_packages = set()
-        for node in self.session.all_nodes():
+        for node in self.session.all_node_objects():
             if node.__class__ not in self.node_packages.keys() or \
                     self.node_packages[node.__class__] is None or \
                     self.node_packages[node.__class__] == 'built_in':
@@ -316,7 +329,6 @@ saving: ctrl+s
 
         data = json.dumps(whole_project_dict, indent=4)
         rc.InfoMsgs.write(data)
-
 
         file.write(data)
         file.close()

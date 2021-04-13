@@ -242,18 +242,18 @@ class RedirectOutput:
 
 
 main_console = None
-main_console_group_box = None
+# main_console_group_box = None
 
 
 def init_main_console():
     global main_console
-    global main_console_group_box
+    # global main_console_group_box
 
     main_console = MainConsole()
 
-    main_console_group_box = QGroupBox('Console')
-    main_console_group_box.setLayout(QVBoxLayout())
-    main_console_group_box.layout().addWidget(main_console)
+    # main_console_group_box = QGroupBox('Console')
+    # main_console_group_box.setLayout(QVBoxLayout())
+    # main_console_group_box.layout().addWidget(main_console)
 
     console_stdout_redirect = RedirectOutput(main_console.write)
     console_errout_redirect = RedirectOutput(main_console.errorwrite)
