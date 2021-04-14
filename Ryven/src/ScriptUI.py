@@ -7,8 +7,8 @@ from uic.ui_script import Ui_script_widget
 
 
 class ScriptUI(QWidget):
-    def __init__(self, script, flow_view):
-        super().__init__()
+    def __init__(self, main_window, script, flow_view):
+        super().__init__(main_window)
 
         self.script = script
         self.flow_view = flow_view
@@ -39,7 +39,7 @@ class ScriptUI(QWidget):
         self.ui.splitter.insertWidget(0, self.flow_view)
 
         # code preview
-        self.code_preview_widget = CodePreviewWidget(self.flow_view)
+        self.code_preview_widget = CodePreviewWidget(main_window, self.flow_view)
         self.ui.source_code_groupBox.layout().addWidget(self.code_preview_widget)
 
         # logs

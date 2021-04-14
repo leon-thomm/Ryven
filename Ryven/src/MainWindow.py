@@ -21,10 +21,11 @@ from tools import import_nodes_package
 
 class MainWindow(QMainWindow):
 
-    def __init__(self, config):
+    def __init__(self, config, theme='dark'):
         super(MainWindow, self).__init__()
 
         self.session = None
+        self.theme = theme
         # self.package_names = []
         self.node_packages = {}  # {Node: str}
         self.script_UIs = []
@@ -72,7 +73,9 @@ class MainWindow(QMainWindow):
         #   LOAD DESIGN AND FLOW THEME
         self.session.design.load_from_config('design_config.json')
 
-        if 'light' in sys.argv:
+        if self.theme == 'dark':
+            self.session.design.set_flow_theme(name='Samuel 1d')
+        else:  # 'light'
             self.session.design.set_flow_theme(name='Samuel 1l')
 
         #   REGISTER BUILT-IN NODES
@@ -251,7 +254,7 @@ import: ctrl+i
     # SESSION
 
     def script_created(self, script, flow_view):
-        script_widget = ScriptUI(script, flow_view)
+        script_widget = ScriptUI(self, script, flow_view)
         self.script_UIs.append(script_widget)
         self.ui.scripts_tab_widget.addTab(script_widget, script.title)
 

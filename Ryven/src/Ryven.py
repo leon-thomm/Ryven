@@ -76,6 +76,8 @@ if __name__ == '__main__':
 
         os.environ['RYVEN_MODE'] = 'gui'
 
+        sys.path.append(os.path.join(__file__, 'code_editor/pygments/dracula.py'))
+
         from MainConsole import init_main_console
         from startup_dialog.StartupDialog import StartupDialog
         from MainWindow import MainWindow
@@ -92,12 +94,8 @@ if __name__ == '__main__':
         db.addApplicationFont('../resources/fonts/source_code_pro/SourceCodePro-Regular.ttf')
         db.addApplicationFont('../resources/fonts/asap/Asap-Regular.ttf')
 
-
-        if 'light' in sys.argv:
-            apply_stylesheet('light')
-        else:
-            apply_stylesheet('dark')
-
+        theme = 'dark' if 'light' not in sys.argv else 'light'
+        apply_stylesheet(theme)
 
         # StartupDialog
         sw = StartupDialog()
@@ -112,7 +110,7 @@ if __name__ == '__main__':
         # with redirect_stdout(console_stdout_redirect), \
         #      redirect_stderr(console_errout_redirect):
 
-        mw = MainWindow(sw.editor_startup_configuration)
+        mw = MainWindow(sw.editor_startup_configuration, theme)
         mw.show()
 
         sys.exit(app.exec_())
