@@ -1,5 +1,5 @@
 from NENV import *
-widgets = import_widgets()
+widgets = import_widgets(__file__)
 
 import numpy as np
 

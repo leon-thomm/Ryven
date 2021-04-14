@@ -192,6 +192,11 @@ import: ctrl+i
 
     # SLOTS
 
+    def on_import_nodes_triggered(self):
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', '(*.py)',)[0]
+        if file_path != '':
+            self.import_nodes(file_path)
+
     def on_performance_mode_changed(self, action):
         if action == self.action_set_performance_mode_fast:
             self.session.design.set_performance_mode('fast')
@@ -276,11 +281,6 @@ import: ctrl+i
 
     def get_current_script(self):
         return self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()]
-
-    def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', '(*.py)',)[0]
-        if file_path != '':
-            self.import_nodes(file_path)
 
     def import_packages(self, packages_list):
         for p in packages_list:

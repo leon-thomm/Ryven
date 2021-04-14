@@ -1,5 +1,6 @@
 """This file automatically imports all requirements for custom nodes.
 It should lie in the same location as Ryven.py so it can get imported directly from the custom sources."""
+import sys
 
 Node, NodeInputBP, NodeOutputBP = None, None, None
 
@@ -18,20 +19,22 @@ from tools import load_from_file
 from inspect import stack
 
 
-def import_widgets(rel_file_path='widgets.py', origin_file=None):
+def import_widgets(origin_file: str, rel_file_path='widgets.py'):
 
-    if origin_file:
-        caller_location = os.path.dirname(origin_file)
-    else:
-        caller_location = os.path.dirname(stack()[1].filename)  # getting caller file path from stack frame
+    caller_location = os.path.dirname(origin_file)
 
-    target_path = os.path.join(caller_location, rel_file_path)
+    # alternative solution without __file__ argument; does not work with debugging, so it's not the best idea
+    #   caller_location = os.path.dirname(stack()[1].filename)  # getting caller file path from stack frame
+
+    abs_path = os.path.join(caller_location, rel_file_path)
+    # origin_dir = os.path.dirname(abs_path)
+    # rem = origin_dir not in sys.path
+    # sys.path.append(origin_dir)
 
     if os.environ.get('RYVEN_MODE') == 'gui':
 
         # import the widgets module
-        load_from_file(target_path)
-        # __import__(target_path)
+        load_from_file(abs_path)
 
         # in GUI mode, import the widgets container from NWENV containing all the exported widget classes
         import NWENV
@@ -44,6 +47,9 @@ def import_widgets(rel_file_path='widgets.py', origin_file=None):
             def __getattr__(self, item):
                 return None
         widgets_container = PlaceholderWidgetsContainer()
+
+    # if rem:
+    #     sys.path.remove(origin_dir)
 
     return widgets_container
 

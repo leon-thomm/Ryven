@@ -1,7 +1,7 @@
 from ryvencore_qt.src.ryvencore import dtypes
 
 from NENV import *
-widgets = import_widgets()
+widgets = import_widgets(__file__)
 
 
 # Result_Node_MainWidget, \

@@ -6,17 +6,19 @@ import inspect
 import ryvencore_qt as rc
 
 from .EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
-from .CodePreview_TextEdit import CodePreview_TextEdit
+from .CodeEditorWidget import CodeEditorWidget
 from .SourceCodeUpdater import SrcCodeUpdater
 
 
-class CodePreview_Widget(QWidget):
+class CodePreviewWidget(QWidget):
     def __init__(self, flow):
-        super(CodePreview_Widget, self).__init__()
+        super(CodePreviewWidget, self).__init__()
 
         flow.nodes_selection_changed.connect(self.set_selected_nodes)
 
-        self.text_edit = CodePreview_TextEdit()
+        self.text_edit = CodeEditorWidget()
+        self.text_edit.disable_editing()
+
         self.node = None
         self.buttons_obj_dict = {}
         self.active_class_index = -1
@@ -55,15 +57,8 @@ class CodePreview_Widget(QWidget):
         secondary_layout.addLayout(edit_buttons_layout)
         edit_buttons_layout.setAlignment(Qt.AlignRight)
 
-
-        # syntax highlighting
-        self.syntax_highlighting_check_box = QCheckBox('syntax highlighting (alpha)')
-        self.syntax_highlighting_check_box.toggled.connect(self.syntax_highlighting_toggled)
-        self.syntax_highlighting_check_box.setChecked(True)
-
         main_layout = QVBoxLayout()
         main_layout.addLayout(secondary_layout)
-        main_layout.addWidget(self.syntax_highlighting_check_box)
         main_layout.addWidget(self.text_edit)
         self.setLayout(main_layout)
 
@@ -169,12 +164,6 @@ class CodePreview_Widget(QWidget):
         if checked:
             self.active_class_index = list(self.buttons_obj_dict.keys()).index(self.sender())
             self.update_code()
-
-    def syntax_highlighting_toggled(self):
-        if self.syntax_highlighting_check_box.isChecked():
-            self.text_edit.enable_highlighting()
-        else:
-            self.text_edit.disable_highlighting()
 
     def edit_code_button_clicked(self):
         if not EditSrcCodeInfoDialog.dont_show_again:

@@ -2,7 +2,7 @@ from PySide2.QtWidgets import QWidget, QHBoxLayout, QComboBox
 
 from ryvencore_qt import GUI
 
-from source_code_preview.CodePreview_Widget import CodePreview_Widget
+from code_editor.CodePreviewWidget import CodePreviewWidget
 from uic.ui_script import Ui_script_widget
 
 
@@ -39,7 +39,7 @@ class ScriptUI(QWidget):
         self.ui.splitter.insertWidget(0, self.flow_view)
 
         # code preview
-        self.code_preview_widget = CodePreview_Widget(self.flow_view)
+        self.code_preview_widget = CodePreviewWidget(self.flow_view)
         self.ui.source_code_groupBox.layout().addWidget(self.code_preview_widget)
 
         # logs

@@ -1,4 +1,6 @@
 import inspect
+import sys
+import os
 import types
 
 
@@ -21,7 +23,16 @@ class SrcCodeUpdater:
         # I need to set the __file__ manually to make sure the std loading routine of the parsed source is working
         module.__file__ = inspect.getfile(obj.__class__)
 
+        # # make original file location visible
+        # mod_dir = os.path.normpath(os.path.dirname(module.__file__))
+        # rem = mod_dir not in sys.path
+        # sys.path.append(mod_dir)
+
         exec(new_module_code, module.__dict__)
+
+        # # remove path again
+        # if rem:
+        #     sys.path.remove(mod_dir)
 
         # extracting the class
         new_obj_class = getattr(module, type(obj).__name__)
