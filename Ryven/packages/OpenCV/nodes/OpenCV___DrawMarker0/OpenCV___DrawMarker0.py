@@ -42,12 +42,12 @@ class DrawMarker_Node(Node):
         self.set_output_val(0, result)
 
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass # ...
 
 

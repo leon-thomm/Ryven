@@ -74,10 +74,10 @@ class PathInput(QWidget, IWB):
         self.node.update_shape()
         self.path_chosen.emit(f_path)
 
-    def get_data(self):
+    def get_state(self):
         return {'path': self.path}
     
-    def set_data(self, data):
+    def set_state(self, data):
         self.path = data['path']
         self.path_label.setText(self.path)
         self.node.update_shape()

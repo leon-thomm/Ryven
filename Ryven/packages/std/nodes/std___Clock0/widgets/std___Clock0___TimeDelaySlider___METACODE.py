@@ -32,11 +32,11 @@ class %CLASS%(QSlider, IWB):
     def get_val(self):
         return (self.value()/self.maximum())
 
-    def get_data(self):
+    def get_state(self):
         data = {'val': self.value()}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setValue(data['val'])
 
     def remove_event(self):

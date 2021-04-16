@@ -139,7 +139,7 @@ class Matrix_Node(Node):
         self.main_widget_hidden = False
         self.update_shape()
 
-    def get_data(self):
+    def get_state(self):
         expression_matrix_list = self.expression_matrix
         if expression_matrix_list is not None:  # ndarrays are not json serializaple
             expression_matrix_list = expression_matrix_list.tolist()
@@ -148,7 +148,7 @@ class Matrix_Node(Node):
                 'expression matrix': expression_matrix_list}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         if self.session.gui:
             self.main_widget_hidden = data['main widget hidden']
             if self.main_widget_hidden:

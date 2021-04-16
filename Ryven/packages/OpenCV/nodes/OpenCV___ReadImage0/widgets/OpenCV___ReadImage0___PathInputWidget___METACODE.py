@@ -34,10 +34,10 @@ class %CLASS%(QPushButton, IWB):
         # self.node.path_chosen(file_path)
         self.path_chosen.emit(file_path)
 
-    def get_data(self):
+    def get_state(self):
         return self.text()
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setText(data)
 
     def remove_event(self):

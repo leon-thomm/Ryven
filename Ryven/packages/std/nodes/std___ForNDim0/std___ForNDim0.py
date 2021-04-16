@@ -58,11 +58,11 @@ class ForNDim_Node(Node):
         if self.dimensions == 1:
             del self.special_actions['remove dimension']
 
-    def get_data(self):
+    def get_state(self):
         data = {'num dimensions': self.dimensions}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.dimensions = data['num dimensions']
 
 

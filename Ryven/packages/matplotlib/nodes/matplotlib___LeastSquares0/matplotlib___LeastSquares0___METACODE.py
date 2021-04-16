@@ -71,11 +71,11 @@ class %CLASS%(Node):
             self.main_widget().redraw_by_data(data, min_deg, max_deg, min_x, max_x)
             
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
     def removing(self):

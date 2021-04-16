@@ -25,12 +25,12 @@ class %CLASS%(Node):
         self.outputs[0].set_val(self.input(0)[0])
         self.outputs[1].set_val(self.input(0)[1])
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
         # ...
 

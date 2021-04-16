@@ -55,11 +55,11 @@ class ReadImage(Node):
             # self.main_widget_message.emit('couldn\'t open file')
             self.log_message(e, target='Errors')
 
-    def get_data(self):
+    def get_state(self):
         data = {'image file path': self.image_filepath}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.path_chosen(data['image file path'])
         # self.image_filepath = data['image file path']
 
@@ -113,10 +113,10 @@ class SaveImg(Node):
         if not self.active or (self.active and input_called == 0):
             cv2.imwrite(self.file_path, self.input(0))
     
-    def get_data(self):
+    def get_state(self):
         return {'path': self.file_path}
     
-    def set_data(self, data):
+    def set_state(self, data):
         self.file_path = data['path']
 
 

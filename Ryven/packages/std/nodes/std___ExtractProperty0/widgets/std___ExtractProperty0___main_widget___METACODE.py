@@ -45,11 +45,11 @@ class %CLASS%(QPlainTextEdit, MWB):
         return self.toPlainText()
 
 
-    def get_data(self):
+    def get_state(self):
         data = {'text': self.toPlainText()}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setPlainText(data['text'])
 
     def remove_event(self):

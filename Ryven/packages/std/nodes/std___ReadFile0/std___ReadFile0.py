@@ -53,12 +53,12 @@ class ReadFile_Node(Node):
         self.size_input_shown = False
 
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass # ...
 
 

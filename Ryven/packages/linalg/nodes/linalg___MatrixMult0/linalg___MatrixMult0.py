@@ -38,12 +38,12 @@ class MatrixMult_Node(Node):
         matrix = matmul(self.input(0), self.input(1))
         self.set_output_val(0, matrix)
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass # ...
 
     def removing(self):

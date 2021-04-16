@@ -58,11 +58,11 @@ class ChooseFileInputWidget_PortInstanceWidget(QWidget, IWB):
         return self.file_path
 
 
-    def get_data(self):
+    def get_state(self):
         # data = {'file path': self.file_path}
         return self.get_val()
 
-    def set_data(self, data):
+    def set_state(self, data):
         # self.set_file_path(data['file path'])
         self.set_file_path(data)
 

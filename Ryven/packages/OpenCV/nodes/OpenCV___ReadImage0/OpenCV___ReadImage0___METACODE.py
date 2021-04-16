@@ -39,11 +39,11 @@ class %CLASS%(Node):
             self.main_widget_message.emit('couldn\'t open file')
             self.log_message(e, 'error')
 
-    def get_data(self):
+    def get_state(self):
         data = {'image file path': self.image_filepath}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.path_chosen(data['image file path'])
         # self.image_filepath = data['image file path']
 

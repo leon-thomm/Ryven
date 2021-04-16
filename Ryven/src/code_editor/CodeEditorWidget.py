@@ -1,5 +1,5 @@
-from PySide2.QtWidgets import QTextEdit
-from PySide2.QtGui import QFont, QFontMetrics, QTextCursor, Qt
+from PySide2.QtWidgets import QTextEdit, QShortcut
+from PySide2.QtGui import QFont, QFontMetrics, QTextCursor, Qt, QKeySequence
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
@@ -19,6 +19,11 @@ class CodeEditorWidget(QTextEdit):
         f = QFont('Consolas')
         self.setFont(f)
         self.update_tab_stop_width()
+
+        # also not working:
+        # copy_shortcut = QShortcut(QKeySequence.Copy, self)
+        # copy_shortcut.activated.connect(self.copy)
+        # https://forum.qt.io/topic/121474/qshortcuts-catch-external-shortcuts-from-readonly-textedit/4
 
         self.textChanged.connect(self.text_changed)
         self.block_change_signal = False

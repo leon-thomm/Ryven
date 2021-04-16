@@ -42,11 +42,11 @@ class PointsField_Node(Node):
         points_scaled = [[p[0]*sclx, p[1]*scly] for p in self.points]
         self.set_output_val(0, points_scaled)
 
-    def get_data(self):
+    def get_state(self):
         data = {'points': self.points}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.points = data['points']
         self.main_widget().draw()
 

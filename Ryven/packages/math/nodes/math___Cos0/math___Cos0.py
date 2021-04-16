@@ -34,12 +34,12 @@ class Cos_Node(Node):
     def update_event(self, input_called=-1):
         self.outputs[0].set_val(math.cos(self.input(0)))
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
 

@@ -35,11 +35,11 @@ class ShowPoints_Node(Node):
             self.main_widget().show_points(self.points)
             self.exec_output(0)
 
-    def get_data(self):
+    def get_state(self):
         data = {'points': self.points}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.points = data['points']
         self.main_widget().show_points(self.points)
 

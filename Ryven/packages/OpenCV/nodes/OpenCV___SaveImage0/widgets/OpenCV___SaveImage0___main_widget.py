@@ -26,10 +26,10 @@ class SaveImage_Node_MainWidget(QLabel, MWB):
         path_short = path if len(path) < 15 else '...' + path[-15:]
         self.setText('path: ' + path_short)
 
-    def get_data(self):
+    def get_state(self):
         return {'image file path': self.img_filepath}
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.img_filepath = data['image file path']
 
 

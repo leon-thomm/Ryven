@@ -68,7 +68,7 @@ class %CLASS%(Node):
             except Exception as e:
                 self.log_message('couldn\'t execute script number '+str(input_called+1)+'\n    '+str(e), 'error')
 
-    def get_data(self):
+    def get_state(self):
         codes = []
         for i in range(self.num_scripts):
             code = self.main_widget().get_code(i)
@@ -78,7 +78,7 @@ class %CLASS%(Node):
                 'codes': codes}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         for i in range(data['num scripts']):
             self.action_add_exec_input()
 

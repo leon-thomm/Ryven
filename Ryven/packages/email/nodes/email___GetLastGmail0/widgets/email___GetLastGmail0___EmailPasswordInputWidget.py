@@ -32,11 +32,11 @@ class EmailPasswordInputWidget_PortInstanceWidget(QLineEdit, IWB):
         return self.text()
 
 
-    def get_data(self):
+    def get_state(self):
         data = {'text': self.text()}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setText(data['text'])
 
     def remove_event(self):

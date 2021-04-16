@@ -65,11 +65,11 @@ class Perceptron_Node(Node):
             self.fixing_log.log('new x1:',str(self.weights[0]))
             self.fixing_log.log('new x2:',str(self.weights[1]))
 
-    def get_data(self):
+    def get_state(self):
         data = {'weights': self.weights}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.weights = data['weights']
 
 

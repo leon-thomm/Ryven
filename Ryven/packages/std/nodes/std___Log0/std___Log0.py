@@ -60,12 +60,12 @@ class Log_Node(Node):
                 self.log_message(self.input(1), target=self.target)
             self.exec_output(0)
 
-    def get_data(self):
+    def get_state(self):
         data = {'target': self.target,
                 'showing target': self.showing_target_option}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.target = data['target']
         self.showing_target_option =  data['showing target']
 

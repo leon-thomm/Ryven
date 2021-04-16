@@ -38,11 +38,11 @@ class Times_Node(Node):
         if self.num_inputs == 2:
             del self.special_actions['remove input']
 
-    def get_data(self):
+    def get_state(self):
         data = {'num inputs': self.num_inputs}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.num_inputs = data['num inputs']
 
 

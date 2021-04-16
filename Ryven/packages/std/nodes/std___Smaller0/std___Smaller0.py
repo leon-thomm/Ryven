@@ -40,11 +40,11 @@ class Smaller_Node(Node):
             result = result and self.input(i) < self.input(i+1)
         self.outputs[0].set_val(result)
 
-    def get_data(self):
+    def get_state(self):
         data = {'enlargement state': self.enlargement_state}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.enlargement_state = data['enlargement state']
 
 

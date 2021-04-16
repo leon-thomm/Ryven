@@ -46,10 +46,10 @@ class %CLASS%(QSlider, MWB):
     def get_val(self):
         return self.value()/100
 
-    def get_data(self):
+    def get_state(self):
         return {'slider val': self.value()}
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setValue(data['slider val'])
 
 

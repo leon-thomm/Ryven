@@ -34,11 +34,11 @@ class %CLASS%(Node):
 
         self.main_widget().draw_points(self.points)
 
-    def get_data(self):
+    def get_state(self):
         data = {'points': self.points}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.points = data['points']
         self.main_widget().draw_points(self.points)
 

@@ -23,12 +23,12 @@ class WebcamFeed_Node(Node):
     def update_event(self, input_called=-1):
         pass  # no central updating here
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
         # ...
 

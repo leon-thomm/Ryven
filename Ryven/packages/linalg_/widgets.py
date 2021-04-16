@@ -107,13 +107,13 @@ QTextEdit{
         self.hidden_size = None
 
 
-    def get_data(self):
+    def get_state(self):
         data = {'text': self.toPlainText(),
                 'shown': self.hidden_size is None
                 }
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setText(data['text'])
         self.resize_to_content(data['text'].splitlines())
         if not data['shown']:

@@ -35,11 +35,11 @@ class %CLASS%(Node):
         elif input_called == 2:
             self.reset()
 
-    def get_data(self):
+    def get_state(self):
         data = {'values': self.values}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.values = data['values']
         self.main_widget().update(self.values)
 

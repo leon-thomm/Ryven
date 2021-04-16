@@ -52,12 +52,12 @@ class %CLASS%(Node):
         res = eval(self.text)
         self.set_output_val(0, res)
 
-    def get_data(self):
+    def get_state(self):
         data = {'param counter': self.param_counter,
                 'text': self.text}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.param_counter = data['param counter']
         self.text = data['text']
 

@@ -29,10 +29,10 @@ class Button_Node_MainWidget(QPushButton, MWB):
         # ''')
         self.clicked.connect(self.node.button_clicked)
 
-    def get_data(self):
+    def get_state(self):
         return {}
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
 

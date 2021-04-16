@@ -26,12 +26,12 @@ class GrayscaleToRGB_Node(Node):
         self.main_widget().show_image(self.img_Rgba)
         self.set_output_val(0, self.img_Rgba)
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
         # ...
 

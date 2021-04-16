@@ -26,12 +26,12 @@ class %CLASS%(Node):
         self.main_widget().show_image(self.img_grayed)
         self.set_output_val(0, self.img_grayed)
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
         # ...
 

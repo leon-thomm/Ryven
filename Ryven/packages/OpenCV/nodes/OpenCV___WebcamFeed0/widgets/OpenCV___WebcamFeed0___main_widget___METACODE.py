@@ -49,10 +49,10 @@ class %CLASS%(QWidget, MWB):
 
         self.parent_node_instance.video_picture_updated(frame)
 
-    def get_data(self):
+    def get_state(self):
         return {}  # self.text()
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass #self.setText(data)
 
 

@@ -43,12 +43,12 @@ class WeatherManager_Node(Node):
             self.set_output_val(1, mgr)
             self.exec_output(0)
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass # ...
 
 

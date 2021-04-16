@@ -36,10 +36,10 @@ class %CLASS%(Node):
         self.set_output_val(0, w)
         self.set_output_val(1, v)
 
-    def get_data(self):
+    def get_state(self):
         return {}
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
     def removing(self):

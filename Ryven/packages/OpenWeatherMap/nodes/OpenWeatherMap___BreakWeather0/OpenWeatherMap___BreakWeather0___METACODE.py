@@ -57,12 +57,12 @@ class %CLASS%(Node):
         self.set_output_val(17, w.temp)
         self.set_output_val(18, w.wind())
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         # ...
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass # ...
 
 

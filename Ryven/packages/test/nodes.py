@@ -27,10 +27,10 @@ class SuperNode(Node):
         super().__init__(params)
         self.val = 42
 
-    def get_data(self):
+    def get_state(self):
         return {'val': self.val}
     
-    def set_data(self, data):
+    def set_state(self, data):
         self.val = data['val']
 
 

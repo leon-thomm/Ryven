@@ -224,7 +224,7 @@ class NodeInstance:
     def initialized(self):
         self.setup_ports(
             self.init_config['inputs'], self.init_config['outputs'])
-        self.set_data(self.init_config['state data'])
+        self.get_state(self.init_config['state data'])
         self.initializing = False
         self.update()
 
@@ -268,10 +268,10 @@ class NodeInstance:
     def update_shape(self):
         pass
 
-    def get_data(self):
+    def get_state(self):
         pass
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
     def get_vars_manager(self):
@@ -309,11 +309,11 @@ class Conjugate_NodeInstance(NodeInstance):
         self.set_output_val(0, conjugated)
         self.main_widget.update_matrix(conjugated)
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
     def removing(self):
@@ -330,11 +330,11 @@ class MatrixPower_NodeInstance(NodeInstance):
         self.set_output_val(0, matrix)
         self.main_widget.update_matrix(matrix)
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
     def removing(self):
@@ -368,11 +368,11 @@ class Times_NodeInstance(NodeInstance):
         if self.num_inputs == 2:
             del self.special_actions['remove input']
 
-    def get_data(self):
+    def get_state(self):
         data = {'num inputs': self.num_inputs}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.num_inputs = data['num inputs']
 
     def remove_event(self):
@@ -388,11 +388,11 @@ class MatrixMult_NodeInstance(NodeInstance):
         matrix = matmul(self.input(0), self.input(1))
         self.set_output_val(0, matrix)
 
-    def get_data(self):
+    def get_state(self):
         data = {}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         pass
 
     def removing(self):
@@ -492,12 +492,12 @@ class ShowMatrix_NodeInstance(NodeInstance):
         self.main_widget_hidden = False
         self.update_shape()
 
-    def get_data(self):
+    def get_state(self):
         data = {'main widget hidden': self.main_widget_hidden,
                 'accessed rows': self.accessed_rows, 'accessed columns': self.accessed_columns}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.main_widget_hidden = data['main widget hidden']
         self.accessed_rows = data['accessed rows']
         self.accessed_columns = data['accessed columns']
@@ -589,7 +589,7 @@ class Matrix_NodeInstance(NodeInstance):
         self.main_widget_hidden = False
         self.update_shape()
 
-    def get_data(self):
+    def get_state(self):
         expression_matrix_list = self.expression_matrix
         if expression_matrix_list is not None:
             expression_matrix_list = expression_matrix_list.tolist()
@@ -597,7 +597,7 @@ class Matrix_NodeInstance(NodeInstance):
                 'expression matrix': expression_matrix_list}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.main_widget_hidden = data['main widget hidden']
         if self.main_widget_hidden:
             self.action_hide_mw()
@@ -635,11 +635,11 @@ class Divided_NodeInstance(NodeInstance):
         if self.num_inputs == 2:
             del self.special_actions['remove input']
 
-    def get_data(self):
+    def get_state(self):
         data = {'num inputs': self.num_inputs}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.num_inputs = data['num inputs']
 
     def remove_event(self):
@@ -675,11 +675,11 @@ class ExtractProperty_NodeInstance(NodeInstance):
         res = eval(self.text)
         self.set_output_val(0, res)
 
-    def get_data(self):
+    def get_state(self):
         data = {'param counter': self.param_counter, 'text': self.text}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.param_counter = data['param counter']
         self.text = data['text']
 

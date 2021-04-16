@@ -31,10 +31,10 @@ class %CLASS%(QLabel, MWB):
         self.setPixmap(QPixmap(qt_image))
         self.parent_node_instance.update_shape()
 
-    def get_data(self):
+    def get_state(self):
         return self.text()
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setText(data)
 
 

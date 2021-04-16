@@ -38,11 +38,11 @@ class Or_Node(Node):
             result = result or self.input(2+i)
         self.outputs[0].set_val(result)
 
-    def get_data(self):
+    def get_state(self):
         data = {'enlargement state': self.enlargement_state}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.enlargement_state = data['enlargement state']
 
 

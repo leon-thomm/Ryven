@@ -81,12 +81,12 @@ class Checkpoint_Node(Node):
                 for i in range(self.num_exec_outputs):
                     self.exec_output(i)
 
-    def get_data(self):
+    def get_state(self):
         data = {'passive': self.passive,
                 'num exec outputs': self.num_exec_outputs}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.passive = data['passive']
         self.num_exec_outputs = data['num exec outputs']
 

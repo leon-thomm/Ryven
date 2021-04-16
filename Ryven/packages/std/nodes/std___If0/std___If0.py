@@ -48,11 +48,11 @@ class If_Node(Node):
         else:
             self.exec_output(len(self.outputs)-1)
 
-    def get_data(self):
+    def get_state(self):
         data = {'else if enlargment state': self.else_if_enlargement_state}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.else_if_enlargement_state = data['else if enlargment state']
 
 

@@ -74,10 +74,10 @@ class ValueHist_Node_MainWidget(QWidget, MWB):
 
         self.repaint()
 
-    def get_data(self):
+    def get_state(self):
         return {'connect lines linear': self.connect_lines_check_box.isChecked()}
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.connect_lines_check_box.setChecked(data['connect lines linear'])
 
 

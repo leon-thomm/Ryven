@@ -56,11 +56,11 @@ class SaveImage_Node(Node):
             # self.main_widget().setText('Error')
             self.set_path_text_triggered.emit('Error')
 
-    def get_data(self):
+    def get_state(self):
         data = {'image file path': self.image_filepath}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.image_filepath = data['image file path']
 
     def path_chosen(self, file_path):

@@ -48,10 +48,10 @@ class GetVar_Node(Node):
     def var_val_changed(self, name, val):
         self.set_output_val(0, val)
 
-    # def get_data(self) -> dict:
+    # def get_state(self) -> dict:
     #     return {'var name': self.var_name}
     #
-    # def set_data(self, data: dict):
+    # def get_state(self, data: dict):
     #     self.var_name = data['var name']
 
 
@@ -128,12 +128,12 @@ class Val_Node(Node):
     def get_current_var_name(self):
         return self.input(0)
 
-    def get_data(self):
+    def get_state(self):
         return {
             'val': self.val  # self.main_widget().get_val()
         }
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.val = data['val']
 
 
@@ -188,10 +188,10 @@ class SetVar_Node(Node):
         del self.special_actions['make active']
         self.special_actions['make passive'] = {'method': self.action_make_passive}
 
-    def get_data(self):
+    def get_state(self):
         return {'active': self.active}
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.active = data['active']
 
 

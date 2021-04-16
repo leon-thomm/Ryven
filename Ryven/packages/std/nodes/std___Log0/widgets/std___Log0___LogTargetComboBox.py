@@ -27,11 +27,11 @@ class LogTargetComboBox_PortInstanceWidget(QComboBox, IWB):
         return self.currentText()
 
 
-    def get_data(self):
+    def get_state(self):
         data = {'text': self.currentText()}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.setCurrentText(data['text'])
 
 

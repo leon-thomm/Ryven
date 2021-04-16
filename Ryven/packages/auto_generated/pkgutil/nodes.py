@@ -120,7 +120,7 @@ class AutoNode_pkgutil_find_loader(rc.Node):
         
 
 
-class AutoNode_pkgutil_get_data(rc.Node):
+class AutoNode_pkgutil_get_state(rc.Node):
     title = 'get_data'
     description = '''Get a resource from a package.
 
@@ -140,7 +140,7 @@ class AutoNode_pkgutil_get_data(rc.Node):
         data = open(os.path.join(d, resource), 'rb').read()
 
     If the package cannot be located or loaded, or it uses a PEP 302 loader
-    which does not support get_data(), then None is returned.
+    which does not support get_state(), then None is returned.
     '''
     init_inputs = [
         rc.NodeInputBP(label='package'),
@@ -152,7 +152,7 @@ rc.NodeInputBP(label='resource'),
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, pkgutil.get_data(self.input(0), self.input(1)))
+        self.set_output_val(0, pkgutil.get_state(self.input(0), self.input(1)))
         
 
 

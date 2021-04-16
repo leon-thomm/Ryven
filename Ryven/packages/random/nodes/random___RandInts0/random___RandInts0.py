@@ -57,11 +57,11 @@ class RandInts_Node(Node):
         else:
             self.set_output_val(0, [random.randint(self.input(1), self.input(2)) for i in range(self.input(0))])
 
-    def get_data(self):
+    def get_state(self):
         data = {'active': self.active}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         self.active = data['active']
 
     def removing(self):

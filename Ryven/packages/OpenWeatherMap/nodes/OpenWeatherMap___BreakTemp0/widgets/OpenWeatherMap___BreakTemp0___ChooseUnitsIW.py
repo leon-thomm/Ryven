@@ -56,11 +56,11 @@ class ChooseUnitsIW_PortInstanceWidget(QWidget, IWB):
         return self.units
 
 
-    def get_data(self):
+    def get_state(self):
         data = {'units': self.units}
         return data
 
-    def set_data(self, data):
+    def set_state(self, data):
         if data['units'] == 'kelvin':
             self.units_kelvin.setChecked(True)
             self.units_celsius.setChecked(False)

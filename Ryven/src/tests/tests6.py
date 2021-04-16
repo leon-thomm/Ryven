@@ -146,7 +146,7 @@ class App(ed.Component):
     def plot(self, ax):
         all_plots = app_state["all_plots"]
 
-        def get_data(df, label, transform, param):
+        def get_state(df, label, transform, param):
             if label == "Date":
                 return df.index
             if transform == "None":
@@ -164,8 +164,8 @@ class App(ed.Component):
             xdf = yf.Ticker(xticker).history("1y")
             ydf = yf.Ticker(yticker).history("1y")
 
-            df = pd.DataFrame({"xdata": get_data(xdf, xdata, xtransform, xparam)}, index=xdf.index)
-            df = df.merge(pd.DataFrame({"ydata": get_data(ydf, ydata, ytransform, yparam)}, index=ydf.index),
+            df = pd.DataFrame({"xdata": get_state(xdf, xdata, xtransform, xparam)}, index=xdf.index)
+            df = df.merge(pd.DataFrame({"ydata": get_state(ydf, ydata, ytransform, yparam)}, index=ydf.index),
                           left_index=True, right_index=True)
             if plot_type == "line":
                 ax.plot(df.xdata, df.ydata, color=color)
@@ -174,7 +174,7 @@ class App(ed.Component):
 
     def render(self):
         all_plots = app_state.subscribe(self, "all_plots").value
-        return ed.Window(title="Financial Charts")(
+        return ed.MainWindow(title="Financial Charts")(
             View(layout="column", style={"margin": 10})(
                 ScrollView(layout="column")(
                     *[add_divider(PlotDescriptor(plotname)) for plotname in all_plots]
