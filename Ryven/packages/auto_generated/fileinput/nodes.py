@@ -4,7 +4,7 @@ import fileinput
 
 class AutoNode_fileinput__test(rc.Node):
     title = '_test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -20,7 +20,7 @@ class AutoNode_fileinput__test(rc.Node):
 
 class AutoNode_fileinput_close(rc.Node):
     title = 'close'
-    description = '''Close the sequence.'''
+    doc = '''Close the sequence.'''
     init_inputs = [
         
     ]
@@ -36,7 +36,7 @@ class AutoNode_fileinput_close(rc.Node):
 
 class AutoNode_fileinput_filelineno(rc.Node):
     title = 'filelineno'
-    description = '''
+    doc = '''
     Return the line number in the current file. Before the first line
     has been read, returns 0. After the last line of the last file has
     been read, returns the line number of that line within the file.
@@ -56,7 +56,7 @@ class AutoNode_fileinput_filelineno(rc.Node):
 
 class AutoNode_fileinput_filename(rc.Node):
     title = 'filename'
-    description = '''
+    doc = '''
     Return the name of the file currently being read.
     Before the first line has been read, returns None.
     '''
@@ -75,7 +75,7 @@ class AutoNode_fileinput_filename(rc.Node):
 
 class AutoNode_fileinput_fileno(rc.Node):
     title = 'fileno'
-    description = '''
+    doc = '''
     Return the file number of the current file. When no file is currently
     opened, returns -1.
     '''
@@ -94,7 +94,7 @@ class AutoNode_fileinput_fileno(rc.Node):
 
 class AutoNode_fileinput_hook_compressed(rc.Node):
     title = 'hook_compressed'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='filename'),
 rc.NodeInputBP(label='mode'),
@@ -111,7 +111,7 @@ rc.NodeInputBP(label='mode'),
 
 class AutoNode_fileinput_hook_encoded(rc.Node):
     title = 'hook_encoded'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='encoding'),
 rc.NodeInputBP(label='errors'),
@@ -128,7 +128,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_fileinput_input(rc.Node):
     title = 'input'
-    description = '''Return an instance of the FileInput class, which can be iterated.
+    doc = '''Return an instance of the FileInput class, which can be iterated.
 
     The parameters are passed to the constructor of the FileInput class.
     The returned instance, in addition to being an iterator,
@@ -151,7 +151,7 @@ rc.NodeInputBP(label='backup'),
 
 class AutoNode_fileinput_isfirstline(rc.Node):
     title = 'isfirstline'
-    description = '''
+    doc = '''
     Returns true the line just read is the first line of its file,
     otherwise returns false.
     '''
@@ -170,7 +170,7 @@ class AutoNode_fileinput_isfirstline(rc.Node):
 
 class AutoNode_fileinput_isstdin(rc.Node):
     title = 'isstdin'
-    description = '''
+    doc = '''
     Returns true if the last line was read from sys.stdin,
     otherwise returns false.
     '''
@@ -189,7 +189,7 @@ class AutoNode_fileinput_isstdin(rc.Node):
 
 class AutoNode_fileinput_lineno(rc.Node):
     title = 'lineno'
-    description = '''
+    doc = '''
     Return the cumulative line number of the line that has just been read.
     Before the first line has been read, returns 0. After the last line
     of the last file has been read, returns the line number of that line.
@@ -209,7 +209,7 @@ class AutoNode_fileinput_lineno(rc.Node):
 
 class AutoNode_fileinput_nextfile(rc.Node):
     title = 'nextfile'
-    description = '''
+    doc = '''
     Close the current file so that the next iteration will read the first
     line from the next file (if any); lines not read from the file will
     not count towards the cumulative line count. The filename is not

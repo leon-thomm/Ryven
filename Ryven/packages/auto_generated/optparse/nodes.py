@@ -4,7 +4,7 @@ import optparse
 
 class AutoNode_optparse__(rc.Node):
     title = '_'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_optparse__(rc.Node):
 
 class AutoNode_optparse__match_abbrev(rc.Node):
     title = '_match_abbrev'
-    description = '''_match_abbrev(s : string, wordmap : {string : Option}) -> string
+    doc = '''_match_abbrev(s : string, wordmap : {string : Option}) -> string
 
     Return the string key in 'wordmap' for which 's' is an unambiguous
     abbreviation.  If 's' is found to be ambiguous or doesn't match any of
@@ -42,7 +42,7 @@ rc.NodeInputBP(label='wordmap'),
 
 class AutoNode_optparse__parse_int(rc.Node):
     title = '_parse_int'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='val'),
     ]
@@ -58,7 +58,7 @@ class AutoNode_optparse__parse_int(rc.Node):
 
 class AutoNode_optparse__parse_num(rc.Node):
     title = '_parse_num'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='val'),
 rc.NodeInputBP(label='type'),
@@ -75,7 +75,7 @@ rc.NodeInputBP(label='type'),
 
 class AutoNode_optparse__repr(rc.Node):
     title = '_repr'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -91,7 +91,7 @@ class AutoNode_optparse__repr(rc.Node):
 
 class AutoNode_optparse_check_builtin(rc.Node):
     title = 'check_builtin'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='option'),
 rc.NodeInputBP(label='opt'),
@@ -109,7 +109,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_optparse_check_choice(rc.Node):
     title = 'check_choice'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='option'),
 rc.NodeInputBP(label='opt'),
@@ -127,7 +127,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_optparse_gettext(rc.Node):
     title = 'gettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
     ]
@@ -143,7 +143,7 @@ class AutoNode_optparse_gettext(rc.Node):
 
 class AutoNode_optparse_ngettext(rc.Node):
     title = 'ngettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='msgid1'),
 rc.NodeInputBP(label='msgid2'),

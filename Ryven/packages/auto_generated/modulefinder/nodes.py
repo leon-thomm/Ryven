@@ -4,7 +4,7 @@ import modulefinder
 
 class AutoNode_modulefinder_AddPackagePath(rc.Node):
     title = 'AddPackagePath'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='packagename'),
 rc.NodeInputBP(label='path'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='path'),
 
 class AutoNode_modulefinder_ReplacePackage(rc.Node):
     title = 'ReplacePackage'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='oldname'),
 rc.NodeInputBP(label='newname'),
@@ -38,7 +38,7 @@ rc.NodeInputBP(label='newname'),
 
 class AutoNode_modulefinder__find_module(rc.Node):
     title = '_find_module'
-    description = '''An importlib reimplementation of imp.find_module (for our purposes).'''
+    doc = '''An importlib reimplementation of imp.find_module (for our purposes).'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='path'),
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='path'),
 
 class AutoNode_modulefinder_test(rc.Node):
     title = 'test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]

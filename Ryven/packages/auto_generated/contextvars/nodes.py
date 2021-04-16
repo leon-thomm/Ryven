@@ -4,7 +4,7 @@ import contextvars
 
 class AutoNode_contextvars_copy_context(rc.Node):
     title = 'copy_context'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]

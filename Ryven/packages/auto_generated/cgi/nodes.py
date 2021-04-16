@@ -4,7 +4,7 @@ import cgi
 
 class AutoNode_cgi__parseparam(rc.Node):
     title = '_parseparam'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_cgi__parseparam(rc.Node):
 
 class AutoNode_cgi_closelog(rc.Node):
     title = 'closelog'
-    description = '''Close the log file.'''
+    doc = '''Close the log file.'''
     init_inputs = [
         
     ]
@@ -36,7 +36,7 @@ class AutoNode_cgi_closelog(rc.Node):
 
 class AutoNode_cgi_dolog(rc.Node):
     title = 'dolog'
-    description = '''Write a log message to the log file.  See initlog() for docs.'''
+    doc = '''Write a log message to the log file.  See initlog() for docs.'''
     init_inputs = [
         rc.NodeInputBP(label='fmt'),
     ]
@@ -52,7 +52,7 @@ class AutoNode_cgi_dolog(rc.Node):
 
 class AutoNode_cgi_initlog(rc.Node):
     title = 'initlog'
-    description = '''Write a log message, if there is a log file.
+    doc = '''Write a log message, if there is a log file.
 
     Even though this function is called initlog(), you should always
     use log(); log is a variable that is set either to initlog
@@ -89,7 +89,7 @@ class AutoNode_cgi_initlog(rc.Node):
 
 class AutoNode_cgi_log(rc.Node):
     title = 'log'
-    description = '''Write a log message, if there is a log file.
+    doc = '''Write a log message, if there is a log file.
 
     Even though this function is called initlog(), you should always
     use log(); log is a variable that is set either to initlog
@@ -126,7 +126,7 @@ class AutoNode_cgi_log(rc.Node):
 
 class AutoNode_cgi_nolog(rc.Node):
     title = 'nolog'
-    description = '''Dummy function, assigned to log when logging is disabled.'''
+    doc = '''Dummy function, assigned to log when logging is disabled.'''
     init_inputs = [
         
     ]
@@ -142,7 +142,7 @@ class AutoNode_cgi_nolog(rc.Node):
 
 class AutoNode_cgi_parse(rc.Node):
     title = 'parse'
-    description = '''Parse a query in the environment or from a file (default stdin)
+    doc = '''Parse a query in the environment or from a file (default stdin)
 
         Arguments, all optional:
 
@@ -179,7 +179,7 @@ rc.NodeInputBP(label='strict_parsing'),
 
 class AutoNode_cgi_parse_header(rc.Node):
     title = 'parse_header'
-    description = '''Parse a Content-type like header.
+    doc = '''Parse a Content-type like header.
 
     Return the main content-type and a dictionary of options.
 
@@ -199,7 +199,7 @@ class AutoNode_cgi_parse_header(rc.Node):
 
 class AutoNode_cgi_parse_multipart(rc.Node):
     title = 'parse_multipart'
-    description = '''Parse multipart input.
+    doc = '''Parse multipart input.
 
     Arguments:
     fp   : input file
@@ -229,7 +229,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_cgi_print_arguments(rc.Node):
     title = 'print_arguments'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -245,7 +245,7 @@ class AutoNode_cgi_print_arguments(rc.Node):
 
 class AutoNode_cgi_print_directory(rc.Node):
     title = 'print_directory'
-    description = '''Dump the current directory as HTML.'''
+    doc = '''Dump the current directory as HTML.'''
     init_inputs = [
         
     ]
@@ -261,7 +261,7 @@ class AutoNode_cgi_print_directory(rc.Node):
 
 class AutoNode_cgi_print_environ(rc.Node):
     title = 'print_environ'
-    description = '''Dump the shell environment as HTML.'''
+    doc = '''Dump the shell environment as HTML.'''
     init_inputs = [
         rc.NodeInputBP(label='environ'),
     ]
@@ -277,7 +277,7 @@ class AutoNode_cgi_print_environ(rc.Node):
 
 class AutoNode_cgi_print_environ_usage(rc.Node):
     title = 'print_environ_usage'
-    description = '''Dump a list of environment variables used by CGI as HTML.'''
+    doc = '''Dump a list of environment variables used by CGI as HTML.'''
     init_inputs = [
         
     ]
@@ -293,7 +293,7 @@ class AutoNode_cgi_print_environ_usage(rc.Node):
 
 class AutoNode_cgi_print_exception(rc.Node):
     title = 'print_exception'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='type'),
 rc.NodeInputBP(label='value'),
@@ -312,7 +312,7 @@ rc.NodeInputBP(label='limit'),
 
 class AutoNode_cgi_print_form(rc.Node):
     title = 'print_form'
-    description = '''Dump the contents of a form as HTML.'''
+    doc = '''Dump the contents of a form as HTML.'''
     init_inputs = [
         rc.NodeInputBP(label='form'),
     ]
@@ -328,7 +328,7 @@ class AutoNode_cgi_print_form(rc.Node):
 
 class AutoNode_cgi_test(rc.Node):
     title = 'test'
-    description = '''Robust test CGI script, usable as main program.
+    doc = '''Robust test CGI script, usable as main program.
 
     Write minimal HTTP headers and dump all information provided to
     the script in HTML form.
@@ -349,7 +349,7 @@ class AutoNode_cgi_test(rc.Node):
 
 class AutoNode_cgi_valid_boundary(rc.Node):
     title = 'valid_boundary'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]

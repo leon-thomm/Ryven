@@ -5,7 +5,7 @@ import _warnings
 class AutoNode__warnings_warn(rc.Node):
     title = 'warn'
     type_ = '_warnings'
-    description = '''Issue a warning, or maybe ignore it or raise an exception.'''
+    doc = '''Issue a warning, or maybe ignore it or raise an exception.'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
 rc.NodeInputBP(label='category'),

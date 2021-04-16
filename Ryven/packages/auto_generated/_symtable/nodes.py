@@ -5,7 +5,7 @@ import _symtable
 class AutoNode__symtable_symtable(rc.Node):
     title = 'symtable'
     type_ = '_symtable'
-    description = '''Return symbol and scope dictionaries used internally by compiler.'''
+    doc = '''Return symbol and scope dictionaries used internally by compiler.'''
     init_inputs = [
         rc.NodeInputBP(label='source'),
 rc.NodeInputBP(label='filename'),

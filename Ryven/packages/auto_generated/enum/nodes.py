@@ -4,7 +4,7 @@ import enum
 
 class AutoNode_enum__decompose(rc.Node):
     title = '_decompose'
-    description = '''
+    doc = '''
     Extract all members from the value.
     '''
     init_inputs = [
@@ -23,7 +23,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_enum__high_bit(rc.Node):
     title = '_high_bit'
-    description = '''
+    doc = '''
     returns index of highest bit, or -1 if value is zero or negative
     '''
     init_inputs = [
@@ -41,7 +41,7 @@ class AutoNode_enum__high_bit(rc.Node):
 
 class AutoNode_enum__is_descriptor(rc.Node):
     title = '_is_descriptor'
-    description = '''
+    doc = '''
     Returns True if obj is a descriptor, False otherwise.
     '''
     init_inputs = [
@@ -59,7 +59,7 @@ class AutoNode_enum__is_descriptor(rc.Node):
 
 class AutoNode_enum__is_dunder(rc.Node):
     title = '_is_dunder'
-    description = '''
+    doc = '''
     Returns True if a __dunder__ name, False otherwise.
     '''
     init_inputs = [
@@ -77,7 +77,7 @@ class AutoNode_enum__is_dunder(rc.Node):
 
 class AutoNode_enum__is_sunder(rc.Node):
     title = '_is_sunder'
-    description = '''
+    doc = '''
     Returns True if a _sunder_ name, False otherwise.
     '''
     init_inputs = [
@@ -95,7 +95,7 @@ class AutoNode_enum__is_sunder(rc.Node):
 
 class AutoNode_enum__make_class_unpicklable(rc.Node):
     title = '_make_class_unpicklable'
-    description = '''
+    doc = '''
     Make the given class un-picklable.
     '''
     init_inputs = [
@@ -113,7 +113,7 @@ class AutoNode_enum__make_class_unpicklable(rc.Node):
 
 class AutoNode_enum__power_of_two(rc.Node):
     title = '_power_of_two'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='value'),
     ]
@@ -129,7 +129,7 @@ class AutoNode_enum__power_of_two(rc.Node):
 
 class AutoNode_enum__reduce_ex_by_name(rc.Node):
     title = '_reduce_ex_by_name'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='proto'),
@@ -146,7 +146,7 @@ rc.NodeInputBP(label='proto'),
 
 class AutoNode_enum_unique(rc.Node):
     title = 'unique'
-    description = '''
+    doc = '''
     Class decorator for enumerations ensuring unique member values.
     '''
     init_inputs = [

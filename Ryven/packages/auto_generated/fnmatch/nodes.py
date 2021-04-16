@@ -4,7 +4,7 @@ import fnmatch
 
 class AutoNode_fnmatch_filter(rc.Node):
     title = 'filter'
-    description = '''Return the subset of the list NAMES that match PAT.'''
+    doc = '''Return the subset of the list NAMES that match PAT.'''
     init_inputs = [
         rc.NodeInputBP(label='names'),
 rc.NodeInputBP(label='pat'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='pat'),
 
 class AutoNode_fnmatch_fnmatch(rc.Node):
     title = 'fnmatch'
-    description = '''Test whether FILENAME matches PATTERN.
+    doc = '''Test whether FILENAME matches PATTERN.
 
     Patterns are Unix shell style:
 
@@ -51,7 +51,7 @@ rc.NodeInputBP(label='pat'),
 
 class AutoNode_fnmatch_fnmatchcase(rc.Node):
     title = 'fnmatchcase'
-    description = '''Test whether FILENAME matches PATTERN, including case.
+    doc = '''Test whether FILENAME matches PATTERN, including case.
 
     This is a version of fnmatch() which doesn't case-normalize
     its arguments.
@@ -72,7 +72,7 @@ rc.NodeInputBP(label='pat'),
 
 class AutoNode_fnmatch_translate(rc.Node):
     title = 'translate'
-    description = '''Translate a shell PATTERN to a regular expression.
+    doc = '''Translate a shell PATTERN to a regular expression.
 
     There is no way to quote meta-characters.
     '''

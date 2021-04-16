@@ -5,7 +5,7 @@ import msvcrt
 class AutoNode_msvcrt_SetErrorMode(rc.Node):
     title = 'SetErrorMode'
     type_ = 'msvcrt'
-    description = '''Wrapper around SetErrorMode.'''
+    doc = '''Wrapper around SetErrorMode.'''
     init_inputs = [
         rc.NodeInputBP(label='mode'),
     ]
@@ -22,7 +22,7 @@ class AutoNode_msvcrt_SetErrorMode(rc.Node):
 class AutoNode_msvcrt_get_osfhandle(rc.Node):
     title = 'get_osfhandle'
     type_ = 'msvcrt'
-    description = '''Return the file handle for the file descriptor fd.
+    doc = '''Return the file handle for the file descriptor fd.
 
 Raises OSError if fd is not recognized.'''
     init_inputs = [
@@ -41,7 +41,7 @@ Raises OSError if fd is not recognized.'''
 class AutoNode_msvcrt_getch(rc.Node):
     title = 'getch'
     type_ = 'msvcrt'
-    description = '''Read a keypress and return the resulting character as a byte string.
+    doc = '''Read a keypress and return the resulting character as a byte string.
 
 Nothing is echoed to the console. This call will block if a keypress is
 not already available, but will not wait for Enter to be pressed. If the
@@ -64,7 +64,7 @@ cannot be read with this function.'''
 class AutoNode_msvcrt_getche(rc.Node):
     title = 'getche'
     type_ = 'msvcrt'
-    description = '''Similar to getch(), but the keypress will be echoed if possible.'''
+    doc = '''Similar to getch(), but the keypress will be echoed if possible.'''
     init_inputs = [
         
     ]
@@ -81,7 +81,7 @@ class AutoNode_msvcrt_getche(rc.Node):
 class AutoNode_msvcrt_getwch(rc.Node):
     title = 'getwch'
     type_ = 'msvcrt'
-    description = '''Wide char variant of getch(), returning a Unicode value.'''
+    doc = '''Wide char variant of getch(), returning a Unicode value.'''
     init_inputs = [
         
     ]
@@ -98,7 +98,7 @@ class AutoNode_msvcrt_getwch(rc.Node):
 class AutoNode_msvcrt_getwche(rc.Node):
     title = 'getwche'
     type_ = 'msvcrt'
-    description = '''Wide char variant of getche(), returning a Unicode value.'''
+    doc = '''Wide char variant of getche(), returning a Unicode value.'''
     init_inputs = [
         
     ]
@@ -115,7 +115,7 @@ class AutoNode_msvcrt_getwche(rc.Node):
 class AutoNode_msvcrt_heapmin(rc.Node):
     title = 'heapmin'
     type_ = 'msvcrt'
-    description = '''Minimize the malloc() heap.
+    doc = '''Minimize the malloc() heap.
 
 Force the malloc() heap to clean itself up and return unused blocks
 to the operating system. On failure, this raises OSError.'''
@@ -135,7 +135,7 @@ to the operating system. On failure, this raises OSError.'''
 class AutoNode_msvcrt_kbhit(rc.Node):
     title = 'kbhit'
     type_ = 'msvcrt'
-    description = '''Return true if a keypress is waiting to be read.'''
+    doc = '''Return true if a keypress is waiting to be read.'''
     init_inputs = [
         
     ]
@@ -152,7 +152,7 @@ class AutoNode_msvcrt_kbhit(rc.Node):
 class AutoNode_msvcrt_locking(rc.Node):
     title = 'locking'
     type_ = 'msvcrt'
-    description = '''Lock part of a file based on file descriptor fd from the C runtime.
+    doc = '''Lock part of a file based on file descriptor fd from the C runtime.
 
 Raises OSError on failure. The locked region of the file extends from
 the current file position for nbytes bytes, and may continue beyond
@@ -178,7 +178,7 @@ rc.NodeInputBP(label='nbytes'),
 class AutoNode_msvcrt_open_osfhandle(rc.Node):
     title = 'open_osfhandle'
     type_ = 'msvcrt'
-    description = '''Create a C runtime file descriptor from the file handle handle.
+    doc = '''Create a C runtime file descriptor from the file handle handle.
 
 The flags parameter should be a bitwise OR of os.O_APPEND, os.O_RDONLY,
 and os.O_TEXT. The returned file descriptor may be used as a parameter
@@ -200,7 +200,7 @@ rc.NodeInputBP(label='flags'),
 class AutoNode_msvcrt_putch(rc.Node):
     title = 'putch'
     type_ = 'msvcrt'
-    description = '''Print the byte string char to the console without buffering.'''
+    doc = '''Print the byte string char to the console without buffering.'''
     init_inputs = [
         rc.NodeInputBP(label='char'),
     ]
@@ -217,7 +217,7 @@ class AutoNode_msvcrt_putch(rc.Node):
 class AutoNode_msvcrt_putwch(rc.Node):
     title = 'putwch'
     type_ = 'msvcrt'
-    description = '''Wide char variant of putch(), accepting a Unicode value.'''
+    doc = '''Wide char variant of putch(), accepting a Unicode value.'''
     init_inputs = [
         rc.NodeInputBP(label='unicode_char'),
     ]
@@ -234,7 +234,7 @@ class AutoNode_msvcrt_putwch(rc.Node):
 class AutoNode_msvcrt_setmode(rc.Node):
     title = 'setmode'
     type_ = 'msvcrt'
-    description = '''Set the line-end translation mode for the file descriptor fd.
+    doc = '''Set the line-end translation mode for the file descriptor fd.
 
 To set it to text mode, flags should be os.O_TEXT; for binary, it
 should be os.O_BINARY.
@@ -257,7 +257,7 @@ rc.NodeInputBP(label='mode'),
 class AutoNode_msvcrt_ungetch(rc.Node):
     title = 'ungetch'
     type_ = 'msvcrt'
-    description = '''Opposite of getch.
+    doc = '''Opposite of getch.
 
 Cause the byte string char to be "pushed back" into the
 console buffer; it will be the next character read by
@@ -278,7 +278,7 @@ getch() or getche().'''
 class AutoNode_msvcrt_ungetwch(rc.Node):
     title = 'ungetwch'
     type_ = 'msvcrt'
-    description = '''Wide char variant of ungetch(), accepting a Unicode value.'''
+    doc = '''Wide char variant of ungetch(), accepting a Unicode value.'''
     init_inputs = [
         rc.NodeInputBP(label='unicode_char'),
     ]

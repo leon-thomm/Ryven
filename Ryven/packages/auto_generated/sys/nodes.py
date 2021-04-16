@@ -5,7 +5,7 @@ import sys
 class AutoNode_sys___displayhook__(rc.Node):
     title = '__displayhook__'
     type_ = 'sys'
-    description = '''Print an object to sys.stdout and also save it in builtins._'''
+    doc = '''Print an object to sys.stdout and also save it in builtins._'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -22,7 +22,7 @@ class AutoNode_sys___displayhook__(rc.Node):
 class AutoNode_sys___excepthook__(rc.Node):
     title = '__excepthook__'
     type_ = 'sys'
-    description = '''Handle an exception by displaying it with a traceback on sys.stderr.'''
+    doc = '''Handle an exception by displaying it with a traceback on sys.stderr.'''
     init_inputs = [
         rc.NodeInputBP(label='exctype'),
 rc.NodeInputBP(label='value'),
@@ -41,7 +41,7 @@ rc.NodeInputBP(label='traceback'),
 class AutoNode_sys___interactivehook__(rc.Node):
     title = '__interactivehook__'
     type_ = 'sys'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         
     ]
@@ -58,7 +58,7 @@ class AutoNode_sys___interactivehook__(rc.Node):
 class AutoNode_sys___unraisablehook__(rc.Node):
     title = '__unraisablehook__'
     type_ = 'sys'
-    description = '''Handle an unraisable exception.
+    doc = '''Handle an unraisable exception.
 
 The unraisable argument has the following attributes:
 
@@ -83,7 +83,7 @@ The unraisable argument has the following attributes:
 class AutoNode_sys__clear_type_cache(rc.Node):
     title = '_clear_type_cache'
     type_ = 'sys'
-    description = '''Clear the internal type lookup cache.'''
+    doc = '''Clear the internal type lookup cache.'''
     init_inputs = [
         
     ]
@@ -100,7 +100,7 @@ class AutoNode_sys__clear_type_cache(rc.Node):
 class AutoNode_sys__current_frames(rc.Node):
     title = '_current_frames'
     type_ = 'sys'
-    description = '''Return a dict mapping each thread's thread id to its current stack frame.
+    doc = '''Return a dict mapping each thread's thread id to its current stack frame.
 
 This function should be used for specialized purposes only.'''
     init_inputs = [
@@ -119,7 +119,7 @@ This function should be used for specialized purposes only.'''
 class AutoNode_sys__debugmallocstats(rc.Node):
     title = '_debugmallocstats'
     type_ = 'sys'
-    description = '''Print summary info to stderr about the state of pymalloc's structures.
+    doc = '''Print summary info to stderr about the state of pymalloc's structures.
 
 In Py_DEBUG mode, also perform some expensive internal consistency
 checks.'''
@@ -139,7 +139,7 @@ checks.'''
 class AutoNode_sys__enablelegacywindowsfsencoding(rc.Node):
     title = '_enablelegacywindowsfsencoding'
     type_ = 'sys'
-    description = '''Changes the default filesystem encoding to mbcs:replace.
+    doc = '''Changes the default filesystem encoding to mbcs:replace.
 
 This is done for consistency with earlier versions of Python. See PEP
 529 for more information.
@@ -162,7 +162,7 @@ environment variable before launching Python.'''
 class AutoNode_sys__getframe(rc.Node):
     title = '_getframe'
     type_ = 'sys'
-    description = '''Return a frame object from the call stack.
+    doc = '''Return a frame object from the call stack.
 
 If optional integer depth is given, return the frame object that many
 calls below the top of the stack.  If that is deeper than the call
@@ -187,7 +187,7 @@ only.'''
 class AutoNode_sys_addaudithook(rc.Node):
     title = 'addaudithook'
     type_ = 'sys'
-    description = '''Adds a new audit hook callback.'''
+    doc = '''Adds a new audit hook callback.'''
     init_inputs = [
         rc.NodeInputBP(label='hook'),
     ]
@@ -204,7 +204,7 @@ class AutoNode_sys_addaudithook(rc.Node):
 class AutoNode_sys_call_tracing(rc.Node):
     title = 'call_tracing'
     type_ = 'sys'
-    description = '''Call func(*args), while tracing is enabled.
+    doc = '''Call func(*args), while tracing is enabled.
 
 The tracing state is saved, and restored afterwards.  This is intended
 to be called from a debugger from a checkpoint, to recursively debug
@@ -226,7 +226,7 @@ rc.NodeInputBP(label='args'),
 class AutoNode_sys_callstats(rc.Node):
     title = 'callstats'
     type_ = 'sys'
-    description = '''Return a tuple of function call statistics.
+    doc = '''Return a tuple of function call statistics.
 
 A tuple is returned only if CALL_PROFILE was defined when Python was
 built.  Otherwise, this returns None.
@@ -262,7 +262,7 @@ is a 11-tuple where the entries in the tuple are counts of:
 class AutoNode_sys_displayhook(rc.Node):
     title = 'displayhook'
     type_ = 'sys'
-    description = '''Print an object to sys.stdout and also save it in builtins._'''
+    doc = '''Print an object to sys.stdout and also save it in builtins._'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -279,7 +279,7 @@ class AutoNode_sys_displayhook(rc.Node):
 class AutoNode_sys_exc_info(rc.Node):
     title = 'exc_info'
     type_ = 'sys'
-    description = '''Return current exception information: (type, value, traceback).
+    doc = '''Return current exception information: (type, value, traceback).
 
 Return information about the most recent exception caught by an except
 clause in the current stack frame or in an older stack frame.'''
@@ -299,7 +299,7 @@ clause in the current stack frame or in an older stack frame.'''
 class AutoNode_sys_excepthook(rc.Node):
     title = 'excepthook'
     type_ = 'sys'
-    description = '''Handle an exception by displaying it with a traceback on sys.stderr.'''
+    doc = '''Handle an exception by displaying it with a traceback on sys.stderr.'''
     init_inputs = [
         rc.NodeInputBP(label='exctype'),
 rc.NodeInputBP(label='value'),
@@ -318,7 +318,7 @@ rc.NodeInputBP(label='traceback'),
 class AutoNode_sys_exit(rc.Node):
     title = 'exit'
     type_ = 'sys'
-    description = '''Exit the interpreter by raising SystemExit(status).
+    doc = '''Exit the interpreter by raising SystemExit(status).
 
 If the status is omitted or None, it defaults to zero (i.e., success).
 If the status is an integer, it will be used as the system exit status.
@@ -340,7 +340,7 @@ exit status will be one (i.e., failure).'''
 class AutoNode_sys_get_asyncgen_hooks(rc.Node):
     title = 'get_asyncgen_hooks'
     type_ = 'sys'
-    description = '''Return the installed asynchronous generators hooks.
+    doc = '''Return the installed asynchronous generators hooks.
 
 This returns a namedtuple of the form (firstiter, finalizer).'''
     init_inputs = [
@@ -359,7 +359,7 @@ This returns a namedtuple of the form (firstiter, finalizer).'''
 class AutoNode_sys_get_coroutine_origin_tracking_depth(rc.Node):
     title = 'get_coroutine_origin_tracking_depth'
     type_ = 'sys'
-    description = '''Check status of origin tracking for coroutine objects in this thread.'''
+    doc = '''Check status of origin tracking for coroutine objects in this thread.'''
     init_inputs = [
         
     ]
@@ -376,7 +376,7 @@ class AutoNode_sys_get_coroutine_origin_tracking_depth(rc.Node):
 class AutoNode_sys_getallocatedblocks(rc.Node):
     title = 'getallocatedblocks'
     type_ = 'sys'
-    description = '''Return the number of memory blocks currently allocated.'''
+    doc = '''Return the number of memory blocks currently allocated.'''
     init_inputs = [
         
     ]
@@ -393,7 +393,7 @@ class AutoNode_sys_getallocatedblocks(rc.Node):
 class AutoNode_sys_getcheckinterval(rc.Node):
     title = 'getcheckinterval'
     type_ = 'sys'
-    description = '''Return the current check interval; see sys.setcheckinterval().'''
+    doc = '''Return the current check interval; see sys.setcheckinterval().'''
     init_inputs = [
         
     ]
@@ -410,7 +410,7 @@ class AutoNode_sys_getcheckinterval(rc.Node):
 class AutoNode_sys_getdefaultencoding(rc.Node):
     title = 'getdefaultencoding'
     type_ = 'sys'
-    description = '''Return the current default encoding used by the Unicode implementation.'''
+    doc = '''Return the current default encoding used by the Unicode implementation.'''
     init_inputs = [
         
     ]
@@ -427,7 +427,7 @@ class AutoNode_sys_getdefaultencoding(rc.Node):
 class AutoNode_sys_getfilesystemencodeerrors(rc.Node):
     title = 'getfilesystemencodeerrors'
     type_ = 'sys'
-    description = '''Return the error mode used Unicode to OS filename conversion.'''
+    doc = '''Return the error mode used Unicode to OS filename conversion.'''
     init_inputs = [
         
     ]
@@ -444,7 +444,7 @@ class AutoNode_sys_getfilesystemencodeerrors(rc.Node):
 class AutoNode_sys_getfilesystemencoding(rc.Node):
     title = 'getfilesystemencoding'
     type_ = 'sys'
-    description = '''Return the encoding used to convert Unicode filenames to OS filenames.'''
+    doc = '''Return the encoding used to convert Unicode filenames to OS filenames.'''
     init_inputs = [
         
     ]
@@ -461,7 +461,7 @@ class AutoNode_sys_getfilesystemencoding(rc.Node):
 class AutoNode_sys_getprofile(rc.Node):
     title = 'getprofile'
     type_ = 'sys'
-    description = '''Return the profiling function set with sys.setprofile.
+    doc = '''Return the profiling function set with sys.setprofile.
 
 See the profiler chapter in the library manual.'''
     init_inputs = [
@@ -480,7 +480,7 @@ See the profiler chapter in the library manual.'''
 class AutoNode_sys_getrecursionlimit(rc.Node):
     title = 'getrecursionlimit'
     type_ = 'sys'
-    description = '''Return the current value of the recursion limit.
+    doc = '''Return the current value of the recursion limit.
 
 The recursion limit is the maximum depth of the Python interpreter
 stack.  This limit prevents infinite recursion from causing an overflow
@@ -501,7 +501,7 @@ of the C stack and crashing Python.'''
 class AutoNode_sys_getrefcount(rc.Node):
     title = 'getrefcount'
     type_ = 'sys'
-    description = '''Return the reference count of object.
+    doc = '''Return the reference count of object.
 
 The count returned is generally one higher than you might expect,
 because it includes the (temporary) reference as an argument to
@@ -522,7 +522,7 @@ getrefcount().'''
 class AutoNode_sys_getswitchinterval(rc.Node):
     title = 'getswitchinterval'
     type_ = 'sys'
-    description = '''Return the current thread switch interval; see sys.setswitchinterval().'''
+    doc = '''Return the current thread switch interval; see sys.setswitchinterval().'''
     init_inputs = [
         
     ]
@@ -539,7 +539,7 @@ class AutoNode_sys_getswitchinterval(rc.Node):
 class AutoNode_sys_gettrace(rc.Node):
     title = 'gettrace'
     type_ = 'sys'
-    description = '''Return the global debug tracing function set with sys.settrace.
+    doc = '''Return the global debug tracing function set with sys.settrace.
 
 See the debugger chapter in the library manual.'''
     init_inputs = [
@@ -558,7 +558,7 @@ See the debugger chapter in the library manual.'''
 class AutoNode_sys_getwindowsversion(rc.Node):
     title = 'getwindowsversion'
     type_ = 'sys'
-    description = '''Return info about the running version of Windows as a named tuple.
+    doc = '''Return info about the running version of Windows as a named tuple.
 
 The members are named: major, minor, build, platform, service_pack,
 service_pack_major, service_pack_minor, suite_mask, product_type and
@@ -585,7 +585,7 @@ intended for identifying the OS rather than feature detection.'''
 class AutoNode_sys_intern(rc.Node):
     title = 'intern'
     type_ = 'sys'
-    description = '''``Intern'' the given string.
+    doc = '''``Intern'' the given string.
 
 This enters the string in the (global) table of interned strings whose
 purpose is to speed up dictionary lookups. Return the string itself or
@@ -606,7 +606,7 @@ the previously interned string object with the same value.'''
 class AutoNode_sys_is_finalizing(rc.Node):
     title = 'is_finalizing'
     type_ = 'sys'
-    description = '''Return True if Python is exiting.'''
+    doc = '''Return True if Python is exiting.'''
     init_inputs = [
         
     ]
@@ -623,7 +623,7 @@ class AutoNode_sys_is_finalizing(rc.Node):
 class AutoNode_sys_set_coroutine_origin_tracking_depth(rc.Node):
     title = 'set_coroutine_origin_tracking_depth'
     type_ = 'sys'
-    description = '''Enable or disable origin tracking for coroutine objects in this thread.
+    doc = '''Enable or disable origin tracking for coroutine objects in this thread.
 
 Coroutine objects will track 'depth' frames of traceback information
 about where they came from, available in their cr_origin attribute.
@@ -645,7 +645,7 @@ Set a depth of 0 to disable.'''
 class AutoNode_sys_setcheckinterval(rc.Node):
     title = 'setcheckinterval'
     type_ = 'sys'
-    description = '''Set the async event check interval to n instructions.
+    doc = '''Set the async event check interval to n instructions.
 
 This tells the Python interpreter to check for asynchronous events
 every n instructions.
@@ -667,7 +667,7 @@ This also affects how often thread switches occur.'''
 class AutoNode_sys_setrecursionlimit(rc.Node):
     title = 'setrecursionlimit'
     type_ = 'sys'
-    description = '''Set the maximum depth of the Python interpreter stack to n.
+    doc = '''Set the maximum depth of the Python interpreter stack to n.
 
 This limit prevents infinite recursion from causing an overflow of the C
 stack and crashing Python.  The highest possible limit is platform-
@@ -688,7 +688,7 @@ dependent.'''
 class AutoNode_sys_setswitchinterval(rc.Node):
     title = 'setswitchinterval'
     type_ = 'sys'
-    description = '''Set the ideal thread switching delay inside the Python interpreter.
+    doc = '''Set the ideal thread switching delay inside the Python interpreter.
 
 The actual frequency of switching threads can be lower if the
 interpreter executes long sequences of uninterruptible code
@@ -712,7 +712,7 @@ A typical value is 0.005 (5 milliseconds).'''
 class AutoNode_sys_unraisablehook(rc.Node):
     title = 'unraisablehook'
     type_ = 'sys'
-    description = '''Handle an unraisable exception.
+    doc = '''Handle an unraisable exception.
 
 The unraisable argument has the following attributes:
 

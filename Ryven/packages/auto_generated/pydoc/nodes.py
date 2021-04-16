@@ -4,7 +4,7 @@ import pydoc
 
 class AutoNode_pydoc__adjust_cli_sys_path(rc.Node):
     title = '_adjust_cli_sys_path'
-    description = '''Ensures current directory is on sys.path, and __main__ directory is not.
+    doc = '''Ensures current directory is on sys.path, and __main__ directory is not.
 
     Exception: __main__ dir is left alone if it's also pydoc's directory.
     '''
@@ -23,7 +23,7 @@ class AutoNode_pydoc__adjust_cli_sys_path(rc.Node):
 
 class AutoNode_pydoc__escape_stdout(rc.Node):
     title = '_escape_stdout'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -39,7 +39,7 @@ class AutoNode_pydoc__escape_stdout(rc.Node):
 
 class AutoNode_pydoc__get_revised_path(rc.Node):
     title = '_get_revised_path'
-    description = '''Ensures current directory is on returned path, and argv0 directory is not
+    doc = '''Ensures current directory is on returned path, and argv0 directory is not
 
     Exception: argv0 dir is left alone if it's also pydoc's directory.
 
@@ -61,7 +61,7 @@ rc.NodeInputBP(label='argv0'),
 
 class AutoNode_pydoc__is_bound_method(rc.Node):
     title = '_is_bound_method'
-    description = '''
+    doc = '''
     Returns True if fn is a bound method, regardless of whether
     fn was implemented in Python or in C.
     '''
@@ -80,7 +80,7 @@ class AutoNode_pydoc__is_bound_method(rc.Node):
 
 class AutoNode_pydoc__split_list(rc.Node):
     title = '_split_list'
-    description = '''Split sequence s via predicate, and return pair ([true], [false]).
+    doc = '''Split sequence s via predicate, and return pair ([true], [false]).
 
     The return value is a 2-tuple of lists,
         ([x for x in s if predicate(x)],
@@ -102,7 +102,7 @@ rc.NodeInputBP(label='predicate'),
 
 class AutoNode_pydoc__start_server(rc.Node):
     title = '_start_server'
-    description = '''Start an HTTP server thread on a specific port.
+    doc = '''Start an HTTP server thread on a specific port.
 
     Start an HTML/text server thread, so HTML or text documents can be
     browsed dynamically and interactively with a Web browser.  Example use:
@@ -174,7 +174,7 @@ rc.NodeInputBP(label='port'),
 
 class AutoNode_pydoc__url_handler(rc.Node):
     title = '_url_handler'
-    description = '''The pydoc url handler for use with the pydoc server.
+    doc = '''The pydoc url handler for use with the pydoc server.
 
     If the content_type is 'text/css', the _pydoc.css style
     sheet is read and returned if it exits.
@@ -198,7 +198,7 @@ rc.NodeInputBP(label='content_type'),
 
 class AutoNode_pydoc_allmethods(rc.Node):
     title = 'allmethods'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cl'),
     ]
@@ -214,7 +214,7 @@ class AutoNode_pydoc_allmethods(rc.Node):
 
 class AutoNode_pydoc_apropos(rc.Node):
     title = 'apropos'
-    description = '''Print all the one-line module summaries that contain a substring.'''
+    doc = '''Print all the one-line module summaries that contain a substring.'''
     init_inputs = [
         rc.NodeInputBP(label='key'),
     ]
@@ -230,7 +230,7 @@ class AutoNode_pydoc_apropos(rc.Node):
 
 class AutoNode_pydoc_browse(rc.Node):
     title = 'browse'
-    description = '''Start the enhanced pydoc Web server and open a Web browser.
+    doc = '''Start the enhanced pydoc Web server and open a Web browser.
 
     Use port '0' to start the server on an arbitrary port.
     Set open_browser to False to suppress opening a browser.
@@ -250,7 +250,7 @@ class AutoNode_pydoc_browse(rc.Node):
 
 class AutoNode_pydoc_classify_class_attrs(rc.Node):
     title = 'classify_class_attrs'
-    description = '''Wrap inspect.classify_class_attrs, with fixup for data descriptors.'''
+    doc = '''Wrap inspect.classify_class_attrs, with fixup for data descriptors.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -266,7 +266,7 @@ class AutoNode_pydoc_classify_class_attrs(rc.Node):
 
 class AutoNode_pydoc_classname(rc.Node):
     title = 'classname'
-    description = '''Get a class name and qualify it with a module name if necessary.'''
+    doc = '''Get a class name and qualify it with a module name if necessary.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
 rc.NodeInputBP(label='modname'),
@@ -283,7 +283,7 @@ rc.NodeInputBP(label='modname'),
 
 class AutoNode_pydoc_cli(rc.Node):
     title = 'cli'
-    description = '''Command-line interface (looks at sys.argv to decide what to do).'''
+    doc = '''Command-line interface (looks at sys.argv to decide what to do).'''
     init_inputs = [
         
     ]
@@ -299,7 +299,7 @@ class AutoNode_pydoc_cli(rc.Node):
 
 class AutoNode_pydoc_cram(rc.Node):
     title = 'cram'
-    description = '''Omit part of a string if needed to make it fit in a maximum length.'''
+    doc = '''Omit part of a string if needed to make it fit in a maximum length.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
 rc.NodeInputBP(label='maxlen'),
@@ -316,7 +316,7 @@ rc.NodeInputBP(label='maxlen'),
 
 class AutoNode_pydoc_describe(rc.Node):
     title = 'describe'
-    description = '''Produce a short description of the given thing.'''
+    doc = '''Produce a short description of the given thing.'''
     init_inputs = [
         rc.NodeInputBP(label='thing'),
     ]
@@ -332,7 +332,7 @@ class AutoNode_pydoc_describe(rc.Node):
 
 class AutoNode_pydoc_doc(rc.Node):
     title = 'doc'
-    description = '''Display text documentation, given an object or a path to an object.'''
+    doc = '''Display text documentation, given an object or a path to an object.'''
     init_inputs = [
         rc.NodeInputBP(label='thing'),
 rc.NodeInputBP(label='title'),
@@ -351,7 +351,7 @@ rc.NodeInputBP(label='output'),
 
 class AutoNode_pydoc_format_exception_only(rc.Node):
     title = 'format_exception_only'
-    description = '''Format the exception part of a traceback.
+    doc = '''Format the exception part of a traceback.
 
     The arguments are the exception type and value such as given by
     sys.last_type and sys.last_value. The return value is a list of
@@ -382,7 +382,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_pydoc_getdoc(rc.Node):
     title = 'getdoc'
-    description = '''Get the doc string or comments for an object.'''
+    doc = '''Get the doc string or comments for an object.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -398,7 +398,7 @@ class AutoNode_pydoc_getdoc(rc.Node):
 
 class AutoNode_pydoc_getpager(rc.Node):
     title = 'getpager'
-    description = '''Decide what method to use for paging through text.'''
+    doc = '''Decide what method to use for paging through text.'''
     init_inputs = [
         
     ]
@@ -414,7 +414,7 @@ class AutoNode_pydoc_getpager(rc.Node):
 
 class AutoNode_pydoc_importfile(rc.Node):
     title = 'importfile'
-    description = '''Import a Python source file or compiled file given its path.'''
+    doc = '''Import a Python source file or compiled file given its path.'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
     ]
@@ -430,7 +430,7 @@ class AutoNode_pydoc_importfile(rc.Node):
 
 class AutoNode_pydoc_isdata(rc.Node):
     title = 'isdata'
-    description = '''Check if an object is of a type that probably means it's data.'''
+    doc = '''Check if an object is of a type that probably means it's data.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -446,7 +446,7 @@ class AutoNode_pydoc_isdata(rc.Node):
 
 class AutoNode_pydoc_ispackage(rc.Node):
     title = 'ispackage'
-    description = '''Guess whether a path refers to a package directory.'''
+    doc = '''Guess whether a path refers to a package directory.'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
     ]
@@ -462,7 +462,7 @@ class AutoNode_pydoc_ispackage(rc.Node):
 
 class AutoNode_pydoc_ispath(rc.Node):
     title = 'ispath'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -478,7 +478,7 @@ class AutoNode_pydoc_ispath(rc.Node):
 
 class AutoNode_pydoc_locate(rc.Node):
     title = 'locate'
-    description = '''Locate an object by name or dotted path, importing as necessary.'''
+    doc = '''Locate an object by name or dotted path, importing as necessary.'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
 rc.NodeInputBP(label='forceload'),
@@ -495,7 +495,7 @@ rc.NodeInputBP(label='forceload'),
 
 class AutoNode_pydoc_pager(rc.Node):
     title = 'pager'
-    description = '''The first time this is called, determine what kind of pager to use.'''
+    doc = '''The first time this is called, determine what kind of pager to use.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -511,7 +511,7 @@ class AutoNode_pydoc_pager(rc.Node):
 
 class AutoNode_pydoc_pathdirs(rc.Node):
     title = 'pathdirs'
-    description = '''Convert sys.path into a list of absolute, existing, unique paths.'''
+    doc = '''Convert sys.path into a list of absolute, existing, unique paths.'''
     init_inputs = [
         
     ]
@@ -527,7 +527,7 @@ class AutoNode_pydoc_pathdirs(rc.Node):
 
 class AutoNode_pydoc_pipepager(rc.Node):
     title = 'pipepager'
-    description = '''Page through text by feeding it to another program.'''
+    doc = '''Page through text by feeding it to another program.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
 rc.NodeInputBP(label='cmd'),
@@ -544,7 +544,7 @@ rc.NodeInputBP(label='cmd'),
 
 class AutoNode_pydoc_plain(rc.Node):
     title = 'plain'
-    description = '''Remove boldface formatting from text.'''
+    doc = '''Remove boldface formatting from text.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -560,7 +560,7 @@ class AutoNode_pydoc_plain(rc.Node):
 
 class AutoNode_pydoc_plainpager(rc.Node):
     title = 'plainpager'
-    description = '''Simply print unformatted text.  This is the ultimate fallback.'''
+    doc = '''Simply print unformatted text.  This is the ultimate fallback.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -576,7 +576,7 @@ class AutoNode_pydoc_plainpager(rc.Node):
 
 class AutoNode_pydoc_render_doc(rc.Node):
     title = 'render_doc'
-    description = '''Render text documentation, given an object or a path to an object.'''
+    doc = '''Render text documentation, given an object or a path to an object.'''
     init_inputs = [
         rc.NodeInputBP(label='thing'),
 rc.NodeInputBP(label='title'),
@@ -595,7 +595,7 @@ rc.NodeInputBP(label='renderer'),
 
 class AutoNode_pydoc_replace(rc.Node):
     title = 'replace'
-    description = '''Do a series of global replacements on a string.'''
+    doc = '''Do a series of global replacements on a string.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -611,7 +611,7 @@ class AutoNode_pydoc_replace(rc.Node):
 
 class AutoNode_pydoc_resolve(rc.Node):
     title = 'resolve'
-    description = '''Given an object or a path to an object, get the object and its name.'''
+    doc = '''Given an object or a path to an object, get the object and its name.'''
     init_inputs = [
         rc.NodeInputBP(label='thing'),
 rc.NodeInputBP(label='forceload'),
@@ -628,7 +628,7 @@ rc.NodeInputBP(label='forceload'),
 
 class AutoNode_pydoc_safeimport(rc.Node):
     title = 'safeimport'
-    description = '''Import a module; handle errors; return None if the module isn't found.
+    doc = '''Import a module; handle errors; return None if the module isn't found.
 
     If the module *is* found but an exception occurs, it's wrapped in an
     ErrorDuringImport exception and reraised.  Unlike __import__, if a
@@ -652,7 +652,7 @@ rc.NodeInputBP(label='cache'),
 
 class AutoNode_pydoc_sort_attributes(rc.Node):
     title = 'sort_attributes'
-    description = '''Sort the attrs list in-place by _fields and then alphabetically by name'''
+    doc = '''Sort the attrs list in-place by _fields and then alphabetically by name'''
     init_inputs = [
         rc.NodeInputBP(label='attrs'),
 rc.NodeInputBP(label='object'),
@@ -669,7 +669,7 @@ rc.NodeInputBP(label='object'),
 
 class AutoNode_pydoc_source_synopsis(rc.Node):
     title = 'source_synopsis'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]
@@ -685,7 +685,7 @@ class AutoNode_pydoc_source_synopsis(rc.Node):
 
 class AutoNode_pydoc_splitdoc(rc.Node):
     title = 'splitdoc'
-    description = '''Split a doc string into a synopsis line (if any) and the rest.'''
+    doc = '''Split a doc string into a synopsis line (if any) and the rest.'''
     init_inputs = [
         rc.NodeInputBP(label='doc'),
     ]
@@ -701,7 +701,7 @@ class AutoNode_pydoc_splitdoc(rc.Node):
 
 class AutoNode_pydoc_stripid(rc.Node):
     title = 'stripid'
-    description = '''Remove the hexadecimal id from a Python object representation.'''
+    doc = '''Remove the hexadecimal id from a Python object representation.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -717,7 +717,7 @@ class AutoNode_pydoc_stripid(rc.Node):
 
 class AutoNode_pydoc_synopsis(rc.Node):
     title = 'synopsis'
-    description = '''Get the one-line summary out of a module file.'''
+    doc = '''Get the one-line summary out of a module file.'''
     init_inputs = [
         rc.NodeInputBP(label='filename'),
 rc.NodeInputBP(label='cache'),
@@ -734,7 +734,7 @@ rc.NodeInputBP(label='cache'),
 
 class AutoNode_pydoc_tempfilepager(rc.Node):
     title = 'tempfilepager'
-    description = '''Page through text by invoking a program on a temporary file.'''
+    doc = '''Page through text by invoking a program on a temporary file.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
 rc.NodeInputBP(label='cmd'),
@@ -751,7 +751,7 @@ rc.NodeInputBP(label='cmd'),
 
 class AutoNode_pydoc_ttypager(rc.Node):
     title = 'ttypager'
-    description = '''Page through text on a text terminal.'''
+    doc = '''Page through text on a text terminal.'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -767,7 +767,7 @@ class AutoNode_pydoc_ttypager(rc.Node):
 
 class AutoNode_pydoc_visiblename(rc.Node):
     title = 'visiblename'
-    description = '''Decide whether to show documentation on a variable.'''
+    doc = '''Decide whether to show documentation on a variable.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='all'),
@@ -785,7 +785,7 @@ rc.NodeInputBP(label='obj'),
 
 class AutoNode_pydoc_writedoc(rc.Node):
     title = 'writedoc'
-    description = '''Write HTML documentation to a file in the current directory.'''
+    doc = '''Write HTML documentation to a file in the current directory.'''
     init_inputs = [
         rc.NodeInputBP(label='thing'),
 rc.NodeInputBP(label='forceload'),
@@ -802,7 +802,7 @@ rc.NodeInputBP(label='forceload'),
 
 class AutoNode_pydoc_writedocs(rc.Node):
     title = 'writedocs'
-    description = '''Write out HTML documentation for all modules in a directory tree.'''
+    doc = '''Write out HTML documentation for all modules in a directory tree.'''
     init_inputs = [
         rc.NodeInputBP(label='dir'),
 rc.NodeInputBP(label='pkgpath'),

@@ -4,7 +4,7 @@ import importlib
 
 class AutoNode_importlib___import__(rc.Node):
     title = '__import__'
-    description = '''Import a module.
+    doc = '''Import a module.
 
     The 'globals' argument is used to infer where the import is occurring from
     to handle relative imports. The 'locals' argument is ignored. The
@@ -33,7 +33,7 @@ rc.NodeInputBP(label='level'),
 
 class AutoNode_importlib__pack_uint32(rc.Node):
     title = '_pack_uint32'
-    description = '''Convert a 32-bit integer to little-endian.'''
+    doc = '''Convert a 32-bit integer to little-endian.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -49,7 +49,7 @@ class AutoNode_importlib__pack_uint32(rc.Node):
 
 class AutoNode_importlib__unpack_uint32(rc.Node):
     title = '_unpack_uint32'
-    description = '''Convert 4 bytes in little-endian to an integer.'''
+    doc = '''Convert 4 bytes in little-endian to an integer.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -65,7 +65,7 @@ class AutoNode_importlib__unpack_uint32(rc.Node):
 
 class AutoNode_importlib_find_loader(rc.Node):
     title = 'find_loader'
-    description = '''Return the loader for the specified module.
+    doc = '''Return the loader for the specified module.
 
     This is a backward-compatible wrapper around find_spec().
 
@@ -88,7 +88,7 @@ rc.NodeInputBP(label='path'),
 
 class AutoNode_importlib_import_module(rc.Node):
     title = 'import_module'
-    description = '''Import a module.
+    doc = '''Import a module.
 
     The 'package' argument is required when performing a relative import. It
     specifies the package to use as the anchor point from which to resolve the
@@ -111,7 +111,7 @@ rc.NodeInputBP(label='package'),
 
 class AutoNode_importlib_invalidate_caches(rc.Node):
     title = 'invalidate_caches'
-    description = '''Call the invalidate_caches() method on all meta path finders stored in
+    doc = '''Call the invalidate_caches() method on all meta path finders stored in
     sys.meta_path (where implemented).'''
     init_inputs = [
         
@@ -128,7 +128,7 @@ class AutoNode_importlib_invalidate_caches(rc.Node):
 
 class AutoNode_importlib_reload(rc.Node):
     title = 'reload'
-    description = '''Reload the module and return it.
+    doc = '''Reload the module and return it.
 
     The module must have been successfully imported before.
 

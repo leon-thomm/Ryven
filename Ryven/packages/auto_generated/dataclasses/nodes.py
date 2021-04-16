@@ -4,7 +4,7 @@ import dataclasses
 
 class AutoNode_dataclasses__asdict_inner(rc.Node):
     title = '_asdict_inner'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='dict_factory'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='dict_factory'),
 
 class AutoNode_dataclasses__astuple_inner(rc.Node):
     title = '_astuple_inner'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='tuple_factory'),
@@ -38,7 +38,7 @@ rc.NodeInputBP(label='tuple_factory'),
 
 class AutoNode_dataclasses__cmp_fn(rc.Node):
     title = '_cmp_fn'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='op'),
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__create_fn(rc.Node):
     title = '_create_fn'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='args'),
@@ -76,7 +76,7 @@ rc.NodeInputBP(label='body'),
 
 class AutoNode_dataclasses__field_assign(rc.Node):
     title = '_field_assign'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='frozen'),
 rc.NodeInputBP(label='name'),
@@ -95,7 +95,7 @@ rc.NodeInputBP(label='self_name'),
 
 class AutoNode_dataclasses__field_init(rc.Node):
     title = '_field_init'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='frozen'),
@@ -114,7 +114,7 @@ rc.NodeInputBP(label='self_name'),
 
 class AutoNode_dataclasses__frozen_get_del_attr(rc.Node):
     title = '_frozen_get_del_attr'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='fields'),
@@ -132,7 +132,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__get_field(rc.Node):
     title = '_get_field'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='a_name'),
@@ -150,7 +150,7 @@ rc.NodeInputBP(label='a_type'),
 
 class AutoNode_dataclasses__hash_add(rc.Node):
     title = '_hash_add'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='fields'),
@@ -168,7 +168,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__hash_exception(rc.Node):
     title = '_hash_exception'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='fields'),
@@ -186,7 +186,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__hash_fn(rc.Node):
     title = '_hash_fn'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='fields'),
 rc.NodeInputBP(label='globals'),
@@ -203,7 +203,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__hash_set_none(rc.Node):
     title = '_hash_set_none'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='fields'),
@@ -221,7 +221,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__init_fn(rc.Node):
     title = '_init_fn'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='fields'),
 rc.NodeInputBP(label='frozen'),
@@ -241,7 +241,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__init_param(rc.Node):
     title = '_init_param'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
     ]
@@ -257,7 +257,7 @@ class AutoNode_dataclasses__init_param(rc.Node):
 
 class AutoNode_dataclasses__is_classvar(rc.Node):
     title = '_is_classvar'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='a_type'),
 rc.NodeInputBP(label='typing'),
@@ -274,7 +274,7 @@ rc.NodeInputBP(label='typing'),
 
 class AutoNode_dataclasses__is_dataclass_instance(rc.Node):
     title = '_is_dataclass_instance'
-    description = '''Returns True if obj is an instance of a dataclass.'''
+    doc = '''Returns True if obj is an instance of a dataclass.'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -290,7 +290,7 @@ class AutoNode_dataclasses__is_dataclass_instance(rc.Node):
 
 class AutoNode_dataclasses__is_initvar(rc.Node):
     title = '_is_initvar'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='a_type'),
 rc.NodeInputBP(label='dataclasses'),
@@ -307,7 +307,7 @@ rc.NodeInputBP(label='dataclasses'),
 
 class AutoNode_dataclasses__is_type(rc.Node):
     title = '_is_type'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='annotation'),
 rc.NodeInputBP(label='cls'),
@@ -327,7 +327,7 @@ rc.NodeInputBP(label='is_type_predicate'),
 
 class AutoNode_dataclasses__process_class(rc.Node):
     title = '_process_class'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='init'),
@@ -349,7 +349,7 @@ rc.NodeInputBP(label='frozen'),
 
 class AutoNode_dataclasses__recursive_repr(rc.Node):
     title = '_recursive_repr'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='user_function'),
     ]
@@ -365,7 +365,7 @@ class AutoNode_dataclasses__recursive_repr(rc.Node):
 
 class AutoNode_dataclasses__repr_fn(rc.Node):
     title = '_repr_fn'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='fields'),
 rc.NodeInputBP(label='globals'),
@@ -382,7 +382,7 @@ rc.NodeInputBP(label='globals'),
 
 class AutoNode_dataclasses__set_new_attribute(rc.Node):
     title = '_set_new_attribute'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='name'),
@@ -400,7 +400,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_dataclasses__tuple_str(rc.Node):
     title = '_tuple_str'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj_name'),
 rc.NodeInputBP(label='fields'),
@@ -417,7 +417,7 @@ rc.NodeInputBP(label='fields'),
 
 class AutoNode_dataclasses_asdict(rc.Node):
     title = 'asdict'
-    description = '''Return the fields of a dataclass instance as a new dictionary mapping
+    doc = '''Return the fields of a dataclass instance as a new dictionary mapping
     field names to field values.
 
     Example usage:
@@ -450,7 +450,7 @@ class AutoNode_dataclasses_asdict(rc.Node):
 
 class AutoNode_dataclasses_astuple(rc.Node):
     title = 'astuple'
-    description = '''Return the fields of a dataclass instance as a new tuple of field values.
+    doc = '''Return the fields of a dataclass instance as a new tuple of field values.
 
     Example usage::
 
@@ -482,7 +482,7 @@ class AutoNode_dataclasses_astuple(rc.Node):
 
 class AutoNode_dataclasses_dataclass(rc.Node):
     title = 'dataclass'
-    description = '''Returns the same class as was passed in, with dunder methods
+    doc = '''Returns the same class as was passed in, with dunder methods
     added based on the fields defined in the class.
 
     Examines PEP 526 __annotations__ to determine fields.
@@ -508,7 +508,7 @@ class AutoNode_dataclasses_dataclass(rc.Node):
 
 class AutoNode_dataclasses_field(rc.Node):
     title = 'field'
-    description = '''Return an object to identify dataclass fields.
+    doc = '''Return an object to identify dataclass fields.
 
     default is the default value of the field.  default_factory is a
     0-argument function called to initialize a field's value.  If init
@@ -536,7 +536,7 @@ class AutoNode_dataclasses_field(rc.Node):
 
 class AutoNode_dataclasses_fields(rc.Node):
     title = 'fields'
-    description = '''Return a tuple describing the fields of this dataclass.
+    doc = '''Return a tuple describing the fields of this dataclass.
 
     Accepts a dataclass or an instance of one. Tuple elements are of
     type Field.
@@ -556,7 +556,7 @@ class AutoNode_dataclasses_fields(rc.Node):
 
 class AutoNode_dataclasses_is_dataclass(rc.Node):
     title = 'is_dataclass'
-    description = '''Returns True if obj is a dataclass or an instance of a
+    doc = '''Returns True if obj is a dataclass or an instance of a
     dataclass.'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
@@ -573,7 +573,7 @@ class AutoNode_dataclasses_is_dataclass(rc.Node):
 
 class AutoNode_dataclasses_make_dataclass(rc.Node):
     title = 'make_dataclass'
-    description = '''Return a new dynamically created dataclass.
+    doc = '''Return a new dynamically created dataclass.
 
     The dataclass name will be 'cls_name'.  'fields' is an iterable
     of either (name), (name, type) or (name, type, Field) objects. If type is
@@ -611,7 +611,7 @@ rc.NodeInputBP(label='fields'),
 
 class AutoNode_dataclasses_replace(rc.Node):
     title = 'replace'
-    description = '''Return a new object replacing specified fields with new values.
+    doc = '''Return a new object replacing specified fields with new values.
 
     This is especially useful for frozen classes.  Example usage:
 

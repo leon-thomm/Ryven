@@ -4,7 +4,7 @@ import codeop
 
 class AutoNode_codeop__compile(rc.Node):
     title = '_compile'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='source'),
 rc.NodeInputBP(label='filename'),
@@ -22,7 +22,7 @@ rc.NodeInputBP(label='symbol'),
 
 class AutoNode_codeop__maybe_compile(rc.Node):
     title = '_maybe_compile'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='compiler'),
 rc.NodeInputBP(label='source'),
@@ -41,7 +41,7 @@ rc.NodeInputBP(label='symbol'),
 
 class AutoNode_codeop_compile_command(rc.Node):
     title = 'compile_command'
-    description = '''Compile a command and determine whether it is incomplete.
+    doc = '''Compile a command and determine whether it is incomplete.
 
     Arguments:
 

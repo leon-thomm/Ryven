@@ -4,7 +4,7 @@ import locale
 
 class AutoNode_locale__append_modifier(rc.Node):
     title = '_append_modifier'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
 rc.NodeInputBP(label='modifier'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='modifier'),
 
 class AutoNode_locale__build_localename(rc.Node):
     title = '_build_localename'
-    description = ''' Builds a locale code from the given tuple (language code,
+    doc = ''' Builds a locale code from the given tuple (language code,
         encoding).
 
         No aliasing or normalizing takes place.
@@ -42,7 +42,7 @@ class AutoNode_locale__build_localename(rc.Node):
 
 class AutoNode_locale__format(rc.Node):
     title = '_format'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='percent'),
 rc.NodeInputBP(label='value'),
@@ -61,7 +61,7 @@ rc.NodeInputBP(label='monetary'),
 
 class AutoNode_locale__group(rc.Node):
     title = '_group'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
 rc.NodeInputBP(label='monetary'),
@@ -78,7 +78,7 @@ rc.NodeInputBP(label='monetary'),
 
 class AutoNode_locale__grouping_intervals(rc.Node):
     title = '_grouping_intervals'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='grouping'),
     ]
@@ -94,7 +94,7 @@ class AutoNode_locale__grouping_intervals(rc.Node):
 
 class AutoNode_locale__parse_localename(rc.Node):
     title = '_parse_localename'
-    description = ''' Parses the locale code for localename and returns the
+    doc = ''' Parses the locale code for localename and returns the
         result as tuple (language code, encoding).
 
         The localename is normalized and passed through the locale
@@ -121,7 +121,7 @@ class AutoNode_locale__parse_localename(rc.Node):
 
 class AutoNode_locale__print_locale(rc.Node):
     title = '_print_locale'
-    description = ''' Test function.
+    doc = ''' Test function.
     '''
     init_inputs = [
         
@@ -138,7 +138,7 @@ class AutoNode_locale__print_locale(rc.Node):
 
 class AutoNode_locale__replace_encoding(rc.Node):
     title = '_replace_encoding'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
 rc.NodeInputBP(label='encoding'),
@@ -155,7 +155,7 @@ rc.NodeInputBP(label='encoding'),
 
 class AutoNode_locale__strcoll(rc.Node):
     title = '_strcoll'
-    description = ''' strcoll(string,string) -> int.
+    doc = ''' strcoll(string,string) -> int.
         Compares two strings according to the locale.
     '''
     init_inputs = [
@@ -174,7 +174,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_locale__strip_padding(rc.Node):
     title = '_strip_padding'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
 rc.NodeInputBP(label='amount'),
@@ -191,7 +191,7 @@ rc.NodeInputBP(label='amount'),
 
 class AutoNode_locale__strxfrm(rc.Node):
     title = '_strxfrm'
-    description = ''' strxfrm(string) -> string.
+    doc = ''' strxfrm(string) -> string.
         Returns a string that behaves for cmp locale-aware.
     '''
     init_inputs = [
@@ -209,7 +209,7 @@ class AutoNode_locale__strxfrm(rc.Node):
 
 class AutoNode_locale__test(rc.Node):
     title = '_test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -225,7 +225,7 @@ class AutoNode_locale__test(rc.Node):
 
 class AutoNode_locale_atof(rc.Node):
     title = 'atof'
-    description = '''Parses a string as a float according to the locale settings.'''
+    doc = '''Parses a string as a float according to the locale settings.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
 rc.NodeInputBP(label='func'),
@@ -242,7 +242,7 @@ rc.NodeInputBP(label='func'),
 
 class AutoNode_locale_atoi(rc.Node):
     title = 'atoi'
-    description = '''Converts a string to an integer according to the locale settings.'''
+    doc = '''Converts a string to an integer according to the locale settings.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -258,7 +258,7 @@ class AutoNode_locale_atoi(rc.Node):
 
 class AutoNode_locale_currency(rc.Node):
     title = 'currency'
-    description = '''Formats val according to the currency settings
+    doc = '''Formats val according to the currency settings
     in the current locale.'''
     init_inputs = [
         rc.NodeInputBP(label='val'),
@@ -278,7 +278,7 @@ rc.NodeInputBP(label='international'),
 
 class AutoNode_locale_delocalize(rc.Node):
     title = 'delocalize'
-    description = '''Parses a string as a normalized number according to the locale settings.'''
+    doc = '''Parses a string as a normalized number according to the locale settings.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -294,7 +294,7 @@ class AutoNode_locale_delocalize(rc.Node):
 
 class AutoNode_locale_format(rc.Node):
     title = 'format'
-    description = '''Deprecated, use format_string instead.'''
+    doc = '''Deprecated, use format_string instead.'''
     init_inputs = [
         rc.NodeInputBP(label='percent'),
 rc.NodeInputBP(label='value'),
@@ -313,7 +313,7 @@ rc.NodeInputBP(label='monetary'),
 
 class AutoNode_locale_format_string(rc.Node):
     title = 'format_string'
-    description = '''Formats a string in the same way that the % formatting would use,
+    doc = '''Formats a string in the same way that the % formatting would use,
     but takes the current locale into account.
 
     Grouping is applied if the third parameter is true.
@@ -337,7 +337,7 @@ rc.NodeInputBP(label='monetary'),
 
 class AutoNode_locale_getdefaultlocale(rc.Node):
     title = 'getdefaultlocale'
-    description = ''' Tries to determine the default locale settings and returns
+    doc = ''' Tries to determine the default locale settings and returns
         them as tuple (language code, encoding).
 
         According to POSIX, a program which has not called
@@ -373,7 +373,7 @@ class AutoNode_locale_getdefaultlocale(rc.Node):
 
 class AutoNode_locale_getlocale(rc.Node):
     title = 'getlocale'
-    description = ''' Returns the current setting for the given locale category as
+    doc = ''' Returns the current setting for the given locale category as
         tuple (language code, encoding).
 
         category may be one of the LC_* value except LC_ALL. It
@@ -399,7 +399,7 @@ class AutoNode_locale_getlocale(rc.Node):
 
 class AutoNode_locale_getpreferredencoding(rc.Node):
     title = 'getpreferredencoding'
-    description = '''Return the charset that the user is likely using.'''
+    doc = '''Return the charset that the user is likely using.'''
     init_inputs = [
         rc.NodeInputBP(label='do_setlocale'),
     ]
@@ -415,7 +415,7 @@ class AutoNode_locale_getpreferredencoding(rc.Node):
 
 class AutoNode_locale_localeconv(rc.Node):
     title = 'localeconv'
-    description = '''() -> dict. Returns numeric and monetary locale-specific parameters.'''
+    doc = '''() -> dict. Returns numeric and monetary locale-specific parameters.'''
     init_inputs = [
         
     ]
@@ -431,7 +431,7 @@ class AutoNode_locale_localeconv(rc.Node):
 
 class AutoNode_locale_normalize(rc.Node):
     title = 'normalize'
-    description = ''' Returns a normalized locale code for the given locale
+    doc = ''' Returns a normalized locale code for the given locale
         name.
 
         The returned locale code is formatted for use with
@@ -460,7 +460,7 @@ class AutoNode_locale_normalize(rc.Node):
 
 class AutoNode_locale_resetlocale(rc.Node):
     title = 'resetlocale'
-    description = ''' Sets the locale for category to the default setting.
+    doc = ''' Sets the locale for category to the default setting.
 
         The default setting is determined by calling
         getdefaultlocale(). category defaults to LC_ALL.
@@ -481,7 +481,7 @@ class AutoNode_locale_resetlocale(rc.Node):
 
 class AutoNode_locale_setlocale(rc.Node):
     title = 'setlocale'
-    description = ''' Set the locale for the given category.  The locale can be
+    doc = ''' Set the locale for the given category.  The locale can be
         a string, an iterable of two strings (language code and encoding),
         or None.
 
@@ -507,7 +507,7 @@ rc.NodeInputBP(label='locale'),
 
 class AutoNode_locale_str(rc.Node):
     title = 'str'
-    description = '''Convert float to string, taking the locale into account.'''
+    doc = '''Convert float to string, taking the locale into account.'''
     init_inputs = [
         rc.NodeInputBP(label='val'),
     ]

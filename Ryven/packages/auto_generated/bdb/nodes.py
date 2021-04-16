@@ -4,7 +4,7 @@ import bdb
 
 class AutoNode_bdb_bar(rc.Node):
     title = 'bar'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_bdb_bar(rc.Node):
 
 class AutoNode_bdb_checkfuncname(rc.Node):
     title = 'checkfuncname'
-    description = '''Return True if break should happen here.
+    doc = '''Return True if break should happen here.
 
     Whether a break should happen depends on the way that b (the breakpoint)
     was set.  If it was set via line number, check if b.line is the same as
@@ -43,7 +43,7 @@ rc.NodeInputBP(label='frame'),
 
 class AutoNode_bdb_effective(rc.Node):
     title = 'effective'
-    description = '''Determine which breakpoint for this file:line is to be acted upon.
+    doc = '''Determine which breakpoint for this file:line is to be acted upon.
 
     Called only if we know there is a breakpoint at this location.  Return
     the breakpoint that was triggered and a boolean that indicates if it is
@@ -67,7 +67,7 @@ rc.NodeInputBP(label='frame'),
 
 class AutoNode_bdb_foo(rc.Node):
     title = 'foo'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='n'),
     ]
@@ -83,7 +83,7 @@ class AutoNode_bdb_foo(rc.Node):
 
 class AutoNode_bdb_set_trace(rc.Node):
     title = 'set_trace'
-    description = '''Start debugging with a Bdb instance from the caller's frame.'''
+    doc = '''Start debugging with a Bdb instance from the caller's frame.'''
     init_inputs = [
         
     ]
@@ -99,7 +99,7 @@ class AutoNode_bdb_set_trace(rc.Node):
 
 class AutoNode_bdb_test(rc.Node):
     title = 'test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]

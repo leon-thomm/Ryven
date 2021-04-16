@@ -5,7 +5,7 @@ import array
 class AutoNode_array__array_reconstructor(rc.Node):
     title = '_array_reconstructor'
     type_ = 'array'
-    description = '''Internal. Used for pickling support.'''
+    doc = '''Internal. Used for pickling support.'''
     init_inputs = [
         rc.NodeInputBP(label='arraytype'),
 rc.NodeInputBP(label='typecode'),

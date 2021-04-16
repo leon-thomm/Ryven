@@ -4,7 +4,7 @@ import gzip
 
 class AutoNode_gzip_compress(rc.Node):
     title = 'compress'
-    description = '''Compress data in one shot and return the compressed string.
+    doc = '''Compress data in one shot and return the compressed string.
     Optional argument is the compression level, in range of 0-9.
     '''
     init_inputs = [
@@ -23,7 +23,7 @@ rc.NodeInputBP(label='compresslevel'),
 
 class AutoNode_gzip_decompress(rc.Node):
     title = 'decompress'
-    description = '''Decompress a gzip compressed string in one shot.
+    doc = '''Decompress a gzip compressed string in one shot.
     Return the decompressed string.
     '''
     init_inputs = [
@@ -41,7 +41,7 @@ class AutoNode_gzip_decompress(rc.Node):
 
 class AutoNode_gzip_main(rc.Node):
     title = 'main'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -57,7 +57,7 @@ class AutoNode_gzip_main(rc.Node):
 
 class AutoNode_gzip_open(rc.Node):
     title = 'open'
-    description = '''Open a gzip-compressed file in binary or text mode.
+    doc = '''Open a gzip-compressed file in binary or text mode.
 
     The filename argument can be an actual filename (a str or bytes object), or
     an existing file object to read from or write to.
@@ -95,7 +95,7 @@ rc.NodeInputBP(label='newline'),
 
 class AutoNode_gzip_write32u(rc.Node):
     title = 'write32u'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='output'),
 rc.NodeInputBP(label='value'),

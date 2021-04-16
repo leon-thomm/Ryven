@@ -4,7 +4,7 @@ import base64
 
 class AutoNode_base64__85encode(rc.Node):
     title = '_85encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='b'),
 rc.NodeInputBP(label='chars'),
@@ -25,7 +25,7 @@ rc.NodeInputBP(label='foldspaces'),
 
 class AutoNode_base64__bytes_from_decode_data(rc.Node):
     title = '_bytes_from_decode_data'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -41,7 +41,7 @@ class AutoNode_base64__bytes_from_decode_data(rc.Node):
 
 class AutoNode_base64__input_type_check(rc.Node):
     title = '_input_type_check'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -57,7 +57,7 @@ class AutoNode_base64__input_type_check(rc.Node):
 
 class AutoNode_base64_a85decode(rc.Node):
     title = 'a85decode'
-    description = '''Decode the Ascii85 encoded bytes-like object or ASCII string b.
+    doc = '''Decode the Ascii85 encoded bytes-like object or ASCII string b.
 
     foldspaces is a flag that specifies whether the 'y' short sequence should be
     accepted as shorthand for 4 consecutive spaces (ASCII 0x20). This feature is
@@ -87,7 +87,7 @@ class AutoNode_base64_a85decode(rc.Node):
 
 class AutoNode_base64_a85encode(rc.Node):
     title = 'a85encode'
-    description = '''Encode bytes-like object b using Ascii85 and return a bytes object.
+    doc = '''Encode bytes-like object b using Ascii85 and return a bytes object.
 
     foldspaces is an optional flag that uses the special short sequence 'y'
     instead of 4 consecutive spaces (ASCII 0x20) as supported by 'btoa'. This
@@ -118,7 +118,7 @@ class AutoNode_base64_a85encode(rc.Node):
 
 class AutoNode_base64_b16decode(rc.Node):
     title = 'b16decode'
-    description = '''Decode the Base16 encoded bytes-like object or ASCII string s.
+    doc = '''Decode the Base16 encoded bytes-like object or ASCII string s.
 
     Optional casefold is a flag specifying whether a lowercase alphabet is
     acceptable as input.  For security purposes, the default is False.
@@ -143,7 +143,7 @@ rc.NodeInputBP(label='casefold'),
 
 class AutoNode_base64_b16encode(rc.Node):
     title = 'b16encode'
-    description = '''Encode the bytes-like object s using Base16 and return a bytes object.
+    doc = '''Encode the bytes-like object s using Base16 and return a bytes object.
     '''
     init_inputs = [
         rc.NodeInputBP(label='s'),
@@ -160,7 +160,7 @@ class AutoNode_base64_b16encode(rc.Node):
 
 class AutoNode_base64_b32decode(rc.Node):
     title = 'b32decode'
-    description = '''Decode the Base32 encoded bytes-like object or ASCII string s.
+    doc = '''Decode the Base32 encoded bytes-like object or ASCII string s.
 
     Optional casefold is a flag specifying whether a lowercase alphabet is
     acceptable as input.  For security purposes, the default is False.
@@ -194,7 +194,7 @@ rc.NodeInputBP(label='map01'),
 
 class AutoNode_base64_b32encode(rc.Node):
     title = 'b32encode'
-    description = '''Encode the bytes-like object s using Base32 and return a bytes object.
+    doc = '''Encode the bytes-like object s using Base32 and return a bytes object.
     '''
     init_inputs = [
         rc.NodeInputBP(label='s'),
@@ -211,7 +211,7 @@ class AutoNode_base64_b32encode(rc.Node):
 
 class AutoNode_base64_b64decode(rc.Node):
     title = 'b64decode'
-    description = '''Decode the Base64 encoded bytes-like object or ASCII string s.
+    doc = '''Decode the Base64 encoded bytes-like object or ASCII string s.
 
     Optional altchars must be a bytes-like object or ASCII string of length 2
     which specifies the alternative alphabet used instead of the '+' and '/'
@@ -242,7 +242,7 @@ rc.NodeInputBP(label='validate'),
 
 class AutoNode_base64_b64encode(rc.Node):
     title = 'b64encode'
-    description = '''Encode the bytes-like object s using Base64 and return a bytes object.
+    doc = '''Encode the bytes-like object s using Base64 and return a bytes object.
 
     Optional altchars should be a byte string of length 2 which specifies an
     alternative alphabet for the '+' and '/' characters.  This allows an
@@ -264,7 +264,7 @@ rc.NodeInputBP(label='altchars'),
 
 class AutoNode_base64_b85decode(rc.Node):
     title = 'b85decode'
-    description = '''Decode the base85-encoded bytes-like object or ASCII string b
+    doc = '''Decode the base85-encoded bytes-like object or ASCII string b
 
     The result is returned as a bytes object.
     '''
@@ -283,7 +283,7 @@ class AutoNode_base64_b85decode(rc.Node):
 
 class AutoNode_base64_b85encode(rc.Node):
     title = 'b85encode'
-    description = '''Encode bytes-like object b in base85 format and return a bytes object.
+    doc = '''Encode bytes-like object b in base85 format and return a bytes object.
 
     If pad is true, the input is padded with b'\0' so its length is a multiple of
     4 bytes before encoding.
@@ -304,7 +304,7 @@ rc.NodeInputBP(label='pad'),
 
 class AutoNode_base64_decode(rc.Node):
     title = 'decode'
-    description = '''Decode a file; input and output are binary files.'''
+    doc = '''Decode a file; input and output are binary files.'''
     init_inputs = [
         rc.NodeInputBP(label='input'),
 rc.NodeInputBP(label='output'),
@@ -321,7 +321,7 @@ rc.NodeInputBP(label='output'),
 
 class AutoNode_base64_decodebytes(rc.Node):
     title = 'decodebytes'
-    description = '''Decode a bytestring of base-64 data into a bytes object.'''
+    doc = '''Decode a bytestring of base-64 data into a bytes object.'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -337,7 +337,7 @@ class AutoNode_base64_decodebytes(rc.Node):
 
 class AutoNode_base64_decodestring(rc.Node):
     title = 'decodestring'
-    description = '''Legacy alias of decodebytes().'''
+    doc = '''Legacy alias of decodebytes().'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -353,7 +353,7 @@ class AutoNode_base64_decodestring(rc.Node):
 
 class AutoNode_base64_encode(rc.Node):
     title = 'encode'
-    description = '''Encode a file; input and output are binary files.'''
+    doc = '''Encode a file; input and output are binary files.'''
     init_inputs = [
         rc.NodeInputBP(label='input'),
 rc.NodeInputBP(label='output'),
@@ -370,7 +370,7 @@ rc.NodeInputBP(label='output'),
 
 class AutoNode_base64_encodebytes(rc.Node):
     title = 'encodebytes'
-    description = '''Encode a bytestring into a bytes object containing multiple lines
+    doc = '''Encode a bytestring into a bytes object containing multiple lines
     of base-64 data.'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
@@ -387,7 +387,7 @@ class AutoNode_base64_encodebytes(rc.Node):
 
 class AutoNode_base64_encodestring(rc.Node):
     title = 'encodestring'
-    description = '''Legacy alias of encodebytes().'''
+    doc = '''Legacy alias of encodebytes().'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -403,7 +403,7 @@ class AutoNode_base64_encodestring(rc.Node):
 
 class AutoNode_base64_main(rc.Node):
     title = 'main'
-    description = '''Small main program'''
+    doc = '''Small main program'''
     init_inputs = [
         
     ]
@@ -419,7 +419,7 @@ class AutoNode_base64_main(rc.Node):
 
 class AutoNode_base64_standard_b64decode(rc.Node):
     title = 'standard_b64decode'
-    description = '''Decode bytes encoded with the standard Base64 alphabet.
+    doc = '''Decode bytes encoded with the standard Base64 alphabet.
 
     Argument s is a bytes-like object or ASCII string to decode.  The result
     is returned as a bytes object.  A binascii.Error is raised if the input
@@ -441,7 +441,7 @@ class AutoNode_base64_standard_b64decode(rc.Node):
 
 class AutoNode_base64_standard_b64encode(rc.Node):
     title = 'standard_b64encode'
-    description = '''Encode bytes-like object s using the standard Base64 alphabet.
+    doc = '''Encode bytes-like object s using the standard Base64 alphabet.
 
     The result is returned as a bytes object.
     '''
@@ -460,7 +460,7 @@ class AutoNode_base64_standard_b64encode(rc.Node):
 
 class AutoNode_base64_test(rc.Node):
     title = 'test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -476,7 +476,7 @@ class AutoNode_base64_test(rc.Node):
 
 class AutoNode_base64_urlsafe_b64decode(rc.Node):
     title = 'urlsafe_b64decode'
-    description = '''Decode bytes using the URL- and filesystem-safe Base64 alphabet.
+    doc = '''Decode bytes using the URL- and filesystem-safe Base64 alphabet.
 
     Argument s is a bytes-like object or ASCII string to decode.  The result
     is returned as a bytes object.  A binascii.Error is raised if the input
@@ -501,7 +501,7 @@ class AutoNode_base64_urlsafe_b64decode(rc.Node):
 
 class AutoNode_base64_urlsafe_b64encode(rc.Node):
     title = 'urlsafe_b64encode'
-    description = '''Encode bytes using the URL- and filesystem-safe Base64 alphabet.
+    doc = '''Encode bytes using the URL- and filesystem-safe Base64 alphabet.
 
     Argument s is a bytes-like object to encode.  The result is returned as a
     bytes object.  The alphabet uses '-' instead of '+' and '_' instead of

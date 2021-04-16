@@ -4,7 +4,7 @@ import linecache
 
 class AutoNode_linecache_checkcache(rc.Node):
     title = 'checkcache'
-    description = '''Discard cache entries that are out of date.
+    doc = '''Discard cache entries that are out of date.
     (This is not checked upon each call!)'''
     init_inputs = [
         rc.NodeInputBP(label='filename'),
@@ -21,7 +21,7 @@ class AutoNode_linecache_checkcache(rc.Node):
 
 class AutoNode_linecache_clearcache(rc.Node):
     title = 'clearcache'
-    description = '''Clear the cache entirely.'''
+    doc = '''Clear the cache entirely.'''
     init_inputs = [
         
     ]
@@ -37,7 +37,7 @@ class AutoNode_linecache_clearcache(rc.Node):
 
 class AutoNode_linecache_getline(rc.Node):
     title = 'getline'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='filename'),
 rc.NodeInputBP(label='lineno'),
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='module_globals'),
 
 class AutoNode_linecache_getlines(rc.Node):
     title = 'getlines'
-    description = '''Get the lines for a Python source file from the cache.
+    doc = '''Get the lines for a Python source file from the cache.
     Update the cache if it doesn't contain an entry for this file already.'''
     init_inputs = [
         rc.NodeInputBP(label='filename'),
@@ -73,7 +73,7 @@ rc.NodeInputBP(label='module_globals'),
 
 class AutoNode_linecache_lazycache(rc.Node):
     title = 'lazycache'
-    description = '''Seed the cache for filename with module_globals.
+    doc = '''Seed the cache for filename with module_globals.
 
     The module loader will be asked for the source only when getlines is
     called, not immediately.
@@ -101,7 +101,7 @@ rc.NodeInputBP(label='module_globals'),
 
 class AutoNode_linecache_updatecache(rc.Node):
     title = 'updatecache'
-    description = '''Update a cache entry and return its list of lines.
+    doc = '''Update a cache entry and return its list of lines.
     If something's wrong, print a message, discard the cache entry,
     and return an empty list.'''
     init_inputs = [

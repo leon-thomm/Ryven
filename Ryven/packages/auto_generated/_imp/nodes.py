@@ -5,7 +5,7 @@ import _imp
 class AutoNode__imp__fix_co_filename(rc.Node):
     title = '_fix_co_filename'
     type_ = '_imp'
-    description = '''Changes code.co_filename to specify the passed-in file path.
+    doc = '''Changes code.co_filename to specify the passed-in file path.
 
   code
     Code object to change.
@@ -28,7 +28,7 @@ rc.NodeInputBP(label='path'),
 class AutoNode__imp_acquire_lock(rc.Node):
     title = 'acquire_lock'
     type_ = '_imp'
-    description = '''Acquires the interpreter's import lock for the current thread.
+    doc = '''Acquires the interpreter's import lock for the current thread.
 
 This lock should be used by import hooks to ensure thread-safety when importing
 modules. On platforms without threads, this function does nothing.'''
@@ -48,7 +48,7 @@ modules. On platforms without threads, this function does nothing.'''
 class AutoNode__imp_create_builtin(rc.Node):
     title = 'create_builtin'
     type_ = '_imp'
-    description = '''Create an extension module.'''
+    doc = '''Create an extension module.'''
     init_inputs = [
         rc.NodeInputBP(label='spec'),
     ]
@@ -65,7 +65,7 @@ class AutoNode__imp_create_builtin(rc.Node):
 class AutoNode__imp_exec_builtin(rc.Node):
     title = 'exec_builtin'
     type_ = '_imp'
-    description = '''Initialize a built-in module.'''
+    doc = '''Initialize a built-in module.'''
     init_inputs = [
         rc.NodeInputBP(label='mod'),
     ]
@@ -82,7 +82,7 @@ class AutoNode__imp_exec_builtin(rc.Node):
 class AutoNode__imp_exec_dynamic(rc.Node):
     title = 'exec_dynamic'
     type_ = '_imp'
-    description = '''Initialize an extension module.'''
+    doc = '''Initialize an extension module.'''
     init_inputs = [
         rc.NodeInputBP(label='mod'),
     ]
@@ -99,7 +99,7 @@ class AutoNode__imp_exec_dynamic(rc.Node):
 class AutoNode__imp_extension_suffixes(rc.Node):
     title = 'extension_suffixes'
     type_ = '_imp'
-    description = '''Returns the list of file suffixes used to identify extension modules.'''
+    doc = '''Returns the list of file suffixes used to identify extension modules.'''
     init_inputs = [
         
     ]
@@ -116,7 +116,7 @@ class AutoNode__imp_extension_suffixes(rc.Node):
 class AutoNode__imp_get_frozen_object(rc.Node):
     title = 'get_frozen_object'
     type_ = '_imp'
-    description = '''Create a code object for a frozen module.'''
+    doc = '''Create a code object for a frozen module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -133,7 +133,7 @@ class AutoNode__imp_get_frozen_object(rc.Node):
 class AutoNode__imp_init_frozen(rc.Node):
     title = 'init_frozen'
     type_ = '_imp'
-    description = '''Initializes a frozen module.'''
+    doc = '''Initializes a frozen module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -150,7 +150,7 @@ class AutoNode__imp_init_frozen(rc.Node):
 class AutoNode__imp_is_builtin(rc.Node):
     title = 'is_builtin'
     type_ = '_imp'
-    description = '''Returns True if the module name corresponds to a built-in module.'''
+    doc = '''Returns True if the module name corresponds to a built-in module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -167,7 +167,7 @@ class AutoNode__imp_is_builtin(rc.Node):
 class AutoNode__imp_is_frozen(rc.Node):
     title = 'is_frozen'
     type_ = '_imp'
-    description = '''Returns True if the module name corresponds to a frozen module.'''
+    doc = '''Returns True if the module name corresponds to a frozen module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -184,7 +184,7 @@ class AutoNode__imp_is_frozen(rc.Node):
 class AutoNode__imp_is_frozen_package(rc.Node):
     title = 'is_frozen_package'
     type_ = '_imp'
-    description = '''Returns True if the module name is of a frozen package.'''
+    doc = '''Returns True if the module name is of a frozen package.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -201,7 +201,7 @@ class AutoNode__imp_is_frozen_package(rc.Node):
 class AutoNode__imp_lock_held(rc.Node):
     title = 'lock_held'
     type_ = '_imp'
-    description = '''Return True if the import lock is currently held, else False.
+    doc = '''Return True if the import lock is currently held, else False.
 
 On platforms without threads, return False.'''
     init_inputs = [
@@ -220,7 +220,7 @@ On platforms without threads, return False.'''
 class AutoNode__imp_release_lock(rc.Node):
     title = 'release_lock'
     type_ = '_imp'
-    description = '''Release the interpreter's import lock.
+    doc = '''Release the interpreter's import lock.
 
 On platforms without threads, this function does nothing.'''
     init_inputs = [
@@ -239,7 +239,7 @@ On platforms without threads, this function does nothing.'''
 class AutoNode__imp_source_hash(rc.Node):
     title = 'source_hash'
     type_ = '_imp'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='key'),
 rc.NodeInputBP(label='source'),

@@ -4,7 +4,7 @@ import os
 
 class AutoNode_os__check_methods(rc.Node):
     title = '_check_methods'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='C'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_os__check_methods(rc.Node):
 
 class AutoNode_os__execvpe(rc.Node):
     title = '_execvpe'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
 rc.NodeInputBP(label='args'),
@@ -38,7 +38,7 @@ rc.NodeInputBP(label='env'),
 
 class AutoNode_os__exists(rc.Node):
     title = '_exists'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -54,7 +54,7 @@ class AutoNode_os__exists(rc.Node):
 
 class AutoNode_os__exit(rc.Node):
     title = '_exit'
-    description = '''Exit to the system with specified status, without normal exit processing.'''
+    doc = '''Exit to the system with specified status, without normal exit processing.'''
     init_inputs = [
         rc.NodeInputBP(label='status'),
     ]
@@ -70,7 +70,7 @@ class AutoNode_os__exit(rc.Node):
 
 class AutoNode_os__fspath(rc.Node):
     title = '_fspath'
-    description = '''Return the path representation of a path-like object.
+    doc = '''Return the path representation of a path-like object.
 
     If str or bytes is passed in, it is returned unchanged. Otherwise the
     os.PathLike interface is used to get the path representation. If the
@@ -92,7 +92,7 @@ class AutoNode_os__fspath(rc.Node):
 
 class AutoNode_os__get_exports_list(rc.Node):
     title = '_get_exports_list'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='module'),
     ]
@@ -108,7 +108,7 @@ class AutoNode_os__get_exports_list(rc.Node):
 
 class AutoNode_os__putenv(rc.Node):
     title = '_putenv'
-    description = '''Change or add an environment variable.'''
+    doc = '''Change or add an environment variable.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='value'),
@@ -125,7 +125,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_os__unsetenv(rc.Node):
     title = '_unsetenv'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='key'),
     ]
@@ -141,7 +141,7 @@ class AutoNode_os__unsetenv(rc.Node):
 
 class AutoNode_os_abort(rc.Node):
     title = 'abort'
-    description = '''Abort the interpreter immediately.
+    doc = '''Abort the interpreter immediately.
 
 This function 'dumps core' or otherwise fails in the hardest way possible
 on the hosting operating system.  This function never returns.'''
@@ -160,7 +160,7 @@ on the hosting operating system.  This function never returns.'''
 
 class AutoNode_os_access(rc.Node):
     title = 'access'
-    description = '''Use the real uid/gid to test for access to a path.
+    doc = '''Use the real uid/gid to test for access to a path.
 
   path
     Path to be tested; can be string, bytes, or a path-like object.
@@ -202,7 +202,7 @@ rc.NodeInputBP(label='mode'),
 
 class AutoNode_os_add_dll_directory(rc.Node):
     title = 'add_dll_directory'
-    description = '''Add a path to the DLL search path.
+    doc = '''Add a path to the DLL search path.
 
         This search path is used when resolving dependencies for imported
         extension modules (the module itself is resolved through sys.path),
@@ -226,7 +226,7 @@ class AutoNode_os_add_dll_directory(rc.Node):
 
 class AutoNode_os_chdir(rc.Node):
     title = 'chdir'
-    description = '''Change the current working directory to the specified path.
+    doc = '''Change the current working directory to the specified path.
 
 path may always be specified as a string.
 On some platforms, path may also be specified as an open file descriptor.
@@ -246,7 +246,7 @@ On some platforms, path may also be specified as an open file descriptor.
 
 class AutoNode_os_chmod(rc.Node):
     title = 'chmod'
-    description = '''Change the access permissions of a file.
+    doc = '''Change the access permissions of a file.
 
   path
     Path to be modified.  May always be specified as a str, bytes, or a path-like object.
@@ -283,7 +283,7 @@ rc.NodeInputBP(label='mode'),
 
 class AutoNode_os_close(rc.Node):
     title = 'close'
-    description = '''Close a file descriptor.'''
+    doc = '''Close a file descriptor.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
     ]
@@ -299,7 +299,7 @@ class AutoNode_os_close(rc.Node):
 
 class AutoNode_os_closerange(rc.Node):
     title = 'closerange'
-    description = '''Closes all file descriptors in [fd_low, fd_high), ignoring errors.'''
+    doc = '''Closes all file descriptors in [fd_low, fd_high), ignoring errors.'''
     init_inputs = [
         rc.NodeInputBP(label='fd_low'),
 rc.NodeInputBP(label='fd_high'),
@@ -316,7 +316,7 @@ rc.NodeInputBP(label='fd_high'),
 
 class AutoNode_os_cpu_count(rc.Node):
     title = 'cpu_count'
-    description = '''Return the number of CPUs in the system; return None if indeterminable.
+    doc = '''Return the number of CPUs in the system; return None if indeterminable.
 
 This number is not equivalent to the number of CPUs the current process can
 use.  The number of usable CPUs can be obtained with
@@ -336,7 +336,7 @@ use.  The number of usable CPUs can be obtained with
 
 class AutoNode_os_device_encoding(rc.Node):
     title = 'device_encoding'
-    description = '''Return a string describing the encoding of a terminal's file descriptor.
+    doc = '''Return a string describing the encoding of a terminal's file descriptor.
 
 The file descriptor must be attached to a terminal.
 If the device is not a terminal, return None.'''
@@ -355,7 +355,7 @@ If the device is not a terminal, return None.'''
 
 class AutoNode_os_dup(rc.Node):
     title = 'dup'
-    description = '''Return a duplicate of a file descriptor.'''
+    doc = '''Return a duplicate of a file descriptor.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
     ]
@@ -371,7 +371,7 @@ class AutoNode_os_dup(rc.Node):
 
 class AutoNode_os_dup2(rc.Node):
     title = 'dup2'
-    description = '''Duplicate file descriptor.'''
+    doc = '''Duplicate file descriptor.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
 rc.NodeInputBP(label='fd2'),
@@ -389,7 +389,7 @@ rc.NodeInputBP(label='inheritable'),
 
 class AutoNode_os_execl(rc.Node):
     title = 'execl'
-    description = '''execl(file, *args)
+    doc = '''execl(file, *args)
 
     Execute the executable file with argument list args, replacing the
     current process. '''
@@ -408,7 +408,7 @@ class AutoNode_os_execl(rc.Node):
 
 class AutoNode_os_execle(rc.Node):
     title = 'execle'
-    description = '''execle(file, *args, env)
+    doc = '''execle(file, *args, env)
 
     Execute the executable file with argument list args and
     environment env, replacing the current process. '''
@@ -427,7 +427,7 @@ class AutoNode_os_execle(rc.Node):
 
 class AutoNode_os_execlp(rc.Node):
     title = 'execlp'
-    description = '''execlp(file, *args)
+    doc = '''execlp(file, *args)
 
     Execute the executable file (which is searched for along $PATH)
     with argument list args, replacing the current process. '''
@@ -446,7 +446,7 @@ class AutoNode_os_execlp(rc.Node):
 
 class AutoNode_os_execlpe(rc.Node):
     title = 'execlpe'
-    description = '''execlpe(file, *args, env)
+    doc = '''execlpe(file, *args, env)
 
     Execute the executable file (which is searched for along $PATH)
     with argument list args and environment env, replacing the current
@@ -466,7 +466,7 @@ class AutoNode_os_execlpe(rc.Node):
 
 class AutoNode_os_execv(rc.Node):
     title = 'execv'
-    description = '''Execute an executable path with arguments, replacing current process.
+    doc = '''Execute an executable path with arguments, replacing current process.
 
   path
     Path of executable file.
@@ -488,7 +488,7 @@ rc.NodeInputBP(label='argv'),
 
 class AutoNode_os_execve(rc.Node):
     title = 'execve'
-    description = '''Execute an executable path with arguments, replacing current process.
+    doc = '''Execute an executable path with arguments, replacing current process.
 
   path
     Path of executable file.
@@ -513,7 +513,7 @@ rc.NodeInputBP(label='env'),
 
 class AutoNode_os_execvp(rc.Node):
     title = 'execvp'
-    description = '''execvp(file, args)
+    doc = '''execvp(file, args)
 
     Execute the executable file (which is searched for along $PATH)
     with argument list args, replacing the current process.
@@ -534,7 +534,7 @@ rc.NodeInputBP(label='args'),
 
 class AutoNode_os_execvpe(rc.Node):
     title = 'execvpe'
-    description = '''execvpe(file, args, env)
+    doc = '''execvpe(file, args, env)
 
     Execute the executable file (which is searched for along $PATH)
     with argument list args and environment env, replacing the
@@ -557,7 +557,7 @@ rc.NodeInputBP(label='env'),
 
 class AutoNode_os_fdopen(rc.Node):
     title = 'fdopen'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
     ]
@@ -573,7 +573,7 @@ class AutoNode_os_fdopen(rc.Node):
 
 class AutoNode_os_fsdecode(rc.Node):
     title = 'fsdecode'
-    description = '''Decode filename (an os.PathLike, bytes, or str) from the filesystem
+    doc = '''Decode filename (an os.PathLike, bytes, or str) from the filesystem
         encoding with 'surrogateescape' error handler, return str unchanged. On
         Windows, use 'strict' error handler if the file system encoding is
         'mbcs' (which is the default encoding).
@@ -593,7 +593,7 @@ class AutoNode_os_fsdecode(rc.Node):
 
 class AutoNode_os_fsencode(rc.Node):
     title = 'fsencode'
-    description = '''Encode filename (an os.PathLike, bytes, or str) to the filesystem
+    doc = '''Encode filename (an os.PathLike, bytes, or str) to the filesystem
         encoding with 'surrogateescape' error handler, return bytes unchanged.
         On Windows, use 'strict' error handler if the file system encoding is
         'mbcs' (which is the default encoding).
@@ -613,7 +613,7 @@ class AutoNode_os_fsencode(rc.Node):
 
 class AutoNode_os_fspath(rc.Node):
     title = 'fspath'
-    description = '''Return the file system path representation of the object.
+    doc = '''Return the file system path representation of the object.
 
 If the object is str or bytes, then allow it to pass through as-is. If the
 object defines __fspath__(), then return the result of that method. All other
@@ -633,7 +633,7 @@ types raise a TypeError.'''
 
 class AutoNode_os_fstat(rc.Node):
     title = 'fstat'
-    description = '''Perform a stat system call on the given file descriptor.
+    doc = '''Perform a stat system call on the given file descriptor.
 
 Like stat(), but for an open file descriptor.
 Equivalent to os.stat(fd).'''
@@ -652,7 +652,7 @@ Equivalent to os.stat(fd).'''
 
 class AutoNode_os_fsync(rc.Node):
     title = 'fsync'
-    description = '''Force write of fd to disk.'''
+    doc = '''Force write of fd to disk.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
     ]
@@ -668,7 +668,7 @@ class AutoNode_os_fsync(rc.Node):
 
 class AutoNode_os_ftruncate(rc.Node):
     title = 'ftruncate'
-    description = '''Truncate a file, specified by file descriptor, to a specific length.'''
+    doc = '''Truncate a file, specified by file descriptor, to a specific length.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
 rc.NodeInputBP(label='length'),
@@ -685,7 +685,7 @@ rc.NodeInputBP(label='length'),
 
 class AutoNode_os_get_exec_path(rc.Node):
     title = 'get_exec_path'
-    description = '''Returns the sequence of directories that will be searched for the
+    doc = '''Returns the sequence of directories that will be searched for the
     named executable (similar to a shell) when launching a process.
 
     *env* must be an environment variable dict or None.  If *env* is None,
@@ -706,7 +706,7 @@ class AutoNode_os_get_exec_path(rc.Node):
 
 class AutoNode_os_get_handle_inheritable(rc.Node):
     title = 'get_handle_inheritable'
-    description = '''Get the close-on-exe flag of the specified file descriptor.'''
+    doc = '''Get the close-on-exe flag of the specified file descriptor.'''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
     ]
@@ -722,7 +722,7 @@ class AutoNode_os_get_handle_inheritable(rc.Node):
 
 class AutoNode_os_get_inheritable(rc.Node):
     title = 'get_inheritable'
-    description = '''Get the close-on-exe flag of the specified file descriptor.'''
+    doc = '''Get the close-on-exe flag of the specified file descriptor.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
     ]
@@ -738,7 +738,7 @@ class AutoNode_os_get_inheritable(rc.Node):
 
 class AutoNode_os_getcwd(rc.Node):
     title = 'getcwd'
-    description = '''Return a unicode string representing the current working directory.'''
+    doc = '''Return a unicode string representing the current working directory.'''
     init_inputs = [
         
     ]
@@ -754,7 +754,7 @@ class AutoNode_os_getcwd(rc.Node):
 
 class AutoNode_os_getcwdb(rc.Node):
     title = 'getcwdb'
-    description = '''Return a bytes string representing the current working directory.'''
+    doc = '''Return a bytes string representing the current working directory.'''
     init_inputs = [
         
     ]
@@ -770,7 +770,7 @@ class AutoNode_os_getcwdb(rc.Node):
 
 class AutoNode_os_getenv(rc.Node):
     title = 'getenv'
-    description = '''Get an environment variable, return None if it doesn't exist.
+    doc = '''Get an environment variable, return None if it doesn't exist.
     The optional second argument can specify an alternate default.
     key, default and the result are str.'''
     init_inputs = [
@@ -789,7 +789,7 @@ rc.NodeInputBP(label='default'),
 
 class AutoNode_os_getlogin(rc.Node):
     title = 'getlogin'
-    description = '''Return the actual login name.'''
+    doc = '''Return the actual login name.'''
     init_inputs = [
         
     ]
@@ -805,7 +805,7 @@ class AutoNode_os_getlogin(rc.Node):
 
 class AutoNode_os_getpid(rc.Node):
     title = 'getpid'
-    description = '''Return the current process id.'''
+    doc = '''Return the current process id.'''
     init_inputs = [
         
     ]
@@ -821,7 +821,7 @@ class AutoNode_os_getpid(rc.Node):
 
 class AutoNode_os_getppid(rc.Node):
     title = 'getppid'
-    description = '''Return the parent's process id.
+    doc = '''Return the parent's process id.
 
 If the parent process has already exited, Windows machines will still
 return its id; others systems will return the id of the 'init' process (1).'''
@@ -840,7 +840,7 @@ return its id; others systems will return the id of the 'init' process (1).'''
 
 class AutoNode_os_isatty(rc.Node):
     title = 'isatty'
-    description = '''Return True if the fd is connected to a terminal.
+    doc = '''Return True if the fd is connected to a terminal.
 
 Return True if the file descriptor is an open file descriptor
 connected to the slave end of a terminal.'''
@@ -859,7 +859,7 @@ connected to the slave end of a terminal.'''
 
 class AutoNode_os_kill(rc.Node):
     title = 'kill'
-    description = '''Kill a process with a signal.'''
+    doc = '''Kill a process with a signal.'''
     init_inputs = [
         rc.NodeInputBP(label='pid'),
 rc.NodeInputBP(label='signal'),
@@ -876,7 +876,7 @@ rc.NodeInputBP(label='signal'),
 
 class AutoNode_os_link(rc.Node):
     title = 'link'
-    description = '''Create a hard link to a file.
+    doc = '''Create a hard link to a file.
 
 If either src_dir_fd or dst_dir_fd is not None, it should be a file
   descriptor open to a directory, and the respective path string (src or dst)
@@ -903,7 +903,7 @@ rc.NodeInputBP(label='dst'),
 
 class AutoNode_os_listdir(rc.Node):
     title = 'listdir'
-    description = '''Return a list containing the names of the files in the directory.
+    doc = '''Return a list containing the names of the files in the directory.
 
 path can be specified as either str, bytes, or a path-like object.  If path is bytes,
   the filenames returned will also be bytes; in all other circumstances
@@ -930,7 +930,7 @@ entries '.' and '..' even if they are present in the directory.'''
 
 class AutoNode_os_lseek(rc.Node):
     title = 'lseek'
-    description = '''Set the position of a file descriptor.  Return the new position.
+    doc = '''Set the position of a file descriptor.  Return the new position.
 
 Return the new cursor position in number of bytes
 relative to the beginning of the file.'''
@@ -951,7 +951,7 @@ rc.NodeInputBP(label='how'),
 
 class AutoNode_os_lstat(rc.Node):
     title = 'lstat'
-    description = '''Perform a stat system call on the given path, without following symbolic links.
+    doc = '''Perform a stat system call on the given path, without following symbolic links.
 
 Like stat(), but do not follow symbolic links.
 Equivalent to stat(path, follow_symlinks=False).'''
@@ -970,7 +970,7 @@ Equivalent to stat(path, follow_symlinks=False).'''
 
 class AutoNode_os_makedirs(rc.Node):
     title = 'makedirs'
-    description = '''makedirs(name [, mode=0o777][, exist_ok=False])
+    doc = '''makedirs(name [, mode=0o777][, exist_ok=False])
 
     Super-mkdir; create a leaf directory and all intermediate ones.  Works like
     mkdir, except that any intermediate path segment (not just the rightmost)
@@ -996,7 +996,7 @@ rc.NodeInputBP(label='exist_ok'),
 
 class AutoNode_os_mkdir(rc.Node):
     title = 'mkdir'
-    description = '''Create a directory.
+    doc = '''Create a directory.
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
@@ -1020,7 +1020,7 @@ rc.NodeInputBP(label='mode'),
 
 class AutoNode_os_open(rc.Node):
     title = 'open'
-    description = '''Open a file for low level IO.  Returns a file descriptor (integer).
+    doc = '''Open a file for low level IO.  Returns a file descriptor (integer).
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
@@ -1043,7 +1043,7 @@ rc.NodeInputBP(label='mode'),
 
 class AutoNode_os_pipe(rc.Node):
     title = 'pipe'
-    description = '''Create a pipe.
+    doc = '''Create a pipe.
 
 Returns a tuple of two file descriptors:
   (read_fd, write_fd)'''
@@ -1062,7 +1062,7 @@ Returns a tuple of two file descriptors:
 
 class AutoNode_os_popen(rc.Node):
     title = 'popen'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cmd'),
 rc.NodeInputBP(label='mode'),
@@ -1080,7 +1080,7 @@ rc.NodeInputBP(label='buffering'),
 
 class AutoNode_os_putenv(rc.Node):
     title = 'putenv'
-    description = '''Change or add an environment variable.'''
+    doc = '''Change or add an environment variable.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='value'),
@@ -1097,7 +1097,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_os_read(rc.Node):
     title = 'read'
-    description = '''Read from a file descriptor.  Returns a bytes object.'''
+    doc = '''Read from a file descriptor.  Returns a bytes object.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
 rc.NodeInputBP(label='length'),
@@ -1114,7 +1114,7 @@ rc.NodeInputBP(label='length'),
 
 class AutoNode_os_readlink(rc.Node):
     title = 'readlink'
-    description = '''Return a string representing the path to which the symbolic link points.
+    doc = '''Return a string representing the path to which the symbolic link points.
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
 and path should be relative; path will then be relative to that directory.
@@ -1136,7 +1136,7 @@ using it will raise a NotImplementedError.'''
 
 class AutoNode_os_remove(rc.Node):
     title = 'remove'
-    description = '''Remove a file (same as unlink()).
+    doc = '''Remove a file (same as unlink()).
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
@@ -1157,7 +1157,7 @@ dir_fd may not be implemented on your platform.
 
 class AutoNode_os_removedirs(rc.Node):
     title = 'removedirs'
-    description = '''removedirs(name)
+    doc = '''removedirs(name)
 
     Super-rmdir; remove a leaf directory and all empty intermediate
     ones.  Works like rmdir except that, if the leaf directory is
@@ -1182,7 +1182,7 @@ class AutoNode_os_removedirs(rc.Node):
 
 class AutoNode_os_rename(rc.Node):
     title = 'rename'
-    description = '''Rename a file or directory.
+    doc = '''Rename a file or directory.
 
 If either src_dir_fd or dst_dir_fd is not None, it should be a file
   descriptor open to a directory, and the respective path string (src or dst)
@@ -1205,7 +1205,7 @@ rc.NodeInputBP(label='dst'),
 
 class AutoNode_os_renames(rc.Node):
     title = 'renames'
-    description = '''renames(old, new)
+    doc = '''renames(old, new)
 
     Super-rename; create directories as necessary and delete any left
     empty.  Works like rename, except creation of any intermediate
@@ -1235,7 +1235,7 @@ rc.NodeInputBP(label='new'),
 
 class AutoNode_os_replace(rc.Node):
     title = 'replace'
-    description = '''Rename a file or directory, overwriting the destination.
+    doc = '''Rename a file or directory, overwriting the destination.
 
 If either src_dir_fd or dst_dir_fd is not None, it should be a file
   descriptor open to a directory, and the respective path string (src or dst)
@@ -1258,7 +1258,7 @@ rc.NodeInputBP(label='dst'),
 
 class AutoNode_os_rmdir(rc.Node):
     title = 'rmdir'
-    description = '''Remove a directory.
+    doc = '''Remove a directory.
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
@@ -1279,7 +1279,7 @@ dir_fd may not be implemented on your platform.
 
 class AutoNode_os_scandir(rc.Node):
     title = 'scandir'
-    description = '''Return an iterator of DirEntry objects for given path.
+    doc = '''Return an iterator of DirEntry objects for given path.
 
 path can be specified as either str, bytes, or a path-like object.  If path
 is bytes, the names of yielded DirEntry objects will also be bytes; in
@@ -1301,7 +1301,7 @@ If path is None, uses the path='.'.'''
 
 class AutoNode_os_set_handle_inheritable(rc.Node):
     title = 'set_handle_inheritable'
-    description = '''Set the inheritable flag of the specified handle.'''
+    doc = '''Set the inheritable flag of the specified handle.'''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
 rc.NodeInputBP(label='inheritable'),
@@ -1318,7 +1318,7 @@ rc.NodeInputBP(label='inheritable'),
 
 class AutoNode_os_set_inheritable(rc.Node):
     title = 'set_inheritable'
-    description = '''Set the inheritable flag of the specified file descriptor.'''
+    doc = '''Set the inheritable flag of the specified file descriptor.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
 rc.NodeInputBP(label='inheritable'),
@@ -1335,7 +1335,7 @@ rc.NodeInputBP(label='inheritable'),
 
 class AutoNode_os_spawnl(rc.Node):
     title = 'spawnl'
-    description = '''spawnl(mode, file, *args) -> integer
+    doc = '''spawnl(mode, file, *args) -> integer
 
 Execute file with arguments from args in a subprocess.
 If mode == P_NOWAIT return the pid of the process.
@@ -1357,7 +1357,7 @@ rc.NodeInputBP(label='file'),
 
 class AutoNode_os_spawnle(rc.Node):
     title = 'spawnle'
-    description = '''spawnle(mode, file, *args, env) -> integer
+    doc = '''spawnle(mode, file, *args, env) -> integer
 
 Execute file with arguments from args in a subprocess with the
 supplied environment.
@@ -1380,7 +1380,7 @@ rc.NodeInputBP(label='file'),
 
 class AutoNode_os_spawnv(rc.Node):
     title = 'spawnv'
-    description = '''Execute the program specified by path in a new process.
+    doc = '''Execute the program specified by path in a new process.
 
   mode
     Mode of process creation.
@@ -1405,7 +1405,7 @@ rc.NodeInputBP(label='argv'),
 
 class AutoNode_os_spawnve(rc.Node):
     title = 'spawnve'
-    description = '''Execute the program specified by path in a new process.
+    doc = '''Execute the program specified by path in a new process.
 
   mode
     Mode of process creation.
@@ -1433,7 +1433,7 @@ rc.NodeInputBP(label='env'),
 
 class AutoNode_os_stat(rc.Node):
     title = 'stat'
-    description = '''Perform a stat system call on the given path.
+    doc = '''Perform a stat system call on the given path.
 
   path
     Path to be examined; can be string, bytes, a path-like object or
@@ -1468,7 +1468,7 @@ It's an error to use dir_fd or follow_symlinks when specifying path as
 
 class AutoNode_os_strerror(rc.Node):
     title = 'strerror'
-    description = '''Translate an error code to a message string.'''
+    doc = '''Translate an error code to a message string.'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
     ]
@@ -1484,7 +1484,7 @@ class AutoNode_os_strerror(rc.Node):
 
 class AutoNode_os_symlink(rc.Node):
     title = 'symlink'
-    description = '''Create a symbolic link pointing to src named dst.
+    doc = '''Create a symbolic link pointing to src named dst.
 
 target_is_directory is required on Windows if the target is to be
   interpreted as a directory.  (On Windows, symlink requires
@@ -1512,7 +1512,7 @@ rc.NodeInputBP(label='target_is_directory'),
 
 class AutoNode_os_system(rc.Node):
     title = 'system'
-    description = '''Execute the command in a subshell.'''
+    doc = '''Execute the command in a subshell.'''
     init_inputs = [
         rc.NodeInputBP(label='command'),
     ]
@@ -1528,7 +1528,7 @@ class AutoNode_os_system(rc.Node):
 
 class AutoNode_os_times(rc.Node):
     title = 'times'
-    description = '''Return a collection containing process timing information.
+    doc = '''Return a collection containing process timing information.
 
 The object returned behaves like a named tuple with these fields:
   (utime, stime, cutime, cstime, elapsed_time)
@@ -1548,7 +1548,7 @@ All fields are floating point numbers.'''
 
 class AutoNode_os_truncate(rc.Node):
     title = 'truncate'
-    description = '''Truncate a file, specified by path, to a specific length.
+    doc = '''Truncate a file, specified by path, to a specific length.
 
 On some platforms, path may also be specified as an open file descriptor.
   If this functionality is unavailable, using it raises an exception.'''
@@ -1568,7 +1568,7 @@ rc.NodeInputBP(label='length'),
 
 class AutoNode_os_umask(rc.Node):
     title = 'umask'
-    description = '''Set the current numeric umask and return the previous umask.'''
+    doc = '''Set the current numeric umask and return the previous umask.'''
     init_inputs = [
         rc.NodeInputBP(label='mask'),
     ]
@@ -1584,7 +1584,7 @@ class AutoNode_os_umask(rc.Node):
 
 class AutoNode_os_unlink(rc.Node):
     title = 'unlink'
-    description = '''Remove a file (same as remove()).
+    doc = '''Remove a file (same as remove()).
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
@@ -1605,7 +1605,7 @@ dir_fd may not be implemented on your platform.
 
 class AutoNode_os_urandom(rc.Node):
     title = 'urandom'
-    description = '''Return a bytes object containing random bytes suitable for cryptographic use.'''
+    doc = '''Return a bytes object containing random bytes suitable for cryptographic use.'''
     init_inputs = [
         rc.NodeInputBP(label='size'),
     ]
@@ -1621,7 +1621,7 @@ class AutoNode_os_urandom(rc.Node):
 
 class AutoNode_os_waitpid(rc.Node):
     title = 'waitpid'
-    description = '''Wait for completion of a given process.
+    doc = '''Wait for completion of a given process.
 
 Returns a tuple of information regarding the process:
     (pid, status << 8)
@@ -1643,7 +1643,7 @@ rc.NodeInputBP(label='options'),
 
 class AutoNode_os_walk(rc.Node):
     title = 'walk'
-    description = '''Directory tree generator.
+    doc = '''Directory tree generator.
 
     For each directory in the directory tree rooted at top (including top
     itself, but excluding '.' and '..'), yields a 3-tuple
@@ -1719,7 +1719,7 @@ rc.NodeInputBP(label='followlinks'),
 
 class AutoNode_os_write(rc.Node):
     title = 'write'
-    description = '''Write a bytes object to a file descriptor.'''
+    doc = '''Write a bytes object to a file descriptor.'''
     init_inputs = [
         rc.NodeInputBP(label='fd'),
 rc.NodeInputBP(label='data'),

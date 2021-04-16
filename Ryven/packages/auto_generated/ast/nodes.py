@@ -4,7 +4,7 @@ import ast
 
 class AutoNode_ast__getter(rc.Node):
     title = '_getter'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_ast__getter(rc.Node):
 
 class AutoNode_ast__new(rc.Node):
     title = '_new'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_ast__new(rc.Node):
 
 class AutoNode_ast__pad_whitespace(rc.Node):
     title = '_pad_whitespace'
-    description = '''Replace all chars except '\f\t' in a line with spaces.'''
+    doc = '''Replace all chars except '\f\t' in a line with spaces.'''
     init_inputs = [
         rc.NodeInputBP(label='source'),
     ]
@@ -52,7 +52,7 @@ class AutoNode_ast__pad_whitespace(rc.Node):
 
 class AutoNode_ast__setter(rc.Node):
     title = '_setter'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='value'),
@@ -69,7 +69,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_ast__splitlines_no_ff(rc.Node):
     title = '_splitlines_no_ff'
-    description = '''Split a string into lines ignoring form feed and other chars.
+    doc = '''Split a string into lines ignoring form feed and other chars.
 
     This mimics how the Python parser splits source code.
     '''
@@ -88,7 +88,7 @@ class AutoNode_ast__splitlines_no_ff(rc.Node):
 
 class AutoNode_ast_copy_location(rc.Node):
     title = 'copy_location'
-    description = '''
+    doc = '''
     Copy source location (`lineno`, `col_offset`, `end_lineno`, and `end_col_offset`
     attributes) from *old_node* to *new_node* if possible, and return *new_node*.
     '''
@@ -108,7 +108,7 @@ rc.NodeInputBP(label='old_node'),
 
 class AutoNode_ast_dump(rc.Node):
     title = 'dump'
-    description = '''
+    doc = '''
     Return a formatted dump of the tree in node.  This is mainly useful for
     debugging purposes.  If annotate_fields is true (by default),
     the returned string will show the names and the values for fields.
@@ -134,7 +134,7 @@ rc.NodeInputBP(label='include_attributes'),
 
 class AutoNode_ast_fix_missing_locations(rc.Node):
     title = 'fix_missing_locations'
-    description = '''
+    doc = '''
     When you compile a node tree with compile(), the compiler expects lineno and
     col_offset attributes for every node that supports them.  This is rather
     tedious to fill in for generated nodes, so this helper adds these attributes
@@ -156,7 +156,7 @@ class AutoNode_ast_fix_missing_locations(rc.Node):
 
 class AutoNode_ast_get_docstring(rc.Node):
     title = 'get_docstring'
-    description = '''
+    doc = '''
     Return the docstring for the given node or None if no docstring can
     be found.  If the node provided does not have docstrings a TypeError
     will be raised.
@@ -180,7 +180,7 @@ rc.NodeInputBP(label='clean'),
 
 class AutoNode_ast_get_source_segment(rc.Node):
     title = 'get_source_segment'
-    description = '''Get source code segment of the *source* that generated *node*.
+    doc = '''Get source code segment of the *source* that generated *node*.
 
     If some location information (`lineno`, `end_lineno`, `col_offset`,
     or `end_col_offset`) is missing, return None.
@@ -204,7 +204,7 @@ rc.NodeInputBP(label='node'),
 
 class AutoNode_ast_increment_lineno(rc.Node):
     title = 'increment_lineno'
-    description = '''
+    doc = '''
     Increment the line number and end line number of each node in the tree
     starting at *node* by *n*. This is useful to "move code" to a different
     location in a file.
@@ -225,7 +225,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_ast_iter_child_nodes(rc.Node):
     title = 'iter_child_nodes'
-    description = '''
+    doc = '''
     Yield all direct child nodes of *node*, that is, all fields that are nodes
     and all items of fields that are lists of nodes.
     '''
@@ -244,7 +244,7 @@ class AutoNode_ast_iter_child_nodes(rc.Node):
 
 class AutoNode_ast_iter_fields(rc.Node):
     title = 'iter_fields'
-    description = '''
+    doc = '''
     Yield a tuple of ``(fieldname, value)`` for each field in ``node._fields``
     that is present on *node*.
     '''
@@ -263,7 +263,7 @@ class AutoNode_ast_iter_fields(rc.Node):
 
 class AutoNode_ast_literal_eval(rc.Node):
     title = 'literal_eval'
-    description = '''
+    doc = '''
     Safely evaluate an expression node or a string containing a Python
     expression.  The string or node provided may only consist of the following
     Python literal structures: strings, bytes, numbers, tuples, lists, dicts,
@@ -284,7 +284,7 @@ class AutoNode_ast_literal_eval(rc.Node):
 
 class AutoNode_ast_parse(rc.Node):
     title = 'parse'
-    description = '''
+    doc = '''
     Parse the source into an AST node.
     Equivalent to compile(source, filename, mode, PyCF_ONLY_AST).
     Pass type_comments=True to get back type comments where the syntax allows.
@@ -306,7 +306,7 @@ rc.NodeInputBP(label='mode'),
 
 class AutoNode_ast_walk(rc.Node):
     title = 'walk'
-    description = '''
+    doc = '''
     Recursively yield all descendant nodes in the tree starting at *node*
     (including *node* itself), in no specified order.  This is useful if you
     only want to modify nodes in place and don't care about the context.

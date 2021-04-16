@@ -14,7 +14,7 @@ widgets = import_widgets(__file__)
 class GetVar_Node(Node):
 
     title = 'get var'
-    description = 'get the value of a script variable'
+    doc = 'get the value of a script variable'
     init_inputs = [
         NodeInputBP(add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
     ]
@@ -58,7 +58,7 @@ class GetVar_Node(Node):
 class Result_Node(Node):
 
     title = 'result'
-    description = 'displays a value converted to string'
+    doc = 'displays a value converted to string'
     init_inputs = [
         NodeInputBP(type_='data')
     ]
@@ -85,13 +85,13 @@ class Result_Node(Node):
 class Val_Node(Node):
 
     title = 'val'
-    description = 'returns the evaluated value that is typed into the input field'
+    doc = 'returns the evaluated value that is typed into the input field'
     init_outputs = [
         NodeInputBP(type_='data')
     ]
     main_widget_class = widgets.ValNode_MainWidget
     main_widget_pos = 'between ports'
-    style = 'extended'
+    style = 'normal'
     color = '#c69a15'
 
     def __init__(self, params):
@@ -140,7 +140,7 @@ class Val_Node(Node):
 class SetVar_Node(Node):
 
     title = 'set var'
-    description = 'sets the value of a script variable'
+    doc = 'sets the value of a script variable'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.String(), label='var'),
@@ -152,7 +152,7 @@ class SetVar_Node(Node):
         NodeOutputBP(type_='exec'),
         NodeOutputBP(type_='data', label='val')
     ]
-    style = 'extended'
+    style = 'normal'
     color = '#c69a15'
 
     def __init__(self, params):

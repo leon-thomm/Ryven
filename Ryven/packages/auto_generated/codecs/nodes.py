@@ -4,7 +4,7 @@ import codecs
 
 class AutoNode_codecs_EncodedFile(rc.Node):
     title = 'EncodedFile'
-    description = ''' Return a wrapped version of file which provides transparent
+    doc = ''' Return a wrapped version of file which provides transparent
         encoding translation.
 
         Data written to the wrapped file is decoded according
@@ -45,7 +45,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_ascii_decode(rc.Node):
     title = 'ascii_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -62,7 +62,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_ascii_encode(rc.Node):
     title = 'ascii_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -79,7 +79,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_charmap_build(rc.Node):
     title = 'charmap_build'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='map'),
     ]
@@ -95,7 +95,7 @@ class AutoNode_codecs_charmap_build(rc.Node):
 
 class AutoNode_codecs_charmap_decode(rc.Node):
     title = 'charmap_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -113,7 +113,7 @@ rc.NodeInputBP(label='mapping'),
 
 class AutoNode_codecs_charmap_encode(rc.Node):
     title = 'charmap_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -131,7 +131,7 @@ rc.NodeInputBP(label='mapping'),
 
 class AutoNode_codecs_code_page_decode(rc.Node):
     title = 'code_page_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='codepage'),
 rc.NodeInputBP(label='data'),
@@ -150,7 +150,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_code_page_encode(rc.Node):
     title = 'code_page_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code_page'),
 rc.NodeInputBP(label='str'),
@@ -168,7 +168,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_decode(rc.Node):
     title = 'decode'
-    description = '''Decodes obj using the codec registered for encoding.
+    doc = '''Decodes obj using the codec registered for encoding.
 
 Default encoding is 'utf-8'.  errors may be given to set a
 different error handling scheme.  Default is 'strict' meaning that encoding
@@ -192,7 +192,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_encode(rc.Node):
     title = 'encode'
-    description = '''Encodes obj using the codec registered for encoding.
+    doc = '''Encodes obj using the codec registered for encoding.
 
 The default encoding is 'utf-8'.  errors may be given to set a
 different error handling scheme.  Default is 'strict' meaning that encoding
@@ -216,7 +216,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_escape_decode(rc.Node):
     title = 'escape_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -233,7 +233,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_escape_encode(rc.Node):
     title = 'escape_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -250,7 +250,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_getdecoder(rc.Node):
     title = 'getdecoder'
-    description = ''' Lookup up the codec for the given encoding and return
+    doc = ''' Lookup up the codec for the given encoding and return
         its decoder function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -271,7 +271,7 @@ class AutoNode_codecs_getdecoder(rc.Node):
 
 class AutoNode_codecs_getencoder(rc.Node):
     title = 'getencoder'
-    description = ''' Lookup up the codec for the given encoding and return
+    doc = ''' Lookup up the codec for the given encoding and return
         its encoder function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -292,7 +292,7 @@ class AutoNode_codecs_getencoder(rc.Node):
 
 class AutoNode_codecs_getincrementaldecoder(rc.Node):
     title = 'getincrementaldecoder'
-    description = ''' Lookup up the codec for the given encoding and return
+    doc = ''' Lookup up the codec for the given encoding and return
         its IncrementalDecoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
@@ -314,7 +314,7 @@ class AutoNode_codecs_getincrementaldecoder(rc.Node):
 
 class AutoNode_codecs_getincrementalencoder(rc.Node):
     title = 'getincrementalencoder'
-    description = ''' Lookup up the codec for the given encoding and return
+    doc = ''' Lookup up the codec for the given encoding and return
         its IncrementalEncoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
@@ -336,7 +336,7 @@ class AutoNode_codecs_getincrementalencoder(rc.Node):
 
 class AutoNode_codecs_getreader(rc.Node):
     title = 'getreader'
-    description = ''' Lookup up the codec for the given encoding and return
+    doc = ''' Lookup up the codec for the given encoding and return
         its StreamReader class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -357,7 +357,7 @@ class AutoNode_codecs_getreader(rc.Node):
 
 class AutoNode_codecs_getwriter(rc.Node):
     title = 'getwriter'
-    description = ''' Lookup up the codec for the given encoding and return
+    doc = ''' Lookup up the codec for the given encoding and return
         its StreamWriter class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
@@ -378,7 +378,7 @@ class AutoNode_codecs_getwriter(rc.Node):
 
 class AutoNode_codecs_iterdecode(rc.Node):
     title = 'iterdecode'
-    description = '''
+    doc = '''
     Decoding iterator.
 
     Decodes the input strings from the iterator using an IncrementalDecoder.
@@ -403,7 +403,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_iterencode(rc.Node):
     title = 'iterencode'
-    description = '''
+    doc = '''
     Encoding iterator.
 
     Encodes the input strings from the iterator using an IncrementalEncoder.
@@ -428,7 +428,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_latin_1_decode(rc.Node):
     title = 'latin_1_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -445,7 +445,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_latin_1_encode(rc.Node):
     title = 'latin_1_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -462,7 +462,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_lookup(rc.Node):
     title = 'lookup'
-    description = '''Looks up a codec tuple in the Python codec registry and returns a CodecInfo object.'''
+    doc = '''Looks up a codec tuple in the Python codec registry and returns a CodecInfo object.'''
     init_inputs = [
         rc.NodeInputBP(label='encoding'),
     ]
@@ -478,7 +478,7 @@ class AutoNode_codecs_lookup(rc.Node):
 
 class AutoNode_codecs_lookup_error(rc.Node):
     title = 'lookup_error'
-    description = '''lookup_error(errors) -> handler
+    doc = '''lookup_error(errors) -> handler
 
 Return the error handler for the specified error handling name or raise a
 LookupError, if no handler exists under this name.'''
@@ -497,7 +497,7 @@ LookupError, if no handler exists under this name.'''
 
 class AutoNode_codecs_make_encoding_map(rc.Node):
     title = 'make_encoding_map'
-    description = ''' Creates an encoding map from a decoding map.
+    doc = ''' Creates an encoding map from a decoding map.
 
         If a target mapping in the decoding map occurs multiple
         times, then that target is mapped to None (undefined mapping),
@@ -523,7 +523,7 @@ class AutoNode_codecs_make_encoding_map(rc.Node):
 
 class AutoNode_codecs_make_identity_dict(rc.Node):
     title = 'make_identity_dict'
-    description = ''' make_identity_dict(rng) -> dict
+    doc = ''' make_identity_dict(rng) -> dict
 
         Return a dictionary where elements of the rng sequence are
         mapped to themselves.
@@ -544,7 +544,7 @@ class AutoNode_codecs_make_identity_dict(rc.Node):
 
 class AutoNode_codecs_mbcs_decode(rc.Node):
     title = 'mbcs_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -562,7 +562,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_mbcs_encode(rc.Node):
     title = 'mbcs_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -579,7 +579,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_oem_decode(rc.Node):
     title = 'oem_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -597,7 +597,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_oem_encode(rc.Node):
     title = 'oem_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -614,7 +614,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_open(rc.Node):
     title = 'open'
-    description = ''' Open an encoded file using the given mode and return
+    doc = ''' Open an encoded file using the given mode and return
         a wrapped version providing transparent encoding/decoding.
 
         Note: The wrapped version will only accept the object format
@@ -661,7 +661,7 @@ rc.NodeInputBP(label='buffering'),
 
 class AutoNode_codecs_raw_unicode_escape_decode(rc.Node):
     title = 'raw_unicode_escape_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -678,7 +678,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_raw_unicode_escape_encode(rc.Node):
     title = 'raw_unicode_escape_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -695,7 +695,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_readbuffer_encode(rc.Node):
     title = 'readbuffer_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -712,7 +712,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_register(rc.Node):
     title = 'register'
-    description = '''Register a codec search function.
+    doc = '''Register a codec search function.
 
 Search functions are expected to take one argument, the encoding name in
 all lower case letters, and either return None, or a tuple of functions
@@ -732,7 +732,7 @@ all lower case letters, and either return None, or a tuple of functions
 
 class AutoNode_codecs_register_error(rc.Node):
     title = 'register_error'
-    description = '''Register the specified error handler under the name errors.
+    doc = '''Register the specified error handler under the name errors.
 
 handler must be a callable object, that will be called with an exception
 instance containing information about the location of the encoding/decoding
@@ -753,7 +753,7 @@ rc.NodeInputBP(label='handler'),
 
 class AutoNode_codecs_unicode_escape_decode(rc.Node):
     title = 'unicode_escape_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -770,7 +770,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_unicode_escape_encode(rc.Node):
     title = 'unicode_escape_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -787,7 +787,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_utf_16_be_decode(rc.Node):
     title = 'utf_16_be_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -805,7 +805,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_16_be_encode(rc.Node):
     title = 'utf_16_be_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -822,7 +822,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_utf_16_decode(rc.Node):
     title = 'utf_16_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -840,7 +840,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_16_encode(rc.Node):
     title = 'utf_16_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -858,7 +858,7 @@ rc.NodeInputBP(label='byteorder'),
 
 class AutoNode_codecs_utf_16_ex_decode(rc.Node):
     title = 'utf_16_ex_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -877,7 +877,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_16_le_decode(rc.Node):
     title = 'utf_16_le_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -895,7 +895,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_16_le_encode(rc.Node):
     title = 'utf_16_le_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -912,7 +912,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_utf_32_be_decode(rc.Node):
     title = 'utf_32_be_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -930,7 +930,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_32_be_encode(rc.Node):
     title = 'utf_32_be_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -947,7 +947,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_utf_32_decode(rc.Node):
     title = 'utf_32_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -965,7 +965,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_32_encode(rc.Node):
     title = 'utf_32_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -983,7 +983,7 @@ rc.NodeInputBP(label='byteorder'),
 
 class AutoNode_codecs_utf_32_ex_decode(rc.Node):
     title = 'utf_32_ex_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -1002,7 +1002,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_32_le_decode(rc.Node):
     title = 'utf_32_le_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -1020,7 +1020,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_32_le_encode(rc.Node):
     title = 'utf_32_le_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -1037,7 +1037,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_utf_7_decode(rc.Node):
     title = 'utf_7_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -1055,7 +1055,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_7_encode(rc.Node):
     title = 'utf_7_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),
@@ -1072,7 +1072,7 @@ rc.NodeInputBP(label='errors'),
 
 class AutoNode_codecs_utf_8_decode(rc.Node):
     title = 'utf_8_decode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='errors'),
@@ -1090,7 +1090,7 @@ rc.NodeInputBP(label='final'),
 
 class AutoNode_codecs_utf_8_encode(rc.Node):
     title = 'utf_8_encode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='str'),
 rc.NodeInputBP(label='errors'),

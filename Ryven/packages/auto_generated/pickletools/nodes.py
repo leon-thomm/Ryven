@@ -4,7 +4,7 @@ import pickletools
 
 class AutoNode_pickletools__genops(rc.Node):
     title = '_genops'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='yield_end_pos'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='yield_end_pos'),
 
 class AutoNode_pickletools__test(rc.Node):
     title = '_test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -37,7 +37,7 @@ class AutoNode_pickletools__test(rc.Node):
 
 class AutoNode_pickletools__unpack(rc.Node):
     title = '_unpack'
-    description = '''Return a tuple containing values unpacked according to the format string.
+    doc = '''Return a tuple containing values unpacked according to the format string.
 
 The buffer's size in bytes must be calcsize(format).
 
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='buffer'),
 
 class AutoNode_pickletools_decode_long(rc.Node):
     title = 'decode_long'
-    description = '''Decode a long from a two's complement little-endian binary string.
+    doc = '''Decode a long from a two's complement little-endian binary string.
 
     >>> decode_long(b'')
     0
@@ -90,7 +90,7 @@ class AutoNode_pickletools_decode_long(rc.Node):
 
 class AutoNode_pickletools_dis(rc.Node):
     title = 'dis'
-    description = '''Produce a symbolic disassembly of a pickle.
+    doc = '''Produce a symbolic disassembly of a pickle.
 
     'pickle' is a file-like object, or string, containing a (at least one)
     pickle.  The pickle is disassembled from the current position, through
@@ -148,7 +148,7 @@ rc.NodeInputBP(label='annotate'),
 
 class AutoNode_pickletools_genops(rc.Node):
     title = 'genops'
-    description = '''Generate all the opcodes in a pickle.
+    doc = '''Generate all the opcodes in a pickle.
 
     'pickle' is a file-like object, or string, containing the pickle.
 
@@ -185,7 +185,7 @@ class AutoNode_pickletools_genops(rc.Node):
 
 class AutoNode_pickletools_optimize(rc.Node):
     title = 'optimize'
-    description = '''Optimize a pickle string by removing unused PUT opcodes'''
+    doc = '''Optimize a pickle string by removing unused PUT opcodes'''
     init_inputs = [
         rc.NodeInputBP(label='p'),
     ]
@@ -201,7 +201,7 @@ class AutoNode_pickletools_optimize(rc.Node):
 
 class AutoNode_pickletools_read_bytearray8(rc.Node):
     title = 'read_bytearray8'
-    description = '''
+    doc = '''
     >>> import io, struct, sys
     >>> read_bytearray8(io.BytesIO(b"\x00\x00\x00\x00\x00\x00\x00\x00abc"))
     bytearray(b'')
@@ -228,7 +228,7 @@ class AutoNode_pickletools_read_bytearray8(rc.Node):
 
 class AutoNode_pickletools_read_bytes1(rc.Node):
     title = 'read_bytes1'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_bytes1(io.BytesIO(b"\x00"))
     b''
@@ -250,7 +250,7 @@ class AutoNode_pickletools_read_bytes1(rc.Node):
 
 class AutoNode_pickletools_read_bytes4(rc.Node):
     title = 'read_bytes4'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_bytes4(io.BytesIO(b"\x00\x00\x00\x00abc"))
     b''
@@ -276,7 +276,7 @@ class AutoNode_pickletools_read_bytes4(rc.Node):
 
 class AutoNode_pickletools_read_bytes8(rc.Node):
     title = 'read_bytes8'
-    description = '''
+    doc = '''
     >>> import io, struct, sys
     >>> read_bytes8(io.BytesIO(b"\x00\x00\x00\x00\x00\x00\x00\x00abc"))
     b''
@@ -303,7 +303,7 @@ class AutoNode_pickletools_read_bytes8(rc.Node):
 
 class AutoNode_pickletools_read_decimalnl_long(rc.Node):
     title = 'read_decimalnl_long'
-    description = '''
+    doc = '''
     >>> import io
 
     >>> read_decimalnl_long(io.BytesIO(b"1234L\n56"))
@@ -327,7 +327,7 @@ class AutoNode_pickletools_read_decimalnl_long(rc.Node):
 
 class AutoNode_pickletools_read_decimalnl_short(rc.Node):
     title = 'read_decimalnl_short'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_decimalnl_short(io.BytesIO(b"1234\n56"))
     1234
@@ -352,7 +352,7 @@ class AutoNode_pickletools_read_decimalnl_short(rc.Node):
 
 class AutoNode_pickletools_read_float8(rc.Node):
     title = 'read_float8'
-    description = '''
+    doc = '''
     >>> import io, struct
     >>> raw = struct.pack(">d", -1.25)
     >>> raw
@@ -375,7 +375,7 @@ class AutoNode_pickletools_read_float8(rc.Node):
 
 class AutoNode_pickletools_read_floatnl(rc.Node):
     title = 'read_floatnl'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_floatnl(io.BytesIO(b"-1.25\n6"))
     -1.25
@@ -395,7 +395,7 @@ class AutoNode_pickletools_read_floatnl(rc.Node):
 
 class AutoNode_pickletools_read_int4(rc.Node):
     title = 'read_int4'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_int4(io.BytesIO(b'\xff\x00\x00\x00'))
     255
@@ -417,7 +417,7 @@ class AutoNode_pickletools_read_int4(rc.Node):
 
 class AutoNode_pickletools_read_long1(rc.Node):
     title = 'read_long1'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_long1(io.BytesIO(b"\x00"))
     0
@@ -445,7 +445,7 @@ class AutoNode_pickletools_read_long1(rc.Node):
 
 class AutoNode_pickletools_read_long4(rc.Node):
     title = 'read_long4'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_long4(io.BytesIO(b"\x02\x00\x00\x00\xff\x00"))
     255
@@ -473,7 +473,7 @@ class AutoNode_pickletools_read_long4(rc.Node):
 
 class AutoNode_pickletools_read_string1(rc.Node):
     title = 'read_string1'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_string1(io.BytesIO(b"\x00"))
     ''
@@ -495,7 +495,7 @@ class AutoNode_pickletools_read_string1(rc.Node):
 
 class AutoNode_pickletools_read_string4(rc.Node):
     title = 'read_string4'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_string4(io.BytesIO(b"\x00\x00\x00\x00abc"))
     ''
@@ -521,7 +521,7 @@ class AutoNode_pickletools_read_string4(rc.Node):
 
 class AutoNode_pickletools_read_stringnl(rc.Node):
     title = 'read_stringnl'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_stringnl(io.BytesIO(b"'abcd'\nefg\n"))
     'abcd'
@@ -563,7 +563,7 @@ rc.NodeInputBP(label='stripquotes'),
 
 class AutoNode_pickletools_read_stringnl_noescape(rc.Node):
     title = 'read_stringnl_noescape'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
     ]
@@ -579,7 +579,7 @@ class AutoNode_pickletools_read_stringnl_noescape(rc.Node):
 
 class AutoNode_pickletools_read_stringnl_noescape_pair(rc.Node):
     title = 'read_stringnl_noescape_pair'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_stringnl_noescape_pair(io.BytesIO(b"Queue\nEmpty\njunk"))
     'Queue Empty'
@@ -599,7 +599,7 @@ class AutoNode_pickletools_read_stringnl_noescape_pair(rc.Node):
 
 class AutoNode_pickletools_read_uint1(rc.Node):
     title = 'read_uint1'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_uint1(io.BytesIO(b'\xff'))
     255
@@ -619,7 +619,7 @@ class AutoNode_pickletools_read_uint1(rc.Node):
 
 class AutoNode_pickletools_read_uint2(rc.Node):
     title = 'read_uint2'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_uint2(io.BytesIO(b'\xff\x00'))
     255
@@ -641,7 +641,7 @@ class AutoNode_pickletools_read_uint2(rc.Node):
 
 class AutoNode_pickletools_read_uint4(rc.Node):
     title = 'read_uint4'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_uint4(io.BytesIO(b'\xff\x00\x00\x00'))
     255
@@ -663,7 +663,7 @@ class AutoNode_pickletools_read_uint4(rc.Node):
 
 class AutoNode_pickletools_read_uint8(rc.Node):
     title = 'read_uint8'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_uint8(io.BytesIO(b'\xff\x00\x00\x00\x00\x00\x00\x00'))
     255
@@ -685,7 +685,7 @@ class AutoNode_pickletools_read_uint8(rc.Node):
 
 class AutoNode_pickletools_read_unicodestring1(rc.Node):
     title = 'read_unicodestring1'
-    description = '''
+    doc = '''
     >>> import io
     >>> s = 'abcd\uabcd'
     >>> enc = s.encode('utf-8')
@@ -716,7 +716,7 @@ class AutoNode_pickletools_read_unicodestring1(rc.Node):
 
 class AutoNode_pickletools_read_unicodestring4(rc.Node):
     title = 'read_unicodestring4'
-    description = '''
+    doc = '''
     >>> import io
     >>> s = 'abcd\uabcd'
     >>> enc = s.encode('utf-8')
@@ -747,7 +747,7 @@ class AutoNode_pickletools_read_unicodestring4(rc.Node):
 
 class AutoNode_pickletools_read_unicodestring8(rc.Node):
     title = 'read_unicodestring8'
-    description = '''
+    doc = '''
     >>> import io
     >>> s = 'abcd\uabcd'
     >>> enc = s.encode('utf-8')
@@ -778,7 +778,7 @@ class AutoNode_pickletools_read_unicodestring8(rc.Node):
 
 class AutoNode_pickletools_read_unicodestringnl(rc.Node):
     title = 'read_unicodestringnl'
-    description = '''
+    doc = '''
     >>> import io
     >>> read_unicodestringnl(io.BytesIO(b"abc\\uabcd\njunk")) == 'abc\uabcd'
     True

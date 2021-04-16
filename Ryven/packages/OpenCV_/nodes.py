@@ -19,7 +19,7 @@ import cv2
 
 class ReadImage(Node):
     title = 'Read Image'
-    description = 'Reads an image from a file'
+    doc = 'Reads an image from a file'
     input_widget_classes = {
         'choose file IW': widgets.ChooseFileInputWidget
     }
@@ -71,7 +71,7 @@ class ReadImage(Node):
 
 class SaveImg(Node):
     title = 'Save Image'
-    description = ''
+    doc = ''
     input_widget_classes = {
         'path input': widgets.PathInput
     }
@@ -124,7 +124,7 @@ class SaveImg(Node):
 
 class WebcamFeed(Node):
     title = 'Webcam Feed'
-    description = ''
+    doc = ''
     init_inputs = []
     init_outputs = [
         NodeOutputBP(),
@@ -173,7 +173,7 @@ class OpenCVNodeBase(Node):
 
 class DisplayImg(OpenCVNodeBase):
     title = 'Display Image'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
     ]
@@ -184,7 +184,7 @@ class DisplayImg(OpenCVNodeBase):
 
 class AdjustBrightness(OpenCVNodeBase):
     title = 'Adjust Brightness'
-    description = 'Changes the brightness of an image'
+    doc = 'Changes the brightness of an image'
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='alpha'),
@@ -201,7 +201,7 @@ class AdjustBrightness(OpenCVNodeBase):
 
 class Blur(OpenCVNodeBase):
     title = 'Blur'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='ksize'),
@@ -216,7 +216,7 @@ class Blur(OpenCVNodeBase):
 
 class GaussianBlur(OpenCVNodeBase):
     title = 'Gaussian Blur'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='ksize'),
@@ -231,7 +231,7 @@ class GaussianBlur(OpenCVNodeBase):
 
 class BlurMedian(OpenCVNodeBase):
     title = 'Blur Median'
-    description = 'Performs a median blur on an img'
+    doc = 'Performs a median blur on an img'
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='ksize'),
@@ -243,7 +243,7 @@ class BlurMedian(OpenCVNodeBase):
 
 class Circle(OpenCVNodeBase):
     title = 'Circle'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='center'),
@@ -264,7 +264,7 @@ class Circle(OpenCVNodeBase):
 
 class ArrowedLine(OpenCVNodeBase):
     title = 'Arrowed liked'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='pt1'),
@@ -285,7 +285,7 @@ class ArrowedLine(OpenCVNodeBase):
 
 class Line(OpenCVNodeBase):
     title = 'Line'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='pt1'),
@@ -306,7 +306,7 @@ class Line(OpenCVNodeBase):
 
 class Rectangle(OpenCVNodeBase):
     title = 'Rectangle'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='pt1'),
@@ -327,7 +327,7 @@ class Rectangle(OpenCVNodeBase):
 
 class BilateralFilter(OpenCVNodeBase):
     title = 'Biliteral Filter'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='d'),
@@ -346,7 +346,7 @@ class BilateralFilter(OpenCVNodeBase):
 
 class BlackHat(OpenCVNodeBase):  # ???
     title = 'Black Hat'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='kernnel'),
@@ -362,7 +362,7 @@ class BlackHat(OpenCVNodeBase):  # ???
 
 class CannyEdgeDetection(OpenCVNodeBase):
     title = 'Canny'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='threshold1'),
@@ -379,7 +379,7 @@ class CannyEdgeDetection(OpenCVNodeBase):
 
 class HarrisCornerDetection(OpenCVNodeBase):
     title = 'Harris Corner Detection'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='block size'),
@@ -398,7 +398,7 @@ class HarrisCornerDetection(OpenCVNodeBase):
 
 class GreySclCircleDetections(OpenCVNodeBase):
     title = 'GreyScl Circle Detection'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='dp'),
@@ -426,7 +426,7 @@ class GreySclCircleDetections(OpenCVNodeBase):
 
 class Closing(OpenCVNodeBase):
     title = 'Closing'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='kernel'),
@@ -442,7 +442,7 @@ class Closing(OpenCVNodeBase):
 
 class Dilate(OpenCVNodeBase):
     title = 'Dilate'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='kernel'),
@@ -454,7 +454,7 @@ class Dilate(OpenCVNodeBase):
 
 class Fourier(OpenCVNodeBase):
     title = 'Fourier'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
     ]
@@ -465,7 +465,7 @@ class Fourier(OpenCVNodeBase):
 
 class Erode(OpenCVNodeBase):
     title = 'Erode'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='kernel'),
@@ -477,7 +477,7 @@ class Erode(OpenCVNodeBase):
 
 class Filter2D(OpenCVNodeBase):
     title = 'Filter 2D'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='ddpepth'),
@@ -495,7 +495,7 @@ class Filter2D(OpenCVNodeBase):
 
 class RGBToGrayscale(OpenCVNodeBase):
     title = 'RGB To Greyscale'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
     ]
@@ -509,7 +509,7 @@ class RGBToGrayscale(OpenCVNodeBase):
 
 class GreyscaleToRGB(OpenCVNodeBase):
     title = 'Grayscale to RGB'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
     ]
@@ -523,7 +523,7 @@ class GreyscaleToRGB(OpenCVNodeBase):
 
 class ImgBlend(OpenCVNodeBase):
     title = 'Image Blend'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img1'),
         NodeInputBP(label='alpha'),
@@ -544,7 +544,7 @@ class ImgBlend(OpenCVNodeBase):
 
 class Resize(OpenCVNodeBase):
     title = 'Resize'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='size'),
@@ -559,7 +559,7 @@ class Resize(OpenCVNodeBase):
 
 class ThresholdAdaptiveGaussian(OpenCVNodeBase):
     title = 'Threshold-Adaptive Gaussian'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='max val'),
@@ -579,7 +579,7 @@ class ThresholdAdaptiveGaussian(OpenCVNodeBase):
 
 class ThresholdAdaptiveMean(OpenCVNodeBase):
     title = 'Threshold-Adaptive Mean'
-    description = ''
+    doc = ''
     init_inputs = [
         NodeInputBP(label='img'),
         NodeInputBP(label='max val'),

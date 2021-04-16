@@ -4,7 +4,7 @@ import imp
 
 class AutoNode_imp__builtin_from_name(rc.Node):
     title = '_builtin_from_name'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_imp__builtin_from_name(rc.Node):
 
 class AutoNode_imp__exec(rc.Node):
     title = '_exec'
-    description = '''Execute the spec's specified module in an existing module's namespace.'''
+    doc = '''Execute the spec's specified module in an existing module's namespace.'''
     init_inputs = [
         rc.NodeInputBP(label='spec'),
 rc.NodeInputBP(label='module'),
@@ -37,7 +37,7 @@ rc.NodeInputBP(label='module'),
 
 class AutoNode_imp__fix_co_filename(rc.Node):
     title = '_fix_co_filename'
-    description = '''Changes code.co_filename to specify the passed-in file path.
+    doc = '''Changes code.co_filename to specify the passed-in file path.
 
   code
     Code object to change.
@@ -59,7 +59,7 @@ rc.NodeInputBP(label='path'),
 
 class AutoNode_imp__load(rc.Node):
     title = '_load'
-    description = '''Return a new module object, loaded by the spec's loader.
+    doc = '''Return a new module object, loaded by the spec's loader.
 
     The module is not added to its parent.
 
@@ -82,7 +82,7 @@ class AutoNode_imp__load(rc.Node):
 
 class AutoNode_imp_acquire_lock(rc.Node):
     title = 'acquire_lock'
-    description = '''Acquires the interpreter's import lock for the current thread.
+    doc = '''Acquires the interpreter's import lock for the current thread.
 
 This lock should be used by import hooks to ensure thread-safety when importing
 modules. On platforms without threads, this function does nothing.'''
@@ -101,7 +101,7 @@ modules. On platforms without threads, this function does nothing.'''
 
 class AutoNode_imp_cache_from_source(rc.Node):
     title = 'cache_from_source'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Given the path to a .py file, return the path to its .pyc file.
 
@@ -130,7 +130,7 @@ rc.NodeInputBP(label='debug_override'),
 
 class AutoNode_imp_find_module(rc.Node):
     title = 'find_module'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Search for a module.
 
@@ -156,7 +156,7 @@ rc.NodeInputBP(label='path'),
 
 class AutoNode_imp_get_frozen_object(rc.Node):
     title = 'get_frozen_object'
-    description = '''Create a code object for a frozen module.'''
+    doc = '''Create a code object for a frozen module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -172,7 +172,7 @@ class AutoNode_imp_get_frozen_object(rc.Node):
 
 class AutoNode_imp_get_magic(rc.Node):
     title = 'get_magic'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Return the magic number for .pyc files.
     '''
@@ -191,7 +191,7 @@ class AutoNode_imp_get_magic(rc.Node):
 
 class AutoNode_imp_get_suffixes(rc.Node):
     title = 'get_suffixes'
-    description = '''**DEPRECATED**'''
+    doc = '''**DEPRECATED**'''
     init_inputs = [
         
     ]
@@ -207,7 +207,7 @@ class AutoNode_imp_get_suffixes(rc.Node):
 
 class AutoNode_imp_get_tag(rc.Node):
     title = 'get_tag'
-    description = '''Return the magic tag for .pyc files.'''
+    doc = '''Return the magic tag for .pyc files.'''
     init_inputs = [
         
     ]
@@ -223,7 +223,7 @@ class AutoNode_imp_get_tag(rc.Node):
 
 class AutoNode_imp_init_builtin(rc.Node):
     title = 'init_builtin'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Load and return a built-in module by name, or None is such module doesn't
     exist
@@ -243,7 +243,7 @@ class AutoNode_imp_init_builtin(rc.Node):
 
 class AutoNode_imp_init_frozen(rc.Node):
     title = 'init_frozen'
-    description = '''Initializes a frozen module.'''
+    doc = '''Initializes a frozen module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -259,7 +259,7 @@ class AutoNode_imp_init_frozen(rc.Node):
 
 class AutoNode_imp_is_builtin(rc.Node):
     title = 'is_builtin'
-    description = '''Returns True if the module name corresponds to a built-in module.'''
+    doc = '''Returns True if the module name corresponds to a built-in module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -275,7 +275,7 @@ class AutoNode_imp_is_builtin(rc.Node):
 
 class AutoNode_imp_is_frozen(rc.Node):
     title = 'is_frozen'
-    description = '''Returns True if the module name corresponds to a frozen module.'''
+    doc = '''Returns True if the module name corresponds to a frozen module.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -291,7 +291,7 @@ class AutoNode_imp_is_frozen(rc.Node):
 
 class AutoNode_imp_is_frozen_package(rc.Node):
     title = 'is_frozen_package'
-    description = '''Returns True if the module name is of a frozen package.'''
+    doc = '''Returns True if the module name is of a frozen package.'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -307,7 +307,7 @@ class AutoNode_imp_is_frozen_package(rc.Node):
 
 class AutoNode_imp_load_compiled(rc.Node):
     title = 'load_compiled'
-    description = '''**DEPRECATED**'''
+    doc = '''**DEPRECATED**'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='pathname'),
@@ -325,7 +325,7 @@ rc.NodeInputBP(label='file'),
 
 class AutoNode_imp_load_dynamic(rc.Node):
     title = 'load_dynamic'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
         Load an extension module.
         '''
@@ -346,7 +346,7 @@ rc.NodeInputBP(label='file'),
 
 class AutoNode_imp_load_module(rc.Node):
     title = 'load_module'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Load a module, given information returned by find_module().
 
@@ -371,7 +371,7 @@ rc.NodeInputBP(label='details'),
 
 class AutoNode_imp_load_package(rc.Node):
     title = 'load_package'
-    description = '''**DEPRECATED**'''
+    doc = '''**DEPRECATED**'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='path'),
@@ -388,7 +388,7 @@ rc.NodeInputBP(label='path'),
 
 class AutoNode_imp_load_source(rc.Node):
     title = 'load_source'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='pathname'),
@@ -406,7 +406,7 @@ rc.NodeInputBP(label='file'),
 
 class AutoNode_imp_lock_held(rc.Node):
     title = 'lock_held'
-    description = '''Return True if the import lock is currently held, else False.
+    doc = '''Return True if the import lock is currently held, else False.
 
 On platforms without threads, return False.'''
     init_inputs = [
@@ -424,7 +424,7 @@ On platforms without threads, return False.'''
 
 class AutoNode_imp_new_module(rc.Node):
     title = 'new_module'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Create a new module.
 
@@ -446,7 +446,7 @@ class AutoNode_imp_new_module(rc.Node):
 
 class AutoNode_imp_release_lock(rc.Node):
     title = 'release_lock'
-    description = '''Release the interpreter's import lock.
+    doc = '''Release the interpreter's import lock.
 
 On platforms without threads, this function does nothing.'''
     init_inputs = [
@@ -464,7 +464,7 @@ On platforms without threads, this function does nothing.'''
 
 class AutoNode_imp_reload(rc.Node):
     title = 'reload'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Reload the module and return it.
 
@@ -486,7 +486,7 @@ class AutoNode_imp_reload(rc.Node):
 
 class AutoNode_imp_source_from_cache(rc.Node):
     title = 'source_from_cache'
-    description = '''**DEPRECATED**
+    doc = '''**DEPRECATED**
 
     Given the path to a .pyc. file, return the path to its .py file.
 

@@ -4,7 +4,7 @@ import asyncore
 
 class AutoNode_asyncore__exception(rc.Node):
     title = '_exception'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_asyncore__exception(rc.Node):
 
 class AutoNode_asyncore__strerror(rc.Node):
     title = '_strerror'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='err'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_asyncore__strerror(rc.Node):
 
 class AutoNode_asyncore_close_all(rc.Node):
     title = 'close_all'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='map'),
 rc.NodeInputBP(label='ignore_all'),
@@ -53,7 +53,7 @@ rc.NodeInputBP(label='ignore_all'),
 
 class AutoNode_asyncore_compact_traceback(rc.Node):
     title = 'compact_traceback'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -69,7 +69,7 @@ class AutoNode_asyncore_compact_traceback(rc.Node):
 
 class AutoNode_asyncore_loop(rc.Node):
     title = 'loop'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='timeout'),
 rc.NodeInputBP(label='use_poll'),
@@ -88,7 +88,7 @@ rc.NodeInputBP(label='count'),
 
 class AutoNode_asyncore_poll(rc.Node):
     title = 'poll'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='timeout'),
 rc.NodeInputBP(label='map'),
@@ -105,7 +105,7 @@ rc.NodeInputBP(label='map'),
 
 class AutoNode_asyncore_poll2(rc.Node):
     title = 'poll2'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='timeout'),
 rc.NodeInputBP(label='map'),
@@ -122,7 +122,7 @@ rc.NodeInputBP(label='map'),
 
 class AutoNode_asyncore_poll3(rc.Node):
     title = 'poll3'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='timeout'),
 rc.NodeInputBP(label='map'),
@@ -139,7 +139,7 @@ rc.NodeInputBP(label='map'),
 
 class AutoNode_asyncore_read(rc.Node):
     title = 'read'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -155,7 +155,7 @@ class AutoNode_asyncore_read(rc.Node):
 
 class AutoNode_asyncore_readwrite(rc.Node):
     title = 'readwrite'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='flags'),
@@ -172,7 +172,7 @@ rc.NodeInputBP(label='flags'),
 
 class AutoNode_asyncore_write(rc.Node):
     title = 'write'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]

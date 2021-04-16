@@ -4,7 +4,7 @@ import inspect
 
 class AutoNode_inspect__check_class(rc.Node):
     title = '_check_class'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='klass'),
 rc.NodeInputBP(label='attr'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='attr'),
 
 class AutoNode_inspect__check_instance(rc.Node):
     title = '_check_instance'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='attr'),
@@ -38,7 +38,7 @@ rc.NodeInputBP(label='attr'),
 
 class AutoNode_inspect__findclass(rc.Node):
     title = '_findclass'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='func'),
     ]
@@ -54,7 +54,7 @@ class AutoNode_inspect__findclass(rc.Node):
 
 class AutoNode_inspect__finddoc(rc.Node):
     title = '_finddoc'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -70,7 +70,7 @@ class AutoNode_inspect__finddoc(rc.Node):
 
 class AutoNode_inspect__has_code_flag(rc.Node):
     title = '_has_code_flag'
-    description = '''Return true if ``f`` is a function (or a method or functools.partial
+    doc = '''Return true if ``f`` is a function (or a method or functools.partial
     wrapper wrapping a function) whose code object has the given ``flag``
     set in its flags.'''
     init_inputs = [
@@ -89,7 +89,7 @@ rc.NodeInputBP(label='flag'),
 
 class AutoNode_inspect__is_type(rc.Node):
     title = '_is_type'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -105,7 +105,7 @@ class AutoNode_inspect__is_type(rc.Node):
 
 class AutoNode_inspect__main(rc.Node):
     title = '_main'
-    description = ''' Logic for inspecting an object given at command line '''
+    doc = ''' Logic for inspecting an object given at command line '''
     init_inputs = [
         
     ]
@@ -121,7 +121,7 @@ class AutoNode_inspect__main(rc.Node):
 
 class AutoNode_inspect__missing_arguments(rc.Node):
     title = '_missing_arguments'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f_name'),
 rc.NodeInputBP(label='argnames'),
@@ -140,7 +140,7 @@ rc.NodeInputBP(label='values'),
 
 class AutoNode_inspect__shadowed_dict(rc.Node):
     title = '_shadowed_dict'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='klass'),
     ]
@@ -156,7 +156,7 @@ class AutoNode_inspect__shadowed_dict(rc.Node):
 
 class AutoNode_inspect__signature_bound_method(rc.Node):
     title = '_signature_bound_method'
-    description = '''Private helper to transform signatures for unbound
+    doc = '''Private helper to transform signatures for unbound
     functions to bound methods.
     '''
     init_inputs = [
@@ -174,7 +174,7 @@ class AutoNode_inspect__signature_bound_method(rc.Node):
 
 class AutoNode_inspect__signature_from_builtin(rc.Node):
     title = '_signature_from_builtin'
-    description = '''Private helper function to get signature for
+    doc = '''Private helper function to get signature for
     builtin callables.
     '''
     init_inputs = [
@@ -194,7 +194,7 @@ rc.NodeInputBP(label='skip_bound_arg'),
 
 class AutoNode_inspect__signature_from_callable(rc.Node):
     title = '_signature_from_callable'
-    description = '''Private helper function to get signature for arbitrary
+    doc = '''Private helper function to get signature for arbitrary
     callable objects.
     '''
     init_inputs = [
@@ -212,7 +212,7 @@ class AutoNode_inspect__signature_from_callable(rc.Node):
 
 class AutoNode_inspect__signature_from_function(rc.Node):
     title = '_signature_from_function'
-    description = '''Private helper: constructs Signature for the given python function.'''
+    doc = '''Private helper: constructs Signature for the given python function.'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='func'),
@@ -230,7 +230,7 @@ rc.NodeInputBP(label='skip_bound_arg'),
 
 class AutoNode_inspect__signature_fromstr(rc.Node):
     title = '_signature_fromstr'
-    description = '''Private helper to parse content of '__text_signature__'
+    doc = '''Private helper to parse content of '__text_signature__'
     and return a Signature based on it.
     '''
     init_inputs = [
@@ -251,7 +251,7 @@ rc.NodeInputBP(label='skip_bound_arg'),
 
 class AutoNode_inspect__signature_get_bound_param(rc.Node):
     title = '_signature_get_bound_param'
-    description = ''' Private helper to get first parameter name from a
+    doc = ''' Private helper to get first parameter name from a
     __text_signature__ of a builtin method, which should
     be in the following format: '($param1, ...)'.
     Assumptions are that the first argument won't have
@@ -272,7 +272,7 @@ class AutoNode_inspect__signature_get_bound_param(rc.Node):
 
 class AutoNode_inspect__signature_get_partial(rc.Node):
     title = '_signature_get_partial'
-    description = '''Private helper to calculate how 'wrapped_sig' signature will
+    doc = '''Private helper to calculate how 'wrapped_sig' signature will
     look like after applying a 'functools.partial' object (or alike)
     on it.
     '''
@@ -293,7 +293,7 @@ rc.NodeInputBP(label='extra_args'),
 
 class AutoNode_inspect__signature_get_user_defined_method(rc.Node):
     title = '_signature_get_user_defined_method'
-    description = '''Private helper. Checks if ``cls`` has an attribute
+    doc = '''Private helper. Checks if ``cls`` has an attribute
     named ``method_name`` and returns it only if it is a
     pure python function.
     '''
@@ -313,7 +313,7 @@ rc.NodeInputBP(label='method_name'),
 
 class AutoNode_inspect__signature_is_builtin(rc.Node):
     title = '_signature_is_builtin'
-    description = '''Private helper to test if `obj` is a callable that might
+    doc = '''Private helper to test if `obj` is a callable that might
     support Argument Clinic's __text_signature__ protocol.
     '''
     init_inputs = [
@@ -331,7 +331,7 @@ class AutoNode_inspect__signature_is_builtin(rc.Node):
 
 class AutoNode_inspect__signature_is_functionlike(rc.Node):
     title = '_signature_is_functionlike'
-    description = '''Private helper to test if `obj` is a duck type of FunctionType.
+    doc = '''Private helper to test if `obj` is a duck type of FunctionType.
     A good example of such objects are functions compiled with
     Cython, which have all attributes that a pure Python function
     would have, but have their code statically compiled.
@@ -351,7 +351,7 @@ class AutoNode_inspect__signature_is_functionlike(rc.Node):
 
 class AutoNode_inspect__signature_strip_non_python_syntax(rc.Node):
     title = '_signature_strip_non_python_syntax'
-    description = '''
+    doc = '''
     Private helper function. Takes a signature in Argument Clinic's
     extended signature format.
 
@@ -377,7 +377,7 @@ class AutoNode_inspect__signature_strip_non_python_syntax(rc.Node):
 
 class AutoNode_inspect__static_getmro(rc.Node):
     title = '_static_getmro'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='klass'),
     ]
@@ -393,7 +393,7 @@ class AutoNode_inspect__static_getmro(rc.Node):
 
 class AutoNode_inspect__too_many(rc.Node):
     title = '_too_many'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f_name'),
 rc.NodeInputBP(label='args'),
@@ -415,7 +415,7 @@ rc.NodeInputBP(label='values'),
 
 class AutoNode_inspect_classify_class_attrs(rc.Node):
     title = 'classify_class_attrs'
-    description = '''Return list of attribute-descriptor tuples.
+    doc = '''Return list of attribute-descriptor tuples.
 
     For each name in dir(cls), the return list contains a 4-tuple
     with these elements:
@@ -455,7 +455,7 @@ class AutoNode_inspect_classify_class_attrs(rc.Node):
 
 class AutoNode_inspect_cleandoc(rc.Node):
     title = 'cleandoc'
-    description = '''Clean up indentation from docstrings.
+    doc = '''Clean up indentation from docstrings.
 
     Any whitespace that can be uniformly removed from the second line
     onwards is removed.'''
@@ -474,7 +474,7 @@ class AutoNode_inspect_cleandoc(rc.Node):
 
 class AutoNode_inspect_currentframe(rc.Node):
     title = 'currentframe'
-    description = '''Return the frame of the caller or None if this is not possible.'''
+    doc = '''Return the frame of the caller or None if this is not possible.'''
     init_inputs = [
         
     ]
@@ -490,7 +490,7 @@ class AutoNode_inspect_currentframe(rc.Node):
 
 class AutoNode_inspect_findsource(rc.Node):
     title = 'findsource'
-    description = '''Return the entire source file and starting line number for an object.
+    doc = '''Return the entire source file and starting line number for an object.
 
     The argument may be a module, class, method, function, traceback, frame,
     or code object.  The source code is returned as a list of all the lines
@@ -511,7 +511,7 @@ class AutoNode_inspect_findsource(rc.Node):
 
 class AutoNode_inspect_formatannotation(rc.Node):
     title = 'formatannotation'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='annotation'),
 rc.NodeInputBP(label='base_module'),
@@ -528,7 +528,7 @@ rc.NodeInputBP(label='base_module'),
 
 class AutoNode_inspect_formatannotationrelativeto(rc.Node):
     title = 'formatannotationrelativeto'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -544,7 +544,7 @@ class AutoNode_inspect_formatannotationrelativeto(rc.Node):
 
 class AutoNode_inspect_formatargspec(rc.Node):
     title = 'formatargspec'
-    description = '''Format an argument spec from the values returned by getfullargspec.
+    doc = '''Format an argument spec from the values returned by getfullargspec.
 
     The first seven arguments are (args, varargs, varkw, defaults,
     kwonlyargs, kwonlydefaults, annotations).  The other five arguments
@@ -582,7 +582,7 @@ rc.NodeInputBP(label='formatannotation'),
 
 class AutoNode_inspect_formatargvalues(rc.Node):
     title = 'formatargvalues'
-    description = '''Format an argument spec from the 4 values returned by getargvalues.
+    doc = '''Format an argument spec from the 4 values returned by getargvalues.
 
     The first four arguments are (args, varargs, varkw, locals).  The
     next four arguments are the corresponding optional formatting functions
@@ -610,7 +610,7 @@ rc.NodeInputBP(label='formatvalue'),
 
 class AutoNode_inspect_getabsfile(rc.Node):
     title = 'getabsfile'
-    description = '''Return an absolute path to the source or compiled file for an object.
+    doc = '''Return an absolute path to the source or compiled file for an object.
 
     The idea is for each object to have a unique origin, so this routine
     normalizes the result as much as possible.'''
@@ -630,7 +630,7 @@ rc.NodeInputBP(label='_filename'),
 
 class AutoNode_inspect_getargs(rc.Node):
     title = 'getargs'
-    description = '''Get information about the arguments accepted by a code object.
+    doc = '''Get information about the arguments accepted by a code object.
 
     Three things are returned: (args, varargs, varkw), where
     'args' is the list of argument names. Keyword-only arguments are
@@ -651,7 +651,7 @@ class AutoNode_inspect_getargs(rc.Node):
 
 class AutoNode_inspect_getargspec(rc.Node):
     title = 'getargspec'
-    description = '''Get the names and default values of a function's parameters.
+    doc = '''Get the names and default values of a function's parameters.
 
     A tuple of four things is returned: (args, varargs, keywords, defaults).
     'args' is a list of the argument names, including keyword-only argument names.
@@ -685,7 +685,7 @@ class AutoNode_inspect_getargspec(rc.Node):
 
 class AutoNode_inspect_getargvalues(rc.Node):
     title = 'getargvalues'
-    description = '''Get information about arguments passed into a particular frame.
+    doc = '''Get information about arguments passed into a particular frame.
 
     A tuple of four things is returned: (args, varargs, varkw, locals).
     'args' is a list of the argument names.
@@ -706,7 +706,7 @@ class AutoNode_inspect_getargvalues(rc.Node):
 
 class AutoNode_inspect_getattr_static(rc.Node):
     title = 'getattr_static'
-    description = '''Retrieve attributes without triggering dynamic lookup via the
+    doc = '''Retrieve attributes without triggering dynamic lookup via the
        descriptor protocol,  __getattr__ or __getattribute__.
 
        Note: this function may not be able to retrieve all attributes
@@ -733,7 +733,7 @@ rc.NodeInputBP(label='default'),
 
 class AutoNode_inspect_getblock(rc.Node):
     title = 'getblock'
-    description = '''Extract the block of code at the top of the given list of lines.'''
+    doc = '''Extract the block of code at the top of the given list of lines.'''
     init_inputs = [
         rc.NodeInputBP(label='lines'),
     ]
@@ -749,7 +749,7 @@ class AutoNode_inspect_getblock(rc.Node):
 
 class AutoNode_inspect_getcallargs(rc.Node):
     title = 'getcallargs'
-    description = '''Get the mapping of arguments to values.
+    doc = '''Get the mapping of arguments to values.
 
     A dict is returned, with keys the function argument names (including the
     names of the * and ** arguments, if any), and values the respective bound
@@ -769,7 +769,7 @@ class AutoNode_inspect_getcallargs(rc.Node):
 
 class AutoNode_inspect_getclasstree(rc.Node):
     title = 'getclasstree'
-    description = '''Arrange the given list of classes into a hierarchy of nested lists.
+    doc = '''Arrange the given list of classes into a hierarchy of nested lists.
 
     Where a nested list appears, it contains classes derived from the class
     whose entry immediately precedes the list.  Each entry is a 2-tuple
@@ -793,7 +793,7 @@ rc.NodeInputBP(label='unique'),
 
 class AutoNode_inspect_getclosurevars(rc.Node):
     title = 'getclosurevars'
-    description = '''
+    doc = '''
     Get the mapping of free variables to their current values.
 
     Returns a named tuple of dicts mapping the current nonlocal, global
@@ -815,7 +815,7 @@ class AutoNode_inspect_getclosurevars(rc.Node):
 
 class AutoNode_inspect_getcomments(rc.Node):
     title = 'getcomments'
-    description = '''Get lines of comments immediately preceding an object's source code.
+    doc = '''Get lines of comments immediately preceding an object's source code.
 
     Returns None when source can't be found.
     '''
@@ -834,7 +834,7 @@ class AutoNode_inspect_getcomments(rc.Node):
 
 class AutoNode_inspect_getcoroutinelocals(rc.Node):
     title = 'getcoroutinelocals'
-    description = '''
+    doc = '''
     Get the mapping of coroutine local variables to their current values.
 
     A dict is returned, with the keys the local variable names and values the
@@ -854,7 +854,7 @@ class AutoNode_inspect_getcoroutinelocals(rc.Node):
 
 class AutoNode_inspect_getcoroutinestate(rc.Node):
     title = 'getcoroutinestate'
-    description = '''Get current state of a coroutine object.
+    doc = '''Get current state of a coroutine object.
 
     Possible states are:
       CORO_CREATED: Waiting to start execution.
@@ -877,7 +877,7 @@ class AutoNode_inspect_getcoroutinestate(rc.Node):
 
 class AutoNode_inspect_getdoc(rc.Node):
     title = 'getdoc'
-    description = '''Get the documentation string for an object.
+    doc = '''Get the documentation string for an object.
 
     All tabs are expanded to spaces.  To clean up docstrings that are
     indented to line up with blocks of code, any whitespace than can be
@@ -897,7 +897,7 @@ class AutoNode_inspect_getdoc(rc.Node):
 
 class AutoNode_inspect_getfile(rc.Node):
     title = 'getfile'
-    description = '''Work out which source or compiled file an object was defined in.'''
+    doc = '''Work out which source or compiled file an object was defined in.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -913,7 +913,7 @@ class AutoNode_inspect_getfile(rc.Node):
 
 class AutoNode_inspect_getframeinfo(rc.Node):
     title = 'getframeinfo'
-    description = '''Get information about a frame or traceback object.
+    doc = '''Get information about a frame or traceback object.
 
     A tuple of five things is returned: the filename, the line number of
     the current line, the function name, a list of lines of context from
@@ -936,7 +936,7 @@ rc.NodeInputBP(label='context'),
 
 class AutoNode_inspect_getfullargspec(rc.Node):
     title = 'getfullargspec'
-    description = '''Get the names and default values of a callable object's parameters.
+    doc = '''Get the names and default values of a callable object's parameters.
 
     A tuple of seven things is returned:
     (args, varargs, varkw, defaults, kwonlyargs, kwonlydefaults, annotations).
@@ -966,7 +966,7 @@ class AutoNode_inspect_getfullargspec(rc.Node):
 
 class AutoNode_inspect_getgeneratorlocals(rc.Node):
     title = 'getgeneratorlocals'
-    description = '''
+    doc = '''
     Get the mapping of generator local variables to their current values.
 
     A dict is returned, with the keys the local variable names and values the
@@ -986,7 +986,7 @@ class AutoNode_inspect_getgeneratorlocals(rc.Node):
 
 class AutoNode_inspect_getgeneratorstate(rc.Node):
     title = 'getgeneratorstate'
-    description = '''Get current state of a generator-iterator.
+    doc = '''Get current state of a generator-iterator.
 
     Possible states are:
       GEN_CREATED: Waiting to start execution.
@@ -1009,7 +1009,7 @@ class AutoNode_inspect_getgeneratorstate(rc.Node):
 
 class AutoNode_inspect_getinnerframes(rc.Node):
     title = 'getinnerframes'
-    description = '''Get a list of records for a traceback's frame and all lower frames.
+    doc = '''Get a list of records for a traceback's frame and all lower frames.
 
     Each record contains a frame object, filename, line number, function
     name, a list of lines of context, and index within the context.'''
@@ -1029,7 +1029,7 @@ rc.NodeInputBP(label='context'),
 
 class AutoNode_inspect_getlineno(rc.Node):
     title = 'getlineno'
-    description = '''Get the line number from a frame object, allowing for optimization.'''
+    doc = '''Get the line number from a frame object, allowing for optimization.'''
     init_inputs = [
         rc.NodeInputBP(label='frame'),
     ]
@@ -1045,7 +1045,7 @@ class AutoNode_inspect_getlineno(rc.Node):
 
 class AutoNode_inspect_getmembers(rc.Node):
     title = 'getmembers'
-    description = '''Return all members of an object as (name, value) pairs sorted by name.
+    doc = '''Return all members of an object as (name, value) pairs sorted by name.
     Optionally, only return members that satisfy a given predicate.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
@@ -1063,7 +1063,7 @@ rc.NodeInputBP(label='predicate'),
 
 class AutoNode_inspect_getmodule(rc.Node):
     title = 'getmodule'
-    description = '''Return the module an object was defined in, or None if not found.'''
+    doc = '''Return the module an object was defined in, or None if not found.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
 rc.NodeInputBP(label='_filename'),
@@ -1080,7 +1080,7 @@ rc.NodeInputBP(label='_filename'),
 
 class AutoNode_inspect_getmodulename(rc.Node):
     title = 'getmodulename'
-    description = '''Return the module name for a given file, or None.'''
+    doc = '''Return the module name for a given file, or None.'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
     ]
@@ -1096,7 +1096,7 @@ class AutoNode_inspect_getmodulename(rc.Node):
 
 class AutoNode_inspect_getmro(rc.Node):
     title = 'getmro'
-    description = '''Return tuple of base classes (including cls) in method resolution order.'''
+    doc = '''Return tuple of base classes (including cls) in method resolution order.'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
     ]
@@ -1112,7 +1112,7 @@ class AutoNode_inspect_getmro(rc.Node):
 
 class AutoNode_inspect_getouterframes(rc.Node):
     title = 'getouterframes'
-    description = '''Get a list of records for a frame and all higher (calling) frames.
+    doc = '''Get a list of records for a frame and all higher (calling) frames.
 
     Each record contains a frame object, filename, line number, function
     name, a list of lines of context, and index within the context.'''
@@ -1132,7 +1132,7 @@ rc.NodeInputBP(label='context'),
 
 class AutoNode_inspect_getsource(rc.Node):
     title = 'getsource'
-    description = '''Return the text of the source code for an object.
+    doc = '''Return the text of the source code for an object.
 
     The argument may be a module, class, method, function, traceback, frame,
     or code object.  The source code is returned as a single string.  An
@@ -1152,7 +1152,7 @@ class AutoNode_inspect_getsource(rc.Node):
 
 class AutoNode_inspect_getsourcefile(rc.Node):
     title = 'getsourcefile'
-    description = '''Return the filename that can be used to locate an object's source.
+    doc = '''Return the filename that can be used to locate an object's source.
     Return None if no way can be identified to get the source.
     '''
     init_inputs = [
@@ -1170,7 +1170,7 @@ class AutoNode_inspect_getsourcefile(rc.Node):
 
 class AutoNode_inspect_getsourcelines(rc.Node):
     title = 'getsourcelines'
-    description = '''Return a list of source lines and starting line number for an object.
+    doc = '''Return a list of source lines and starting line number for an object.
 
     The argument may be a module, class, method, function, traceback, frame,
     or code object.  The source code is returned as a list of the lines
@@ -1192,7 +1192,7 @@ class AutoNode_inspect_getsourcelines(rc.Node):
 
 class AutoNode_inspect_indentsize(rc.Node):
     title = 'indentsize'
-    description = '''Return the indent size, in spaces, at the start of a line of text.'''
+    doc = '''Return the indent size, in spaces, at the start of a line of text.'''
     init_inputs = [
         rc.NodeInputBP(label='line'),
     ]
@@ -1208,7 +1208,7 @@ class AutoNode_inspect_indentsize(rc.Node):
 
 class AutoNode_inspect_isabstract(rc.Node):
     title = 'isabstract'
-    description = '''Return true if the object is an abstract base class (ABC).'''
+    doc = '''Return true if the object is an abstract base class (ABC).'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -1224,7 +1224,7 @@ class AutoNode_inspect_isabstract(rc.Node):
 
 class AutoNode_inspect_isasyncgen(rc.Node):
     title = 'isasyncgen'
-    description = '''Return true if the object is an asynchronous generator.'''
+    doc = '''Return true if the object is an asynchronous generator.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -1240,7 +1240,7 @@ class AutoNode_inspect_isasyncgen(rc.Node):
 
 class AutoNode_inspect_isasyncgenfunction(rc.Node):
     title = 'isasyncgenfunction'
-    description = '''Return true if the object is an asynchronous generator function.
+    doc = '''Return true if the object is an asynchronous generator function.
 
     Asynchronous generator functions are defined with "async def"
     syntax and have "yield" expressions in their body.
@@ -1260,7 +1260,7 @@ class AutoNode_inspect_isasyncgenfunction(rc.Node):
 
 class AutoNode_inspect_isawaitable(rc.Node):
     title = 'isawaitable'
-    description = '''Return true if object can be passed to an ``await`` expression.'''
+    doc = '''Return true if object can be passed to an ``await`` expression.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -1276,7 +1276,7 @@ class AutoNode_inspect_isawaitable(rc.Node):
 
 class AutoNode_inspect_isbuiltin(rc.Node):
     title = 'isbuiltin'
-    description = '''Return true if the object is a built-in function or method.
+    doc = '''Return true if the object is a built-in function or method.
 
     Built-in functions and methods provide these attributes:
         __doc__         documentation string
@@ -1297,7 +1297,7 @@ class AutoNode_inspect_isbuiltin(rc.Node):
 
 class AutoNode_inspect_isclass(rc.Node):
     title = 'isclass'
-    description = '''Return true if the object is a class.
+    doc = '''Return true if the object is a class.
 
     Class objects provide these attributes:
         __doc__         documentation string
@@ -1317,7 +1317,7 @@ class AutoNode_inspect_isclass(rc.Node):
 
 class AutoNode_inspect_iscode(rc.Node):
     title = 'iscode'
-    description = '''Return true if the object is a code object.
+    doc = '''Return true if the object is a code object.
 
     Code objects provide these attributes:
         co_argcount         number of arguments (not including *, ** args
@@ -1354,7 +1354,7 @@ class AutoNode_inspect_iscode(rc.Node):
 
 class AutoNode_inspect_iscoroutine(rc.Node):
     title = 'iscoroutine'
-    description = '''Return true if the object is a coroutine.'''
+    doc = '''Return true if the object is a coroutine.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -1370,7 +1370,7 @@ class AutoNode_inspect_iscoroutine(rc.Node):
 
 class AutoNode_inspect_iscoroutinefunction(rc.Node):
     title = 'iscoroutinefunction'
-    description = '''Return true if the object is a coroutine function.
+    doc = '''Return true if the object is a coroutine function.
 
     Coroutine functions are defined with "async def" syntax.
     '''
@@ -1389,7 +1389,7 @@ class AutoNode_inspect_iscoroutinefunction(rc.Node):
 
 class AutoNode_inspect_isdatadescriptor(rc.Node):
     title = 'isdatadescriptor'
-    description = '''Return true if the object is a data descriptor.
+    doc = '''Return true if the object is a data descriptor.
 
     Data descriptors have a __set__ or a __delete__ attribute.  Examples are
     properties (defined in Python) and getsets and members (defined in C).
@@ -1411,7 +1411,7 @@ class AutoNode_inspect_isdatadescriptor(rc.Node):
 
 class AutoNode_inspect_isframe(rc.Node):
     title = 'isframe'
-    description = '''Return true if the object is a frame object.
+    doc = '''Return true if the object is a frame object.
 
     Frame objects provide these attributes:
         f_back          next outer frame object (this frame's caller)
@@ -1437,7 +1437,7 @@ class AutoNode_inspect_isframe(rc.Node):
 
 class AutoNode_inspect_isfunction(rc.Node):
     title = 'isfunction'
-    description = '''Return true if the object is a user-defined function.
+    doc = '''Return true if the object is a user-defined function.
 
     Function objects provide these attributes:
         __doc__         documentation string
@@ -1462,7 +1462,7 @@ class AutoNode_inspect_isfunction(rc.Node):
 
 class AutoNode_inspect_isgenerator(rc.Node):
     title = 'isgenerator'
-    description = '''Return true if the object is a generator.
+    doc = '''Return true if the object is a generator.
 
     Generator objects provide these attributes:
         __iter__        defined to support iteration over container
@@ -1491,7 +1491,7 @@ class AutoNode_inspect_isgenerator(rc.Node):
 
 class AutoNode_inspect_isgeneratorfunction(rc.Node):
     title = 'isgeneratorfunction'
-    description = '''Return true if the object is a user-defined generator function.
+    doc = '''Return true if the object is a user-defined generator function.
 
     Generator function objects provide the same attributes as functions.
     See help(isfunction) for a list of attributes.'''
@@ -1510,7 +1510,7 @@ class AutoNode_inspect_isgeneratorfunction(rc.Node):
 
 class AutoNode_inspect_isgetsetdescriptor(rc.Node):
     title = 'isgetsetdescriptor'
-    description = '''Return true if the object is a getset descriptor.
+    doc = '''Return true if the object is a getset descriptor.
 
         getset descriptors are specialized descriptors defined in extension
         modules.'''
@@ -1529,7 +1529,7 @@ class AutoNode_inspect_isgetsetdescriptor(rc.Node):
 
 class AutoNode_inspect_ismemberdescriptor(rc.Node):
     title = 'ismemberdescriptor'
-    description = '''Return true if the object is a member descriptor.
+    doc = '''Return true if the object is a member descriptor.
 
         Member descriptors are specialized descriptors defined in extension
         modules.'''
@@ -1548,7 +1548,7 @@ class AutoNode_inspect_ismemberdescriptor(rc.Node):
 
 class AutoNode_inspect_ismethod(rc.Node):
     title = 'ismethod'
-    description = '''Return true if the object is an instance method.
+    doc = '''Return true if the object is an instance method.
 
     Instance method objects provide these attributes:
         __doc__         documentation string
@@ -1570,7 +1570,7 @@ class AutoNode_inspect_ismethod(rc.Node):
 
 class AutoNode_inspect_ismethoddescriptor(rc.Node):
     title = 'ismethoddescriptor'
-    description = '''Return true if the object is a method descriptor.
+    doc = '''Return true if the object is a method descriptor.
 
     But not if ismethod() or isclass() or isfunction() are true.
 
@@ -1598,7 +1598,7 @@ class AutoNode_inspect_ismethoddescriptor(rc.Node):
 
 class AutoNode_inspect_ismodule(rc.Node):
     title = 'ismodule'
-    description = '''Return true if the object is a module.
+    doc = '''Return true if the object is a module.
 
     Module objects provide these attributes:
         __cached__      pathname to byte compiled file
@@ -1619,7 +1619,7 @@ class AutoNode_inspect_ismodule(rc.Node):
 
 class AutoNode_inspect_isroutine(rc.Node):
     title = 'isroutine'
-    description = '''Return true if the object is any kind of function or method.'''
+    doc = '''Return true if the object is any kind of function or method.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -1635,7 +1635,7 @@ class AutoNode_inspect_isroutine(rc.Node):
 
 class AutoNode_inspect_istraceback(rc.Node):
     title = 'istraceback'
-    description = '''Return true if the object is a traceback.
+    doc = '''Return true if the object is a traceback.
 
     Traceback objects provide these attributes:
         tb_frame        frame object at this level
@@ -1657,7 +1657,7 @@ class AutoNode_inspect_istraceback(rc.Node):
 
 class AutoNode_inspect_namedtuple(rc.Node):
     title = 'namedtuple'
-    description = '''Returns a new subclass of tuple with named fields.
+    doc = '''Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -1695,7 +1695,7 @@ rc.NodeInputBP(label='field_names'),
 
 class AutoNode_inspect_signature(rc.Node):
     title = 'signature'
-    description = '''Get a signature object for the passed callable.'''
+    doc = '''Get a signature object for the passed callable.'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -1711,7 +1711,7 @@ class AutoNode_inspect_signature(rc.Node):
 
 class AutoNode_inspect_stack(rc.Node):
     title = 'stack'
-    description = '''Return a list of records for the stack above the caller's frame.'''
+    doc = '''Return a list of records for the stack above the caller's frame.'''
     init_inputs = [
         rc.NodeInputBP(label='context'),
     ]
@@ -1727,7 +1727,7 @@ class AutoNode_inspect_stack(rc.Node):
 
 class AutoNode_inspect_trace(rc.Node):
     title = 'trace'
-    description = '''Return a list of records for the stack below the current exception.'''
+    doc = '''Return a list of records for the stack below the current exception.'''
     init_inputs = [
         rc.NodeInputBP(label='context'),
     ]
@@ -1743,7 +1743,7 @@ class AutoNode_inspect_trace(rc.Node):
 
 class AutoNode_inspect_unwrap(rc.Node):
     title = 'unwrap'
-    description = '''Get the object wrapped by *func*.
+    doc = '''Get the object wrapped by *func*.
 
    Follows the chain of :attr:`__wrapped__` attributes returning the last
    object in the chain.
@@ -1773,7 +1773,7 @@ class AutoNode_inspect_unwrap(rc.Node):
 
 class AutoNode_inspect_walktree(rc.Node):
     title = 'walktree'
-    description = '''Recursive helper function for getclasstree().'''
+    doc = '''Recursive helper function for getclasstree().'''
     init_inputs = [
         rc.NodeInputBP(label='classes'),
 rc.NodeInputBP(label='children'),

@@ -31,7 +31,7 @@ class MatrixNodeBase(Node):
 
 class ShowMatrix(MatrixNodeBase):
     title = 'Show Matrix'
-    description = 'Shows a matrix.'
+    doc = 'Shows a matrix.'
 
     def get_mat(self):
         return self.input(0)
@@ -41,7 +41,7 @@ class ShowMatrix(MatrixNodeBase):
 
 class Matrix_Node(Node):
     title = 'Matrix'
-    description = 'Evaluates a matrix'
+    doc = 'Evaluates a matrix'
     init_inputs = []
     init_outputs = [
         NodeOutputBP()
@@ -161,7 +161,7 @@ class Matrix_Node(Node):
 
 class Conjugate(MatrixNodeBase):
     title = 'Conjugate'
-    description = 'Conjugates a matrix.'
+    doc = 'Conjugates a matrix.'
 
     def get_mat(self):
         return np.conjugate(self.input(0))
@@ -169,7 +169,7 @@ class Conjugate(MatrixNodeBase):
 
 class Transpose(MatrixNodeBase):
     title = 'Transpose'
-    description = 'Transposes a matrix.'
+    doc = 'Transposes a matrix.'
 
     def get_mat(self):
         return np.transpose(self.input(0))
@@ -177,7 +177,7 @@ class Transpose(MatrixNodeBase):
 
 class DetOfMatrix(MatrixNodeBase):
     title = 'Determinant'
-    description = 'Computes the determinant of a matrix.'
+    doc = 'Computes the determinant of a matrix.'
     
     def get_mat(self):
         return np.linalg.det(self.input(0))
@@ -185,7 +185,7 @@ class DetOfMatrix(MatrixNodeBase):
 
 class DotProduct(MatrixNodeBase):
     title = 'Dot Product'
-    description = 'Computes the dot product of a matrix.'
+    doc = 'Computes the dot product of a matrix.'
     init_inputs = [
         NodeInputBP(),
         NodeInputBP(),
@@ -197,7 +197,7 @@ class DotProduct(MatrixNodeBase):
 
 class HermMatrix(MatrixNodeBase):
     title = 'Herm'
-    description = 'Computes the hermetian matrix.'
+    doc = 'Computes the hermetian matrix.'
     
     def get_mat(self):
         return np.transpose(np.conjugate(self.input(0)))
@@ -205,7 +205,7 @@ class HermMatrix(MatrixNodeBase):
 
 class IDMatrix(MatrixNodeBase):
     title = 'ID Matrix'
-    description = 'Creates an identity matrix.'
+    doc = 'Creates an identity matrix.'
     
     def get_mat(self):
         return np.identity(self.input(0))
@@ -213,7 +213,7 @@ class IDMatrix(MatrixNodeBase):
 
 class ImagMatrix(MatrixNodeBase):
     title = 'Imag'
-    description = 'Extracts the imaginary parts of the patrix.'
+    doc = 'Extracts the imaginary parts of the patrix.'
     
     def get_mat(self):
         return np.imag(self.input(0))
@@ -221,7 +221,7 @@ class ImagMatrix(MatrixNodeBase):
 
 class RealMatrix(MatrixNodeBase):
     title = 'Real'
-    description = 'Extracts the real parts of the patrix.'
+    doc = 'Extracts the real parts of the patrix.'
     
     def get_mat(self):
         return np.real(self.input(0))
@@ -229,7 +229,7 @@ class RealMatrix(MatrixNodeBase):
 
 class InnerProduct(MatrixNodeBase):
     title = 'Inner'
-    description = 'Computes the inner product of the input matrices.'
+    doc = 'Computes the inner product of the input matrices.'
     init_inputs = [
         NodeInputBP(),
         NodeInputBP(),
@@ -241,7 +241,7 @@ class InnerProduct(MatrixNodeBase):
 
 class OuterProduct(MatrixNodeBase):
     title = 'Outer'
-    description = 'Creates the outer product of two matrices.'
+    doc = 'Creates the outer product of two matrices.'
     init_inputs = [
         NodeInputBP(),
         NodeInputBP(),
@@ -253,7 +253,7 @@ class OuterProduct(MatrixNodeBase):
 
 class InverseMatrix(MatrixNodeBase):
     title = 'Inverse'
-    description = 'Computes the inverse matrix'
+    doc = 'Computes the inverse matrix'
 
     def get_mat(self):
         return np.linalg.inv(self.input(0))
@@ -261,7 +261,7 @@ class InverseMatrix(MatrixNodeBase):
 
 class KronMatrix(MatrixNodeBase):
     title = 'Kron'
-    description = ''
+    doc = ''
 
     def get_mat(self):
         return np.kron(self.input(0), self.input(1))
@@ -269,7 +269,7 @@ class KronMatrix(MatrixNodeBase):
 
 class MaskLower(MatrixNodeBase):
     title = 'Mask Lower'
-    description = ''
+    doc = ''
 
     def get_mat(self):
         return np.tril(self.input(0))
@@ -277,7 +277,7 @@ class MaskLower(MatrixNodeBase):
 
 class MaskUpper(MatrixNodeBase):
     title = 'Mask Upper'
-    description = ''
+    doc = ''
 
     def get_mat(self):
         return np.triu(self.input(0))
@@ -285,7 +285,7 @@ class MaskUpper(MatrixNodeBase):
 
 class MatMul(MatrixNodeBase):
     title = 'Mult'
-    description = 'Performs a matrix multiplication.'
+    doc = 'Performs a matrix multiplication.'
     init_inputs = [
         NodeInputBP(),
         NodeInputBP(),
@@ -297,7 +297,7 @@ class MatMul(MatrixNodeBase):
 
 class MatPower(MatrixNodeBase):
     title = 'Power'
-    description = 'Powers a matrix.'
+    doc = 'Powers a matrix.'
     init_inputs = [
         NodeInputBP(),
         NodeInputBP(),
@@ -309,7 +309,7 @@ class MatPower(MatrixNodeBase):
 
 class NullMatrix(MatrixNodeBase):
     title = 'Null'
-    description = 'Creates a matrix of zeros.'
+    doc = 'Creates a matrix of zeros.'
 
     def get_mat(self):
         return np.zeros(shape=(self.input(0), self.input(1)))
@@ -317,7 +317,7 @@ class NullMatrix(MatrixNodeBase):
 
 class OnesMatrix(MatrixNodeBase):
     title = 'Ones'
-    description = 'Creates a matrix of ones.'
+    doc = 'Creates a matrix of ones.'
 
     def get_mat(self):
         return np.ones(shape=(self.input(0), self.input(1)))
@@ -325,7 +325,7 @@ class OnesMatrix(MatrixNodeBase):
 
 class RandomMatrix(MatrixNodeBase):
     title = 'Rand'
-    description = 'Creates a patrix with random values between 0 and 1.'
+    doc = 'Creates a patrix with random values between 0 and 1.'
     init_inputs = [
         NodeInputBP(),
         NodeInputBP(),
@@ -338,7 +338,7 @@ class RandomMatrix(MatrixNodeBase):
 
 class SolveLEq(MatrixNodeBase):
     title = 'Solve'
-    description = 'Solves a linear equasion system.'
+    doc = 'Solves a linear equasion system.'
     init_inputs = [
         NodeInputBP(),
         NodeInputBP(),

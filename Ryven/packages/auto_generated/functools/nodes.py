@@ -4,7 +4,7 @@ import functools
 
 class AutoNode_functools__c3_merge(rc.Node):
     title = '_c3_merge'
-    description = '''Merges MROs in *sequences* to a single MRO using the C3 algorithm.
+    doc = '''Merges MROs in *sequences* to a single MRO using the C3 algorithm.
 
     Adapted from http://www.python.org/download/releases/2.3/mro/.
 
@@ -24,7 +24,7 @@ class AutoNode_functools__c3_merge(rc.Node):
 
 class AutoNode_functools__c3_mro(rc.Node):
     title = '_c3_mro'
-    description = '''Computes the method resolution order using extended C3 linearization.
+    doc = '''Computes the method resolution order using extended C3 linearization.
 
     If no *abcs* are given, the algorithm works exactly like the built-in C3
     linearization used for method resolution.
@@ -56,7 +56,7 @@ rc.NodeInputBP(label='abcs'),
 
 class AutoNode_functools__compose_mro(rc.Node):
     title = '_compose_mro'
-    description = '''Calculates the method resolution order for a given class *cls*.
+    doc = '''Calculates the method resolution order for a given class *cls*.
 
     Includes relevant abstract base classes (with their respective bases) from
     the *types* iterable. Uses a modified C3 linearization algorithm.
@@ -78,7 +78,7 @@ rc.NodeInputBP(label='types'),
 
 class AutoNode_functools__find_impl(rc.Node):
     title = '_find_impl'
-    description = '''Returns the best matching implementation from *registry* for type *cls*.
+    doc = '''Returns the best matching implementation from *registry* for type *cls*.
 
     Where there is no registered implementation for a specific type, its method
     resolution order is used to find a more generic implementation.
@@ -103,7 +103,7 @@ rc.NodeInputBP(label='registry'),
 
 class AutoNode_functools__ge_from_gt(rc.Node):
     title = '_ge_from_gt'
-    description = '''Return a >= b.  Computed by @total_ordering from (a > b) or (a == b).'''
+    doc = '''Return a >= b.  Computed by @total_ordering from (a > b) or (a == b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -121,7 +121,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__ge_from_le(rc.Node):
     title = '_ge_from_le'
-    description = '''Return a >= b.  Computed by @total_ordering from (not a <= b) or (a == b).'''
+    doc = '''Return a >= b.  Computed by @total_ordering from (not a <= b) or (a == b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -139,7 +139,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__ge_from_lt(rc.Node):
     title = '_ge_from_lt'
-    description = '''Return a >= b.  Computed by @total_ordering from (not a < b).'''
+    doc = '''Return a >= b.  Computed by @total_ordering from (not a < b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -157,7 +157,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__gt_from_ge(rc.Node):
     title = '_gt_from_ge'
-    description = '''Return a > b.  Computed by @total_ordering from (a >= b) and (a != b).'''
+    doc = '''Return a > b.  Computed by @total_ordering from (a >= b) and (a != b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -175,7 +175,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__gt_from_le(rc.Node):
     title = '_gt_from_le'
-    description = '''Return a > b.  Computed by @total_ordering from (not a <= b).'''
+    doc = '''Return a > b.  Computed by @total_ordering from (not a <= b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -193,7 +193,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__gt_from_lt(rc.Node):
     title = '_gt_from_lt'
-    description = '''Return a > b.  Computed by @total_ordering from (not a < b) and (a != b).'''
+    doc = '''Return a > b.  Computed by @total_ordering from (not a < b) and (a != b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -211,7 +211,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__le_from_ge(rc.Node):
     title = '_le_from_ge'
-    description = '''Return a <= b.  Computed by @total_ordering from (not a >= b) or (a == b).'''
+    doc = '''Return a <= b.  Computed by @total_ordering from (not a >= b) or (a == b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -229,7 +229,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__le_from_gt(rc.Node):
     title = '_le_from_gt'
-    description = '''Return a <= b.  Computed by @total_ordering from (not a > b).'''
+    doc = '''Return a <= b.  Computed by @total_ordering from (not a > b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -247,7 +247,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__le_from_lt(rc.Node):
     title = '_le_from_lt'
-    description = '''Return a <= b.  Computed by @total_ordering from (a < b) or (a == b).'''
+    doc = '''Return a <= b.  Computed by @total_ordering from (a < b) or (a == b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -265,7 +265,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__lt_from_ge(rc.Node):
     title = '_lt_from_ge'
-    description = '''Return a < b.  Computed by @total_ordering from (not a >= b).'''
+    doc = '''Return a < b.  Computed by @total_ordering from (not a >= b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -283,7 +283,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__lt_from_gt(rc.Node):
     title = '_lt_from_gt'
-    description = '''Return a < b.  Computed by @total_ordering from (not a > b) and (a != b).'''
+    doc = '''Return a < b.  Computed by @total_ordering from (not a > b) and (a != b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -301,7 +301,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__lt_from_le(rc.Node):
     title = '_lt_from_le'
-    description = '''Return a < b.  Computed by @total_ordering from (a <= b) and (a != b).'''
+    doc = '''Return a < b.  Computed by @total_ordering from (a <= b) and (a != b).'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='other'),
@@ -319,7 +319,7 @@ rc.NodeInputBP(label='NotImplemented'),
 
 class AutoNode_functools__make_key(rc.Node):
     title = '_make_key'
-    description = '''Make a cache key from optionally typed positional and keyword arguments
+    doc = '''Make a cache key from optionally typed positional and keyword arguments
 
     The key is constructed in a way that is flat as possible rather than
     as a nested structure that would take more memory.
@@ -351,7 +351,7 @@ rc.NodeInputBP(label='len'),
 
 class AutoNode_functools__unwrap_partial(rc.Node):
     title = '_unwrap_partial'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='func'),
     ]
@@ -367,7 +367,7 @@ class AutoNode_functools__unwrap_partial(rc.Node):
 
 class AutoNode_functools_get_cache_token(rc.Node):
     title = 'get_cache_token'
-    description = '''Returns the current ABC cache token.
+    doc = '''Returns the current ABC cache token.
 
 The token is an opaque object (supporting equality testing) identifying the
 current version of the ABC cache for virtual subclasses. The token changes
@@ -387,7 +387,7 @@ with every call to register() on any ABC.'''
 
 class AutoNode_functools_lru_cache(rc.Node):
     title = 'lru_cache'
-    description = '''Least-recently-used cache decorator.
+    doc = '''Least-recently-used cache decorator.
 
     If *maxsize* is set to None, the LRU features are disabled and the cache
     can grow without bound.
@@ -421,7 +421,7 @@ rc.NodeInputBP(label='typed'),
 
 class AutoNode_functools_namedtuple(rc.Node):
     title = 'namedtuple'
-    description = '''Returns a new subclass of tuple with named fields.
+    doc = '''Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -459,7 +459,7 @@ rc.NodeInputBP(label='field_names'),
 
 class AutoNode_functools_recursive_repr(rc.Node):
     title = 'recursive_repr'
-    description = '''Decorator to make a repr function return fillvalue for a recursive call'''
+    doc = '''Decorator to make a repr function return fillvalue for a recursive call'''
     init_inputs = [
         rc.NodeInputBP(label='fillvalue'),
     ]
@@ -475,7 +475,7 @@ class AutoNode_functools_recursive_repr(rc.Node):
 
 class AutoNode_functools_singledispatch(rc.Node):
     title = 'singledispatch'
-    description = '''Single-dispatch generic function decorator.
+    doc = '''Single-dispatch generic function decorator.
 
     Transforms a function into a generic function, which can have different
     behaviours depending upon the type of its first argument. The decorated
@@ -498,7 +498,7 @@ class AutoNode_functools_singledispatch(rc.Node):
 
 class AutoNode_functools_total_ordering(rc.Node):
     title = 'total_ordering'
-    description = '''Class decorator that fills in missing ordering methods'''
+    doc = '''Class decorator that fills in missing ordering methods'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
     ]
@@ -514,7 +514,7 @@ class AutoNode_functools_total_ordering(rc.Node):
 
 class AutoNode_functools_update_wrapper(rc.Node):
     title = 'update_wrapper'
-    description = '''Update a wrapper function to look like the wrapped function
+    doc = '''Update a wrapper function to look like the wrapped function
 
        wrapper is the function to be updated
        wrapped is the original function
@@ -543,7 +543,7 @@ rc.NodeInputBP(label='updated'),
 
 class AutoNode_functools_wraps(rc.Node):
     title = 'wraps'
-    description = '''Decorator factory to apply update_wrapper() to a wrapper function
+    doc = '''Decorator factory to apply update_wrapper() to a wrapper function
 
        Returns a decorator that invokes update_wrapper() with the decorated
        function as the wrapper argument and the arguments to wraps() as the

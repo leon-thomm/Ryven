@@ -4,7 +4,7 @@ import mimetypes
 
 class AutoNode_mimetypes__default_mime_types(rc.Node):
     title = '_default_mime_types'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -20,7 +20,7 @@ class AutoNode_mimetypes__default_mime_types(rc.Node):
 
 class AutoNode_mimetypes__main(rc.Node):
     title = '_main'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -36,7 +36,7 @@ class AutoNode_mimetypes__main(rc.Node):
 
 class AutoNode_mimetypes_add_type(rc.Node):
     title = 'add_type'
-    description = '''Add a mapping between a type and an extension.
+    doc = '''Add a mapping between a type and an extension.
 
     When the extension is already known, the new
     type will replace the old one. When the type
@@ -64,7 +64,7 @@ rc.NodeInputBP(label='strict'),
 
 class AutoNode_mimetypes_guess_all_extensions(rc.Node):
     title = 'guess_all_extensions'
-    description = '''Guess the extensions for a file based on its MIME type.
+    doc = '''Guess the extensions for a file based on its MIME type.
 
     Return value is a list of strings giving the possible filename
     extensions, including the leading dot ('.').  The extension is not
@@ -92,7 +92,7 @@ rc.NodeInputBP(label='strict'),
 
 class AutoNode_mimetypes_guess_extension(rc.Node):
     title = 'guess_extension'
-    description = '''Guess the extension for a file based on its MIME type.
+    doc = '''Guess the extension for a file based on its MIME type.
 
     Return value is a string giving a filename extension, including the
     leading dot ('.').  The extension is not guaranteed to have been
@@ -119,7 +119,7 @@ rc.NodeInputBP(label='strict'),
 
 class AutoNode_mimetypes_guess_type(rc.Node):
     title = 'guess_type'
-    description = '''Guess the type of a file based on its URL.
+    doc = '''Guess the type of a file based on its URL.
 
     Return value is a tuple (type, encoding) where type is None if the
     type can't be guessed (no or unknown suffix) or a string of the
@@ -152,7 +152,7 @@ rc.NodeInputBP(label='strict'),
 
 class AutoNode_mimetypes_init(rc.Node):
     title = 'init'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='files'),
     ]
@@ -168,7 +168,7 @@ class AutoNode_mimetypes_init(rc.Node):
 
 class AutoNode_mimetypes_read_mime_types(rc.Node):
     title = 'read_mime_types'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]

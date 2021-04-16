@@ -4,7 +4,7 @@ import pstats
 
 class AutoNode_pstats_add_callers(rc.Node):
     title = 'add_callers'
-    description = '''Combine two caller lists in a single list.'''
+    doc = '''Combine two caller lists in a single list.'''
     init_inputs = [
         rc.NodeInputBP(label='target'),
 rc.NodeInputBP(label='source'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='source'),
 
 class AutoNode_pstats_add_func_stats(rc.Node):
     title = 'add_func_stats'
-    description = '''Add together all the stats for two profile entries.'''
+    doc = '''Add together all the stats for two profile entries.'''
     init_inputs = [
         rc.NodeInputBP(label='target'),
 rc.NodeInputBP(label='source'),
@@ -38,7 +38,7 @@ rc.NodeInputBP(label='source'),
 
 class AutoNode_pstats_count_calls(rc.Node):
     title = 'count_calls'
-    description = '''Sum the caller statistics to get total number of calls received.'''
+    doc = '''Sum the caller statistics to get total number of calls received.'''
     init_inputs = [
         rc.NodeInputBP(label='callers'),
     ]
@@ -54,7 +54,7 @@ class AutoNode_pstats_count_calls(rc.Node):
 
 class AutoNode_pstats_f8(rc.Node):
     title = 'f8'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -70,7 +70,7 @@ class AutoNode_pstats_f8(rc.Node):
 
 class AutoNode_pstats_func_get_function_name(rc.Node):
     title = 'func_get_function_name'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='func'),
     ]
@@ -86,7 +86,7 @@ class AutoNode_pstats_func_get_function_name(rc.Node):
 
 class AutoNode_pstats_func_std_string(rc.Node):
     title = 'func_std_string'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='func_name'),
     ]
@@ -102,7 +102,7 @@ class AutoNode_pstats_func_std_string(rc.Node):
 
 class AutoNode_pstats_func_strip_path(rc.Node):
     title = 'func_strip_path'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='func_name'),
     ]

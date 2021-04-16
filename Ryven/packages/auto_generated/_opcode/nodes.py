@@ -5,7 +5,7 @@ import _opcode
 class AutoNode__opcode_stack_effect(rc.Node):
     title = 'stack_effect'
     type_ = '_opcode'
-    description = '''Compute the stack effect of the opcode.'''
+    doc = '''Compute the stack effect of the opcode.'''
     init_inputs = [
         rc.NodeInputBP(label='opcode'),
 rc.NodeInputBP(label='oparg'),

@@ -4,7 +4,7 @@ import pkgutil
 
 class AutoNode_pkgutil__get_spec(rc.Node):
     title = '_get_spec'
-    description = '''Return the finder-specific module spec.'''
+    doc = '''Return the finder-specific module spec.'''
     init_inputs = [
         rc.NodeInputBP(label='finder'),
 rc.NodeInputBP(label='name'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='name'),
 
 class AutoNode_pkgutil__import_imp(rc.Node):
     title = '_import_imp'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -37,7 +37,7 @@ class AutoNode_pkgutil__import_imp(rc.Node):
 
 class AutoNode_pkgutil__iter_file_finder_modules(rc.Node):
     title = '_iter_file_finder_modules'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='importer'),
 rc.NodeInputBP(label='prefix'),
@@ -54,7 +54,7 @@ rc.NodeInputBP(label='prefix'),
 
 class AutoNode_pkgutil_extend_path(rc.Node):
     title = 'extend_path'
-    description = '''Extend a package's path.
+    doc = '''Extend a package's path.
 
     Intended use is to place the following code in a package's __init__.py:
 
@@ -101,7 +101,7 @@ rc.NodeInputBP(label='name'),
 
 class AutoNode_pkgutil_find_loader(rc.Node):
     title = 'find_loader'
-    description = '''Find a "loader" object for fullname
+    doc = '''Find a "loader" object for fullname
 
     This is a backwards compatibility wrapper around
     importlib.util.find_spec that converts most failures to ImportError
@@ -122,7 +122,7 @@ class AutoNode_pkgutil_find_loader(rc.Node):
 
 class AutoNode_pkgutil_get_state(rc.Node):
     title = 'get_data'
-    description = '''Get a resource from a package.
+    doc = '''Get a resource from a package.
 
     This is a wrapper round the PEP 302 loader get_data API. The package
     argument should be the name of a package, in standard module format
@@ -158,7 +158,7 @@ rc.NodeInputBP(label='resource'),
 
 class AutoNode_pkgutil_get_importer(rc.Node):
     title = 'get_importer'
-    description = '''Retrieve a finder for the given path item
+    doc = '''Retrieve a finder for the given path item
 
     The returned finder is cached in sys.path_importer_cache
     if it was newly created by a path hook.
@@ -181,7 +181,7 @@ class AutoNode_pkgutil_get_importer(rc.Node):
 
 class AutoNode_pkgutil_get_loader(rc.Node):
     title = 'get_loader'
-    description = '''Get a "loader" object for module_or_name
+    doc = '''Get a "loader" object for module_or_name
 
     Returns None if the module cannot be found or imported.
     If the named module is not already imported, its containing package
@@ -202,7 +202,7 @@ class AutoNode_pkgutil_get_loader(rc.Node):
 
 class AutoNode_pkgutil_iter_importer_modules(rc.Node):
     title = 'iter_importer_modules'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -218,7 +218,7 @@ class AutoNode_pkgutil_iter_importer_modules(rc.Node):
 
 class AutoNode_pkgutil_iter_importers(rc.Node):
     title = 'iter_importers'
-    description = '''Yield finders for the given module name
+    doc = '''Yield finders for the given module name
 
     If fullname contains a '.', the finders will be for the package
     containing fullname, otherwise they will be all registered top level
@@ -244,7 +244,7 @@ class AutoNode_pkgutil_iter_importers(rc.Node):
 
 class AutoNode_pkgutil_iter_modules(rc.Node):
     title = 'iter_modules'
-    description = '''Yields ModuleInfo for all submodules on path,
+    doc = '''Yields ModuleInfo for all submodules on path,
     or, if path is None, all top-level modules on sys.path.
 
     'path' should be either None or a list of paths to look for
@@ -269,7 +269,7 @@ rc.NodeInputBP(label='prefix'),
 
 class AutoNode_pkgutil_iter_zipimport_modules(rc.Node):
     title = 'iter_zipimport_modules'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='importer'),
 rc.NodeInputBP(label='prefix'),
@@ -286,7 +286,7 @@ rc.NodeInputBP(label='prefix'),
 
 class AutoNode_pkgutil_namedtuple(rc.Node):
     title = 'namedtuple'
-    description = '''Returns a new subclass of tuple with named fields.
+    doc = '''Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -324,7 +324,7 @@ rc.NodeInputBP(label='field_names'),
 
 class AutoNode_pkgutil_read_code(rc.Node):
     title = 'read_code'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='stream'),
     ]
@@ -340,7 +340,7 @@ class AutoNode_pkgutil_read_code(rc.Node):
 
 class AutoNode_pkgutil_simplegeneric(rc.Node):
     title = 'simplegeneric'
-    description = '''Single-dispatch generic function decorator.
+    doc = '''Single-dispatch generic function decorator.
 
     Transforms a function into a generic function, which can have different
     behaviours depending upon the type of its first argument. The decorated
@@ -363,7 +363,7 @@ class AutoNode_pkgutil_simplegeneric(rc.Node):
 
 class AutoNode_pkgutil_walk_packages(rc.Node):
     title = 'walk_packages'
-    description = '''Yields ModuleInfo for all modules recursively
+    doc = '''Yields ModuleInfo for all modules recursively
     on path, or, if path is None, all accessible modules.
 
     'path' should be either None or a list of paths to look for

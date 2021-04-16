@@ -4,7 +4,7 @@ import copy
 
 class AutoNode_copy__copy_immutable(rc.Node):
     title = '_copy_immutable'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_copy__copy_immutable(rc.Node):
 
 class AutoNode_copy__deepcopy_atomic(rc.Node):
     title = '_deepcopy_atomic'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='memo'),
@@ -37,7 +37,7 @@ rc.NodeInputBP(label='memo'),
 
 class AutoNode_copy__deepcopy_dict(rc.Node):
     title = '_deepcopy_dict'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='memo'),
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='deepcopy'),
 
 class AutoNode_copy__deepcopy_list(rc.Node):
     title = '_deepcopy_list'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='memo'),
@@ -73,7 +73,7 @@ rc.NodeInputBP(label='deepcopy'),
 
 class AutoNode_copy__deepcopy_method(rc.Node):
     title = '_deepcopy_method'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='memo'),
@@ -90,7 +90,7 @@ rc.NodeInputBP(label='memo'),
 
 class AutoNode_copy__deepcopy_tuple(rc.Node):
     title = '_deepcopy_tuple'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='memo'),
@@ -108,7 +108,7 @@ rc.NodeInputBP(label='deepcopy'),
 
 class AutoNode_copy__keep_alive(rc.Node):
     title = '_keep_alive'
-    description = '''Keeps a reference to the object x in the memo.
+    doc = '''Keeps a reference to the object x in the memo.
 
     Because we remember objects by their id, we have
     to assure that possibly temporary objects are kept
@@ -133,7 +133,7 @@ rc.NodeInputBP(label='memo'),
 
 class AutoNode_copy__reconstruct(rc.Node):
     title = '_reconstruct'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='memo'),
@@ -156,7 +156,7 @@ rc.NodeInputBP(label='deepcopy'),
 
 class AutoNode_copy_copy(rc.Node):
     title = 'copy'
-    description = '''Shallow copy operation on arbitrary Python objects.
+    doc = '''Shallow copy operation on arbitrary Python objects.
 
     See the module's __doc__ string for more info.
     '''
@@ -175,7 +175,7 @@ class AutoNode_copy_copy(rc.Node):
 
 class AutoNode_copy_deepcopy(rc.Node):
     title = 'deepcopy'
-    description = '''Deep copy operation on arbitrary Python objects.
+    doc = '''Deep copy operation on arbitrary Python objects.
 
     See the module's __doc__ string for more info.
     '''

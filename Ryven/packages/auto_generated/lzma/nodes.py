@@ -4,7 +4,7 @@ import lzma
 
 class AutoNode_lzma__decode_filter_properties(rc.Node):
     title = '_decode_filter_properties'
-    description = '''Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
+    doc = '''Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
 
 The result does not include the filter ID itself, only the options.'''
     init_inputs = [
@@ -23,7 +23,7 @@ rc.NodeInputBP(label='encoded_props'),
 
 class AutoNode_lzma__encode_filter_properties(rc.Node):
     title = '_encode_filter_properties'
-    description = '''Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
+    doc = '''Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
 
 The result does not include the filter ID itself, only the options.'''
     init_inputs = [
@@ -41,7 +41,7 @@ The result does not include the filter ID itself, only the options.'''
 
 class AutoNode_lzma_compress(rc.Node):
     title = 'compress'
-    description = '''Compress a block of data.
+    doc = '''Compress a block of data.
 
     Refer to LZMACompressor's docstring for a description of the
     optional arguments *format*, *check*, *preset* and *filters*.
@@ -67,7 +67,7 @@ rc.NodeInputBP(label='filters'),
 
 class AutoNode_lzma_decompress(rc.Node):
     title = 'decompress'
-    description = '''Decompress a block of data.
+    doc = '''Decompress a block of data.
 
     Refer to LZMADecompressor's docstring for a description of the
     optional arguments *format*, *check* and *filters*.
@@ -92,7 +92,7 @@ rc.NodeInputBP(label='filters'),
 
 class AutoNode_lzma_is_check_supported(rc.Node):
     title = 'is_check_supported'
-    description = '''Test whether the given integrity check is supported.
+    doc = '''Test whether the given integrity check is supported.
 
 Always returns True for CHECK_NONE and CHECK_CRC32.'''
     init_inputs = [
@@ -110,7 +110,7 @@ Always returns True for CHECK_NONE and CHECK_CRC32.'''
 
 class AutoNode_lzma_open(rc.Node):
     title = 'open'
-    description = '''Open an LZMA-compressed file in binary or text mode.
+    doc = '''Open an LZMA-compressed file in binary or text mode.
 
     filename can be either an actual file name (given as a str, bytes,
     or PathLike object), in which case the named file is opened, or it

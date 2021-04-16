@@ -5,7 +5,7 @@ import winreg
 class AutoNode_winreg_CloseKey(rc.Node):
     title = 'CloseKey'
     type_ = 'winreg'
-    description = '''Closes a previously opened registry key.
+    doc = '''Closes a previously opened registry key.
 
   hkey
     A previously opened key.
@@ -28,7 +28,7 @@ closed when the hkey object is destroyed by Python.'''
 class AutoNode_winreg_ConnectRegistry(rc.Node):
     title = 'ConnectRegistry'
     type_ = 'winreg'
-    description = '''Establishes a connection to the registry on another computer.
+    doc = '''Establishes a connection to the registry on another computer.
 
   computer_name
     The name of the remote computer, of the form r"\\computername".  If
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='key'),
 class AutoNode_winreg_CreateKey(rc.Node):
     title = 'CreateKey'
     type_ = 'winreg'
-    description = '''Creates or opens the specified key.
+    doc = '''Creates or opens the specified key.
 
   key
     An already open key, or one of the predefined HKEY_* constants.
@@ -86,7 +86,7 @@ rc.NodeInputBP(label='sub_key'),
 class AutoNode_winreg_CreateKeyEx(rc.Node):
     title = 'CreateKeyEx'
     type_ = 'winreg'
-    description = '''Creates or opens the specified key.
+    doc = '''Creates or opens the specified key.
 
   key
     An already open key, or one of the predefined HKEY_* constants.
@@ -124,7 +124,7 @@ rc.NodeInputBP(label='access'),
 class AutoNode_winreg_DeleteKey(rc.Node):
     title = 'DeleteKey'
     type_ = 'winreg'
-    description = '''Deletes the specified key.
+    doc = '''Deletes the specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -154,7 +154,7 @@ rc.NodeInputBP(label='sub_key'),
 class AutoNode_winreg_DeleteKeyEx(rc.Node):
     title = 'DeleteKeyEx'
     type_ = 'winreg'
-    description = '''Deletes the specified key (64-bit OS only).
+    doc = '''Deletes the specified key (64-bit OS only).
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -192,7 +192,7 @@ rc.NodeInputBP(label='reserved'),
 class AutoNode_winreg_DeleteValue(rc.Node):
     title = 'DeleteValue'
     type_ = 'winreg'
-    description = '''Removes a named value from a registry key.
+    doc = '''Removes a named value from a registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -215,7 +215,7 @@ rc.NodeInputBP(label='value'),
 class AutoNode_winreg_DisableReflectionKey(rc.Node):
     title = 'DisableReflectionKey'
     type_ = 'winreg'
-    description = '''Disables registry reflection for 32bit processes running on a 64bit OS.
+    doc = '''Disables registry reflection for 32bit processes running on a 64bit OS.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -241,7 +241,7 @@ of any subkeys.'''
 class AutoNode_winreg_EnableReflectionKey(rc.Node):
     title = 'EnableReflectionKey'
     type_ = 'winreg'
-    description = '''Restores registry reflection for the specified disabled key.
+    doc = '''Restores registry reflection for the specified disabled key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -265,7 +265,7 @@ subkeys.'''
 class AutoNode_winreg_EnumKey(rc.Node):
     title = 'EnumKey'
     type_ = 'winreg'
-    description = '''Enumerates subkeys of an open registry key.
+    doc = '''Enumerates subkeys of an open registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -292,7 +292,7 @@ rc.NodeInputBP(label='index'),
 class AutoNode_winreg_EnumValue(rc.Node):
     title = 'EnumValue'
     type_ = 'winreg'
-    description = '''Enumerates values of an open registry key.
+    doc = '''Enumerates values of an open registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -328,7 +328,7 @@ rc.NodeInputBP(label='index'),
 class AutoNode_winreg_ExpandEnvironmentStrings(rc.Node):
     title = 'ExpandEnvironmentStrings'
     type_ = 'winreg'
-    description = '''Expand environment vars.'''
+    doc = '''Expand environment vars.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -345,7 +345,7 @@ class AutoNode_winreg_ExpandEnvironmentStrings(rc.Node):
 class AutoNode_winreg_FlushKey(rc.Node):
     title = 'FlushKey'
     type_ = 'winreg'
-    description = '''Writes all the attributes of a key to the registry.
+    doc = '''Writes all the attributes of a key to the registry.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -375,7 +375,7 @@ a FlushKey() call is required, it probably isn't.'''
 class AutoNode_winreg_LoadKey(rc.Node):
     title = 'LoadKey'
     type_ = 'winreg'
-    description = '''Insert data into the registry from a file.
+    doc = '''Insert data into the registry from a file.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -416,7 +416,7 @@ rc.NodeInputBP(label='file_name'),
 class AutoNode_winreg_OpenKey(rc.Node):
     title = 'OpenKey'
     type_ = 'winreg'
-    description = '''Opens the specified key.
+    doc = '''Opens the specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -449,7 +449,7 @@ rc.NodeInputBP(label='access'),
 class AutoNode_winreg_OpenKeyEx(rc.Node):
     title = 'OpenKeyEx'
     type_ = 'winreg'
-    description = '''Opens the specified key.
+    doc = '''Opens the specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -482,7 +482,7 @@ rc.NodeInputBP(label='access'),
 class AutoNode_winreg_QueryInfoKey(rc.Node):
     title = 'QueryInfoKey'
     type_ = 'winreg'
-    description = '''Returns information about a key.
+    doc = '''Returns information about a key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -508,7 +508,7 @@ as 100's of nanoseconds since Jan 1, 1600.'''
 class AutoNode_winreg_QueryReflectionKey(rc.Node):
     title = 'QueryReflectionKey'
     type_ = 'winreg'
-    description = '''Returns the reflection state for the specified key as a bool.
+    doc = '''Returns the reflection state for the specified key as a bool.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -530,7 +530,7 @@ Will generally raise NotImplementedError if executed on a 32bit OS.'''
 class AutoNode_winreg_QueryValue(rc.Node):
     title = 'QueryValue'
     type_ = 'winreg'
-    description = '''Retrieves the unnamed value for a key.
+    doc = '''Retrieves the unnamed value for a key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -562,7 +562,7 @@ rc.NodeInputBP(label='sub_key'),
 class AutoNode_winreg_QueryValueEx(rc.Node):
     title = 'QueryValueEx'
     type_ = 'winreg'
-    description = '''Retrieves the type and value of a specified sub-key.
+    doc = '''Retrieves the type and value of a specified sub-key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -590,7 +590,7 @@ rc.NodeInputBP(label='name'),
 class AutoNode_winreg_SaveKey(rc.Node):
     title = 'SaveKey'
     type_ = 'winreg'
-    description = '''Saves the specified key, and all its subkeys to the specified file.
+    doc = '''Saves the specified key, and all its subkeys to the specified file.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -623,7 +623,7 @@ rc.NodeInputBP(label='file_name'),
 class AutoNode_winreg_SetValue(rc.Node):
     title = 'SetValue'
     type_ = 'winreg'
-    description = '''Associates a value with a specified key.
+    doc = '''Associates a value with a specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -663,7 +663,7 @@ rc.NodeInputBP(label='value'),
 class AutoNode_winreg_SetValueEx(rc.Node):
     title = 'SetValueEx'
     type_ = 'winreg'
-    description = '''Stores data in the value field of an open registry key.
+    doc = '''Stores data in the value field of an open registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.

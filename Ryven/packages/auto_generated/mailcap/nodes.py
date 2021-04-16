@@ -4,7 +4,7 @@ import mailcap
 
 class AutoNode_mailcap__readmailcapfile(rc.Node):
     title = '_readmailcapfile'
-    description = '''Read a mailcap file and return a dictionary keyed by MIME type.
+    doc = '''Read a mailcap file and return a dictionary keyed by MIME type.
 
     Each MIME type is mapped to an entry consisting of a list of
     dictionaries; the list will contain more than one such dictionary
@@ -28,7 +28,7 @@ rc.NodeInputBP(label='lineno'),
 
 class AutoNode_mailcap_findmatch(rc.Node):
     title = 'findmatch'
-    description = '''Find a match for a mailcap entry.
+    doc = '''Find a match for a mailcap entry.
 
     Return a tuple containing the command line, and the mailcap entry
     used; (None, None) if no match is found.  This may invoke the
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='plist'),
 
 class AutoNode_mailcap_findparam(rc.Node):
     title = 'findparam'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='plist'),
@@ -72,7 +72,7 @@ rc.NodeInputBP(label='plist'),
 
 class AutoNode_mailcap_getcaps(rc.Node):
     title = 'getcaps'
-    description = '''Return a dictionary containing the mailcap database.
+    doc = '''Return a dictionary containing the mailcap database.
 
     The dictionary maps a MIME type (in all lowercase, e.g. 'text/plain')
     to a list of dictionaries corresponding to mailcap entries.  The list
@@ -96,7 +96,7 @@ class AutoNode_mailcap_getcaps(rc.Node):
 
 class AutoNode_mailcap_lineno_sort_key(rc.Node):
     title = 'lineno_sort_key'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='entry'),
     ]
@@ -112,7 +112,7 @@ class AutoNode_mailcap_lineno_sort_key(rc.Node):
 
 class AutoNode_mailcap_listmailcapfiles(rc.Node):
     title = 'listmailcapfiles'
-    description = '''Return a list of all mailcap files found on the system.'''
+    doc = '''Return a list of all mailcap files found on the system.'''
     init_inputs = [
         
     ]
@@ -128,7 +128,7 @@ class AutoNode_mailcap_listmailcapfiles(rc.Node):
 
 class AutoNode_mailcap_lookup(rc.Node):
     title = 'lookup'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='caps'),
 rc.NodeInputBP(label='MIMEtype'),
@@ -146,7 +146,7 @@ rc.NodeInputBP(label='key'),
 
 class AutoNode_mailcap_parsefield(rc.Node):
     title = 'parsefield'
-    description = '''Separate one key-value pair in a mailcap entry.'''
+    doc = '''Separate one key-value pair in a mailcap entry.'''
     init_inputs = [
         rc.NodeInputBP(label='line'),
 rc.NodeInputBP(label='i'),
@@ -164,7 +164,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_mailcap_parseline(rc.Node):
     title = 'parseline'
-    description = '''Parse one entry in a mailcap file and return a dictionary.
+    doc = '''Parse one entry in a mailcap file and return a dictionary.
 
     The viewing command is stored as the value with the key "view",
     and the rest of the fields produce key-value pairs in the dict.
@@ -184,7 +184,7 @@ class AutoNode_mailcap_parseline(rc.Node):
 
 class AutoNode_mailcap_readmailcapfile(rc.Node):
     title = 'readmailcapfile'
-    description = '''Read a mailcap file and return a dictionary keyed by MIME type.'''
+    doc = '''Read a mailcap file and return a dictionary keyed by MIME type.'''
     init_inputs = [
         rc.NodeInputBP(label='fp'),
     ]
@@ -200,7 +200,7 @@ class AutoNode_mailcap_readmailcapfile(rc.Node):
 
 class AutoNode_mailcap_show(rc.Node):
     title = 'show'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='caps'),
     ]
@@ -216,7 +216,7 @@ class AutoNode_mailcap_show(rc.Node):
 
 class AutoNode_mailcap_subst(rc.Node):
     title = 'subst'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='field'),
 rc.NodeInputBP(label='MIMEtype'),
@@ -235,7 +235,7 @@ rc.NodeInputBP(label='plist'),
 
 class AutoNode_mailcap_test(rc.Node):
     title = 'test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]

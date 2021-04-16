@@ -5,7 +5,7 @@ import _signal
 class AutoNode__signal_getsignal(rc.Node):
     title = 'getsignal'
     type_ = '_signal'
-    description = '''Return the current action for the given signal.
+    doc = '''Return the current action for the given signal.
 
 The return value can be:
   SIG_IGN -- if the signal is being ignored
@@ -28,7 +28,7 @@ The return value can be:
 class AutoNode__signal_raise_signal(rc.Node):
     title = 'raise_signal'
     type_ = '_signal'
-    description = '''Send a signal to the executing process.'''
+    doc = '''Send a signal to the executing process.'''
     init_inputs = [
         rc.NodeInputBP(label='signalnum'),
     ]
@@ -45,7 +45,7 @@ class AutoNode__signal_raise_signal(rc.Node):
 class AutoNode__signal_signal(rc.Node):
     title = 'signal'
     type_ = '_signal'
-    description = '''Set the action for the given signal.
+    doc = '''Set the action for the given signal.
 
 The action can be SIG_DFL, SIG_IGN, or a callable Python object.
 The previous action is returned.  See getsignal() for possible return values.
@@ -70,7 +70,7 @@ rc.NodeInputBP(label='handler'),
 class AutoNode__signal_strsignal(rc.Node):
     title = 'strsignal'
     type_ = '_signal'
-    description = '''Return the system description of the given signal.
+    doc = '''Return the system description of the given signal.
 
 The return values can be such as "Interrupt", "Segmentation fault", etc.
 Returns None if the signal is not recognized.'''
@@ -90,7 +90,7 @@ Returns None if the signal is not recognized.'''
 class AutoNode__signal_valid_signals(rc.Node):
     title = 'valid_signals'
     type_ = '_signal'
-    description = '''Return a set of valid signal numbers on this platform.
+    doc = '''Return a set of valid signal numbers on this platform.
 
 The signal numbers returned by this function can be safely passed to
 functions like `pthread_sigmask`.'''

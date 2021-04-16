@@ -5,7 +5,7 @@ import _operator
 class AutoNode__operator__compare_digest(rc.Node):
     title = '_compare_digest'
     type_ = '_operator'
-    description = '''Return 'a == b'.
+    doc = '''Return 'a == b'.
 
 This function uses an approach designed to prevent
 timing analysis, making it appropriate for cryptography.
@@ -33,7 +33,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_abs(rc.Node):
     title = 'abs'
     type_ = '_operator'
-    description = '''Same as abs(a).'''
+    doc = '''Same as abs(a).'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -50,7 +50,7 @@ class AutoNode__operator_abs(rc.Node):
 class AutoNode__operator_add(rc.Node):
     title = 'add'
     type_ = '_operator'
-    description = '''Same as a + b.'''
+    doc = '''Same as a + b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -68,7 +68,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_and_(rc.Node):
     title = 'and_'
     type_ = '_operator'
-    description = '''Same as a & b.'''
+    doc = '''Same as a & b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -86,7 +86,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_concat(rc.Node):
     title = 'concat'
     type_ = '_operator'
-    description = '''Same as a + b, for a and b sequences.'''
+    doc = '''Same as a + b, for a and b sequences.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -104,7 +104,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_contains(rc.Node):
     title = 'contains'
     type_ = '_operator'
-    description = '''Same as b in a (note reversed operands).'''
+    doc = '''Same as b in a (note reversed operands).'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -122,7 +122,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_countOf(rc.Node):
     title = 'countOf'
     type_ = '_operator'
-    description = '''Return the number of times b occurs in a.'''
+    doc = '''Return the number of times b occurs in a.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -140,7 +140,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_delitem(rc.Node):
     title = 'delitem'
     type_ = '_operator'
-    description = '''Same as del a[b].'''
+    doc = '''Same as del a[b].'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -158,7 +158,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_eq(rc.Node):
     title = 'eq'
     type_ = '_operator'
-    description = '''Same as a == b.'''
+    doc = '''Same as a == b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -176,7 +176,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_floordiv(rc.Node):
     title = 'floordiv'
     type_ = '_operator'
-    description = '''Same as a // b.'''
+    doc = '''Same as a // b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -194,7 +194,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_ge(rc.Node):
     title = 'ge'
     type_ = '_operator'
-    description = '''Same as a >= b.'''
+    doc = '''Same as a >= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -212,7 +212,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_getitem(rc.Node):
     title = 'getitem'
     type_ = '_operator'
-    description = '''Same as a[b].'''
+    doc = '''Same as a[b].'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -230,7 +230,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_gt(rc.Node):
     title = 'gt'
     type_ = '_operator'
-    description = '''Same as a > b.'''
+    doc = '''Same as a > b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -248,7 +248,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_iadd(rc.Node):
     title = 'iadd'
     type_ = '_operator'
-    description = '''Same as a += b.'''
+    doc = '''Same as a += b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -266,7 +266,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_iand(rc.Node):
     title = 'iand'
     type_ = '_operator'
-    description = '''Same as a &= b.'''
+    doc = '''Same as a &= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -284,7 +284,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_iconcat(rc.Node):
     title = 'iconcat'
     type_ = '_operator'
-    description = '''Same as a += b, for a and b sequences.'''
+    doc = '''Same as a += b, for a and b sequences.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -302,7 +302,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_ifloordiv(rc.Node):
     title = 'ifloordiv'
     type_ = '_operator'
-    description = '''Same as a //= b.'''
+    doc = '''Same as a //= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -320,7 +320,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_ilshift(rc.Node):
     title = 'ilshift'
     type_ = '_operator'
-    description = '''Same as a <<= b.'''
+    doc = '''Same as a <<= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -338,7 +338,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_imatmul(rc.Node):
     title = 'imatmul'
     type_ = '_operator'
-    description = '''Same as a @= b.'''
+    doc = '''Same as a @= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -356,7 +356,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_imod(rc.Node):
     title = 'imod'
     type_ = '_operator'
-    description = '''Same as a %= b.'''
+    doc = '''Same as a %= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -374,7 +374,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_imul(rc.Node):
     title = 'imul'
     type_ = '_operator'
-    description = '''Same as a *= b.'''
+    doc = '''Same as a *= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -392,7 +392,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_index(rc.Node):
     title = 'index'
     type_ = '_operator'
-    description = '''Same as a.__index__()'''
+    doc = '''Same as a.__index__()'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -409,7 +409,7 @@ class AutoNode__operator_index(rc.Node):
 class AutoNode__operator_indexOf(rc.Node):
     title = 'indexOf'
     type_ = '_operator'
-    description = '''Return the first index of b in a.'''
+    doc = '''Return the first index of b in a.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -427,7 +427,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_inv(rc.Node):
     title = 'inv'
     type_ = '_operator'
-    description = '''Same as ~a.'''
+    doc = '''Same as ~a.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -444,7 +444,7 @@ class AutoNode__operator_inv(rc.Node):
 class AutoNode__operator_invert(rc.Node):
     title = 'invert'
     type_ = '_operator'
-    description = '''Same as ~a.'''
+    doc = '''Same as ~a.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -461,7 +461,7 @@ class AutoNode__operator_invert(rc.Node):
 class AutoNode__operator_ior(rc.Node):
     title = 'ior'
     type_ = '_operator'
-    description = '''Same as a |= b.'''
+    doc = '''Same as a |= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -479,7 +479,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_ipow(rc.Node):
     title = 'ipow'
     type_ = '_operator'
-    description = '''Same as a **= b.'''
+    doc = '''Same as a **= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -497,7 +497,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_irshift(rc.Node):
     title = 'irshift'
     type_ = '_operator'
-    description = '''Same as a >>= b.'''
+    doc = '''Same as a >>= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -515,7 +515,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_is_(rc.Node):
     title = 'is_'
     type_ = '_operator'
-    description = '''Same as a is b.'''
+    doc = '''Same as a is b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -533,7 +533,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_is_not(rc.Node):
     title = 'is_not'
     type_ = '_operator'
-    description = '''Same as a is not b.'''
+    doc = '''Same as a is not b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -551,7 +551,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_isub(rc.Node):
     title = 'isub'
     type_ = '_operator'
-    description = '''Same as a -= b.'''
+    doc = '''Same as a -= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -569,7 +569,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_itruediv(rc.Node):
     title = 'itruediv'
     type_ = '_operator'
-    description = '''Same as a /= b.'''
+    doc = '''Same as a /= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -587,7 +587,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_ixor(rc.Node):
     title = 'ixor'
     type_ = '_operator'
-    description = '''Same as a ^= b.'''
+    doc = '''Same as a ^= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -605,7 +605,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_le(rc.Node):
     title = 'le'
     type_ = '_operator'
-    description = '''Same as a <= b.'''
+    doc = '''Same as a <= b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -623,7 +623,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_length_hint(rc.Node):
     title = 'length_hint'
     type_ = '_operator'
-    description = '''Return an estimate of the number of items in obj.
+    doc = '''Return an estimate of the number of items in obj.
 
 This is useful for presizing containers when building from an iterable.
 
@@ -647,7 +647,7 @@ rc.NodeInputBP(label='default'),
 class AutoNode__operator_lshift(rc.Node):
     title = 'lshift'
     type_ = '_operator'
-    description = '''Same as a << b.'''
+    doc = '''Same as a << b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -665,7 +665,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_lt(rc.Node):
     title = 'lt'
     type_ = '_operator'
-    description = '''Same as a < b.'''
+    doc = '''Same as a < b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -683,7 +683,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_matmul(rc.Node):
     title = 'matmul'
     type_ = '_operator'
-    description = '''Same as a @ b.'''
+    doc = '''Same as a @ b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -701,7 +701,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_mod(rc.Node):
     title = 'mod'
     type_ = '_operator'
-    description = '''Same as a % b.'''
+    doc = '''Same as a % b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -719,7 +719,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_mul(rc.Node):
     title = 'mul'
     type_ = '_operator'
-    description = '''Same as a * b.'''
+    doc = '''Same as a * b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -737,7 +737,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_ne(rc.Node):
     title = 'ne'
     type_ = '_operator'
-    description = '''Same as a != b.'''
+    doc = '''Same as a != b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -755,7 +755,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_neg(rc.Node):
     title = 'neg'
     type_ = '_operator'
-    description = '''Same as -a.'''
+    doc = '''Same as -a.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -772,7 +772,7 @@ class AutoNode__operator_neg(rc.Node):
 class AutoNode__operator_not_(rc.Node):
     title = 'not_'
     type_ = '_operator'
-    description = '''Same as not a.'''
+    doc = '''Same as not a.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -789,7 +789,7 @@ class AutoNode__operator_not_(rc.Node):
 class AutoNode__operator_or_(rc.Node):
     title = 'or_'
     type_ = '_operator'
-    description = '''Same as a | b.'''
+    doc = '''Same as a | b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -807,7 +807,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_pos(rc.Node):
     title = 'pos'
     type_ = '_operator'
-    description = '''Same as +a.'''
+    doc = '''Same as +a.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -824,7 +824,7 @@ class AutoNode__operator_pos(rc.Node):
 class AutoNode__operator_pow(rc.Node):
     title = 'pow'
     type_ = '_operator'
-    description = '''Same as a ** b.'''
+    doc = '''Same as a ** b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -842,7 +842,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_rshift(rc.Node):
     title = 'rshift'
     type_ = '_operator'
-    description = '''Same as a >> b.'''
+    doc = '''Same as a >> b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -860,7 +860,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_setitem(rc.Node):
     title = 'setitem'
     type_ = '_operator'
-    description = '''Same as a[b] = c.'''
+    doc = '''Same as a[b] = c.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -879,7 +879,7 @@ rc.NodeInputBP(label='c'),
 class AutoNode__operator_sub(rc.Node):
     title = 'sub'
     type_ = '_operator'
-    description = '''Same as a - b.'''
+    doc = '''Same as a - b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -897,7 +897,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_truediv(rc.Node):
     title = 'truediv'
     type_ = '_operator'
-    description = '''Same as a / b.'''
+    doc = '''Same as a / b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -915,7 +915,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode__operator_truth(rc.Node):
     title = 'truth'
     type_ = '_operator'
-    description = '''Return True if a is true, False otherwise.'''
+    doc = '''Return True if a is true, False otherwise.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
     ]
@@ -932,7 +932,7 @@ class AutoNode__operator_truth(rc.Node):
 class AutoNode__operator_xor(rc.Node):
     title = 'xor'
     type_ = '_operator'
-    description = '''Same as a ^ b.'''
+    doc = '''Same as a ^ b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),

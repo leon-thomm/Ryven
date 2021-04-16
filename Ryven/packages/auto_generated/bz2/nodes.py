@@ -4,7 +4,7 @@ import bz2
 
 class AutoNode_bz2_RLock(rc.Node):
     title = 'RLock'
-    description = '''Factory function that returns a new reentrant lock.
+    doc = '''Factory function that returns a new reentrant lock.
 
     A reentrant lock must be released by the thread that acquired it. Once a
     thread has acquired a reentrant lock, the same thread may acquire it again
@@ -27,7 +27,7 @@ class AutoNode_bz2_RLock(rc.Node):
 
 class AutoNode_bz2__builtin_open(rc.Node):
     title = '_builtin_open'
-    description = '''Open file and return a stream.  Raise OSError upon failure.
+    doc = '''Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -167,7 +167,7 @@ rc.NodeInputBP(label='opener'),
 
 class AutoNode_bz2_compress(rc.Node):
     title = 'compress'
-    description = '''Compress a block of data.
+    doc = '''Compress a block of data.
 
     compresslevel, if given, must be a number between 1 and 9.
 
@@ -189,7 +189,7 @@ rc.NodeInputBP(label='compresslevel'),
 
 class AutoNode_bz2_decompress(rc.Node):
     title = 'decompress'
-    description = '''Decompress a block of data.
+    doc = '''Decompress a block of data.
 
     For incremental decompression, use a BZ2Decompressor object instead.
     '''
@@ -208,7 +208,7 @@ class AutoNode_bz2_decompress(rc.Node):
 
 class AutoNode_bz2_open(rc.Node):
     title = 'open'
-    description = '''Open a bzip2-compressed file in binary or text mode.
+    doc = '''Open a bzip2-compressed file in binary or text mode.
 
     The filename argument can be an actual filename (a str, bytes, or
     PathLike object), or an existing file object to read from or write

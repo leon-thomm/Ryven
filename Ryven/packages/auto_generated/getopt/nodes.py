@@ -4,7 +4,7 @@ import getopt
 
 class AutoNode_getopt__(rc.Node):
     title = '_'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_getopt__(rc.Node):
 
 class AutoNode_getopt_do_longs(rc.Node):
     title = 'do_longs'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='opts'),
 rc.NodeInputBP(label='opt'),
@@ -39,7 +39,7 @@ rc.NodeInputBP(label='args'),
 
 class AutoNode_getopt_do_shorts(rc.Node):
     title = 'do_shorts'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='opts'),
 rc.NodeInputBP(label='optstring'),
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='args'),
 
 class AutoNode_getopt_getopt(rc.Node):
     title = 'getopt'
-    description = '''getopt(args, options[, long_options]) -> opts, args
+    doc = '''getopt(args, options[, long_options]) -> opts, args
 
     Parses command line options and parameter list.  args is the
     argument list to be parsed, without the leading reference to the
@@ -100,7 +100,7 @@ rc.NodeInputBP(label='longopts'),
 
 class AutoNode_getopt_gnu_getopt(rc.Node):
     title = 'gnu_getopt'
-    description = '''getopt(args, options[, long_options]) -> opts, args
+    doc = '''getopt(args, options[, long_options]) -> opts, args
 
     This function works like getopt(), except that GNU style scanning
     mode is used by default. This means that option and non-option
@@ -130,7 +130,7 @@ rc.NodeInputBP(label='longopts'),
 
 class AutoNode_getopt_long_has_args(rc.Node):
     title = 'long_has_args'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='opt'),
 rc.NodeInputBP(label='longopts'),
@@ -147,7 +147,7 @@ rc.NodeInputBP(label='longopts'),
 
 class AutoNode_getopt_short_has_arg(rc.Node):
     title = 'short_has_arg'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='opt'),
 rc.NodeInputBP(label='shortopts'),

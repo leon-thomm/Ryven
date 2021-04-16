@@ -4,7 +4,7 @@ import doctest
 
 class AutoNode_doctest_DocFileSuite(rc.Node):
     title = 'DocFileSuite'
-    description = '''A unittest suite for one or more doctest files.
+    doc = '''A unittest suite for one or more doctest files.
 
     The path to each doctest file is given as a string; the
     interpretation of that string depends on the keyword argument
@@ -74,7 +74,7 @@ class AutoNode_doctest_DocFileSuite(rc.Node):
 
 class AutoNode_doctest_DocFileTest(rc.Node):
     title = 'DocFileTest'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
 rc.NodeInputBP(label='module_relative'),
@@ -95,7 +95,7 @@ rc.NodeInputBP(label='encoding'),
 
 class AutoNode_doctest_DocTestSuite(rc.Node):
     title = 'DocTestSuite'
-    description = '''
+    doc = '''
     Convert doctest tests for a module to a unittest test suite.
 
     This converts each documentation string in a module that
@@ -147,7 +147,7 @@ rc.NodeInputBP(label='test_finder'),
 
 class AutoNode_doctest__comment_line(rc.Node):
     title = '_comment_line'
-    description = '''Return a commented form of the given line'''
+    doc = '''Return a commented form of the given line'''
     init_inputs = [
         rc.NodeInputBP(label='line'),
     ]
@@ -163,7 +163,7 @@ class AutoNode_doctest__comment_line(rc.Node):
 
 class AutoNode_doctest__ellipsis_match(rc.Node):
     title = '_ellipsis_match'
-    description = '''
+    doc = '''
     Essentially the only subtle case:
     >>> _ellipsis_match('aa...aa', 'aaa')
     False
@@ -184,7 +184,7 @@ rc.NodeInputBP(label='got'),
 
 class AutoNode_doctest__exception_traceback(rc.Node):
     title = '_exception_traceback'
-    description = '''
+    doc = '''
     Return a string containing a traceback message for the given
     exc_info tuple (as returned by sys.exc_info()).
     '''
@@ -203,7 +203,7 @@ class AutoNode_doctest__exception_traceback(rc.Node):
 
 class AutoNode_doctest__extract_future_flags(rc.Node):
     title = '_extract_future_flags'
-    description = '''
+    doc = '''
     Return the compiler-flags associated with the future features that
     have been imported into the given namespace (globs).
     '''
@@ -222,7 +222,7 @@ class AutoNode_doctest__extract_future_flags(rc.Node):
 
 class AutoNode_doctest__indent(rc.Node):
     title = '_indent'
-    description = '''
+    doc = '''
     Add the given number of space characters to the beginning of
     every non-blank line in `s`, and return the result.
     '''
@@ -242,7 +242,7 @@ rc.NodeInputBP(label='indent'),
 
 class AutoNode_doctest__load_testfile(rc.Node):
     title = '_load_testfile'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='filename'),
 rc.NodeInputBP(label='package'),
@@ -261,7 +261,7 @@ rc.NodeInputBP(label='encoding'),
 
 class AutoNode_doctest__module_relative_path(rc.Node):
     title = '_module_relative_path'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='module'),
 rc.NodeInputBP(label='test_path'),
@@ -278,7 +278,7 @@ rc.NodeInputBP(label='test_path'),
 
 class AutoNode_doctest__newline_convert(rc.Node):
     title = '_newline_convert'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -294,7 +294,7 @@ class AutoNode_doctest__newline_convert(rc.Node):
 
 class AutoNode_doctest__normalize_module(rc.Node):
     title = '_normalize_module'
-    description = '''
+    doc = '''
     Return the module specified by `module`.  In particular:
       - If `module` is a module, then return module.
       - If `module` is a string, then import and return the
@@ -319,7 +319,7 @@ rc.NodeInputBP(label='depth'),
 
 class AutoNode_doctest__strip_exception_details(rc.Node):
     title = '_strip_exception_details'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='msg'),
     ]
@@ -335,7 +335,7 @@ class AutoNode_doctest__strip_exception_details(rc.Node):
 
 class AutoNode_doctest__test(rc.Node):
     title = '_test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -351,7 +351,7 @@ class AutoNode_doctest__test(rc.Node):
 
 class AutoNode_doctest_debug(rc.Node):
     title = 'debug'
-    description = '''Debug a single doctest docstring.
+    doc = '''Debug a single doctest docstring.
 
     Provide the module (or dotted name of the module) containing the
     test to be debugged and the name (within the module) of the object
@@ -374,7 +374,7 @@ rc.NodeInputBP(label='pm'),
 
 class AutoNode_doctest_debug_script(rc.Node):
     title = 'debug_script'
-    description = '''Debug a test script.  `src` is the script, as a string.'''
+    doc = '''Debug a test script.  `src` is the script, as a string.'''
     init_inputs = [
         rc.NodeInputBP(label='src'),
 rc.NodeInputBP(label='pm'),
@@ -392,7 +392,7 @@ rc.NodeInputBP(label='globs'),
 
 class AutoNode_doctest_debug_src(rc.Node):
     title = 'debug_src'
-    description = '''Debug a single doctest docstring, in argument `src`''''
+    doc = '''Debug a single doctest docstring, in argument `src`''''
     init_inputs = [
         rc.NodeInputBP(label='src'),
 rc.NodeInputBP(label='pm'),
@@ -410,7 +410,7 @@ rc.NodeInputBP(label='globs'),
 
 class AutoNode_doctest_namedtuple(rc.Node):
     title = 'namedtuple'
-    description = '''Returns a new subclass of tuple with named fields.
+    doc = '''Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -448,7 +448,7 @@ rc.NodeInputBP(label='field_names'),
 
 class AutoNode_doctest_register_optionflag(rc.Node):
     title = 'register_optionflag'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -464,7 +464,7 @@ class AutoNode_doctest_register_optionflag(rc.Node):
 
 class AutoNode_doctest_run_docstring_examples(rc.Node):
     title = 'run_docstring_examples'
-    description = '''
+    doc = '''
     Test examples in the given object's docstring (`f`), using `globs`
     as globals.  Optional argument `name` is used in failure messages.
     If the optional argument `verbose` is true, then generate output
@@ -499,7 +499,7 @@ rc.NodeInputBP(label='optionflags'),
 
 class AutoNode_doctest_script_from_examples(rc.Node):
     title = 'script_from_examples'
-    description = '''Extract script from text with examples.
+    doc = '''Extract script from text with examples.
 
        Converts text with examples to a Python script.  Example input is
        converted to regular code.  Example output and all other words
@@ -571,7 +571,7 @@ class AutoNode_doctest_script_from_examples(rc.Node):
 
 class AutoNode_doctest_set_unittest_reportflags(rc.Node):
     title = 'set_unittest_reportflags'
-    description = '''Sets the unittest option flags.
+    doc = '''Sets the unittest option flags.
 
     The old flag is returned so that a runner could restore the old
     value if it wished to:
@@ -612,7 +612,7 @@ class AutoNode_doctest_set_unittest_reportflags(rc.Node):
 
 class AutoNode_doctest_testfile(rc.Node):
     title = 'testfile'
-    description = '''
+    doc = '''
     Test examples in the given file.  Return (#failures, #tests).
 
     Optional keyword arg "module_relative" specifies how filenames
@@ -714,7 +714,7 @@ rc.NodeInputBP(label='encoding'),
 
 class AutoNode_doctest_testmod(rc.Node):
     title = 'testmod'
-    description = '''m=None, name=None, globs=None, verbose=None, report=True,
+    doc = '''m=None, name=None, globs=None, verbose=None, report=True,
        optionflags=0, extraglobs=None, raise_on_error=False,
        exclude_empty=False
 
@@ -800,7 +800,7 @@ rc.NodeInputBP(label='exclude_empty'),
 
 class AutoNode_doctest_testsource(rc.Node):
     title = 'testsource'
-    description = '''Extract the test sources from a doctest docstring as a script.
+    doc = '''Extract the test sources from a doctest docstring as a script.
 
     Provide the module (or dotted name of the module) containing the
     test to be debugged and the name (within the module) of the object

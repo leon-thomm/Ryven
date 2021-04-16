@@ -4,7 +4,7 @@ import pprint
 
 class AutoNode_pprint__perfcheck(rc.Node):
     title = '_perfcheck'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_pprint__perfcheck(rc.Node):
 
 class AutoNode_pprint__recursion(rc.Node):
     title = '_recursion'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_pprint__recursion(rc.Node):
 
 class AutoNode_pprint__safe_repr(rc.Node):
     title = '_safe_repr'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
 rc.NodeInputBP(label='context'),
@@ -56,7 +56,7 @@ rc.NodeInputBP(label='sort_dicts'),
 
 class AutoNode_pprint__safe_tuple(rc.Node):
     title = '_safe_tuple'
-    description = '''Helper function for comparing 2-tuples'''
+    doc = '''Helper function for comparing 2-tuples'''
     init_inputs = [
         rc.NodeInputBP(label='t'),
     ]
@@ -72,7 +72,7 @@ class AutoNode_pprint__safe_tuple(rc.Node):
 
 class AutoNode_pprint__wrap_bytes_repr(rc.Node):
     title = '_wrap_bytes_repr'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
 rc.NodeInputBP(label='width'),
@@ -90,7 +90,7 @@ rc.NodeInputBP(label='allowance'),
 
 class AutoNode_pprint_isreadable(rc.Node):
     title = 'isreadable'
-    description = '''Determine if saferepr(object) is readable by eval().'''
+    doc = '''Determine if saferepr(object) is readable by eval().'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -106,7 +106,7 @@ class AutoNode_pprint_isreadable(rc.Node):
 
 class AutoNode_pprint_isrecursive(rc.Node):
     title = 'isrecursive'
-    description = '''Determine if object requires a recursive representation.'''
+    doc = '''Determine if object requires a recursive representation.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -122,7 +122,7 @@ class AutoNode_pprint_isrecursive(rc.Node):
 
 class AutoNode_pprint_pformat(rc.Node):
     title = 'pformat'
-    description = '''Format a Python object into a pretty-printed representation.'''
+    doc = '''Format a Python object into a pretty-printed representation.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
 rc.NodeInputBP(label='indent'),
@@ -141,7 +141,7 @@ rc.NodeInputBP(label='depth'),
 
 class AutoNode_pprint_pp(rc.Node):
     title = 'pp'
-    description = '''Pretty-print a Python object'''
+    doc = '''Pretty-print a Python object'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -157,7 +157,7 @@ class AutoNode_pprint_pp(rc.Node):
 
 class AutoNode_pprint_pprint(rc.Node):
     title = 'pprint'
-    description = '''Pretty-print a Python object to a stream [default is sys.stdout].'''
+    doc = '''Pretty-print a Python object to a stream [default is sys.stdout].'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
 rc.NodeInputBP(label='stream'),
@@ -177,7 +177,7 @@ rc.NodeInputBP(label='depth'),
 
 class AutoNode_pprint_saferepr(rc.Node):
     title = 'saferepr'
-    description = '''Version of repr() which can handle recursive data structures.'''
+    doc = '''Version of repr() which can handle recursive data structures.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]

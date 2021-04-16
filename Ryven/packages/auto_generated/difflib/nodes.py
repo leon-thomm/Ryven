@@ -4,7 +4,7 @@ import difflib
 
 class AutoNode_difflib_IS_CHARACTER_JUNK(rc.Node):
     title = 'IS_CHARACTER_JUNK'
-    description = '''
+    doc = '''
     Return True for ignorable character: iff `ch` is a space or tab.
 
     Examples:
@@ -34,7 +34,7 @@ rc.NodeInputBP(label='ws'),
 
 class AutoNode_difflib_IS_LINE_JUNK(rc.Node):
     title = 'IS_LINE_JUNK'
-    description = '''
+    doc = '''
     Return True for ignorable line: iff `line` is blank or contains a single '#'.
 
     Examples:
@@ -62,7 +62,7 @@ rc.NodeInputBP(label='pat'),
 
 class AutoNode_difflib__calculate_ratio(rc.Node):
     title = '_calculate_ratio'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='matches'),
 rc.NodeInputBP(label='length'),
@@ -79,7 +79,7 @@ rc.NodeInputBP(label='length'),
 
 class AutoNode_difflib__check_types(rc.Node):
     title = '_check_types'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -96,7 +96,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_difflib__format_range_context(rc.Node):
     title = '_format_range_context'
-    description = '''Convert range to the "ed" format'''
+    doc = '''Convert range to the "ed" format'''
     init_inputs = [
         rc.NodeInputBP(label='start'),
 rc.NodeInputBP(label='stop'),
@@ -113,7 +113,7 @@ rc.NodeInputBP(label='stop'),
 
 class AutoNode_difflib__format_range_unified(rc.Node):
     title = '_format_range_unified'
-    description = '''Convert range to the "ed" format'''
+    doc = '''Convert range to the "ed" format'''
     init_inputs = [
         rc.NodeInputBP(label='start'),
 rc.NodeInputBP(label='stop'),
@@ -130,7 +130,7 @@ rc.NodeInputBP(label='stop'),
 
 class AutoNode_difflib__keep_original_ws(rc.Node):
     title = '_keep_original_ws'
-    description = '''Replace whitespace with the original whitespace characters in `s`'''
+    doc = '''Replace whitespace with the original whitespace characters in `s`'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
 rc.NodeInputBP(label='tag_s'),
@@ -147,7 +147,7 @@ rc.NodeInputBP(label='tag_s'),
 
 class AutoNode_difflib__mdiff(rc.Node):
     title = '_mdiff'
-    description = '''Returns generator yielding marked up from/to side by side differences.
+    doc = '''Returns generator yielding marked up from/to side by side differences.
 
     Arguments:
     fromlines -- list of text lines to compared to tolines
@@ -198,7 +198,7 @@ rc.NodeInputBP(label='charjunk'),
 
 class AutoNode_difflib__namedtuple(rc.Node):
     title = '_namedtuple'
-    description = '''Returns a new subclass of tuple with named fields.
+    doc = '''Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -236,7 +236,7 @@ rc.NodeInputBP(label='field_names'),
 
 class AutoNode_difflib__nlargest(rc.Node):
     title = '_nlargest'
-    description = '''Find the n largest elements in a dataset.
+    doc = '''Find the n largest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key, reverse=True)[:n]
     '''
@@ -257,7 +257,7 @@ rc.NodeInputBP(label='key'),
 
 class AutoNode_difflib__test(rc.Node):
     title = '_test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -273,7 +273,7 @@ class AutoNode_difflib__test(rc.Node):
 
 class AutoNode_difflib_context_diff(rc.Node):
     title = 'context_diff'
-    description = '''
+    doc = '''
     Compare two sequences of lines; generate the delta as a context diff.
 
     Context diffs are a compact way of showing line changes and a few
@@ -336,7 +336,7 @@ rc.NodeInputBP(label='lineterm'),
 
 class AutoNode_difflib_diff_bytes(rc.Node):
     title = 'diff_bytes'
-    description = '''
+    doc = '''
     Compare `a` and `b`, two sequences of lines represented as bytes rather
     than str. This is a wrapper for `dfunc`, which is typically either
     unified_diff() or context_diff(). Inputs are losslessly converted to
@@ -368,7 +368,7 @@ rc.NodeInputBP(label='lineterm'),
 
 class AutoNode_difflib_get_close_matches(rc.Node):
     title = 'get_close_matches'
-    description = '''Use SequenceMatcher to return list of the best "good enough" matches.
+    doc = '''Use SequenceMatcher to return list of the best "good enough" matches.
 
     word is a sequence for which close matches are desired (typically a
     string).
@@ -413,7 +413,7 @@ rc.NodeInputBP(label='cutoff'),
 
 class AutoNode_difflib_ndiff(rc.Node):
     title = 'ndiff'
-    description = '''
+    doc = '''
     Compare `a` and `b` (lists of strings); return a `Differ`-style delta.
 
     Optional keyword parameters `linejunk` and `charjunk` are for filter
@@ -465,7 +465,7 @@ rc.NodeInputBP(label='charjunk'),
 
 class AutoNode_difflib_restore(rc.Node):
     title = 'restore'
-    description = '''
+    doc = '''
     Generate one of the two sequences that generated a delta.
 
     Given a `delta` produced by `Differ.compare()` or `ndiff()`, extract
@@ -502,7 +502,7 @@ rc.NodeInputBP(label='which'),
 
 class AutoNode_difflib_unified_diff(rc.Node):
     title = 'unified_diff'
-    description = '''
+    doc = '''
     Compare two sequences of lines; generate the delta as a unified diff.
 
     Unified diffs are a compact way of showing line changes and a few

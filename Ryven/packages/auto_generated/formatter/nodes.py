@@ -4,7 +4,7 @@ import formatter
 
 class AutoNode_formatter_test(rc.Node):
     title = 'test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]

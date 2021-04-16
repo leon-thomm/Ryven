@@ -4,7 +4,7 @@ import ensurepip
 
 class AutoNode_ensurepip__bootstrap(rc.Node):
     title = '_bootstrap'
-    description = '''
+    doc = '''
     Bootstrap pip into the current Python installation (or the given root
     directory). Returns pip command status code.
 
@@ -25,7 +25,7 @@ class AutoNode_ensurepip__bootstrap(rc.Node):
 
 class AutoNode_ensurepip__disable_pip_configuration_settings(rc.Node):
     title = '_disable_pip_configuration_settings'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -41,7 +41,7 @@ class AutoNode_ensurepip__disable_pip_configuration_settings(rc.Node):
 
 class AutoNode_ensurepip__main(rc.Node):
     title = '_main'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='argv'),
     ]
@@ -57,7 +57,7 @@ class AutoNode_ensurepip__main(rc.Node):
 
 class AutoNode_ensurepip__run_pip(rc.Node):
     title = '_run_pip'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='args'),
 rc.NodeInputBP(label='additional_paths'),
@@ -74,7 +74,7 @@ rc.NodeInputBP(label='additional_paths'),
 
 class AutoNode_ensurepip__uninstall_helper(rc.Node):
     title = '_uninstall_helper'
-    description = '''Helper to support a clean default uninstall process on Windows
+    doc = '''Helper to support a clean default uninstall process on Windows
 
     Note that calling this function may alter os.environ.
     '''
@@ -93,7 +93,7 @@ class AutoNode_ensurepip__uninstall_helper(rc.Node):
 
 class AutoNode_ensurepip_bootstrap(rc.Node):
     title = 'bootstrap'
-    description = '''
+    doc = '''
     Bootstrap pip into the current Python installation (or the given root
     directory).
 
@@ -114,7 +114,7 @@ class AutoNode_ensurepip_bootstrap(rc.Node):
 
 class AutoNode_ensurepip_version(rc.Node):
     title = 'version'
-    description = '''
+    doc = '''
     Returns a string specifying the bundled version of pip.
     '''
     init_inputs = [

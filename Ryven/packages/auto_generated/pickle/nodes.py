@@ -4,7 +4,7 @@ import pickle
 
 class AutoNode_pickle__dump(rc.Node):
     title = '_dump'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='file'),
@@ -22,7 +22,7 @@ rc.NodeInputBP(label='protocol'),
 
 class AutoNode_pickle__dumps(rc.Node):
     title = '_dumps'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='protocol'),
@@ -39,7 +39,7 @@ rc.NodeInputBP(label='protocol'),
 
 class AutoNode_pickle__getattribute(rc.Node):
     title = '_getattribute'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='name'),
@@ -56,7 +56,7 @@ rc.NodeInputBP(label='name'),
 
 class AutoNode_pickle__load(rc.Node):
     title = '_load'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]
@@ -72,7 +72,7 @@ class AutoNode_pickle__load(rc.Node):
 
 class AutoNode_pickle__loads(rc.Node):
     title = '_loads'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -88,7 +88,7 @@ class AutoNode_pickle__loads(rc.Node):
 
 class AutoNode_pickle__test(rc.Node):
     title = '_test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -104,7 +104,7 @@ class AutoNode_pickle__test(rc.Node):
 
 class AutoNode_pickle_decode_long(rc.Node):
     title = 'decode_long'
-    description = '''Decode a long from a two's complement little-endian binary string.
+    doc = '''Decode a long from a two's complement little-endian binary string.
 
     >>> decode_long(b'')
     0
@@ -136,7 +136,7 @@ class AutoNode_pickle_decode_long(rc.Node):
 
 class AutoNode_pickle_dump(rc.Node):
     title = 'dump'
-    description = '''Write a pickled representation of obj to the open file object file.
+    doc = '''Write a pickled representation of obj to the open file object file.
 
 This is equivalent to ``Pickler(file, protocol).dump(obj)``, but may
 be more efficient.
@@ -179,7 +179,7 @@ rc.NodeInputBP(label='protocol'),
 
 class AutoNode_pickle_dumps(rc.Node):
     title = 'dumps'
-    description = '''Return the pickled representation of the object as a bytes object.
+    doc = '''Return the pickled representation of the object as a bytes object.
 
 The optional *protocol* argument tells the pickler to use the given
 protocol; supported protocols are 0, 1, 2, 3, 4 and 5.  The default
@@ -213,7 +213,7 @@ rc.NodeInputBP(label='protocol'),
 
 class AutoNode_pickle_encode_long(rc.Node):
     title = 'encode_long'
-    description = '''Encode a long to a two's complement little-endian binary string.
+    doc = '''Encode a long to a two's complement little-endian binary string.
     Note that 0 is a special case, returning an empty string, to save a
     byte in the LONG1 pickling context.
 
@@ -248,7 +248,7 @@ class AutoNode_pickle_encode_long(rc.Node):
 
 class AutoNode_pickle_load(rc.Node):
     title = 'load'
-    description = '''Read and return an object from the pickle data stored in a file.
+    doc = '''Read and return an object from the pickle data stored in a file.
 
 This is equivalent to ``Unpickler(file).load()``, but may be more
 efficient.
@@ -286,7 +286,7 @@ string instances as bytes objects.'''
 
 class AutoNode_pickle_loads(rc.Node):
     title = 'loads'
-    description = '''Read and return an object from the given pickle data.
+    doc = '''Read and return an object from the given pickle data.
 
 The protocol version of the pickle is detected automatically, so no
 protocol argument is needed.  Bytes past the pickled object's
@@ -315,7 +315,7 @@ string instances as bytes objects.'''
 
 class AutoNode_pickle_unpack(rc.Node):
     title = 'unpack'
-    description = '''Return a tuple containing values unpacked according to the format string.
+    doc = '''Return a tuple containing values unpacked according to the format string.
 
 The buffer's size in bytes must be calcsize(format).
 
@@ -336,7 +336,7 @@ rc.NodeInputBP(label='buffer'),
 
 class AutoNode_pickle_whichmodule(rc.Node):
     title = 'whichmodule'
-    description = '''Find the module an object belong to.'''
+    doc = '''Find the module an object belong to.'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='name'),

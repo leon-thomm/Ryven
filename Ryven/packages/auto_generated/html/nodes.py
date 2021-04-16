@@ -4,7 +4,7 @@ import html
 
 class AutoNode_html__replace_charref(rc.Node):
     title = '_replace_charref'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_html__replace_charref(rc.Node):
 
 class AutoNode_html_escape(rc.Node):
     title = 'escape'
-    description = '''
+    doc = '''
     Replace special characters "&", "<" and ">" to HTML-safe sequences.
     If the optional flag quote is true (the default), the quotation mark
     characters, both double quote (") and single quote (') characters are also
@@ -42,7 +42,7 @@ rc.NodeInputBP(label='quote'),
 
 class AutoNode_html_unescape(rc.Node):
     title = 'unescape'
-    description = '''
+    doc = '''
     Convert all named and numeric character references (e.g. &gt;, &#62;,
     &x3e;) in the string s to the corresponding unicode characters.
     This function uses the rules defined by the HTML 5 standard

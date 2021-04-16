@@ -4,7 +4,7 @@ import fractions
 
 class AutoNode_fractions__gcd(rc.Node):
     title = '_gcd'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_fractions_gcd(rc.Node):
     title = 'gcd'
-    description = '''Calculate the Greatest Common Divisor of a and b.
+    doc = '''Calculate the Greatest Common Divisor of a and b.
 
     Unless b==0, the result will have the same sign as b (so that when
     b is divided by it, the result comes out positive).

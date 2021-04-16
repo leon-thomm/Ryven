@@ -5,7 +5,7 @@ import _struct
 class AutoNode__struct__clearcache(rc.Node):
     title = '_clearcache'
     type_ = '_struct'
-    description = '''Clear the internal cache.'''
+    doc = '''Clear the internal cache.'''
     init_inputs = [
         
     ]
@@ -22,7 +22,7 @@ class AutoNode__struct__clearcache(rc.Node):
 class AutoNode__struct_calcsize(rc.Node):
     title = 'calcsize'
     type_ = '_struct'
-    description = '''Return size in bytes of the struct described by the format string.'''
+    doc = '''Return size in bytes of the struct described by the format string.'''
     init_inputs = [
         rc.NodeInputBP(label='format'),
     ]
@@ -39,7 +39,7 @@ class AutoNode__struct_calcsize(rc.Node):
 class AutoNode__struct_iter_unpack(rc.Node):
     title = 'iter_unpack'
     type_ = '_struct'
-    description = '''Return an iterator yielding tuples unpacked from the given bytes.
+    doc = '''Return an iterator yielding tuples unpacked from the given bytes.
 
 The bytes are unpacked according to the format string, like
 a repeated invocation of unpack_from().
@@ -62,7 +62,7 @@ rc.NodeInputBP(label='buffer'),
 class AutoNode__struct_unpack(rc.Node):
     title = 'unpack'
     type_ = '_struct'
-    description = '''Return a tuple containing values unpacked according to the format string.
+    doc = '''Return a tuple containing values unpacked according to the format string.
 
 The buffer's size in bytes must be calcsize(format).
 
@@ -84,7 +84,7 @@ rc.NodeInputBP(label='buffer'),
 class AutoNode__struct_unpack_from(rc.Node):
     title = 'unpack_from'
     type_ = '_struct'
-    description = '''Return a tuple containing values unpacked according to the format string.
+    doc = '''Return a tuple containing values unpacked according to the format string.
 
 The buffer's size, minus offset, must be at least calcsize(format).
 

@@ -107,10 +107,10 @@ if __name__ == '__main__':
 
         # init console and redirect all output
         console_stdout_redirect, console_errout_redirect = init_main_console()
-        # with redirect_stdout(console_stdout_redirect), \
-        #      redirect_stderr(console_errout_redirect):
+        with redirect_stdout(console_stdout_redirect), \
+             redirect_stderr(console_errout_redirect):
 
-        mw = MainWindow(sw.editor_startup_configuration, theme)
-        mw.show()
+            mw = MainWindow(sw.editor_startup_configuration, theme)
+            mw.show()
 
-        sys.exit(app.exec_())
+            sys.exit(app.exec_())

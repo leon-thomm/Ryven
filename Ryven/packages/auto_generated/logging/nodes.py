@@ -4,7 +4,7 @@ import logging
 
 class AutoNode_logging__acquireLock(rc.Node):
     title = '_acquireLock'
-    description = '''
+    doc = '''
     Acquire the module-level lock for serializing access to shared data.
 
     This should be released with _releaseLock().
@@ -24,7 +24,7 @@ class AutoNode_logging__acquireLock(rc.Node):
 
 class AutoNode_logging__addHandlerRef(rc.Node):
     title = '_addHandlerRef'
-    description = '''
+    doc = '''
     Add a handler to the internal cleanup list using a weak reference.
     '''
     init_inputs = [
@@ -42,7 +42,7 @@ class AutoNode_logging__addHandlerRef(rc.Node):
 
 class AutoNode_logging__checkLevel(rc.Node):
     title = '_checkLevel'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='level'),
     ]
@@ -58,7 +58,7 @@ class AutoNode_logging__checkLevel(rc.Node):
 
 class AutoNode_logging__register_at_fork_reinit_lock(rc.Node):
     title = '_register_at_fork_reinit_lock'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='instance'),
     ]
@@ -74,7 +74,7 @@ class AutoNode_logging__register_at_fork_reinit_lock(rc.Node):
 
 class AutoNode_logging__releaseLock(rc.Node):
     title = '_releaseLock'
-    description = '''
+    doc = '''
     Release the module-level lock acquired by calling _acquireLock().
     '''
     init_inputs = [
@@ -92,7 +92,7 @@ class AutoNode_logging__releaseLock(rc.Node):
 
 class AutoNode_logging__removeHandlerRef(rc.Node):
     title = '_removeHandlerRef'
-    description = '''
+    doc = '''
     Remove a handler reference from the internal cleanup list.
     '''
     init_inputs = [
@@ -110,7 +110,7 @@ class AutoNode_logging__removeHandlerRef(rc.Node):
 
 class AutoNode_logging__showwarning(rc.Node):
     title = '_showwarning'
-    description = '''
+    doc = '''
     Implementation of showwarnings which redirects to logging, which will first
     check to see if the file parameter is None. If a file is specified, it will
     delegate to the original warnings implementation of showwarning. Otherwise,
@@ -137,7 +137,7 @@ rc.NodeInputBP(label='line'),
 
 class AutoNode_logging_addLevelName(rc.Node):
     title = 'addLevelName'
-    description = '''
+    doc = '''
     Associate 'levelName' with 'level'.
 
     This is used when converting levels to text during message formatting.
@@ -158,7 +158,7 @@ rc.NodeInputBP(label='levelName'),
 
 class AutoNode_logging_basicConfig(rc.Node):
     title = 'basicConfig'
-    description = '''
+    doc = '''
     Do basic configuration for the logging system.
 
     This function does nothing if the root logger already has handlers
@@ -229,7 +229,7 @@ class AutoNode_logging_basicConfig(rc.Node):
 
 class AutoNode_logging_captureWarnings(rc.Node):
     title = 'captureWarnings'
-    description = '''
+    doc = '''
     If capture is true, redirect all warnings to the logging package.
     If capture is False, ensure that warnings are not redirected to logging
     but to their original destinations.
@@ -249,7 +249,7 @@ class AutoNode_logging_captureWarnings(rc.Node):
 
 class AutoNode_logging_critical(rc.Node):
     title = 'critical'
-    description = '''
+    doc = '''
     Log a message with severity 'CRITICAL' on the root logger. If the logger
     has no handlers, call basicConfig() to add a console handler with a
     pre-defined format.
@@ -269,7 +269,7 @@ class AutoNode_logging_critical(rc.Node):
 
 class AutoNode_logging_currentframe(rc.Node):
     title = 'currentframe'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -285,7 +285,7 @@ class AutoNode_logging_currentframe(rc.Node):
 
 class AutoNode_logging_debug(rc.Node):
     title = 'debug'
-    description = '''
+    doc = '''
     Log a message with severity 'DEBUG' on the root logger. If the logger has
     no handlers, call basicConfig() to add a console handler with a pre-defined
     format.
@@ -305,7 +305,7 @@ class AutoNode_logging_debug(rc.Node):
 
 class AutoNode_logging_disable(rc.Node):
     title = 'disable'
-    description = '''
+    doc = '''
     Disable all logging calls of severity 'level' and below.
     '''
     init_inputs = [
@@ -323,7 +323,7 @@ class AutoNode_logging_disable(rc.Node):
 
 class AutoNode_logging_error(rc.Node):
     title = 'error'
-    description = '''
+    doc = '''
     Log a message with severity 'ERROR' on the root logger. If the logger has
     no handlers, call basicConfig() to add a console handler with a pre-defined
     format.
@@ -343,7 +343,7 @@ class AutoNode_logging_error(rc.Node):
 
 class AutoNode_logging_exception(rc.Node):
     title = 'exception'
-    description = '''
+    doc = '''
     Log a message with severity 'ERROR' on the root logger, with exception
     information. If the logger has no handlers, basicConfig() is called to add
     a console handler with a pre-defined format.
@@ -363,7 +363,7 @@ class AutoNode_logging_exception(rc.Node):
 
 class AutoNode_logging_fatal(rc.Node):
     title = 'fatal'
-    description = '''
+    doc = '''
     Log a message with severity 'CRITICAL' on the root logger. If the logger
     has no handlers, call basicConfig() to add a console handler with a
     pre-defined format.
@@ -383,7 +383,7 @@ class AutoNode_logging_fatal(rc.Node):
 
 class AutoNode_logging_getLevelName(rc.Node):
     title = 'getLevelName'
-    description = '''
+    doc = '''
     Return the textual representation of logging level 'level'.
 
     If the level is one of the predefined levels (CRITICAL, ERROR, WARNING,
@@ -411,7 +411,7 @@ class AutoNode_logging_getLevelName(rc.Node):
 
 class AutoNode_logging_getLogRecordFactory(rc.Node):
     title = 'getLogRecordFactory'
-    description = '''
+    doc = '''
     Return the factory to be used when instantiating a log record.
     '''
     init_inputs = [
@@ -429,7 +429,7 @@ class AutoNode_logging_getLogRecordFactory(rc.Node):
 
 class AutoNode_logging_getLogger(rc.Node):
     title = 'getLogger'
-    description = '''
+    doc = '''
     Return a logger with the specified name, creating it if necessary.
 
     If no name is specified, return the root logger.
@@ -449,7 +449,7 @@ class AutoNode_logging_getLogger(rc.Node):
 
 class AutoNode_logging_getLoggerClass(rc.Node):
     title = 'getLoggerClass'
-    description = '''
+    doc = '''
     Return the class to be used when instantiating a logger.
     '''
     init_inputs = [
@@ -467,7 +467,7 @@ class AutoNode_logging_getLoggerClass(rc.Node):
 
 class AutoNode_logging_info(rc.Node):
     title = 'info'
-    description = '''
+    doc = '''
     Log a message with severity 'INFO' on the root logger. If the logger has
     no handlers, call basicConfig() to add a console handler with a pre-defined
     format.
@@ -487,7 +487,7 @@ class AutoNode_logging_info(rc.Node):
 
 class AutoNode_logging_log(rc.Node):
     title = 'log'
-    description = '''
+    doc = '''
     Log 'msg % args' with the integer severity 'level' on the root logger. If
     the logger has no handlers, call basicConfig() to add a console handler
     with a pre-defined format.
@@ -508,7 +508,7 @@ rc.NodeInputBP(label='msg'),
 
 class AutoNode_logging_makeLogRecord(rc.Node):
     title = 'makeLogRecord'
-    description = '''
+    doc = '''
     Make a LogRecord whose attributes are defined by the specified dictionary,
     This function is useful for converting a logging event received over
     a socket connection (which is sent as a dictionary) into a LogRecord
@@ -529,7 +529,7 @@ class AutoNode_logging_makeLogRecord(rc.Node):
 
 class AutoNode_logging_setLogRecordFactory(rc.Node):
     title = 'setLogRecordFactory'
-    description = '''
+    doc = '''
     Set the factory to be used when instantiating a log record.
 
     :param factory: A callable which will be called to instantiate
@@ -550,7 +550,7 @@ class AutoNode_logging_setLogRecordFactory(rc.Node):
 
 class AutoNode_logging_setLoggerClass(rc.Node):
     title = 'setLoggerClass'
-    description = '''
+    doc = '''
     Set the class to be used when instantiating a logger. The class should
     define __init__() such that only a name argument is required, and the
     __init__() should call Logger.__init__()
@@ -570,7 +570,7 @@ class AutoNode_logging_setLoggerClass(rc.Node):
 
 class AutoNode_logging_shutdown(rc.Node):
     title = 'shutdown'
-    description = '''
+    doc = '''
     Perform any cleanup actions in the logging system (e.g. flushing
     buffers).
 
@@ -591,7 +591,7 @@ class AutoNode_logging_shutdown(rc.Node):
 
 class AutoNode_logging_warn(rc.Node):
     title = 'warn'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='msg'),
     ]
@@ -607,7 +607,7 @@ class AutoNode_logging_warn(rc.Node):
 
 class AutoNode_logging_warning(rc.Node):
     title = 'warning'
-    description = '''
+    doc = '''
     Log a message with severity 'WARNING' on the root logger. If the logger has
     no handlers, call basicConfig() to add a console handler with a pre-defined
     format.

@@ -4,7 +4,7 @@ import pathlib
 
 class AutoNode_pathlib__getfinalpathname(rc.Node):
     title = '_getfinalpathname'
-    description = '''A helper function for samepath on windows.'''
+    doc = '''A helper function for samepath on windows.'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_pathlib__getfinalpathname(rc.Node):
 
 class AutoNode_pathlib__ignore_error(rc.Node):
     title = '_ignore_error'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='exception'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_pathlib__ignore_error(rc.Node):
 
 class AutoNode_pathlib__is_wildcard_pattern(rc.Node):
     title = '_is_wildcard_pattern'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='pat'),
     ]
@@ -52,7 +52,7 @@ class AutoNode_pathlib__is_wildcard_pattern(rc.Node):
 
 class AutoNode_pathlib_urlquote_from_bytes(rc.Node):
     title = 'urlquote_from_bytes'
-    description = '''Like quote(), but accepts a bytes object rather than a str, and does
+    doc = '''Like quote(), but accepts a bytes object rather than a str, and does
     not perform string-to-bytes encoding.  It always returns an ASCII string.
     quote_from_bytes(b'abc def?') -> 'abc%20def%3f'
     '''

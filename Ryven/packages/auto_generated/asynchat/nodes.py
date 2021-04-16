@@ -4,7 +4,7 @@ import asynchat
 
 class AutoNode_asynchat_find_prefix_at_end(rc.Node):
     title = 'find_prefix_at_end'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='haystack'),
 rc.NodeInputBP(label='needle'),

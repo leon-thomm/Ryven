@@ -5,7 +5,7 @@ import _winapi
 class AutoNode__winapi_CloseHandle(rc.Node):
     title = 'CloseHandle'
     type_ = '_winapi'
-    description = '''Close handle.'''
+    doc = '''Close handle.'''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
     ]
@@ -22,7 +22,7 @@ class AutoNode__winapi_CloseHandle(rc.Node):
 class AutoNode__winapi_ConnectNamedPipe(rc.Node):
     title = 'ConnectNamedPipe'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
 rc.NodeInputBP(label='overlapped'),
@@ -40,7 +40,7 @@ rc.NodeInputBP(label='overlapped'),
 class AutoNode__winapi_CreateFile(rc.Node):
     title = 'CreateFile'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='file_name'),
 rc.NodeInputBP(label='desired_access'),
@@ -63,7 +63,7 @@ rc.NodeInputBP(label='template_file'),
 class AutoNode__winapi_CreateFileMapping(rc.Node):
     title = 'CreateFileMapping'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='file_handle'),
 rc.NodeInputBP(label='security_attributes'),
@@ -85,7 +85,7 @@ rc.NodeInputBP(label='name'),
 class AutoNode__winapi_CreateJunction(rc.Node):
     title = 'CreateJunction'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='src_path'),
 rc.NodeInputBP(label='dst_path'),
@@ -103,7 +103,7 @@ rc.NodeInputBP(label='dst_path'),
 class AutoNode__winapi_CreateNamedPipe(rc.Node):
     title = 'CreateNamedPipe'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='open_mode'),
@@ -127,7 +127,7 @@ rc.NodeInputBP(label='security_attributes'),
 class AutoNode__winapi_CreatePipe(rc.Node):
     title = 'CreatePipe'
     type_ = '_winapi'
-    description = '''Create an anonymous pipe.
+    doc = '''Create an anonymous pipe.
 
   pipe_attrs
     Ignored internally, can be None.
@@ -150,7 +150,7 @@ rc.NodeInputBP(label='size'),
 class AutoNode__winapi_CreateProcess(rc.Node):
     title = 'CreateProcess'
     type_ = '_winapi'
-    description = '''Create a new process and its primary thread.
+    doc = '''Create a new process and its primary thread.
 
   command_line
     Can be str or None
@@ -185,7 +185,7 @@ rc.NodeInputBP(label='startup_info'),
 class AutoNode__winapi_DuplicateHandle(rc.Node):
     title = 'DuplicateHandle'
     type_ = '_winapi'
-    description = '''Return a duplicate handle object.
+    doc = '''Return a duplicate handle object.
 
 The duplicate handle refers to the same object as the original
 handle. Therefore, any changes to the object are reflected
@@ -211,7 +211,7 @@ rc.NodeInputBP(label='options'),
 class AutoNode__winapi_ExitProcess(rc.Node):
     title = 'ExitProcess'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='ExitCode'),
     ]
@@ -228,7 +228,7 @@ class AutoNode__winapi_ExitProcess(rc.Node):
 class AutoNode__winapi_GetACP(rc.Node):
     title = 'GetACP'
     type_ = '_winapi'
-    description = '''Get the current Windows ANSI code page identifier.'''
+    doc = '''Get the current Windows ANSI code page identifier.'''
     init_inputs = [
         
     ]
@@ -245,7 +245,7 @@ class AutoNode__winapi_GetACP(rc.Node):
 class AutoNode__winapi_GetCurrentProcess(rc.Node):
     title = 'GetCurrentProcess'
     type_ = '_winapi'
-    description = '''Return a handle object for the current process.'''
+    doc = '''Return a handle object for the current process.'''
     init_inputs = [
         
     ]
@@ -262,7 +262,7 @@ class AutoNode__winapi_GetCurrentProcess(rc.Node):
 class AutoNode__winapi_GetExitCodeProcess(rc.Node):
     title = 'GetExitCodeProcess'
     type_ = '_winapi'
-    description = '''Return the termination status of the specified process.'''
+    doc = '''Return the termination status of the specified process.'''
     init_inputs = [
         rc.NodeInputBP(label='process'),
     ]
@@ -279,7 +279,7 @@ class AutoNode__winapi_GetExitCodeProcess(rc.Node):
 class AutoNode__winapi_GetFileType(rc.Node):
     title = 'GetFileType'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
     ]
@@ -296,7 +296,7 @@ class AutoNode__winapi_GetFileType(rc.Node):
 class AutoNode__winapi_GetLastError(rc.Node):
     title = 'GetLastError'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         
     ]
@@ -313,7 +313,7 @@ class AutoNode__winapi_GetLastError(rc.Node):
 class AutoNode__winapi_GetModuleFileName(rc.Node):
     title = 'GetModuleFileName'
     type_ = '_winapi'
-    description = '''Return the fully-qualified path for the file that contains module.
+    doc = '''Return the fully-qualified path for the file that contains module.
 
 The module must have been loaded by the current process.
 
@@ -337,7 +337,7 @@ of the current process.'''
 class AutoNode__winapi_GetStdHandle(rc.Node):
     title = 'GetStdHandle'
     type_ = '_winapi'
-    description = '''Return a handle to the specified standard device.
+    doc = '''Return a handle to the specified standard device.
 
   std_handle
     One of STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, or STD_ERROR_HANDLE.
@@ -359,7 +359,7 @@ The integer associated with the handle object is returned.'''
 class AutoNode__winapi_GetVersion(rc.Node):
     title = 'GetVersion'
     type_ = '_winapi'
-    description = '''Return the version number of the current operating system.'''
+    doc = '''Return the version number of the current operating system.'''
     init_inputs = [
         
     ]
@@ -376,7 +376,7 @@ class AutoNode__winapi_GetVersion(rc.Node):
 class AutoNode__winapi_MapViewOfFile(rc.Node):
     title = 'MapViewOfFile'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='file_map'),
 rc.NodeInputBP(label='desired_access'),
@@ -397,7 +397,7 @@ rc.NodeInputBP(label='number_bytes'),
 class AutoNode__winapi_OpenFileMapping(rc.Node):
     title = 'OpenFileMapping'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='desired_access'),
 rc.NodeInputBP(label='inherit_handle'),
@@ -416,7 +416,7 @@ rc.NodeInputBP(label='name'),
 class AutoNode__winapi_OpenProcess(rc.Node):
     title = 'OpenProcess'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='desired_access'),
 rc.NodeInputBP(label='inherit_handle'),
@@ -435,7 +435,7 @@ rc.NodeInputBP(label='process_id'),
 class AutoNode__winapi_PeekNamedPipe(rc.Node):
     title = 'PeekNamedPipe'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
 rc.NodeInputBP(label='size'),
@@ -453,7 +453,7 @@ rc.NodeInputBP(label='size'),
 class AutoNode__winapi_ReadFile(rc.Node):
     title = 'ReadFile'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
 rc.NodeInputBP(label='size'),
@@ -472,7 +472,7 @@ rc.NodeInputBP(label='overlapped'),
 class AutoNode__winapi_SetNamedPipeHandleState(rc.Node):
     title = 'SetNamedPipeHandleState'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='named_pipe'),
 rc.NodeInputBP(label='mode'),
@@ -492,7 +492,7 @@ rc.NodeInputBP(label='collect_data_timeout'),
 class AutoNode__winapi_TerminateProcess(rc.Node):
     title = 'TerminateProcess'
     type_ = '_winapi'
-    description = '''Terminate the specified process and all of its threads.'''
+    doc = '''Terminate the specified process and all of its threads.'''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
 rc.NodeInputBP(label='exit_code'),
@@ -510,7 +510,7 @@ rc.NodeInputBP(label='exit_code'),
 class AutoNode__winapi_VirtualQuerySize(rc.Node):
     title = 'VirtualQuerySize'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='address'),
     ]
@@ -527,7 +527,7 @@ class AutoNode__winapi_VirtualQuerySize(rc.Node):
 class AutoNode__winapi_WaitForMultipleObjects(rc.Node):
     title = 'WaitForMultipleObjects'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='handle_seq'),
 rc.NodeInputBP(label='wait_flag'),
@@ -546,7 +546,7 @@ rc.NodeInputBP(label='milliseconds'),
 class AutoNode__winapi_WaitForSingleObject(rc.Node):
     title = 'WaitForSingleObject'
     type_ = '_winapi'
-    description = '''Wait for a single object.
+    doc = '''Wait for a single object.
 
 Wait until the specified object is in the signaled state or
 the time-out interval elapses. The timeout value is specified
@@ -568,7 +568,7 @@ rc.NodeInputBP(label='milliseconds'),
 class AutoNode__winapi_WaitNamedPipe(rc.Node):
     title = 'WaitNamedPipe'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='timeout'),
@@ -586,7 +586,7 @@ rc.NodeInputBP(label='timeout'),
 class AutoNode__winapi_WriteFile(rc.Node):
     title = 'WriteFile'
     type_ = '_winapi'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='handle'),
 rc.NodeInputBP(label='buffer'),

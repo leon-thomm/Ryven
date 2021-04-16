@@ -5,7 +5,7 @@ import binascii
 class AutoNode_binascii_a2b_base64(rc.Node):
     title = 'a2b_base64'
     type_ = 'binascii'
-    description = '''Decode a line of base64 data.'''
+    doc = '''Decode a line of base64 data.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -22,7 +22,7 @@ class AutoNode_binascii_a2b_base64(rc.Node):
 class AutoNode_binascii_a2b_hex(rc.Node):
     title = 'a2b_hex'
     type_ = 'binascii'
-    description = '''Binary data of hexadecimal representation.
+    doc = '''Binary data of hexadecimal representation.
 
 hexstr must contain an even number of hex digits (upper or lower case).
 This function is also available as "unhexlify()".'''
@@ -42,7 +42,7 @@ This function is also available as "unhexlify()".'''
 class AutoNode_binascii_a2b_hqx(rc.Node):
     title = 'a2b_hqx'
     type_ = 'binascii'
-    description = '''Decode .hqx coding.'''
+    doc = '''Decode .hqx coding.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -59,7 +59,7 @@ class AutoNode_binascii_a2b_hqx(rc.Node):
 class AutoNode_binascii_a2b_qp(rc.Node):
     title = 'a2b_qp'
     type_ = 'binascii'
-    description = '''Decode a string of qp-encoded data.'''
+    doc = '''Decode a string of qp-encoded data.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='header'),
@@ -77,7 +77,7 @@ rc.NodeInputBP(label='header'),
 class AutoNode_binascii_a2b_uu(rc.Node):
     title = 'a2b_uu'
     type_ = 'binascii'
-    description = '''Decode a line of uuencoded data.'''
+    doc = '''Decode a line of uuencoded data.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -94,7 +94,7 @@ class AutoNode_binascii_a2b_uu(rc.Node):
 class AutoNode_binascii_b2a_base64(rc.Node):
     title = 'b2a_base64'
     type_ = 'binascii'
-    description = '''Base64-code line of data.'''
+    doc = '''Base64-code line of data.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -111,7 +111,7 @@ class AutoNode_binascii_b2a_base64(rc.Node):
 class AutoNode_binascii_b2a_hqx(rc.Node):
     title = 'b2a_hqx'
     type_ = 'binascii'
-    description = '''Encode .hqx data.'''
+    doc = '''Encode .hqx data.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -128,7 +128,7 @@ class AutoNode_binascii_b2a_hqx(rc.Node):
 class AutoNode_binascii_b2a_qp(rc.Node):
     title = 'b2a_qp'
     type_ = 'binascii'
-    description = '''Encode a string using quoted-printable encoding.
+    doc = '''Encode a string using quoted-printable encoding.
 
 On encoding, when istext is set, newlines are not encoded, and white
 space at end of lines is.  When istext is not set, \r and \n (CR/LF)
@@ -152,7 +152,7 @@ rc.NodeInputBP(label='header'),
 class AutoNode_binascii_b2a_uu(rc.Node):
     title = 'b2a_uu'
     type_ = 'binascii'
-    description = '''Uuencode line of data.'''
+    doc = '''Uuencode line of data.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -169,7 +169,7 @@ class AutoNode_binascii_b2a_uu(rc.Node):
 class AutoNode_binascii_crc32(rc.Node):
     title = 'crc32'
     type_ = 'binascii'
-    description = '''Compute CRC-32 incrementally.'''
+    doc = '''Compute CRC-32 incrementally.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='crc'),
@@ -187,7 +187,7 @@ rc.NodeInputBP(label='crc'),
 class AutoNode_binascii_crc_hqx(rc.Node):
     title = 'crc_hqx'
     type_ = 'binascii'
-    description = '''Compute CRC-CCITT incrementally.'''
+    doc = '''Compute CRC-CCITT incrementally.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
 rc.NodeInputBP(label='crc'),
@@ -205,7 +205,7 @@ rc.NodeInputBP(label='crc'),
 class AutoNode_binascii_rlecode_hqx(rc.Node):
     title = 'rlecode_hqx'
     type_ = 'binascii'
-    description = '''Binhex RLE-code binary data.'''
+    doc = '''Binhex RLE-code binary data.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -222,7 +222,7 @@ class AutoNode_binascii_rlecode_hqx(rc.Node):
 class AutoNode_binascii_rledecode_hqx(rc.Node):
     title = 'rledecode_hqx'
     type_ = 'binascii'
-    description = '''Decode hexbin RLE-coded string.'''
+    doc = '''Decode hexbin RLE-coded string.'''
     init_inputs = [
         rc.NodeInputBP(label='data'),
     ]
@@ -239,7 +239,7 @@ class AutoNode_binascii_rledecode_hqx(rc.Node):
 class AutoNode_binascii_unhexlify(rc.Node):
     title = 'unhexlify'
     type_ = 'binascii'
-    description = '''Binary data of hexadecimal representation.
+    doc = '''Binary data of hexadecimal representation.
 
 hexstr must contain an even number of hex digits (upper or lower case).'''
     init_inputs = [

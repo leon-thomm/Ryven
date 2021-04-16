@@ -4,7 +4,7 @@ import encodings
 
 class AutoNode_encodings__alias_mbcs(rc.Node):
     title = '_alias_mbcs'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='encoding'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_encodings__alias_mbcs(rc.Node):
 
 class AutoNode_encodings_normalize_encoding(rc.Node):
     title = 'normalize_encoding'
-    description = ''' Normalize an encoding name.
+    doc = ''' Normalize an encoding name.
 
         Normalization works as follows: all non-alphanumeric
         characters except the dot used for Python package names are
@@ -45,7 +45,7 @@ class AutoNode_encodings_normalize_encoding(rc.Node):
 
 class AutoNode_encodings_search_function(rc.Node):
     title = 'search_function'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='encoding'),
     ]

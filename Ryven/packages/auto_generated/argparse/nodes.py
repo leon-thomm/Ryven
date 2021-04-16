@@ -4,7 +4,7 @@ import argparse
 
 class AutoNode_argparse__(rc.Node):
     title = '_'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_argparse__(rc.Node):
 
 class AutoNode_argparse__copy_items(rc.Node):
     title = '_copy_items'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='items'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_argparse__copy_items(rc.Node):
 
 class AutoNode_argparse__get_action_name(rc.Node):
     title = '_get_action_name'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='argument'),
     ]
@@ -52,7 +52,7 @@ class AutoNode_argparse__get_action_name(rc.Node):
 
 class AutoNode_argparse_ngettext(rc.Node):
     title = 'ngettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='msgid1'),
 rc.NodeInputBP(label='msgid2'),

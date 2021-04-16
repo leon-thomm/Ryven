@@ -5,7 +5,7 @@ import _sha512
 class AutoNode__sha512_sha384(rc.Node):
     title = 'sha384'
     type_ = '_sha512'
-    description = '''Return a new SHA-384 hash object; optionally initialized with a string.'''
+    doc = '''Return a new SHA-384 hash object; optionally initialized with a string.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -22,7 +22,7 @@ class AutoNode__sha512_sha384(rc.Node):
 class AutoNode__sha512_sha512(rc.Node):
     title = 'sha512'
     type_ = '_sha512'
-    description = '''Return a new SHA-512 hash object; optionally initialized with a string.'''
+    doc = '''Return a new SHA-512 hash object; optionally initialized with a string.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]

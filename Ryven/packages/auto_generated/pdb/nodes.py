@@ -4,7 +4,7 @@ import pdb
 
 class AutoNode_pdb_find_function(rc.Node):
     title = 'find_function'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='funcname'),
 rc.NodeInputBP(label='filename'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='filename'),
 
 class AutoNode_pdb_getsourcelines(rc.Node):
     title = 'getsourcelines'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -37,7 +37,7 @@ class AutoNode_pdb_getsourcelines(rc.Node):
 
 class AutoNode_pdb_help(rc.Node):
     title = 'help'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -53,7 +53,7 @@ class AutoNode_pdb_help(rc.Node):
 
 class AutoNode_pdb_lasti2lineno(rc.Node):
     title = 'lasti2lineno'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
 rc.NodeInputBP(label='lasti'),
@@ -70,7 +70,7 @@ rc.NodeInputBP(label='lasti'),
 
 class AutoNode_pdb_main(rc.Node):
     title = 'main'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -86,7 +86,7 @@ class AutoNode_pdb_main(rc.Node):
 
 class AutoNode_pdb_pm(rc.Node):
     title = 'pm'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -102,7 +102,7 @@ class AutoNode_pdb_pm(rc.Node):
 
 class AutoNode_pdb_post_mortem(rc.Node):
     title = 'post_mortem'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='t'),
     ]
@@ -118,7 +118,7 @@ class AutoNode_pdb_post_mortem(rc.Node):
 
 class AutoNode_pdb_run(rc.Node):
     title = 'run'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='statement'),
 rc.NodeInputBP(label='globals'),
@@ -136,7 +136,7 @@ rc.NodeInputBP(label='locals'),
 
 class AutoNode_pdb_runcall(rc.Node):
     title = 'runcall'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -152,7 +152,7 @@ class AutoNode_pdb_runcall(rc.Node):
 
 class AutoNode_pdb_runctx(rc.Node):
     title = 'runctx'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='statement'),
 rc.NodeInputBP(label='globals'),
@@ -170,7 +170,7 @@ rc.NodeInputBP(label='locals'),
 
 class AutoNode_pdb_runeval(rc.Node):
     title = 'runeval'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='expression'),
 rc.NodeInputBP(label='globals'),
@@ -188,7 +188,7 @@ rc.NodeInputBP(label='locals'),
 
 class AutoNode_pdb_set_trace(rc.Node):
     title = 'set_trace'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -204,7 +204,7 @@ class AutoNode_pdb_set_trace(rc.Node):
 
 class AutoNode_pdb_test(rc.Node):
     title = 'test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]

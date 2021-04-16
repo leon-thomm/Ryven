@@ -4,7 +4,7 @@ import json
 
 class AutoNode_json_detect_encoding(rc.Node):
     title = 'detect_encoding'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='b'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_json_detect_encoding(rc.Node):
 
 class AutoNode_json_dump(rc.Node):
     title = 'dump'
-    description = '''Serialize ``obj`` as a JSON formatted stream to ``fp`` (a
+    doc = '''Serialize ``obj`` as a JSON formatted stream to ``fp`` (a
     ``.write()``-supporting file-like object).
 
     If ``skipkeys`` is true then ``dict`` keys that are not basic types
@@ -77,7 +77,7 @@ rc.NodeInputBP(label='fp'),
 
 class AutoNode_json_dumps(rc.Node):
     title = 'dumps'
-    description = '''Serialize ``obj`` to a JSON formatted ``str``.
+    doc = '''Serialize ``obj`` to a JSON formatted ``str``.
 
     If ``skipkeys`` is true then ``dict`` keys that are not basic types
     (``str``, ``int``, ``float``, ``bool``, ``None``) will be skipped
@@ -132,7 +132,7 @@ class AutoNode_json_dumps(rc.Node):
 
 class AutoNode_json_load(rc.Node):
     title = 'load'
-    description = '''Deserialize ``fp`` (a ``.read()``-supporting file-like object containing
+    doc = '''Deserialize ``fp`` (a ``.read()``-supporting file-like object containing
     a JSON document) to a Python object.
 
     ``object_hook`` is an optional function that will be called with the
@@ -164,7 +164,7 @@ class AutoNode_json_load(rc.Node):
 
 class AutoNode_json_loads(rc.Node):
     title = 'loads'
-    description = '''Deserialize ``s`` (a ``str``, ``bytes`` or ``bytearray`` instance
+    doc = '''Deserialize ``s`` (a ``str``, ``bytes`` or ``bytearray`` instance
     containing a JSON document) to a Python object.
 
     ``object_hook`` is an optional function that will be called with the

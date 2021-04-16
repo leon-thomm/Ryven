@@ -5,7 +5,7 @@ import zlib
 class AutoNode_zlib_adler32(rc.Node):
     title = 'adler32'
     type_ = 'zlib'
-    description = '''Compute an Adler-32 checksum of data.
+    doc = '''Compute an Adler-32 checksum of data.
 
   value
     Starting value of the checksum.
@@ -28,7 +28,7 @@ rc.NodeInputBP(label='value'),
 class AutoNode_zlib_compress(rc.Node):
     title = 'compress'
     type_ = 'zlib'
-    description = '''Returns a bytes object containing compressed data.
+    doc = '''Returns a bytes object containing compressed data.
 
   data
     Binary data to be compressed.
@@ -51,7 +51,7 @@ rc.NodeInputBP(label='level'),
 class AutoNode_zlib_compressobj(rc.Node):
     title = 'compressobj'
     type_ = 'zlib'
-    description = '''Return a compressor object.
+    doc = '''Return a compressor object.
 
   level
     The compression level (an integer in the range 0-9 or -1; default is
@@ -95,7 +95,7 @@ rc.NodeInputBP(label='zdict'),
 class AutoNode_zlib_crc32(rc.Node):
     title = 'crc32'
     type_ = 'zlib'
-    description = '''Compute a CRC-32 checksum of data.
+    doc = '''Compute a CRC-32 checksum of data.
 
   value
     Starting value of the checksum.
@@ -118,7 +118,7 @@ rc.NodeInputBP(label='value'),
 class AutoNode_zlib_decompress(rc.Node):
     title = 'decompress'
     type_ = 'zlib'
-    description = '''Returns a bytes object containing the uncompressed data.
+    doc = '''Returns a bytes object containing the uncompressed data.
 
   data
     Compressed data.
@@ -144,7 +144,7 @@ rc.NodeInputBP(label='bufsize'),
 class AutoNode_zlib_decompressobj(rc.Node):
     title = 'decompressobj'
     type_ = 'zlib'
-    description = '''Return a decompressor object.
+    doc = '''Return a decompressor object.
 
   wbits
     The window buffer size and container format.

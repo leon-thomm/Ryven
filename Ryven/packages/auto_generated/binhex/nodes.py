@@ -4,7 +4,7 @@ import binhex
 
 class AutoNode_binhex_binhex(rc.Node):
     title = 'binhex'
-    description = '''binhex(infilename, outfilename): create binhex-encoded copy of a file'''
+    doc = '''binhex(infilename, outfilename): create binhex-encoded copy of a file'''
     init_inputs = [
         rc.NodeInputBP(label='inp'),
 rc.NodeInputBP(label='out'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='out'),
 
 class AutoNode_binhex_getfileinfo(rc.Node):
     title = 'getfileinfo'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -37,7 +37,7 @@ class AutoNode_binhex_getfileinfo(rc.Node):
 
 class AutoNode_binhex_hexbin(rc.Node):
     title = 'hexbin'
-    description = '''hexbin(infilename, outfilename) - Decode binhexed file'''
+    doc = '''hexbin(infilename, outfilename) - Decode binhexed file'''
     init_inputs = [
         rc.NodeInputBP(label='inp'),
 rc.NodeInputBP(label='out'),

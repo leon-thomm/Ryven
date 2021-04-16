@@ -5,7 +5,7 @@ import _tracemalloc
 class AutoNode__tracemalloc__get_object_traceback(rc.Node):
     title = '_get_object_traceback'
     type_ = '_tracemalloc'
-    description = '''Get the traceback where the Python object obj was allocated.
+    doc = '''Get the traceback where the Python object obj was allocated.
 
 Return a tuple of (filename: str, lineno: int) tuples.
 Return None if the tracemalloc module is disabled or did not
@@ -26,7 +26,7 @@ trace the allocation of the object.'''
 class AutoNode__tracemalloc__get_traces(rc.Node):
     title = '_get_traces'
     type_ = '_tracemalloc'
-    description = '''Get traces of all memory blocks allocated by Python.
+    doc = '''Get traces of all memory blocks allocated by Python.
 
 Return a list of (size: int, traceback: tuple) tuples.
 traceback is a tuple of (filename: str, lineno: int) tuples.
@@ -48,7 +48,7 @@ Return an empty list if the tracemalloc module is disabled.'''
 class AutoNode__tracemalloc_clear_traces(rc.Node):
     title = 'clear_traces'
     type_ = '_tracemalloc'
-    description = '''Clear traces of memory blocks allocated by Python.'''
+    doc = '''Clear traces of memory blocks allocated by Python.'''
     init_inputs = [
         
     ]
@@ -65,7 +65,7 @@ class AutoNode__tracemalloc_clear_traces(rc.Node):
 class AutoNode__tracemalloc_get_traceback_limit(rc.Node):
     title = 'get_traceback_limit'
     type_ = '_tracemalloc'
-    description = '''Get the maximum number of frames stored in the traceback of a trace.
+    doc = '''Get the maximum number of frames stored in the traceback of a trace.
 
 By default, a trace of an allocated memory block only stores
 the most recent frame: the limit is 1.'''
@@ -85,7 +85,7 @@ the most recent frame: the limit is 1.'''
 class AutoNode__tracemalloc_get_traced_memory(rc.Node):
     title = 'get_traced_memory'
     type_ = '_tracemalloc'
-    description = '''Get the current size and peak size of memory blocks traced by tracemalloc.
+    doc = '''Get the current size and peak size of memory blocks traced by tracemalloc.
 
 Returns a tuple: (current: int, peak: int).'''
     init_inputs = [
@@ -104,7 +104,7 @@ Returns a tuple: (current: int, peak: int).'''
 class AutoNode__tracemalloc_get_tracemalloc_memory(rc.Node):
     title = 'get_tracemalloc_memory'
     type_ = '_tracemalloc'
-    description = '''Get the memory usage in bytes of the tracemalloc module.
+    doc = '''Get the memory usage in bytes of the tracemalloc module.
 
 This memory is used internally to trace memory allocations.'''
     init_inputs = [
@@ -123,7 +123,7 @@ This memory is used internally to trace memory allocations.'''
 class AutoNode__tracemalloc_is_tracing(rc.Node):
     title = 'is_tracing'
     type_ = '_tracemalloc'
-    description = '''Return True if the tracemalloc module is tracing Python memory allocations.'''
+    doc = '''Return True if the tracemalloc module is tracing Python memory allocations.'''
     init_inputs = [
         
     ]
@@ -140,7 +140,7 @@ class AutoNode__tracemalloc_is_tracing(rc.Node):
 class AutoNode__tracemalloc_start(rc.Node):
     title = 'start'
     type_ = '_tracemalloc'
-    description = '''Start tracing Python memory allocations.
+    doc = '''Start tracing Python memory allocations.
 
 Also set the maximum number of frames stored in the traceback of a
 trace to nframe.'''
@@ -160,7 +160,7 @@ trace to nframe.'''
 class AutoNode__tracemalloc_stop(rc.Node):
     title = 'stop'
     type_ = '_tracemalloc'
-    description = '''Stop tracing Python memory allocations.
+    doc = '''Stop tracing Python memory allocations.
 
 Also clear traces of memory blocks allocated by Python.'''
     init_inputs = [

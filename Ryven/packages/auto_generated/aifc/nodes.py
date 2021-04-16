@@ -4,7 +4,7 @@ import aifc
 
 class AutoNode_aifc__read_float(rc.Node):
     title = '_read_float'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_aifc__read_float(rc.Node):
 
 class AutoNode_aifc__read_long(rc.Node):
     title = '_read_long'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_aifc__read_long(rc.Node):
 
 class AutoNode_aifc__read_short(rc.Node):
     title = '_read_short'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]
@@ -52,7 +52,7 @@ class AutoNode_aifc__read_short(rc.Node):
 
 class AutoNode_aifc__read_string(rc.Node):
     title = '_read_string'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]
@@ -68,7 +68,7 @@ class AutoNode_aifc__read_string(rc.Node):
 
 class AutoNode_aifc__read_ulong(rc.Node):
     title = '_read_ulong'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]
@@ -84,7 +84,7 @@ class AutoNode_aifc__read_ulong(rc.Node):
 
 class AutoNode_aifc__read_ushort(rc.Node):
     title = '_read_ushort'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
     ]
@@ -100,7 +100,7 @@ class AutoNode_aifc__read_ushort(rc.Node):
 
 class AutoNode_aifc__write_float(rc.Node):
     title = '_write_float'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='x'),
@@ -117,7 +117,7 @@ rc.NodeInputBP(label='x'),
 
 class AutoNode_aifc__write_long(rc.Node):
     title = '_write_long'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='x'),
@@ -134,7 +134,7 @@ rc.NodeInputBP(label='x'),
 
 class AutoNode_aifc__write_short(rc.Node):
     title = '_write_short'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='x'),
@@ -151,7 +151,7 @@ rc.NodeInputBP(label='x'),
 
 class AutoNode_aifc__write_string(rc.Node):
     title = '_write_string'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='s'),
@@ -168,7 +168,7 @@ rc.NodeInputBP(label='s'),
 
 class AutoNode_aifc__write_ulong(rc.Node):
     title = '_write_ulong'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='x'),
@@ -185,7 +185,7 @@ rc.NodeInputBP(label='x'),
 
 class AutoNode_aifc__write_ushort(rc.Node):
     title = '_write_ushort'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='x'),
@@ -202,7 +202,7 @@ rc.NodeInputBP(label='x'),
 
 class AutoNode_aifc_namedtuple(rc.Node):
     title = 'namedtuple'
-    description = '''Returns a new subclass of tuple with named fields.
+    doc = '''Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -240,7 +240,7 @@ rc.NodeInputBP(label='field_names'),
 
 class AutoNode_aifc_open(rc.Node):
     title = 'open'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='mode'),
@@ -257,7 +257,7 @@ rc.NodeInputBP(label='mode'),
 
 class AutoNode_aifc_openfp(rc.Node):
     title = 'openfp'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='mode'),

@@ -54,7 +54,7 @@ def parse_module(mod_name, color, target_path):
 class {node_name}(rc.Node):
     title = \'{name}\'
     type_ = \'{mod_name}\'
-    description = \'\'\'{doc}\'\'\'
+    doc = \'\'\'{doc}\'\'\'
     init_inputs = [
         {inputs}
     ]

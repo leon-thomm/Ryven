@@ -4,7 +4,7 @@ import multiprocessing
 
 class AutoNode_multiprocessing_Array(rc.Node):
     title = 'Array'
-    description = '''Returns a synchronized shared array'''
+    doc = '''Returns a synchronized shared array'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='typecode_or_type'),
@@ -22,7 +22,7 @@ rc.NodeInputBP(label='size_or_initializer'),
 
 class AutoNode_multiprocessing_Barrier(rc.Node):
     title = 'Barrier'
-    description = '''Returns a barrier object'''
+    doc = '''Returns a barrier object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='parties'),
@@ -41,7 +41,7 @@ rc.NodeInputBP(label='timeout'),
 
 class AutoNode_multiprocessing_BoundedSemaphore(rc.Node):
     title = 'BoundedSemaphore'
-    description = '''Returns a bounded semaphore object'''
+    doc = '''Returns a bounded semaphore object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='value'),
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_multiprocessing_Condition(rc.Node):
     title = 'Condition'
-    description = '''Returns a condition object'''
+    doc = '''Returns a condition object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='lock'),
@@ -75,7 +75,7 @@ rc.NodeInputBP(label='lock'),
 
 class AutoNode_multiprocessing_Event(rc.Node):
     title = 'Event'
-    description = '''Returns an event object'''
+    doc = '''Returns an event object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -91,7 +91,7 @@ class AutoNode_multiprocessing_Event(rc.Node):
 
 class AutoNode_multiprocessing_JoinableQueue(rc.Node):
     title = 'JoinableQueue'
-    description = '''Returns a queue object'''
+    doc = '''Returns a queue object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='maxsize'),
@@ -108,7 +108,7 @@ rc.NodeInputBP(label='maxsize'),
 
 class AutoNode_multiprocessing_Lock(rc.Node):
     title = 'Lock'
-    description = '''Returns a non-recursive lock object'''
+    doc = '''Returns a non-recursive lock object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -124,7 +124,7 @@ class AutoNode_multiprocessing_Lock(rc.Node):
 
 class AutoNode_multiprocessing_Manager(rc.Node):
     title = 'Manager'
-    description = '''Returns a manager associated with a running server process
+    doc = '''Returns a manager associated with a running server process
 
         The managers methods such as `Lock()`, `Condition()` and `Queue()`
         can be used to create shared objects.
@@ -144,7 +144,7 @@ class AutoNode_multiprocessing_Manager(rc.Node):
 
 class AutoNode_multiprocessing_Pipe(rc.Node):
     title = 'Pipe'
-    description = '''Returns two connection object connected by a pipe'''
+    doc = '''Returns two connection object connected by a pipe'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='duplex'),
@@ -161,7 +161,7 @@ rc.NodeInputBP(label='duplex'),
 
 class AutoNode_multiprocessing_Pool(rc.Node):
     title = 'Pool'
-    description = '''Returns a process pool object'''
+    doc = '''Returns a process pool object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='processes'),
@@ -181,7 +181,7 @@ rc.NodeInputBP(label='maxtasksperchild'),
 
 class AutoNode_multiprocessing_Queue(rc.Node):
     title = 'Queue'
-    description = '''Returns a queue object'''
+    doc = '''Returns a queue object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='maxsize'),
@@ -198,7 +198,7 @@ rc.NodeInputBP(label='maxsize'),
 
 class AutoNode_multiprocessing_RLock(rc.Node):
     title = 'RLock'
-    description = '''Returns a recursive lock object'''
+    doc = '''Returns a recursive lock object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -214,7 +214,7 @@ class AutoNode_multiprocessing_RLock(rc.Node):
 
 class AutoNode_multiprocessing_RawArray(rc.Node):
     title = 'RawArray'
-    description = '''Returns a shared array'''
+    doc = '''Returns a shared array'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='typecode_or_type'),
@@ -232,7 +232,7 @@ rc.NodeInputBP(label='size_or_initializer'),
 
 class AutoNode_multiprocessing_RawValue(rc.Node):
     title = 'RawValue'
-    description = '''Returns a shared object'''
+    doc = '''Returns a shared object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='typecode_or_type'),
@@ -249,7 +249,7 @@ rc.NodeInputBP(label='typecode_or_type'),
 
 class AutoNode_multiprocessing_Semaphore(rc.Node):
     title = 'Semaphore'
-    description = '''Returns a semaphore object'''
+    doc = '''Returns a semaphore object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='value'),
@@ -266,7 +266,7 @@ rc.NodeInputBP(label='value'),
 
 class AutoNode_multiprocessing_SimpleQueue(rc.Node):
     title = 'SimpleQueue'
-    description = '''Returns a queue object'''
+    doc = '''Returns a queue object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -282,7 +282,7 @@ class AutoNode_multiprocessing_SimpleQueue(rc.Node):
 
 class AutoNode_multiprocessing_Value(rc.Node):
     title = 'Value'
-    description = '''Returns a synchronized shared object'''
+    doc = '''Returns a synchronized shared object'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='typecode_or_type'),
@@ -299,7 +299,7 @@ rc.NodeInputBP(label='typecode_or_type'),
 
 class AutoNode_multiprocessing_active_children(rc.Node):
     title = 'active_children'
-    description = '''
+    doc = '''
     Return list of process objects corresponding to live child processes
     '''
     init_inputs = [
@@ -317,7 +317,7 @@ class AutoNode_multiprocessing_active_children(rc.Node):
 
 class AutoNode_multiprocessing_allow_connection_pickling(rc.Node):
     title = 'allow_connection_pickling'
-    description = '''Install support for sending connections and sockets
+    doc = '''Install support for sending connections and sockets
         between processes
         '''
     init_inputs = [
@@ -335,7 +335,7 @@ class AutoNode_multiprocessing_allow_connection_pickling(rc.Node):
 
 class AutoNode_multiprocessing_cpu_count(rc.Node):
     title = 'cpu_count'
-    description = '''Returns the number of CPUs in the system'''
+    doc = '''Returns the number of CPUs in the system'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -351,7 +351,7 @@ class AutoNode_multiprocessing_cpu_count(rc.Node):
 
 class AutoNode_multiprocessing_current_process(rc.Node):
     title = 'current_process'
-    description = '''
+    doc = '''
     Return process object representing the current process
     '''
     init_inputs = [
@@ -369,7 +369,7 @@ class AutoNode_multiprocessing_current_process(rc.Node):
 
 class AutoNode_multiprocessing_freeze_support(rc.Node):
     title = 'freeze_support'
-    description = '''Check whether this is a fake forked process in a frozen executable.
+    doc = '''Check whether this is a fake forked process in a frozen executable.
         If so then run code specified by commandline and exit.
         '''
     init_inputs = [
@@ -387,7 +387,7 @@ class AutoNode_multiprocessing_freeze_support(rc.Node):
 
 class AutoNode_multiprocessing_get_all_start_methods(rc.Node):
     title = 'get_all_start_methods'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
     ]
@@ -403,7 +403,7 @@ class AutoNode_multiprocessing_get_all_start_methods(rc.Node):
 
 class AutoNode_multiprocessing_get_context(rc.Node):
     title = 'get_context'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='method'),
@@ -420,7 +420,7 @@ rc.NodeInputBP(label='method'),
 
 class AutoNode_multiprocessing_get_logger(rc.Node):
     title = 'get_logger'
-    description = '''Return package logger -- if it does not already exist then
+    doc = '''Return package logger -- if it does not already exist then
         it is created.
         '''
     init_inputs = [
@@ -438,7 +438,7 @@ class AutoNode_multiprocessing_get_logger(rc.Node):
 
 class AutoNode_multiprocessing_get_start_method(rc.Node):
     title = 'get_start_method'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='allow_none'),
@@ -455,7 +455,7 @@ rc.NodeInputBP(label='allow_none'),
 
 class AutoNode_multiprocessing_log_to_stderr(rc.Node):
     title = 'log_to_stderr'
-    description = '''Turn on logging and add a handler which prints to stderr'''
+    doc = '''Turn on logging and add a handler which prints to stderr'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='level'),
@@ -472,7 +472,7 @@ rc.NodeInputBP(label='level'),
 
 class AutoNode_multiprocessing_parent_process(rc.Node):
     title = 'parent_process'
-    description = '''
+    doc = '''
     Return process object representing the parent process
     '''
     init_inputs = [
@@ -490,7 +490,7 @@ class AutoNode_multiprocessing_parent_process(rc.Node):
 
 class AutoNode_multiprocessing_set_executable(rc.Node):
     title = 'set_executable'
-    description = '''Sets the path to a python.exe or pythonw.exe binary used to run
+    doc = '''Sets the path to a python.exe or pythonw.exe binary used to run
         child processes instead of sys.executable when using the 'spawn'
         start method.  Useful for people embedding Python.
         '''
@@ -510,7 +510,7 @@ rc.NodeInputBP(label='executable'),
 
 class AutoNode_multiprocessing_set_forkserver_preload(rc.Node):
     title = 'set_forkserver_preload'
-    description = '''Set list of module names to try to load in forkserver process.
+    doc = '''Set list of module names to try to load in forkserver process.
         This is really just a hint.
         '''
     init_inputs = [
@@ -529,7 +529,7 @@ rc.NodeInputBP(label='module_names'),
 
 class AutoNode_multiprocessing_set_start_method(rc.Node):
     title = 'set_start_method'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='method'),

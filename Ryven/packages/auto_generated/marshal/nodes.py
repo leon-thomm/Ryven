@@ -5,7 +5,7 @@ import marshal
 class AutoNode_marshal_dump(rc.Node):
     title = 'dump'
     type_ = 'marshal'
-    description = '''Write the value on the open file.
+    doc = '''Write the value on the open file.
 
   value
     Must be a supported type.
@@ -35,7 +35,7 @@ rc.NodeInputBP(label='version'),
 class AutoNode_marshal_dumps(rc.Node):
     title = 'dumps'
     type_ = 'marshal'
-    description = '''Return the bytes object that would be written to a file by dump(value, file).
+    doc = '''Return the bytes object that would be written to a file by dump(value, file).
 
   value
     Must be a supported type.
@@ -61,7 +61,7 @@ rc.NodeInputBP(label='version'),
 class AutoNode_marshal_load(rc.Node):
     title = 'load'
     type_ = 'marshal'
-    description = '''Read one value from the open file and return it.
+    doc = '''Read one value from the open file and return it.
 
   file
     Must be readable binary file.
@@ -88,7 +88,7 @@ dump(), load() will substitute None for the unmarshallable type.'''
 class AutoNode_marshal_loads(rc.Node):
     title = 'loads'
     type_ = 'marshal'
-    description = '''Convert the bytes-like object to a value.
+    doc = '''Convert the bytes-like object to a value.
 
 If no valid value is found, raise EOFError, ValueError or TypeError.  Extra
 bytes in the input are ignored.'''

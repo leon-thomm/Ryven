@@ -5,7 +5,7 @@ import _statistics
 class AutoNode__statistics__normal_dist_inv_cdf(rc.Node):
     title = '_normal_dist_inv_cdf'
     type_ = '_statistics'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='p'),
 rc.NodeInputBP(label='mu'),

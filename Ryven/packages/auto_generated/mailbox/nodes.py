@@ -4,7 +4,7 @@ import mailbox
 
 class AutoNode_mailbox__create_carefully(rc.Node):
     title = '_create_carefully'
-    description = '''Create a file if it doesn't exist and open for reading and writing.'''
+    doc = '''Create a file if it doesn't exist and open for reading and writing.'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_mailbox__create_carefully(rc.Node):
 
 class AutoNode_mailbox__create_temporary(rc.Node):
     title = '_create_temporary'
-    description = '''Create a temp file based on path and open for reading and writing.'''
+    doc = '''Create a temp file based on path and open for reading and writing.'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_mailbox__create_temporary(rc.Node):
 
 class AutoNode_mailbox__lock_file(rc.Node):
     title = '_lock_file'
-    description = '''Lock file f using lockf and dot locking.'''
+    doc = '''Lock file f using lockf and dot locking.'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
 rc.NodeInputBP(label='dotlock'),
@@ -53,7 +53,7 @@ rc.NodeInputBP(label='dotlock'),
 
 class AutoNode_mailbox__sync_close(rc.Node):
     title = '_sync_close'
-    description = '''Close file f, ensuring all changes are physically on disk.'''
+    doc = '''Close file f, ensuring all changes are physically on disk.'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
     ]
@@ -69,7 +69,7 @@ class AutoNode_mailbox__sync_close(rc.Node):
 
 class AutoNode_mailbox__sync_flush(rc.Node):
     title = '_sync_flush'
-    description = '''Ensure changes to file f are physically on disk.'''
+    doc = '''Ensure changes to file f are physically on disk.'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
     ]
@@ -85,7 +85,7 @@ class AutoNode_mailbox__sync_flush(rc.Node):
 
 class AutoNode_mailbox__unlock_file(rc.Node):
     title = '_unlock_file'
-    description = '''Unlock file f using lockf and dot locking.'''
+    doc = '''Unlock file f using lockf and dot locking.'''
     init_inputs = [
         rc.NodeInputBP(label='f'),
     ]

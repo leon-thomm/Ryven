@@ -5,7 +5,7 @@ import _sre
 class AutoNode__sre_ascii_iscased(rc.Node):
     title = 'ascii_iscased'
     type_ = '_sre'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='character'),
     ]
@@ -22,7 +22,7 @@ class AutoNode__sre_ascii_iscased(rc.Node):
 class AutoNode__sre_ascii_tolower(rc.Node):
     title = 'ascii_tolower'
     type_ = '_sre'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='character'),
     ]
@@ -39,7 +39,7 @@ class AutoNode__sre_ascii_tolower(rc.Node):
 class AutoNode__sre_compile(rc.Node):
     title = 'compile'
     type_ = '_sre'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='pattern'),
 rc.NodeInputBP(label='flags'),
@@ -61,7 +61,7 @@ rc.NodeInputBP(label='indexgroup'),
 class AutoNode__sre_getcodesize(rc.Node):
     title = 'getcodesize'
     type_ = '_sre'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         
     ]
@@ -78,7 +78,7 @@ class AutoNode__sre_getcodesize(rc.Node):
 class AutoNode__sre_unicode_iscased(rc.Node):
     title = 'unicode_iscased'
     type_ = '_sre'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='character'),
     ]
@@ -95,7 +95,7 @@ class AutoNode__sre_unicode_iscased(rc.Node):
 class AutoNode__sre_unicode_tolower(rc.Node):
     title = 'unicode_tolower'
     type_ = '_sre'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='character'),
     ]

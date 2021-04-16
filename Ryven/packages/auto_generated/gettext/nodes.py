@@ -4,7 +4,7 @@ import gettext
 
 class AutoNode_gettext_Catalog(rc.Node):
     title = 'Catalog'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='localedir'),
@@ -25,7 +25,7 @@ rc.NodeInputBP(label='codeset'),
 
 class AutoNode_gettext__as_int(rc.Node):
     title = '_as_int'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='n'),
     ]
@@ -41,7 +41,7 @@ class AutoNode_gettext__as_int(rc.Node):
 
 class AutoNode_gettext__error(rc.Node):
     title = '_error'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='value'),
     ]
@@ -57,7 +57,7 @@ class AutoNode_gettext__error(rc.Node):
 
 class AutoNode_gettext__expand_lang(rc.Node):
     title = '_expand_lang'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='loc'),
     ]
@@ -73,7 +73,7 @@ class AutoNode_gettext__expand_lang(rc.Node):
 
 class AutoNode_gettext__parse(rc.Node):
     title = '_parse'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='tokens'),
 rc.NodeInputBP(label='priority'),
@@ -90,7 +90,7 @@ rc.NodeInputBP(label='priority'),
 
 class AutoNode_gettext__tokenize(rc.Node):
     title = '_tokenize'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='plural'),
     ]
@@ -106,7 +106,7 @@ class AutoNode_gettext__tokenize(rc.Node):
 
 class AutoNode_gettext_bind_textdomain_codeset(rc.Node):
     title = 'bind_textdomain_codeset'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='codeset'),
@@ -123,7 +123,7 @@ rc.NodeInputBP(label='codeset'),
 
 class AutoNode_gettext_bindtextdomain(rc.Node):
     title = 'bindtextdomain'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='localedir'),
@@ -140,7 +140,7 @@ rc.NodeInputBP(label='localedir'),
 
 class AutoNode_gettext_c2py(rc.Node):
     title = 'c2py'
-    description = '''Gets a C expression as used in PO files for plural forms and returns a
+    doc = '''Gets a C expression as used in PO files for plural forms and returns a
     Python function that implements an equivalent expression.
     '''
     init_inputs = [
@@ -158,7 +158,7 @@ class AutoNode_gettext_c2py(rc.Node):
 
 class AutoNode_gettext_dgettext(rc.Node):
     title = 'dgettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='message'),
@@ -175,7 +175,7 @@ rc.NodeInputBP(label='message'),
 
 class AutoNode_gettext_dngettext(rc.Node):
     title = 'dngettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='msgid1'),
@@ -194,7 +194,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_gettext_dnpgettext(rc.Node):
     title = 'dnpgettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='context'),
@@ -214,7 +214,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_gettext_dpgettext(rc.Node):
     title = 'dpgettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='context'),
@@ -232,7 +232,7 @@ rc.NodeInputBP(label='message'),
 
 class AutoNode_gettext_find(rc.Node):
     title = 'find'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='localedir'),
@@ -251,7 +251,7 @@ rc.NodeInputBP(label='all'),
 
 class AutoNode_gettext_gettext(rc.Node):
     title = 'gettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
     ]
@@ -267,7 +267,7 @@ class AutoNode_gettext_gettext(rc.Node):
 
 class AutoNode_gettext_install(rc.Node):
     title = 'install'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='localedir'),
@@ -286,7 +286,7 @@ rc.NodeInputBP(label='names'),
 
 class AutoNode_gettext_ldgettext(rc.Node):
     title = 'ldgettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='message'),
@@ -303,7 +303,7 @@ rc.NodeInputBP(label='message'),
 
 class AutoNode_gettext_ldngettext(rc.Node):
     title = 'ldngettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='msgid1'),
@@ -322,7 +322,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_gettext_lgettext(rc.Node):
     title = 'lgettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
     ]
@@ -338,7 +338,7 @@ class AutoNode_gettext_lgettext(rc.Node):
 
 class AutoNode_gettext_lngettext(rc.Node):
     title = 'lngettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='msgid1'),
 rc.NodeInputBP(label='msgid2'),
@@ -356,7 +356,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_gettext_ngettext(rc.Node):
     title = 'ngettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='msgid1'),
 rc.NodeInputBP(label='msgid2'),
@@ -374,7 +374,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_gettext_npgettext(rc.Node):
     title = 'npgettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='context'),
 rc.NodeInputBP(label='msgid1'),
@@ -393,7 +393,7 @@ rc.NodeInputBP(label='n'),
 
 class AutoNode_gettext_pgettext(rc.Node):
     title = 'pgettext'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='context'),
 rc.NodeInputBP(label='message'),
@@ -410,7 +410,7 @@ rc.NodeInputBP(label='message'),
 
 class AutoNode_gettext_textdomain(rc.Node):
     title = 'textdomain'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
     ]
@@ -426,7 +426,7 @@ class AutoNode_gettext_textdomain(rc.Node):
 
 class AutoNode_gettext_translation(rc.Node):
     title = 'translation'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='domain'),
 rc.NodeInputBP(label='localedir'),

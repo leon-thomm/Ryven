@@ -5,7 +5,7 @@ import _weakref
 class AutoNode__weakref__remove_dead_weakref(rc.Node):
     title = '_remove_dead_weakref'
     type_ = '_weakref'
-    description = '''Atomically remove key from dict if it points to a dead weakref.'''
+    doc = '''Atomically remove key from dict if it points to a dead weakref.'''
     init_inputs = [
         rc.NodeInputBP(label='dct'),
 rc.NodeInputBP(label='key'),
@@ -23,7 +23,7 @@ rc.NodeInputBP(label='key'),
 class AutoNode__weakref_getweakrefcount(rc.Node):
     title = 'getweakrefcount'
     type_ = '_weakref'
-    description = '''Return the number of weak references to 'object'.'''
+    doc = '''Return the number of weak references to 'object'.'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]

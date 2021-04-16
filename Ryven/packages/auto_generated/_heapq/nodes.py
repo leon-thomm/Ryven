@@ -5,7 +5,7 @@ import _heapq
 class AutoNode__heapq__heapify_max(rc.Node):
     title = '_heapify_max'
     type_ = '_heapq'
-    description = '''Maxheap variant of heapify.'''
+    doc = '''Maxheap variant of heapify.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -22,7 +22,7 @@ class AutoNode__heapq__heapify_max(rc.Node):
 class AutoNode__heapq__heappop_max(rc.Node):
     title = '_heappop_max'
     type_ = '_heapq'
-    description = '''Maxheap variant of heappop.'''
+    doc = '''Maxheap variant of heappop.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -39,7 +39,7 @@ class AutoNode__heapq__heappop_max(rc.Node):
 class AutoNode__heapq__heapreplace_max(rc.Node):
     title = '_heapreplace_max'
     type_ = '_heapq'
-    description = '''Maxheap variant of heapreplace.'''
+    doc = '''Maxheap variant of heapreplace.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='item'),
@@ -57,7 +57,7 @@ rc.NodeInputBP(label='item'),
 class AutoNode__heapq_heapify(rc.Node):
     title = 'heapify'
     type_ = '_heapq'
-    description = '''Transform list into a heap, in-place, in O(len(heap)) time.'''
+    doc = '''Transform list into a heap, in-place, in O(len(heap)) time.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -74,7 +74,7 @@ class AutoNode__heapq_heapify(rc.Node):
 class AutoNode__heapq_heappop(rc.Node):
     title = 'heappop'
     type_ = '_heapq'
-    description = '''Pop the smallest item off the heap, maintaining the heap invariant.'''
+    doc = '''Pop the smallest item off the heap, maintaining the heap invariant.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -91,7 +91,7 @@ class AutoNode__heapq_heappop(rc.Node):
 class AutoNode__heapq_heappush(rc.Node):
     title = 'heappush'
     type_ = '_heapq'
-    description = '''Push item onto heap, maintaining the heap invariant.'''
+    doc = '''Push item onto heap, maintaining the heap invariant.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='item'),
@@ -109,7 +109,7 @@ rc.NodeInputBP(label='item'),
 class AutoNode__heapq_heappushpop(rc.Node):
     title = 'heappushpop'
     type_ = '_heapq'
-    description = '''Push item on the heap, then pop and return the smallest item from the heap.
+    doc = '''Push item on the heap, then pop and return the smallest item from the heap.
 
 The combined action runs more efficiently than heappush() followed by
 a separate call to heappop().'''
@@ -130,7 +130,7 @@ rc.NodeInputBP(label='item'),
 class AutoNode__heapq_heapreplace(rc.Node):
     title = 'heapreplace'
     type_ = '_heapq'
-    description = '''Pop and return the current smallest value, and add the new item.
+    doc = '''Pop and return the current smallest value, and add the new item.
 
 This is more efficient than heappop() followed by heappush(), and can be
 more appropriate when using a fixed-size heap.  Note that the value

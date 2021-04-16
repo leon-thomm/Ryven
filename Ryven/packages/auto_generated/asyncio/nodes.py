@@ -4,7 +4,7 @@ import asyncio
 
 class AutoNode_asyncio__all_tasks_compat(rc.Node):
     title = '_all_tasks_compat'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='loop'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_asyncio__all_tasks_compat(rc.Node):
 
 class AutoNode_asyncio__enter_task(rc.Node):
     title = '_enter_task'
-    description = '''Enter into task execution or resume suspended task.
+    doc = '''Enter into task execution or resume suspended task.
 
 Task belongs to loop.
 
@@ -41,7 +41,7 @@ rc.NodeInputBP(label='task'),
 
 class AutoNode_asyncio__get_running_loop(rc.Node):
     title = '_get_running_loop'
-    description = '''Return the running event loop or None.
+    doc = '''Return the running event loop or None.
 
 This is a low-level function intended to be used by event loops.
 This function is thread-specific.'''
@@ -60,7 +60,7 @@ This function is thread-specific.'''
 
 class AutoNode_asyncio__leave_task(rc.Node):
     title = '_leave_task'
-    description = '''Leave task execution or suspend a task.
+    doc = '''Leave task execution or suspend a task.
 
 Task belongs to loop.
 
@@ -81,7 +81,7 @@ rc.NodeInputBP(label='task'),
 
 class AutoNode_asyncio__register_task(rc.Node):
     title = '_register_task'
-    description = '''Register a new task in asyncio as executed by loop.
+    doc = '''Register a new task in asyncio as executed by loop.
 
 Returns None.'''
     init_inputs = [
@@ -99,7 +99,7 @@ Returns None.'''
 
 class AutoNode_asyncio__set_running_loop(rc.Node):
     title = '_set_running_loop'
-    description = '''Set the running event loop.
+    doc = '''Set the running event loop.
 
 This is a low-level function intended to be used by event loops.
 This function is thread-specific.'''
@@ -118,7 +118,7 @@ This function is thread-specific.'''
 
 class AutoNode_asyncio__unregister_task(rc.Node):
     title = '_unregister_task'
-    description = '''Unregister a task.
+    doc = '''Unregister a task.
 
 Returns None.'''
     init_inputs = [
@@ -136,7 +136,7 @@ Returns None.'''
 
 class AutoNode_asyncio_all_tasks(rc.Node):
     title = 'all_tasks'
-    description = '''Return a set of all tasks for the loop.'''
+    doc = '''Return a set of all tasks for the loop.'''
     init_inputs = [
         rc.NodeInputBP(label='loop'),
     ]
@@ -152,7 +152,7 @@ class AutoNode_asyncio_all_tasks(rc.Node):
 
 class AutoNode_asyncio_as_completed(rc.Node):
     title = 'as_completed'
-    description = '''Return an iterator whose values are coroutines.
+    doc = '''Return an iterator whose values are coroutines.
 
     When waiting for the yielded coroutines you'll get the results (or
     exceptions!) of the original Futures (or coroutines), in the order
@@ -184,7 +184,7 @@ class AutoNode_asyncio_as_completed(rc.Node):
 
 class AutoNode_asyncio_coroutine(rc.Node):
     title = 'coroutine'
-    description = '''Decorator to mark coroutines.
+    doc = '''Decorator to mark coroutines.
 
     If the coroutine is not yielded from before it is destroyed,
     an error message is logged.
@@ -204,7 +204,7 @@ class AutoNode_asyncio_coroutine(rc.Node):
 
 class AutoNode_asyncio_create_subprocess_exec(rc.Node):
     title = 'create_subprocess_exec'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='program'),
     ]
@@ -220,7 +220,7 @@ class AutoNode_asyncio_create_subprocess_exec(rc.Node):
 
 class AutoNode_asyncio_create_subprocess_shell(rc.Node):
     title = 'create_subprocess_shell'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cmd'),
 rc.NodeInputBP(label='stdin'),
@@ -241,7 +241,7 @@ rc.NodeInputBP(label='limit'),
 
 class AutoNode_asyncio_create_task(rc.Node):
     title = 'create_task'
-    description = '''Schedule the execution of a coroutine object in a spawn task.
+    doc = '''Schedule the execution of a coroutine object in a spawn task.
 
     Return a Task object.
     '''
@@ -260,7 +260,7 @@ class AutoNode_asyncio_create_task(rc.Node):
 
 class AutoNode_asyncio_current_task(rc.Node):
     title = 'current_task'
-    description = '''Return a currently executed task.'''
+    doc = '''Return a currently executed task.'''
     init_inputs = [
         rc.NodeInputBP(label='loop'),
     ]
@@ -276,7 +276,7 @@ class AutoNode_asyncio_current_task(rc.Node):
 
 class AutoNode_asyncio_ensure_future(rc.Node):
     title = 'ensure_future'
-    description = '''Wrap a coroutine or an awaitable in a future.
+    doc = '''Wrap a coroutine or an awaitable in a future.
 
     If the argument is a Future, it is returned directly.
     '''
@@ -295,7 +295,7 @@ class AutoNode_asyncio_ensure_future(rc.Node):
 
 class AutoNode_asyncio_gather(rc.Node):
     title = 'gather'
-    description = '''Return a future aggregating results from the given coroutines/futures.
+    doc = '''Return a future aggregating results from the given coroutines/futures.
 
     Coroutines will be wrapped in a future and scheduled in the event
     loop. They will not necessarily be scheduled in the same order as
@@ -339,7 +339,7 @@ class AutoNode_asyncio_gather(rc.Node):
 
 class AutoNode_asyncio_get_child_watcher(rc.Node):
     title = 'get_child_watcher'
-    description = '''Equivalent to calling get_event_loop_policy().get_child_watcher().'''
+    doc = '''Equivalent to calling get_event_loop_policy().get_child_watcher().'''
     init_inputs = [
         
     ]
@@ -355,7 +355,7 @@ class AutoNode_asyncio_get_child_watcher(rc.Node):
 
 class AutoNode_asyncio_get_event_loop(rc.Node):
     title = 'get_event_loop'
-    description = '''Return an asyncio event loop.
+    doc = '''Return an asyncio event loop.
 
 When called from a coroutine or a callback (e.g. scheduled with
 call_soon or similar API), this function will always return the
@@ -378,7 +378,7 @@ the result of `get_event_loop_policy().get_event_loop()` call.'''
 
 class AutoNode_asyncio_get_event_loop_policy(rc.Node):
     title = 'get_event_loop_policy'
-    description = '''Get the current event loop policy.'''
+    doc = '''Get the current event loop policy.'''
     init_inputs = [
         
     ]
@@ -394,7 +394,7 @@ class AutoNode_asyncio_get_event_loop_policy(rc.Node):
 
 class AutoNode_asyncio_get_running_loop(rc.Node):
     title = 'get_running_loop'
-    description = '''Return the running event loop.  Raise a RuntimeError if there is none.
+    doc = '''Return the running event loop.  Raise a RuntimeError if there is none.
 
 This function is thread-specific.'''
     init_inputs = [
@@ -412,7 +412,7 @@ This function is thread-specific.'''
 
 class AutoNode_asyncio_iscoroutine(rc.Node):
     title = 'iscoroutine'
-    description = '''Return True if obj is a coroutine object.'''
+    doc = '''Return True if obj is a coroutine object.'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -428,7 +428,7 @@ class AutoNode_asyncio_iscoroutine(rc.Node):
 
 class AutoNode_asyncio_iscoroutinefunction(rc.Node):
     title = 'iscoroutinefunction'
-    description = '''Return True if func is a decorated coroutine function.'''
+    doc = '''Return True if func is a decorated coroutine function.'''
     init_inputs = [
         rc.NodeInputBP(label='func'),
     ]
@@ -444,7 +444,7 @@ class AutoNode_asyncio_iscoroutinefunction(rc.Node):
 
 class AutoNode_asyncio_isfuture(rc.Node):
     title = 'isfuture'
-    description = '''Check for a Future.
+    doc = '''Check for a Future.
 
     This returns True when obj is a Future instance or is advertising
     itself as duck-type compatible by setting _asyncio_future_blocking.
@@ -465,7 +465,7 @@ class AutoNode_asyncio_isfuture(rc.Node):
 
 class AutoNode_asyncio_new_event_loop(rc.Node):
     title = 'new_event_loop'
-    description = '''Equivalent to calling get_event_loop_policy().new_event_loop().'''
+    doc = '''Equivalent to calling get_event_loop_policy().new_event_loop().'''
     init_inputs = [
         
     ]
@@ -481,7 +481,7 @@ class AutoNode_asyncio_new_event_loop(rc.Node):
 
 class AutoNode_asyncio_open_connection(rc.Node):
     title = 'open_connection'
-    description = '''A wrapper for create_connection() returning a (reader, writer) pair.
+    doc = '''A wrapper for create_connection() returning a (reader, writer) pair.
 
     The reader returned is a StreamReader instance; the writer is a
     StreamWriter instance.
@@ -514,7 +514,7 @@ rc.NodeInputBP(label='port'),
 
 class AutoNode_asyncio_run(rc.Node):
     title = 'run'
-    description = '''Execute the coroutine and return the result.
+    doc = '''Execute the coroutine and return the result.
 
     This function runs the passed coroutine, taking care of
     managing the asyncio event loop and finalizing asynchronous
@@ -552,7 +552,7 @@ class AutoNode_asyncio_run(rc.Node):
 
 class AutoNode_asyncio_run_coroutine_threadsafe(rc.Node):
     title = 'run_coroutine_threadsafe'
-    description = '''Submit a coroutine object to a given event loop.
+    doc = '''Submit a coroutine object to a given event loop.
 
     Return a concurrent.futures.Future to access the result.
     '''
@@ -572,7 +572,7 @@ rc.NodeInputBP(label='loop'),
 
 class AutoNode_asyncio_set_child_watcher(rc.Node):
     title = 'set_child_watcher'
-    description = '''Equivalent to calling
+    doc = '''Equivalent to calling
     get_event_loop_policy().set_child_watcher(watcher).'''
     init_inputs = [
         rc.NodeInputBP(label='watcher'),
@@ -589,7 +589,7 @@ class AutoNode_asyncio_set_child_watcher(rc.Node):
 
 class AutoNode_asyncio_set_event_loop(rc.Node):
     title = 'set_event_loop'
-    description = '''Equivalent to calling get_event_loop_policy().set_event_loop(loop).'''
+    doc = '''Equivalent to calling get_event_loop_policy().set_event_loop(loop).'''
     init_inputs = [
         rc.NodeInputBP(label='loop'),
     ]
@@ -605,7 +605,7 @@ class AutoNode_asyncio_set_event_loop(rc.Node):
 
 class AutoNode_asyncio_set_event_loop_policy(rc.Node):
     title = 'set_event_loop_policy'
-    description = '''Set the current event loop policy.
+    doc = '''Set the current event loop policy.
 
     If policy is None, the default policy is restored.'''
     init_inputs = [
@@ -623,7 +623,7 @@ class AutoNode_asyncio_set_event_loop_policy(rc.Node):
 
 class AutoNode_asyncio_shield(rc.Node):
     title = 'shield'
-    description = '''Wait for a future, shielding it from cancellation.
+    doc = '''Wait for a future, shielding it from cancellation.
 
     The statement
 
@@ -663,7 +663,7 @@ class AutoNode_asyncio_shield(rc.Node):
 
 class AutoNode_asyncio_sleep(rc.Node):
     title = 'sleep'
-    description = '''Coroutine that completes after a given time (in seconds).'''
+    doc = '''Coroutine that completes after a given time (in seconds).'''
     init_inputs = [
         rc.NodeInputBP(label='delay'),
 rc.NodeInputBP(label='result'),
@@ -680,7 +680,7 @@ rc.NodeInputBP(label='result'),
 
 class AutoNode_asyncio_start_server(rc.Node):
     title = 'start_server'
-    description = '''Start a socket server, call back for each client connected.
+    doc = '''Start a socket server, call back for each client connected.
 
     The first parameter, `client_connected_cb`, takes two parameters:
     client_reader, client_writer.  client_reader is a StreamReader
@@ -718,7 +718,7 @@ rc.NodeInputBP(label='port'),
 
 class AutoNode_asyncio_wait(rc.Node):
     title = 'wait'
-    description = '''Wait for the Futures and coroutines given by fs to complete.
+    doc = '''Wait for the Futures and coroutines given by fs to complete.
 
     The fs iterable must not be empty.
 
@@ -748,7 +748,7 @@ class AutoNode_asyncio_wait(rc.Node):
 
 class AutoNode_asyncio_wait_for(rc.Node):
     title = 'wait_for'
-    description = '''Wait for the single Future or coroutine to complete, with timeout.
+    doc = '''Wait for the single Future or coroutine to complete, with timeout.
 
     Coroutine will be wrapped in Task.
 
@@ -776,7 +776,7 @@ rc.NodeInputBP(label='timeout'),
 
 class AutoNode_asyncio_wrap_future(rc.Node):
     title = 'wrap_future'
-    description = '''Wrap concurrent.futures.Future object.'''
+    doc = '''Wrap concurrent.futures.Future object.'''
     init_inputs = [
         rc.NodeInputBP(label='future'),
     ]

@@ -5,7 +5,7 @@ import _sha1
 class AutoNode__sha1_sha1(rc.Node):
     title = 'sha1'
     type_ = '_sha1'
-    description = '''Return a new SHA1 hash object; optionally initialized with a string.'''
+    doc = '''Return a new SHA1 hash object; optionally initialized with a string.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]

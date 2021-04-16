@@ -4,7 +4,7 @@ import glob
 
 class AutoNode_glob__glob0(rc.Node):
     title = '_glob0'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='dirname'),
 rc.NodeInputBP(label='basename'),
@@ -22,7 +22,7 @@ rc.NodeInputBP(label='dironly'),
 
 class AutoNode_glob__glob1(rc.Node):
     title = '_glob1'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='dirname'),
 rc.NodeInputBP(label='pattern'),
@@ -40,7 +40,7 @@ rc.NodeInputBP(label='dironly'),
 
 class AutoNode_glob__glob2(rc.Node):
     title = '_glob2'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='dirname'),
 rc.NodeInputBP(label='pattern'),
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='dironly'),
 
 class AutoNode_glob__iglob(rc.Node):
     title = '_iglob'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='pathname'),
 rc.NodeInputBP(label='recursive'),
@@ -76,7 +76,7 @@ rc.NodeInputBP(label='dironly'),
 
 class AutoNode_glob__ishidden(rc.Node):
     title = '_ishidden'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='path'),
     ]
@@ -92,7 +92,7 @@ class AutoNode_glob__ishidden(rc.Node):
 
 class AutoNode_glob__isrecursive(rc.Node):
     title = '_isrecursive'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='pattern'),
     ]
@@ -108,7 +108,7 @@ class AutoNode_glob__isrecursive(rc.Node):
 
 class AutoNode_glob__iterdir(rc.Node):
     title = '_iterdir'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='dirname'),
 rc.NodeInputBP(label='dironly'),
@@ -125,7 +125,7 @@ rc.NodeInputBP(label='dironly'),
 
 class AutoNode_glob__rlistdir(rc.Node):
     title = '_rlistdir'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='dirname'),
 rc.NodeInputBP(label='dironly'),
@@ -142,7 +142,7 @@ rc.NodeInputBP(label='dironly'),
 
 class AutoNode_glob_escape(rc.Node):
     title = 'escape'
-    description = '''Escape all special characters.
+    doc = '''Escape all special characters.
     '''
     init_inputs = [
         rc.NodeInputBP(label='pathname'),
@@ -159,7 +159,7 @@ class AutoNode_glob_escape(rc.Node):
 
 class AutoNode_glob_glob(rc.Node):
     title = 'glob'
-    description = '''Return a list of paths matching a pathname pattern.
+    doc = '''Return a list of paths matching a pathname pattern.
 
     The pattern may contain simple shell-style wildcards a la
     fnmatch. However, unlike fnmatch, filenames starting with a
@@ -184,7 +184,7 @@ class AutoNode_glob_glob(rc.Node):
 
 class AutoNode_glob_glob0(rc.Node):
     title = 'glob0'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='dirname'),
 rc.NodeInputBP(label='pattern'),
@@ -201,7 +201,7 @@ rc.NodeInputBP(label='pattern'),
 
 class AutoNode_glob_glob1(rc.Node):
     title = 'glob1'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='dirname'),
 rc.NodeInputBP(label='pattern'),
@@ -218,7 +218,7 @@ rc.NodeInputBP(label='pattern'),
 
 class AutoNode_glob_has_magic(rc.Node):
     title = 'has_magic'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -234,7 +234,7 @@ class AutoNode_glob_has_magic(rc.Node):
 
 class AutoNode_glob_iglob(rc.Node):
     title = 'iglob'
-    description = '''Return an iterator which yields the paths matching a pathname pattern.
+    doc = '''Return an iterator which yields the paths matching a pathname pattern.
 
     The pattern may contain simple shell-style wildcards a la
     fnmatch. However, unlike fnmatch, filenames starting with a

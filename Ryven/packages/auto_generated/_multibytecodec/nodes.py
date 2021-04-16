@@ -5,7 +5,7 @@ import _multibytecodec
 class AutoNode__multibytecodec___create_codec(rc.Node):
     title = '__create_codec'
     type_ = '_multibytecodec'
-    description = ''''''
+    doc = ''''''
     init_inputs = [
         rc.NodeInputBP(label='arg'),
     ]

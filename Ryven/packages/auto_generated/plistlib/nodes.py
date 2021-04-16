@@ -4,7 +4,7 @@ import plistlib
 
 class AutoNode_plistlib__count_to_size(rc.Node):
     title = '_count_to_size'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='count'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_plistlib__count_to_size(rc.Node):
 
 class AutoNode_plistlib__date_from_string(rc.Node):
     title = '_date_from_string'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_plistlib__date_from_string(rc.Node):
 
 class AutoNode_plistlib__date_to_string(rc.Node):
     title = '_date_to_string'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='d'),
     ]
@@ -52,7 +52,7 @@ class AutoNode_plistlib__date_to_string(rc.Node):
 
 class AutoNode_plistlib__decode_base64(rc.Node):
     title = '_decode_base64'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
     ]
@@ -68,7 +68,7 @@ class AutoNode_plistlib__decode_base64(rc.Node):
 
 class AutoNode_plistlib__encode_base64(rc.Node):
     title = '_encode_base64'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='s'),
 rc.NodeInputBP(label='maxlinelength'),
@@ -85,7 +85,7 @@ rc.NodeInputBP(label='maxlinelength'),
 
 class AutoNode_plistlib__escape(rc.Node):
     title = '_escape'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='text'),
     ]
@@ -101,7 +101,7 @@ class AutoNode_plistlib__escape(rc.Node):
 
 class AutoNode_plistlib__is_fmt_binary(rc.Node):
     title = '_is_fmt_binary'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='header'),
     ]
@@ -117,7 +117,7 @@ class AutoNode_plistlib__is_fmt_binary(rc.Node):
 
 class AutoNode_plistlib__is_fmt_xml(rc.Node):
     title = '_is_fmt_xml'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='header'),
     ]
@@ -133,7 +133,7 @@ class AutoNode_plistlib__is_fmt_xml(rc.Node):
 
 class AutoNode_plistlib__maybe_open(rc.Node):
     title = '_maybe_open'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -149,7 +149,7 @@ class AutoNode_plistlib__maybe_open(rc.Node):
 
 class AutoNode_plistlib_dump(rc.Node):
     title = 'dump'
-    description = '''Write 'value' to a .plist file. 'fp' should be a writable,
+    doc = '''Write 'value' to a .plist file. 'fp' should be a writable,
     binary file object.
     '''
     init_inputs = [
@@ -168,7 +168,7 @@ rc.NodeInputBP(label='fp'),
 
 class AutoNode_plistlib_dumps(rc.Node):
     title = 'dumps'
-    description = '''Return a bytes object with the contents for a .plist file.
+    doc = '''Return a bytes object with the contents for a .plist file.
     '''
     init_inputs = [
         rc.NodeInputBP(label='value'),
@@ -185,7 +185,7 @@ class AutoNode_plistlib_dumps(rc.Node):
 
 class AutoNode_plistlib_load(rc.Node):
     title = 'load'
-    description = '''Read a .plist file. 'fp' should be a readable and binary file object.
+    doc = '''Read a .plist file. 'fp' should be a readable and binary file object.
     Return the unpacked root object (which usually is a dictionary).
     '''
     init_inputs = [
@@ -203,7 +203,7 @@ class AutoNode_plistlib_load(rc.Node):
 
 class AutoNode_plistlib_loads(rc.Node):
     title = 'loads'
-    description = '''Read a .plist file from a bytes object.
+    doc = '''Read a .plist file from a bytes object.
     Return the unpacked root object (which usually is a dictionary).
     '''
     init_inputs = [
@@ -221,7 +221,7 @@ class AutoNode_plistlib_loads(rc.Node):
 
 class AutoNode_plistlib_readPlist(rc.Node):
     title = 'readPlist'
-    description = '''
+    doc = '''
     Read a .plist from a path or file. pathOrFile should either
     be a file name, or a readable binary file object.
 
@@ -242,7 +242,7 @@ class AutoNode_plistlib_readPlist(rc.Node):
 
 class AutoNode_plistlib_readPlistFromBytes(rc.Node):
     title = 'readPlistFromBytes'
-    description = '''
+    doc = '''
     Read a plist data from a bytes object. Return the root object.
 
     This function is deprecated, use loads instead.
@@ -262,7 +262,7 @@ class AutoNode_plistlib_readPlistFromBytes(rc.Node):
 
 class AutoNode_plistlib_warn(rc.Node):
     title = 'warn'
-    description = '''Issue a warning, or maybe ignore it or raise an exception.'''
+    doc = '''Issue a warning, or maybe ignore it or raise an exception.'''
     init_inputs = [
         rc.NodeInputBP(label='message'),
 rc.NodeInputBP(label='category'),
@@ -281,7 +281,7 @@ rc.NodeInputBP(label='source'),
 
 class AutoNode_plistlib_writePlist(rc.Node):
     title = 'writePlist'
-    description = '''
+    doc = '''
     Write 'value' to a .plist file. 'pathOrFile' may either be a
     file name or a (writable) file object.
 
@@ -303,7 +303,7 @@ rc.NodeInputBP(label='pathOrFile'),
 
 class AutoNode_plistlib_writePlistToBytes(rc.Node):
     title = 'writePlistToBytes'
-    description = '''
+    doc = '''
     Return 'value' as a plist-formatted bytes object.
 
     This function is deprecated, use dumps instead.

@@ -4,7 +4,7 @@ import heapq
 
 class AutoNode_heapq__heapify_max(rc.Node):
     title = '_heapify_max'
-    description = '''Maxheap variant of heapify.'''
+    doc = '''Maxheap variant of heapify.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_heapq__heapify_max(rc.Node):
 
 class AutoNode_heapq__heappop_max(rc.Node):
     title = '_heappop_max'
-    description = '''Maxheap variant of heappop.'''
+    doc = '''Maxheap variant of heappop.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_heapq__heappop_max(rc.Node):
 
 class AutoNode_heapq__heapreplace_max(rc.Node):
     title = '_heapreplace_max'
-    description = '''Maxheap variant of heapreplace.'''
+    doc = '''Maxheap variant of heapreplace.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='item'),
@@ -53,7 +53,7 @@ rc.NodeInputBP(label='item'),
 
 class AutoNode_heapq__siftdown(rc.Node):
     title = '_siftdown'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='startpos'),
@@ -71,7 +71,7 @@ rc.NodeInputBP(label='pos'),
 
 class AutoNode_heapq__siftdown_max(rc.Node):
     title = '_siftdown_max'
-    description = '''Maxheap variant of _siftdown'''
+    doc = '''Maxheap variant of _siftdown'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='startpos'),
@@ -89,7 +89,7 @@ rc.NodeInputBP(label='pos'),
 
 class AutoNode_heapq__siftup(rc.Node):
     title = '_siftup'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='pos'),
@@ -106,7 +106,7 @@ rc.NodeInputBP(label='pos'),
 
 class AutoNode_heapq__siftup_max(rc.Node):
     title = '_siftup_max'
-    description = '''Maxheap variant of _siftup'''
+    doc = '''Maxheap variant of _siftup'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='pos'),
@@ -123,7 +123,7 @@ rc.NodeInputBP(label='pos'),
 
 class AutoNode_heapq_heapify(rc.Node):
     title = 'heapify'
-    description = '''Transform list into a heap, in-place, in O(len(heap)) time.'''
+    doc = '''Transform list into a heap, in-place, in O(len(heap)) time.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -139,7 +139,7 @@ class AutoNode_heapq_heapify(rc.Node):
 
 class AutoNode_heapq_heappop(rc.Node):
     title = 'heappop'
-    description = '''Pop the smallest item off the heap, maintaining the heap invariant.'''
+    doc = '''Pop the smallest item off the heap, maintaining the heap invariant.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
     ]
@@ -155,7 +155,7 @@ class AutoNode_heapq_heappop(rc.Node):
 
 class AutoNode_heapq_heappush(rc.Node):
     title = 'heappush'
-    description = '''Push item onto heap, maintaining the heap invariant.'''
+    doc = '''Push item onto heap, maintaining the heap invariant.'''
     init_inputs = [
         rc.NodeInputBP(label='heap'),
 rc.NodeInputBP(label='item'),
@@ -172,7 +172,7 @@ rc.NodeInputBP(label='item'),
 
 class AutoNode_heapq_heappushpop(rc.Node):
     title = 'heappushpop'
-    description = '''Push item on the heap, then pop and return the smallest item from the heap.
+    doc = '''Push item on the heap, then pop and return the smallest item from the heap.
 
 The combined action runs more efficiently than heappush() followed by
 a separate call to heappop().'''
@@ -192,7 +192,7 @@ rc.NodeInputBP(label='item'),
 
 class AutoNode_heapq_heapreplace(rc.Node):
     title = 'heapreplace'
-    description = '''Pop and return the current smallest value, and add the new item.
+    doc = '''Pop and return the current smallest value, and add the new item.
 
 This is more efficient than heappop() followed by heappush(), and can be
 more appropriate when using a fixed-size heap.  Note that the value
@@ -217,7 +217,7 @@ rc.NodeInputBP(label='item'),
 
 class AutoNode_heapq_merge(rc.Node):
     title = 'merge'
-    description = '''Merge multiple sorted inputs into a single sorted output.
+    doc = '''Merge multiple sorted inputs into a single sorted output.
 
     Similar to sorted(itertools.chain(*iterables)) but returns a generator,
     does not pull the data into memory all at once, and assumes that each of
@@ -248,7 +248,7 @@ class AutoNode_heapq_merge(rc.Node):
 
 class AutoNode_heapq_nlargest(rc.Node):
     title = 'nlargest'
-    description = '''Find the n largest elements in a dataset.
+    doc = '''Find the n largest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key, reverse=True)[:n]
     '''
@@ -269,7 +269,7 @@ rc.NodeInputBP(label='key'),
 
 class AutoNode_heapq_nsmallest(rc.Node):
     title = 'nsmallest'
-    description = '''Find the n smallest elements in a dataset.
+    doc = '''Find the n smallest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key)[:n]
     '''

@@ -4,7 +4,7 @@ import contextlib
 
 class AutoNode_contextlib_asynccontextmanager(rc.Node):
     title = 'asynccontextmanager'
-    description = '''@asynccontextmanager decorator.
+    doc = '''@asynccontextmanager decorator.
 
     Typical usage:
 
@@ -45,7 +45,7 @@ class AutoNode_contextlib_asynccontextmanager(rc.Node):
 
 class AutoNode_contextlib_contextmanager(rc.Node):
     title = 'contextmanager'
-    description = '''@contextmanager decorator.
+    doc = '''@contextmanager decorator.
 
     Typical usage:
 
@@ -86,7 +86,7 @@ class AutoNode_contextlib_contextmanager(rc.Node):
 
 class AutoNode_contextlib_wraps(rc.Node):
     title = 'wraps'
-    description = '''Decorator factory to apply update_wrapper() to a wrapper function
+    doc = '''Decorator factory to apply update_wrapper() to a wrapper function
 
        Returns a decorator that invokes update_wrapper() with the decorated
        function as the wrapper argument and the arguments to wraps() as the

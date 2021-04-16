@@ -4,7 +4,7 @@ import hashlib
 
 class AutoNode_hashlib___get_builtin_constructor(rc.Node):
     title = '__get_builtin_constructor'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_hashlib___get_builtin_constructor(rc.Node):
 
 class AutoNode_hashlib_md5(rc.Node):
     title = 'md5'
-    description = '''Returns a md5 hash object; optionally initialized with a string'''
+    doc = '''Returns a md5 hash object; optionally initialized with a string'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -36,7 +36,7 @@ class AutoNode_hashlib_md5(rc.Node):
 
 class AutoNode_hashlib_new(rc.Node):
     title = 'new'
-    description = '''new(name, data=b'') - Return a new hashing object using the named algorithm;
+    doc = '''new(name, data=b'') - Return a new hashing object using the named algorithm;
     optionally initialized with data (which must be a bytes-like object).
     '''
     init_inputs = [
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='data'),
 
 class AutoNode_hashlib_pbkdf2_hmac(rc.Node):
     title = 'pbkdf2_hmac'
-    description = '''Password based key derivation function 2 (PKCS #5 v2.0) with HMAC as pseudorandom function.'''
+    doc = '''Password based key derivation function 2 (PKCS #5 v2.0) with HMAC as pseudorandom function.'''
     init_inputs = [
         rc.NodeInputBP(label='hash_name'),
 rc.NodeInputBP(label='password'),
@@ -75,7 +75,7 @@ rc.NodeInputBP(label='dklen'),
 
 class AutoNode_hashlib_scrypt(rc.Node):
     title = 'scrypt'
-    description = '''scrypt password-based key derivation function.'''
+    doc = '''scrypt password-based key derivation function.'''
     init_inputs = [
         rc.NodeInputBP(label='password'),
     ]
@@ -91,7 +91,7 @@ class AutoNode_hashlib_scrypt(rc.Node):
 
 class AutoNode_hashlib_sha1(rc.Node):
     title = 'sha1'
-    description = '''Returns a sha1 hash object; optionally initialized with a string'''
+    doc = '''Returns a sha1 hash object; optionally initialized with a string'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -107,7 +107,7 @@ class AutoNode_hashlib_sha1(rc.Node):
 
 class AutoNode_hashlib_sha224(rc.Node):
     title = 'sha224'
-    description = '''Returns a sha224 hash object; optionally initialized with a string'''
+    doc = '''Returns a sha224 hash object; optionally initialized with a string'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -123,7 +123,7 @@ class AutoNode_hashlib_sha224(rc.Node):
 
 class AutoNode_hashlib_sha256(rc.Node):
     title = 'sha256'
-    description = '''Returns a sha256 hash object; optionally initialized with a string'''
+    doc = '''Returns a sha256 hash object; optionally initialized with a string'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -139,7 +139,7 @@ class AutoNode_hashlib_sha256(rc.Node):
 
 class AutoNode_hashlib_sha384(rc.Node):
     title = 'sha384'
-    description = '''Returns a sha384 hash object; optionally initialized with a string'''
+    doc = '''Returns a sha384 hash object; optionally initialized with a string'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -155,7 +155,7 @@ class AutoNode_hashlib_sha384(rc.Node):
 
 class AutoNode_hashlib_sha512(rc.Node):
     title = 'sha512'
-    description = '''Returns a sha512 hash object; optionally initialized with a string'''
+    doc = '''Returns a sha512 hash object; optionally initialized with a string'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]

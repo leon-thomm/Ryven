@@ -4,7 +4,7 @@ import imghdr
 
 class AutoNode_imghdr_test(rc.Node):
     title = 'test'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -20,7 +20,7 @@ class AutoNode_imghdr_test(rc.Node):
 
 class AutoNode_imghdr_test_bmp(rc.Node):
     title = 'test_bmp'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -37,7 +37,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_exr(rc.Node):
     title = 'test_exr'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -54,7 +54,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_gif(rc.Node):
     title = 'test_gif'
-    description = '''GIF ('87 and '89 variants)'''
+    doc = '''GIF ('87 and '89 variants)'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -71,7 +71,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_jpeg(rc.Node):
     title = 'test_jpeg'
-    description = '''JPEG data in JFIF or Exif format'''
+    doc = '''JPEG data in JFIF or Exif format'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -88,7 +88,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_pbm(rc.Node):
     title = 'test_pbm'
-    description = '''PBM (portable bitmap)'''
+    doc = '''PBM (portable bitmap)'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -105,7 +105,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_pgm(rc.Node):
     title = 'test_pgm'
-    description = '''PGM (portable graymap)'''
+    doc = '''PGM (portable graymap)'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -122,7 +122,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_png(rc.Node):
     title = 'test_png'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -139,7 +139,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_ppm(rc.Node):
     title = 'test_ppm'
-    description = '''PPM (portable pixmap)'''
+    doc = '''PPM (portable pixmap)'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -156,7 +156,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_rast(rc.Node):
     title = 'test_rast'
-    description = '''Sun raster file'''
+    doc = '''Sun raster file'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -173,7 +173,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_rgb(rc.Node):
     title = 'test_rgb'
-    description = '''SGI image library'''
+    doc = '''SGI image library'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -190,7 +190,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_tiff(rc.Node):
     title = 'test_tiff'
-    description = '''TIFF (can be in Motorola or Intel byte order)'''
+    doc = '''TIFF (can be in Motorola or Intel byte order)'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -207,7 +207,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_webp(rc.Node):
     title = 'test_webp'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -224,7 +224,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_test_xbm(rc.Node):
     title = 'test_xbm'
-    description = '''X bitmap (X10 or X11)'''
+    doc = '''X bitmap (X10 or X11)'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='f'),
@@ -241,7 +241,7 @@ rc.NodeInputBP(label='f'),
 
 class AutoNode_imghdr_testall(rc.Node):
     title = 'testall'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='list'),
 rc.NodeInputBP(label='recursive'),
@@ -259,7 +259,7 @@ rc.NodeInputBP(label='toplevel'),
 
 class AutoNode_imghdr_what(rc.Node):
     title = 'what'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='file'),
 rc.NodeInputBP(label='h'),

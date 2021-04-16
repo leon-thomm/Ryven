@@ -5,7 +5,7 @@ import _sha256
 class AutoNode__sha256_sha224(rc.Node):
     title = 'sha224'
     type_ = '_sha256'
-    description = '''Return a new SHA-224 hash object; optionally initialized with a string.'''
+    doc = '''Return a new SHA-224 hash object; optionally initialized with a string.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]
@@ -22,7 +22,7 @@ class AutoNode__sha256_sha224(rc.Node):
 class AutoNode__sha256_sha256(rc.Node):
     title = 'sha256'
     type_ = '_sha256'
-    description = '''Return a new SHA-256 hash object; optionally initialized with a string.'''
+    doc = '''Return a new SHA-256 hash object; optionally initialized with a string.'''
     init_inputs = [
         rc.NodeInputBP(label='string'),
     ]

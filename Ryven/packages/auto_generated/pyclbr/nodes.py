@@ -4,7 +4,7 @@ import pyclbr
 
 class AutoNode_pyclbr__create_tree(rc.Node):
     title = '_create_tree'
-    description = '''Return the tree for a particular module.
+    doc = '''Return the tree for a particular module.
 
     fullmodule (full module name), inpackage+module, becomes o.module.
     path is passed to recursive calls of _readmodule.
@@ -35,7 +35,7 @@ rc.NodeInputBP(label='inpackage'),
 
 class AutoNode_pyclbr__getname(rc.Node):
     title = '_getname'
-    description = '''Return (dotted-name or None, next-token) tuple for token source g.'''
+    doc = '''Return (dotted-name or None, next-token) tuple for token source g.'''
     init_inputs = [
         rc.NodeInputBP(label='g'),
     ]
@@ -51,7 +51,7 @@ class AutoNode_pyclbr__getname(rc.Node):
 
 class AutoNode_pyclbr__getnamelist(rc.Node):
     title = '_getnamelist'
-    description = '''Return list of (dotted-name, as-name or None) tuples for token source g.
+    doc = '''Return list of (dotted-name, as-name or None) tuples for token source g.
 
     An as-name is the name that follows 'as' in an as clause.
     '''
@@ -70,7 +70,7 @@ class AutoNode_pyclbr__getnamelist(rc.Node):
 
 class AutoNode_pyclbr__main(rc.Node):
     title = '_main'
-    description = '''Print module output (default this file) for quick visual check.'''
+    doc = '''Print module output (default this file) for quick visual check.'''
     init_inputs = [
         
     ]
@@ -86,7 +86,7 @@ class AutoNode_pyclbr__main(rc.Node):
 
 class AutoNode_pyclbr__nest_class(rc.Node):
     title = '_nest_class'
-    description = '''Return a Class after nesting within ob.'''
+    doc = '''Return a Class after nesting within ob.'''
     init_inputs = [
         rc.NodeInputBP(label='ob'),
 rc.NodeInputBP(label='class_name'),
@@ -105,7 +105,7 @@ rc.NodeInputBP(label='super'),
 
 class AutoNode_pyclbr__nest_function(rc.Node):
     title = '_nest_function'
-    description = '''Return a Function after nesting within ob.'''
+    doc = '''Return a Function after nesting within ob.'''
     init_inputs = [
         rc.NodeInputBP(label='ob'),
 rc.NodeInputBP(label='func_name'),
@@ -123,7 +123,7 @@ rc.NodeInputBP(label='lineno'),
 
 class AutoNode_pyclbr__readmodule(rc.Node):
     title = '_readmodule'
-    description = '''Do the hard work for readmodule[_ex].
+    doc = '''Do the hard work for readmodule[_ex].
 
     If inpackage is given, it must be the dotted name of the package in
     which we are searching for a submodule, and then PATH must be the
@@ -147,7 +147,7 @@ rc.NodeInputBP(label='inpackage'),
 
 class AutoNode_pyclbr_readmodule(rc.Node):
     title = 'readmodule'
-    description = '''Return Class objects for the top-level classes in module.
+    doc = '''Return Class objects for the top-level classes in module.
 
     This is the original interface, before Functions were added.
     '''
@@ -167,7 +167,7 @@ rc.NodeInputBP(label='path'),
 
 class AutoNode_pyclbr_readmodule_ex(rc.Node):
     title = 'readmodule_ex'
-    description = '''Return a dictionary with all functions and classes in module.
+    doc = '''Return a dictionary with all functions and classes in module.
 
     Search for module in PATH + sys.path.
     If possible, include imported superclasses.

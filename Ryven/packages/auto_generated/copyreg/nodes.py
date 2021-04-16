@@ -4,7 +4,7 @@ import copyreg
 
 class AutoNode_copyreg___newobj__(rc.Node):
     title = '__newobj__'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_copyreg___newobj__(rc.Node):
 
 class AutoNode_copyreg___newobj_ex__(rc.Node):
     title = '__newobj_ex__'
-    description = '''Used by pickle protocol 4, instead of __newobj__ to allow classes with
+    doc = '''Used by pickle protocol 4, instead of __newobj__ to allow classes with
     keyword-only arguments to be pickled correctly.
     '''
     init_inputs = [
@@ -40,7 +40,7 @@ rc.NodeInputBP(label='kwargs'),
 
 class AutoNode_copyreg__reconstructor(rc.Node):
     title = '_reconstructor'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='cls'),
 rc.NodeInputBP(label='base'),
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='state'),
 
 class AutoNode_copyreg__reduce_ex(rc.Node):
     title = '_reduce_ex'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='self'),
 rc.NodeInputBP(label='proto'),
@@ -75,7 +75,7 @@ rc.NodeInputBP(label='proto'),
 
 class AutoNode_copyreg__slotnames(rc.Node):
     title = '_slotnames'
-    description = '''Return a list of slot names for a given class.
+    doc = '''Return a list of slot names for a given class.
 
     This needs to find slots defined by the class and its bases, so we
     can't simply return the __slots__ attribute.  We must walk down
@@ -99,7 +99,7 @@ class AutoNode_copyreg__slotnames(rc.Node):
 
 class AutoNode_copyreg_add_extension(rc.Node):
     title = 'add_extension'
-    description = '''Register an extension code.'''
+    doc = '''Register an extension code.'''
     init_inputs = [
         rc.NodeInputBP(label='module'),
 rc.NodeInputBP(label='name'),
@@ -117,7 +117,7 @@ rc.NodeInputBP(label='code'),
 
 class AutoNode_copyreg_clear_extension_cache(rc.Node):
     title = 'clear_extension_cache'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -133,7 +133,7 @@ class AutoNode_copyreg_clear_extension_cache(rc.Node):
 
 class AutoNode_copyreg_constructor(rc.Node):
     title = 'constructor'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='object'),
     ]
@@ -149,7 +149,7 @@ class AutoNode_copyreg_constructor(rc.Node):
 
 class AutoNode_copyreg_pickle(rc.Node):
     title = 'pickle'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='ob_type'),
 rc.NodeInputBP(label='pickle_function'),
@@ -167,7 +167,7 @@ rc.NodeInputBP(label='constructor_ob'),
 
 class AutoNode_copyreg_pickle_complex(rc.Node):
     title = 'pickle_complex'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='c'),
     ]
@@ -183,7 +183,7 @@ class AutoNode_copyreg_pickle_complex(rc.Node):
 
 class AutoNode_copyreg_remove_extension(rc.Node):
     title = 'remove_extension'
-    description = '''Unregister an extension code.  For testing only.'''
+    doc = '''Unregister an extension code.  For testing only.'''
     init_inputs = [
         rc.NodeInputBP(label='module'),
 rc.NodeInputBP(label='name'),

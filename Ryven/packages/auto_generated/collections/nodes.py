@@ -4,7 +4,7 @@ import collections
 
 class AutoNode_collections___getattr__(rc.Node):
     title = '__getattr__'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_collections___getattr__(rc.Node):
 
 class AutoNode_collections__count_elements(rc.Node):
     title = '_count_elements'
-    description = '''Count elements in the iterable, updating the mapping'''
+    doc = '''Count elements in the iterable, updating the mapping'''
     init_inputs = [
         rc.NodeInputBP(label='mapping'),
 rc.NodeInputBP(label='iterable'),
@@ -37,7 +37,7 @@ rc.NodeInputBP(label='iterable'),
 
 class AutoNode_collections__eq(rc.Node):
     title = '_eq'
-    description = '''Same as a == b.'''
+    doc = '''Same as a == b.'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -54,7 +54,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_collections__recursive_repr(rc.Node):
     title = '_recursive_repr'
-    description = '''Decorator to make a repr function return fillvalue for a recursive call'''
+    doc = '''Decorator to make a repr function return fillvalue for a recursive call'''
     init_inputs = [
         rc.NodeInputBP(label='fillvalue'),
     ]
@@ -70,7 +70,7 @@ class AutoNode_collections__recursive_repr(rc.Node):
 
 class AutoNode_collections_namedtuple(rc.Node):
     title = 'namedtuple'
-    description = '''Returns a new subclass of tuple with named fields.
+    doc = '''Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class

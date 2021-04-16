@@ -5,7 +5,7 @@ import gc
 class AutoNode_gc_collect(rc.Node):
     title = 'collect'
     type_ = 'gc'
-    description = '''Run the garbage collector.
+    doc = '''Run the garbage collector.
 
 With no arguments, run a full collection.  The optional argument
 may be an integer specifying which generation to collect.  A ValueError
@@ -28,7 +28,7 @@ The number of unreachable objects is returned.'''
 class AutoNode_gc_disable(rc.Node):
     title = 'disable'
     type_ = 'gc'
-    description = '''Disable automatic garbage collection.'''
+    doc = '''Disable automatic garbage collection.'''
     init_inputs = [
         
     ]
@@ -45,7 +45,7 @@ class AutoNode_gc_disable(rc.Node):
 class AutoNode_gc_enable(rc.Node):
     title = 'enable'
     type_ = 'gc'
-    description = '''Enable automatic garbage collection.'''
+    doc = '''Enable automatic garbage collection.'''
     init_inputs = [
         
     ]
@@ -62,7 +62,7 @@ class AutoNode_gc_enable(rc.Node):
 class AutoNode_gc_freeze(rc.Node):
     title = 'freeze'
     type_ = 'gc'
-    description = '''Freeze all current tracked objects and ignore them for future collections.
+    doc = '''Freeze all current tracked objects and ignore them for future collections.
 
 This can be used before a POSIX fork() call to make the gc copy-on-write friendly.
 Note: collection before a POSIX fork() call may free pages for future allocation
@@ -83,7 +83,7 @@ which can cause copy-on-write.'''
 class AutoNode_gc_get_count(rc.Node):
     title = 'get_count'
     type_ = 'gc'
-    description = '''Return a three-tuple of the current collection counts.'''
+    doc = '''Return a three-tuple of the current collection counts.'''
     init_inputs = [
         
     ]
@@ -100,7 +100,7 @@ class AutoNode_gc_get_count(rc.Node):
 class AutoNode_gc_get_debug(rc.Node):
     title = 'get_debug'
     type_ = 'gc'
-    description = '''Get the garbage collection debugging flags.'''
+    doc = '''Get the garbage collection debugging flags.'''
     init_inputs = [
         
     ]
@@ -117,7 +117,7 @@ class AutoNode_gc_get_debug(rc.Node):
 class AutoNode_gc_get_freeze_count(rc.Node):
     title = 'get_freeze_count'
     type_ = 'gc'
-    description = '''Return the number of objects in the permanent generation.'''
+    doc = '''Return the number of objects in the permanent generation.'''
     init_inputs = [
         
     ]
@@ -134,7 +134,7 @@ class AutoNode_gc_get_freeze_count(rc.Node):
 class AutoNode_gc_get_objects(rc.Node):
     title = 'get_objects'
     type_ = 'gc'
-    description = '''Return a list of objects tracked by the collector (excluding the list returned).
+    doc = '''Return a list of objects tracked by the collector (excluding the list returned).
 
   generation
     Generation to extract the objects from.
@@ -157,7 +157,7 @@ that are in that generation.'''
 class AutoNode_gc_get_stats(rc.Node):
     title = 'get_stats'
     type_ = 'gc'
-    description = '''Return a list of dictionaries containing per-generation statistics.'''
+    doc = '''Return a list of dictionaries containing per-generation statistics.'''
     init_inputs = [
         
     ]
@@ -174,7 +174,7 @@ class AutoNode_gc_get_stats(rc.Node):
 class AutoNode_gc_get_threshold(rc.Node):
     title = 'get_threshold'
     type_ = 'gc'
-    description = '''Return the current collection thresholds.'''
+    doc = '''Return the current collection thresholds.'''
     init_inputs = [
         
     ]
@@ -191,7 +191,7 @@ class AutoNode_gc_get_threshold(rc.Node):
 class AutoNode_gc_is_tracked(rc.Node):
     title = 'is_tracked'
     type_ = 'gc'
-    description = '''Returns true if the object is tracked by the garbage collector.
+    doc = '''Returns true if the object is tracked by the garbage collector.
 
 Simple atomic objects will return false.'''
     init_inputs = [
@@ -210,7 +210,7 @@ Simple atomic objects will return false.'''
 class AutoNode_gc_isenabled(rc.Node):
     title = 'isenabled'
     type_ = 'gc'
-    description = '''Returns true if automatic garbage collection is enabled.'''
+    doc = '''Returns true if automatic garbage collection is enabled.'''
     init_inputs = [
         
     ]
@@ -227,7 +227,7 @@ class AutoNode_gc_isenabled(rc.Node):
 class AutoNode_gc_set_debug(rc.Node):
     title = 'set_debug'
     type_ = 'gc'
-    description = '''Set the garbage collection debugging flags.
+    doc = '''Set the garbage collection debugging flags.
 
   flags
     An integer that can have the following bits turned on:
@@ -255,7 +255,7 @@ Debugging information is written to sys.stderr.'''
 class AutoNode_gc_unfreeze(rc.Node):
     title = 'unfreeze'
     type_ = 'gc'
-    description = '''Unfreeze all objects in the permanent generation.
+    doc = '''Unfreeze all objects in the permanent generation.
 
 Put all objects in the permanent generation back into oldest generation.'''
     init_inputs = [

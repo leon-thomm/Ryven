@@ -5,7 +5,7 @@ import _collections
 class AutoNode__collections__count_elements(rc.Node):
     title = '_count_elements'
     type_ = '_collections'
-    description = '''Count elements in the iterable, updating the mapping'''
+    doc = '''Count elements in the iterable, updating the mapping'''
     init_inputs = [
         rc.NodeInputBP(label='mapping'),
 rc.NodeInputBP(label='iterable'),

@@ -4,7 +4,7 @@ import imaplib
 
 class AutoNode_imaplib_Int2AP(rc.Node):
     title = 'Int2AP'
-    description = '''Convert integer to A-P string representation.'''
+    doc = '''Convert integer to A-P string representation.'''
     init_inputs = [
         rc.NodeInputBP(label='num'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_imaplib_Int2AP(rc.Node):
 
 class AutoNode_imaplib_Internaldate2tuple(rc.Node):
     title = 'Internaldate2tuple'
-    description = '''Parse an IMAP4 INTERNALDATE string.
+    doc = '''Parse an IMAP4 INTERNALDATE string.
 
     Return corresponding local time.  The return value is a
     time.struct_time tuple or None if the string has wrong format.
@@ -40,7 +40,7 @@ class AutoNode_imaplib_Internaldate2tuple(rc.Node):
 
 class AutoNode_imaplib_ParseFlags(rc.Node):
     title = 'ParseFlags'
-    description = '''Convert IMAP4 flags response to python tuple.'''
+    doc = '''Convert IMAP4 flags response to python tuple.'''
     init_inputs = [
         rc.NodeInputBP(label='resp'),
     ]
@@ -56,7 +56,7 @@ class AutoNode_imaplib_ParseFlags(rc.Node):
 
 class AutoNode_imaplib_Time2Internaldate(rc.Node):
     title = 'Time2Internaldate'
-    description = '''Convert date_time to IMAP4 INTERNALDATE representation.
+    doc = '''Convert date_time to IMAP4 INTERNALDATE representation.
 
     Return string in form: '"DD-Mmm-YYYY HH:MM:SS +HHMM"'.  The
     date_time argument can be a number (int or float) representing

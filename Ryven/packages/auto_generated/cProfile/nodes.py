@@ -4,7 +4,7 @@ import cProfile
 
 class AutoNode_cProfile_label(rc.Node):
     title = 'label'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_cProfile_label(rc.Node):
 
 class AutoNode_cProfile_main(rc.Node):
     title = 'main'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -36,7 +36,7 @@ class AutoNode_cProfile_main(rc.Node):
 
 class AutoNode_cProfile_run(rc.Node):
     title = 'run'
-    description = '''Run statement under profiler optionally saving results in filename
+    doc = '''Run statement under profiler optionally saving results in filename
 
     This function takes a single argument that can be passed to the
     "exec" statement, and an optional file name.  In all cases this
@@ -63,7 +63,7 @@ rc.NodeInputBP(label='sort'),
 
 class AutoNode_cProfile_runctx(rc.Node):
     title = 'runctx'
-    description = '''Run statement under profiler, supplying your own globals and locals,
+    doc = '''Run statement under profiler, supplying your own globals and locals,
     optionally saving results in filename.
 
     statement and filename have the same semantics as profile.run

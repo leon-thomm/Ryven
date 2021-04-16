@@ -4,7 +4,7 @@ import ipaddress
 
 class AutoNode_ipaddress__collapse_addresses_internal(rc.Node):
     title = '_collapse_addresses_internal'
-    description = '''Loops through the addresses, collapsing concurrent netblocks.
+    doc = '''Loops through the addresses, collapsing concurrent netblocks.
 
     Example:
 
@@ -42,7 +42,7 @@ class AutoNode_ipaddress__collapse_addresses_internal(rc.Node):
 
 class AutoNode_ipaddress__count_righthand_zero_bits(rc.Node):
     title = '_count_righthand_zero_bits'
-    description = '''Count the number of zero bits on the right hand side.
+    doc = '''Count the number of zero bits on the right hand side.
 
     Args:
         number: an integer.
@@ -68,7 +68,7 @@ rc.NodeInputBP(label='bits'),
 
 class AutoNode_ipaddress__find_address_range(rc.Node):
     title = '_find_address_range'
-    description = '''Find a sequence of sorted deduplicated IPv#Address.
+    doc = '''Find a sequence of sorted deduplicated IPv#Address.
 
     Args:
         addresses: a list of IPv#Address objects.
@@ -92,7 +92,7 @@ class AutoNode_ipaddress__find_address_range(rc.Node):
 
 class AutoNode_ipaddress__split_optional_netmask(rc.Node):
     title = '_split_optional_netmask'
-    description = '''Helper to split the netmask and raise AddressValueError if needed'''
+    doc = '''Helper to split the netmask and raise AddressValueError if needed'''
     init_inputs = [
         rc.NodeInputBP(label='address'),
     ]
@@ -108,7 +108,7 @@ class AutoNode_ipaddress__split_optional_netmask(rc.Node):
 
 class AutoNode_ipaddress_collapse_addresses(rc.Node):
     title = 'collapse_addresses'
-    description = '''Collapse a list of IP objects.
+    doc = '''Collapse a list of IP objects.
 
     Example:
         collapse_addresses([IPv4Network('192.0.2.0/25'),
@@ -140,7 +140,7 @@ class AutoNode_ipaddress_collapse_addresses(rc.Node):
 
 class AutoNode_ipaddress_get_mixed_type_key(rc.Node):
     title = 'get_mixed_type_key'
-    description = '''Return a key suitable for sorting between networks and addresses.
+    doc = '''Return a key suitable for sorting between networks and addresses.
 
     Address and Network objects are not sortable by default; they're
     fundamentally different so the expression
@@ -172,7 +172,7 @@ class AutoNode_ipaddress_get_mixed_type_key(rc.Node):
 
 class AutoNode_ipaddress_ip_address(rc.Node):
     title = 'ip_address'
-    description = '''Take an IP string/int and return an object of the correct type.
+    doc = '''Take an IP string/int and return an object of the correct type.
 
     Args:
         address: A string or integer, the IP address.  Either IPv4 or
@@ -202,7 +202,7 @@ class AutoNode_ipaddress_ip_address(rc.Node):
 
 class AutoNode_ipaddress_ip_interface(rc.Node):
     title = 'ip_interface'
-    description = '''Take an IP string/int and return an object of the correct type.
+    doc = '''Take an IP string/int and return an object of the correct type.
 
     Args:
         address: A string or integer, the IP address.  Either IPv4 or
@@ -237,7 +237,7 @@ class AutoNode_ipaddress_ip_interface(rc.Node):
 
 class AutoNode_ipaddress_ip_network(rc.Node):
     title = 'ip_network'
-    description = '''Take an IP string/int and return an object of the correct type.
+    doc = '''Take an IP string/int and return an object of the correct type.
 
     Args:
         address: A string or integer, the IP network.  Either IPv4 or
@@ -268,7 +268,7 @@ rc.NodeInputBP(label='strict'),
 
 class AutoNode_ipaddress_summarize_address_range(rc.Node):
     title = 'summarize_address_range'
-    description = '''Summarize a network range given the first and last IP addresses.
+    doc = '''Summarize a network range given the first and last IP addresses.
 
     Example:
         >>> list(summarize_address_range(IPv4Address('192.0.2.0'),
@@ -309,7 +309,7 @@ rc.NodeInputBP(label='last'),
 
 class AutoNode_ipaddress_v4_int_to_packed(rc.Node):
     title = 'v4_int_to_packed'
-    description = '''Represent an address as 4 packed bytes in network (big-endian) order.
+    doc = '''Represent an address as 4 packed bytes in network (big-endian) order.
 
     Args:
         address: An integer representation of an IPv4 IP address.
@@ -337,7 +337,7 @@ class AutoNode_ipaddress_v4_int_to_packed(rc.Node):
 
 class AutoNode_ipaddress_v6_int_to_packed(rc.Node):
     title = 'v6_int_to_packed'
-    description = '''Represent an address as 16 packed bytes in network (big-endian) order.
+    doc = '''Represent an address as 16 packed bytes in network (big-endian) order.
 
     Args:
         address: An integer representation of an IPv6 IP address.

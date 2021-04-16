@@ -4,7 +4,7 @@ import ctypes
 
 class AutoNode_ctypes_ARRAY(rc.Node):
     title = 'ARRAY'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='typ'),
 rc.NodeInputBP(label='len'),
@@ -21,7 +21,7 @@ rc.NodeInputBP(label='len'),
 
 class AutoNode_ctypes_CFUNCTYPE(rc.Node):
     title = 'CFUNCTYPE'
-    description = '''CFUNCTYPE(restype, *argtypes,
+    doc = '''CFUNCTYPE(restype, *argtypes,
                  use_errno=False, use_last_error=False) -> function prototype.
 
     restype: the result type
@@ -51,7 +51,7 @@ class AutoNode_ctypes_CFUNCTYPE(rc.Node):
 
 class AutoNode_ctypes_DllCanUnloadNow(rc.Node):
     title = 'DllCanUnloadNow'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -67,7 +67,7 @@ class AutoNode_ctypes_DllCanUnloadNow(rc.Node):
 
 class AutoNode_ctypes_DllGetClassObject(rc.Node):
     title = 'DllGetClassObject'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='rclsid'),
 rc.NodeInputBP(label='riid'),
@@ -85,7 +85,7 @@ rc.NodeInputBP(label='ppv'),
 
 class AutoNode_ctypes_PYFUNCTYPE(rc.Node):
     title = 'PYFUNCTYPE'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='restype'),
     ]
@@ -101,7 +101,7 @@ class AutoNode_ctypes_PYFUNCTYPE(rc.Node):
 
 class AutoNode_ctypes_SetPointerType(rc.Node):
     title = 'SetPointerType'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='pointer'),
 rc.NodeInputBP(label='cls'),
@@ -118,7 +118,7 @@ rc.NodeInputBP(label='cls'),
 
 class AutoNode_ctypes_WINFUNCTYPE(rc.Node):
     title = 'WINFUNCTYPE'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='restype'),
     ]
@@ -134,7 +134,7 @@ class AutoNode_ctypes_WINFUNCTYPE(rc.Node):
 
 class AutoNode_ctypes_WinError(rc.Node):
     title = 'WinError'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
 rc.NodeInputBP(label='descr'),
@@ -151,7 +151,7 @@ rc.NodeInputBP(label='descr'),
 
 class AutoNode_ctypes__calcsize(rc.Node):
     title = '_calcsize'
-    description = '''Return size in bytes of the struct described by the format string.'''
+    doc = '''Return size in bytes of the struct described by the format string.'''
     init_inputs = [
         rc.NodeInputBP(label='format'),
     ]
@@ -167,7 +167,7 @@ class AutoNode_ctypes__calcsize(rc.Node):
 
 class AutoNode_ctypes__check_size(rc.Node):
     title = '_check_size'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='typ'),
 rc.NodeInputBP(label='typecode'),
@@ -184,7 +184,7 @@ rc.NodeInputBP(label='typecode'),
 
 class AutoNode_ctypes__reset_cache(rc.Node):
     title = '_reset_cache'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -200,7 +200,7 @@ class AutoNode_ctypes__reset_cache(rc.Node):
 
 class AutoNode_ctypes_c_buffer(rc.Node):
     title = 'c_buffer'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='init'),
 rc.NodeInputBP(label='size'),
@@ -217,7 +217,7 @@ rc.NodeInputBP(label='size'),
 
 class AutoNode_ctypes_cast(rc.Node):
     title = 'cast'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
 rc.NodeInputBP(label='typ'),
@@ -234,7 +234,7 @@ rc.NodeInputBP(label='typ'),
 
 class AutoNode_ctypes_create_string_buffer(rc.Node):
     title = 'create_string_buffer'
-    description = '''create_string_buffer(aBytes) -> character array
+    doc = '''create_string_buffer(aBytes) -> character array
     create_string_buffer(anInteger) -> character array
     create_string_buffer(aBytes, anInteger) -> character array
     '''
@@ -254,7 +254,7 @@ rc.NodeInputBP(label='size'),
 
 class AutoNode_ctypes_create_unicode_buffer(rc.Node):
     title = 'create_unicode_buffer'
-    description = '''create_unicode_buffer(aString) -> character array
+    doc = '''create_unicode_buffer(aString) -> character array
     create_unicode_buffer(anInteger) -> character array
     create_unicode_buffer(aString, anInteger) -> character array
     '''
@@ -274,7 +274,7 @@ rc.NodeInputBP(label='size'),
 
 class AutoNode_ctypes_string_at(rc.Node):
     title = 'string_at'
-    description = '''string_at(addr[, size]) -> string
+    doc = '''string_at(addr[, size]) -> string
 
     Return the string at addr.'''
     init_inputs = [
@@ -293,7 +293,7 @@ rc.NodeInputBP(label='size'),
 
 class AutoNode_ctypes_wstring_at(rc.Node):
     title = 'wstring_at'
-    description = '''wstring_at(addr[, size]) -> string
+    doc = '''wstring_at(addr[, size]) -> string
 
         Return the string at addr.'''
     init_inputs = [

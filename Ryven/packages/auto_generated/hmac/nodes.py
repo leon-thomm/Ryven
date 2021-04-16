@@ -4,7 +4,7 @@ import hmac
 
 class AutoNode_hmac_compare_digest(rc.Node):
     title = 'compare_digest'
-    description = '''Return 'a == b'.
+    doc = '''Return 'a == b'.
 
 This function uses an approach designed to prevent
 timing analysis, making it appropriate for cryptography.
@@ -31,7 +31,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_hmac_digest(rc.Node):
     title = 'digest'
-    description = '''Fast inline implementation of HMAC.
+    doc = '''Fast inline implementation of HMAC.
 
     key: bytes or buffer, The key for the keyed hash object.
     msg: bytes or buffer, Input message.
@@ -56,7 +56,7 @@ rc.NodeInputBP(label='digest'),
 
 class AutoNode_hmac_new(rc.Node):
     title = 'new'
-    description = '''Create a new hashing object and return it.
+    doc = '''Create a new hashing object and return it.
 
     key: bytes or buffer, The starting key for the hash.
     msg: bytes or buffer, Initial input for the hash, or None.

@@ -4,7 +4,7 @@ from ryvencore_qt import *
 class And_Node(Node):
 
     title = '&&'
-    description = 'logical AND'
+    doc = 'logical AND'
     init_inputs = [
         NodeInputBP(type_='data', label='', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
         NodeInputBP(type_='data', label='', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),

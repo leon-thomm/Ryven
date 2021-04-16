@@ -4,7 +4,7 @@ import nntplib
 
 class AutoNode_nntplib__email_decode_header(rc.Node):
     title = '_email_decode_header'
-    description = '''Decode a message header value without converting charset.
+    doc = '''Decode a message header value without converting charset.
 
     Returns a list of (string, charset) pairs containing each of the decoded
     parts of the header.  Charset is None for non-encoded parts of the header,
@@ -32,7 +32,7 @@ class AutoNode_nntplib__email_decode_header(rc.Node):
 
 class AutoNode_nntplib__encrypt_on(rc.Node):
     title = '_encrypt_on'
-    description = '''Wrap a socket in SSL/TLS. Arguments:
+    doc = '''Wrap a socket in SSL/TLS. Arguments:
         - sock: Socket to wrap
         - context: SSL context to use for the encrypted connection
         Returns:
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='hostname'),
 
 class AutoNode_nntplib__parse_datetime(rc.Node):
     title = '_parse_datetime'
-    description = '''Parse a pair of (date, time) strings, and return a datetime object.
+    doc = '''Parse a pair of (date, time) strings, and return a datetime object.
     If only the date is given, it is assumed to be date and time
     concatenated together (e.g. response to the DATE command).
     '''
@@ -75,7 +75,7 @@ rc.NodeInputBP(label='time_str'),
 
 class AutoNode_nntplib__parse_overview(rc.Node):
     title = '_parse_overview'
-    description = '''Parse the response to an OVER or XOVER command according to the
+    doc = '''Parse the response to an OVER or XOVER command according to the
     overview format `fmt`.'''
     init_inputs = [
         rc.NodeInputBP(label='lines'),
@@ -94,7 +94,7 @@ rc.NodeInputBP(label='data_process_func'),
 
 class AutoNode_nntplib__parse_overview_fmt(rc.Node):
     title = '_parse_overview_fmt'
-    description = '''Parse a list of string representing the response to LIST OVERVIEW.FMT
+    doc = '''Parse a list of string representing the response to LIST OVERVIEW.FMT
     and return a list of header/metadata names.
     Raises NNTPDataError if the response is not compliant
     (cf. RFC 3977, section 8.4).'''
@@ -113,7 +113,7 @@ class AutoNode_nntplib__parse_overview_fmt(rc.Node):
 
 class AutoNode_nntplib__unparse_datetime(rc.Node):
     title = '_unparse_datetime'
-    description = '''Format a date or datetime object as a pair of (date, time) strings
+    doc = '''Format a date or datetime object as a pair of (date, time) strings
     in the format required by the NEWNEWS and NEWGROUPS commands.  If a
     date object is passed, the time is assumed to be midnight (00h00).
 
@@ -141,7 +141,7 @@ rc.NodeInputBP(label='legacy'),
 
 class AutoNode_nntplib_decode_header(rc.Node):
     title = 'decode_header'
-    description = '''Takes a unicode string representing a munged header value
+    doc = '''Takes a unicode string representing a munged header value
     and decodes it as a (possibly non-ASCII) readable value.'''
     init_inputs = [
         rc.NodeInputBP(label='header_str'),

@@ -13,7 +13,7 @@ import threading
 
 class ThreadSplitter(Node):
     title = 't_split'
-    description = 'Controls thread execution branches'
+    doc = 'Controls thread execution branches'
 
     init_inputs = [
         NodeInputBP(),

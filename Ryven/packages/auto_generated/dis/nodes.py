@@ -4,7 +4,7 @@ import dis
 
 class AutoNode_dis__disassemble_bytes(rc.Node):
     title = '_disassemble_bytes'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
 rc.NodeInputBP(label='lasti'),
@@ -26,7 +26,7 @@ rc.NodeInputBP(label='linestarts'),
 
 class AutoNode_dis__disassemble_recursive(rc.Node):
     title = '_disassemble_recursive'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='co'),
     ]
@@ -42,7 +42,7 @@ class AutoNode_dis__disassemble_recursive(rc.Node):
 
 class AutoNode_dis__disassemble_str(rc.Node):
     title = '_disassemble_str'
-    description = '''Compile the source string, then disassemble the code object.'''
+    doc = '''Compile the source string, then disassemble the code object.'''
     init_inputs = [
         rc.NodeInputBP(label='source'),
     ]
@@ -58,7 +58,7 @@ class AutoNode_dis__disassemble_str(rc.Node):
 
 class AutoNode_dis__format_code_info(rc.Node):
     title = '_format_code_info'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='co'),
     ]
@@ -74,7 +74,7 @@ class AutoNode_dis__format_code_info(rc.Node):
 
 class AutoNode_dis__get_code_object(rc.Node):
     title = '_get_code_object'
-    description = '''Helper to handle methods, compiled or raw code objects, and strings.'''
+    doc = '''Helper to handle methods, compiled or raw code objects, and strings.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -90,7 +90,7 @@ class AutoNode_dis__get_code_object(rc.Node):
 
 class AutoNode_dis__get_const_info(rc.Node):
     title = '_get_const_info'
-    description = '''Helper to get optional details about const references
+    doc = '''Helper to get optional details about const references
 
        Returns the dereferenced constant and its repr if the constant
        list is defined.
@@ -112,7 +112,7 @@ rc.NodeInputBP(label='const_list'),
 
 class AutoNode_dis__get_instructions_bytes(rc.Node):
     title = '_get_instructions_bytes'
-    description = '''Iterate over the instructions in a bytecode string.
+    doc = '''Iterate over the instructions in a bytecode string.
 
     Generates a sequence of Instruction namedtuples giving the details of each
     opcode.  Additional information about the code's runtime environment
@@ -141,7 +141,7 @@ rc.NodeInputBP(label='line_offset'),
 
 class AutoNode_dis__get_name_info(rc.Node):
     title = '_get_name_info'
-    description = '''Helper to get optional details about named references
+    doc = '''Helper to get optional details about named references
 
        Returns the dereferenced name as both value and repr if the name
        list is defined.
@@ -163,7 +163,7 @@ rc.NodeInputBP(label='name_list'),
 
 class AutoNode_dis__test(rc.Node):
     title = '_test'
-    description = '''Simple test program to disassemble a file.'''
+    doc = '''Simple test program to disassemble a file.'''
     init_inputs = [
         
     ]
@@ -179,7 +179,7 @@ class AutoNode_dis__test(rc.Node):
 
 class AutoNode_dis__try_compile(rc.Node):
     title = '_try_compile'
-    description = '''Attempts to compile the given source, first as an expression and
+    doc = '''Attempts to compile the given source, first as an expression and
        then as a statement if the first approach fails.
 
        Utility function to accept strings in functions that otherwise
@@ -201,7 +201,7 @@ rc.NodeInputBP(label='name'),
 
 class AutoNode_dis__unpack_opargs(rc.Node):
     title = '_unpack_opargs'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='code'),
     ]
@@ -217,7 +217,7 @@ class AutoNode_dis__unpack_opargs(rc.Node):
 
 class AutoNode_dis_code_info(rc.Node):
     title = 'code_info'
-    description = '''Formatted details of methods, functions, or code.'''
+    doc = '''Formatted details of methods, functions, or code.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -233,7 +233,7 @@ class AutoNode_dis_code_info(rc.Node):
 
 class AutoNode_dis_dis(rc.Node):
     title = 'dis'
-    description = '''Disassemble classes, methods, functions, and other compiled objects.
+    doc = '''Disassemble classes, methods, functions, and other compiled objects.
 
     With no argument, disassemble the last traceback.
 
@@ -256,7 +256,7 @@ class AutoNode_dis_dis(rc.Node):
 
 class AutoNode_dis_disassemble(rc.Node):
     title = 'disassemble'
-    description = '''Disassemble a code object.'''
+    doc = '''Disassemble a code object.'''
     init_inputs = [
         rc.NodeInputBP(label='co'),
 rc.NodeInputBP(label='lasti'),
@@ -273,7 +273,7 @@ rc.NodeInputBP(label='lasti'),
 
 class AutoNode_dis_disco(rc.Node):
     title = 'disco'
-    description = '''Disassemble a code object.'''
+    doc = '''Disassemble a code object.'''
     init_inputs = [
         rc.NodeInputBP(label='co'),
 rc.NodeInputBP(label='lasti'),
@@ -290,7 +290,7 @@ rc.NodeInputBP(label='lasti'),
 
 class AutoNode_dis_distb(rc.Node):
     title = 'distb'
-    description = '''Disassemble a traceback (default: last traceback).'''
+    doc = '''Disassemble a traceback (default: last traceback).'''
     init_inputs = [
         rc.NodeInputBP(label='tb'),
     ]
@@ -306,7 +306,7 @@ class AutoNode_dis_distb(rc.Node):
 
 class AutoNode_dis_findlabels(rc.Node):
     title = 'findlabels'
-    description = '''Detect all offsets in a byte code which are jump targets.
+    doc = '''Detect all offsets in a byte code which are jump targets.
 
     Return the list of offsets.
 
@@ -326,7 +326,7 @@ class AutoNode_dis_findlabels(rc.Node):
 
 class AutoNode_dis_findlinestarts(rc.Node):
     title = 'findlinestarts'
-    description = '''Find the offsets in a byte code which are start of lines in the source.
+    doc = '''Find the offsets in a byte code which are start of lines in the source.
 
     Generate pairs (offset, lineno) as described in Python/compile.c.
 
@@ -346,7 +346,7 @@ class AutoNode_dis_findlinestarts(rc.Node):
 
 class AutoNode_dis_get_instructions(rc.Node):
     title = 'get_instructions'
-    description = '''Iterator for the opcodes in methods, functions or code
+    doc = '''Iterator for the opcodes in methods, functions or code
 
     Generates a series of Instruction named tuples giving the details of
     each operations in the supplied code.
@@ -371,7 +371,7 @@ class AutoNode_dis_get_instructions(rc.Node):
 
 class AutoNode_dis_pretty_flags(rc.Node):
     title = 'pretty_flags'
-    description = '''Return pretty representation of code flags.'''
+    doc = '''Return pretty representation of code flags.'''
     init_inputs = [
         rc.NodeInputBP(label='flags'),
     ]
@@ -387,7 +387,7 @@ class AutoNode_dis_pretty_flags(rc.Node):
 
 class AutoNode_dis_show_code(rc.Node):
     title = 'show_code'
-    description = '''Print details of methods, functions, or code to *file*.
+    doc = '''Print details of methods, functions, or code to *file*.
 
     If *file* is not provided, the output is printed on stdout.
     '''
@@ -406,7 +406,7 @@ class AutoNode_dis_show_code(rc.Node):
 
 class AutoNode_dis_stack_effect(rc.Node):
     title = 'stack_effect'
-    description = '''Compute the stack effect of the opcode.'''
+    doc = '''Compute the stack effect of the opcode.'''
     init_inputs = [
         rc.NodeInputBP(label='opcode'),
 rc.NodeInputBP(label='oparg'),

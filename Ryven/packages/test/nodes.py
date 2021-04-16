@@ -36,7 +36,7 @@ class SuperNode(Node):
 
 class Node1(SuperNode):
     title = 'Node 1'
-    description = 'My first node!'
+    doc = 'My first node!'
 
     def update_event(self, input_called=-1):
         print('I got something! look:', self.input(0))

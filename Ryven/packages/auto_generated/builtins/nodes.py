@@ -5,7 +5,7 @@ import builtins
 class AutoNode_builtins_abs(rc.Node):
     title = 'abs'
     type_ = 'builtins'
-    description = '''Return the absolute value of the argument.'''
+    doc = '''Return the absolute value of the argument.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -22,7 +22,7 @@ class AutoNode_builtins_abs(rc.Node):
 class AutoNode_builtins_all(rc.Node):
     title = 'all'
     type_ = 'builtins'
-    description = '''Return True if bool(x) is True for all values x in the iterable.
+    doc = '''Return True if bool(x) is True for all values x in the iterable.
 
 If the iterable is empty, return True.'''
     init_inputs = [
@@ -41,7 +41,7 @@ If the iterable is empty, return True.'''
 class AutoNode_builtins_any(rc.Node):
     title = 'any'
     type_ = 'builtins'
-    description = '''Return True if bool(x) is True for any x in the iterable.
+    doc = '''Return True if bool(x) is True for any x in the iterable.
 
 If the iterable is empty, return False.'''
     init_inputs = [
@@ -60,7 +60,7 @@ If the iterable is empty, return False.'''
 class AutoNode_builtins_ascii(rc.Node):
     title = 'ascii'
     type_ = 'builtins'
-    description = '''Return an ASCII-only representation of an object.
+    doc = '''Return an ASCII-only representation of an object.
 
 As repr(), return a string containing a printable representation of an
 object, but escape the non-ASCII characters in the string returned by
@@ -82,7 +82,7 @@ to that returned by repr() in Python 2.'''
 class AutoNode_builtins_bin(rc.Node):
     title = 'bin'
     type_ = 'builtins'
-    description = '''Return the binary representation of an integer.
+    doc = '''Return the binary representation of an integer.
 
    >>> bin(2796202)
    '0b1010101010101010101010''''
@@ -102,7 +102,7 @@ class AutoNode_builtins_bin(rc.Node):
 class AutoNode_builtins_callable(rc.Node):
     title = 'callable'
     type_ = 'builtins'
-    description = '''Return whether the object is callable (i.e., some kind of function).
+    doc = '''Return whether the object is callable (i.e., some kind of function).
 
 Note that classes are callable, as are instances of classes with a
 __call__() method.'''
@@ -122,7 +122,7 @@ __call__() method.'''
 class AutoNode_builtins_chr(rc.Node):
     title = 'chr'
     type_ = 'builtins'
-    description = '''Return a Unicode string of one character with ordinal i; 0 <= i <= 0x10ffff.'''
+    doc = '''Return a Unicode string of one character with ordinal i; 0 <= i <= 0x10ffff.'''
     init_inputs = [
         rc.NodeInputBP(label='i'),
     ]
@@ -139,7 +139,7 @@ class AutoNode_builtins_chr(rc.Node):
 class AutoNode_builtins_compile(rc.Node):
     title = 'compile'
     type_ = 'builtins'
-    description = '''Compile source into a code object that can be executed by exec() or eval().
+    doc = '''Compile source into a code object that can be executed by exec() or eval().
 
 The source code may represent a Python module, statement or expression.
 The filename will be used for run-time error messages.
@@ -172,7 +172,7 @@ rc.NodeInputBP(label='optimize'),
 class AutoNode_builtins_delattr(rc.Node):
     title = 'delattr'
     type_ = 'builtins'
-    description = '''Deletes the named attribute from the given object.
+    doc = '''Deletes the named attribute from the given object.
 
 delattr(x, 'y') is equivalent to ``del x.y'''''
     init_inputs = [
@@ -192,7 +192,7 @@ rc.NodeInputBP(label='name'),
 class AutoNode_builtins_divmod(rc.Node):
     title = 'divmod'
     type_ = 'builtins'
-    description = '''Return the tuple (x//y, x%y).  Invariant: div*y + mod == x.'''
+    doc = '''Return the tuple (x//y, x%y).  Invariant: div*y + mod == x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='y'),
@@ -210,7 +210,7 @@ rc.NodeInputBP(label='y'),
 class AutoNode_builtins_eval(rc.Node):
     title = 'eval'
     type_ = 'builtins'
-    description = '''Evaluate the given source in the context of globals and locals.
+    doc = '''Evaluate the given source in the context of globals and locals.
 
 The source may be a string representing a Python expression
 or a code object as returned by compile().
@@ -235,7 +235,7 @@ rc.NodeInputBP(label='locals'),
 class AutoNode_builtins_exec(rc.Node):
     title = 'exec'
     type_ = 'builtins'
-    description = '''Execute the given source in the context of globals and locals.
+    doc = '''Execute the given source in the context of globals and locals.
 
 The source may be a string representing one or more Python statements
 or a code object as returned by compile().
@@ -260,7 +260,7 @@ rc.NodeInputBP(label='locals'),
 class AutoNode_builtins_format(rc.Node):
     title = 'format'
     type_ = 'builtins'
-    description = '''Return value.__format__(format_spec)
+    doc = '''Return value.__format__(format_spec)
 
 format_spec defaults to the empty string.
 See the Format Specification Mini-Language section of help('FORMATTING') for
@@ -282,7 +282,7 @@ rc.NodeInputBP(label='format_spec'),
 class AutoNode_builtins_globals(rc.Node):
     title = 'globals'
     type_ = 'builtins'
-    description = '''Return the dictionary containing the current scope's global variables.
+    doc = '''Return the dictionary containing the current scope's global variables.
 
 NOTE: Updates to this dictionary *will* affect name lookups in the current
 global scope and vice-versa.'''
@@ -302,7 +302,7 @@ global scope and vice-versa.'''
 class AutoNode_builtins_hasattr(rc.Node):
     title = 'hasattr'
     type_ = 'builtins'
-    description = '''Return whether the object has an attribute with the given name.
+    doc = '''Return whether the object has an attribute with the given name.
 
 This is done by calling getattr(obj, name) and catching AttributeError.'''
     init_inputs = [
@@ -322,7 +322,7 @@ rc.NodeInputBP(label='name'),
 class AutoNode_builtins_hash(rc.Node):
     title = 'hash'
     type_ = 'builtins'
-    description = '''Return the hash value for the given object.
+    doc = '''Return the hash value for the given object.
 
 Two objects that compare equal must also have the same hash value, but the
 reverse is not necessarily true.'''
@@ -342,7 +342,7 @@ reverse is not necessarily true.'''
 class AutoNode_builtins_hex(rc.Node):
     title = 'hex'
     type_ = 'builtins'
-    description = '''Return the hexadecimal representation of an integer.
+    doc = '''Return the hexadecimal representation of an integer.
 
    >>> hex(12648430)
    '0xc0ffee''''
@@ -362,7 +362,7 @@ class AutoNode_builtins_hex(rc.Node):
 class AutoNode_builtins_id(rc.Node):
     title = 'id'
     type_ = 'builtins'
-    description = '''Return the identity of an object.
+    doc = '''Return the identity of an object.
 
 This is guaranteed to be unique among simultaneously existing objects.
 (CPython uses the object's memory address.)'''
@@ -382,7 +382,7 @@ This is guaranteed to be unique among simultaneously existing objects.
 class AutoNode_builtins_input(rc.Node):
     title = 'input'
     type_ = 'builtins'
-    description = '''Read a string from standard input.  The trailing newline is stripped.
+    doc = '''Read a string from standard input.  The trailing newline is stripped.
 
 The prompt string, if given, is printed to standard output without a
 trailing newline before reading input.
@@ -405,7 +405,7 @@ On *nix systems, readline is used if available.'''
 class AutoNode_builtins_isinstance(rc.Node):
     title = 'isinstance'
     type_ = 'builtins'
-    description = '''Return whether an object is an instance of a class or of a subclass thereof.
+    doc = '''Return whether an object is an instance of a class or of a subclass thereof.
 
 A tuple, as in ``isinstance(x, (A, B, ...))``, may be given as the target to
 check against. This is equivalent to ``isinstance(x, A) or isinstance(x, B)
@@ -427,7 +427,7 @@ rc.NodeInputBP(label='class_or_tuple'),
 class AutoNode_builtins_issubclass(rc.Node):
     title = 'issubclass'
     type_ = 'builtins'
-    description = '''Return whether 'cls' is a derived from another class or is the same class.
+    doc = '''Return whether 'cls' is a derived from another class or is the same class.
 
 A tuple, as in ``issubclass(x, (A, B, ...))``, may be given as the target to
 check against. This is equivalent to ``issubclass(x, A) or issubclass(x, B)
@@ -449,7 +449,7 @@ rc.NodeInputBP(label='class_or_tuple'),
 class AutoNode_builtins_len(rc.Node):
     title = 'len'
     type_ = 'builtins'
-    description = '''Return the number of items in a container.'''
+    doc = '''Return the number of items in a container.'''
     init_inputs = [
         rc.NodeInputBP(label='obj'),
     ]
@@ -466,7 +466,7 @@ class AutoNode_builtins_len(rc.Node):
 class AutoNode_builtins_locals(rc.Node):
     title = 'locals'
     type_ = 'builtins'
-    description = '''Return a dictionary containing the current scope's local variables.
+    doc = '''Return a dictionary containing the current scope's local variables.
 
 NOTE: Whether or not updates to this dictionary will affect name lookups in
 the local scope and vice-versa is *implementation dependent* and not
@@ -487,7 +487,7 @@ covered by any backwards compatibility guarantees.'''
 class AutoNode_builtins_oct(rc.Node):
     title = 'oct'
     type_ = 'builtins'
-    description = '''Return the octal representation of an integer.
+    doc = '''Return the octal representation of an integer.
 
    >>> oct(342391)
    '0o1234567''''
@@ -507,7 +507,7 @@ class AutoNode_builtins_oct(rc.Node):
 class AutoNode_builtins_open(rc.Node):
     title = 'open'
     type_ = 'builtins'
-    description = '''Open file and return a stream.  Raise OSError upon failure.
+    doc = '''Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -648,7 +648,7 @@ rc.NodeInputBP(label='opener'),
 class AutoNode_builtins_ord(rc.Node):
     title = 'ord'
     type_ = 'builtins'
-    description = '''Return the Unicode code point for a one-character string.'''
+    doc = '''Return the Unicode code point for a one-character string.'''
     init_inputs = [
         rc.NodeInputBP(label='c'),
     ]
@@ -665,7 +665,7 @@ class AutoNode_builtins_ord(rc.Node):
 class AutoNode_builtins_pow(rc.Node):
     title = 'pow'
     type_ = 'builtins'
-    description = '''Equivalent to base**exp with 2 arguments or base**exp % mod with 3 arguments
+    doc = '''Equivalent to base**exp with 2 arguments or base**exp % mod with 3 arguments
 
 Some types, such as ints, are able to use a more efficient algorithm when
 invoked using the three argument form.'''
@@ -687,7 +687,7 @@ rc.NodeInputBP(label='mod'),
 class AutoNode_builtins_repr(rc.Node):
     title = 'repr'
     type_ = 'builtins'
-    description = '''Return the canonical string representation of the object.
+    doc = '''Return the canonical string representation of the object.
 
 For many object types, including most builtins, eval(repr(obj)) == obj.'''
     init_inputs = [
@@ -706,7 +706,7 @@ For many object types, including most builtins, eval(repr(obj)) == obj.'''
 class AutoNode_builtins_round(rc.Node):
     title = 'round'
     type_ = 'builtins'
-    description = '''Round a number to a given precision in decimal digits.
+    doc = '''Round a number to a given precision in decimal digits.
 
 The return value is an integer if ndigits is omitted or None.  Otherwise
 the return value has the same type as the number.  ndigits may be negative.'''
@@ -727,7 +727,7 @@ rc.NodeInputBP(label='ndigits'),
 class AutoNode_builtins_setattr(rc.Node):
     title = 'setattr'
     type_ = 'builtins'
-    description = '''Sets the named attribute on the given object to the specified value.
+    doc = '''Sets the named attribute on the given object to the specified value.
 
 setattr(x, 'y', v) is equivalent to ``x.y = v'''''
     init_inputs = [
@@ -748,7 +748,7 @@ rc.NodeInputBP(label='value'),
 class AutoNode_builtins_sorted(rc.Node):
     title = 'sorted'
     type_ = 'builtins'
-    description = '''Return a new list containing all items from the iterable in ascending order.
+    doc = '''Return a new list containing all items from the iterable in ascending order.
 
 A custom key function can be supplied to customize the sort order, and the
 reverse flag can be set to request the result in descending order.'''
@@ -768,7 +768,7 @@ reverse flag can be set to request the result in descending order.'''
 class AutoNode_builtins_sum(rc.Node):
     title = 'sum'
     type_ = 'builtins'
-    description = '''Return the sum of a 'start' value (default: 0) plus an iterable of numbers
+    doc = '''Return the sum of a 'start' value (default: 0) plus an iterable of numbers
 
 When the iterable is empty, return the start value.
 This function is intended specifically for use with numeric values and may

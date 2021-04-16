@@ -4,7 +4,7 @@ import getpass
 
 class AutoNode_getpass__raw_input(rc.Node):
     title = '_raw_input'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='prompt'),
 rc.NodeInputBP(label='stream'),
@@ -22,7 +22,7 @@ rc.NodeInputBP(label='input'),
 
 class AutoNode_getpass_fallback_getpass(rc.Node):
     title = 'fallback_getpass'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='prompt'),
 rc.NodeInputBP(label='stream'),
@@ -39,7 +39,7 @@ rc.NodeInputBP(label='stream'),
 
 class AutoNode_getpass_getpass(rc.Node):
     title = 'getpass'
-    description = '''Prompt for password with echo off, using Windows getch().'''
+    doc = '''Prompt for password with echo off, using Windows getch().'''
     init_inputs = [
         rc.NodeInputBP(label='prompt'),
 rc.NodeInputBP(label='stream'),
@@ -56,7 +56,7 @@ rc.NodeInputBP(label='stream'),
 
 class AutoNode_getpass_getuser(rc.Node):
     title = 'getuser'
-    description = '''Get the username from the environment or password database.
+    doc = '''Get the username from the environment or password database.
 
     First try various environment variables, then the password
     database.  This works on Windows as long as USERNAME is set.
@@ -77,7 +77,7 @@ class AutoNode_getpass_getuser(rc.Node):
 
 class AutoNode_getpass_unix_getpass(rc.Node):
     title = 'unix_getpass'
-    description = '''Prompt for a password, with echo turned off.
+    doc = '''Prompt for a password, with echo turned off.
 
     Args:
       prompt: Written on stream to ask for the input.  Default: 'Password: '
@@ -107,7 +107,7 @@ rc.NodeInputBP(label='stream'),
 
 class AutoNode_getpass_win_getpass(rc.Node):
     title = 'win_getpass'
-    description = '''Prompt for password with echo off, using Windows getch().'''
+    doc = '''Prompt for password with echo off, using Windows getch().'''
     init_inputs = [
         rc.NodeInputBP(label='prompt'),
 rc.NodeInputBP(label='stream'),

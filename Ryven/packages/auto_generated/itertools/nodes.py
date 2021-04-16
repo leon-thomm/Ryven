@@ -5,7 +5,7 @@ import itertools
 class AutoNode_itertools_tee(rc.Node):
     title = 'tee'
     type_ = 'itertools'
-    description = '''Returns a tuple of n independent iterators.'''
+    doc = '''Returns a tuple of n independent iterators.'''
     init_inputs = [
         rc.NodeInputBP(label='iterable'),
 rc.NodeInputBP(label='n'),

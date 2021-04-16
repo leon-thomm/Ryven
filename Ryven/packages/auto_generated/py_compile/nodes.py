@@ -4,7 +4,7 @@ import py_compile
 
 class AutoNode_py_compile__get_default_invalidation_mode(rc.Node):
     title = '_get_default_invalidation_mode'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -20,7 +20,7 @@ class AutoNode_py_compile__get_default_invalidation_mode(rc.Node):
 
 class AutoNode_py_compile_compile(rc.Node):
     title = 'compile'
-    description = '''Byte-compile one Python source file to Python bytecode.
+    doc = '''Byte-compile one Python source file to Python bytecode.
 
     :param file: The source file name.
     :param cfile: The target byte compiled file name.  When not given, this
@@ -84,7 +84,7 @@ rc.NodeInputBP(label='quiet'),
 
 class AutoNode_py_compile_main(rc.Node):
     title = 'main'
-    description = '''Compile several source files.
+    doc = '''Compile several source files.
 
     The files named in 'args' (or on the command line, if 'args' is
     not specified) are compiled and the resulting bytecode is cached

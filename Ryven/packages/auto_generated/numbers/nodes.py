@@ -4,7 +4,7 @@ import numbers
 
 class AutoNode_numbers_abstractmethod(rc.Node):
     title = 'abstractmethod'
-    description = '''A decorator indicating abstract methods.
+    doc = '''A decorator indicating abstract methods.
 
     Requires that the metaclass is ABCMeta or derived from it.  A
     class that has a metaclass derived from ABCMeta cannot be

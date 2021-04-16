@@ -4,7 +4,7 @@ import io
 
 class AutoNode_io_OpenWrapper(rc.Node):
     title = 'OpenWrapper'
-    description = '''Open file and return a stream.  Raise OSError upon failure.
+    doc = '''Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -144,7 +144,7 @@ rc.NodeInputBP(label='opener'),
 
 class AutoNode_io_open(rc.Node):
     title = 'open'
-    description = '''Open file and return a stream.  Raise OSError upon failure.
+    doc = '''Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -284,7 +284,7 @@ rc.NodeInputBP(label='opener'),
 
 class AutoNode_io_open_code(rc.Node):
     title = 'open_code'
-    description = '''Opens the provided file with the intent to import the contents.
+    doc = '''Opens the provided file with the intent to import the contents.
 
 This may perform extra validation beyond open(), but is otherwise interchangeable
 with calling open(path, 'rb').'''

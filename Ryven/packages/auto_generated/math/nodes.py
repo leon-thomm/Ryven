@@ -5,7 +5,7 @@ import math
 class AutoNode_math_acos(rc.Node):
     title = 'acos'
     type_ = 'math'
-    description = '''Return the arc cosine (measured in radians) of x.'''
+    doc = '''Return the arc cosine (measured in radians) of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -22,7 +22,7 @@ class AutoNode_math_acos(rc.Node):
 class AutoNode_math_acosh(rc.Node):
     title = 'acosh'
     type_ = 'math'
-    description = '''Return the inverse hyperbolic cosine of x.'''
+    doc = '''Return the inverse hyperbolic cosine of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -39,7 +39,7 @@ class AutoNode_math_acosh(rc.Node):
 class AutoNode_math_asin(rc.Node):
     title = 'asin'
     type_ = 'math'
-    description = '''Return the arc sine (measured in radians) of x.'''
+    doc = '''Return the arc sine (measured in radians) of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -56,7 +56,7 @@ class AutoNode_math_asin(rc.Node):
 class AutoNode_math_asinh(rc.Node):
     title = 'asinh'
     type_ = 'math'
-    description = '''Return the inverse hyperbolic sine of x.'''
+    doc = '''Return the inverse hyperbolic sine of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -73,7 +73,7 @@ class AutoNode_math_asinh(rc.Node):
 class AutoNode_math_atan(rc.Node):
     title = 'atan'
     type_ = 'math'
-    description = '''Return the arc tangent (measured in radians) of x.'''
+    doc = '''Return the arc tangent (measured in radians) of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -90,7 +90,7 @@ class AutoNode_math_atan(rc.Node):
 class AutoNode_math_atan2(rc.Node):
     title = 'atan2'
     type_ = 'math'
-    description = '''Return the arc tangent (measured in radians) of y/x.
+    doc = '''Return the arc tangent (measured in radians) of y/x.
 
 Unlike atan(y/x), the signs of both x and y are considered.'''
     init_inputs = [
@@ -110,7 +110,7 @@ rc.NodeInputBP(label='x'),
 class AutoNode_math_atanh(rc.Node):
     title = 'atanh'
     type_ = 'math'
-    description = '''Return the inverse hyperbolic tangent of x.'''
+    doc = '''Return the inverse hyperbolic tangent of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -127,7 +127,7 @@ class AutoNode_math_atanh(rc.Node):
 class AutoNode_math_ceil(rc.Node):
     title = 'ceil'
     type_ = 'math'
-    description = '''Return the ceiling of x as an Integral.
+    doc = '''Return the ceiling of x as an Integral.
 
 This is the smallest integer >= x.'''
     init_inputs = [
@@ -146,7 +146,7 @@ This is the smallest integer >= x.'''
 class AutoNode_math_comb(rc.Node):
     title = 'comb'
     type_ = 'math'
-    description = '''Number of ways to choose k items from n items without repetition and without order.
+    doc = '''Number of ways to choose k items from n items without repetition and without order.
 
 Evaluates to n! / (k! * (n - k)!) when k <= n and evaluates
 to zero when k > n.
@@ -174,7 +174,7 @@ rc.NodeInputBP(label='k'),
 class AutoNode_math_copysign(rc.Node):
     title = 'copysign'
     type_ = 'math'
-    description = '''Return a float with the magnitude (absolute value) of x but the sign of y.
+    doc = '''Return a float with the magnitude (absolute value) of x but the sign of y.
 
 On platforms that support signed zeros, copysign(1.0, -0.0)
 returns -1.0.
@@ -196,7 +196,7 @@ rc.NodeInputBP(label='y'),
 class AutoNode_math_cos(rc.Node):
     title = 'cos'
     type_ = 'math'
-    description = '''Return the cosine of x (measured in radians).'''
+    doc = '''Return the cosine of x (measured in radians).'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -213,7 +213,7 @@ class AutoNode_math_cos(rc.Node):
 class AutoNode_math_cosh(rc.Node):
     title = 'cosh'
     type_ = 'math'
-    description = '''Return the hyperbolic cosine of x.'''
+    doc = '''Return the hyperbolic cosine of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -230,7 +230,7 @@ class AutoNode_math_cosh(rc.Node):
 class AutoNode_math_degrees(rc.Node):
     title = 'degrees'
     type_ = 'math'
-    description = '''Convert angle x from radians to degrees.'''
+    doc = '''Convert angle x from radians to degrees.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -247,7 +247,7 @@ class AutoNode_math_degrees(rc.Node):
 class AutoNode_math_dist(rc.Node):
     title = 'dist'
     type_ = 'math'
-    description = '''Return the Euclidean distance between two points p and q.
+    doc = '''Return the Euclidean distance between two points p and q.
 
 The points should be specified as sequences (or iterables) of
 coordinates.  Both inputs must have the same dimension.
@@ -271,7 +271,7 @@ rc.NodeInputBP(label='q'),
 class AutoNode_math_erf(rc.Node):
     title = 'erf'
     type_ = 'math'
-    description = '''Error function at x.'''
+    doc = '''Error function at x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -288,7 +288,7 @@ class AutoNode_math_erf(rc.Node):
 class AutoNode_math_erfc(rc.Node):
     title = 'erfc'
     type_ = 'math'
-    description = '''Complementary error function at x.'''
+    doc = '''Complementary error function at x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -305,7 +305,7 @@ class AutoNode_math_erfc(rc.Node):
 class AutoNode_math_exp(rc.Node):
     title = 'exp'
     type_ = 'math'
-    description = '''Return e raised to the power of x.'''
+    doc = '''Return e raised to the power of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -322,7 +322,7 @@ class AutoNode_math_exp(rc.Node):
 class AutoNode_math_expm1(rc.Node):
     title = 'expm1'
     type_ = 'math'
-    description = '''Return exp(x)-1.
+    doc = '''Return exp(x)-1.
 
 This function avoids the loss of precision involved in the direct evaluation of exp(x)-1 for small x.'''
     init_inputs = [
@@ -341,7 +341,7 @@ This function avoids the loss of precision involved in the direct evaluation of 
 class AutoNode_math_fabs(rc.Node):
     title = 'fabs'
     type_ = 'math'
-    description = '''Return the absolute value of the float x.'''
+    doc = '''Return the absolute value of the float x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -358,7 +358,7 @@ class AutoNode_math_fabs(rc.Node):
 class AutoNode_math_factorial(rc.Node):
     title = 'factorial'
     type_ = 'math'
-    description = '''Find x!.
+    doc = '''Find x!.
 
 Raise a ValueError if x is negative or non-integral.'''
     init_inputs = [
@@ -377,7 +377,7 @@ Raise a ValueError if x is negative or non-integral.'''
 class AutoNode_math_floor(rc.Node):
     title = 'floor'
     type_ = 'math'
-    description = '''Return the floor of x as an Integral.
+    doc = '''Return the floor of x as an Integral.
 
 This is the largest integer <= x.'''
     init_inputs = [
@@ -396,7 +396,7 @@ This is the largest integer <= x.'''
 class AutoNode_math_fmod(rc.Node):
     title = 'fmod'
     type_ = 'math'
-    description = '''Return fmod(x, y), according to platform C.
+    doc = '''Return fmod(x, y), according to platform C.
 
 x % y may differ.'''
     init_inputs = [
@@ -416,7 +416,7 @@ rc.NodeInputBP(label='y'),
 class AutoNode_math_frexp(rc.Node):
     title = 'frexp'
     type_ = 'math'
-    description = '''Return the mantissa and exponent of x, as pair (m, e).
+    doc = '''Return the mantissa and exponent of x, as pair (m, e).
 
 m is a float and e is an int, such that x = m * 2.**e.
 If x is 0, m and e are both 0.  Else 0.5 <= abs(m) < 1.0.'''
@@ -436,7 +436,7 @@ If x is 0, m and e are both 0.  Else 0.5 <= abs(m) < 1.0.'''
 class AutoNode_math_fsum(rc.Node):
     title = 'fsum'
     type_ = 'math'
-    description = '''Return an accurate floating point sum of values in the iterable seq.
+    doc = '''Return an accurate floating point sum of values in the iterable seq.
 
 Assumes IEEE-754 floating point arithmetic.'''
     init_inputs = [
@@ -455,7 +455,7 @@ Assumes IEEE-754 floating point arithmetic.'''
 class AutoNode_math_gamma(rc.Node):
     title = 'gamma'
     type_ = 'math'
-    description = '''Gamma function at x.'''
+    doc = '''Gamma function at x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -472,7 +472,7 @@ class AutoNode_math_gamma(rc.Node):
 class AutoNode_math_gcd(rc.Node):
     title = 'gcd'
     type_ = 'math'
-    description = '''greatest common divisor of x and y'''
+    doc = '''greatest common divisor of x and y'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='y'),
@@ -490,7 +490,7 @@ rc.NodeInputBP(label='y'),
 class AutoNode_math_isclose(rc.Node):
     title = 'isclose'
     type_ = 'math'
-    description = '''Determine whether two floating point numbers are close in value.
+    doc = '''Determine whether two floating point numbers are close in value.
 
   rel_tol
     maximum difference for being considered "close", relative to the
@@ -524,7 +524,7 @@ rc.NodeInputBP(label='b'),
 class AutoNode_math_isfinite(rc.Node):
     title = 'isfinite'
     type_ = 'math'
-    description = '''Return True if x is neither an infinity nor a NaN, and False otherwise.'''
+    doc = '''Return True if x is neither an infinity nor a NaN, and False otherwise.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -541,7 +541,7 @@ class AutoNode_math_isfinite(rc.Node):
 class AutoNode_math_isinf(rc.Node):
     title = 'isinf'
     type_ = 'math'
-    description = '''Return True if x is a positive or negative infinity, and False otherwise.'''
+    doc = '''Return True if x is a positive or negative infinity, and False otherwise.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -558,7 +558,7 @@ class AutoNode_math_isinf(rc.Node):
 class AutoNode_math_isnan(rc.Node):
     title = 'isnan'
     type_ = 'math'
-    description = '''Return True if x is a NaN (not a number), and False otherwise.'''
+    doc = '''Return True if x is a NaN (not a number), and False otherwise.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -575,7 +575,7 @@ class AutoNode_math_isnan(rc.Node):
 class AutoNode_math_isqrt(rc.Node):
     title = 'isqrt'
     type_ = 'math'
-    description = '''Return the integer part of the square root of the input.'''
+    doc = '''Return the integer part of the square root of the input.'''
     init_inputs = [
         rc.NodeInputBP(label='n'),
     ]
@@ -592,7 +592,7 @@ class AutoNode_math_isqrt(rc.Node):
 class AutoNode_math_ldexp(rc.Node):
     title = 'ldexp'
     type_ = 'math'
-    description = '''Return x * (2**i).
+    doc = '''Return x * (2**i).
 
 This is essentially the inverse of frexp().'''
     init_inputs = [
@@ -612,7 +612,7 @@ rc.NodeInputBP(label='i'),
 class AutoNode_math_lgamma(rc.Node):
     title = 'lgamma'
     type_ = 'math'
-    description = '''Natural logarithm of absolute value of Gamma function at x.'''
+    doc = '''Natural logarithm of absolute value of Gamma function at x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -629,7 +629,7 @@ class AutoNode_math_lgamma(rc.Node):
 class AutoNode_math_log10(rc.Node):
     title = 'log10'
     type_ = 'math'
-    description = '''Return the base 10 logarithm of x.'''
+    doc = '''Return the base 10 logarithm of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -646,7 +646,7 @@ class AutoNode_math_log10(rc.Node):
 class AutoNode_math_log1p(rc.Node):
     title = 'log1p'
     type_ = 'math'
-    description = '''Return the natural logarithm of 1+x (base e).
+    doc = '''Return the natural logarithm of 1+x (base e).
 
 The result is computed in a way which is accurate for x near zero.'''
     init_inputs = [
@@ -665,7 +665,7 @@ The result is computed in a way which is accurate for x near zero.'''
 class AutoNode_math_log2(rc.Node):
     title = 'log2'
     type_ = 'math'
-    description = '''Return the base 2 logarithm of x.'''
+    doc = '''Return the base 2 logarithm of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -682,7 +682,7 @@ class AutoNode_math_log2(rc.Node):
 class AutoNode_math_modf(rc.Node):
     title = 'modf'
     type_ = 'math'
-    description = '''Return the fractional and integer parts of x.
+    doc = '''Return the fractional and integer parts of x.
 
 Both results carry the sign of x and are floats.'''
     init_inputs = [
@@ -701,7 +701,7 @@ Both results carry the sign of x and are floats.'''
 class AutoNode_math_perm(rc.Node):
     title = 'perm'
     type_ = 'math'
-    description = '''Number of ways to choose k items from n items without repetition and with order.
+    doc = '''Number of ways to choose k items from n items without repetition and with order.
 
 Evaluates to n! / (n - k)! when k <= n and evaluates
 to zero when k > n.
@@ -728,7 +728,7 @@ rc.NodeInputBP(label='k'),
 class AutoNode_math_pow(rc.Node):
     title = 'pow'
     type_ = 'math'
-    description = '''Return x**y (x to the power of y).'''
+    doc = '''Return x**y (x to the power of y).'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
 rc.NodeInputBP(label='y'),
@@ -746,7 +746,7 @@ rc.NodeInputBP(label='y'),
 class AutoNode_math_prod(rc.Node):
     title = 'prod'
     type_ = 'math'
-    description = '''Calculate the product of all the elements in the input iterable.
+    doc = '''Calculate the product of all the elements in the input iterable.
 
 The default start value for the product is 1.
 
@@ -769,7 +769,7 @@ non-numeric types.'''
 class AutoNode_math_radians(rc.Node):
     title = 'radians'
     type_ = 'math'
-    description = '''Convert angle x from degrees to radians.'''
+    doc = '''Convert angle x from degrees to radians.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -786,7 +786,7 @@ class AutoNode_math_radians(rc.Node):
 class AutoNode_math_remainder(rc.Node):
     title = 'remainder'
     type_ = 'math'
-    description = '''Difference between x and the closest integer multiple of y.
+    doc = '''Difference between x and the closest integer multiple of y.
 
 Return x - n*y where n*y is the closest integer multiple of y.
 In the case where x is exactly halfway between two multiples of
@@ -808,7 +808,7 @@ rc.NodeInputBP(label='y'),
 class AutoNode_math_sin(rc.Node):
     title = 'sin'
     type_ = 'math'
-    description = '''Return the sine of x (measured in radians).'''
+    doc = '''Return the sine of x (measured in radians).'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -825,7 +825,7 @@ class AutoNode_math_sin(rc.Node):
 class AutoNode_math_sinh(rc.Node):
     title = 'sinh'
     type_ = 'math'
-    description = '''Return the hyperbolic sine of x.'''
+    doc = '''Return the hyperbolic sine of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -842,7 +842,7 @@ class AutoNode_math_sinh(rc.Node):
 class AutoNode_math_sqrt(rc.Node):
     title = 'sqrt'
     type_ = 'math'
-    description = '''Return the square root of x.'''
+    doc = '''Return the square root of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -859,7 +859,7 @@ class AutoNode_math_sqrt(rc.Node):
 class AutoNode_math_tan(rc.Node):
     title = 'tan'
     type_ = 'math'
-    description = '''Return the tangent of x (measured in radians).'''
+    doc = '''Return the tangent of x (measured in radians).'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -876,7 +876,7 @@ class AutoNode_math_tan(rc.Node):
 class AutoNode_math_tanh(rc.Node):
     title = 'tanh'
     type_ = 'math'
-    description = '''Return the hyperbolic tangent of x.'''
+    doc = '''Return the hyperbolic tangent of x.'''
     init_inputs = [
         rc.NodeInputBP(label='x'),
     ]
@@ -893,7 +893,7 @@ class AutoNode_math_tanh(rc.Node):
 class AutoNode_math_trunc(rc.Node):
     title = 'trunc'
     type_ = 'math'
-    description = '''Truncates the Real x to the nearest Integral toward 0.
+    doc = '''Truncates the Real x to the nearest Integral toward 0.
 
 Uses the __trunc__ magic method.'''
     init_inputs = [

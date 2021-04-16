@@ -4,7 +4,7 @@ import colorsys
 
 class AutoNode_colorsys__v(rc.Node):
     title = '_v'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='m1'),
 rc.NodeInputBP(label='m2'),
@@ -22,7 +22,7 @@ rc.NodeInputBP(label='hue'),
 
 class AutoNode_colorsys_hls_to_rgb(rc.Node):
     title = 'hls_to_rgb'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='l'),
@@ -40,7 +40,7 @@ rc.NodeInputBP(label='s'),
 
 class AutoNode_colorsys_hsv_to_rgb(rc.Node):
     title = 'hsv_to_rgb'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='h'),
 rc.NodeInputBP(label='s'),
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='v'),
 
 class AutoNode_colorsys_rgb_to_hls(rc.Node):
     title = 'rgb_to_hls'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='r'),
 rc.NodeInputBP(label='g'),
@@ -76,7 +76,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_colorsys_rgb_to_hsv(rc.Node):
     title = 'rgb_to_hsv'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='r'),
 rc.NodeInputBP(label='g'),
@@ -94,7 +94,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_colorsys_rgb_to_yiq(rc.Node):
     title = 'rgb_to_yiq'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='r'),
 rc.NodeInputBP(label='g'),
@@ -112,7 +112,7 @@ rc.NodeInputBP(label='b'),
 
 class AutoNode_colorsys_yiq_to_rgb(rc.Node):
     title = 'yiq_to_rgb'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='y'),
 rc.NodeInputBP(label='i'),

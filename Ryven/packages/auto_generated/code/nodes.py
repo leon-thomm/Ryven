@@ -4,7 +4,7 @@ import code
 
 class AutoNode_code_compile_command(rc.Node):
     title = 'compile_command'
-    description = '''Compile a command and determine whether it is incomplete.
+    doc = '''Compile a command and determine whether it is incomplete.
 
     Arguments:
 
@@ -39,7 +39,7 @@ rc.NodeInputBP(label='symbol'),
 
 class AutoNode_code_interact(rc.Node):
     title = 'interact'
-    description = '''Closely emulate the interactive Python interpreter.
+    doc = '''Closely emulate the interactive Python interpreter.
 
     This is a backwards compatible interface to the InteractiveConsole
     class.  When readfunc is not specified, it attempts to import the

@@ -4,7 +4,7 @@ import platform
 
 class AutoNode_platform__comparable_version(rc.Node):
     title = '_comparable_version'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='version'),
     ]
@@ -20,7 +20,7 @@ class AutoNode_platform__comparable_version(rc.Node):
 
 class AutoNode_platform__follow_symlinks(rc.Node):
     title = '_follow_symlinks'
-    description = ''' In case filepath is a symlink, follow it until a
+    doc = ''' In case filepath is a symlink, follow it until a
         real file is reached.
     '''
     init_inputs = [
@@ -38,7 +38,7 @@ class AutoNode_platform__follow_symlinks(rc.Node):
 
 class AutoNode_platform__java_getprop(rc.Node):
     title = '_java_getprop'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='name'),
 rc.NodeInputBP(label='default'),
@@ -55,7 +55,7 @@ rc.NodeInputBP(label='default'),
 
 class AutoNode_platform__mac_ver_xml(rc.Node):
     title = '_mac_ver_xml'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -71,7 +71,7 @@ class AutoNode_platform__mac_ver_xml(rc.Node):
 
 class AutoNode_platform__node(rc.Node):
     title = '_node'
-    description = ''' Helper to determine the node name of this machine.
+    doc = ''' Helper to determine the node name of this machine.
     '''
     init_inputs = [
         rc.NodeInputBP(label='default'),
@@ -88,7 +88,7 @@ class AutoNode_platform__node(rc.Node):
 
 class AutoNode_platform__norm_version(rc.Node):
     title = '_norm_version'
-    description = ''' Normalize the version and build strings and return a single
+    doc = ''' Normalize the version and build strings and return a single
         version string using the format major.minor.build (or patchlevel).
     '''
     init_inputs = [
@@ -107,7 +107,7 @@ rc.NodeInputBP(label='build'),
 
 class AutoNode_platform__platform(rc.Node):
     title = '_platform'
-    description = ''' Helper to format the platform string in a filename
+    doc = ''' Helper to format the platform string in a filename
         compatible format e.g. "system-version-machine".
     '''
     init_inputs = [
@@ -125,7 +125,7 @@ class AutoNode_platform__platform(rc.Node):
 
 class AutoNode_platform__sys_version(rc.Node):
     title = '_sys_version'
-    description = ''' Returns a parsed version of Python's sys.version as tuple
+    doc = ''' Returns a parsed version of Python's sys.version as tuple
         (name, version, branch, revision, buildno, builddate, compiler)
         referring to the Python implementation name, version, branch,
         revision, build number, build date/time as string and the compiler
@@ -158,7 +158,7 @@ class AutoNode_platform__sys_version(rc.Node):
 
 class AutoNode_platform__syscmd_file(rc.Node):
     title = '_syscmd_file'
-    description = ''' Interface to the system's file command.
+    doc = ''' Interface to the system's file command.
 
         The function uses the -b option of the file command to have it
         omit the filename in its output. Follow the symlinks. It returns
@@ -181,7 +181,7 @@ rc.NodeInputBP(label='default'),
 
 class AutoNode_platform__syscmd_uname(rc.Node):
     title = '_syscmd_uname'
-    description = ''' Interface to the system's uname command.
+    doc = ''' Interface to the system's uname command.
     '''
     init_inputs = [
         rc.NodeInputBP(label='option'),
@@ -199,7 +199,7 @@ rc.NodeInputBP(label='default'),
 
 class AutoNode_platform__syscmd_ver(rc.Node):
     title = '_syscmd_ver'
-    description = ''' Tries to figure out the OS version used and returns
+    doc = ''' Tries to figure out the OS version used and returns
         a tuple (system, release, version).
 
         It uses the "ver" shell command for this which is known
@@ -227,7 +227,7 @@ rc.NodeInputBP(label='supported_platforms'),
 
 class AutoNode_platform_architecture(rc.Node):
     title = 'architecture'
-    description = ''' Queries the given executable (defaults to the Python interpreter
+    doc = ''' Queries the given executable (defaults to the Python interpreter
         binary) for various architecture information.
 
         Returns a tuple (bits, linkage) which contains information about
@@ -263,7 +263,7 @@ rc.NodeInputBP(label='linkage'),
 
 class AutoNode_platform_java_ver(rc.Node):
     title = 'java_ver'
-    description = ''' Version interface for Jython.
+    doc = ''' Version interface for Jython.
 
         Returns a tuple (release, vendor, vminfo, osinfo) with vminfo being
         a tuple (vm_name, vm_release, vm_vendor) and osinfo being a
@@ -291,7 +291,7 @@ rc.NodeInputBP(label='osinfo'),
 
 class AutoNode_platform_libc_ver(rc.Node):
     title = 'libc_ver'
-    description = ''' Tries to determine the libc version that the file executable
+    doc = ''' Tries to determine the libc version that the file executable
         (which defaults to the Python interpreter) is linked against.
 
         Returns a tuple of strings (lib,version) which default to the
@@ -322,7 +322,7 @@ rc.NodeInputBP(label='chunksize'),
 
 class AutoNode_platform_mac_ver(rc.Node):
     title = 'mac_ver'
-    description = ''' Get macOS version information and return it as tuple (release,
+    doc = ''' Get macOS version information and return it as tuple (release,
         versioninfo, machine) with versioninfo being a tuple (version,
         dev_stage, non_release_version).
 
@@ -346,7 +346,7 @@ rc.NodeInputBP(label='machine'),
 
 class AutoNode_platform_machine(rc.Node):
     title = 'machine'
-    description = ''' Returns the machine type, e.g. 'i386'
+    doc = ''' Returns the machine type, e.g. 'i386'
 
         An empty string is returned if the value cannot be determined.
 
@@ -366,7 +366,7 @@ class AutoNode_platform_machine(rc.Node):
 
 class AutoNode_platform_node(rc.Node):
     title = 'node'
-    description = ''' Returns the computer's network name (which may not be fully
+    doc = ''' Returns the computer's network name (which may not be fully
         qualified)
 
         An empty string is returned if the value cannot be determined.
@@ -387,7 +387,7 @@ class AutoNode_platform_node(rc.Node):
 
 class AutoNode_platform_platform(rc.Node):
     title = 'platform'
-    description = ''' Returns a single string identifying the underlying platform
+    doc = ''' Returns a single string identifying the underlying platform
         with as much useful information as possible (but no more :).
 
         The output is intended to be human readable rather than
@@ -420,7 +420,7 @@ rc.NodeInputBP(label='terse'),
 
 class AutoNode_platform_processor(rc.Node):
     title = 'processor'
-    description = ''' Returns the (true) processor name, e.g. 'amdk6'
+    doc = ''' Returns the (true) processor name, e.g. 'amdk6'
 
         An empty string is returned if the value cannot be
         determined. Note that many platforms do not provide this
@@ -443,7 +443,7 @@ class AutoNode_platform_processor(rc.Node):
 
 class AutoNode_platform_python_branch(rc.Node):
     title = 'python_branch'
-    description = ''' Returns a string identifying the Python implementation
+    doc = ''' Returns a string identifying the Python implementation
         branch.
 
         For CPython this is the SCM branch from which the
@@ -467,7 +467,7 @@ class AutoNode_platform_python_branch(rc.Node):
 
 class AutoNode_platform_python_build(rc.Node):
     title = 'python_build'
-    description = ''' Returns a tuple (buildno, builddate) stating the Python
+    doc = ''' Returns a tuple (buildno, builddate) stating the Python
         build number and date as strings.
 
     '''
@@ -486,7 +486,7 @@ class AutoNode_platform_python_build(rc.Node):
 
 class AutoNode_platform_python_compiler(rc.Node):
     title = 'python_compiler'
-    description = ''' Returns a string identifying the compiler used for compiling
+    doc = ''' Returns a string identifying the compiler used for compiling
         Python.
 
     '''
@@ -505,7 +505,7 @@ class AutoNode_platform_python_compiler(rc.Node):
 
 class AutoNode_platform_python_implementation(rc.Node):
     title = 'python_implementation'
-    description = ''' Returns a string identifying the Python implementation.
+    doc = ''' Returns a string identifying the Python implementation.
 
         Currently, the following implementations are identified:
           'CPython' (C implementation of Python),
@@ -529,7 +529,7 @@ class AutoNode_platform_python_implementation(rc.Node):
 
 class AutoNode_platform_python_revision(rc.Node):
     title = 'python_revision'
-    description = ''' Returns a string identifying the Python implementation
+    doc = ''' Returns a string identifying the Python implementation
         revision.
 
         For CPython this is the SCM revision from which the
@@ -553,7 +553,7 @@ class AutoNode_platform_python_revision(rc.Node):
 
 class AutoNode_platform_python_version(rc.Node):
     title = 'python_version'
-    description = ''' Returns the Python version as string 'major.minor.patchlevel'
+    doc = ''' Returns the Python version as string 'major.minor.patchlevel'
 
         Note that unlike the Python sys.version, the returned value
         will always include the patchlevel (it defaults to 0).
@@ -574,7 +574,7 @@ class AutoNode_platform_python_version(rc.Node):
 
 class AutoNode_platform_python_version_tuple(rc.Node):
     title = 'python_version_tuple'
-    description = ''' Returns the Python version as tuple (major, minor, patchlevel)
+    doc = ''' Returns the Python version as tuple (major, minor, patchlevel)
         of strings.
 
         Note that unlike the Python sys.version, the returned value
@@ -596,7 +596,7 @@ class AutoNode_platform_python_version_tuple(rc.Node):
 
 class AutoNode_platform_release(rc.Node):
     title = 'release'
-    description = ''' Returns the system's release, e.g. '2.2.0' or 'NT'
+    doc = ''' Returns the system's release, e.g. '2.2.0' or 'NT'
 
         An empty string is returned if the value cannot be determined.
 
@@ -616,7 +616,7 @@ class AutoNode_platform_release(rc.Node):
 
 class AutoNode_platform_system(rc.Node):
     title = 'system'
-    description = ''' Returns the system/OS name, e.g. 'Linux', 'Windows' or 'Java'.
+    doc = ''' Returns the system/OS name, e.g. 'Linux', 'Windows' or 'Java'.
 
         An empty string is returned if the value cannot be determined.
 
@@ -636,7 +636,7 @@ class AutoNode_platform_system(rc.Node):
 
 class AutoNode_platform_system_alias(rc.Node):
     title = 'system_alias'
-    description = ''' Returns (system, release, version) aliased to common
+    doc = ''' Returns (system, release, version) aliased to common
         marketing names used for some systems.
 
         It also does some reordering of the information in some cases
@@ -660,7 +660,7 @@ rc.NodeInputBP(label='version'),
 
 class AutoNode_platform_uname(rc.Node):
     title = 'uname'
-    description = ''' Fairly portable uname interface. Returns a tuple
+    doc = ''' Fairly portable uname interface. Returns a tuple
         of strings (system, node, release, version, machine, processor)
         identifying the underlying platform.
 
@@ -685,7 +685,7 @@ class AutoNode_platform_uname(rc.Node):
 
 class AutoNode_platform_version(rc.Node):
     title = 'version'
-    description = ''' Returns the system's release version, e.g. '#3 on degas'
+    doc = ''' Returns the system's release version, e.g. '#3 on degas'
 
         An empty string is returned if the value cannot be determined.
 
@@ -705,7 +705,7 @@ class AutoNode_platform_version(rc.Node):
 
 class AutoNode_platform_win32_edition(rc.Node):
     title = 'win32_edition'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -721,7 +721,7 @@ class AutoNode_platform_win32_edition(rc.Node):
 
 class AutoNode_platform_win32_is_iot(rc.Node):
     title = 'win32_is_iot'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]
@@ -737,7 +737,7 @@ class AutoNode_platform_win32_is_iot(rc.Node):
 
 class AutoNode_platform_win32_ver(rc.Node):
     title = 'win32_ver'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='release'),
 rc.NodeInputBP(label='version'),

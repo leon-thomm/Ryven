@@ -4,7 +4,7 @@ import filecmp
 
 class AutoNode_filecmp__cmp(rc.Node):
     title = '_cmp'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='a'),
 rc.NodeInputBP(label='b'),
@@ -24,7 +24,7 @@ rc.NodeInputBP(label='cmp'),
 
 class AutoNode_filecmp__do_cmp(rc.Node):
     title = '_do_cmp'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='f1'),
 rc.NodeInputBP(label='f2'),
@@ -41,7 +41,7 @@ rc.NodeInputBP(label='f2'),
 
 class AutoNode_filecmp__filter(rc.Node):
     title = '_filter'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='flist'),
 rc.NodeInputBP(label='skip'),
@@ -58,7 +58,7 @@ rc.NodeInputBP(label='skip'),
 
 class AutoNode_filecmp__sig(rc.Node):
     title = '_sig'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         rc.NodeInputBP(label='st'),
     ]
@@ -74,7 +74,7 @@ class AutoNode_filecmp__sig(rc.Node):
 
 class AutoNode_filecmp_clear_cache(rc.Node):
     title = 'clear_cache'
-    description = '''Clear the filecmp cache.'''
+    doc = '''Clear the filecmp cache.'''
     init_inputs = [
         
     ]
@@ -90,7 +90,7 @@ class AutoNode_filecmp_clear_cache(rc.Node):
 
 class AutoNode_filecmp_cmp(rc.Node):
     title = 'cmp'
-    description = '''Compare two files.
+    doc = '''Compare two files.
 
     Arguments:
 
@@ -127,7 +127,7 @@ rc.NodeInputBP(label='shallow'),
 
 class AutoNode_filecmp_cmpfiles(rc.Node):
     title = 'cmpfiles'
-    description = '''Compare common files in two directories.
+    doc = '''Compare common files in two directories.
 
     a, b -- directory names
     common -- list of file names found in both directories
@@ -157,7 +157,7 @@ rc.NodeInputBP(label='shallow'),
 
 class AutoNode_filecmp_demo(rc.Node):
     title = 'demo'
-    description = '''None'''
+    doc = '''None'''
     init_inputs = [
         
     ]

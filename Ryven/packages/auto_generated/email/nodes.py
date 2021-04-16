@@ -4,7 +4,7 @@ import email
 
 class AutoNode_email_message_from_binary_file(rc.Node):
     title = 'message_from_binary_file'
-    description = '''Read a binary file and parse its contents into a Message object model.
+    doc = '''Read a binary file and parse its contents into a Message object model.
 
     Optional _class and strict are passed to the Parser constructor.
     '''
@@ -23,7 +23,7 @@ class AutoNode_email_message_from_binary_file(rc.Node):
 
 class AutoNode_email_message_from_bytes(rc.Node):
     title = 'message_from_bytes'
-    description = '''Parse a bytes string into a Message object model.
+    doc = '''Parse a bytes string into a Message object model.
 
     Optional _class and strict are passed to the Parser constructor.
     '''
@@ -42,7 +42,7 @@ class AutoNode_email_message_from_bytes(rc.Node):
 
 class AutoNode_email_message_from_file(rc.Node):
     title = 'message_from_file'
-    description = '''Read a file and parse its contents into a Message object model.
+    doc = '''Read a file and parse its contents into a Message object model.
 
     Optional _class and strict are passed to the Parser constructor.
     '''
@@ -61,7 +61,7 @@ class AutoNode_email_message_from_file(rc.Node):
 
 class AutoNode_email_message_from_string(rc.Node):
     title = 'message_from_string'
-    description = '''Parse a string into a Message object model.
+    doc = '''Parse a string into a Message object model.
 
     Optional _class and strict are passed to the Parser constructor.
     '''
