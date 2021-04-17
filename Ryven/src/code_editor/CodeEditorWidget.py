@@ -30,7 +30,7 @@ class CodeEditorWidget(QTextEdit):
 
         self.lexer = get_lexer_by_name('python')
 
-        if theme == 'dark':
+        if theme.name == 'dark':
             self.formatter = get_formatter_by_name('html', noclasses=True, style=DraculaStyle)
         else:
             self.formatter = get_formatter_by_name('html', noclasses=True, style=LightStyle)

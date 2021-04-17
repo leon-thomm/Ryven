@@ -2,60 +2,31 @@ import os
 import sys
 
 
-def apply_stylesheet(style='dark'):
+def apply_stylesheet(style: str):
 
-    # from PySide2.QtCore import QDir
-    # d = QDir()
-    # d.setSearchPaths('icon', [os.path.abspath('../resources/stylesheets/icons')])
+    from PySide2.QtCore import QDir
+    d = QDir()
+    d.setSearchPaths('icon', [os.path.abspath('../resources/stylesheets/icons')])
+
+    from WindowTheme import WindowTheme_Dark, WindowTheme_Light
 
     if style == 'dark':
-        colors = {
-            'primaryColor': '#448aff',
-            'primaryLightColor': '#83b9ff',
-            'secondaryColor': '#1E242A',
-            'secondaryLightColor': '#272d32',
-            'secondaryDarkColor': '#0C1116',
-            'primaryTextColor': '#E9E9E9',
-            'secondaryTextColor': '#9F9F9F',
-            'danger': '#dc3545',
-            'warning': '#ffc107',
-            'success': '#17a2b8',
-        }
-    else:
-        colors = {
-            'primaryColor': '#448aff',
-            'primaryLightColor': '#508AD8',
-            'secondaryColor': '#FFFFFF',
-            'secondaryLightColor': '#E8EAEC',
-            'secondaryDarkColor': '#ECEDEF',
-            'primaryTextColor': '#1A1A1A',
-            'secondaryTextColor': '#6E6E6E',
-            'danger': '#dc3545',
-            'warning': '#ffc107',
-            'success': '#17a2b8',
-        }
+        window_theme = WindowTheme_Dark()
 
-        # primary: primaryColor #448aff
-        # secondary: secondaryColor #1E242A
-        # disabled: secondaryLightColor #272d32
+    else:
+        window_theme = WindowTheme_Light()
 
     f = open('../resources/stylesheets/style_template.css')
-    style_sheet = f.read()
+
+    from jinja2 import Template
+    jinja_template = Template(f.read())
+
     f.close()
 
-    for cname, c in colors.items():
-        style_sheet = style_sheet.\
-            replace('{{'+cname+'}}', c).\
-            replace('{{rgb_inline_'+cname+'}}', ','.join([str(int(c[i+1:i+3], 16)) for i in (0, 2, 4)]))
+    app.setStyleSheet(jinja_template.render(window_theme.rules))
+    # print(app.styleSheet())
 
-    style_sheet = style_sheet\
-        .replace('{{font_family}}', 'Roboto')\
-        .replace('url(icon:/', 'url(' + os.path.abspath('../resources/stylesheets/icons').replace('\\', '/') + '/')\
-        .replace('url("icon:/', 'url("' + os.path.abspath('../resources/stylesheets/icons').replace('\\', '/') + '/')
-    # print(style_sheet)
-
-    app.setStyleSheet(style_sheet)
-    # print(style_sheet)
+    return window_theme
 
 
 if __name__ == '__main__':
@@ -94,8 +65,7 @@ if __name__ == '__main__':
         db.addApplicationFont('../resources/fonts/source_code_pro/SourceCodePro-Regular.ttf')
         db.addApplicationFont('../resources/fonts/asap/Asap-Regular.ttf')
 
-        theme = 'dark' if 'light' not in sys.argv else 'light'
-        apply_stylesheet(theme)
+        window_theme = apply_stylesheet('dark' if 'light' not in sys.argv else 'light')
 
         # StartupDialog
         sw = StartupDialog()
@@ -106,11 +76,11 @@ if __name__ == '__main__':
             sys.exit()
 
         # init console and redirect all output
-        console_stdout_redirect, console_errout_redirect = init_main_console()
+        console_stdout_redirect, console_errout_redirect = init_main_console(window_theme)
         with redirect_stdout(console_stdout_redirect), \
              redirect_stderr(console_errout_redirect):
 
-            mw = MainWindow(sw.editor_startup_configuration, theme)
+            mw = MainWindow(sw.editor_startup_configuration, window_theme)
             mw.show()
 
             sys.exit(app.exec_())

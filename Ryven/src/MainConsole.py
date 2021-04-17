@@ -12,6 +12,7 @@ class MainConsole(QWidget):
 
     def __init__(
             self,
+            window_theme,
             history: int = 100,     # max lines in history buffer
             blockcount: int = 5000,  # max lines in output buffer
     ):
@@ -19,6 +20,7 @@ class MainConsole(QWidget):
         super(MainConsole, self).__init__()
 
         self.session = None  # set by MainWindow
+        self.window_theme = window_theme
 
         self.init_ui(history, blockcount)
 
@@ -40,11 +42,11 @@ class MainConsole(QWidget):
 
         # colors to differentiate input, output and stderr
         self.inpfmt = self.out_display.currentCharFormat()
-        self.inpfmt.setForeground(QBrush(QColor('white')))
+        self.inpfmt.setForeground(QBrush(QColor(self.window_theme.colors['primaryColor'])))
         self.outfmt = QTextCharFormat(self.inpfmt)
-        self.outfmt.setForeground(QBrush(QColor('#A9D5EF')))
+        self.outfmt.setForeground(QBrush(QColor(self.window_theme.colors['secondaryTextColor'])))
         self.errfmt = QTextCharFormat(self.inpfmt)
-        self.errfmt.setForeground(QBrush(QColor('#B55730')))
+        self.errfmt.setForeground(QBrush(QColor(self.window_theme.colors['danger'])))
 
         # # display input prompt left besides input edit
         # self.prompt_label = QLabel('> ', self)
@@ -110,9 +112,9 @@ class MainConsole(QWidget):
             # clean and print commands
             for line in lines:
 
-                # remove '> '-and '. ' prefixes which may remain from copy&paste
-                if re.match('^[\>\.] ', line):
-                    line = line[2:]
+                # # remove '> ' and '.' prefixes which may remain from copy&paste
+                # if re.match('^[\>\.] ', line):
+                #     line = line[2:]
 
                 # print input
                 self.writeoutput(
@@ -135,7 +137,7 @@ class MainConsole(QWidget):
     def write(self, line: str) -> None:
         """capture stdout and print to outdisplay"""
         if len(line) != 1 or ord(line[0]) != 10:
-            self.writeoutput(line.rstrip(), self.outfmt)
+            self.writeoutput(line.rstrip())  # , self.outfmt)
 
     def errorwrite(self, line: str) -> None:
         """capture stderr and print to outdisplay"""
@@ -143,9 +145,10 @@ class MainConsole(QWidget):
 
     def writeoutput(self, line: str, fmt: QTextCharFormat = None) -> None:
         """prints to outdisplay"""
-        if fmt is not None:
+        if fmt:
             self.out_display.setCurrentCharFormat(fmt)
         self.out_display.appendPlainText(line.rstrip())
+        self.out_display.setCurrentCharFormat(self.outfmt)
 
 
 class ConsoleInputLineEdit(QLineEdit):
@@ -216,14 +219,15 @@ class ConsoleDisplay(QPlainTextEdit):
         self.setObjectName('ConsoleDisplay')
         self.setMaximumBlockCount(max_block_count)
         self.setReadOnly(True)
-        self.setStyleSheet(
-            '''
-QPlainTextEdit {
-    font-family: Source Code Pro;
-    font-size: 12pt;
-}
-            '''
-        )
+#         self.setStyleSheet(
+#             '''
+# QPlainTextEdit {
+#     font-family: Source Code Pro;
+#     font-size: 12pt;
+# }
+#             '''
+#         )
+        self.setFont(QFont('Source Code Pro', 12))
         # self.setFont(self.font().setPointSize(12))
         # self.setFont(QFont('Courier New', 11))  # it just won't work...
 
@@ -245,11 +249,11 @@ main_console = None
 # main_console_group_box = None
 
 
-def init_main_console():
+def init_main_console(window_theme):
     global main_console
     # global main_console_group_box
 
-    main_console = MainConsole()
+    main_console = MainConsole(window_theme)
 
     # main_console_group_box = QGroupBox('Console')
     # main_console_group_box.setLayout(QVBoxLayout())

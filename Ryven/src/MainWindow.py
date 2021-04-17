@@ -9,6 +9,7 @@ from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QAct
 import MainConsole as MainConsole
 from NodesListWidget import NodesListWidget
 from ScriptUI import ScriptUI
+from WindowTheme import WindowTheme
 from uic.ui_main_window import Ui_MainWindow
 
 from nodes.NodeBase import NodeBase
@@ -21,11 +22,11 @@ from tools import import_nodes_package
 
 class MainWindow(QMainWindow):
 
-    def __init__(self, config, theme='dark'):
+    def __init__(self, config, window_theme: WindowTheme):
         super(MainWindow, self).__init__()
 
         self.session = None
-        self.theme = theme
+        self.theme = window_theme
         # self.package_names = []
         self.node_packages = {}  # {Node: str}
         self.script_UIs = []
@@ -73,7 +74,7 @@ class MainWindow(QMainWindow):
         #   LOAD DESIGN AND FLOW THEME
         self.session.design.load_from_config('design_config.json')
 
-        if self.theme == 'dark':
+        if self.theme.name == 'dark':
             self.session.design.set_flow_theme(name='Samuel 1d')
         else:  # 'light'
             self.session.design.set_flow_theme(name='Samuel 1l')
