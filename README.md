@@ -1,46 +1,36 @@
-# A simple flow-based visual scripting runtime environment for Python
+# A simple flow-based visual scripting environment for Python
 
-Ey, what's up! Please visit the [website](https://ryven.org)
+<center> <img src="./Ryven/resources/pics/logo.png" alt="drawing" height="200"/> </center>
 
-### Basic Requirements
+Hello there! Ryven implements flow-based visual scripting for Python. It provides an easy to use system for programming nodes executing any python code. Features include...
 
-- Python 3 (3.8+ recommended)
-- PySide2 (2.14+ recommended)
+- many different midifiable themes
+- data ***and*** exec connections support
+- built-in logging API for nodes
+- script variables with auto-update API for nodes
+- right click operations system for nodes
+- function nodes/subgraphs
+- custom Qt based widgets
+- stylus support for handwritten notes
+- rendering flow images
 
-### Installation
+See detailed feature descriptions below. Please also visit the [website](https://ryven.org) if you haven't been there already.
 
-- please use the lastest release
-- a complete requirements file is in the root folder
-- If you experiment a lot, you maybe should set up a virtual env, like this (Windows example):
+Ryven is now built on top of [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a framework for building Ryven-like editors and nodes from Ryven are compatible with other ryvencore-qt editors.
+
+## Installation
+
 ```
-<open cmd>
-cd <to your Ryven folder (the outer one)>
-python -m venv venv
-venv/Scripts/activate
-pip install -r requirements.txt
+pip install ryven
 ```
 
-### Ideas and TODOs
-- advanced source code editor widget, with syntax highlighting and autocomplete for Ryven, the NodeManager and an intuitive *code* node (where one can just program the node inside the editor by writing the code into the widget)
-- visual content: logos and splash screen
-- a visually appealing Jupyter integration (the native Jupyter QtConsole I didn't like in terms of appearence and functionality)
+or from sources
+```
+git clone https://github.com/leon-thomm/ryven
+cd Ryven
+python setup.py install
+```
 
-![](/docs/images/ryven_screenshot2.png)
+## Usage
 
-![](/docs/images/ui.png)
-
-![](/docs/images/ryven1.png)
-
-![](/docs/images/matrices1.png)
-
-![](/docs/images/checkpoints.png)
-
-![](/docs/images/matplotlib.jpeg)
-
-![](/docs/images/opencv_1.png)
-
-![](/docs/images/matrices2.png)
-
-![](/docs/images/extract_property_1.png)
-
-![](/docs/images/random.png)
+...

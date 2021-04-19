@@ -16,7 +16,7 @@ class GetVar_Node(Node):
     title = 'get var'
     doc = 'get the value of a script variable'
     init_inputs = [
-        NodeInputBP(add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
+        NodeInputBP(dtype=dtypes.String(size='m')),
     ]
     init_outputs = [
         NodeOutputBP(label='val')
