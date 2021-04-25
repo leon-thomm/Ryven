@@ -1,22 +1,33 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import array
 
 
-class AutoNode_array__array_reconstructor(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class AutoNode_array__array_reconstructor(NodeBase):
     title = '_array_reconstructor'
     type_ = 'array'
-    doc = '''Internal. Used for pickling support.'''
+    doc = """Internal. Used for pickling support."""
     init_inputs = [
-        rc.NodeInputBP(label='arraytype'),
-rc.NodeInputBP(label='typecode'),
-rc.NodeInputBP(label='mformat_code'),
-rc.NodeInputBP(label='items'),
+        NodeInputBP(label='arraytype'),
+        NodeInputBP(label='typecode'),
+        NodeInputBP(label='mformat_code'),
+        NodeInputBP(label='items'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, array._array_reconstructor(self.input(0), self.input(1), self.input(2), self.input(3)))
         
+
+
+export_nodes(
+    AutoNode_array__array_reconstructor,
+)

@@ -1,10 +1,12 @@
 import code
 import re
 
-from PySide2.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton, QGroupBox, \
-    QVBoxLayout
-from PySide2.QtCore import Signal, QEvent, Qt
-from PySide2.QtGui import QTextCharFormat, QBrush, QColor, QFont
+from qtpy.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton, QGroupBox, \
+    QVBoxLayout, QHBoxLayout
+from qtpy.QtCore import Signal, QEvent, Qt
+from qtpy.QtGui import QTextCharFormat, QBrush, QColor, QFont, QFontMetrics
+
+from code_editor.CodeEditorWidget import CodeEditorWidget
 
 
 class MainConsole(QWidget):
@@ -13,8 +15,8 @@ class MainConsole(QWidget):
     def __init__(
             self,
             window_theme,
-            history: int = 100,     # max lines in history buffer
-            blockcount: int = 5000,  # max lines in output buffer
+            history: int = 100,         # max lines in history buffer
+            blockcount: int = 5000,     # max lines in output buffer
     ):
 
         super(MainConsole, self).__init__()
@@ -27,14 +29,18 @@ class MainConsole(QWidget):
 
     def init_ui(self, history, blockcount):
         self.content_layout = QGridLayout(self)
-        # self.content_layout.setContentsMargins(0, 0, 0, 0)
+        self.content_layout.setContentsMargins(0, 0, 0, 0)
         # self.content_layout.setSpacing(0)
 
-        # reset scope button
-        self.reset_scope_button = QPushButton('reset console scope')
-        self.reset_scope_button.clicked.connect(self.reset_scope_clicked)
-        self.content_layout.addWidget(self.reset_scope_button, 0, 0, 1, 2)
-        self.reset_scope_button.hide()
+        self.input_layout = QGridLayout()
+        self.input_layout.setContentsMargins(0, 0, 0, 0)
+        self.input_layout.setSpacing(0)
+
+        # # reset scope button
+        # self.reset_scope_button = QPushButton('reset console scope')
+        # self.reset_scope_button.clicked.connect(self.reset_scope_clicked)
+        # self.content_layout.addWidget(self.reset_scope_button, 0, 0, 1, 2)
+        # self.reset_scope_button.hide()
 
         # display for output
         self.out_display = ConsoleDisplay(blockcount)
@@ -48,16 +54,24 @@ class MainConsole(QWidget):
         self.errfmt = QTextCharFormat(self.inpfmt)
         self.errfmt.setForeground(QBrush(QColor(self.window_theme.colors['danger'])))
 
-        # # display input prompt left besides input edit
-        # self.prompt_label = QLabel('> ', self)
-        # self.prompt_label.setFixedWidth(15)
-        # self.content_layout.addWidget(self.prompt_label, 2, 0)
+        # display input prompt left besides input edit
+        self.prompt_label = QLabel('> ', self)
+        self.prompt_label.setFixedWidth(15)
+        self.input_layout.addWidget(self.prompt_label, 0, 0, 1, 1)
+        self.prompt_label.hide()
+
+
+        # command "text edit" for large code input
+        self.inptextedit = ConsoleInputTextEdit(self.window_theme)
+        self.input_layout.addWidget(self.inptextedit, 1, 0, 2, 2)
+        self.inptextedit.hide()
 
         # command line
-        self.inpedit = ConsoleInputLineEdit(max_history=history)
+        self.inpedit = ConsoleInputLineEdit(self.inptextedit, max_history=history)
         self.inpedit.returned.connect(self.push)
-        # self.content_layout.addWidget(self.inpedit, 2, 1)
-        self.content_layout.addWidget(self.inpedit, 2, 0, 1, 2)
+        self.input_layout.addWidget(self.inpedit, 0, 1, 1, 1)
+
+        self.content_layout.addLayout(self.input_layout, 2, 0, 1, 2)
 
 
         self.interp = None
@@ -71,11 +85,11 @@ class MainConsole(QWidget):
         # self.prompt_label.setText(text)
         ...
 
-    def reset_scope_clicked(self):
-        self.reset_interpreter()
+    # def reset_scope_clicked(self):
+    #     self.reset_interpreter()
 
     def add_obj_context(self, context_obj):
-        """adds the new context to the current context by initializing a new interpreter with both"""
+        """adds an object to the current context by initializing a new interpreter with new context"""
 
         old_context = {} if self.interp is None else self.interp.locals
         name = 'obj' + (str(self.num_added_object_contexts+1) if self.num_added_object_contexts > 0 else '')
@@ -85,20 +99,21 @@ class MainConsole(QWidget):
         print('added as ' + name)
 
         self.num_added_object_contexts += 1
-        self.reset_scope_button.show()
+        # self.reset_scope_button.show()
 
     def reset_interpreter(self):
         """Initializes a new plain interpreter"""
 
-        # --------------------------------------
-        # def generate_code():
-        #     return print('generating code...')
+        # CONTEXT
         session = self.session
-        # --------------------------------------
+        def reset():
+            self.reset_interpreter()
 
         context = {**locals()}
+        # -------
+
         self.num_added_object_contexts = 0
-        self.reset_scope_button.hide()
+        # self.reset_scope_button.hide()
         self.interp = code.InteractiveConsole(context)
 
     def push(self, commands: str) -> None:
@@ -130,8 +145,17 @@ class MainConsole(QWidget):
             source = '\n'.join(self.buffer)
             more = self.interp.runsource(source, '<console>')
 
-            if not more:  # no more input required
+            if more:
                 # self.setprompt('> ')
+                if self.prompt_label.isHidden():
+                    self.prompt_label.show()
+
+                # add leading space for next input
+                leading_space = re.match(r"\s*", self.buffer[-1]).group()
+                self.inpedit.next_line = leading_space
+
+            else:   # no more input required
+                self.prompt_label.hide()
                 self.buffer = []  # reset buffer
 
     def write(self, line: str) -> None:
@@ -156,15 +180,20 @@ class ConsoleInputLineEdit(QLineEdit):
 
     returned = Signal(str)
 
-    def __init__(self, max_history: int = 100):
+    def __init__(self, code_text_edit, max_history: int = 100):
         super().__init__()
 
         self.setObjectName('ConsoleInputLineEdit')
+        self.code_text_edit = code_text_edit
+        self.code_text_edit.returned.connect(self.code_text_edit_returned)
         self.max_hist = max_history
         self.hist_index = 0
         self.hist_list = []
+        self.next_line = ''  # can be set by console
         self.prompt_pattern = re.compile('^[>\.]')
-        self.setFont(QFont('Consolas', 12))
+
+        # once again, this doesnt work because Qt prioritizes the stylesheet, which makes absolutely no sense to me
+        # self.setFont(QFont('Source Code Pro', 12))
 
     def event(self, ev: QEvent) -> bool:
         """
@@ -172,10 +201,24 @@ class ConsoleInputLineEdit(QLineEdit):
         Arrow Up/Down: select a line from the history buffer
         Newline: Emit returned signal
         """
+
         if ev.type() == QEvent.KeyPress:
             if ev.key() == Qt.Key_Tab:
                 self.insert(' '*4)
                 return True
+            elif ev.key() == Qt.Key_Backtab:
+
+                ccp = self.cursorPosition()
+                tl = self.text()[:ccp]
+                tr = self.text()[ccp:]
+
+                ends_with_tab = re.match(r"(.*)\s\s\s\s$", tl)
+
+                if ends_with_tab:
+                    self.setText(tl[:-4]+tr)
+                    self.setCursorPosition(ccp-4)
+                    return True
+
             elif ev.key() == Qt.Key_Up:
                 self.recall(self.hist_index - 1)
                 return True
@@ -183,16 +226,35 @@ class ConsoleInputLineEdit(QLineEdit):
                 self.recall(self.hist_index + 1)
                 return True
             elif ev.key() == Qt.Key_Return:
-                self.returnkey()
+                if len(self.text()) == 0 and ev.modifiers() == Qt.ControlModifier:
+                    self.open_text_edit()
+                else:
+                    self.returnkey()
                 return True
 
         return super().event(ev)
 
+    def open_text_edit(self):
+        self.hide()
+        self.code_text_edit.show()
+        self.code_text_edit.setText(self.text())
+        self.code_text_edit.setFocus()
+
+    def code_text_edit_returned(self, s):
+        self.code_text_edit.hide()
+        self.show()
+
+        self.setText(s.replace('\t', '    '))
+        self.setFocus()
+        self.returnkey()
+
     def returnkey(self) -> None:
         text = self.text()
-        self.record(text)
+        for line in text.splitlines():
+            self.record(line)
         self.returned.emit(text)
-        self.setText('')
+        self.setText(self.next_line)
+        self.next_line = ''
 
     def recall(self, index: int) -> None:
         """select a line from the history list"""
@@ -210,6 +272,17 @@ class ConsoleInputLineEdit(QLineEdit):
 
         if self.hist_index == len(self.hist_list)-1 or line != self.hist_list[self.hist_index]:
             self.hist_index = len(self.hist_list)
+
+
+class ConsoleInputTextEdit(CodeEditorWidget):
+
+    returned = Signal(str)
+
+    def keyPressEvent(self, e) -> None:
+        if e.key() == Qt.Key_Return and e.modifiers() == Qt.ControlModifier:
+            self.returned.emit(self.toPlainText())
+        else:
+            return super().keyPressEvent(e)
 
 
 class ConsoleDisplay(QPlainTextEdit):

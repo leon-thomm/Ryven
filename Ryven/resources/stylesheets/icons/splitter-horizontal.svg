@@ -30,7 +30,7 @@
      inkscape:cx="6.3023018"
      inkscape:cy="8.969841"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g839"
      showgrid="true"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
@@ -79,7 +79,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -98,38 +98,10 @@
       <rect
          y="291.97293"
          x="2.3812499"
-         height="0.52916664"
+         height="4.7625022"
          width="0.52916664"
          id="rect827"
-         style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <rect
-         style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         id="rect829"
-         width="0.52916664"
-         height="0.52916664"
-         x="2.3812499"
-         y="296.20627" />
-      <rect
-         y="295.14792"
-         x="2.3812499"
-         height="0.52916664"
-         width="0.52916664"
-         id="rect832"
-         style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <rect
-         style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         id="rect834"
-         width="0.52916664"
-         height="0.52916664"
-         x="2.3812499"
-         y="294.0896" />
-      <rect
-         y="293.03128"
-         x="2.3812499"
-         height="0.52916664"
-         width="0.52916664"
-         id="rect836"
-         style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.52916664;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+         style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:none;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     </g>
   </g>
 </svg>

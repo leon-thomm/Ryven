@@ -1,4 +1,4 @@
-<center><img src="./images/logo.png" style="max-width: 600px" /></center>
+<center><img src="./images/logo.png" style="max-width: 500px" /></center>
 
 ## Project Idea
 
@@ -8,13 +8,15 @@ Flows you made in Ryven can be deployed directly on `ryvencore` (via *Ryven Cons
 
 ![](images/screenshot1.png)
 
+## Differences to Ryven 2
+
+Ryven 3 is a complete remake, now based on the framework, where many internal implementations have drastically changed. I completely removed the former 'NodeManager' since the new nodes system makes it pretty much useless. There is no such thing as a 'NodeInstance' anymore, everything is just nodes. All information about a node is now part of its class, so there is no need for .rpc files anymore, a node package is simply defined by the node definitions in `nodes.py`, see below. Ryven 3 is a much more consistent piece of software with focus on ease of use and scalability. You probably won't be able to port your old projects, because there's too much that changed. The future of Ryven 3 will depend on contributions by users.
+
 ## Flows
 
 A **Script** contains a **Flow**, a **Logger**, and a **Variables Manager**. There are normal Scripts as well as **Function Scripts** which additionally have an input and output node representing parameters and returns, and are registered as node themselves (just like functions in UE4 BluePrints).
 
 Unlike most other flow-based visual scripting editors, Ryven supports 'data connections' *and* 'exec connections'. Data connections transmit data from one node to another, and exec connections only transmit a 'trigger' signal. Pure data flows (only data connections) are like the UE4 Material Editor, while exec flows (some exec connections) are more like the UE4 BluePrints.
-
-<!-- *** -->
 
 > *If you don't have experience with the flow-based programming idea already you can skip this, these differences don't really matter for now.*
 > 
@@ -34,8 +36,6 @@ Unlike most other flow-based visual scripting editors, Ryven supports 'data conn
 > 
 > While you can choose the according mode for a flow, it turned out to be a use case too to use the data flow mode in combination with few exec connections. This can lead to performance issues, but is very powerful if used in the right way. Ultimately, both paradigms are possible. For more precise definitions on the aspects of flow execution, see [ryvencore-qt features](https://leon-thomm.github.io/ryvencore-qt/features/).
 
-<!-- *** -->
-
 ## Editor Overview
 
 ### Running Ryven
@@ -50,7 +50,7 @@ There are many different themes for the flows, which you can select in the menu 
 
 ### Console
 
-This console runs a Python REPL. Additionally, you can right click on a node to add a reference to it to the console, so you can directly access the node's whole API at any time. This is a really powerful feature, no matter if you would like to quickly access a few intern variables or perform some temporary modifications on the node (like adding/removing inputs/outputs), you have full control there.
+The console runs a Python REPL. Additionally, you can right click on a node to add a reference to it to the console, so you can directly access the node's whole API at any time. This is a really powerful feature, no matter if you would like to quickly access a few intern variables or perform some temporary modifications on the node (like adding/removing inputs/outputs), you have full control there.
 
 Furthermore, the session object (which is basically the project) is already added to the console automatically, so you can type `session` to access it and do pretty much *everything* from there (you can play around with the `ryvencore-qt` API, for example try creating a new script via `session.create_script('hello there!')`).
 
@@ -58,11 +58,9 @@ Furthermore, the session object (which is basically the project) is already adde
 
 The script variables, located on the right, can be modified at any time by right-clicking on them, and when you hover over one, you can see its current value and data type. The values of those variables are usually accessed and changed by your nodes. The API provides a few very simple but really powerful methods for nodes to 'register as variable receivers'. Basically, a node can dynamically register as a receiver for script variables by providing a var name and a method that is supposed to be called whenever a script variable with that name changes (or is created). I particularly like this feature, as you can easily build highly sophisticated nodes using this that automatically adapt to change of data.
 
-<!-- *** -->
 > **EXAMPLE**
 >
 > In one of the node packages Ryven comes with, there's a *Matrix* node where you can just type a few numbers into a small textedit and it creates a numpy array out of them. But you can also type in `v('')` and the name of a script variable (instead of a number) which makes the matrix node register as a receiver, so it updates and regenerates the matrix every time the value of a script variable with that name changed. You can see this in action in the big screenshot above. In the console you can see I manually changed the variable's value which caused the matrix node to update.
-<!-- *** -->
 
 ### Logs
 
@@ -72,22 +70,27 @@ The script's logs are hidden at the bottom, just drag the splitter handle. The n
 
 Next to the logs is the source code area where you can inspect the source code of the last selected node (click into the text field for syntax highlighting), and also edit method implementations of single objects. That's right, you can override method implementations of single objects. All these changes are temporary (they don't get saved) and only apply on the currently selected object, but it's a great way to play around or debug your components, especially when combining this with the console. For example you can just add some output to one of your nodes via the console, and then modify the update event of it to provide some additional data there via the source code preview. This is a really useful feature, however as you might suspect, modifying an object's method implementation is not exactly conventional and doesn't work in all cases. For example, when you created references somewhere else to this modified method, those references will still point to the old implementation of it.
 
-<!-- *** -->
-> **EXAMPLE**
->
-> How to fix this
-> ...
-<!-- *** -->
+> **How to fix this**
+> 
+> If you need to reference methods directly somewhere (for example when passing them as 'variable receiver'), you could use a workaround by, instead of passing the actual method reference, passing a lambda causing a new search for the newest version whenever the method is called, like this
+> ```python
+def retain(foo):
+    return lambda *args, **kwargs: getattr(foo.__self__, foo.__name__)(*args, **kwargs)
+> ```
+> And when referencing, for example:
+> ```python
+self.register_var_receiver('x', retain(self.my_method))
+> ```
 
 It usually works quite well, but there might be some bugs since the implementation in Ryven 3 hasn't been extensively tested yet.
 
 ### Rendering Flow Images
 
-You can render images of the currently displayed flow, also via the top menus. By rendering the viewport, the picture will show what's currently visible of the flow, in the exact same resolution it is currently displayed. For high res pictures render the whole scene and zoom to the top left, the zoom factor will determine the exact resolution of your image. It can take a few seconds to render high resolution picutures.
+You can render images of the currently displayed flow, also via the top menus. By rendering the viewport, the picture will show what's currently visible of the flow, in the exact same resolution it is currently displayed. For high res pictures render the whole scene and zoom to the top left, the zoom factor will determine the exact resolution of your image. It can take a few seconds to render high resolution pictures.
 
 ### Save&Load
 
-You can save via `ctrl+s` and choose to laod a project when starting the applicaiton. To import a nodes package, you can also hit `ctrl+i`.
+You can save via `ctrl+s` and choose to load a project when starting the application. To import a nodes package, you can also hit `ctrl+i`.
 
 For programming your own nodes (see below), you only need to follow the rule that all API provided features are saved and reloaded automatically, for example the current inputs and outputs, display title, as well as special actions.
 
@@ -95,12 +98,14 @@ For programming your own nodes (see below), you only need to follow the rule tha
 
 Now comes the technical stuff. Programming new nodes is at the heart of all this. You need basic Python knowledge, but nothing advanced.
 
+> In Ryven, nodes are organized in *node packages* A node package consists of a package folder, the folder name is the package name, and a file `nodes.py` where you define your node classes. Ryven comes with its own packages folder, but if you installed it via `pip`, you should define another one somewhere on your file system, so your packages don't get lost when you update the ryven installation. You can find an example package in the Example section below.
+
 A node is defined by its Python class. You basically subclass the `Node` class from Ryven, specify pre-defined attributes and methods and enhance it the way you like. For example:
 
 ```python
 class MyPrintNode(Node):
-    title='print'
-    init_inputs=[
+    title = 'print'
+    init_inputs = [
         NodeInputBP()
     ]
 
@@ -112,7 +117,41 @@ This simple node gets updated when data arrives at its only input, causing an up
 
 ### Important Methods
 
-If your node has states, which means its behavior depends on the values of internal variables, to be able to reconstruct the current state when loading a project or pasting the node after copying an instance of it, you can use the `get_state()` and `set_state()` methods.
+<!-- There are a few more methods that might be important, especially when building complex 'sequential' nodes which need to correctly reconstruct their state. -->
+
+The `place_event` is called every time the node is added to the flow. Notice that this can happen multiple times, for example when undoing a remove operation in the flow, but also when the node is first constructed and placed in the flow. The `place_event` is called *before* any incident connections are built, so it is sometimes used to trigger updates since setting outputs does not affect any other nodes.
+
+> **EXAMPLE**
+>
+> ```python
+class MyNode(Node):
+    def place_event(self):
+        self.update()
+> ```
+
+Just like the `place_event`, there's a `remove_event` called every time the node is removed from the flow (this too can happen multiple times).
+
+> **EXAMPLE**
+>
+> ```python
+class MyNode(Node):
+    def remove_event(self):
+        self.timer.stop()
+> ```
+
+In contrast to the `place_event`, the `view_place_event` is called once the whole GUI of the node (including custom widgets) has initialized, which is important when using custom widgets, see below. Only do GUI related work here, as this method of  course is never called when running the node on ryven console since there does not exist any GUI then.
+
+> **EXAMPLE**
+>
+> ```python
+class MyNode(Node):
+    def view_place_event(self):
+        self.main_widget().update()
+> ```
+
+#### Nodes with States
+
+If your node has states, which means its behavior depends on the values of internal variables, to be able to reconstruct the current state when loading a project or pasting the node after copying an instance of it, use the `get_state()` and `set_state()` methods.
 
 ```python
 class StoreDataNode(Node):
@@ -139,7 +178,7 @@ class StoreDataNode(Node):
         self.storage = data['data']
 ```
 
-By default, nodes are updated, possibly multiple times, while the flow is building up, which is the usual situation for 'combinational' nodes (no states, like a `+` node). However, with sequential nodes you don't want the node's state to change due to the flow building process. You can disable updates on flow building by just setting the attribute `block_init_updates` after calling the parent constructor:
+By default nodes are updated possibly multiple times while the flow is building up, which is the usual situation for 'combinational' nodes (no states, like a `+` node). However, with sequential nodes you don't want the node's state to change due to the flow building process. You can disable updates on flow building by just setting the attribute `block_init_updates` after calling the parent constructor:
 
 ```python
 class StoreDataNode(Node):
@@ -148,44 +187,6 @@ class StoreDataNode(Node):
 
         self.block_init_updates = True
 ```
-
-There are a few more methods that might be important, especially when building complex 'sequential' nodes which need to correctly reconstruct their state.
-
-The `place_event` is called everything the node is added to the flow. Notice that this can happen multiple times, for example when undoing a remove operation in the flow, but also when the node is first constructed and placed in the flow. The `place_event` is called *before* any incident connections are built, so it is sometimes used to trigger updates since setting outputs does not affect any other nodes.
-
-<!-- *** -->
-> **EXAMPLE**
->
-> ```python
-class MyNode(Node):
-    def place_event(self):
-        self.update()
-> ```
-<!-- *** -->
-
-Just like the `place_event`, there's a `remove_event` called every time the node is removed from the flow (this too can happen multiple times).
-
-<!-- *** -->
-> **EXAMPLE**
->
-> ```python
-class MyNode(Node):
-    def remove_event(self):
-        self.timer.stop()
-> ```
-<!-- *** -->
-
-In contrast to the `place_event`, the `view_place_event` is called once the whole GUI of the node (including custom widgets) has initialized, which is important when using custom widgets, see below. Only do GUI related work here, as this method of  course is never called when running the node on ryven console since there does not exist any GUI then.
-
-<!-- *** -->
-> **EXAMPLE**
->
-> ```python
-class MyNode(Node):
-    def view_place_event(self):
-        self.main_widget().update()
-> ```
-<!-- *** -->
 
 ### Important API Methods
 
@@ -214,14 +215,21 @@ Here I'll just informally present most of the important API methods for nodes yo
 
 #### `DType` Inputs
 
-Those `DTypes` are defined in an abstract manner in `ryvencore` and `ryvencore-qt` creates automatically adds default Qt widgets for them. It is the idea that those `DTypes` are used as much as possible instead of custom widgets, so other eventual frontends (web?) can also just add their own widget implementations for those `DTypes` so the nodes are automatically compatible.
+Those `DTypes` are defined in an abstract way in `ryvencore`, while `ryvencore-qt` just automatically adds default Qt widgets for them. It is the idea that those `DTypes` are used as much as possible instead of custom widgets, so other eventual frontends could just add their own widget implementations for those `DTypes` so the nodes are automatically compatible.
 
-<!-- *** -->
 > **EXAMPLE**
 > ```python
-...
+class MyNode(Node):
+    ...
+    init_inputs = [
+        NodeInputBP(dtype=dtypes.Integer(default=1, bounds=(1, 100)), label='scale'),
+    ]
 > ```
-<!-- *** -->
+> or
+> ```python
+self.create_input_dt(dtype=dtypes.Integer(default=1, bounds=(1, 100)),
+                     label='scale')
+> ```
 
 Currently available `DTypes` are:
 
@@ -234,24 +242,190 @@ Currently available `DTypes` are:
 | `Boolean`                                   | check box
 | `Choice`                                    | drop down menu
 
-### Node Packages
-
-In Ryven, nodes are organized in *node packages* A node package consists of a package folder, the folder name is the package name, and a file `nodes.py` where you define your node classes. Ryven comes with its own packages folder, but if you installed it via `pip`, you should define another one somewhere on your file system, so your packages dont get lost when you update the ryven installation.
-
 ### Example
 
-Below you can see the complete definition of a nodes file in a nodes package called `mypackage`.
+Below you can see a complete node file in some nodes package 'mypackage'.
 
+`mypackage/nodes.py`
 ```python
+from NENV import *
 
+
+class NodeBase(Node):
+
+    def __init__(self, params):
+        super().__init__(params)
+        
+        # here we could add some stuff for all nodes below...
+
+
+import random
+
+class Rand_Node(NodeBase):
+    title = 'random'
+    doc = 'generates a random number in a given range'
+    init_inputs = [
+        NodeInputBP(dtype=dtypes.Integer(default=1, bounds=(1, 100)), label='scale'),
+    ]
+    init_outputs = [
+        NodeOutputBP(),
+    ]
+    color = '#aabb44'
+
+    def update_event(self, input_called=-1):
+        self.set_output_val(0, round(random.random() * self.input(0), 3))
+
+
+class Print_Node(NodeBase):
+    title = 'print'
+    doc = 'prints data'
+    init_inputs = [
+        NodeInputBP(dtype=dtypes.Data(size='s')),
+    ]
+    color = '#3355dd'
+
+    def update_event(self, input_called=-1):
+        print(self.input(0))
+
+
+export_nodes(
+    Rand_Node,
+    Print_Node,
+)
 ```
 
-Simply use `export_nodes()` to define the nodes you want to expose to Ryven. And don't forget to `import NENV`.
+Simply use `export_nodes()` to define the nodes you want to expose to Ryven. And don't forget to import `NENV`.
 
 After importing the nodes package in Ryven, it looks like this:
 
-PICTURE
+<center><img src="./images/mypackage_flow.png" style="max-width: 800px" /></center>
 
 ### Custom Widgets
 
-#### Example
+For building nodes with sophisticated UI you can implement custom Qt widgets for your nodes. A node can have to types of widgets.
+
+1. data input widgets, which are used for data inputs and provide an interface for the user to input data
+2. a main widget, which is usually a larger widget displayed below or between the ports
+
+Custom input widget sources should always be strictly separated from the actual node sources in `nodes.py` since those widgets are not supposed to exist when running ryven console. For the same reason, you should always program your nodes s.t. they do not depend on their widgets in order to run. The widgets should just provide an interface for the user but not perform any node functionality. The system for them is pretty much the same, you define a file `widgets.py` in the same directory as your `nodes.py`, define your widgets there and export them to make them accessible for your nodes. For example:
+
+Defining some basic custom Qt widgets:
+
+`widgets.py`
+```python
+from NWENV import *
+
+from PySide2.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QLineEdit
+
+
+class MyMainWidget(MWB, QWidget):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__(self)
+
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(QLabel('click it!'))
+        b = QPushButton('click me')
+        b.clicked.connect(self.button_clicked)
+        self.layout().addWidget(b)
+
+    def button_clicked(self):
+        print('I have been clicked!!')
+        self.update_node()
+
+
+class MyInputWidget(IWB, QLineEdit):
+    def __init__(self, params):
+        IWB.__init__(self, params)
+        QLineEdit.__init__(self)
+
+        self.setPlaceholderText('type something...')
+        self.editingFinished.connect(self.update_node)
+
+    # override this from IWB
+    def get_val(self):
+        return self.text()
+
+    # triggered when the input is connected and it received some data
+    def val_update_event(self, val):
+        self.setText(str(val))
+
+
+export_widgets(
+    MyMainWidget,
+    MyInputWidget,
+)
+```
+
+And now we can access them like this:
+
+`nodes.py`
+```python
+from NENV import *
+widgets = import_widgets(__file__)  # this loads all exported widgets from widgets.py into the object
+
+
+class MyNode(Node):
+    title = 'my node'
+
+    # this one gets automatically created once for each object
+    main_widget_class = widgets.MyMainWidget
+    main_widget_pos = 'below ports'  # alternatively 'between ports'
+
+    # you can use those for your data inputs
+    input_widget_classes = {
+        'my inp widget': widgets.MyInputWidget
+    }
+    # for example:
+    init_inputs = [
+        NodeInputBP(label='more data', add_config={'widget name': 'my inp widget', 'widget pos': 'below'})
+    ]
+
+    # or:
+    def __init__(self, params):
+        super().__init__(params)
+
+        # note that this happens *before* init_inputs are being built
+        self.create_input(label='some data', add_config={'widget name': 'my inp widget', 'widget pos': 'besides'})
+        # the widget name must match your registered alias/key in the dict above
+        # the widget pos can be 'besides' (the port pin) or 'below' (the port pin)
+
+    def update_event(self, input_called=-1):
+        print('I have been updated!!')
+        print(self.input(0), self.input(1))
+
+
+export_nodes(
+    MyNode,
+)
+```
+
+<center><img src="./images/custom_widgets_example.png" style="max-width: 800px" /></center>
+
+When importing the nodes package in ryven console, `import_widgets(__file__)` does not actually import anything, so the widget classes don't get parsed at all so there is no Qt dependency then, and when trying to access them in the `widgets` object, it just just responds with `None`.
+
+An input widget must subclass `IWB` (InputWidgetBase) and main widgets must subclass `MWB` (MainWidgetBase). When a data input with a widget is connected (which means that the widget does not function as input, the connection is prioritized), the input widget is disabled, otherwise it's enabled.
+
+#### `MWB` Methods
+
+The `MWB` class has `get_state`, `set_state`, and `remove_event` methods to subclass, similar to `Node`. API methods:
+
+| method                | description            |
+| --------------------- | ---------------------- |
+| `update_node`         | causes an `update_event` in the node object
+| `update_node_shape`   | causes the GUI item of the node to update its shape, which you should use when the size of your widget changed.
+
+#### `IWB` Methods
+
+Similar to `MWB`, `IWB` has `get_state`, `set_state`, and `remove_event`. Additionally there is a `val_update_event(val)` which is called when the input is connected and new data arrived. So you can use this to then display the data appropriately in your widget, just like in the example above.
+
+API methods: (*same as above*)
+
+| method                | description            |
+| --------------------- | ---------------------- |
+| `update_node`         | causes an `update_event` in the node object
+| `update_node_shape`   | causes the GUI item of the node to update its shape, which you should use when the size of your widget changed.
+
+***
+
+For getting more examples on how to make nodes and node packages, make sure to take a look at the implementations of the node packages Ryven comes with.

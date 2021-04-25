@@ -8,9 +8,9 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
 
 
 class Ui_MainWindow(object):
@@ -45,21 +45,24 @@ class Ui_MainWindow(object):
         self.gridLayout.setSpacing(6)
         self.gridLayout.setContentsMargins(11, 11, 11, 11)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.main_splitter = QSplitter(self.centralWidget)
-        self.main_splitter.setObjectName(u"main_splitter")
-        self.main_splitter.setOrientation(Qt.Horizontal)
-        self.scripts_console_splitter = QSplitter(self.main_splitter)
-        self.scripts_console_splitter.setObjectName(u"scripts_console_splitter")
-        self.scripts_console_splitter.setOrientation(Qt.Vertical)
-        self.scripts_groupBox = QGroupBox(self.scripts_console_splitter)
+        self.main_horizontal_splitter = QSplitter(self.centralWidget)
+        self.main_horizontal_splitter.setObjectName(u"main_horizontal_splitter")
+        self.main_horizontal_splitter.setOrientation(Qt.Horizontal)
+        self.left_vertical_splitter = QSplitter(self.main_horizontal_splitter)
+        self.left_vertical_splitter.setObjectName(u"left_vertical_splitter")
+        self.left_vertical_splitter.setOrientation(Qt.Vertical)
+        self.scripts_groupBox = QGroupBox(self.left_vertical_splitter)
         self.scripts_groupBox.setObjectName(u"scripts_groupBox")
         self.verticalLayout = QVBoxLayout(self.scripts_groupBox)
         self.verticalLayout.setSpacing(6)
         self.verticalLayout.setContentsMargins(11, 11, 11, 11)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.scripts_console_splitter.addWidget(self.scripts_groupBox)
-        self.main_splitter.addWidget(self.scripts_console_splitter)
-        self.scripts_tab_widget = QTabWidget(self.main_splitter)
+        self.left_vertical_splitter.addWidget(self.scripts_groupBox)
+        self.main_horizontal_splitter.addWidget(self.left_vertical_splitter)
+        self.right_vertical_splitter = QSplitter(self.main_horizontal_splitter)
+        self.right_vertical_splitter.setObjectName(u"right_vertical_splitter")
+        self.right_vertical_splitter.setOrientation(Qt.Vertical)
+        self.scripts_tab_widget = QTabWidget(self.right_vertical_splitter)
         self.scripts_tab_widget.setObjectName(u"scripts_tab_widget")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
@@ -69,9 +72,14 @@ class Ui_MainWindow(object):
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.scripts_tab_widget.addTab(self.tab, "")
-        self.main_splitter.addWidget(self.scripts_tab_widget)
+        self.right_vertical_splitter.addWidget(self.scripts_tab_widget)
+        self.right_lower_horizontal_splitter = QSplitter(self.right_vertical_splitter)
+        self.right_lower_horizontal_splitter.setObjectName(u"right_lower_horizontal_splitter")
+        self.right_lower_horizontal_splitter.setOrientation(Qt.Horizontal)
+        self.right_vertical_splitter.addWidget(self.right_lower_horizontal_splitter)
+        self.main_horizontal_splitter.addWidget(self.right_vertical_splitter)
 
-        self.gridLayout.addWidget(self.main_splitter, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.main_horizontal_splitter, 0, 0, 1, 1)
 
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QMenuBar(MainWindow)

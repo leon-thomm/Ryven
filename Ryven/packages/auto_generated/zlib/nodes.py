@@ -1,22 +1,28 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import zlib
 
 
-class AutoNode_zlib_adler32(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class AutoNode_zlib_adler32(NodeBase):
     title = 'adler32'
     type_ = 'zlib'
-    doc = '''Compute an Adler-32 checksum of data.
+    doc = """Compute an Adler-32 checksum of data.
 
   value
     Starting value of the checksum.
 
-The returned checksum is an integer.'''
+The returned checksum is an integer."""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -24,22 +30,21 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, zlib.adler32(self.input(0), self.input(1)))
         
 
-
-class AutoNode_zlib_compress(rc.Node):
+class AutoNode_zlib_compress(NodeBase):
     title = 'compress'
     type_ = 'zlib'
-    doc = '''Returns a bytes object containing compressed data.
+    doc = """Returns a bytes object containing compressed data.
 
   data
     Binary data to be compressed.
   level
-    Compression level, in 0-9 or -1.'''
+    Compression level, in 0-9 or -1."""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='level'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='level'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -47,11 +52,10 @@ rc.NodeInputBP(label='level'),
         self.set_output_val(0, zlib.compress(self.input(0), self.input(1)))
         
 
-
-class AutoNode_zlib_compressobj(rc.Node):
+class AutoNode_zlib_compressobj(NodeBase):
     title = 'compressobj'
     type_ = 'zlib'
-    doc = '''Return a compressor object.
+    doc = """Return a compressor object.
 
   level
     The compression level (an integer in the range 0-9 or -1; default is
@@ -73,17 +77,17 @@ class AutoNode_zlib_compressobj(rc.Node):
     Z_DEFAULT_STRATEGY, Z_FILTERED, and Z_HUFFMAN_ONLY.
   zdict
     The predefined compression dictionary - a sequence of bytes
-    containing subsequences that are likely to occur in the input data.'''
+    containing subsequences that are likely to occur in the input data."""
     init_inputs = [
-        rc.NodeInputBP(label='level'),
-rc.NodeInputBP(label='method'),
-rc.NodeInputBP(label='wbits'),
-rc.NodeInputBP(label='memLevel'),
-rc.NodeInputBP(label='strategy'),
-rc.NodeInputBP(label='zdict'),
+        NodeInputBP(label='level'),
+        NodeInputBP(label='method'),
+        NodeInputBP(label='wbits'),
+        NodeInputBP(label='memLevel'),
+        NodeInputBP(label='strategy'),
+        NodeInputBP(label='zdict'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -91,22 +95,21 @@ rc.NodeInputBP(label='zdict'),
         self.set_output_val(0, zlib.compressobj(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_zlib_crc32(rc.Node):
+class AutoNode_zlib_crc32(NodeBase):
     title = 'crc32'
     type_ = 'zlib'
-    doc = '''Compute a CRC-32 checksum of data.
+    doc = """Compute a CRC-32 checksum of data.
 
   value
     Starting value of the checksum.
 
-The returned checksum is an integer.'''
+The returned checksum is an integer."""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -114,25 +117,24 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, zlib.crc32(self.input(0), self.input(1)))
         
 
-
-class AutoNode_zlib_decompress(rc.Node):
+class AutoNode_zlib_decompress(NodeBase):
     title = 'decompress'
     type_ = 'zlib'
-    doc = '''Returns a bytes object containing the uncompressed data.
+    doc = """Returns a bytes object containing the uncompressed data.
 
   data
     Compressed data.
   wbits
     The window buffer size and container format.
   bufsize
-    The initial output buffer size.'''
+    The initial output buffer size."""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='wbits'),
-rc.NodeInputBP(label='bufsize'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='wbits'),
+        NodeInputBP(label='bufsize'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -140,26 +142,35 @@ rc.NodeInputBP(label='bufsize'),
         self.set_output_val(0, zlib.decompress(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_zlib_decompressobj(rc.Node):
+class AutoNode_zlib_decompressobj(NodeBase):
     title = 'decompressobj'
     type_ = 'zlib'
-    doc = '''Return a decompressor object.
+    doc = """Return a decompressor object.
 
   wbits
     The window buffer size and container format.
   zdict
     The predefined compression dictionary.  This must be the same
-    dictionary as used by the compressor that produced the input data.'''
+    dictionary as used by the compressor that produced the input data."""
     init_inputs = [
-        rc.NodeInputBP(label='wbits'),
-rc.NodeInputBP(label='zdict'),
+        NodeInputBP(label='wbits'),
+        NodeInputBP(label='zdict'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, zlib.decompressobj(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    AutoNode_zlib_adler32,
+    AutoNode_zlib_compress,
+    AutoNode_zlib_compressobj,
+    AutoNode_zlib_crc32,
+    AutoNode_zlib_decompress,
+    AutoNode_zlib_decompressobj,
+)

@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QComboBox
+from qtpy.QtWidgets import QWidget, QHBoxLayout, QComboBox
 
 from ryvencore_qt import GUI
 

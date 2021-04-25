@@ -1,11 +1,19 @@
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog
-from PySide2.QtGui import QIcon
+import sys
 
+from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog
+from qtpy.QtGui import QIcon
 
+from nodes_package import NodesPackage
 from .SelectPackages_Dialog import SelectPackages_Dialog
 
 
 class StartupDialog(QDialog):
+    """
+    The welcome dialog. The user can choose between creating a new project and loading a saved project.
+    When a project is loaded, it scans for validity of all the required packages for the project, and in case
+    some paths are invalid, the SelectPackages_Dialog is opened to get the paths to those missing package files.
+    """
+
     def __init__(self):
         super(StartupDialog, self).__init__()
 
@@ -64,51 +72,41 @@ class StartupDialog(QDialog):
         self.editor_startup_configuration['config'] = 'open project'
         import json
 
-        file_name = QFileDialog.getOpenFileName(self, 'select project file', '../saves', 'Ryven Project(*.rpo *.rypo)')[0]
-        j_str = ''
+        file_name = \
+            QFileDialog.getOpenFileName(
+                self, 'select project file',
+                '../saves', 'Ryven Project(*.rpo *.rypo *.json)'
+            )[0]
+
         try:
             f = open(file_name)
-            j_str = f.read()
+            project_str = f.read()
             f.close()
         except FileNotFoundError:
-            # InfoMsgs.write('couldn\'t open file')
             return
-
 
         # strict=False has to be to allow 'control characters' like '\n' for newline when loading the json
-        j_obj = json.loads(j_str, strict=False)
-
-        if j_obj['general info']['type'] != 'Ryven project file':
-            return
+        project_dict = json.loads(project_str, strict=False)
 
         # scan for all required packages
-        packages = self.extract_required_packages(j_obj)
+        valid_node_packages = []
+        missing_node_package_names = []
+        for p in project_dict['required packages']:
+            try:
+                f = open(p['dir']+'/nodes.py')
+                f.close()
+                valid_node_packages.append(NodesPackage(p['dir']))
+            except FileNotFoundError:
+                missing_node_package_names.append(p['name'])
 
-        package_file_paths = []
-        if len(packages) > 0:
-            select_packages_dialog = SelectPackages_Dialog(self, packages)
+        node_packages = valid_node_packages.copy()
+
+        if len(missing_node_package_names) > 0:
+            select_packages_dialog = SelectPackages_Dialog(self, required_packages=missing_node_package_names)
             select_packages_dialog.exec_()
-            package_file_paths = select_packages_dialog.file_paths
+            node_packages += select_packages_dialog.packages
 
-
-        self.editor_startup_configuration['required packages'] = package_file_paths
-        self.editor_startup_configuration['content'] = j_obj
+        self.editor_startup_configuration['required packages'] = node_packages
+        self.editor_startup_configuration['content'] = project_dict
 
         self.accept()
-
-    def extract_required_packages(self, j_obj):
-
-        if 'required packages' in j_obj:
-            return j_obj['required packages']
-
-        # backwards compatibility
-        packages = []
-        scripts = j_obj['scripts']
-        for script in scripts:
-            flow = script['flow']
-            for n in flow['nodes']:
-                package = n['parent node package']
-                if package != 'built in' and not packages.__contains__(package):
-                    packages.append(package)
-
-        return packages

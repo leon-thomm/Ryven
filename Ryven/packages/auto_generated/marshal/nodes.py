@@ -1,11 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import marshal
 
 
-class AutoNode_marshal_dump(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class AutoNode_marshal_dump(NodeBase):
     title = 'dump'
     type_ = 'marshal'
-    doc = '''Write the value on the open file.
+    doc = """Write the value on the open file.
 
   value
     Must be a supported type.
@@ -16,14 +22,14 @@ class AutoNode_marshal_dump(rc.Node):
 
 If the value has (or contains an object that has) an unsupported type, a
 ValueError exception is raised - but garbage data will also be written
-to the file. The object will not be properly read back by load().'''
+to the file. The object will not be properly read back by load()."""
     init_inputs = [
-        rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='version'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='version'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -31,11 +37,10 @@ rc.NodeInputBP(label='version'),
         self.set_output_val(0, marshal.dump(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_marshal_dumps(rc.Node):
+class AutoNode_marshal_dumps(NodeBase):
     title = 'dumps'
     type_ = 'marshal'
-    doc = '''Return the bytes object that would be written to a file by dump(value, file).
+    doc = """Return the bytes object that would be written to a file by dump(value, file).
 
   value
     Must be a supported type.
@@ -43,13 +48,13 @@ class AutoNode_marshal_dumps(rc.Node):
     Indicates the data format that dumps should use.
 
 Raise a ValueError exception if value has (or contains an object that has) an
-unsupported type.'''
+unsupported type."""
     init_inputs = [
-        rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='version'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='version'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -57,11 +62,10 @@ rc.NodeInputBP(label='version'),
         self.set_output_val(0, marshal.dumps(self.input(0), self.input(1)))
         
 
-
-class AutoNode_marshal_load(rc.Node):
+class AutoNode_marshal_load(NodeBase):
     title = 'load'
     type_ = 'marshal'
-    doc = '''Read one value from the open file and return it.
+    doc = """Read one value from the open file and return it.
 
   file
     Must be readable binary file.
@@ -71,12 +75,12 @@ version's incompatible marshal format), raise EOFError, ValueError or
 TypeError.
 
 Note: If an object containing an unsupported type was marshalled with
-dump(), load() will substitute None for the unmarshallable type.'''
+dump(), load() will substitute None for the unmarshallable type."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -84,22 +88,29 @@ dump(), load() will substitute None for the unmarshallable type.'''
         self.set_output_val(0, marshal.load(self.input(0)))
         
 
-
-class AutoNode_marshal_loads(rc.Node):
+class AutoNode_marshal_loads(NodeBase):
     title = 'loads'
     type_ = 'marshal'
-    doc = '''Convert the bytes-like object to a value.
+    doc = """Convert the bytes-like object to a value.
 
 If no valid value is found, raise EOFError, ValueError or TypeError.  Extra
-bytes in the input are ignored.'''
+bytes in the input are ignored."""
     init_inputs = [
-        rc.NodeInputBP(label='bytes'),
+        NodeInputBP(label='bytes'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, marshal.loads(self.input(0)))
         
+
+
+export_nodes(
+    AutoNode_marshal_dump,
+    AutoNode_marshal_dumps,
+    AutoNode_marshal_load,
+    AutoNode_marshal_loads,
+)

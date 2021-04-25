@@ -1,6 +1,6 @@
-from PySide2.QtCore import QMimeData, QByteArray, Qt, QPoint
-from PySide2.QtGui import QStandardItemModel, QStandardItem, QDrag
-from PySide2.QtWidgets import QWidget, QTreeView, QVBoxLayout, QMenu, QAction
+from qtpy.QtCore import QMimeData, QByteArray, Qt, QPoint
+from qtpy.QtGui import QStandardItemModel, QStandardItem, QDrag
+from qtpy.QtWidgets import QWidget, QTreeView, QVBoxLayout, QMenu, QAction
 
 
 class NodesView(QTreeView):
@@ -32,19 +32,20 @@ class NodesListWidget(QWidget):
 
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(self.view)
+        self.setMaximumWidth(500)
 
     def update_list(self):
         self.model.clear()
 
-        packages = {}  # {str: [Node]}
-        for node, package_name in self.main_window.node_packages.items():
-            if package_name in packages.keys():
-                packages[package_name].append(node)
+        packages = {}  # {NodePackage: [Node]}
+        for node, node_package in self.main_window.node_packages.items():
+            if node_package in packages.keys():
+                packages[node_package].append(node)
             else:
-                packages[package_name] = [node]
+                packages[node_package] = [node]
 
-        for package_name, nodes in packages.items():
-            package_item = QStandardItem(package_name)
+        for node_package, nodes in packages.items():
+            package_item = QStandardItem(node_package.name)
             package_item.setEditable(False)
             for n in nodes:
                 node_item = NodeItem(n)

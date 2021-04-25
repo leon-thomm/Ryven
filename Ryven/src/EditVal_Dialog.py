@@ -1,5 +1,5 @@
-from PySide2.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QPlainTextEdit, QShortcut, QMessageBox
-from PySide2.QtGui import QKeySequence
+from qtpy.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QPlainTextEdit, QShortcut, QMessageBox
+from qtpy.QtGui import QKeySequence
 
 
 class EditVal_Dialog(QDialog):

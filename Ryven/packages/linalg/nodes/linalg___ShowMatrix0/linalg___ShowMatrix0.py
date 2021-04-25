@@ -120,13 +120,13 @@ class ShowMatrix_Node(Node):
         self.main_widget_hidden = False
         self.update_shape()
 
-    def get_state(self):
+    def get_data(self):
         data = {'main widget hidden': self.main_widget_hidden,
                 'accessed rows': self.accessed_rows,
                 'accessed columns': self.accessed_columns}
         return data
 
-    def set_state(self, data):
+    def set_data(self, data):
         self.main_widget_hidden = data['main widget hidden']
         # if self.main_widget_hidden:
         #     self.action_hide_mw()

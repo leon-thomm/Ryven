@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QCheckBox, QHBoxLayout, QGridLayout
+from qtpy.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QCheckBox, QHBoxLayout, QGridLayout
 
 
 class EditSrcCodeInfoDialog(QDialog):

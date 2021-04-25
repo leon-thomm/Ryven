@@ -1,15 +1,25 @@
-from PySide2.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QWidget, QLabel, \
+import sys
+
+from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QWidget, QLabel, \
     QListWidget, QListWidgetItem
 import os
 from os.path import basename, abspath, dirname, normpath, join, splitext
 
+from nodes_package import NodesPackage
+
 
 class SelectPackages_Dialog(QDialog):
-    def __init__(self, parent, packages):
+    """
+    Now only used to state new paths to required packages that are not valid anymore.
+    The 'auto import' feature is therefore probably useless by now.
+    """
+
+    def __init__(self, parent, required_packages: [str]):
         super(SelectPackages_Dialog, self).__init__(parent)
 
         self.file_paths = []
-        self.required_packages = packages
+        self.required_packages: [str] = required_packages
+        self.packages = []
 
         self.setLayout(QVBoxLayout())
 
@@ -17,10 +27,8 @@ class SelectPackages_Dialog(QDialog):
 
         # package lists
         required_packages_list_widget = QListWidget()
-        for p in packages:
-            package_item = QListWidgetItem()
-            package_item.setText(p)
-            required_packages_list_widget.addItem(package_item)
+        for p_name in required_packages:
+            required_packages_list_widget.addItem(QListWidgetItem(p_name))
 
         selected_items_widget = QWidget()
         selected_items_widget.setLayout(QVBoxLayout())
@@ -70,6 +78,7 @@ class SelectPackages_Dialog(QDialog):
                     p_file not in self.file_paths:
 
                 self.file_paths.append(p_file)
+                self.packages.append(NodesPackage(dirname(p_file)))
 
         self.rebuild_selected_packages_list_widget()
 
@@ -79,16 +88,19 @@ class SelectPackages_Dialog(QDialog):
             self.finished()
 
     def add_package_button_clicked(self):
-        file_names = \
-            QFileDialog.getOpenFileNames(self, 'select package files', '../packages', '(*.py)')[0]
+
+        file_names = QFileDialog.getOpenFileNames(self, 'select package file (nodes.py)', '../packages', '(*.py)')[0]
 
         for file_name in file_names:
             try:
+                # simply try to open the file to make sure it's valid
                 f = open(file_name)
                 f.close()
+
                 self.file_paths.append(file_name)
+                self.packages.append(NodesPackage(dirname(file_name)))
+
             except FileNotFoundError:
-                # InfoMsgs.write('couldn\'t open file')
                 pass
 
         self.rebuild_selected_packages_list_widget()
@@ -104,6 +116,8 @@ class SelectPackages_Dialog(QDialog):
 
     def clear_selected_packages_list(self):
         self.file_paths.clear()
+        self.packages.clear()
+
         self.rebuild_selected_packages_list_widget()
 
     def finished_button_clicked(self):
@@ -117,21 +131,26 @@ class SelectPackages_Dialog(QDialog):
         files_dict = {}
 
         for p in self.file_paths:
-            filename = splitext(basename(p))[0]
-            files_dict[filename] = p
+            package_name = basename(dirname(p))
+            files_dict[package_name] = p
 
         self.file_paths = list(files_dict.values())
 
         self.rebuild_selected_packages_list_widget()
 
     def all_required_packages_selected(self):
-        folders = [basename(dirname(f_path)) for f_path in self.file_paths]
+
+        selected_packages = [basename(normpath(np.directory)) for np in self.packages]
 
         # search for missing packages
         for p in self.required_packages:
-            if p not in folders:
+            if p not in selected_packages:
                 return False
+
         return True
 
     def finished(self):
         self.accept()
+
+    def closeEvent(self, arg__1) -> None:
+        sys.exit()

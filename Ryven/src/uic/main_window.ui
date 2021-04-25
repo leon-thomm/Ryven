@@ -22,11 +22,11 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QSplitter" name="main_splitter">
+     <widget class="QSplitter" name="main_horizontal_splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QSplitter" name="scripts_console_splitter">
+      <widget class="QSplitter" name="left_vertical_splitter">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -37,20 +37,30 @@
         <layout class="QVBoxLayout" name="verticalLayout"/>
        </widget>
       </widget>
-      <widget class="QTabWidget" name="scripts_tab_widget">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QSplitter" name="right_vertical_splitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="QWidget" name="tab">
-        <attribute name="title">
-         <string>Main</string>
-        </attribute>
+       <widget class="QTabWidget" name="scripts_tab_widget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Main</string>
+         </attribute>
+        </widget>
+       </widget>
+       <widget class="QSplitter" name="right_lower_horizontal_splitter">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
        </widget>
       </widget>
      </widget>

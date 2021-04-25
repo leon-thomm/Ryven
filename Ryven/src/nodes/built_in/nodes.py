@@ -1,4 +1,4 @@
-from ryvencore_qt.src.ryvencore import dtypes
+# from ryvencore_qt.src.ryvencore import dtypes
 
 from NENV import *
 widgets = import_widgets(__file__)
@@ -10,8 +10,11 @@ widgets = import_widgets(__file__)
 #     'Result_Node_MainWidget', 'ValNode_MainWidget',
 # ], gui=True)
 
+class NodeBase(Node):
+    pass
 
-class GetVar_Node(Node):
+
+class GetVar_Node(NodeBase):
 
     title = 'get var'
     doc = 'get the value of a script variable'
@@ -24,7 +27,7 @@ class GetVar_Node(Node):
     color = '#c69a15'
 
     def __init__(self, params):
-        super(GetVar_Node, self).__init__(params)
+        super().__init__(params)
 
         self.var_name = ''
         self.temp_var_val = None
@@ -55,7 +58,7 @@ class GetVar_Node(Node):
     #     self.var_name = data['var name']
 
 
-class Result_Node(Node):
+class Result_Node(NodeBase):
 
     title = 'result'
     doc = 'displays a value converted to string'
@@ -67,7 +70,7 @@ class Result_Node(Node):
     color = '#c69a15'
 
     def __init__(self, params):
-        super(Result_Node, self).__init__(params)
+        super().__init__(params)
         self.val = None
 
     def place_event(self):
@@ -82,7 +85,7 @@ class Result_Node(Node):
             self.main_widget().show_val(self.val)
 
 
-class Val_Node(Node):
+class Val_Node(NodeBase):
 
     title = 'val'
     doc = 'returns the evaluated value that is typed into the input field'
@@ -95,7 +98,7 @@ class Val_Node(Node):
     color = '#c69a15'
 
     def __init__(self, params):
-        super(Val_Node, self).__init__(params)
+        super().__init__(params)
 
         self.special_actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
         self.val = None
@@ -137,7 +140,7 @@ class Val_Node(Node):
         self.val = data['val']
 
 
-class SetVar_Node(Node):
+class SetVar_Node(NodeBase):
 
     title = 'set var'
     doc = 'sets the value of a script variable'
@@ -145,8 +148,6 @@ class SetVar_Node(Node):
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.String(), label='var'),
         NodeInputBP(dtype=dtypes.Data(size='s'), label='val'),
-        # NodeInputBP(type_='data', label='var', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
-        # NodeInputBP(type_='data', label='val', add_config={'widget name': 'std line edit', 'widget pos': 'besides'}),
     ]
     init_outputs = [
         NodeOutputBP(type_='exec'),
@@ -156,23 +157,31 @@ class SetVar_Node(Node):
     color = '#c69a15'
 
     def __init__(self, params):
-        super(SetVar_Node, self).__init__(params)
+        super().__init__(params)
 
         self.special_actions['make passive'] = {'method': self.action_make_passive}
         self.active = True
 
-        self.var_name = ''
+        self.var_names = ''
+        self.num_vars = 1
 
     def update_event(self, input_called=-1):
+
+        inp_index = -1
+
         if self.active and input_called == 0:
-            self.var_name = self.input(1)
+            self.var_names = [self.input(i) for i in range(1, len(self.inputs), 2)]
+            values = [self.input(i) for i in range(2, len(self.inputs), 2)]
+            for i in range(len(self.var_names)):
+                self.set_output_val
+
             if self.set_var_val(self.input(1), self.input(2)):
                 self.set_output_val(1, self.input(2))
             self.exec_output(0)
         elif not self.active:
-            self.var_name = self.input(0)
+            self.var_names = self.input(0)
             if self.set_var_val(self.input(0), self.input(1)):
-                self.set_output_val(0, self.get_var_val(self.var_name))
+                self.set_output_val(0, self.get_var_val(self.var_names))
 
     def action_make_passive(self):
         self.active = False
@@ -195,6 +204,74 @@ class SetVar_Node(Node):
         self.active = data['active']
 
 
+class SetVarsPassive_Node(NodeBase):
+    title = 'set vars passive'
+    doc = 'sets the value of a script variable'
+    init_inputs = [
+
+    ]
+    init_outputs = [
+
+    ]
+    style = 'normal'
+    color = '#c69a15'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.special_actions['add var input'] = {'method': self.add_var_input}
+
+        self.num_vars = 0
+
+    def place_event(self):
+        if self.num_vars == 0:
+            self.add_var_input()
+
+    def add_var_input(self):
+        self.create_input_dt(label='var', dtype=dtypes.String(size='l'))
+        self.create_input_dt(label='val', dtype=dtypes.Data(size='l'))
+        self.num_vars += 1
+
+        self.special_actions[f'remove var {self.num_vars}'] = {
+            'method': self.remove_var_input,
+            'data': self.num_vars
+        }
+
+    def remove_var_input(self, number):
+        self.delete_input((number-1)*2)
+        self.delete_input((number-1)*2)
+        self.num_vars -= 1
+        self.rebuild_remove_actions()
+
+    def rebuild_remove_actions(self):
+
+        remove_keys = []
+        for k, v in self.special_actions.items():
+            if k.startswith('remove var'):
+                remove_keys.append(k)
+
+        for k in remove_keys:
+            del self.special_actions[k]
+
+        for i in range(self.num_vars):
+            self.special_actions[f'remove var {i+1}'] = {
+                'method': self.remove_var_input,
+                'data': i+1
+            }
+
+    def update_event(self, input_called=-1):
+
+        var_names = [self.input(i) for i in range(0, len(self.inputs), 2)]
+        values = [self.input(i) for i in range(1, len(self.inputs), 2)]
+
+        for i in range(len(var_names)):
+            self.set_var_val(var_names[i], values[i])
+
+    def get_state(self):
+        return {'num vars': self.num_vars}
+
+    def set_state(self, data):
+        self.num_vars = data['num vars']
 
 
 export_nodes(
@@ -202,4 +279,5 @@ export_nodes(
     GetVar_Node,
     Val_Node,
     Result_Node,
+    SetVarsPassive_Node,
 )

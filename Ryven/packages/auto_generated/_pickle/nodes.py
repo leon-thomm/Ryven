@@ -1,11 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import _pickle
 
 
-class AutoNode__pickle_dump(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class AutoNode__pickle_dump(NodeBase):
     title = 'dump'
     type_ = '_pickle'
-    doc = '''Write a pickled representation of obj to the open file object file.
+    doc = """Write a pickled representation of obj to the open file object file.
 
 This is equivalent to ``Pickler(file, protocol).dump(obj)``, but may
 be more efficient.
@@ -30,14 +36,14 @@ to map the new Python 3 names to the old module names used in Python
 
 If *buffer_callback* is None (the default), buffer views are serialized
 into *file* as part of the pickle stream.  It is an error if
-*buffer_callback* is not None and *protocol* is None or smaller than 5.'''
+*buffer_callback* is not None and *protocol* is None or smaller than 5."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='protocol'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='protocol'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -45,11 +51,10 @@ rc.NodeInputBP(label='protocol'),
         self.set_output_val(0, _pickle.dump(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode__pickle_dumps(rc.Node):
+class AutoNode__pickle_dumps(NodeBase):
     title = 'dumps'
     type_ = '_pickle'
-    doc = '''Return the pickled representation of the object as a bytes object.
+    doc = """Return the pickled representation of the object as a bytes object.
 
 The optional *protocol* argument tells the pickler to use the given
 protocol; supported protocols are 0, 1, 2, 3, 4 and 5.  The default
@@ -66,13 +71,13 @@ Python 2, so that the pickle data stream is readable with Python 2.
 
 If *buffer_callback* is None (the default), buffer views are serialized
 into *file* as part of the pickle stream.  It is an error if
-*buffer_callback* is not None and *protocol* is None or smaller than 5.'''
+*buffer_callback* is not None and *protocol* is None or smaller than 5."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='protocol'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='protocol'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -80,11 +85,10 @@ rc.NodeInputBP(label='protocol'),
         self.set_output_val(0, _pickle.dumps(self.input(0), self.input(1)))
         
 
-
-class AutoNode__pickle_load(rc.Node):
+class AutoNode__pickle_load(NodeBase):
     title = 'load'
     type_ = '_pickle'
-    doc = '''Read and return an object from the pickle data stored in a file.
+    doc = """Read and return an object from the pickle data stored in a file.
 
 This is equivalent to ``Unpickler(file).load()``, but may be more
 efficient.
@@ -106,12 +110,12 @@ map the old Python 2 names to the new names used in Python 3.  The
 *encoding* and *errors* tell pickle how to decode 8-bit string
 instances pickled by Python 2; these default to 'ASCII' and 'strict',
 respectively.  The *encoding* can be 'bytes' to read these 8-bit
-string instances as bytes objects.'''
+string instances as bytes objects."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -119,11 +123,10 @@ string instances as bytes objects.'''
         self.set_output_val(0, _pickle.load(self.input(0)))
         
 
-
-class AutoNode__pickle_loads(rc.Node):
+class AutoNode__pickle_loads(NodeBase):
     title = 'loads'
     type_ = '_pickle'
-    doc = '''Read and return an object from the given pickle data.
+    doc = """Read and return an object from the given pickle data.
 
 The protocol version of the pickle is detected automatically, so no
 protocol argument is needed.  Bytes past the pickled object's
@@ -136,15 +139,23 @@ map the old Python 2 names to the new names used in Python 3.  The
 *encoding* and *errors* tell pickle how to decode 8-bit string
 instances pickled by Python 2; these default to 'ASCII' and 'strict',
 respectively.  The *encoding* can be 'bytes' to read these 8-bit
-string instances as bytes objects.'''
+string instances as bytes objects."""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, _pickle.loads(self.input(0)))
         
+
+
+export_nodes(
+    AutoNode__pickle_dump,
+    AutoNode__pickle_dumps,
+    AutoNode__pickle_load,
+    AutoNode__pickle_loads,
+)

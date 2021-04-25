@@ -1,16 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import builtins
 
 
-class AutoNode_builtins_abs(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class AutoNode_builtins_abs(NodeBase):
     title = 'abs'
     type_ = 'builtins'
-    doc = '''Return the absolute value of the argument.'''
+    doc = """Return the absolute value of the argument."""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,18 +24,17 @@ class AutoNode_builtins_abs(rc.Node):
         self.set_output_val(0, builtins.abs(self.input(0)))
         
 
-
-class AutoNode_builtins_all(rc.Node):
+class AutoNode_builtins_all(NodeBase):
     title = 'all'
     type_ = 'builtins'
-    doc = '''Return True if bool(x) is True for all values x in the iterable.
+    doc = """Return True if bool(x) is True for all values x in the iterable.
 
-If the iterable is empty, return True.'''
+If the iterable is empty, return True."""
     init_inputs = [
-        rc.NodeInputBP(label='iterable'),
+        NodeInputBP(label='iterable'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -37,18 +42,17 @@ If the iterable is empty, return True.'''
         self.set_output_val(0, builtins.all(self.input(0)))
         
 
-
-class AutoNode_builtins_any(rc.Node):
+class AutoNode_builtins_any(NodeBase):
     title = 'any'
     type_ = 'builtins'
-    doc = '''Return True if bool(x) is True for any x in the iterable.
+    doc = """Return True if bool(x) is True for any x in the iterable.
 
-If the iterable is empty, return False.'''
+If the iterable is empty, return False."""
     init_inputs = [
-        rc.NodeInputBP(label='iterable'),
+        NodeInputBP(label='iterable'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -56,21 +60,20 @@ If the iterable is empty, return False.'''
         self.set_output_val(0, builtins.any(self.input(0)))
         
 
-
-class AutoNode_builtins_ascii(rc.Node):
+class AutoNode_builtins_ascii(NodeBase):
     title = 'ascii'
     type_ = 'builtins'
-    doc = '''Return an ASCII-only representation of an object.
+    doc = """Return an ASCII-only representation of an object.
 
 As repr(), return a string containing a printable representation of an
 object, but escape the non-ASCII characters in the string returned by
 repr() using \\x, \\u or \\U escapes. This generates a string similar
-to that returned by repr() in Python 2.'''
+to that returned by repr() in Python 2."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -78,19 +81,18 @@ to that returned by repr() in Python 2.'''
         self.set_output_val(0, builtins.ascii(self.input(0)))
         
 
-
-class AutoNode_builtins_bin(rc.Node):
+class AutoNode_builtins_bin(NodeBase):
     title = 'bin'
     type_ = 'builtins'
-    doc = '''Return the binary representation of an integer.
+    doc = """Return the binary representation of an integer.
 
    >>> bin(2796202)
-   '0b1010101010101010101010''''
+   '0b1010101010101010101010'"""
     init_inputs = [
-        rc.NodeInputBP(label='number'),
+        NodeInputBP(label='number'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -98,19 +100,18 @@ class AutoNode_builtins_bin(rc.Node):
         self.set_output_val(0, builtins.bin(self.input(0)))
         
 
-
-class AutoNode_builtins_callable(rc.Node):
+class AutoNode_builtins_callable(NodeBase):
     title = 'callable'
     type_ = 'builtins'
-    doc = '''Return whether the object is callable (i.e., some kind of function).
+    doc = """Return whether the object is callable (i.e., some kind of function).
 
 Note that classes are callable, as are instances of classes with a
-__call__() method.'''
+__call__() method."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -118,16 +119,15 @@ __call__() method.'''
         self.set_output_val(0, builtins.callable(self.input(0)))
         
 
-
-class AutoNode_builtins_chr(rc.Node):
+class AutoNode_builtins_chr(NodeBase):
     title = 'chr'
     type_ = 'builtins'
-    doc = '''Return a Unicode string of one character with ordinal i; 0 <= i <= 0x10ffff.'''
+    doc = """Return a Unicode string of one character with ordinal i; 0 <= i <= 0x10ffff."""
     init_inputs = [
-        rc.NodeInputBP(label='i'),
+        NodeInputBP(label='i'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -135,11 +135,10 @@ class AutoNode_builtins_chr(rc.Node):
         self.set_output_val(0, builtins.chr(self.input(0)))
         
 
-
-class AutoNode_builtins_compile(rc.Node):
+class AutoNode_builtins_compile(NodeBase):
     title = 'compile'
     type_ = 'builtins'
-    doc = '''Compile source into a code object that can be executed by exec() or eval().
+    doc = """Compile source into a code object that can be executed by exec() or eval().
 
 The source code may represent a Python module, statement or expression.
 The filename will be used for run-time error messages.
@@ -150,17 +149,17 @@ the compilation of the code.
 The dont_inherit argument, if true, stops the compilation inheriting
 the effects of any future statements in effect in the code calling
 compile; if absent or false these statements do influence the compilation,
-in addition to any features explicitly specified.'''
+in addition to any features explicitly specified."""
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='flags'),
-rc.NodeInputBP(label='dont_inherit'),
-rc.NodeInputBP(label='optimize'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='mode'),
+        NodeInputBP(label='flags'),
+        NodeInputBP(label='dont_inherit'),
+        NodeInputBP(label='optimize'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -168,19 +167,18 @@ rc.NodeInputBP(label='optimize'),
         self.set_output_val(0, builtins.compile(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_builtins_delattr(rc.Node):
+class AutoNode_builtins_delattr(NodeBase):
     title = 'delattr'
     type_ = 'builtins'
-    doc = '''Deletes the named attribute from the given object.
+    doc = """Deletes the named attribute from the given object.
 
-delattr(x, 'y') is equivalent to ``del x.y'''''
+delattr(x, 'y') is equivalent to ``del x.y''"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='name'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -188,17 +186,16 @@ rc.NodeInputBP(label='name'),
         self.set_output_val(0, builtins.delattr(self.input(0), self.input(1)))
         
 
-
-class AutoNode_builtins_divmod(rc.Node):
+class AutoNode_builtins_divmod(NodeBase):
     title = 'divmod'
     type_ = 'builtins'
-    doc = '''Return the tuple (x//y, x%y).  Invariant: div*y + mod == x.'''
+    doc = """Return the tuple (x//y, x%y).  Invariant: div*y + mod == x."""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='y'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='y'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -206,24 +203,23 @@ rc.NodeInputBP(label='y'),
         self.set_output_val(0, builtins.divmod(self.input(0), self.input(1)))
         
 
-
-class AutoNode_builtins_eval(rc.Node):
+class AutoNode_builtins_eval(NodeBase):
     title = 'eval'
     type_ = 'builtins'
-    doc = '''Evaluate the given source in the context of globals and locals.
+    doc = """Evaluate the given source in the context of globals and locals.
 
 The source may be a string representing a Python expression
 or a code object as returned by compile().
 The globals must be a dictionary and locals can be any mapping,
 defaulting to the current globals and locals.
-If only globals is given, locals defaults to it.'''
+If only globals is given, locals defaults to it."""
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='globals'),
-rc.NodeInputBP(label='locals'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='globals'),
+        NodeInputBP(label='locals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -231,24 +227,23 @@ rc.NodeInputBP(label='locals'),
         self.set_output_val(0, builtins.eval(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_builtins_exec(rc.Node):
+class AutoNode_builtins_exec(NodeBase):
     title = 'exec'
     type_ = 'builtins'
-    doc = '''Execute the given source in the context of globals and locals.
+    doc = """Execute the given source in the context of globals and locals.
 
 The source may be a string representing one or more Python statements
 or a code object as returned by compile().
 The globals must be a dictionary and locals can be any mapping,
 defaulting to the current globals and locals.
-If only globals is given, locals defaults to it.'''
+If only globals is given, locals defaults to it."""
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='globals'),
-rc.NodeInputBP(label='locals'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='globals'),
+        NodeInputBP(label='locals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -256,21 +251,20 @@ rc.NodeInputBP(label='locals'),
         self.set_output_val(0, builtins.exec(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_builtins_format(rc.Node):
+class AutoNode_builtins_format(NodeBase):
     title = 'format'
     type_ = 'builtins'
-    doc = '''Return value.__format__(format_spec)
+    doc = """Return value.__format__(format_spec)
 
 format_spec defaults to the empty string.
 See the Format Specification Mini-Language section of help('FORMATTING') for
-details.'''
+details."""
     init_inputs = [
-        rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='format_spec'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='format_spec'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -278,19 +272,18 @@ rc.NodeInputBP(label='format_spec'),
         self.set_output_val(0, builtins.format(self.input(0), self.input(1)))
         
 
-
-class AutoNode_builtins_globals(rc.Node):
+class AutoNode_builtins_globals(NodeBase):
     title = 'globals'
     type_ = 'builtins'
-    doc = '''Return the dictionary containing the current scope's global variables.
+    doc = """Return the dictionary containing the current scope's global variables.
 
 NOTE: Updates to this dictionary *will* affect name lookups in the current
-global scope and vice-versa.'''
+global scope and vice-versa."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -298,19 +291,18 @@ global scope and vice-versa.'''
         self.set_output_val(0, builtins.globals())
         
 
-
-class AutoNode_builtins_hasattr(rc.Node):
+class AutoNode_builtins_hasattr(NodeBase):
     title = 'hasattr'
     type_ = 'builtins'
-    doc = '''Return whether the object has an attribute with the given name.
+    doc = """Return whether the object has an attribute with the given name.
 
-This is done by calling getattr(obj, name) and catching AttributeError.'''
+This is done by calling getattr(obj, name) and catching AttributeError."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='name'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -318,19 +310,18 @@ rc.NodeInputBP(label='name'),
         self.set_output_val(0, builtins.hasattr(self.input(0), self.input(1)))
         
 
-
-class AutoNode_builtins_hash(rc.Node):
+class AutoNode_builtins_hash(NodeBase):
     title = 'hash'
     type_ = 'builtins'
-    doc = '''Return the hash value for the given object.
+    doc = """Return the hash value for the given object.
 
 Two objects that compare equal must also have the same hash value, but the
-reverse is not necessarily true.'''
+reverse is not necessarily true."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -338,19 +329,18 @@ reverse is not necessarily true.'''
         self.set_output_val(0, builtins.hash(self.input(0)))
         
 
-
-class AutoNode_builtins_hex(rc.Node):
+class AutoNode_builtins_hex(NodeBase):
     title = 'hex'
     type_ = 'builtins'
-    doc = '''Return the hexadecimal representation of an integer.
+    doc = """Return the hexadecimal representation of an integer.
 
    >>> hex(12648430)
-   '0xc0ffee''''
+   '0xc0ffee'"""
     init_inputs = [
-        rc.NodeInputBP(label='number'),
+        NodeInputBP(label='number'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -358,19 +348,18 @@ class AutoNode_builtins_hex(rc.Node):
         self.set_output_val(0, builtins.hex(self.input(0)))
         
 
-
-class AutoNode_builtins_id(rc.Node):
+class AutoNode_builtins_id(NodeBase):
     title = 'id'
     type_ = 'builtins'
-    doc = '''Return the identity of an object.
+    doc = """Return the identity of an object.
 
 This is guaranteed to be unique among simultaneously existing objects.
-(CPython uses the object's memory address.)'''
+(CPython uses the object's memory address.)"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -378,22 +367,21 @@ This is guaranteed to be unique among simultaneously existing objects.
         self.set_output_val(0, builtins.id(self.input(0)))
         
 
-
-class AutoNode_builtins_input(rc.Node):
+class AutoNode_builtins_input(NodeBase):
     title = 'input'
     type_ = 'builtins'
-    doc = '''Read a string from standard input.  The trailing newline is stripped.
+    doc = """Read a string from standard input.  The trailing newline is stripped.
 
 The prompt string, if given, is printed to standard output without a
 trailing newline before reading input.
 
 If the user hits EOF (*nix: Ctrl-D, Windows: Ctrl-Z+Return), raise EOFError.
-On *nix systems, readline is used if available.'''
+On *nix systems, readline is used if available."""
     init_inputs = [
-        rc.NodeInputBP(label='prompt'),
+        NodeInputBP(label='prompt'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -401,21 +389,20 @@ On *nix systems, readline is used if available.'''
         self.set_output_val(0, builtins.input(self.input(0)))
         
 
-
-class AutoNode_builtins_isinstance(rc.Node):
+class AutoNode_builtins_isinstance(NodeBase):
     title = 'isinstance'
     type_ = 'builtins'
-    doc = '''Return whether an object is an instance of a class or of a subclass thereof.
+    doc = """Return whether an object is an instance of a class or of a subclass thereof.
 
 A tuple, as in ``isinstance(x, (A, B, ...))``, may be given as the target to
 check against. This is equivalent to ``isinstance(x, A) or isinstance(x, B)
-or ...`` etc.'''
+or ...`` etc."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='class_or_tuple'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='class_or_tuple'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -423,21 +410,20 @@ rc.NodeInputBP(label='class_or_tuple'),
         self.set_output_val(0, builtins.isinstance(self.input(0), self.input(1)))
         
 
-
-class AutoNode_builtins_issubclass(rc.Node):
+class AutoNode_builtins_issubclass(NodeBase):
     title = 'issubclass'
     type_ = 'builtins'
-    doc = '''Return whether 'cls' is a derived from another class or is the same class.
+    doc = """Return whether 'cls' is a derived from another class or is the same class.
 
 A tuple, as in ``issubclass(x, (A, B, ...))``, may be given as the target to
 check against. This is equivalent to ``issubclass(x, A) or issubclass(x, B)
-or ...`` etc.'''
+or ...`` etc."""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='class_or_tuple'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='class_or_tuple'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -445,16 +431,15 @@ rc.NodeInputBP(label='class_or_tuple'),
         self.set_output_val(0, builtins.issubclass(self.input(0), self.input(1)))
         
 
-
-class AutoNode_builtins_len(rc.Node):
+class AutoNode_builtins_len(NodeBase):
     title = 'len'
     type_ = 'builtins'
-    doc = '''Return the number of items in a container.'''
+    doc = """Return the number of items in a container."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -462,20 +447,19 @@ class AutoNode_builtins_len(rc.Node):
         self.set_output_val(0, builtins.len(self.input(0)))
         
 
-
-class AutoNode_builtins_locals(rc.Node):
+class AutoNode_builtins_locals(NodeBase):
     title = 'locals'
     type_ = 'builtins'
-    doc = '''Return a dictionary containing the current scope's local variables.
+    doc = """Return a dictionary containing the current scope's local variables.
 
 NOTE: Whether or not updates to this dictionary will affect name lookups in
 the local scope and vice-versa is *implementation dependent* and not
-covered by any backwards compatibility guarantees.'''
+covered by any backwards compatibility guarantees."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -483,19 +467,18 @@ covered by any backwards compatibility guarantees.'''
         self.set_output_val(0, builtins.locals())
         
 
-
-class AutoNode_builtins_oct(rc.Node):
+class AutoNode_builtins_oct(NodeBase):
     title = 'oct'
     type_ = 'builtins'
-    doc = '''Return the octal representation of an integer.
+    doc = """Return the octal representation of an integer.
 
    >>> oct(342391)
-   '0o1234567''''
+   '0o1234567'"""
     init_inputs = [
-        rc.NodeInputBP(label='number'),
+        NodeInputBP(label='number'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -503,11 +486,10 @@ class AutoNode_builtins_oct(rc.Node):
         self.set_output_val(0, builtins.oct(self.input(0)))
         
 
-
-class AutoNode_builtins_open(rc.Node):
+class AutoNode_builtins_open(NodeBase):
     title = 'open'
     type_ = 'builtins'
-    doc = '''Open file and return a stream.  Raise OSError upon failure.
+    doc = """Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -624,19 +606,19 @@ a BufferedRandom.
 It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
-opened in a binary mode.'''
+opened in a binary mode."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='buffering'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='newline'),
-rc.NodeInputBP(label='closefd'),
-rc.NodeInputBP(label='opener'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='mode'),
+        NodeInputBP(label='buffering'),
+        NodeInputBP(label='encoding'),
+        NodeInputBP(label='errors'),
+        NodeInputBP(label='newline'),
+        NodeInputBP(label='closefd'),
+        NodeInputBP(label='opener'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -644,16 +626,15 @@ rc.NodeInputBP(label='opener'),
         self.set_output_val(0, builtins.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
-
-class AutoNode_builtins_ord(rc.Node):
+class AutoNode_builtins_ord(NodeBase):
     title = 'ord'
     type_ = 'builtins'
-    doc = '''Return the Unicode code point for a one-character string.'''
+    doc = """Return the Unicode code point for a one-character string."""
     init_inputs = [
-        rc.NodeInputBP(label='c'),
+        NodeInputBP(label='c'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -661,21 +642,20 @@ class AutoNode_builtins_ord(rc.Node):
         self.set_output_val(0, builtins.ord(self.input(0)))
         
 
-
-class AutoNode_builtins_pow(rc.Node):
+class AutoNode_builtins_pow(NodeBase):
     title = 'pow'
     type_ = 'builtins'
-    doc = '''Equivalent to base**exp with 2 arguments or base**exp % mod with 3 arguments
+    doc = """Equivalent to base**exp with 2 arguments or base**exp % mod with 3 arguments
 
 Some types, such as ints, are able to use a more efficient algorithm when
-invoked using the three argument form.'''
+invoked using the three argument form."""
     init_inputs = [
-        rc.NodeInputBP(label='base'),
-rc.NodeInputBP(label='exp'),
-rc.NodeInputBP(label='mod'),
+        NodeInputBP(label='base'),
+        NodeInputBP(label='exp'),
+        NodeInputBP(label='mod'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -683,18 +663,17 @@ rc.NodeInputBP(label='mod'),
         self.set_output_val(0, builtins.pow(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_builtins_repr(rc.Node):
+class AutoNode_builtins_repr(NodeBase):
     title = 'repr'
     type_ = 'builtins'
-    doc = '''Return the canonical string representation of the object.
+    doc = """Return the canonical string representation of the object.
 
-For many object types, including most builtins, eval(repr(obj)) == obj.'''
+For many object types, including most builtins, eval(repr(obj)) == obj."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -702,20 +681,19 @@ For many object types, including most builtins, eval(repr(obj)) == obj.'''
         self.set_output_val(0, builtins.repr(self.input(0)))
         
 
-
-class AutoNode_builtins_round(rc.Node):
+class AutoNode_builtins_round(NodeBase):
     title = 'round'
     type_ = 'builtins'
-    doc = '''Round a number to a given precision in decimal digits.
+    doc = """Round a number to a given precision in decimal digits.
 
 The return value is an integer if ndigits is omitted or None.  Otherwise
-the return value has the same type as the number.  ndigits may be negative.'''
+the return value has the same type as the number.  ndigits may be negative."""
     init_inputs = [
-        rc.NodeInputBP(label='number'),
-rc.NodeInputBP(label='ndigits'),
+        NodeInputBP(label='number'),
+        NodeInputBP(label='ndigits'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -723,20 +701,19 @@ rc.NodeInputBP(label='ndigits'),
         self.set_output_val(0, builtins.round(self.input(0), self.input(1)))
         
 
-
-class AutoNode_builtins_setattr(rc.Node):
+class AutoNode_builtins_setattr(NodeBase):
     title = 'setattr'
     type_ = 'builtins'
-    doc = '''Sets the named attribute on the given object to the specified value.
+    doc = """Sets the named attribute on the given object to the specified value.
 
-setattr(x, 'y', v) is equivalent to ``x.y = v'''''
+setattr(x, 'y', v) is equivalent to ``x.y = v''"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -744,19 +721,18 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, builtins.setattr(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_builtins_sorted(rc.Node):
+class AutoNode_builtins_sorted(NodeBase):
     title = 'sorted'
     type_ = 'builtins'
-    doc = '''Return a new list containing all items from the iterable in ascending order.
+    doc = """Return a new list containing all items from the iterable in ascending order.
 
 A custom key function can be supplied to customize the sort order, and the
-reverse flag can be set to request the result in descending order.'''
+reverse flag can be set to request the result in descending order."""
     init_inputs = [
-        rc.NodeInputBP(label='iterable'),
+        NodeInputBP(label='iterable'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -764,24 +740,59 @@ reverse flag can be set to request the result in descending order.'''
         self.set_output_val(0, builtins.sorted(self.input(0)))
         
 
-
-class AutoNode_builtins_sum(rc.Node):
+class AutoNode_builtins_sum(NodeBase):
     title = 'sum'
     type_ = 'builtins'
-    doc = '''Return the sum of a 'start' value (default: 0) plus an iterable of numbers
+    doc = """Return the sum of a 'start' value (default: 0) plus an iterable of numbers
 
 When the iterable is empty, return the start value.
 This function is intended specifically for use with numeric values and may
-reject non-numeric types.'''
+reject non-numeric types."""
     init_inputs = [
-        rc.NodeInputBP(label='iterable'),
-rc.NodeInputBP(label='start'),
+        NodeInputBP(label='iterable'),
+        NodeInputBP(label='start'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, builtins.sum(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    AutoNode_builtins_abs,
+    AutoNode_builtins_all,
+    AutoNode_builtins_any,
+    AutoNode_builtins_ascii,
+    AutoNode_builtins_bin,
+    AutoNode_builtins_callable,
+    AutoNode_builtins_chr,
+    AutoNode_builtins_compile,
+    AutoNode_builtins_delattr,
+    AutoNode_builtins_divmod,
+    AutoNode_builtins_eval,
+    AutoNode_builtins_exec,
+    AutoNode_builtins_format,
+    AutoNode_builtins_globals,
+    AutoNode_builtins_hasattr,
+    AutoNode_builtins_hash,
+    AutoNode_builtins_hex,
+    AutoNode_builtins_id,
+    AutoNode_builtins_input,
+    AutoNode_builtins_isinstance,
+    AutoNode_builtins_issubclass,
+    AutoNode_builtins_len,
+    AutoNode_builtins_locals,
+    AutoNode_builtins_oct,
+    AutoNode_builtins_open,
+    AutoNode_builtins_ord,
+    AutoNode_builtins_pow,
+    AutoNode_builtins_repr,
+    AutoNode_builtins_round,
+    AutoNode_builtins_setattr,
+    AutoNode_builtins_sorted,
+    AutoNode_builtins_sum,
+)

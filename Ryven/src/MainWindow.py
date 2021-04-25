@@ -2,14 +2,15 @@ import os
 import sys
 from os.path import join, dirname
 
-from PySide2.QtGui import QIcon, QKeySequence
-from PySide2.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget
+from qtpy.QtGui import QIcon, QKeySequence
+from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget
 
 # parent UI
 import MainConsole as MainConsole
 from NodesListWidget import NodesListWidget
 from ScriptUI import ScriptUI
 from WindowTheme import WindowTheme
+from nodes_package import NodesPackage
 from uic.ui_main_window import Ui_MainWindow
 
 from nodes.NodeBase import NodeBase
@@ -80,7 +81,7 @@ class MainWindow(QMainWindow):
             self.session.design.set_flow_theme(name='Samuel 1l')
 
         #   REGISTER BUILT-IN NODES
-        self.import_nodes(join(dirname(__file__), 'nodes/built_in/nodes.py'))
+        self.import_nodes(path=join(dirname(__file__), 'nodes/built_in/'))
 
         #   LOAD PROJECT
         if config['config'] == 'create plain new project':
@@ -113,14 +114,19 @@ import: ctrl+i
     def setup_ui(self):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.console_nodes_tabs = QTabWidget()
+
+        # self.console_nodes_tabs = QTabWidget()
         if MainConsole.main_console is not None:
-            self.console_nodes_tabs.addTab(MainConsole.main_console, 'console')
+            # self.console_nodes_tabs.addTab(MainConsole.main_console, 'console')
+            self.ui.right_lower_horizontal_splitter.addWidget(MainConsole.main_console)
+        self.ui.right_vertical_splitter.setSizes([600, 0])
+
         self.nodes_widget = NodesListWidget(self, self.session)
-        self.console_nodes_tabs.addTab(self.nodes_widget, 'nodes')
-        self.ui.scripts_console_splitter.addWidget(self.console_nodes_tabs)
-        self.ui.scripts_console_splitter.setSizes([350, 350])
-        self.ui.main_splitter.setSizes([120, 800])
+        # self.console_nodes_tabs.addTab(self.nodes_widget, 'nodes')
+        self.ui.right_lower_horizontal_splitter.addWidget(self.nodes_widget)
+
+        self.ui.left_vertical_splitter.setSizes([350, 350])
+        self.ui.main_horizontal_splitter.setSizes([120, 800])
 
     def setup_menu_actions(self):
 
@@ -199,7 +205,7 @@ import: ctrl+i
     def on_import_nodes_triggered(self):
         file_path = QFileDialog.getOpenFileName(self, 'select nodes file', '../packages', '(*.py)',)[0]
         if file_path != '':
-            self.import_nodes(file_path)
+            self.import_nodes(path=dirname(file_path))
 
     def on_performance_mode_changed(self, action):
         if action == self.action_set_performance_mode_fast:
@@ -286,18 +292,22 @@ import: ctrl+i
     def get_current_script(self):
         return self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()]
 
-    def import_packages(self, packages_list):
+    def import_packages(self, packages_list: [NodesPackage]):
         for p in packages_list:
             self.import_nodes(p)
 
-    def import_nodes(self, file_path):
-        package_name = os.path.basename(os.path.dirname(file_path))
+    def import_nodes(self, package: NodesPackage = None, path: str = None):
 
-        nodes = import_nodes_package(os.path.dirname(file_path))
+        if package is not None:
+            p = package
+        else:
+            p = NodesPackage(path)
+
+        nodes = import_nodes_package(p)
         self.session.register_nodes(nodes)
 
         for n in nodes:
-            self.node_packages[n] = package_name
+            self.node_packages[n] = p
 
         self.nodes_widget.update_list()
 
@@ -321,14 +331,14 @@ import: ctrl+i
         for node in self.session.all_node_objects():
             if node.__class__ not in self.node_packages.keys() or \
                     self.node_packages[node.__class__] is None or \
-                    self.node_packages[node.__class__] == 'built_in':
+                    self.node_packages[node.__class__].name == 'built_in':
                 continue
             required_packages.add(
                 self.node_packages[node.__class__]
             )
 
         whole_project_dict = {'general info': general_project_info_dict,
-                              'required packages': list(required_packages),
+                              'required packages': [p.config_data() for p in required_packages],
                               **scripts_data}
 
         data = json.dumps(whole_project_dict, indent=4)

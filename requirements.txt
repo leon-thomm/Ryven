@@ -1,9 +1,0 @@
-matplotlib
-numpy==1.19.3
-opencv-python
-PySide2
-scipy
-pyowm
-qbstyles
-autopep8
-qt-material

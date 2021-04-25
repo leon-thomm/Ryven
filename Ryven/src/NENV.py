@@ -1,18 +1,22 @@
 """This file automatically imports all requirements for custom nodes.
 It should lie in the same location as Ryven.py so it can get imported directly from the custom sources."""
 import sys
-
-Node, NodeInputBP, NodeOutputBP = None, None, None
-
 import os
+
+# dependent on gui mode:
+Node, NodeInputBP, NodeOutputBP, dtypes = None, None, None, None
+
 if os.environ['RYVEN_MODE'] == 'gui':
-    from ryvencore_qt import NodeInputBP as _NodeInputBP, NodeOutputBP as _NodeOutputBP
+    from ryvencore_qt import NodeInputBP as _NodeInputBP, NodeOutputBP as _NodeOutputBP, dtypes as _dtypes
     from nodes.NodeBase import NodeBase as _Node
-    Node, NodeInputBP, NodeOutputBP = _Node, _NodeInputBP, _NodeOutputBP
+
+    Node, NodeInputBP, NodeOutputBP, dtypes = _Node, _NodeInputBP, _NodeOutputBP, _dtypes
 else:
-    # import sources from backend if not running in gui mode
-    from ryvencore_qt.src.ryvencore import Node as _Node, NodeInputBP as _NodeInputBP, NodeOutputBP as _NodeOutputBP
-    Node, NodeInputBP, NodeOutputBP = _Node, _NodeInputBP, _NodeOutputBP
+    # import sources directly from backend if not running in gui mode
+    from ryvencore_qt.src.ryvencore import Node as _Node, NodeInputBP as _NodeInputBP, NodeOutputBP as _NodeOutputBP, \
+        dtypes as _dtypes
+
+    Node, NodeInputBP, NodeOutputBP, dtypes = _Node, _NodeInputBP, _NodeOutputBP, _dtypes
 
 
 from tools import load_from_file

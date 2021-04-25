@@ -1,6 +1,6 @@
 import ryvencore_qt as rc
-from PySide2.QtWidgets import QApplication, QMainWindow, QSlider
-from PySide2.QtGui import Qt
+from qtpy.QtWidgets import QApplication, QMainWindow, QSlider
+from qtpy.QtGui import Qt
 import sys
 
 

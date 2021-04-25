@@ -1,5 +1,5 @@
-from PySide2.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QPlainTextEdit, QShortcut, QPushButton
-from PySide2.QtGui import QKeySequence, QGuiApplication
+from qtpy.QtWidgets import QMainWindow, QApplication, QWidget, QVBoxLayout, QPlainTextEdit, QShortcut, QPushButton
+from qtpy.QtGui import QKeySequence, QGuiApplication
 import sys
 
 

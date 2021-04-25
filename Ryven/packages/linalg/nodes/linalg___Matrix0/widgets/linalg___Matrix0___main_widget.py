@@ -1,5 +1,5 @@
 from NWENV import *
-from PySide2.QtWidgets import QTextEdit
+from qtpy.QtWidgets import QTextEdit
 import importlib.util
 package_path = widget_pp(__file__)
 spec = importlib.util.spec_from_file_location('matrix_widget.MatrixWidget', package_path+'/matrix_widget.py')

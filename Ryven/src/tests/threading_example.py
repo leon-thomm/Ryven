@@ -1,6 +1,6 @@
-from PySide2.QtCore import QRectF, QPointF, QSizeF, QThread, Signal, QObject
-from PySide2.QtGui import QColor
-from PySide2.QtWidgets import QGraphicsItem, QGraphicsView, QGraphicsScene, QMainWindow, QApplication
+from qtpy.QtCore import QRectF, QPointF, QSizeF, QThread, Signal, QObject
+from qtpy.QtGui import QColor
+from qtpy.QtWidgets import QGraphicsItem, QGraphicsView, QGraphicsScene, QMainWindow, QApplication
 
 
 class Node(QObject):

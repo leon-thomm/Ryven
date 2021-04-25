@@ -1,6 +1,6 @@
-from PySide2.QtCore import QRectF, QPointF, QSizeF
-from PySide2.QtGui import QColor
-from PySide2.QtWidgets import QGraphicsItem, QGraphicsView, QGraphicsScene, QMainWindow, QApplication
+from qtpy.QtCore import QRectF, QPointF, QSizeF
+from qtpy.QtGui import QColor
+from qtpy.QtWidgets import QGraphicsItem, QGraphicsView, QGraphicsScene, QMainWindow, QApplication
 
 
 class Item(QGraphicsItem):

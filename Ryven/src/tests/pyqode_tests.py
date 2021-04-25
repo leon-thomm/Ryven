@@ -14,7 +14,7 @@ import sys
 # See
 # import os; os.environ['QT_API'] = 'pyside'
 from pyqode.core import api, modes, panels
-from PySide2.QtWidgets import QApplication, QMainWindow
+from qtpy.QtWidgets import QApplication, QMainWindow
 import threading
 
 

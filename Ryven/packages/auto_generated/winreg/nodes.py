@@ -1,22 +1,28 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import winreg
 
 
-class AutoNode_winreg_CloseKey(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class AutoNode_winreg_CloseKey(NodeBase):
     title = 'CloseKey'
     type_ = 'winreg'
-    doc = '''Closes a previously opened registry key.
+    doc = """Closes a previously opened registry key.
 
   hkey
     A previously opened key.
 
 Note that if the key is not closed using this method, it will be
-closed when the hkey object is destroyed by Python.'''
+closed when the hkey object is destroyed by Python."""
     init_inputs = [
-        rc.NodeInputBP(label='hkey'),
+        NodeInputBP(label='hkey'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -24,11 +30,10 @@ closed when the hkey object is destroyed by Python.'''
         self.set_output_val(0, winreg.CloseKey(self.input(0)))
         
 
-
-class AutoNode_winreg_ConnectRegistry(rc.Node):
+class AutoNode_winreg_ConnectRegistry(NodeBase):
     title = 'ConnectRegistry'
     type_ = 'winreg'
-    doc = '''Establishes a connection to the registry on another computer.
+    doc = """Establishes a connection to the registry on another computer.
 
   computer_name
     The name of the remote computer, of the form r"\\computername".  If
@@ -37,13 +42,13 @@ class AutoNode_winreg_ConnectRegistry(rc.Node):
     The predefined key to connect to.
 
 The return value is the handle of the opened key.
-If the function fails, an OSError exception is raised.'''
+If the function fails, an OSError exception is raised."""
     init_inputs = [
-        rc.NodeInputBP(label='computer_name'),
-rc.NodeInputBP(label='key'),
+        NodeInputBP(label='computer_name'),
+        NodeInputBP(label='key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -51,11 +56,10 @@ rc.NodeInputBP(label='key'),
         self.set_output_val(0, winreg.ConnectRegistry(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_CreateKey(rc.Node):
+class AutoNode_winreg_CreateKey(NodeBase):
     title = 'CreateKey'
     type_ = 'winreg'
-    doc = '''Creates or opens the specified key.
+    doc = """Creates or opens the specified key.
 
   key
     An already open key, or one of the predefined HKEY_* constants.
@@ -68,13 +72,13 @@ the handle returned is the same key handle passed in to the function.
 If the key already exists, this function opens the existing key.
 
 The return value is the handle of the opened key.
-If the function fails, an OSError exception is raised.'''
+If the function fails, an OSError exception is raised."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -82,11 +86,10 @@ rc.NodeInputBP(label='sub_key'),
         self.set_output_val(0, winreg.CreateKey(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_CreateKeyEx(rc.Node):
+class AutoNode_winreg_CreateKeyEx(NodeBase):
     title = 'CreateKeyEx'
     type_ = 'winreg'
-    doc = '''Creates or opens the specified key.
+    doc = """Creates or opens the specified key.
 
   key
     An already open key, or one of the predefined HKEY_* constants.
@@ -104,15 +107,15 @@ the handle returned is the same key handle passed in to the function.
 If the key already exists, this function opens the existing key
 
 The return value is the handle of the opened key.
-If the function fails, an OSError exception is raised.'''
+If the function fails, an OSError exception is raised."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
-rc.NodeInputBP(label='reserved'),
-rc.NodeInputBP(label='access'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
+        NodeInputBP(label='reserved'),
+        NodeInputBP(label='access'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -120,11 +123,10 @@ rc.NodeInputBP(label='access'),
         self.set_output_val(0, winreg.CreateKeyEx(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_winreg_DeleteKey(rc.Node):
+class AutoNode_winreg_DeleteKey(NodeBase):
     title = 'DeleteKey'
     type_ = 'winreg'
-    doc = '''Deletes the specified key.
+    doc = """Deletes the specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -136,13 +138,13 @@ class AutoNode_winreg_DeleteKey(rc.Node):
 This method can not delete keys with subkeys.
 
 If the function succeeds, the entire key, including all of its values,
-is removed.  If the function fails, an OSError exception is raised.'''
+is removed.  If the function fails, an OSError exception is raised."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -150,11 +152,10 @@ rc.NodeInputBP(label='sub_key'),
         self.set_output_val(0, winreg.DeleteKey(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_DeleteKeyEx(rc.Node):
+class AutoNode_winreg_DeleteKeyEx(NodeBase):
     title = 'DeleteKeyEx'
     type_ = 'winreg'
-    doc = '''Deletes the specified key (64-bit OS only).
+    doc = """Deletes the specified key (64-bit OS only).
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -172,15 +173,15 @@ This method can not delete keys with subkeys.
 
 If the function succeeds, the entire key, including all of its values,
 is removed.  If the function fails, an OSError exception is raised.
-On unsupported Windows versions, NotImplementedError is raised.'''
+On unsupported Windows versions, NotImplementedError is raised."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
-rc.NodeInputBP(label='access'),
-rc.NodeInputBP(label='reserved'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
+        NodeInputBP(label='access'),
+        NodeInputBP(label='reserved'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -188,22 +189,21 @@ rc.NodeInputBP(label='reserved'),
         self.set_output_val(0, winreg.DeleteKeyEx(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_winreg_DeleteValue(rc.Node):
+class AutoNode_winreg_DeleteValue(NodeBase):
     title = 'DeleteValue'
     type_ = 'winreg'
-    doc = '''Removes a named value from a registry key.
+    doc = """Removes a named value from a registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
   value
-    A string that identifies the value to remove.'''
+    A string that identifies the value to remove."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -211,11 +211,10 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, winreg.DeleteValue(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_DisableReflectionKey(rc.Node):
+class AutoNode_winreg_DisableReflectionKey(NodeBase):
     title = 'DisableReflectionKey'
     type_ = 'winreg'
-    doc = '''Disables registry reflection for 32bit processes running on a 64bit OS.
+    doc = """Disables registry reflection for 32bit processes running on a 64bit OS.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -224,12 +223,12 @@ Will generally raise NotImplementedError if executed on a 32bit OS.
 
 If the key is not on the reflection list, the function succeeds but has
 no effect.  Disabling reflection for a key does not affect reflection
-of any subkeys.'''
+of any subkeys."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
+        NodeInputBP(label='key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -237,23 +236,22 @@ of any subkeys.'''
         self.set_output_val(0, winreg.DisableReflectionKey(self.input(0)))
         
 
-
-class AutoNode_winreg_EnableReflectionKey(rc.Node):
+class AutoNode_winreg_EnableReflectionKey(NodeBase):
     title = 'EnableReflectionKey'
     type_ = 'winreg'
-    doc = '''Restores registry reflection for the specified disabled key.
+    doc = """Restores registry reflection for the specified disabled key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
 
 Will generally raise NotImplementedError if executed on a 32bit OS.
 Restoring reflection for a key does not affect reflection of any
-subkeys.'''
+subkeys."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
+        NodeInputBP(label='key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -261,11 +259,10 @@ subkeys.'''
         self.set_output_val(0, winreg.EnableReflectionKey(self.input(0)))
         
 
-
-class AutoNode_winreg_EnumKey(rc.Node):
+class AutoNode_winreg_EnumKey(NodeBase):
     title = 'EnumKey'
     type_ = 'winreg'
-    doc = '''Enumerates subkeys of an open registry key.
+    doc = """Enumerates subkeys of an open registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -274,13 +271,13 @@ class AutoNode_winreg_EnumKey(rc.Node):
 
 The function retrieves the name of one subkey each time it is called.
 It is typically called repeatedly until an OSError exception is
-raised, indicating no more values are available.'''
+raised, indicating no more values are available."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='index'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='index'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -288,11 +285,10 @@ rc.NodeInputBP(label='index'),
         self.set_output_val(0, winreg.EnumKey(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_EnumValue(rc.Node):
+class AutoNode_winreg_EnumValue(NodeBase):
     title = 'EnumValue'
     type_ = 'winreg'
-    doc = '''Enumerates values of an open registry key.
+    doc = """Enumerates values of an open registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -310,13 +306,13 @@ The result is a tuple of 3 items:
     An object that holds the value data, and whose type depends
     on the underlying registry type.
   data_type
-    An integer that identifies the type of the value data.'''
+    An integer that identifies the type of the value data."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='index'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='index'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -324,16 +320,15 @@ rc.NodeInputBP(label='index'),
         self.set_output_val(0, winreg.EnumValue(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_ExpandEnvironmentStrings(rc.Node):
+class AutoNode_winreg_ExpandEnvironmentStrings(NodeBase):
     title = 'ExpandEnvironmentStrings'
     type_ = 'winreg'
-    doc = '''Expand environment vars.'''
+    doc = """Expand environment vars."""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -341,11 +336,10 @@ class AutoNode_winreg_ExpandEnvironmentStrings(rc.Node):
         self.set_output_val(0, winreg.ExpandEnvironmentStrings(self.input(0)))
         
 
-
-class AutoNode_winreg_FlushKey(rc.Node):
+class AutoNode_winreg_FlushKey(NodeBase):
     title = 'FlushKey'
     type_ = 'winreg'
-    doc = '''Writes all the attributes of a key to the registry.
+    doc = """Writes all the attributes of a key to the registry.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -358,12 +352,12 @@ been written to the registry.
 
 An application should only call FlushKey() if it requires absolute
 certainty that registry changes are on disk.  If you don't know whether
-a FlushKey() call is required, it probably isn't.'''
+a FlushKey() call is required, it probably isn't."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
+        NodeInputBP(label='key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -371,11 +365,10 @@ a FlushKey() call is required, it probably isn't.'''
         self.set_output_val(0, winreg.FlushKey(self.input(0)))
         
 
-
-class AutoNode_winreg_LoadKey(rc.Node):
+class AutoNode_winreg_LoadKey(NodeBase):
     title = 'LoadKey'
     type_ = 'winreg'
-    doc = '''Insert data into the registry from a file.
+    doc = """Insert data into the registry from a file.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -397,14 +390,14 @@ If key is a handle returned by ConnectRegistry(), then the path
 specified in fileName is relative to the remote computer.
 
 The MSDN docs imply key must be in the HKEY_USER or HKEY_LOCAL_MACHINE
-tree.'''
+tree."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
-rc.NodeInputBP(label='file_name'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
+        NodeInputBP(label='file_name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -412,11 +405,10 @@ rc.NodeInputBP(label='file_name'),
         self.set_output_val(0, winreg.LoadKey(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_winreg_OpenKey(rc.Node):
+class AutoNode_winreg_OpenKey(NodeBase):
     title = 'OpenKey'
     type_ = 'winreg'
-    doc = '''Opens the specified key.
+    doc = """Opens the specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -429,15 +421,15 @@ class AutoNode_winreg_OpenKey(rc.Node):
     security access for the key.  Default is KEY_READ.
 
 The result is a new handle to the specified key.
-If the function fails, an OSError exception is raised.'''
+If the function fails, an OSError exception is raised."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
-rc.NodeInputBP(label='reserved'),
-rc.NodeInputBP(label='access'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
+        NodeInputBP(label='reserved'),
+        NodeInputBP(label='access'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -445,11 +437,10 @@ rc.NodeInputBP(label='access'),
         self.set_output_val(0, winreg.OpenKey(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_winreg_OpenKeyEx(rc.Node):
+class AutoNode_winreg_OpenKeyEx(NodeBase):
     title = 'OpenKeyEx'
     type_ = 'winreg'
-    doc = '''Opens the specified key.
+    doc = """Opens the specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -462,15 +453,15 @@ class AutoNode_winreg_OpenKeyEx(rc.Node):
     security access for the key.  Default is KEY_READ.
 
 The result is a new handle to the specified key.
-If the function fails, an OSError exception is raised.'''
+If the function fails, an OSError exception is raised."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
-rc.NodeInputBP(label='reserved'),
-rc.NodeInputBP(label='access'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
+        NodeInputBP(label='reserved'),
+        NodeInputBP(label='access'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -478,11 +469,10 @@ rc.NodeInputBP(label='access'),
         self.set_output_val(0, winreg.OpenKeyEx(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_winreg_QueryInfoKey(rc.Node):
+class AutoNode_winreg_QueryInfoKey(NodeBase):
     title = 'QueryInfoKey'
     type_ = 'winreg'
-    doc = '''Returns information about a key.
+    doc = """Returns information about a key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -491,12 +481,12 @@ The result is a tuple of 3 items:
 An integer that identifies the number of sub keys this key has.
 An integer that identifies the number of values this key has.
 An integer that identifies when the key was last modified (if available)
-as 100's of nanoseconds since Jan 1, 1600.'''
+as 100's of nanoseconds since Jan 1, 1600."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
+        NodeInputBP(label='key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -504,21 +494,20 @@ as 100's of nanoseconds since Jan 1, 1600.'''
         self.set_output_val(0, winreg.QueryInfoKey(self.input(0)))
         
 
-
-class AutoNode_winreg_QueryReflectionKey(rc.Node):
+class AutoNode_winreg_QueryReflectionKey(NodeBase):
     title = 'QueryReflectionKey'
     type_ = 'winreg'
-    doc = '''Returns the reflection state for the specified key as a bool.
+    doc = """Returns the reflection state for the specified key as a bool.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
 
-Will generally raise NotImplementedError if executed on a 32bit OS.'''
+Will generally raise NotImplementedError if executed on a 32bit OS."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
+        NodeInputBP(label='key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -526,11 +515,10 @@ Will generally raise NotImplementedError if executed on a 32bit OS.'''
         self.set_output_val(0, winreg.QueryReflectionKey(self.input(0)))
         
 
-
-class AutoNode_winreg_QueryValue(rc.Node):
+class AutoNode_winreg_QueryValue(NodeBase):
     title = 'QueryValue'
     type_ = 'winreg'
-    doc = '''Retrieves the unnamed value for a key.
+    doc = """Retrieves the unnamed value for a key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -544,13 +532,13 @@ Values in the registry have name, type, and data components. This method
 retrieves the data for a key's first value that has a NULL name.
 But since the underlying API call doesn't return the type, you'll
 probably be happier using QueryValueEx; this function is just here for
-completeness.'''
+completeness."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -558,11 +546,10 @@ rc.NodeInputBP(label='sub_key'),
         self.set_output_val(0, winreg.QueryValue(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_QueryValueEx(rc.Node):
+class AutoNode_winreg_QueryValueEx(NodeBase):
     title = 'QueryValueEx'
     type_ = 'winreg'
-    doc = '''Retrieves the type and value of a specified sub-key.
+    doc = """Retrieves the type and value of a specified sub-key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -572,13 +559,13 @@ class AutoNode_winreg_QueryValueEx(rc.Node):
 Behaves mostly like QueryValue(), but also returns the type of the
 specified value name associated with the given open registry key.
 
-The return value is a tuple of the value and the type_id.'''
+The return value is a tuple of the value and the type_id."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='name'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -586,11 +573,10 @@ rc.NodeInputBP(label='name'),
         self.set_output_val(0, winreg.QueryValueEx(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_SaveKey(rc.Node):
+class AutoNode_winreg_SaveKey(NodeBase):
     title = 'SaveKey'
     type_ = 'winreg'
-    doc = '''Saves the specified key, and all its subkeys to the specified file.
+    doc = """Saves the specified key, and all its subkeys to the specified file.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -605,13 +591,13 @@ file_name is relative to the remote computer.
 
 The caller of this method must possess the SeBackupPrivilege
 security privilege.  This function passes NULL for security_attributes
-to the API.'''
+to the API."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='file_name'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='file_name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -619,11 +605,10 @@ rc.NodeInputBP(label='file_name'),
         self.set_output_val(0, winreg.SaveKey(self.input(0), self.input(1)))
         
 
-
-class AutoNode_winreg_SetValue(rc.Node):
+class AutoNode_winreg_SetValue(NodeBase):
     title = 'SetValue'
     type_ = 'winreg'
-    doc = '''Associates a value with a specified key.
+    doc = """Associates a value with a specified key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -643,15 +628,15 @@ Value lengths are limited by available memory. Long values (more than
 the configuration registry to help the registry perform efficiently.
 
 The key identified by the key parameter must have been opened with
-KEY_SET_VALUE access.'''
+KEY_SET_VALUE access."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='sub_key'),
-rc.NodeInputBP(label='type'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='sub_key'),
+        NodeInputBP(label='type'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -659,11 +644,10 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, winreg.SetValue(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_winreg_SetValueEx(rc.Node):
+class AutoNode_winreg_SetValueEx(NodeBase):
     title = 'SetValueEx'
     type_ = 'winreg'
-    doc = '''Stores data in the value field of an open registry key.
+    doc = """Stores data in the value field of an open registry key.
 
   key
     An already open key, or any one of the predefined HKEY_* constants.
@@ -700,19 +684,46 @@ To open the key, use the CreateKeyEx() or OpenKeyEx() methods.
 
 Value lengths are limited by available memory. Long values (more than
 2048 bytes) should be stored as files with the filenames stored in
-the configuration registry to help the registry perform efficiently.'''
+the configuration registry to help the registry perform efficiently."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='value_name'),
-rc.NodeInputBP(label='reserved'),
-rc.NodeInputBP(label='type'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='value_name'),
+        NodeInputBP(label='reserved'),
+        NodeInputBP(label='type'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, winreg.SetValueEx(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
+
+
+export_nodes(
+    AutoNode_winreg_CloseKey,
+    AutoNode_winreg_ConnectRegistry,
+    AutoNode_winreg_CreateKey,
+    AutoNode_winreg_CreateKeyEx,
+    AutoNode_winreg_DeleteKey,
+    AutoNode_winreg_DeleteKeyEx,
+    AutoNode_winreg_DeleteValue,
+    AutoNode_winreg_DisableReflectionKey,
+    AutoNode_winreg_EnableReflectionKey,
+    AutoNode_winreg_EnumKey,
+    AutoNode_winreg_EnumValue,
+    AutoNode_winreg_ExpandEnvironmentStrings,
+    AutoNode_winreg_FlushKey,
+    AutoNode_winreg_LoadKey,
+    AutoNode_winreg_OpenKey,
+    AutoNode_winreg_OpenKeyEx,
+    AutoNode_winreg_QueryInfoKey,
+    AutoNode_winreg_QueryReflectionKey,
+    AutoNode_winreg_QueryValue,
+    AutoNode_winreg_QueryValueEx,
+    AutoNode_winreg_SaveKey,
+    AutoNode_winreg_SetValue,
+    AutoNode_winreg_SetValueEx,
+)

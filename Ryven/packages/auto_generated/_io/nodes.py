@@ -1,11 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import _io
 
 
-class AutoNode__io_open(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class AutoNode__io_open(NodeBase):
     title = 'open'
     type_ = '_io'
-    doc = '''Open file and return a stream.  Raise OSError upon failure.
+    doc = """Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -122,19 +128,19 @@ a BufferedRandom.
 It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
-opened in a binary mode.'''
+opened in a binary mode."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='buffering'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='newline'),
-rc.NodeInputBP(label='closefd'),
-rc.NodeInputBP(label='opener'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='mode'),
+        NodeInputBP(label='buffering'),
+        NodeInputBP(label='encoding'),
+        NodeInputBP(label='errors'),
+        NodeInputBP(label='newline'),
+        NodeInputBP(label='closefd'),
+        NodeInputBP(label='opener'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -142,22 +148,27 @@ rc.NodeInputBP(label='opener'),
         self.set_output_val(0, _io.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
-
-class AutoNode__io_open_code(rc.Node):
+class AutoNode__io_open_code(NodeBase):
     title = 'open_code'
     type_ = '_io'
-    doc = '''Opens the provided file with the intent to import the contents.
+    doc = """Opens the provided file with the intent to import the contents.
 
 This may perform extra validation beyond open(), but is otherwise interchangeable
-with calling open(path, 'rb').'''
+with calling open(path, 'rb')."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, _io.open_code(self.input(0)))
         
+
+
+export_nodes(
+    AutoNode__io_open,
+    AutoNode__io_open_code,
+)

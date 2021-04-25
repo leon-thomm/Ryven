@@ -7,22 +7,22 @@ import sys
 
 class NodeBaseWrapper(Node):
     """
-    Wraps the nodes s.t. their usages of ryvencore-qt-or Ryven features don't brake them.
+    Wraps the nodes s.t. their usages of ryvencore-qt or Ryven features don't brake them.
     """
 
     def __init__(self, params):
         self.special_actions = dict()
         super().__init__(params)
 
-    def create_input(self, type_: str = 'data', label: str = '',
-                     widget_name: str = None, widget_pos: str = 'besides', pos=-1):
-        """See src.nodes.Node.Node"""
-        super().create_input(type_=type_, label=label, pos=pos)
+    # def create_input(self, type_: str = 'data', label: str = '',
+    #                  widget_name: str = None, widget_pos: str = 'besides', pos=-1):
+    #     """See src.nodes.Node.Node"""
+    #     super().create_input(type_=type_, label=label, pos=pos)
 
 
 cmds = [
     # 'import nodes',
-    # 'C:/Users/nutri/OneDrive - ETH Zurich/projects/ryven projects/Ryven/packages/linalg_',
+    # 'C:/Users/nutri/OneDrive - ETH Zurich/projects/ryven projects/Ryven/packages/linalg',
     # 'load project',
     # 'C:/Users/nutri/OneDrive - ETH Zurich/projects/ryven projects/Ryven/saves/matrices_MODERN3.rpo',
     # 'script = session.scripts[0]',
@@ -68,7 +68,7 @@ built-in nodes are already imported
             pkg_dir = _input('abs path to your package dir: ')
             try:
                 # package_name = os.path.basename(pkg_dir)
-                nodes = import_nodes_package(package_dir=pkg_dir)
+                nodes = import_nodes_package(package=pkg_dir)
                 session.register_nodes(nodes)
             except Exception as e:
                 print(e)

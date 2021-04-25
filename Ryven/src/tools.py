@@ -1,6 +1,8 @@
 from os.path import normpath, join, dirname, abspath, basename
 import importlib.util
 
+from nodes_package import NodesPackage
+
 
 def path_from_file(f):
     return normpath(dirname(abspath(f)))
@@ -30,7 +32,13 @@ def load_from_file(file: str = None, components_list: [str] = []) -> tuple:
     return comps
 
 
-def import_nodes_package(package_dir: str) -> list:
+def import_nodes_package(package: NodesPackage) -> list:
     import NENV
-    load_from_file(join(package_dir, 'nodes.py'))
-    return NENV.NodesRegistry.exported_nodes[-1]
+    load_from_file(package.file_path)
+    nodes = NENV.NodesRegistry.exported_nodes[-1]
+
+    # add package name to identifiers
+    for n in nodes:
+        n.identifier_prefix = package.name  #  + '.' + (n.identifier if n.identifier else n.__name__)
+
+    return nodes

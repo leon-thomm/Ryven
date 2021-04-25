@@ -45,21 +45,21 @@ def parse_module(mod_name, color, target_path):
 
         # print(f'routine {name} of {mod_name}: {sig}')
         
-        inputs = '\n'.join([f'rc.NodeInputBP(label=\'{param_name}\'),' for param_name in sig.args])
+        inputs = '\n        '.join([f'NodeInputBP(label=\'{param_name}\'),' for param_name in sig.args])
         node_name = f'AutoNode_{mod_name}_{name}'
         node_names.append(node_name)
         doc = obj.__doc__.replace('\0', '<NULL>') if obj.__doc__ else ''
 
         node_def = f'''
-class {node_name}(rc.Node):
+class {node_name}(NodeBase):
     title = \'{name}\'
     type_ = \'{mod_name}\'
-    doc = \'\'\'{doc}\'\'\'
+    doc = """{doc}"""
     init_inputs = [
         {inputs}
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = \'{color}\'
 
@@ -68,15 +68,29 @@ class {node_name}(rc.Node):
         '''
 
         node_defs.append(node_def)
+
+    node_names_tuple_str = '\n    '.join([f'{name},' for name in node_names])
     
     if not os.path.exists(target_path):
         os.mkdir(target_path)
 
     with open(target_path+'/nodes.py', 'w') as f:
-        f.write('''import ryvencore_qt as rc
+        f.write('''
+from NENV import *
+
 import '''+mod_name+'''
 
-'''+'\n\n'.join(node_defs))
+
+class NodeBase(Node):
+    pass
+
+'''+'\n'.join(node_defs)+f'''
+
+
+export_nodes(
+    {node_names_tuple_str}
+)
+''')
 
     package = {
         'type': 'Ryven auto generated nodes package',

@@ -1,5 +1,5 @@
-from PySide2.QtWidgets import QTextEdit, QShortcut
-from PySide2.QtGui import QFont, QFontMetrics, QTextCursor, Qt, QKeySequence
+from qtpy.QtWidgets import QTextEdit, QShortcut
+from qtpy.QtGui import QFont, QFontMetrics, QTextCursor, Qt, QKeySequence
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
@@ -10,13 +10,13 @@ from .pygments.light import LightStyle
 
 
 class CodeEditorWidget(QTextEdit):
-    def __init__(self, theme):
+    def __init__(self, theme, highlight=True, enabled=False):
         super(CodeEditorWidget, self).__init__()
 
-        self.editing = False
-        self.highlighting = self.editing
+        self.highlighting = highlight
+        self.editing = enabled
 
-        f = QFont('Consolas')
+        f = QFont('Consolas', 12)
         self.setFont(f)
         self.update_tab_stop_width()
 
@@ -35,8 +35,33 @@ class CodeEditorWidget(QTextEdit):
         else:
             self.formatter = get_formatter_by_name('html', noclasses=True, style=LightStyle)
 
-    def update_tab_stop_width(self):
-        self.setTabStopWidth(QFontMetrics(self.font()).width('_')*4)
+    def enable_editing(self):
+        self.editing = True
+        self.setReadOnly(False)
+        self.update_appearance()
+
+    def disable_editing(self):
+        self.editing = False
+        self.setReadOnly(True)
+        self.update_appearance()
+
+    def disable_highlighting(self):
+        self.highlighting = False
+        # self.update_appearance()
+
+    def enable_highlighting(self):
+        self.highlighting = True
+        # self.update_appearance()
+
+    def highlight(self):
+        self.enable_highlighting()
+        self.update_appearance()
+
+    def mousePressEvent(self, e) -> None:
+        if not self.highlighting and not self.editing:
+            self.highlight()
+        else:
+            return super().mousePressEvent(e)
 
     def wheelEvent(self, e) -> None:
         super().wheelEvent(e)
@@ -45,21 +70,20 @@ class CodeEditorWidget(QTextEdit):
             # and for some reason QTextEdit doesn't seem to zoom using zoomIn()/zoomOut(), but by changing the font size
             # so I need to update the (pixel measured) tab stop width
 
-    def text_changed(self):
-        if not self.block_change_signal:
-            self.update_appearance()
-
     def set_code(self, new_code):
-        self.highlighting = self.editing
+        # self.highlighting = self.editing
         self.setText(new_code.replace('    ', '\t'))
         self.update_appearance()
 
     def get_code(self):
         return self.toPlainText().replace('\t', '    ')
 
-    def highlight_now(self):
-        self.highlighting = True
-        self.update_appearance()
+    def text_changed(self):
+        if not self.block_change_signal:
+            self.update_appearance()
+
+    def update_tab_stop_width(self):
+        self.setTabStopWidth(QFontMetrics(self.font()).width('_')*4)
 
     def update_appearance(self):
         if not self.editing and not self.highlighting:
@@ -94,13 +118,3 @@ class CodeEditorWidget(QTextEdit):
             self.textCursor().setPosition(0)
 
         self.setUpdatesEnabled(True)
-
-    def enable_editing(self):
-        self.editing = True
-        self.setReadOnly(False)
-        self.update_appearance()
-
-    def disable_editing(self):
-        self.editing = False
-        self.setReadOnly(True)
-        self.update_appearance()

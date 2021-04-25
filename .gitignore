@@ -1,6 +1,7 @@
 custom stuff (ignore)/
 ui_stuff/
 .idea/
+.vscode/
 notizen.md
 __pycache__/
 venv/

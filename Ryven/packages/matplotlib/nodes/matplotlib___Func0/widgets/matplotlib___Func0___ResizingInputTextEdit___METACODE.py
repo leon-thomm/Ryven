@@ -1,8 +1,8 @@
 from NWENV import *
 
-from PySide2.QtWidgets import QTextEdit
-# from PySide2.QtCore import ...
-from PySide2.QtGui import QFont, QFontMetrics
+from qtpy.QtWidgets import QTextEdit
+# from qtpy.QtCore import ...
+from qtpy.QtGui import QFont, QFontMetrics
 
 
 class %CLASS%(QTextEdit, IWB):

@@ -36,12 +36,12 @@ class %CLASS%(Node):
     def update_event(self, input_called=-1):
         pass # ...
 
-    def get_state(self):
+    def get_data(self):
         data = {}
         # ...
         return data
 
-    def set_state(self, data):
+    def set_data(self, data):
         pass # ...
 
     def removing(self):

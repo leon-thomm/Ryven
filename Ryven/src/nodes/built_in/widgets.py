@@ -1,7 +1,7 @@
 from NWENV import *
 
-from PySide2.QtCore import Signal
-from PySide2.QtWidgets import QLineEdit
+from qtpy.QtCore import Signal
+from qtpy.QtWidgets import QLineEdit
 
 
 class Result_Node_MainWidget(MWB, QLineEdit):
@@ -26,7 +26,8 @@ class ValNode_MainWidget(MWB, QLineEdit):
         MWB.__init__(self, params)
         QLineEdit.__init__(self)
 
-        self.setFixedWidth(80)
+        # self.setFixedWidth(80)
+        self.setMinimumWidth(80)
         self.editingFinished.connect(self.editing_finished)
 
     def editing_finished(self):

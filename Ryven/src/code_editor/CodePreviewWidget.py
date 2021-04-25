@@ -1,5 +1,5 @@
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout, \
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout, \
     QPushButton
 import inspect
 
@@ -17,7 +17,6 @@ class CodePreviewWidget(QWidget):
         flow.nodes_selection_changed.connect(self.set_selected_nodes)
 
         self.text_edit = CodeEditorWidget(main_window.theme)
-        self.text_edit.disable_editing()
 
         self.node = None
         self.buttons_obj_dict = {}
@@ -37,9 +36,9 @@ class CodePreviewWidget(QWidget):
 
 
         # edit source code buttons
-        self.highlight_code_button = QPushButton('HL')
-        self.highlight_code_button.setEnabled(False)
-        self.highlight_code_button.clicked.connect(self.highlight_code_button_clicked)
+        # self.highlight_code_button = QPushButton('HL')
+        # self.highlight_code_button.setEnabled(False)
+        # self.highlight_code_button.clicked.connect(self.highlight_code_button_clicked)
         self.edit_code_button = QPushButton('edit')
         self.edit_code_button.setMaximumWidth(100)
         self.edit_code_button.clicked.connect(self.edit_code_button_clicked)
@@ -53,7 +52,7 @@ class CodePreviewWidget(QWidget):
         self.reset_code_button.clicked.connect(self.reset_code_button_clicked)
 
         edit_buttons_layout = QHBoxLayout()
-        edit_buttons_layout.addWidget(self.highlight_code_button)
+        # edit_buttons_layout.addWidget(self.highlight_code_button)
         edit_buttons_layout.addWidget(self.edit_code_button)
         edit_buttons_layout.addWidget(self.override_code_button)
         edit_buttons_layout.addWidget(self.reset_code_button)
@@ -88,10 +87,10 @@ class CodePreviewWidget(QWidget):
             self.edit_code_button.setEnabled(False)
             self.override_code_button.setEnabled(False)
             self.reset_code_button.setEnabled(False)
-            self.highlight_code_button.setEnabled(False)
+            # self.highlight_code_button.setEnabled(False)
             return
         self.edit_code_button.setEnabled(True)
-        self.highlight_code_button.setEnabled(True)
+        # self.highlight_code_button.setEnabled(True)
 
         self.update_code()
 
@@ -103,9 +102,11 @@ class CodePreviewWidget(QWidget):
             return
 
         if self.get_current_code_obj() not in self.edited_codes:
+            self.text_edit.disable_highlighting()
             self.text_edit.set_code(inspect.getsource(self.get_current_code_class()))
             self.reset_code_button.setEnabled(False)
         else:
+            self.text_edit.disable_highlighting()
             self.text_edit.set_code(self.edited_codes[self.get_current_code_obj()])
             self.reset_code_button.setEnabled(True)
 
@@ -204,5 +205,5 @@ class CodePreviewWidget(QWidget):
         self.update_code()
         self.update_edit_status()
 
-    def highlight_code_button_clicked(self):
-        self.text_edit.highlight_now()
+    # def highlight_code_button_clicked(self):
+    #     self.text_edit.highlight_now()

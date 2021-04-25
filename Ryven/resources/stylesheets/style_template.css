@@ -981,7 +981,9 @@ QToolTip {
 
 
 
-
+/*
+RYVENCORE-QT DTYPE WIDGETS
+ */
 
 
 /* RCIW_BUILTIN_LineEdit { */
@@ -1018,4 +1020,15 @@ String_IW_S:hover,
 Data_IW_S:hover
 {
     background-color: {{primaryColor}};
+}
+
+
+
+/*
+SPECIFIC INTERNAL WIDGETS
+ */
+
+ConsoleInputLineEdit {
+    font-family: Consolas;
+    font-size: 12pt;
 }

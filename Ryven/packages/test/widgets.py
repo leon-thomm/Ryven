@@ -1,5 +1,5 @@
 from NWENV import *
-from PySide2.QtWidgets import QPushButton
+from qtpy.QtWidgets import QPushButton
 
 
 class ButtonWidget(MWB, QPushButton):

@@ -4,7 +4,7 @@ import sys
 
 def apply_stylesheet(style: str):
 
-    from PySide2.QtCore import QDir
+    from qtpy.QtCore import QDir
     d = QDir()
     d.setSearchPaths('icon', [os.path.abspath('../resources/stylesheets/icons')])
 
@@ -53,13 +53,13 @@ if __name__ == '__main__':
         from startup_dialog.StartupDialog import StartupDialog
         from MainWindow import MainWindow
         from contextlib import redirect_stdout, redirect_stderr
-        from PySide2.QtWidgets import QApplication
+        from qtpy.QtWidgets import QApplication
 
         # init application
         app = QApplication(sys.argv)
 
         # register fonts
-        from PySide2.QtGui import QFontDatabase
+        from qtpy.QtGui import QFontDatabase
         db = QFontDatabase()
         db.addApplicationFont('../resources/fonts/poppins/Poppins-Medium.ttf')
         db.addApplicationFont('../resources/fonts/source_code_pro/SourceCodePro-Regular.ttf')

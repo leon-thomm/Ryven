@@ -7,8 +7,8 @@ D E P R E C A T E D !!
 
 
 
-from PySide2.QtCore import QRegExp
-from PySide2.QtGui import QSyntaxHighlighter, QTextCharFormat, QFont, QColor
+from qtpy.QtCore import QRegExp
+from qtpy.QtGui import QSyntaxHighlighter, QTextCharFormat, QFont, QColor
 
 import keyword
 import re

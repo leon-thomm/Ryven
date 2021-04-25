@@ -38,11 +38,11 @@ class %CLASS%(Node):
         self.set_output_val(0, matrix)
         self.main_widget().update_matrix(matrix)
 
-    def get_state(self):
+    def get_data(self):
         data = {}
         return data
 
-    def set_state(self, data):
+    def set_data(self, data):
         pass
 
     def removing(self):
