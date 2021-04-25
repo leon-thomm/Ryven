@@ -1,8 +1,10 @@
-**Be aware that all the all new Ryven 3, particularly the framework, hasn't been tested extensively yet, hence there might be some more changes incoming.**
+*Be aware that all the all new Ryven 3, particularly the framework, hasn't been tested extensively yet, hence there might be some more changes incoming.*
 
-# A simple flow-based visual scripting environment for Python
+<p align="center">
+  <img src="./Ryven/resources/pics/logo.png" alt="drawing" height="200"/>
+</p>
 
-<center> <img src="./Ryven/resources/pics/logo.png" alt="drawing" height="200"/> </center>
+# A simple flow-based visual scripting env for Python
 
 ## Intro
 
