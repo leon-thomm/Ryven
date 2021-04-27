@@ -1,20 +1,27 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import base64
 
 
-class AutoNode_base64__85encode(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _85Encode_Node(NodeBase):
     title = '_85encode'
-    doc = '''None'''
+    type_ = 'base64'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='b'),
-rc.NodeInputBP(label='chars'),
-rc.NodeInputBP(label='chars2'),
-rc.NodeInputBP(label='pad'),
-rc.NodeInputBP(label='foldnuls'),
-rc.NodeInputBP(label='foldspaces'),
+        NodeInputBP(label='b'),
+        NodeInputBP(label='chars'),
+        NodeInputBP(label='chars2'),
+        NodeInputBP(label='pad', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='foldnuls', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='foldspaces', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -22,15 +29,15 @@ rc.NodeInputBP(label='foldspaces'),
         self.set_output_val(0, base64._85encode(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_base64__bytes_from_decode_data(rc.Node):
+class _Bytes_From_Decode_Data_Node(NodeBase):
     title = '_bytes_from_decode_data'
-    doc = '''None'''
+    type_ = 'base64'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -38,15 +45,15 @@ class AutoNode_base64__bytes_from_decode_data(rc.Node):
         self.set_output_val(0, base64._bytes_from_decode_data(self.input(0)))
         
 
-
-class AutoNode_base64__input_type_check(rc.Node):
+class _Input_Type_Check_Node(NodeBase):
     title = '_input_type_check'
-    doc = '''None'''
+    type_ = 'base64'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -54,10 +61,10 @@ class AutoNode_base64__input_type_check(rc.Node):
         self.set_output_val(0, base64._input_type_check(self.input(0)))
         
 
-
-class AutoNode_base64_a85decode(rc.Node):
+class A85Decode_Node(NodeBase):
     title = 'a85decode'
-    doc = '''Decode the Ascii85 encoded bytes-like object or ASCII string b.
+    type_ = 'base64'
+    doc = """Decode the Ascii85 encoded bytes-like object or ASCII string b.
 
     foldspaces is a flag that specifies whether the 'y' short sequence should be
     accepted as shorthand for 4 consecutive spaces (ASCII 0x20). This feature is
@@ -71,12 +78,12 @@ class AutoNode_base64_a85decode(rc.Node):
     contains all whitespace characters in ASCII.
 
     The result is returned as a bytes object.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='b'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -84,10 +91,10 @@ class AutoNode_base64_a85decode(rc.Node):
         self.set_output_val(0, base64.a85decode(self.input(0)))
         
 
-
-class AutoNode_base64_a85encode(rc.Node):
+class A85Encode_Node(NodeBase):
     title = 'a85encode'
-    doc = '''Encode bytes-like object b using Ascii85 and return a bytes object.
+    type_ = 'base64'
+    doc = """Encode bytes-like object b using Ascii85 and return a bytes object.
 
     foldspaces is an optional flag that uses the special short sequence 'y'
     instead of 4 consecutive spaces (ASCII 0x20) as supported by 'btoa'. This
@@ -102,12 +109,12 @@ class AutoNode_base64_a85encode(rc.Node):
 
     adobe controls whether the encoded byte sequence is framed with <~ and ~>,
     which is used by the Adobe implementation.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='b'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -115,10 +122,10 @@ class AutoNode_base64_a85encode(rc.Node):
         self.set_output_val(0, base64.a85encode(self.input(0)))
         
 
-
-class AutoNode_base64_b16decode(rc.Node):
+class B16Decode_Node(NodeBase):
     title = 'b16decode'
-    doc = '''Decode the Base16 encoded bytes-like object or ASCII string s.
+    type_ = 'base64'
+    doc = """Decode the Base16 encoded bytes-like object or ASCII string s.
 
     Optional casefold is a flag specifying whether a lowercase alphabet is
     acceptable as input.  For security purposes, the default is False.
@@ -126,13 +133,13 @@ class AutoNode_base64_b16decode(rc.Node):
     The result is returned as a bytes object.  A binascii.Error is raised if
     s is incorrectly padded or if there are non-alphabet characters present
     in the input.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='casefold'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='casefold', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -140,16 +147,16 @@ rc.NodeInputBP(label='casefold'),
         self.set_output_val(0, base64.b16decode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_base64_b16encode(rc.Node):
+class B16Encode_Node(NodeBase):
     title = 'b16encode'
-    doc = '''Encode the bytes-like object s using Base16 and return a bytes object.
-    '''
+    type_ = 'base64'
+    doc = """Encode the bytes-like object s using Base16 and return a bytes object.
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -157,10 +164,10 @@ class AutoNode_base64_b16encode(rc.Node):
         self.set_output_val(0, base64.b16encode(self.input(0)))
         
 
-
-class AutoNode_base64_b32decode(rc.Node):
+class B32Decode_Node(NodeBase):
     title = 'b32decode'
-    doc = '''Decode the Base32 encoded bytes-like object or ASCII string s.
+    type_ = 'base64'
+    doc = """Decode the Base32 encoded bytes-like object or ASCII string s.
 
     Optional casefold is a flag specifying whether a lowercase alphabet is
     acceptable as input.  For security purposes, the default is False.
@@ -176,14 +183,14 @@ class AutoNode_base64_b32decode(rc.Node):
     The result is returned as a bytes object.  A binascii.Error is raised if
     the input is incorrectly padded or if there are non-alphabet
     characters present in the input.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='casefold'),
-rc.NodeInputBP(label='map01'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='casefold', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='map01', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -191,16 +198,16 @@ rc.NodeInputBP(label='map01'),
         self.set_output_val(0, base64.b32decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_base64_b32encode(rc.Node):
+class B32Encode_Node(NodeBase):
     title = 'b32encode'
-    doc = '''Encode the bytes-like object s using Base32 and return a bytes object.
-    '''
+    type_ = 'base64'
+    doc = """Encode the bytes-like object s using Base32 and return a bytes object.
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -208,10 +215,10 @@ class AutoNode_base64_b32encode(rc.Node):
         self.set_output_val(0, base64.b32encode(self.input(0)))
         
 
-
-class AutoNode_base64_b64decode(rc.Node):
+class B64Decode_Node(NodeBase):
     title = 'b64decode'
-    doc = '''Decode the Base64 encoded bytes-like object or ASCII string s.
+    type_ = 'base64'
+    doc = """Decode the Base64 encoded bytes-like object or ASCII string s.
 
     Optional altchars must be a bytes-like object or ASCII string of length 2
     which specifies the alternative alphabet used instead of the '+' and '/'
@@ -224,14 +231,14 @@ class AutoNode_base64_b64decode(rc.Node):
     normal base-64 alphabet nor the alternative alphabet are discarded prior
     to the padding check.  If validate is True, these non-alphabet characters
     in the input result in a binascii.Error.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='altchars'),
-rc.NodeInputBP(label='validate'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='altchars', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='validate', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -239,21 +246,21 @@ rc.NodeInputBP(label='validate'),
         self.set_output_val(0, base64.b64decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_base64_b64encode(rc.Node):
+class B64Encode_Node(NodeBase):
     title = 'b64encode'
-    doc = '''Encode the bytes-like object s using Base64 and return a bytes object.
+    type_ = 'base64'
+    doc = """Encode the bytes-like object s using Base64 and return a bytes object.
 
     Optional altchars should be a byte string of length 2 which specifies an
     alternative alphabet for the '+' and '/' characters.  This allows an
     application to e.g. generate url or filesystem safe Base64 strings.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='altchars'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='altchars', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -261,18 +268,18 @@ rc.NodeInputBP(label='altchars'),
         self.set_output_val(0, base64.b64encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_base64_b85decode(rc.Node):
+class B85Decode_Node(NodeBase):
     title = 'b85decode'
-    doc = '''Decode the base85-encoded bytes-like object or ASCII string b
+    type_ = 'base64'
+    doc = """Decode the base85-encoded bytes-like object or ASCII string b
 
     The result is returned as a bytes object.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='b'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -280,20 +287,20 @@ class AutoNode_base64_b85decode(rc.Node):
         self.set_output_val(0, base64.b85decode(self.input(0)))
         
 
-
-class AutoNode_base64_b85encode(rc.Node):
+class B85Encode_Node(NodeBase):
     title = 'b85encode'
-    doc = '''Encode bytes-like object b in base85 format and return a bytes object.
+    type_ = 'base64'
+    doc = """Encode bytes-like object b in base85 format and return a bytes object.
 
     If pad is true, the input is padded with b'\0' so its length is a multiple of
     4 bytes before encoding.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='b'),
-rc.NodeInputBP(label='pad'),
+        NodeInputBP(label='b'),
+        NodeInputBP(label='pad', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -301,16 +308,16 @@ rc.NodeInputBP(label='pad'),
         self.set_output_val(0, base64.b85encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_base64_decode(rc.Node):
+class Decode_Node(NodeBase):
     title = 'decode'
-    doc = '''Decode a file; input and output are binary files.'''
+    type_ = 'base64'
+    doc = """Decode a file; input and output are binary files."""
     init_inputs = [
-        rc.NodeInputBP(label='input'),
-rc.NodeInputBP(label='output'),
+        NodeInputBP(label='input'),
+        NodeInputBP(label='output'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -318,15 +325,15 @@ rc.NodeInputBP(label='output'),
         self.set_output_val(0, base64.decode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_base64_decodebytes(rc.Node):
+class Decodebytes_Node(NodeBase):
     title = 'decodebytes'
-    doc = '''Decode a bytestring of base-64 data into a bytes object.'''
+    type_ = 'base64'
+    doc = """Decode a bytestring of base-64 data into a bytes object."""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -334,15 +341,15 @@ class AutoNode_base64_decodebytes(rc.Node):
         self.set_output_val(0, base64.decodebytes(self.input(0)))
         
 
-
-class AutoNode_base64_decodestring(rc.Node):
+class Decodestring_Node(NodeBase):
     title = 'decodestring'
-    doc = '''Legacy alias of decodebytes().'''
+    type_ = 'base64'
+    doc = """Legacy alias of decodebytes()."""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -350,16 +357,16 @@ class AutoNode_base64_decodestring(rc.Node):
         self.set_output_val(0, base64.decodestring(self.input(0)))
         
 
-
-class AutoNode_base64_encode(rc.Node):
+class Encode_Node(NodeBase):
     title = 'encode'
-    doc = '''Encode a file; input and output are binary files.'''
+    type_ = 'base64'
+    doc = """Encode a file; input and output are binary files."""
     init_inputs = [
-        rc.NodeInputBP(label='input'),
-rc.NodeInputBP(label='output'),
+        NodeInputBP(label='input'),
+        NodeInputBP(label='output'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -367,16 +374,16 @@ rc.NodeInputBP(label='output'),
         self.set_output_val(0, base64.encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_base64_encodebytes(rc.Node):
+class Encodebytes_Node(NodeBase):
     title = 'encodebytes'
-    doc = '''Encode a bytestring into a bytes object containing multiple lines
-    of base-64 data.'''
+    type_ = 'base64'
+    doc = """Encode a bytestring into a bytes object containing multiple lines
+    of base-64 data."""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -384,15 +391,15 @@ class AutoNode_base64_encodebytes(rc.Node):
         self.set_output_val(0, base64.encodebytes(self.input(0)))
         
 
-
-class AutoNode_base64_encodestring(rc.Node):
+class Encodestring_Node(NodeBase):
     title = 'encodestring'
-    doc = '''Legacy alias of encodebytes().'''
+    type_ = 'base64'
+    doc = """Legacy alias of encodebytes()."""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -400,15 +407,15 @@ class AutoNode_base64_encodestring(rc.Node):
         self.set_output_val(0, base64.encodestring(self.input(0)))
         
 
-
-class AutoNode_base64_main(rc.Node):
+class Main_Node(NodeBase):
     title = 'main'
-    doc = '''Small main program'''
+    type_ = 'base64'
+    doc = """Small main program"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -416,21 +423,21 @@ class AutoNode_base64_main(rc.Node):
         self.set_output_val(0, base64.main())
         
 
-
-class AutoNode_base64_standard_b64decode(rc.Node):
+class Standard_B64Decode_Node(NodeBase):
     title = 'standard_b64decode'
-    doc = '''Decode bytes encoded with the standard Base64 alphabet.
+    type_ = 'base64'
+    doc = """Decode bytes encoded with the standard Base64 alphabet.
 
     Argument s is a bytes-like object or ASCII string to decode.  The result
     is returned as a bytes object.  A binascii.Error is raised if the input
     is incorrectly padded.  Characters that are not in the standard alphabet
     are discarded prior to the padding check.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -438,18 +445,18 @@ class AutoNode_base64_standard_b64decode(rc.Node):
         self.set_output_val(0, base64.standard_b64decode(self.input(0)))
         
 
-
-class AutoNode_base64_standard_b64encode(rc.Node):
+class Standard_B64Encode_Node(NodeBase):
     title = 'standard_b64encode'
-    doc = '''Encode bytes-like object s using the standard Base64 alphabet.
+    type_ = 'base64'
+    doc = """Encode bytes-like object s using the standard Base64 alphabet.
 
     The result is returned as a bytes object.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -457,15 +464,15 @@ class AutoNode_base64_standard_b64encode(rc.Node):
         self.set_output_val(0, base64.standard_b64encode(self.input(0)))
         
 
-
-class AutoNode_base64_test(rc.Node):
+class Test_Node(NodeBase):
     title = 'test'
-    doc = '''None'''
+    type_ = 'base64'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -473,10 +480,10 @@ class AutoNode_base64_test(rc.Node):
         self.set_output_val(0, base64.test())
         
 
-
-class AutoNode_base64_urlsafe_b64decode(rc.Node):
+class Urlsafe_B64Decode_Node(NodeBase):
     title = 'urlsafe_b64decode'
-    doc = '''Decode bytes using the URL- and filesystem-safe Base64 alphabet.
+    type_ = 'base64'
+    doc = """Decode bytes using the URL- and filesystem-safe Base64 alphabet.
 
     Argument s is a bytes-like object or ASCII string to decode.  The result
     is returned as a bytes object.  A binascii.Error is raised if the input
@@ -485,12 +492,12 @@ class AutoNode_base64_urlsafe_b64decode(rc.Node):
     padding check.
 
     The alphabet uses '-' instead of '+' and '_' instead of '/'.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -498,23 +505,52 @@ class AutoNode_base64_urlsafe_b64decode(rc.Node):
         self.set_output_val(0, base64.urlsafe_b64decode(self.input(0)))
         
 
-
-class AutoNode_base64_urlsafe_b64encode(rc.Node):
+class Urlsafe_B64Encode_Node(NodeBase):
     title = 'urlsafe_b64encode'
-    doc = '''Encode bytes using the URL- and filesystem-safe Base64 alphabet.
+    type_ = 'base64'
+    doc = """Encode bytes using the URL- and filesystem-safe Base64 alphabet.
 
     Argument s is a bytes-like object to encode.  The result is returned as a
     bytes object.  The alphabet uses '-' instead of '+' and '_' instead of
     '/'.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, base64.urlsafe_b64encode(self.input(0)))
         
+
+
+export_nodes(
+    _85Encode_Node,
+    _Bytes_From_Decode_Data_Node,
+    _Input_Type_Check_Node,
+    A85Decode_Node,
+    A85Encode_Node,
+    B16Decode_Node,
+    B16Encode_Node,
+    B32Decode_Node,
+    B32Encode_Node,
+    B64Decode_Node,
+    B64Encode_Node,
+    B85Decode_Node,
+    B85Encode_Node,
+    Decode_Node,
+    Decodebytes_Node,
+    Decodestring_Node,
+    Encode_Node,
+    Encodebytes_Node,
+    Encodestring_Node,
+    Main_Node,
+    Standard_B64Decode_Node,
+    Standard_B64Encode_Node,
+    Test_Node,
+    Urlsafe_B64Decode_Node,
+    Urlsafe_B64Encode_Node,
+)

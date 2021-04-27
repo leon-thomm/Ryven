@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import locale
 
 
-class AutoNode_locale__append_modifier(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Append_Modifier_Node(NodeBase):
     title = '_append_modifier'
-    doc = '''None'''
+    type_ = 'locale'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='code'),
-rc.NodeInputBP(label='modifier'),
+        NodeInputBP(label='code'),
+        NodeInputBP(label='modifier'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,20 +25,20 @@ rc.NodeInputBP(label='modifier'),
         self.set_output_val(0, locale._append_modifier(self.input(0), self.input(1)))
         
 
-
-class AutoNode_locale__build_localename(rc.Node):
+class _Build_Localename_Node(NodeBase):
     title = '_build_localename'
-    doc = ''' Builds a locale code from the given tuple (language code,
+    type_ = 'locale'
+    doc = """ Builds a locale code from the given tuple (language code,
         encoding).
 
         No aliasing or normalizing takes place.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='localetuple'),
+        NodeInputBP(label='localetuple'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -39,18 +46,18 @@ class AutoNode_locale__build_localename(rc.Node):
         self.set_output_val(0, locale._build_localename(self.input(0)))
         
 
-
-class AutoNode_locale__format(rc.Node):
+class _Format_Node(NodeBase):
     title = '_format'
-    doc = '''None'''
+    type_ = 'locale'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='percent'),
-rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='grouping'),
-rc.NodeInputBP(label='monetary'),
+        NodeInputBP(label='percent'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='grouping', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='monetary', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -58,16 +65,16 @@ rc.NodeInputBP(label='monetary'),
         self.set_output_val(0, locale._format(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_locale__group(rc.Node):
+class _Group_Node(NodeBase):
     title = '_group'
-    doc = '''None'''
+    type_ = 'locale'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='monetary'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='monetary', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -75,15 +82,15 @@ rc.NodeInputBP(label='monetary'),
         self.set_output_val(0, locale._group(self.input(0), self.input(1)))
         
 
-
-class AutoNode_locale__grouping_intervals(rc.Node):
+class _Grouping_Intervals_Node(NodeBase):
     title = '_grouping_intervals'
-    doc = '''None'''
+    type_ = 'locale'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='grouping'),
+        NodeInputBP(label='grouping'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -91,10 +98,10 @@ class AutoNode_locale__grouping_intervals(rc.Node):
         self.set_output_val(0, locale._grouping_intervals(self.input(0)))
         
 
-
-class AutoNode_locale__parse_localename(rc.Node):
+class _Parse_Localename_Node(NodeBase):
     title = '_parse_localename'
-    doc = ''' Parses the locale code for localename and returns the
+    type_ = 'locale'
+    doc = """ Parses the locale code for localename and returns the
         result as tuple (language code, encoding).
 
         The localename is normalized and passed through the locale
@@ -105,12 +112,12 @@ class AutoNode_locale__parse_localename(rc.Node):
         can be None in case the values cannot be determined or are
         unknown to this implementation.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='localename'),
+        NodeInputBP(label='localename'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -118,16 +125,16 @@ class AutoNode_locale__parse_localename(rc.Node):
         self.set_output_val(0, locale._parse_localename(self.input(0)))
         
 
-
-class AutoNode_locale__print_locale(rc.Node):
+class _Print_Locale_Node(NodeBase):
     title = '_print_locale'
-    doc = ''' Test function.
-    '''
+    type_ = 'locale'
+    doc = """ Test function.
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -135,16 +142,16 @@ class AutoNode_locale__print_locale(rc.Node):
         self.set_output_val(0, locale._print_locale())
         
 
-
-class AutoNode_locale__replace_encoding(rc.Node):
+class _Replace_Encoding_Node(NodeBase):
     title = '_replace_encoding'
-    doc = '''None'''
+    type_ = 'locale'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='code'),
-rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='code'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -152,18 +159,18 @@ rc.NodeInputBP(label='encoding'),
         self.set_output_val(0, locale._replace_encoding(self.input(0), self.input(1)))
         
 
-
-class AutoNode_locale__strcoll(rc.Node):
+class _Strcoll_Node(NodeBase):
     title = '_strcoll'
-    doc = ''' strcoll(string,string) -> int.
+    type_ = 'locale'
+    doc = """ strcoll(string,string) -> int.
         Compares two strings according to the locale.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -171,16 +178,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, locale._strcoll(self.input(0), self.input(1)))
         
 
-
-class AutoNode_locale__strip_padding(rc.Node):
+class _Strip_Padding_Node(NodeBase):
     title = '_strip_padding'
-    doc = '''None'''
+    type_ = 'locale'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='amount'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='amount'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -188,17 +195,17 @@ rc.NodeInputBP(label='amount'),
         self.set_output_val(0, locale._strip_padding(self.input(0), self.input(1)))
         
 
-
-class AutoNode_locale__strxfrm(rc.Node):
+class _Strxfrm_Node(NodeBase):
     title = '_strxfrm'
-    doc = ''' strxfrm(string) -> string.
+    type_ = 'locale'
+    doc = """ strxfrm(string) -> string.
         Returns a string that behaves for cmp locale-aware.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -206,15 +213,15 @@ class AutoNode_locale__strxfrm(rc.Node):
         self.set_output_val(0, locale._strxfrm(self.input(0)))
         
 
-
-class AutoNode_locale__test(rc.Node):
+class _Test_Node(NodeBase):
     title = '_test'
-    doc = '''None'''
+    type_ = 'locale'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -222,16 +229,16 @@ class AutoNode_locale__test(rc.Node):
         self.set_output_val(0, locale._test())
         
 
-
-class AutoNode_locale_atof(rc.Node):
+class Atof_Node(NodeBase):
     title = 'atof'
-    doc = '''Parses a string as a float according to the locale settings.'''
+    type_ = 'locale'
+    doc = """Parses a string as a float according to the locale settings."""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
-rc.NodeInputBP(label='func'),
+        NodeInputBP(label='string'),
+        NodeInputBP(label='func', dtype=dtypes.Data(default=float, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -239,15 +246,15 @@ rc.NodeInputBP(label='func'),
         self.set_output_val(0, locale.atof(self.input(0), self.input(1)))
         
 
-
-class AutoNode_locale_atoi(rc.Node):
+class Atoi_Node(NodeBase):
     title = 'atoi'
-    doc = '''Converts a string to an integer according to the locale settings.'''
+    type_ = 'locale'
+    doc = """Converts a string to an integer according to the locale settings."""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -255,19 +262,19 @@ class AutoNode_locale_atoi(rc.Node):
         self.set_output_val(0, locale.atoi(self.input(0)))
         
 
-
-class AutoNode_locale_currency(rc.Node):
+class Currency_Node(NodeBase):
     title = 'currency'
-    doc = '''Formats val according to the currency settings
-    in the current locale.'''
+    type_ = 'locale'
+    doc = """Formats val according to the currency settings
+    in the current locale."""
     init_inputs = [
-        rc.NodeInputBP(label='val'),
-rc.NodeInputBP(label='symbol'),
-rc.NodeInputBP(label='grouping'),
-rc.NodeInputBP(label='international'),
+        NodeInputBP(label='val'),
+        NodeInputBP(label='symbol', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='grouping', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='international', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -275,15 +282,15 @@ rc.NodeInputBP(label='international'),
         self.set_output_val(0, locale.currency(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_locale_delocalize(rc.Node):
+class Delocalize_Node(NodeBase):
     title = 'delocalize'
-    doc = '''Parses a string as a normalized number according to the locale settings.'''
+    type_ = 'locale'
+    doc = """Parses a string as a normalized number according to the locale settings."""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -291,18 +298,18 @@ class AutoNode_locale_delocalize(rc.Node):
         self.set_output_val(0, locale.delocalize(self.input(0)))
         
 
-
-class AutoNode_locale_format(rc.Node):
+class Format_Node(NodeBase):
     title = 'format'
-    doc = '''Deprecated, use format_string instead.'''
+    type_ = 'locale'
+    doc = """Deprecated, use format_string instead."""
     init_inputs = [
-        rc.NodeInputBP(label='percent'),
-rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='grouping'),
-rc.NodeInputBP(label='monetary'),
+        NodeInputBP(label='percent'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='grouping', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='monetary', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -310,23 +317,23 @@ rc.NodeInputBP(label='monetary'),
         self.set_output_val(0, locale.format(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_locale_format_string(rc.Node):
+class Format_String_Node(NodeBase):
     title = 'format_string'
-    doc = '''Formats a string in the same way that the % formatting would use,
+    type_ = 'locale'
+    doc = """Formats a string in the same way that the % formatting would use,
     but takes the current locale into account.
 
     Grouping is applied if the third parameter is true.
     Conversion uses monetary thousands separator and grouping strings if
-    forth parameter monetary is true.'''
+    forth parameter monetary is true."""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='val'),
-rc.NodeInputBP(label='grouping'),
-rc.NodeInputBP(label='monetary'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='val'),
+        NodeInputBP(label='grouping', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='monetary', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -334,10 +341,10 @@ rc.NodeInputBP(label='monetary'),
         self.set_output_val(0, locale.format_string(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_locale_getdefaultlocale(rc.Node):
+class Getdefaultlocale_Node(NodeBase):
     title = 'getdefaultlocale'
-    doc = ''' Tries to determine the default locale settings and returns
+    type_ = 'locale'
+    doc = """ Tries to determine the default locale settings and returns
         them as tuple (language code, encoding).
 
         According to POSIX, a program which has not called
@@ -357,12 +364,12 @@ class AutoNode_locale_getdefaultlocale(rc.Node):
         1766.  code and encoding can be None in case the values cannot
         be determined.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='envvars'),
+        NodeInputBP(label='envvars', dtype=dtypes.Data(default=('LC_ALL', 'LC_CTYPE', 'LANG', 'LANGUAGE'), size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -370,10 +377,10 @@ class AutoNode_locale_getdefaultlocale(rc.Node):
         self.set_output_val(0, locale.getdefaultlocale(self.input(0)))
         
 
-
-class AutoNode_locale_getlocale(rc.Node):
+class Getlocale_Node(NodeBase):
     title = 'getlocale'
-    doc = ''' Returns the current setting for the given locale category as
+    type_ = 'locale'
+    doc = """ Returns the current setting for the given locale category as
         tuple (language code, encoding).
 
         category may be one of the LC_* value except LC_ALL. It
@@ -383,12 +390,12 @@ class AutoNode_locale_getlocale(rc.Node):
         1766.  code and encoding can be None in case the values cannot
         be determined.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='category'),
+        NodeInputBP(label='category', dtype=dtypes.Data(default=2, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -396,15 +403,15 @@ class AutoNode_locale_getlocale(rc.Node):
         self.set_output_val(0, locale.getlocale(self.input(0)))
         
 
-
-class AutoNode_locale_getpreferredencoding(rc.Node):
+class Getpreferredencoding_Node(NodeBase):
     title = 'getpreferredencoding'
-    doc = '''Return the charset that the user is likely using.'''
+    type_ = 'locale'
+    doc = """Return the charset that the user is likely using."""
     init_inputs = [
-        rc.NodeInputBP(label='do_setlocale'),
+        NodeInputBP(label='do_setlocale', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -412,15 +419,15 @@ class AutoNode_locale_getpreferredencoding(rc.Node):
         self.set_output_val(0, locale.getpreferredencoding(self.input(0)))
         
 
-
-class AutoNode_locale_localeconv(rc.Node):
+class Localeconv_Node(NodeBase):
     title = 'localeconv'
-    doc = '''() -> dict. Returns numeric and monetary locale-specific parameters.'''
+    type_ = 'locale'
+    doc = """() -> dict. Returns numeric and monetary locale-specific parameters."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -428,10 +435,10 @@ class AutoNode_locale_localeconv(rc.Node):
         self.set_output_val(0, locale.localeconv())
         
 
-
-class AutoNode_locale_normalize(rc.Node):
+class Normalize_Node(NodeBase):
     title = 'normalize'
-    doc = ''' Returns a normalized locale code for the given locale
+    type_ = 'locale'
+    doc = """ Returns a normalized locale code for the given locale
         name.
 
         The returned locale code is formatted for use with
@@ -444,12 +451,12 @@ class AutoNode_locale_normalize(rc.Node):
         the default encoding for the locale code just like setlocale()
         does.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='localename'),
+        NodeInputBP(label='localename'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -457,20 +464,20 @@ class AutoNode_locale_normalize(rc.Node):
         self.set_output_val(0, locale.normalize(self.input(0)))
         
 
-
-class AutoNode_locale_resetlocale(rc.Node):
+class Resetlocale_Node(NodeBase):
     title = 'resetlocale'
-    doc = ''' Sets the locale for category to the default setting.
+    type_ = 'locale'
+    doc = """ Sets the locale for category to the default setting.
 
         The default setting is determined by calling
         getdefaultlocale(). category defaults to LC_ALL.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='category'),
+        NodeInputBP(label='category', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -478,10 +485,10 @@ class AutoNode_locale_resetlocale(rc.Node):
         self.set_output_val(0, locale.resetlocale(self.input(0)))
         
 
-
-class AutoNode_locale_setlocale(rc.Node):
+class Setlocale_Node(NodeBase):
     title = 'setlocale'
-    doc = ''' Set the locale for the given category.  The locale can be
+    type_ = 'locale'
+    doc = """ Set the locale for the given category.  The locale can be
         a string, an iterable of two strings (language code and encoding),
         or None.
 
@@ -490,13 +497,13 @@ class AutoNode_locale_setlocale(rc.Node):
 
         category may be given as one of the LC_* values.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='category'),
-rc.NodeInputBP(label='locale'),
+        NodeInputBP(label='category'),
+        NodeInputBP(label='locale', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -504,18 +511,48 @@ rc.NodeInputBP(label='locale'),
         self.set_output_val(0, locale.setlocale(self.input(0), self.input(1)))
         
 
-
-class AutoNode_locale_str(rc.Node):
+class Str_Node(NodeBase):
     title = 'str'
-    doc = '''Convert float to string, taking the locale into account.'''
+    type_ = 'locale'
+    doc = """Convert float to string, taking the locale into account."""
     init_inputs = [
-        rc.NodeInputBP(label='val'),
+        NodeInputBP(label='val'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, locale.str(self.input(0)))
         
+
+
+export_nodes(
+    _Append_Modifier_Node,
+    _Build_Localename_Node,
+    _Format_Node,
+    _Group_Node,
+    _Grouping_Intervals_Node,
+    _Parse_Localename_Node,
+    _Print_Locale_Node,
+    _Replace_Encoding_Node,
+    _Strcoll_Node,
+    _Strip_Padding_Node,
+    _Strxfrm_Node,
+    _Test_Node,
+    Atof_Node,
+    Atoi_Node,
+    Currency_Node,
+    Delocalize_Node,
+    Format_Node,
+    Format_String_Node,
+    Getdefaultlocale_Node,
+    Getlocale_Node,
+    Getpreferredencoding_Node,
+    Localeconv_Node,
+    Normalize_Node,
+    Resetlocale_Node,
+    Setlocale_Node,
+    Str_Node,
+)

@@ -1,31 +1,38 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import ast
 
 
-class AutoNode_ast__getter(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Getter_Node(NodeBase):
     title = '_getter'
-    doc = '''None'''
+    type_ = 'ast'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
+        
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, ast._getter(self.input(0)))
+        self.set_output_val(0, ast._getter())
         
 
-
-class AutoNode_ast__new(rc.Node):
+class _New_Node(NodeBase):
     title = '_new'
-    doc = '''None'''
+    type_ = 'ast'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
+        NodeInputBP(label='cls'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,15 +40,15 @@ class AutoNode_ast__new(rc.Node):
         self.set_output_val(0, ast._new(self.input(0)))
         
 
-
-class AutoNode_ast__pad_whitespace(rc.Node):
+class _Pad_Whitespace_Node(NodeBase):
     title = '_pad_whitespace'
-    doc = '''Replace all chars except '\f\t' in a line with spaces.'''
+    type_ = 'ast'
+    doc = """Replace all chars except '\f\t' in a line with spaces."""
     init_inputs = [
-        rc.NodeInputBP(label='source'),
+        NodeInputBP(label='source'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -49,35 +56,34 @@ class AutoNode_ast__pad_whitespace(rc.Node):
         self.set_output_val(0, ast._pad_whitespace(self.input(0)))
         
 
-
-class AutoNode_ast__setter(rc.Node):
+class _Setter_Node(NodeBase):
     title = '_setter'
-    doc = '''None'''
+    type_ = 'ast'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, ast._setter(self.input(0), self.input(1)))
+        self.set_output_val(0, ast._setter(self.input(0)))
         
 
-
-class AutoNode_ast__splitlines_no_ff(rc.Node):
+class _Splitlines_No_Ff_Node(NodeBase):
     title = '_splitlines_no_ff'
-    doc = '''Split a string into lines ignoring form feed and other chars.
+    type_ = 'ast'
+    doc = """Split a string into lines ignoring form feed and other chars.
 
     This mimics how the Python parser splits source code.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='source'),
+        NodeInputBP(label='source'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -85,19 +91,19 @@ class AutoNode_ast__splitlines_no_ff(rc.Node):
         self.set_output_val(0, ast._splitlines_no_ff(self.input(0)))
         
 
-
-class AutoNode_ast_copy_location(rc.Node):
+class Copy_Location_Node(NodeBase):
     title = 'copy_location'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Copy source location (`lineno`, `col_offset`, `end_lineno`, and `end_col_offset`
     attributes) from *old_node* to *new_node* if possible, and return *new_node*.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='new_node'),
-rc.NodeInputBP(label='old_node'),
+        NodeInputBP(label='new_node'),
+        NodeInputBP(label='old_node'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -105,10 +111,10 @@ rc.NodeInputBP(label='old_node'),
         self.set_output_val(0, ast.copy_location(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ast_dump(rc.Node):
+class Dump_Node(NodeBase):
     title = 'dump'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Return a formatted dump of the tree in node.  This is mainly useful for
     debugging purposes.  If annotate_fields is true (by default),
     the returned string will show the names and the values for fields.
@@ -116,14 +122,14 @@ class AutoNode_ast_dump(rc.Node):
     omitting unambiguous field names.  Attributes such as line
     numbers and column offsets are not dumped by default.  If this is wanted,
     include_attributes can be set to true.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node'),
-rc.NodeInputBP(label='annotate_fields'),
-rc.NodeInputBP(label='include_attributes'),
+        NodeInputBP(label='node'),
+        NodeInputBP(label='annotate_fields', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='include_attributes', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -131,21 +137,21 @@ rc.NodeInputBP(label='include_attributes'),
         self.set_output_val(0, ast.dump(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_ast_fix_missing_locations(rc.Node):
+class Fix_Missing_Locations_Node(NodeBase):
     title = 'fix_missing_locations'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     When you compile a node tree with compile(), the compiler expects lineno and
     col_offset attributes for every node that supports them.  This is rather
     tedious to fill in for generated nodes, so this helper adds these attributes
     recursively where not already set, by setting them to the values of the
     parent node.  It works recursively starting at *node*.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node'),
+        NodeInputBP(label='node'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -153,23 +159,23 @@ class AutoNode_ast_fix_missing_locations(rc.Node):
         self.set_output_val(0, ast.fix_missing_locations(self.input(0)))
         
 
-
-class AutoNode_ast_get_docstring(rc.Node):
+class Get_Docstring_Node(NodeBase):
     title = 'get_docstring'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Return the docstring for the given node or None if no docstring can
     be found.  If the node provided does not have docstrings a TypeError
     will be raised.
 
     If *clean* is `True`, all tabs are expanded to spaces and any whitespace
     that can be uniformly removed from the second line onwards is removed.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node'),
-rc.NodeInputBP(label='clean'),
+        NodeInputBP(label='node'),
+        NodeInputBP(label='clean', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -177,23 +183,23 @@ rc.NodeInputBP(label='clean'),
         self.set_output_val(0, ast.get_docstring(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ast_get_source_segment(rc.Node):
+class Get_Source_Segment_Node(NodeBase):
     title = 'get_source_segment'
-    doc = '''Get source code segment of the *source* that generated *node*.
+    type_ = 'ast'
+    doc = """Get source code segment of the *source* that generated *node*.
 
     If some location information (`lineno`, `end_lineno`, `col_offset`,
     or `end_col_offset`) is missing, return None.
 
     If *padded* is `True`, the first line of a multi-line statement will
     be padded with spaces to match its original position.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='node'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='node'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -201,20 +207,20 @@ rc.NodeInputBP(label='node'),
         self.set_output_val(0, ast.get_source_segment(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ast_increment_lineno(rc.Node):
+class Increment_Lineno_Node(NodeBase):
     title = 'increment_lineno'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Increment the line number and end line number of each node in the tree
     starting at *node* by *n*. This is useful to "move code" to a different
     location in a file.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='node'),
+        NodeInputBP(label='n', dtype=dtypes.Data(default=1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -222,18 +228,18 @@ rc.NodeInputBP(label='n'),
         self.set_output_val(0, ast.increment_lineno(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ast_iter_child_nodes(rc.Node):
+class Iter_Child_Nodes_Node(NodeBase):
     title = 'iter_child_nodes'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Yield all direct child nodes of *node*, that is, all fields that are nodes
     and all items of fields that are lists of nodes.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node'),
+        NodeInputBP(label='node'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -241,18 +247,18 @@ class AutoNode_ast_iter_child_nodes(rc.Node):
         self.set_output_val(0, ast.iter_child_nodes(self.input(0)))
         
 
-
-class AutoNode_ast_iter_fields(rc.Node):
+class Iter_Fields_Node(NodeBase):
     title = 'iter_fields'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Yield a tuple of ``(fieldname, value)`` for each field in ``node._fields``
     that is present on *node*.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node'),
+        NodeInputBP(label='node'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -260,20 +266,20 @@ class AutoNode_ast_iter_fields(rc.Node):
         self.set_output_val(0, ast.iter_fields(self.input(0)))
         
 
-
-class AutoNode_ast_literal_eval(rc.Node):
+class Literal_Eval_Node(NodeBase):
     title = 'literal_eval'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Safely evaluate an expression node or a string containing a Python
     expression.  The string or node provided may only consist of the following
     Python literal structures: strings, bytes, numbers, tuples, lists, dicts,
     sets, booleans, and None.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node_or_string'),
+        NodeInputBP(label='node_or_string'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -281,21 +287,21 @@ class AutoNode_ast_literal_eval(rc.Node):
         self.set_output_val(0, ast.literal_eval(self.input(0)))
         
 
-
-class AutoNode_ast_parse(rc.Node):
+class Parse_Node(NodeBase):
     title = 'parse'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Parse the source into an AST node.
     Equivalent to compile(source, filename, mode, PyCF_ONLY_AST).
     Pass type_comments=True to get back type comments where the syntax allows.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='filename', dtype=dtypes.Data(default='<unknown>', size='s')),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default='exec', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -303,22 +309,42 @@ rc.NodeInputBP(label='mode'),
         self.set_output_val(0, ast.parse(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_ast_walk(rc.Node):
+class Walk_Node(NodeBase):
     title = 'walk'
-    doc = '''
+    type_ = 'ast'
+    doc = """
     Recursively yield all descendant nodes in the tree starting at *node*
     (including *node* itself), in no specified order.  This is useful if you
     only want to modify nodes in place and don't care about the context.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='node'),
+        NodeInputBP(label='node'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, ast.walk(self.input(0)))
         
+
+
+export_nodes(
+    _Getter_Node,
+    _New_Node,
+    _Pad_Whitespace_Node,
+    _Setter_Node,
+    _Splitlines_No_Ff_Node,
+    Copy_Location_Node,
+    Dump_Node,
+    Fix_Missing_Locations_Node,
+    Get_Docstring_Node,
+    Get_Source_Segment_Node,
+    Increment_Lineno_Node,
+    Iter_Child_Nodes_Node,
+    Iter_Fields_Node,
+    Literal_Eval_Node,
+    Parse_Node,
+    Walk_Node,
+)

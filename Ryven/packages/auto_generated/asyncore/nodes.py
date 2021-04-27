@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import asyncore
 
 
-class AutoNode_asyncore__exception(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Exception_Node(NodeBase):
     title = '_exception'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_asyncore__exception(rc.Node):
         self.set_output_val(0, asyncore._exception(self.input(0)))
         
 
-
-class AutoNode_asyncore__strerror(rc.Node):
+class _Strerror_Node(NodeBase):
     title = '_strerror'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='err'),
+        NodeInputBP(label='err'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,16 +40,16 @@ class AutoNode_asyncore__strerror(rc.Node):
         self.set_output_val(0, asyncore._strerror(self.input(0)))
         
 
-
-class AutoNode_asyncore_close_all(rc.Node):
+class Close_All_Node(NodeBase):
     title = 'close_all'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='map'),
-rc.NodeInputBP(label='ignore_all'),
+        NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='ignore_all', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -50,15 +57,15 @@ rc.NodeInputBP(label='ignore_all'),
         self.set_output_val(0, asyncore.close_all(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncore_compact_traceback(rc.Node):
+class Compact_Traceback_Node(NodeBase):
     title = 'compact_traceback'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -66,18 +73,18 @@ class AutoNode_asyncore_compact_traceback(rc.Node):
         self.set_output_val(0, asyncore.compact_traceback())
         
 
-
-class AutoNode_asyncore_loop(rc.Node):
+class Loop_Node(NodeBase):
     title = 'loop'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='timeout'),
-rc.NodeInputBP(label='use_poll'),
-rc.NodeInputBP(label='map'),
-rc.NodeInputBP(label='count'),
+        NodeInputBP(label='timeout', dtype=dtypes.Data(default=30.0, size='s')),
+        NodeInputBP(label='use_poll', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='count', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -85,16 +92,16 @@ rc.NodeInputBP(label='count'),
         self.set_output_val(0, asyncore.loop(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_asyncore_poll(rc.Node):
+class Poll_Node(NodeBase):
     title = 'poll'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='timeout'),
-rc.NodeInputBP(label='map'),
+        NodeInputBP(label='timeout', dtype=dtypes.Data(default=0.0, size='s')),
+        NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -102,16 +109,16 @@ rc.NodeInputBP(label='map'),
         self.set_output_val(0, asyncore.poll(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncore_poll2(rc.Node):
+class Poll2_Node(NodeBase):
     title = 'poll2'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='timeout'),
-rc.NodeInputBP(label='map'),
+        NodeInputBP(label='timeout', dtype=dtypes.Data(default=0.0, size='s')),
+        NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -119,16 +126,16 @@ rc.NodeInputBP(label='map'),
         self.set_output_val(0, asyncore.poll2(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncore_poll3(rc.Node):
+class Poll3_Node(NodeBase):
     title = 'poll3'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='timeout'),
-rc.NodeInputBP(label='map'),
+        NodeInputBP(label='timeout', dtype=dtypes.Data(default=0.0, size='s')),
+        NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -136,15 +143,15 @@ rc.NodeInputBP(label='map'),
         self.set_output_val(0, asyncore.poll3(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncore_read(rc.Node):
+class Read_Node(NodeBase):
     title = 'read'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -152,16 +159,16 @@ class AutoNode_asyncore_read(rc.Node):
         self.set_output_val(0, asyncore.read(self.input(0)))
         
 
-
-class AutoNode_asyncore_readwrite(rc.Node):
+class Readwrite_Node(NodeBase):
     title = 'readwrite'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='flags'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='flags'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -169,18 +176,33 @@ rc.NodeInputBP(label='flags'),
         self.set_output_val(0, asyncore.readwrite(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncore_write(rc.Node):
+class Write_Node(NodeBase):
     title = 'write'
-    doc = '''None'''
+    type_ = 'asyncore'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, asyncore.write(self.input(0)))
         
+
+
+export_nodes(
+    _Exception_Node,
+    _Strerror_Node,
+    Close_All_Node,
+    Compact_Traceback_Node,
+    Loop_Node,
+    Poll_Node,
+    Poll2_Node,
+    Poll3_Node,
+    Read_Node,
+    Readwrite_Node,
+    Write_Node,
+)

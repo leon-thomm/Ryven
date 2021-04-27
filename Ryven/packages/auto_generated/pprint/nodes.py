@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import pprint
 
 
-class AutoNode_pprint__perfcheck(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Perfcheck_Node(NodeBase):
     title = '_perfcheck'
-    doc = '''None'''
+    type_ = 'pprint'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
+        NodeInputBP(label='object', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_pprint__perfcheck(rc.Node):
         self.set_output_val(0, pprint._perfcheck(self.input(0)))
         
 
-
-class AutoNode_pprint__recursion(rc.Node):
+class _Recursion_Node(NodeBase):
     title = '_recursion'
-    doc = '''None'''
+    type_ = 'pprint'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
+        NodeInputBP(label='object'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,19 +40,19 @@ class AutoNode_pprint__recursion(rc.Node):
         self.set_output_val(0, pprint._recursion(self.input(0)))
         
 
-
-class AutoNode_pprint__safe_repr(rc.Node):
+class _Safe_Repr_Node(NodeBase):
     title = '_safe_repr'
-    doc = '''None'''
+    type_ = 'pprint'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
-rc.NodeInputBP(label='context'),
-rc.NodeInputBP(label='maxlevels'),
-rc.NodeInputBP(label='level'),
-rc.NodeInputBP(label='sort_dicts'),
+        NodeInputBP(label='object'),
+        NodeInputBP(label='context'),
+        NodeInputBP(label='maxlevels'),
+        NodeInputBP(label='level'),
+        NodeInputBP(label='sort_dicts'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -53,15 +60,15 @@ rc.NodeInputBP(label='sort_dicts'),
         self.set_output_val(0, pprint._safe_repr(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_pprint__safe_tuple(rc.Node):
+class _Safe_Tuple_Node(NodeBase):
     title = '_safe_tuple'
-    doc = '''Helper function for comparing 2-tuples'''
+    type_ = 'pprint'
+    doc = """Helper function for comparing 2-tuples"""
     init_inputs = [
-        rc.NodeInputBP(label='t'),
+        NodeInputBP(label='t'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -69,17 +76,17 @@ class AutoNode_pprint__safe_tuple(rc.Node):
         self.set_output_val(0, pprint._safe_tuple(self.input(0)))
         
 
-
-class AutoNode_pprint__wrap_bytes_repr(rc.Node):
+class _Wrap_Bytes_Repr_Node(NodeBase):
     title = '_wrap_bytes_repr'
-    doc = '''None'''
+    type_ = 'pprint'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
-rc.NodeInputBP(label='width'),
-rc.NodeInputBP(label='allowance'),
+        NodeInputBP(label='object'),
+        NodeInputBP(label='width'),
+        NodeInputBP(label='allowance'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -87,15 +94,15 @@ rc.NodeInputBP(label='allowance'),
         self.set_output_val(0, pprint._wrap_bytes_repr(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pprint_isreadable(rc.Node):
+class Isreadable_Node(NodeBase):
     title = 'isreadable'
-    doc = '''Determine if saferepr(object) is readable by eval().'''
+    type_ = 'pprint'
+    doc = """Determine if saferepr(object) is readable by eval()."""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
+        NodeInputBP(label='object'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -103,15 +110,15 @@ class AutoNode_pprint_isreadable(rc.Node):
         self.set_output_val(0, pprint.isreadable(self.input(0)))
         
 
-
-class AutoNode_pprint_isrecursive(rc.Node):
+class Isrecursive_Node(NodeBase):
     title = 'isrecursive'
-    doc = '''Determine if object requires a recursive representation.'''
+    type_ = 'pprint'
+    doc = """Determine if object requires a recursive representation."""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
+        NodeInputBP(label='object'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -119,18 +126,18 @@ class AutoNode_pprint_isrecursive(rc.Node):
         self.set_output_val(0, pprint.isrecursive(self.input(0)))
         
 
-
-class AutoNode_pprint_pformat(rc.Node):
+class Pformat_Node(NodeBase):
     title = 'pformat'
-    doc = '''Format a Python object into a pretty-printed representation.'''
+    type_ = 'pprint'
+    doc = """Format a Python object into a pretty-printed representation."""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
-rc.NodeInputBP(label='indent'),
-rc.NodeInputBP(label='width'),
-rc.NodeInputBP(label='depth'),
+        NodeInputBP(label='object'),
+        NodeInputBP(label='indent', dtype=dtypes.Data(default=1, size='s')),
+        NodeInputBP(label='width', dtype=dtypes.Data(default=80, size='s')),
+        NodeInputBP(label='depth', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -138,15 +145,15 @@ rc.NodeInputBP(label='depth'),
         self.set_output_val(0, pprint.pformat(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_pprint_pp(rc.Node):
+class Pp_Node(NodeBase):
     title = 'pp'
-    doc = '''Pretty-print a Python object'''
+    type_ = 'pprint'
+    doc = """Pretty-print a Python object"""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
+        NodeInputBP(label='object'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -154,19 +161,19 @@ class AutoNode_pprint_pp(rc.Node):
         self.set_output_val(0, pprint.pp(self.input(0)))
         
 
-
-class AutoNode_pprint_pprint(rc.Node):
+class Pprint_Node(NodeBase):
     title = 'pprint'
-    doc = '''Pretty-print a Python object to a stream [default is sys.stdout].'''
+    type_ = 'pprint'
+    doc = """Pretty-print a Python object to a stream [default is sys.stdout]."""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
-rc.NodeInputBP(label='stream'),
-rc.NodeInputBP(label='indent'),
-rc.NodeInputBP(label='width'),
-rc.NodeInputBP(label='depth'),
+        NodeInputBP(label='object'),
+        NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='indent', dtype=dtypes.Data(default=1, size='s')),
+        NodeInputBP(label='width', dtype=dtypes.Data(default=80, size='s')),
+        NodeInputBP(label='depth', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -174,18 +181,33 @@ rc.NodeInputBP(label='depth'),
         self.set_output_val(0, pprint.pprint(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_pprint_saferepr(rc.Node):
+class Saferepr_Node(NodeBase):
     title = 'saferepr'
-    doc = '''Version of repr() which can handle recursive data structures.'''
+    type_ = 'pprint'
+    doc = """Version of repr() which can handle recursive data structures."""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
+        NodeInputBP(label='object'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, pprint.saferepr(self.input(0)))
         
+
+
+export_nodes(
+    _Perfcheck_Node,
+    _Recursion_Node,
+    _Safe_Repr_Node,
+    _Safe_Tuple_Node,
+    _Wrap_Bytes_Repr_Node,
+    Isreadable_Node,
+    Isrecursive_Node,
+    Pformat_Node,
+    Pp_Node,
+    Pprint_Node,
+    Saferepr_Node,
+)

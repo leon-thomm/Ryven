@@ -1,18 +1,30 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import contextvars
 
 
-class AutoNode_contextvars_copy_context(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Copy_Context_Node(NodeBase):
     title = 'copy_context'
-    doc = '''None'''
+    type_ = 'contextvars'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, contextvars.copy_context())
         
+
+
+export_nodes(
+    Copy_Context_Node,
+)

@@ -1,17 +1,24 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import codeop
 
 
-class AutoNode_codeop__compile(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Compile_Node(NodeBase):
     title = '_compile'
-    doc = '''None'''
+    type_ = 'codeop'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='symbol'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='symbol'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -19,18 +26,18 @@ rc.NodeInputBP(label='symbol'),
         self.set_output_val(0, codeop._compile(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codeop__maybe_compile(rc.Node):
+class _Maybe_Compile_Node(NodeBase):
     title = '_maybe_compile'
-    doc = '''None'''
+    type_ = 'codeop'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='compiler'),
-rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='symbol'),
+        NodeInputBP(label='compiler'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='symbol'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -38,10 +45,10 @@ rc.NodeInputBP(label='symbol'),
         self.set_output_val(0, codeop._maybe_compile(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_codeop_compile_command(rc.Node):
+class Compile_Command_Node(NodeBase):
     title = 'compile_command'
-    doc = '''Compile a command and determine whether it is incomplete.
+    type_ = 'codeop'
+    doc = """Compile a command and determine whether it is incomplete.
 
     Arguments:
 
@@ -58,17 +65,24 @@ class AutoNode_codeop_compile_command(rc.Node):
     - Raise SyntaxError, ValueError or OverflowError if the command is a
       syntax error (OverflowError and ValueError can be produced by
       malformed literals).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='symbol'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='filename', dtype=dtypes.Data(default='<input>', size='s')),
+        NodeInputBP(label='symbol', dtype=dtypes.Data(default='single', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, codeop.compile_command(self.input(0), self.input(1), self.input(2)))
         
+
+
+export_nodes(
+    _Compile_Node,
+    _Maybe_Compile_Node,
+    Compile_Command_Node,
+)

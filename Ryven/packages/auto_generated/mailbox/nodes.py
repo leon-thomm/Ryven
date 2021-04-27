@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import mailbox
 
 
-class AutoNode_mailbox__create_carefully(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Create_Carefully_Node(NodeBase):
     title = '_create_carefully'
-    doc = '''Create a file if it doesn't exist and open for reading and writing.'''
+    type_ = 'mailbox'
+    doc = """Create a file if it doesn't exist and open for reading and writing."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_mailbox__create_carefully(rc.Node):
         self.set_output_val(0, mailbox._create_carefully(self.input(0)))
         
 
-
-class AutoNode_mailbox__create_temporary(rc.Node):
+class _Create_Temporary_Node(NodeBase):
     title = '_create_temporary'
-    doc = '''Create a temp file based on path and open for reading and writing.'''
+    type_ = 'mailbox'
+    doc = """Create a temp file based on path and open for reading and writing."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,16 +40,16 @@ class AutoNode_mailbox__create_temporary(rc.Node):
         self.set_output_val(0, mailbox._create_temporary(self.input(0)))
         
 
-
-class AutoNode_mailbox__lock_file(rc.Node):
+class _Lock_File_Node(NodeBase):
     title = '_lock_file'
-    doc = '''Lock file f using lockf and dot locking.'''
+    type_ = 'mailbox'
+    doc = """Lock file f using lockf and dot locking."""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='dotlock'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='dotlock', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -50,15 +57,15 @@ rc.NodeInputBP(label='dotlock'),
         self.set_output_val(0, mailbox._lock_file(self.input(0), self.input(1)))
         
 
-
-class AutoNode_mailbox__sync_close(rc.Node):
+class _Sync_Close_Node(NodeBase):
     title = '_sync_close'
-    doc = '''Close file f, ensuring all changes are physically on disk.'''
+    type_ = 'mailbox'
+    doc = """Close file f, ensuring all changes are physically on disk."""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -66,15 +73,15 @@ class AutoNode_mailbox__sync_close(rc.Node):
         self.set_output_val(0, mailbox._sync_close(self.input(0)))
         
 
-
-class AutoNode_mailbox__sync_flush(rc.Node):
+class _Sync_Flush_Node(NodeBase):
     title = '_sync_flush'
-    doc = '''Ensure changes to file f are physically on disk.'''
+    type_ = 'mailbox'
+    doc = """Ensure changes to file f are physically on disk."""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -82,18 +89,28 @@ class AutoNode_mailbox__sync_flush(rc.Node):
         self.set_output_val(0, mailbox._sync_flush(self.input(0)))
         
 
-
-class AutoNode_mailbox__unlock_file(rc.Node):
+class _Unlock_File_Node(NodeBase):
     title = '_unlock_file'
-    doc = '''Unlock file f using lockf and dot locking.'''
+    type_ = 'mailbox'
+    doc = """Unlock file f using lockf and dot locking."""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, mailbox._unlock_file(self.input(0)))
         
+
+
+export_nodes(
+    _Create_Carefully_Node,
+    _Create_Temporary_Node,
+    _Lock_File_Node,
+    _Sync_Close_Node,
+    _Sync_Flush_Node,
+    _Unlock_File_Node,
+)

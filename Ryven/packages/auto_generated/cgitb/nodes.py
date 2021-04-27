@@ -1,22 +1,29 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import cgitb
 
 
-class AutoNode_cgitb_enable(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Enable_Node(NodeBase):
     title = 'enable'
-    doc = '''Install an exception handler that formats tracebacks as HTML.
+    type_ = 'cgitb'
+    doc = """Install an exception handler that formats tracebacks as HTML.
 
     The optional argument 'display' can be set to 0 to suppress sending the
     traceback to the browser, and 'logdir' can be set to a directory to cause
-    tracebacks to be written to files there.'''
+    tracebacks to be written to files there."""
     init_inputs = [
-        rc.NodeInputBP(label='display'),
-rc.NodeInputBP(label='logdir'),
-rc.NodeInputBP(label='context'),
-rc.NodeInputBP(label='format'),
+        NodeInputBP(label='display', dtype=dtypes.Data(default=1, size='s')),
+        NodeInputBP(label='logdir', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='context', dtype=dtypes.Data(default=5, size='s')),
+        NodeInputBP(label='format', dtype=dtypes.Data(default='html', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -24,15 +31,15 @@ rc.NodeInputBP(label='format'),
         self.set_output_val(0, cgitb.enable(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_cgitb_grey(rc.Node):
+class Grey_Node(NodeBase):
     title = 'grey'
-    doc = '''None'''
+    type_ = 'cgitb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='text'),
+        NodeInputBP(label='text'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -40,33 +47,32 @@ class AutoNode_cgitb_grey(rc.Node):
         self.set_output_val(0, cgitb.grey(self.input(0)))
         
 
-
-class AutoNode_cgitb_handler(rc.Node):
+class Handler_Node(NodeBase):
     title = 'handler'
-    doc = '''None'''
+    type_ = 'cgitb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='info'),
+        NodeInputBP(label='info', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, cgitb.handler(self.input(0), self.input(1)))
+        self.set_output_val(0, cgitb.handler(self.input(0)))
         
 
-
-class AutoNode_cgitb_html(rc.Node):
+class Html_Node(NodeBase):
     title = 'html'
-    doc = '''Return a nice HTML document describing a given traceback.'''
+    type_ = 'cgitb'
+    doc = """Return a nice HTML document describing a given traceback."""
     init_inputs = [
-        rc.NodeInputBP(label='einfo'),
-rc.NodeInputBP(label='context'),
+        NodeInputBP(label='einfo'),
+        NodeInputBP(label='context', dtype=dtypes.Data(default=5, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -74,17 +80,17 @@ rc.NodeInputBP(label='context'),
         self.set_output_val(0, cgitb.html(self.input(0), self.input(1)))
         
 
-
-class AutoNode_cgitb_lookup(rc.Node):
+class Lookup_Node(NodeBase):
     title = 'lookup'
-    doc = '''Find the value for a given name in the given environment.'''
+    type_ = 'cgitb'
+    doc = """Find the value for a given name in the given environment."""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='frame'),
-rc.NodeInputBP(label='locals'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='frame'),
+        NodeInputBP(label='locals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -92,15 +98,15 @@ rc.NodeInputBP(label='locals'),
         self.set_output_val(0, cgitb.lookup(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_cgitb_reset(rc.Node):
+class Reset_Node(NodeBase):
     title = 'reset'
-    doc = '''Return a string that resets the CGI and browser to a known state.'''
+    type_ = 'cgitb'
+    doc = """Return a string that resets the CGI and browser to a known state."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -108,17 +114,17 @@ class AutoNode_cgitb_reset(rc.Node):
         self.set_output_val(0, cgitb.reset())
         
 
-
-class AutoNode_cgitb_scanvars(rc.Node):
+class Scanvars_Node(NodeBase):
     title = 'scanvars'
-    doc = '''Scan one logical line of Python and look up values of variables used.'''
+    type_ = 'cgitb'
+    doc = """Scan one logical line of Python and look up values of variables used."""
     init_inputs = [
-        rc.NodeInputBP(label='reader'),
-rc.NodeInputBP(label='frame'),
-rc.NodeInputBP(label='locals'),
+        NodeInputBP(label='reader'),
+        NodeInputBP(label='frame'),
+        NodeInputBP(label='locals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -126,15 +132,15 @@ rc.NodeInputBP(label='locals'),
         self.set_output_val(0, cgitb.scanvars(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_cgitb_small(rc.Node):
+class Small_Node(NodeBase):
     title = 'small'
-    doc = '''None'''
+    type_ = 'cgitb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='text'),
+        NodeInputBP(label='text'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -142,15 +148,15 @@ class AutoNode_cgitb_small(rc.Node):
         self.set_output_val(0, cgitb.small(self.input(0)))
         
 
-
-class AutoNode_cgitb_strong(rc.Node):
+class Strong_Node(NodeBase):
     title = 'strong'
-    doc = '''None'''
+    type_ = 'cgitb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='text'),
+        NodeInputBP(label='text'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -158,19 +164,33 @@ class AutoNode_cgitb_strong(rc.Node):
         self.set_output_val(0, cgitb.strong(self.input(0)))
         
 
-
-class AutoNode_cgitb_text(rc.Node):
+class Text_Node(NodeBase):
     title = 'text'
-    doc = '''Return a plain text document describing a given traceback.'''
+    type_ = 'cgitb'
+    doc = """Return a plain text document describing a given traceback."""
     init_inputs = [
-        rc.NodeInputBP(label='einfo'),
-rc.NodeInputBP(label='context'),
+        NodeInputBP(label='einfo'),
+        NodeInputBP(label='context', dtype=dtypes.Data(default=5, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, cgitb.text(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    Enable_Node,
+    Grey_Node,
+    Handler_Node,
+    Html_Node,
+    Lookup_Node,
+    Reset_Node,
+    Scanvars_Node,
+    Small_Node,
+    Strong_Node,
+    Text_Node,
+)

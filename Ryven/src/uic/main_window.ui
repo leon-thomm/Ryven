@@ -22,25 +22,25 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QSplitter" name="main_horizontal_splitter">
+     <widget class="QSplitter" name="main_vertical_splitter">
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QSplitter" name="left_vertical_splitter">
+      <widget class="QSplitter" name="main_horizontal_splitter">
        <property name="orientation">
-        <enum>Qt::Vertical</enum>
+        <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QGroupBox" name="scripts_groupBox">
-        <property name="title">
-         <string>Scripts</string>
+       <widget class="QSplitter" name="left_vertical_splitter">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout"/>
+        <widget class="QGroupBox" name="scripts_groupBox">
+         <property name="title">
+          <string>Scripts</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout"/>
+        </widget>
        </widget>
-      </widget>
-      <widget class="QSplitter" name="right_vertical_splitter">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
        <widget class="QTabWidget" name="scripts_tab_widget">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -57,11 +57,11 @@
          </attribute>
         </widget>
        </widget>
-       <widget class="QSplitter" name="right_lower_horizontal_splitter">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
+      </widget>
+      <widget class="QSplitter" name="bottom_splitter">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
       </widget>
      </widget>
     </item>

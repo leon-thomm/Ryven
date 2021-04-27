@@ -1,10 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import io
 
 
-class AutoNode_io_OpenWrapper(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Openwrapper_Node(NodeBase):
     title = 'OpenWrapper'
-    doc = '''Open file and return a stream.  Raise OSError upon failure.
+    type_ = 'io'
+    doc = """Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -121,19 +128,19 @@ a BufferedRandom.
 It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
-opened in a binary mode.'''
+opened in a binary mode."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='buffering'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='newline'),
-rc.NodeInputBP(label='closefd'),
-rc.NodeInputBP(label='opener'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
+        NodeInputBP(label='buffering', dtype=dtypes.Data(default=-1, size='s')),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='newline', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='closefd', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='opener', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -141,10 +148,10 @@ rc.NodeInputBP(label='opener'),
         self.set_output_val(0, io.OpenWrapper(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
-
-class AutoNode_io_open(rc.Node):
+class Open_Node(NodeBase):
     title = 'open'
-    doc = '''Open file and return a stream.  Raise OSError upon failure.
+    type_ = 'io'
+    doc = """Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -261,19 +268,19 @@ a BufferedRandom.
 It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
-opened in a binary mode.'''
+opened in a binary mode."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='buffering'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='newline'),
-rc.NodeInputBP(label='closefd'),
-rc.NodeInputBP(label='opener'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
+        NodeInputBP(label='buffering', dtype=dtypes.Data(default=-1, size='s')),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='newline', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='closefd', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='opener', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -281,21 +288,28 @@ rc.NodeInputBP(label='opener'),
         self.set_output_val(0, io.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
-
-class AutoNode_io_open_code(rc.Node):
+class Open_Code_Node(NodeBase):
     title = 'open_code'
-    doc = '''Opens the provided file with the intent to import the contents.
+    type_ = 'io'
+    doc = """Opens the provided file with the intent to import the contents.
 
 This may perform extra validation beyond open(), but is otherwise interchangeable
-with calling open(path, 'rb').'''
+with calling open(path, 'rb')."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, io.open_code(self.input(0)))
         
+
+
+export_nodes(
+    Openwrapper_Node,
+    Open_Node,
+    Open_Code_Node,
+)

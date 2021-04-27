@@ -1,19 +1,26 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import filecmp
 
 
-class AutoNode_filecmp__cmp(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Cmp_Node(NodeBase):
     title = '_cmp'
-    doc = '''None'''
+    type_ = 'filecmp'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
-rc.NodeInputBP(label='sh'),
-rc.NodeInputBP(label='abs'),
-rc.NodeInputBP(label='cmp'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
+        NodeInputBP(label='sh'),
+        NodeInputBP(label='abs', dtype=dtypes.Data(default=<built-in function abs>, size='s')),
+        NodeInputBP(label='cmp', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -21,16 +28,16 @@ rc.NodeInputBP(label='cmp'),
         self.set_output_val(0, filecmp._cmp(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_filecmp__do_cmp(rc.Node):
+class _Do_Cmp_Node(NodeBase):
     title = '_do_cmp'
-    doc = '''None'''
+    type_ = 'filecmp'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f1'),
-rc.NodeInputBP(label='f2'),
+        NodeInputBP(label='f1'),
+        NodeInputBP(label='f2'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -38,16 +45,16 @@ rc.NodeInputBP(label='f2'),
         self.set_output_val(0, filecmp._do_cmp(self.input(0), self.input(1)))
         
 
-
-class AutoNode_filecmp__filter(rc.Node):
+class _Filter_Node(NodeBase):
     title = '_filter'
-    doc = '''None'''
+    type_ = 'filecmp'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='flist'),
-rc.NodeInputBP(label='skip'),
+        NodeInputBP(label='flist'),
+        NodeInputBP(label='skip'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,15 +62,15 @@ rc.NodeInputBP(label='skip'),
         self.set_output_val(0, filecmp._filter(self.input(0), self.input(1)))
         
 
-
-class AutoNode_filecmp__sig(rc.Node):
+class _Sig_Node(NodeBase):
     title = '_sig'
-    doc = '''None'''
+    type_ = 'filecmp'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='st'),
+        NodeInputBP(label='st'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -71,15 +78,15 @@ class AutoNode_filecmp__sig(rc.Node):
         self.set_output_val(0, filecmp._sig(self.input(0)))
         
 
-
-class AutoNode_filecmp_clear_cache(rc.Node):
+class Clear_Cache_Node(NodeBase):
     title = 'clear_cache'
-    doc = '''Clear the filecmp cache.'''
+    type_ = 'filecmp'
+    doc = """Clear the filecmp cache."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -87,10 +94,10 @@ class AutoNode_filecmp_clear_cache(rc.Node):
         self.set_output_val(0, filecmp.clear_cache())
         
 
-
-class AutoNode_filecmp_cmp(rc.Node):
+class Cmp_Node(NodeBase):
     title = 'cmp'
-    doc = '''Compare two files.
+    type_ = 'filecmp'
+    doc = """Compare two files.
 
     Arguments:
 
@@ -109,14 +116,14 @@ class AutoNode_filecmp_cmp(rc.Node):
     with cache entries invalidated if their stat information
     changes.  The cache may be cleared by calling clear_cache().
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f1'),
-rc.NodeInputBP(label='f2'),
-rc.NodeInputBP(label='shallow'),
+        NodeInputBP(label='f1'),
+        NodeInputBP(label='f2'),
+        NodeInputBP(label='shallow', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -124,10 +131,10 @@ rc.NodeInputBP(label='shallow'),
         self.set_output_val(0, filecmp.cmp(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_filecmp_cmpfiles(rc.Node):
+class Cmpfiles_Node(NodeBase):
     title = 'cmpfiles'
-    doc = '''Compare common files in two directories.
+    type_ = 'filecmp'
+    doc = """Compare common files in two directories.
 
     a, b -- directory names
     common -- list of file names found in both directories
@@ -138,15 +145,15 @@ class AutoNode_filecmp_cmpfiles(rc.Node):
       files that are different
       filenames that aren't regular files.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
-rc.NodeInputBP(label='common'),
-rc.NodeInputBP(label='shallow'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
+        NodeInputBP(label='common'),
+        NodeInputBP(label='shallow', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -154,18 +161,30 @@ rc.NodeInputBP(label='shallow'),
         self.set_output_val(0, filecmp.cmpfiles(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_filecmp_demo(rc.Node):
+class Demo_Node(NodeBase):
     title = 'demo'
-    doc = '''None'''
+    type_ = 'filecmp'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, filecmp.demo())
         
+
+
+export_nodes(
+    _Cmp_Node,
+    _Do_Cmp_Node,
+    _Filter_Node,
+    _Sig_Node,
+    Clear_Cache_Node,
+    Cmp_Node,
+    Cmpfiles_Node,
+    Demo_Node,
+)

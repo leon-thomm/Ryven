@@ -1,17 +1,24 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import getpass
 
 
-class AutoNode_getpass__raw_input(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Raw_Input_Node(NodeBase):
     title = '_raw_input'
-    doc = '''None'''
+    type_ = 'getpass'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='prompt'),
-rc.NodeInputBP(label='stream'),
-rc.NodeInputBP(label='input'),
+        NodeInputBP(label='prompt', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='input', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -19,16 +26,16 @@ rc.NodeInputBP(label='input'),
         self.set_output_val(0, getpass._raw_input(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_getpass_fallback_getpass(rc.Node):
+class Fallback_Getpass_Node(NodeBase):
     title = 'fallback_getpass'
-    doc = '''None'''
+    type_ = 'getpass'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='prompt'),
-rc.NodeInputBP(label='stream'),
+        NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
+        NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -36,16 +43,16 @@ rc.NodeInputBP(label='stream'),
         self.set_output_val(0, getpass.fallback_getpass(self.input(0), self.input(1)))
         
 
-
-class AutoNode_getpass_getpass(rc.Node):
+class Getpass_Node(NodeBase):
     title = 'getpass'
-    doc = '''Prompt for password with echo off, using Windows getch().'''
+    type_ = 'getpass'
+    doc = """Prompt for password with echo off, using Windows getch()."""
     init_inputs = [
-        rc.NodeInputBP(label='prompt'),
-rc.NodeInputBP(label='stream'),
+        NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
+        NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -53,20 +60,20 @@ rc.NodeInputBP(label='stream'),
         self.set_output_val(0, getpass.getpass(self.input(0), self.input(1)))
         
 
-
-class AutoNode_getpass_getuser(rc.Node):
+class Getuser_Node(NodeBase):
     title = 'getuser'
-    doc = '''Get the username from the environment or password database.
+    type_ = 'getpass'
+    doc = """Get the username from the environment or password database.
 
     First try various environment variables, then the password
     database.  This works on Windows as long as USERNAME is set.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -74,10 +81,10 @@ class AutoNode_getpass_getuser(rc.Node):
         self.set_output_val(0, getpass.getuser())
         
 
-
-class AutoNode_getpass_unix_getpass(rc.Node):
+class Unix_Getpass_Node(NodeBase):
     title = 'unix_getpass'
-    doc = '''Prompt for a password, with echo turned off.
+    type_ = 'getpass'
+    doc = """Prompt for a password, with echo turned off.
 
     Args:
       prompt: Written on stream to ask for the input.  Default: 'Password: '
@@ -90,13 +97,13 @@ class AutoNode_getpass_unix_getpass(rc.Node):
       GetPassWarning: When we were unable to turn echo off on the input.
 
     Always restores terminal settings before returning.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='prompt'),
-rc.NodeInputBP(label='stream'),
+        NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
+        NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -104,19 +111,29 @@ rc.NodeInputBP(label='stream'),
         self.set_output_val(0, getpass.unix_getpass(self.input(0), self.input(1)))
         
 
-
-class AutoNode_getpass_win_getpass(rc.Node):
+class Win_Getpass_Node(NodeBase):
     title = 'win_getpass'
-    doc = '''Prompt for password with echo off, using Windows getch().'''
+    type_ = 'getpass'
+    doc = """Prompt for password with echo off, using Windows getch()."""
     init_inputs = [
-        rc.NodeInputBP(label='prompt'),
-rc.NodeInputBP(label='stream'),
+        NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
+        NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, getpass.win_getpass(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Raw_Input_Node,
+    Fallback_Getpass_Node,
+    Getpass_Node,
+    Getuser_Node,
+    Unix_Getpass_Node,
+    Win_Getpass_Node,
+)

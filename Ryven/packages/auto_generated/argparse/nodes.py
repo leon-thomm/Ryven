@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import argparse
 
 
-class AutoNode_argparse__(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class __Node(NodeBase):
     title = '_'
-    doc = '''None'''
+    type_ = 'argparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='message'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_argparse__(rc.Node):
         self.set_output_val(0, argparse._(self.input(0)))
         
 
-
-class AutoNode_argparse__copy_items(rc.Node):
+class _Copy_Items_Node(NodeBase):
     title = '_copy_items'
-    doc = '''None'''
+    type_ = 'argparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='items'),
+        NodeInputBP(label='items'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,15 +40,15 @@ class AutoNode_argparse__copy_items(rc.Node):
         self.set_output_val(0, argparse._copy_items(self.input(0)))
         
 
-
-class AutoNode_argparse__get_action_name(rc.Node):
+class _Get_Action_Name_Node(NodeBase):
     title = '_get_action_name'
-    doc = '''None'''
+    type_ = 'argparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='argument'),
+        NodeInputBP(label='argument'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -49,20 +56,28 @@ class AutoNode_argparse__get_action_name(rc.Node):
         self.set_output_val(0, argparse._get_action_name(self.input(0)))
         
 
-
-class AutoNode_argparse_ngettext(rc.Node):
+class Ngettext_Node(NodeBase):
     title = 'ngettext'
-    doc = '''None'''
+    type_ = 'argparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, argparse.ngettext(self.input(0), self.input(1), self.input(2)))
         
+
+
+export_nodes(
+    __Node,
+    _Copy_Items_Node,
+    _Get_Action_Name_Node,
+    Ngettext_Node,
+)

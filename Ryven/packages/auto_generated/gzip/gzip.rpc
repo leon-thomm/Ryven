@@ -1,1 +1,0 @@
-{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_gzip_compress", "AutoNode_gzip_decompress", "AutoNode_gzip_main", "AutoNode_gzip_open", "AutoNode_gzip_write32u"]}

@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import aifc
 
 
-class AutoNode_aifc__read_float(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Read_Float_Node(NodeBase):
     title = '_read_float'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_aifc__read_float(rc.Node):
         self.set_output_val(0, aifc._read_float(self.input(0)))
         
 
-
-class AutoNode_aifc__read_long(rc.Node):
+class _Read_Long_Node(NodeBase):
     title = '_read_long'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,15 +40,15 @@ class AutoNode_aifc__read_long(rc.Node):
         self.set_output_val(0, aifc._read_long(self.input(0)))
         
 
-
-class AutoNode_aifc__read_short(rc.Node):
+class _Read_Short_Node(NodeBase):
     title = '_read_short'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -49,15 +56,15 @@ class AutoNode_aifc__read_short(rc.Node):
         self.set_output_val(0, aifc._read_short(self.input(0)))
         
 
-
-class AutoNode_aifc__read_string(rc.Node):
+class _Read_String_Node(NodeBase):
     title = '_read_string'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -65,15 +72,15 @@ class AutoNode_aifc__read_string(rc.Node):
         self.set_output_val(0, aifc._read_string(self.input(0)))
         
 
-
-class AutoNode_aifc__read_ulong(rc.Node):
+class _Read_Ulong_Node(NodeBase):
     title = '_read_ulong'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -81,15 +88,15 @@ class AutoNode_aifc__read_ulong(rc.Node):
         self.set_output_val(0, aifc._read_ulong(self.input(0)))
         
 
-
-class AutoNode_aifc__read_ushort(rc.Node):
+class _Read_Ushort_Node(NodeBase):
     title = '_read_ushort'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -97,16 +104,16 @@ class AutoNode_aifc__read_ushort(rc.Node):
         self.set_output_val(0, aifc._read_ushort(self.input(0)))
         
 
-
-class AutoNode_aifc__write_float(rc.Node):
+class _Write_Float_Node(NodeBase):
     title = '_write_float'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='x'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -114,16 +121,16 @@ rc.NodeInputBP(label='x'),
         self.set_output_val(0, aifc._write_float(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc__write_long(rc.Node):
+class _Write_Long_Node(NodeBase):
     title = '_write_long'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='x'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -131,16 +138,16 @@ rc.NodeInputBP(label='x'),
         self.set_output_val(0, aifc._write_long(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc__write_short(rc.Node):
+class _Write_Short_Node(NodeBase):
     title = '_write_short'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='x'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -148,16 +155,16 @@ rc.NodeInputBP(label='x'),
         self.set_output_val(0, aifc._write_short(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc__write_string(rc.Node):
+class _Write_String_Node(NodeBase):
     title = '_write_string'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='s'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -165,16 +172,16 @@ rc.NodeInputBP(label='s'),
         self.set_output_val(0, aifc._write_string(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc__write_ulong(rc.Node):
+class _Write_Ulong_Node(NodeBase):
     title = '_write_ulong'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='x'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -182,16 +189,16 @@ rc.NodeInputBP(label='x'),
         self.set_output_val(0, aifc._write_ulong(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc__write_ushort(rc.Node):
+class _Write_Ushort_Node(NodeBase):
     title = '_write_ushort'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='x'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -199,10 +206,10 @@ rc.NodeInputBP(label='x'),
         self.set_output_val(0, aifc._write_ushort(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc_namedtuple(rc.Node):
+class Namedtuple_Node(NodeBase):
     title = 'namedtuple'
-    doc = '''Returns a new subclass of tuple with named fields.
+    type_ = 'aifc'
+    doc = """Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -223,13 +230,13 @@ class AutoNode_aifc_namedtuple(rc.Node):
     >>> p._replace(x=100)               # _replace() is like str.replace() but targets named fields
     Point(x=100, y=22)
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='typename'),
-rc.NodeInputBP(label='field_names'),
+        NodeInputBP(label='typename'),
+        NodeInputBP(label='field_names'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -237,16 +244,16 @@ rc.NodeInputBP(label='field_names'),
         self.set_output_val(0, aifc.namedtuple(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc_open(rc.Node):
+class Open_Node(NodeBase):
     title = 'open'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -254,19 +261,38 @@ rc.NodeInputBP(label='mode'),
         self.set_output_val(0, aifc.open(self.input(0), self.input(1)))
         
 
-
-class AutoNode_aifc_openfp(rc.Node):
+class Openfp_Node(NodeBase):
     title = 'openfp'
-    doc = '''None'''
+    type_ = 'aifc'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, aifc.openfp(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Read_Float_Node,
+    _Read_Long_Node,
+    _Read_Short_Node,
+    _Read_String_Node,
+    _Read_Ulong_Node,
+    _Read_Ushort_Node,
+    _Write_Float_Node,
+    _Write_Long_Node,
+    _Write_Short_Node,
+    _Write_String_Node,
+    _Write_Ulong_Node,
+    _Write_Ushort_Node,
+    Namedtuple_Node,
+    Open_Node,
+    Openfp_Node,
+)

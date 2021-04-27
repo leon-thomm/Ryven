@@ -1,9 +1,0 @@
-{
-    "type": "Ryven auto generated nodes package",
-    "nodes": [
-        "AutoNode__pickle_dump",
-        "AutoNode__pickle_dumps",
-        "AutoNode__pickle_load",
-        "AutoNode__pickle_loads"
-    ]
-}

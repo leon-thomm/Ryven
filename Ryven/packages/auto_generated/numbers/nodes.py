@@ -1,10 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import numbers
 
 
-class AutoNode_numbers_abstractmethod(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Abstractmethod_Node(NodeBase):
     title = 'abstractmethod'
-    doc = '''A decorator indicating abstract methods.
+    type_ = 'numbers'
+    doc = """A decorator indicating abstract methods.
 
     Requires that the metaclass is ABCMeta or derived from it.  A
     class that has a metaclass derived from ABCMeta cannot be
@@ -19,15 +26,20 @@ class AutoNode_numbers_abstractmethod(rc.Node):
             @abstractmethod
             def my_abstract_method(self, ...):
                 ...
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='funcobj'),
+        NodeInputBP(label='funcobj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, numbers.abstractmethod(self.input(0)))
         
+
+
+export_nodes(
+    Abstractmethod_Node,
+)

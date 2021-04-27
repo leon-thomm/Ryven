@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+## Created by: Qt User Interface Compiler version 6.0.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -45,7 +45,10 @@ class Ui_MainWindow(object):
         self.gridLayout.setSpacing(6)
         self.gridLayout.setContentsMargins(11, 11, 11, 11)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.main_horizontal_splitter = QSplitter(self.centralWidget)
+        self.main_vertical_splitter = QSplitter(self.centralWidget)
+        self.main_vertical_splitter.setObjectName(u"main_vertical_splitter")
+        self.main_vertical_splitter.setOrientation(Qt.Vertical)
+        self.main_horizontal_splitter = QSplitter(self.main_vertical_splitter)
         self.main_horizontal_splitter.setObjectName(u"main_horizontal_splitter")
         self.main_horizontal_splitter.setOrientation(Qt.Horizontal)
         self.left_vertical_splitter = QSplitter(self.main_horizontal_splitter)
@@ -59,10 +62,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.left_vertical_splitter.addWidget(self.scripts_groupBox)
         self.main_horizontal_splitter.addWidget(self.left_vertical_splitter)
-        self.right_vertical_splitter = QSplitter(self.main_horizontal_splitter)
-        self.right_vertical_splitter.setObjectName(u"right_vertical_splitter")
-        self.right_vertical_splitter.setOrientation(Qt.Vertical)
-        self.scripts_tab_widget = QTabWidget(self.right_vertical_splitter)
+        self.scripts_tab_widget = QTabWidget(self.main_horizontal_splitter)
         self.scripts_tab_widget.setObjectName(u"scripts_tab_widget")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
@@ -72,14 +72,14 @@ class Ui_MainWindow(object):
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.scripts_tab_widget.addTab(self.tab, "")
-        self.right_vertical_splitter.addWidget(self.scripts_tab_widget)
-        self.right_lower_horizontal_splitter = QSplitter(self.right_vertical_splitter)
-        self.right_lower_horizontal_splitter.setObjectName(u"right_lower_horizontal_splitter")
-        self.right_lower_horizontal_splitter.setOrientation(Qt.Horizontal)
-        self.right_vertical_splitter.addWidget(self.right_lower_horizontal_splitter)
-        self.main_horizontal_splitter.addWidget(self.right_vertical_splitter)
+        self.main_horizontal_splitter.addWidget(self.scripts_tab_widget)
+        self.main_vertical_splitter.addWidget(self.main_horizontal_splitter)
+        self.bottom_splitter = QSplitter(self.main_vertical_splitter)
+        self.bottom_splitter.setObjectName(u"bottom_splitter")
+        self.bottom_splitter.setOrientation(Qt.Horizontal)
+        self.main_vertical_splitter.addWidget(self.bottom_splitter)
 
-        self.gridLayout.addWidget(self.main_horizontal_splitter, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.main_vertical_splitter, 0, 0, 1, 1)
 
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QMenuBar(MainWindow)

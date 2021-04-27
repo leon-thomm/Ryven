@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import operator
 
 
-class AutoNode_operator___abs__(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class __Abs___Node(NodeBase):
     title = '__abs__'
-    doc = '''Same as abs(a).'''
+    type_ = 'operator'
+    doc = """Same as abs(a)."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,16 +24,16 @@ class AutoNode_operator___abs__(rc.Node):
         self.set_output_val(0, operator.__abs__(self.input(0)))
         
 
-
-class AutoNode_operator___add__(rc.Node):
+class __Add___Node(NodeBase):
     title = '__add__'
-    doc = '''Same as a + b.'''
+    type_ = 'operator'
+    doc = """Same as a + b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,16 +41,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__add__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___and__(rc.Node):
+class __And___Node(NodeBase):
     title = '__and__'
-    doc = '''Same as a & b.'''
+    type_ = 'operator'
+    doc = """Same as a & b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -51,16 +58,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__and__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___concat__(rc.Node):
+class __Concat___Node(NodeBase):
     title = '__concat__'
-    doc = '''Same as a + b, for a and b sequences.'''
+    type_ = 'operator'
+    doc = """Same as a + b, for a and b sequences."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -68,16 +75,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__concat__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___contains__(rc.Node):
+class __Contains___Node(NodeBase):
     title = '__contains__'
-    doc = '''Same as b in a (note reversed operands).'''
+    type_ = 'operator'
+    doc = """Same as b in a (note reversed operands)."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -85,16 +92,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__contains__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___delitem__(rc.Node):
+class __Delitem___Node(NodeBase):
     title = '__delitem__'
-    doc = '''Same as del a[b].'''
+    type_ = 'operator'
+    doc = """Same as del a[b]."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -102,16 +109,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__delitem__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___eq__(rc.Node):
+class __Eq___Node(NodeBase):
     title = '__eq__'
-    doc = '''Same as a == b.'''
+    type_ = 'operator'
+    doc = """Same as a == b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -119,16 +126,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__eq__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___floordiv__(rc.Node):
+class __Floordiv___Node(NodeBase):
     title = '__floordiv__'
-    doc = '''Same as a // b.'''
+    type_ = 'operator'
+    doc = """Same as a // b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -136,16 +143,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__floordiv__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___ge__(rc.Node):
+class __Ge___Node(NodeBase):
     title = '__ge__'
-    doc = '''Same as a >= b.'''
+    type_ = 'operator'
+    doc = """Same as a >= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -153,16 +160,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__ge__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___getitem__(rc.Node):
+class __Getitem___Node(NodeBase):
     title = '__getitem__'
-    doc = '''Same as a[b].'''
+    type_ = 'operator'
+    doc = """Same as a[b]."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -170,16 +177,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__getitem__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___gt__(rc.Node):
+class __Gt___Node(NodeBase):
     title = '__gt__'
-    doc = '''Same as a > b.'''
+    type_ = 'operator'
+    doc = """Same as a > b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -187,16 +194,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__gt__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___iadd__(rc.Node):
+class __Iadd___Node(NodeBase):
     title = '__iadd__'
-    doc = '''Same as a += b.'''
+    type_ = 'operator'
+    doc = """Same as a += b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -204,16 +211,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__iadd__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___iand__(rc.Node):
+class __Iand___Node(NodeBase):
     title = '__iand__'
-    doc = '''Same as a &= b.'''
+    type_ = 'operator'
+    doc = """Same as a &= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -221,16 +228,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__iand__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___iconcat__(rc.Node):
+class __Iconcat___Node(NodeBase):
     title = '__iconcat__'
-    doc = '''Same as a += b, for a and b sequences.'''
+    type_ = 'operator'
+    doc = """Same as a += b, for a and b sequences."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -238,16 +245,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__iconcat__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___ifloordiv__(rc.Node):
+class __Ifloordiv___Node(NodeBase):
     title = '__ifloordiv__'
-    doc = '''Same as a //= b.'''
+    type_ = 'operator'
+    doc = """Same as a //= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -255,16 +262,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__ifloordiv__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___ilshift__(rc.Node):
+class __Ilshift___Node(NodeBase):
     title = '__ilshift__'
-    doc = '''Same as a <<= b.'''
+    type_ = 'operator'
+    doc = """Same as a <<= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -272,16 +279,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__ilshift__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___imatmul__(rc.Node):
+class __Imatmul___Node(NodeBase):
     title = '__imatmul__'
-    doc = '''Same as a @= b.'''
+    type_ = 'operator'
+    doc = """Same as a @= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -289,16 +296,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__imatmul__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___imod__(rc.Node):
+class __Imod___Node(NodeBase):
     title = '__imod__'
-    doc = '''Same as a %= b.'''
+    type_ = 'operator'
+    doc = """Same as a %= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -306,16 +313,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__imod__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___imul__(rc.Node):
+class __Imul___Node(NodeBase):
     title = '__imul__'
-    doc = '''Same as a *= b.'''
+    type_ = 'operator'
+    doc = """Same as a *= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -323,15 +330,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__imul__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___index__(rc.Node):
+class __Index___Node(NodeBase):
     title = '__index__'
-    doc = '''Same as a.__index__()'''
+    type_ = 'operator'
+    doc = """Same as a.__index__()"""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -339,15 +346,15 @@ class AutoNode_operator___index__(rc.Node):
         self.set_output_val(0, operator.__index__(self.input(0)))
         
 
-
-class AutoNode_operator___inv__(rc.Node):
+class __Inv___Node(NodeBase):
     title = '__inv__'
-    doc = '''Same as ~a.'''
+    type_ = 'operator'
+    doc = """Same as ~a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -355,15 +362,15 @@ class AutoNode_operator___inv__(rc.Node):
         self.set_output_val(0, operator.__inv__(self.input(0)))
         
 
-
-class AutoNode_operator___invert__(rc.Node):
+class __Invert___Node(NodeBase):
     title = '__invert__'
-    doc = '''Same as ~a.'''
+    type_ = 'operator'
+    doc = """Same as ~a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -371,16 +378,16 @@ class AutoNode_operator___invert__(rc.Node):
         self.set_output_val(0, operator.__invert__(self.input(0)))
         
 
-
-class AutoNode_operator___ior__(rc.Node):
+class __Ior___Node(NodeBase):
     title = '__ior__'
-    doc = '''Same as a |= b.'''
+    type_ = 'operator'
+    doc = """Same as a |= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -388,16 +395,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__ior__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___ipow__(rc.Node):
+class __Ipow___Node(NodeBase):
     title = '__ipow__'
-    doc = '''Same as a **= b.'''
+    type_ = 'operator'
+    doc = """Same as a **= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -405,16 +412,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__ipow__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___irshift__(rc.Node):
+class __Irshift___Node(NodeBase):
     title = '__irshift__'
-    doc = '''Same as a >>= b.'''
+    type_ = 'operator'
+    doc = """Same as a >>= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -422,16 +429,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__irshift__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___isub__(rc.Node):
+class __Isub___Node(NodeBase):
     title = '__isub__'
-    doc = '''Same as a -= b.'''
+    type_ = 'operator'
+    doc = """Same as a -= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -439,16 +446,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__isub__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___itruediv__(rc.Node):
+class __Itruediv___Node(NodeBase):
     title = '__itruediv__'
-    doc = '''Same as a /= b.'''
+    type_ = 'operator'
+    doc = """Same as a /= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -456,16 +463,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__itruediv__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___ixor__(rc.Node):
+class __Ixor___Node(NodeBase):
     title = '__ixor__'
-    doc = '''Same as a ^= b.'''
+    type_ = 'operator'
+    doc = """Same as a ^= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -473,16 +480,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__ixor__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___le__(rc.Node):
+class __Le___Node(NodeBase):
     title = '__le__'
-    doc = '''Same as a <= b.'''
+    type_ = 'operator'
+    doc = """Same as a <= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -490,16 +497,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__le__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___lshift__(rc.Node):
+class __Lshift___Node(NodeBase):
     title = '__lshift__'
-    doc = '''Same as a << b.'''
+    type_ = 'operator'
+    doc = """Same as a << b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -507,16 +514,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__lshift__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___lt__(rc.Node):
+class __Lt___Node(NodeBase):
     title = '__lt__'
-    doc = '''Same as a < b.'''
+    type_ = 'operator'
+    doc = """Same as a < b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -524,16 +531,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__lt__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___matmul__(rc.Node):
+class __Matmul___Node(NodeBase):
     title = '__matmul__'
-    doc = '''Same as a @ b.'''
+    type_ = 'operator'
+    doc = """Same as a @ b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -541,16 +548,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__matmul__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___mod__(rc.Node):
+class __Mod___Node(NodeBase):
     title = '__mod__'
-    doc = '''Same as a % b.'''
+    type_ = 'operator'
+    doc = """Same as a % b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -558,16 +565,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__mod__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___mul__(rc.Node):
+class __Mul___Node(NodeBase):
     title = '__mul__'
-    doc = '''Same as a * b.'''
+    type_ = 'operator'
+    doc = """Same as a * b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -575,16 +582,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__mul__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___ne__(rc.Node):
+class __Ne___Node(NodeBase):
     title = '__ne__'
-    doc = '''Same as a != b.'''
+    type_ = 'operator'
+    doc = """Same as a != b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -592,15 +599,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__ne__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___neg__(rc.Node):
+class __Neg___Node(NodeBase):
     title = '__neg__'
-    doc = '''Same as -a.'''
+    type_ = 'operator'
+    doc = """Same as -a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -608,15 +615,15 @@ class AutoNode_operator___neg__(rc.Node):
         self.set_output_val(0, operator.__neg__(self.input(0)))
         
 
-
-class AutoNode_operator___not__(rc.Node):
+class __Not___Node(NodeBase):
     title = '__not__'
-    doc = '''Same as not a.'''
+    type_ = 'operator'
+    doc = """Same as not a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -624,16 +631,16 @@ class AutoNode_operator___not__(rc.Node):
         self.set_output_val(0, operator.__not__(self.input(0)))
         
 
-
-class AutoNode_operator___or__(rc.Node):
+class __Or___Node(NodeBase):
     title = '__or__'
-    doc = '''Same as a | b.'''
+    type_ = 'operator'
+    doc = """Same as a | b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -641,15 +648,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__or__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___pos__(rc.Node):
+class __Pos___Node(NodeBase):
     title = '__pos__'
-    doc = '''Same as +a.'''
+    type_ = 'operator'
+    doc = """Same as +a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -657,16 +664,16 @@ class AutoNode_operator___pos__(rc.Node):
         self.set_output_val(0, operator.__pos__(self.input(0)))
         
 
-
-class AutoNode_operator___pow__(rc.Node):
+class __Pow___Node(NodeBase):
     title = '__pow__'
-    doc = '''Same as a ** b.'''
+    type_ = 'operator'
+    doc = """Same as a ** b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -674,16 +681,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__pow__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___rshift__(rc.Node):
+class __Rshift___Node(NodeBase):
     title = '__rshift__'
-    doc = '''Same as a >> b.'''
+    type_ = 'operator'
+    doc = """Same as a >> b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -691,17 +698,17 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__rshift__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___setitem__(rc.Node):
+class __Setitem___Node(NodeBase):
     title = '__setitem__'
-    doc = '''Same as a[b] = c.'''
+    type_ = 'operator'
+    doc = """Same as a[b] = c."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
-rc.NodeInputBP(label='c'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
+        NodeInputBP(label='c'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -709,16 +716,16 @@ rc.NodeInputBP(label='c'),
         self.set_output_val(0, operator.__setitem__(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_operator___sub__(rc.Node):
+class __Sub___Node(NodeBase):
     title = '__sub__'
-    doc = '''Same as a - b.'''
+    type_ = 'operator'
+    doc = """Same as a - b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -726,16 +733,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__sub__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___truediv__(rc.Node):
+class __Truediv___Node(NodeBase):
     title = '__truediv__'
-    doc = '''Same as a / b.'''
+    type_ = 'operator'
+    doc = """Same as a / b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -743,16 +750,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__truediv__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator___xor__(rc.Node):
+class __Xor___Node(NodeBase):
     title = '__xor__'
-    doc = '''Same as a ^ b.'''
+    type_ = 'operator'
+    doc = """Same as a ^ b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -760,15 +767,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.__xor__(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator__abs(rc.Node):
+class _Abs_Node(NodeBase):
     title = '_abs'
-    doc = '''Return the absolute value of the argument.'''
+    type_ = 'operator'
+    doc = """Return the absolute value of the argument."""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -776,15 +783,15 @@ class AutoNode_operator__abs(rc.Node):
         self.set_output_val(0, operator._abs(self.input(0)))
         
 
-
-class AutoNode_operator_abs(rc.Node):
+class Abs_Node(NodeBase):
     title = 'abs'
-    doc = '''Same as abs(a).'''
+    type_ = 'operator'
+    doc = """Same as abs(a)."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -792,16 +799,16 @@ class AutoNode_operator_abs(rc.Node):
         self.set_output_val(0, operator.abs(self.input(0)))
         
 
-
-class AutoNode_operator_add(rc.Node):
+class Add_Node(NodeBase):
     title = 'add'
-    doc = '''Same as a + b.'''
+    type_ = 'operator'
+    doc = """Same as a + b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -809,16 +816,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.add(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_and_(rc.Node):
+class And__Node(NodeBase):
     title = 'and_'
-    doc = '''Same as a & b.'''
+    type_ = 'operator'
+    doc = """Same as a & b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -826,16 +833,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.and_(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_concat(rc.Node):
+class Concat_Node(NodeBase):
     title = 'concat'
-    doc = '''Same as a + b, for a and b sequences.'''
+    type_ = 'operator'
+    doc = """Same as a + b, for a and b sequences."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -843,16 +850,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.concat(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_contains(rc.Node):
+class Contains_Node(NodeBase):
     title = 'contains'
-    doc = '''Same as b in a (note reversed operands).'''
+    type_ = 'operator'
+    doc = """Same as b in a (note reversed operands)."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -860,16 +867,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.contains(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_countOf(rc.Node):
+class Countof_Node(NodeBase):
     title = 'countOf'
-    doc = '''Return the number of times b occurs in a.'''
+    type_ = 'operator'
+    doc = """Return the number of times b occurs in a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -877,16 +884,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.countOf(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_delitem(rc.Node):
+class Delitem_Node(NodeBase):
     title = 'delitem'
-    doc = '''Same as del a[b].'''
+    type_ = 'operator'
+    doc = """Same as del a[b]."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -894,16 +901,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.delitem(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_eq(rc.Node):
+class Eq_Node(NodeBase):
     title = 'eq'
-    doc = '''Same as a == b.'''
+    type_ = 'operator'
+    doc = """Same as a == b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -911,16 +918,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.eq(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_floordiv(rc.Node):
+class Floordiv_Node(NodeBase):
     title = 'floordiv'
-    doc = '''Same as a // b.'''
+    type_ = 'operator'
+    doc = """Same as a // b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -928,16 +935,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.floordiv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_ge(rc.Node):
+class Ge_Node(NodeBase):
     title = 'ge'
-    doc = '''Same as a >= b.'''
+    type_ = 'operator'
+    doc = """Same as a >= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -945,16 +952,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.ge(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_getitem(rc.Node):
+class Getitem_Node(NodeBase):
     title = 'getitem'
-    doc = '''Same as a[b].'''
+    type_ = 'operator'
+    doc = """Same as a[b]."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -962,16 +969,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.getitem(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_gt(rc.Node):
+class Gt_Node(NodeBase):
     title = 'gt'
-    doc = '''Same as a > b.'''
+    type_ = 'operator'
+    doc = """Same as a > b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -979,16 +986,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.gt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_iadd(rc.Node):
+class Iadd_Node(NodeBase):
     title = 'iadd'
-    doc = '''Same as a += b.'''
+    type_ = 'operator'
+    doc = """Same as a += b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -996,16 +1003,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.iadd(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_iand(rc.Node):
+class Iand_Node(NodeBase):
     title = 'iand'
-    doc = '''Same as a &= b.'''
+    type_ = 'operator'
+    doc = """Same as a &= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1013,16 +1020,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.iand(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_iconcat(rc.Node):
+class Iconcat_Node(NodeBase):
     title = 'iconcat'
-    doc = '''Same as a += b, for a and b sequences.'''
+    type_ = 'operator'
+    doc = """Same as a += b, for a and b sequences."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1030,16 +1037,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.iconcat(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_ifloordiv(rc.Node):
+class Ifloordiv_Node(NodeBase):
     title = 'ifloordiv'
-    doc = '''Same as a //= b.'''
+    type_ = 'operator'
+    doc = """Same as a //= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1047,16 +1054,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.ifloordiv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_ilshift(rc.Node):
+class Ilshift_Node(NodeBase):
     title = 'ilshift'
-    doc = '''Same as a <<= b.'''
+    type_ = 'operator'
+    doc = """Same as a <<= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1064,16 +1071,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.ilshift(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_imatmul(rc.Node):
+class Imatmul_Node(NodeBase):
     title = 'imatmul'
-    doc = '''Same as a @= b.'''
+    type_ = 'operator'
+    doc = """Same as a @= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1081,16 +1088,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.imatmul(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_imod(rc.Node):
+class Imod_Node(NodeBase):
     title = 'imod'
-    doc = '''Same as a %= b.'''
+    type_ = 'operator'
+    doc = """Same as a %= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1098,16 +1105,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.imod(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_imul(rc.Node):
+class Imul_Node(NodeBase):
     title = 'imul'
-    doc = '''Same as a *= b.'''
+    type_ = 'operator'
+    doc = """Same as a *= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1115,15 +1122,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.imul(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_index(rc.Node):
+class Index_Node(NodeBase):
     title = 'index'
-    doc = '''Same as a.__index__()'''
+    type_ = 'operator'
+    doc = """Same as a.__index__()"""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1131,16 +1138,16 @@ class AutoNode_operator_index(rc.Node):
         self.set_output_val(0, operator.index(self.input(0)))
         
 
-
-class AutoNode_operator_indexOf(rc.Node):
+class Indexof_Node(NodeBase):
     title = 'indexOf'
-    doc = '''Return the first index of b in a.'''
+    type_ = 'operator'
+    doc = """Return the first index of b in a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1148,15 +1155,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.indexOf(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_inv(rc.Node):
+class Inv_Node(NodeBase):
     title = 'inv'
-    doc = '''Same as ~a.'''
+    type_ = 'operator'
+    doc = """Same as ~a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1164,15 +1171,15 @@ class AutoNode_operator_inv(rc.Node):
         self.set_output_val(0, operator.inv(self.input(0)))
         
 
-
-class AutoNode_operator_invert(rc.Node):
+class Invert_Node(NodeBase):
     title = 'invert'
-    doc = '''Same as ~a.'''
+    type_ = 'operator'
+    doc = """Same as ~a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1180,16 +1187,16 @@ class AutoNode_operator_invert(rc.Node):
         self.set_output_val(0, operator.invert(self.input(0)))
         
 
-
-class AutoNode_operator_ior(rc.Node):
+class Ior_Node(NodeBase):
     title = 'ior'
-    doc = '''Same as a |= b.'''
+    type_ = 'operator'
+    doc = """Same as a |= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1197,16 +1204,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.ior(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_ipow(rc.Node):
+class Ipow_Node(NodeBase):
     title = 'ipow'
-    doc = '''Same as a **= b.'''
+    type_ = 'operator'
+    doc = """Same as a **= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1214,16 +1221,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.ipow(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_irshift(rc.Node):
+class Irshift_Node(NodeBase):
     title = 'irshift'
-    doc = '''Same as a >>= b.'''
+    type_ = 'operator'
+    doc = """Same as a >>= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1231,16 +1238,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.irshift(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_is_(rc.Node):
+class Is__Node(NodeBase):
     title = 'is_'
-    doc = '''Same as a is b.'''
+    type_ = 'operator'
+    doc = """Same as a is b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1248,16 +1255,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.is_(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_is_not(rc.Node):
+class Is_Not_Node(NodeBase):
     title = 'is_not'
-    doc = '''Same as a is not b.'''
+    type_ = 'operator'
+    doc = """Same as a is not b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1265,16 +1272,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.is_not(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_isub(rc.Node):
+class Isub_Node(NodeBase):
     title = 'isub'
-    doc = '''Same as a -= b.'''
+    type_ = 'operator'
+    doc = """Same as a -= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1282,16 +1289,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.isub(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_itruediv(rc.Node):
+class Itruediv_Node(NodeBase):
     title = 'itruediv'
-    doc = '''Same as a /= b.'''
+    type_ = 'operator'
+    doc = """Same as a /= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1299,16 +1306,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.itruediv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_ixor(rc.Node):
+class Ixor_Node(NodeBase):
     title = 'ixor'
-    doc = '''Same as a ^= b.'''
+    type_ = 'operator'
+    doc = """Same as a ^= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1316,16 +1323,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.ixor(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_le(rc.Node):
+class Le_Node(NodeBase):
     title = 'le'
-    doc = '''Same as a <= b.'''
+    type_ = 'operator'
+    doc = """Same as a <= b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1333,22 +1340,22 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.le(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_length_hint(rc.Node):
+class Length_Hint_Node(NodeBase):
     title = 'length_hint'
-    doc = '''Return an estimate of the number of items in obj.
+    type_ = 'operator'
+    doc = """Return an estimate of the number of items in obj.
 
 This is useful for presizing containers when building from an iterable.
 
 If the object supports len(), the result will be exact.
 Otherwise, it may over- or under-estimate by an arbitrary amount.
-The result will be an integer >= 0.'''
+The result will be an integer >= 0."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='default'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='default', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1356,16 +1363,16 @@ rc.NodeInputBP(label='default'),
         self.set_output_val(0, operator.length_hint(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_lshift(rc.Node):
+class Lshift_Node(NodeBase):
     title = 'lshift'
-    doc = '''Same as a << b.'''
+    type_ = 'operator'
+    doc = """Same as a << b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1373,16 +1380,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.lshift(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_lt(rc.Node):
+class Lt_Node(NodeBase):
     title = 'lt'
-    doc = '''Same as a < b.'''
+    type_ = 'operator'
+    doc = """Same as a < b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1390,16 +1397,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.lt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_matmul(rc.Node):
+class Matmul_Node(NodeBase):
     title = 'matmul'
-    doc = '''Same as a @ b.'''
+    type_ = 'operator'
+    doc = """Same as a @ b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1407,16 +1414,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.matmul(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_mod(rc.Node):
+class Mod_Node(NodeBase):
     title = 'mod'
-    doc = '''Same as a % b.'''
+    type_ = 'operator'
+    doc = """Same as a % b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1424,16 +1431,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.mod(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_mul(rc.Node):
+class Mul_Node(NodeBase):
     title = 'mul'
-    doc = '''Same as a * b.'''
+    type_ = 'operator'
+    doc = """Same as a * b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1441,16 +1448,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.mul(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_ne(rc.Node):
+class Ne_Node(NodeBase):
     title = 'ne'
-    doc = '''Same as a != b.'''
+    type_ = 'operator'
+    doc = """Same as a != b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1458,15 +1465,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.ne(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_neg(rc.Node):
+class Neg_Node(NodeBase):
     title = 'neg'
-    doc = '''Same as -a.'''
+    type_ = 'operator'
+    doc = """Same as -a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1474,15 +1481,15 @@ class AutoNode_operator_neg(rc.Node):
         self.set_output_val(0, operator.neg(self.input(0)))
         
 
-
-class AutoNode_operator_not_(rc.Node):
+class Not__Node(NodeBase):
     title = 'not_'
-    doc = '''Same as not a.'''
+    type_ = 'operator'
+    doc = """Same as not a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1490,16 +1497,16 @@ class AutoNode_operator_not_(rc.Node):
         self.set_output_val(0, operator.not_(self.input(0)))
         
 
-
-class AutoNode_operator_or_(rc.Node):
+class Or__Node(NodeBase):
     title = 'or_'
-    doc = '''Same as a | b.'''
+    type_ = 'operator'
+    doc = """Same as a | b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1507,15 +1514,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.or_(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_pos(rc.Node):
+class Pos_Node(NodeBase):
     title = 'pos'
-    doc = '''Same as +a.'''
+    type_ = 'operator'
+    doc = """Same as +a."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1523,16 +1530,16 @@ class AutoNode_operator_pos(rc.Node):
         self.set_output_val(0, operator.pos(self.input(0)))
         
 
-
-class AutoNode_operator_pow(rc.Node):
+class Pow_Node(NodeBase):
     title = 'pow'
-    doc = '''Same as a ** b.'''
+    type_ = 'operator'
+    doc = """Same as a ** b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1540,16 +1547,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.pow(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_rshift(rc.Node):
+class Rshift_Node(NodeBase):
     title = 'rshift'
-    doc = '''Same as a >> b.'''
+    type_ = 'operator'
+    doc = """Same as a >> b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1557,17 +1564,17 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.rshift(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_setitem(rc.Node):
+class Setitem_Node(NodeBase):
     title = 'setitem'
-    doc = '''Same as a[b] = c.'''
+    type_ = 'operator'
+    doc = """Same as a[b] = c."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
-rc.NodeInputBP(label='c'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
+        NodeInputBP(label='c'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1575,16 +1582,16 @@ rc.NodeInputBP(label='c'),
         self.set_output_val(0, operator.setitem(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_operator_sub(rc.Node):
+class Sub_Node(NodeBase):
     title = 'sub'
-    doc = '''Same as a - b.'''
+    type_ = 'operator'
+    doc = """Same as a - b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1592,16 +1599,16 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.sub(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_truediv(rc.Node):
+class Truediv_Node(NodeBase):
     title = 'truediv'
-    doc = '''Same as a / b.'''
+    type_ = 'operator'
+    doc = """Same as a / b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1609,15 +1616,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, operator.truediv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_operator_truth(rc.Node):
+class Truth_Node(NodeBase):
     title = 'truth'
-    doc = '''Return True if a is true, False otherwise.'''
+    type_ = 'operator'
+    doc = """Return True if a is true, False otherwise."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
+        NodeInputBP(label='a'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1625,19 +1632,120 @@ class AutoNode_operator_truth(rc.Node):
         self.set_output_val(0, operator.truth(self.input(0)))
         
 
-
-class AutoNode_operator_xor(rc.Node):
+class Xor_Node(NodeBase):
     title = 'xor'
-    doc = '''Same as a ^ b.'''
+    type_ = 'operator'
+    doc = """Same as a ^ b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, operator.xor(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    __Abs___Node,
+    __Add___Node,
+    __And___Node,
+    __Concat___Node,
+    __Contains___Node,
+    __Delitem___Node,
+    __Eq___Node,
+    __Floordiv___Node,
+    __Ge___Node,
+    __Getitem___Node,
+    __Gt___Node,
+    __Iadd___Node,
+    __Iand___Node,
+    __Iconcat___Node,
+    __Ifloordiv___Node,
+    __Ilshift___Node,
+    __Imatmul___Node,
+    __Imod___Node,
+    __Imul___Node,
+    __Index___Node,
+    __Inv___Node,
+    __Invert___Node,
+    __Ior___Node,
+    __Ipow___Node,
+    __Irshift___Node,
+    __Isub___Node,
+    __Itruediv___Node,
+    __Ixor___Node,
+    __Le___Node,
+    __Lshift___Node,
+    __Lt___Node,
+    __Matmul___Node,
+    __Mod___Node,
+    __Mul___Node,
+    __Ne___Node,
+    __Neg___Node,
+    __Not___Node,
+    __Or___Node,
+    __Pos___Node,
+    __Pow___Node,
+    __Rshift___Node,
+    __Setitem___Node,
+    __Sub___Node,
+    __Truediv___Node,
+    __Xor___Node,
+    _Abs_Node,
+    Abs_Node,
+    Add_Node,
+    And__Node,
+    Concat_Node,
+    Contains_Node,
+    Countof_Node,
+    Delitem_Node,
+    Eq_Node,
+    Floordiv_Node,
+    Ge_Node,
+    Getitem_Node,
+    Gt_Node,
+    Iadd_Node,
+    Iand_Node,
+    Iconcat_Node,
+    Ifloordiv_Node,
+    Ilshift_Node,
+    Imatmul_Node,
+    Imod_Node,
+    Imul_Node,
+    Index_Node,
+    Indexof_Node,
+    Inv_Node,
+    Invert_Node,
+    Ior_Node,
+    Ipow_Node,
+    Irshift_Node,
+    Is__Node,
+    Is_Not_Node,
+    Isub_Node,
+    Itruediv_Node,
+    Ixor_Node,
+    Le_Node,
+    Length_Hint_Node,
+    Lshift_Node,
+    Lt_Node,
+    Matmul_Node,
+    Mod_Node,
+    Mul_Node,
+    Ne_Node,
+    Neg_Node,
+    Not__Node,
+    Or__Node,
+    Pos_Node,
+    Pow_Node,
+    Rshift_Node,
+    Setitem_Node,
+    Sub_Node,
+    Truediv_Node,
+    Truth_Node,
+    Xor_Node,
+)

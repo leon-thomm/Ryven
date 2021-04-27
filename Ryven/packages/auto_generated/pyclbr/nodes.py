@@ -1,10 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import pyclbr
 
 
-class AutoNode_pyclbr__create_tree(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Create_Tree_Node(NodeBase):
     title = '_create_tree'
-    doc = '''Return the tree for a particular module.
+    type_ = 'pyclbr'
+    doc = """Return the tree for a particular module.
 
     fullmodule (full module name), inpackage+module, becomes o.module.
     path is passed to recursive calls of _readmodule.
@@ -14,17 +21,17 @@ class AutoNode_pyclbr__create_tree(rc.Node):
     inpackage, None or string, is passed to recursive calls of _readmodule.
 
     The effect of recursive calls is mutation of global _modules.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='fullmodule'),
-rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='fname'),
-rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='tree'),
-rc.NodeInputBP(label='inpackage'),
+        NodeInputBP(label='fullmodule'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='fname'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='tree'),
+        NodeInputBP(label='inpackage'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -32,15 +39,15 @@ rc.NodeInputBP(label='inpackage'),
         self.set_output_val(0, pyclbr._create_tree(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_pyclbr__getname(rc.Node):
+class _Getname_Node(NodeBase):
     title = '_getname'
-    doc = '''Return (dotted-name or None, next-token) tuple for token source g.'''
+    type_ = 'pyclbr'
+    doc = """Return (dotted-name or None, next-token) tuple for token source g."""
     init_inputs = [
-        rc.NodeInputBP(label='g'),
+        NodeInputBP(label='g'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -48,18 +55,18 @@ class AutoNode_pyclbr__getname(rc.Node):
         self.set_output_val(0, pyclbr._getname(self.input(0)))
         
 
-
-class AutoNode_pyclbr__getnamelist(rc.Node):
+class _Getnamelist_Node(NodeBase):
     title = '_getnamelist'
-    doc = '''Return list of (dotted-name, as-name or None) tuples for token source g.
+    type_ = 'pyclbr'
+    doc = """Return list of (dotted-name, as-name or None) tuples for token source g.
 
     An as-name is the name that follows 'as' in an as clause.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='g'),
+        NodeInputBP(label='g'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -67,15 +74,15 @@ class AutoNode_pyclbr__getnamelist(rc.Node):
         self.set_output_val(0, pyclbr._getnamelist(self.input(0)))
         
 
-
-class AutoNode_pyclbr__main(rc.Node):
+class _Main_Node(NodeBase):
     title = '_main'
-    doc = '''Print module output (default this file) for quick visual check.'''
+    type_ = 'pyclbr'
+    doc = """Print module output (default this file) for quick visual check."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -83,18 +90,18 @@ class AutoNode_pyclbr__main(rc.Node):
         self.set_output_val(0, pyclbr._main())
         
 
-
-class AutoNode_pyclbr__nest_class(rc.Node):
+class _Nest_Class_Node(NodeBase):
     title = '_nest_class'
-    doc = '''Return a Class after nesting within ob.'''
+    type_ = 'pyclbr'
+    doc = """Return a Class after nesting within ob."""
     init_inputs = [
-        rc.NodeInputBP(label='ob'),
-rc.NodeInputBP(label='class_name'),
-rc.NodeInputBP(label='lineno'),
-rc.NodeInputBP(label='super'),
+        NodeInputBP(label='ob'),
+        NodeInputBP(label='class_name'),
+        NodeInputBP(label='lineno'),
+        NodeInputBP(label='super', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -102,17 +109,17 @@ rc.NodeInputBP(label='super'),
         self.set_output_val(0, pyclbr._nest_class(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_pyclbr__nest_function(rc.Node):
+class _Nest_Function_Node(NodeBase):
     title = '_nest_function'
-    doc = '''Return a Function after nesting within ob.'''
+    type_ = 'pyclbr'
+    doc = """Return a Function after nesting within ob."""
     init_inputs = [
-        rc.NodeInputBP(label='ob'),
-rc.NodeInputBP(label='func_name'),
-rc.NodeInputBP(label='lineno'),
+        NodeInputBP(label='ob'),
+        NodeInputBP(label='func_name'),
+        NodeInputBP(label='lineno'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -120,23 +127,23 @@ rc.NodeInputBP(label='lineno'),
         self.set_output_val(0, pyclbr._nest_function(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pyclbr__readmodule(rc.Node):
+class _Readmodule_Node(NodeBase):
     title = '_readmodule'
-    doc = '''Do the hard work for readmodule[_ex].
+    type_ = 'pyclbr'
+    doc = """Do the hard work for readmodule[_ex].
 
     If inpackage is given, it must be the dotted name of the package in
     which we are searching for a submodule, and then PATH must be the
     package search path; otherwise, we are searching for a top-level
     module, and path is combined with sys.path.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='inpackage'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='inpackage', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -144,19 +151,19 @@ rc.NodeInputBP(label='inpackage'),
         self.set_output_val(0, pyclbr._readmodule(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pyclbr_readmodule(rc.Node):
+class Readmodule_Node(NodeBase):
     title = 'readmodule'
-    doc = '''Return Class objects for the top-level classes in module.
+    type_ = 'pyclbr'
+    doc = """Return Class objects for the top-level classes in module.
 
     This is the original interface, before Functions were added.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='path'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -164,24 +171,37 @@ rc.NodeInputBP(label='path'),
         self.set_output_val(0, pyclbr.readmodule(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pyclbr_readmodule_ex(rc.Node):
+class Readmodule_Ex_Node(NodeBase):
     title = 'readmodule_ex'
-    doc = '''Return a dictionary with all functions and classes in module.
+    type_ = 'pyclbr'
+    doc = """Return a dictionary with all functions and classes in module.
 
     Search for module in PATH + sys.path.
     If possible, include imported superclasses.
     Do this by reading source, without importing (and executing) it.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='path'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, pyclbr.readmodule_ex(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Create_Tree_Node,
+    _Getname_Node,
+    _Getnamelist_Node,
+    _Main_Node,
+    _Nest_Class_Node,
+    _Nest_Function_Node,
+    _Readmodule_Node,
+    Readmodule_Node,
+    Readmodule_Ex_Node,
+)

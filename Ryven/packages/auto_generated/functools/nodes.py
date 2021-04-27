@@ -1,19 +1,26 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import functools
 
 
-class AutoNode_functools__c3_merge(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _C3_Merge_Node(NodeBase):
     title = '_c3_merge'
-    doc = '''Merges MROs in *sequences* to a single MRO using the C3 algorithm.
+    type_ = 'functools'
+    doc = """Merges MROs in *sequences* to a single MRO using the C3 algorithm.
 
     Adapted from http://www.python.org/download/releases/2.3/mro/.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='sequences'),
+        NodeInputBP(label='sequences'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -21,10 +28,10 @@ class AutoNode_functools__c3_merge(rc.Node):
         self.set_output_val(0, functools._c3_merge(self.input(0)))
         
 
-
-class AutoNode_functools__c3_mro(rc.Node):
+class _C3_Mro_Node(NodeBase):
     title = '_c3_mro'
-    doc = '''Computes the method resolution order using extended C3 linearization.
+    type_ = 'functools'
+    doc = """Computes the method resolution order using extended C3 linearization.
 
     If no *abcs* are given, the algorithm works exactly like the built-in C3
     linearization used for method resolution.
@@ -39,13 +46,13 @@ class AutoNode_functools__c3_mro(rc.Node):
     MRO of said class. If two implicit ABCs end up next to each other in the
     resulting MRO, their ordering depends on the order of types in *abcs*.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='abcs'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='abcs', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -53,21 +60,21 @@ rc.NodeInputBP(label='abcs'),
         self.set_output_val(0, functools._c3_mro(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__compose_mro(rc.Node):
+class _Compose_Mro_Node(NodeBase):
     title = '_compose_mro'
-    doc = '''Calculates the method resolution order for a given class *cls*.
+    type_ = 'functools'
+    doc = """Calculates the method resolution order for a given class *cls*.
 
     Includes relevant abstract base classes (with their respective bases) from
     the *types* iterable. Uses a modified C3 linearization algorithm.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='types'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='types'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -75,10 +82,10 @@ rc.NodeInputBP(label='types'),
         self.set_output_val(0, functools._compose_mro(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__find_impl(rc.Node):
+class _Find_Impl_Node(NodeBase):
     title = '_find_impl'
-    doc = '''Returns the best matching implementation from *registry* for type *cls*.
+    type_ = 'functools'
+    doc = """Returns the best matching implementation from *registry* for type *cls*.
 
     Where there is no registered implementation for a specific type, its method
     resolution order is used to find a more generic implementation.
@@ -86,13 +93,13 @@ class AutoNode_functools__find_impl(rc.Node):
     Note: if *registry* does not contain an implementation for the base
     *object* type, this function may return None.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='registry'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='registry'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -100,226 +107,214 @@ rc.NodeInputBP(label='registry'),
         self.set_output_val(0, functools._find_impl(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__ge_from_gt(rc.Node):
+class _Ge_From_Gt_Node(NodeBase):
     title = '_ge_from_gt'
-    doc = '''Return a >= b.  Computed by @total_ordering from (a > b) or (a == b).'''
+    type_ = 'functools'
+    doc = """Return a >= b.  Computed by @total_ordering from (a > b) or (a == b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._ge_from_gt(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._ge_from_gt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__ge_from_le(rc.Node):
+class _Ge_From_Le_Node(NodeBase):
     title = '_ge_from_le'
-    doc = '''Return a >= b.  Computed by @total_ordering from (not a <= b) or (a == b).'''
+    type_ = 'functools'
+    doc = """Return a >= b.  Computed by @total_ordering from (not a <= b) or (a == b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._ge_from_le(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._ge_from_le(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__ge_from_lt(rc.Node):
+class _Ge_From_Lt_Node(NodeBase):
     title = '_ge_from_lt'
-    doc = '''Return a >= b.  Computed by @total_ordering from (not a < b).'''
+    type_ = 'functools'
+    doc = """Return a >= b.  Computed by @total_ordering from (not a < b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._ge_from_lt(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._ge_from_lt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__gt_from_ge(rc.Node):
+class _Gt_From_Ge_Node(NodeBase):
     title = '_gt_from_ge'
-    doc = '''Return a > b.  Computed by @total_ordering from (a >= b) and (a != b).'''
+    type_ = 'functools'
+    doc = """Return a > b.  Computed by @total_ordering from (a >= b) and (a != b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._gt_from_ge(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._gt_from_ge(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__gt_from_le(rc.Node):
+class _Gt_From_Le_Node(NodeBase):
     title = '_gt_from_le'
-    doc = '''Return a > b.  Computed by @total_ordering from (not a <= b).'''
+    type_ = 'functools'
+    doc = """Return a > b.  Computed by @total_ordering from (not a <= b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._gt_from_le(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._gt_from_le(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__gt_from_lt(rc.Node):
+class _Gt_From_Lt_Node(NodeBase):
     title = '_gt_from_lt'
-    doc = '''Return a > b.  Computed by @total_ordering from (not a < b) and (a != b).'''
+    type_ = 'functools'
+    doc = """Return a > b.  Computed by @total_ordering from (not a < b) and (a != b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._gt_from_lt(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._gt_from_lt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__le_from_ge(rc.Node):
+class _Le_From_Ge_Node(NodeBase):
     title = '_le_from_ge'
-    doc = '''Return a <= b.  Computed by @total_ordering from (not a >= b) or (a == b).'''
+    type_ = 'functools'
+    doc = """Return a <= b.  Computed by @total_ordering from (not a >= b) or (a == b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._le_from_ge(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._le_from_ge(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__le_from_gt(rc.Node):
+class _Le_From_Gt_Node(NodeBase):
     title = '_le_from_gt'
-    doc = '''Return a <= b.  Computed by @total_ordering from (not a > b).'''
+    type_ = 'functools'
+    doc = """Return a <= b.  Computed by @total_ordering from (not a > b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._le_from_gt(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._le_from_gt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__le_from_lt(rc.Node):
+class _Le_From_Lt_Node(NodeBase):
     title = '_le_from_lt'
-    doc = '''Return a <= b.  Computed by @total_ordering from (a < b) or (a == b).'''
+    type_ = 'functools'
+    doc = """Return a <= b.  Computed by @total_ordering from (a < b) or (a == b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._le_from_lt(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._le_from_lt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__lt_from_ge(rc.Node):
+class _Lt_From_Ge_Node(NodeBase):
     title = '_lt_from_ge'
-    doc = '''Return a < b.  Computed by @total_ordering from (not a >= b).'''
+    type_ = 'functools'
+    doc = """Return a < b.  Computed by @total_ordering from (not a >= b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._lt_from_ge(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._lt_from_ge(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__lt_from_gt(rc.Node):
+class _Lt_From_Gt_Node(NodeBase):
     title = '_lt_from_gt'
-    doc = '''Return a < b.  Computed by @total_ordering from (not a > b) and (a != b).'''
+    type_ = 'functools'
+    doc = """Return a < b.  Computed by @total_ordering from (not a > b) and (a != b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._lt_from_gt(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._lt_from_gt(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__lt_from_le(rc.Node):
+class _Lt_From_Le_Node(NodeBase):
     title = '_lt_from_le'
-    doc = '''Return a < b.  Computed by @total_ordering from (a <= b) and (a != b).'''
+    type_ = 'functools'
+    doc = """Return a < b.  Computed by @total_ordering from (a <= b) and (a != b)."""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='other'),
-rc.NodeInputBP(label='NotImplemented'),
+        NodeInputBP(label='other'),
+        NodeInputBP(label='NotImplemented', dtype=dtypes.Data(default=NotImplemented, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, functools._lt_from_le(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, functools._lt_from_le(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools__make_key(rc.Node):
+class _Make_Key_Node(NodeBase):
     title = '_make_key'
-    doc = '''Make a cache key from optionally typed positional and keyword arguments
+    type_ = 'functools'
+    doc = """Make a cache key from optionally typed positional and keyword arguments
 
     The key is constructed in a way that is flat as possible rather than
     as a nested structure that would take more memory.
@@ -328,19 +323,19 @@ class AutoNode_functools__make_key(rc.Node):
     its hash value, then that argument is returned without a wrapper.  This
     saves space and improves lookup speed.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='kwds'),
-rc.NodeInputBP(label='typed'),
-rc.NodeInputBP(label='kwd_mark'),
-rc.NodeInputBP(label='fasttypes'),
-rc.NodeInputBP(label='tuple'),
-rc.NodeInputBP(label='type'),
-rc.NodeInputBP(label='len'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='kwds'),
+        NodeInputBP(label='typed'),
+        NodeInputBP(label='kwd_mark', dtype=dtypes.Data(default=(<object object at 0x0000026E66D34C70>,), size='s')),
+        NodeInputBP(label='fasttypes', dtype=dtypes.Data(default={<class 'int'>, <class 'str'>}, size='s')),
+        NodeInputBP(label='tuple', dtype=dtypes.Data(default=tuple, size='s')),
+        NodeInputBP(label='type', dtype=dtypes.Data(default=type, size='s')),
+        NodeInputBP(label='len', dtype=dtypes.Data(default=<built-in function len>, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -348,15 +343,15 @@ rc.NodeInputBP(label='len'),
         self.set_output_val(0, functools._make_key(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
-
-class AutoNode_functools__unwrap_partial(rc.Node):
+class _Unwrap_Partial_Node(NodeBase):
     title = '_unwrap_partial'
-    doc = '''None'''
+    type_ = 'functools'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='func'),
+        NodeInputBP(label='func'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -364,19 +359,19 @@ class AutoNode_functools__unwrap_partial(rc.Node):
         self.set_output_val(0, functools._unwrap_partial(self.input(0)))
         
 
-
-class AutoNode_functools_get_cache_token(rc.Node):
+class Get_Cache_Token_Node(NodeBase):
     title = 'get_cache_token'
-    doc = '''Returns the current ABC cache token.
+    type_ = 'functools'
+    doc = """Returns the current ABC cache token.
 
 The token is an opaque object (supporting equality testing) identifying the
 current version of the ABC cache for virtual subclasses. The token changes
-with every call to register() on any ABC.'''
+with every call to register() on any ABC."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -384,10 +379,10 @@ with every call to register() on any ABC.'''
         self.set_output_val(0, functools.get_cache_token())
         
 
-
-class AutoNode_functools_lru_cache(rc.Node):
+class Lru_Cache_Node(NodeBase):
     title = 'lru_cache'
-    doc = '''Least-recently-used cache decorator.
+    type_ = 'functools'
+    doc = """Least-recently-used cache decorator.
 
     If *maxsize* is set to None, the LRU features are disabled and the cache
     can grow without bound.
@@ -404,13 +399,13 @@ class AutoNode_functools_lru_cache(rc.Node):
 
     See:  http://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='maxsize'),
-rc.NodeInputBP(label='typed'),
+        NodeInputBP(label='maxsize', dtype=dtypes.Data(default=128, size='s')),
+        NodeInputBP(label='typed', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -418,10 +413,10 @@ rc.NodeInputBP(label='typed'),
         self.set_output_val(0, functools.lru_cache(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools_namedtuple(rc.Node):
+class Namedtuple_Node(NodeBase):
     title = 'namedtuple'
-    doc = '''Returns a new subclass of tuple with named fields.
+    type_ = 'functools'
+    doc = """Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -442,13 +437,13 @@ class AutoNode_functools_namedtuple(rc.Node):
     >>> p._replace(x=100)               # _replace() is like str.replace() but targets named fields
     Point(x=100, y=22)
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='typename'),
-rc.NodeInputBP(label='field_names'),
+        NodeInputBP(label='typename'),
+        NodeInputBP(label='field_names'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -456,15 +451,15 @@ rc.NodeInputBP(label='field_names'),
         self.set_output_val(0, functools.namedtuple(self.input(0), self.input(1)))
         
 
-
-class AutoNode_functools_recursive_repr(rc.Node):
+class Recursive_Repr_Node(NodeBase):
     title = 'recursive_repr'
-    doc = '''Decorator to make a repr function return fillvalue for a recursive call'''
+    type_ = 'functools'
+    doc = """Decorator to make a repr function return fillvalue for a recursive call"""
     init_inputs = [
-        rc.NodeInputBP(label='fillvalue'),
+        NodeInputBP(label='fillvalue', dtype=dtypes.Data(default='...', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -472,22 +467,22 @@ class AutoNode_functools_recursive_repr(rc.Node):
         self.set_output_val(0, functools.recursive_repr(self.input(0)))
         
 
-
-class AutoNode_functools_singledispatch(rc.Node):
+class Singledispatch_Node(NodeBase):
     title = 'singledispatch'
-    doc = '''Single-dispatch generic function decorator.
+    type_ = 'functools'
+    doc = """Single-dispatch generic function decorator.
 
     Transforms a function into a generic function, which can have different
     behaviours depending upon the type of its first argument. The decorated
     function acts as the default implementation, and additional
     implementations can be registered using the register() attribute of the
     generic function.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='func'),
+        NodeInputBP(label='func'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -495,15 +490,15 @@ class AutoNode_functools_singledispatch(rc.Node):
         self.set_output_val(0, functools.singledispatch(self.input(0)))
         
 
-
-class AutoNode_functools_total_ordering(rc.Node):
+class Total_Ordering_Node(NodeBase):
     title = 'total_ordering'
-    doc = '''Class decorator that fills in missing ordering methods'''
+    type_ = 'functools'
+    doc = """Class decorator that fills in missing ordering methods"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
+        NodeInputBP(label='cls'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -511,10 +506,10 @@ class AutoNode_functools_total_ordering(rc.Node):
         self.set_output_val(0, functools.total_ordering(self.input(0)))
         
 
-
-class AutoNode_functools_update_wrapper(rc.Node):
+class Update_Wrapper_Node(NodeBase):
     title = 'update_wrapper'
-    doc = '''Update a wrapper function to look like the wrapped function
+    type_ = 'functools'
+    doc = """Update a wrapper function to look like the wrapped function
 
        wrapper is the function to be updated
        wrapped is the original function
@@ -524,15 +519,15 @@ class AutoNode_functools_update_wrapper(rc.Node):
        updated is a tuple naming the attributes of the wrapper that
        are updated with the corresponding attribute from the wrapped
        function (defaults to functools.WRAPPER_UPDATES)
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='wrapper'),
-rc.NodeInputBP(label='wrapped'),
-rc.NodeInputBP(label='assigned'),
-rc.NodeInputBP(label='updated'),
+        NodeInputBP(label='wrapper'),
+        NodeInputBP(label='wrapped'),
+        NodeInputBP(label='assigned', dtype=dtypes.Data(default=('__module__', '__name__', '__qualname__', '__doc__', '__annotations__'), size='s')),
+        NodeInputBP(label='updated', dtype=dtypes.Data(default=('__dict__',), size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -540,27 +535,57 @@ rc.NodeInputBP(label='updated'),
         self.set_output_val(0, functools.update_wrapper(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_functools_wraps(rc.Node):
+class Wraps_Node(NodeBase):
     title = 'wraps'
-    doc = '''Decorator factory to apply update_wrapper() to a wrapper function
+    type_ = 'functools'
+    doc = """Decorator factory to apply update_wrapper() to a wrapper function
 
        Returns a decorator that invokes update_wrapper() with the decorated
        function as the wrapper argument and the arguments to wraps() as the
        remaining arguments. Default arguments are as for update_wrapper().
        This is a convenience function to simplify applying partial() to
        update_wrapper().
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='wrapped'),
-rc.NodeInputBP(label='assigned'),
-rc.NodeInputBP(label='updated'),
+        NodeInputBP(label='wrapped'),
+        NodeInputBP(label='assigned', dtype=dtypes.Data(default=('__module__', '__name__', '__qualname__', '__doc__', '__annotations__'), size='s')),
+        NodeInputBP(label='updated', dtype=dtypes.Data(default=('__dict__',), size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, functools.wraps(self.input(0), self.input(1), self.input(2)))
         
+
+
+export_nodes(
+    _C3_Merge_Node,
+    _C3_Mro_Node,
+    _Compose_Mro_Node,
+    _Find_Impl_Node,
+    _Ge_From_Gt_Node,
+    _Ge_From_Le_Node,
+    _Ge_From_Lt_Node,
+    _Gt_From_Ge_Node,
+    _Gt_From_Le_Node,
+    _Gt_From_Lt_Node,
+    _Le_From_Ge_Node,
+    _Le_From_Gt_Node,
+    _Le_From_Lt_Node,
+    _Lt_From_Ge_Node,
+    _Lt_From_Gt_Node,
+    _Lt_From_Le_Node,
+    _Make_Key_Node,
+    _Unwrap_Partial_Node,
+    Get_Cache_Token_Node,
+    Lru_Cache_Node,
+    Namedtuple_Node,
+    Recursive_Repr_Node,
+    Singledispatch_Node,
+    Total_Ordering_Node,
+    Update_Wrapper_Node,
+    Wraps_Node,
+)

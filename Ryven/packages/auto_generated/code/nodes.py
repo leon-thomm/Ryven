@@ -1,10 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import code
 
 
-class AutoNode_code_compile_command(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Compile_Command_Node(NodeBase):
     title = 'compile_command'
-    doc = '''Compile a command and determine whether it is incomplete.
+    type_ = 'code'
+    doc = """Compile a command and determine whether it is incomplete.
 
     Arguments:
 
@@ -21,14 +28,14 @@ class AutoNode_code_compile_command(rc.Node):
     - Raise SyntaxError, ValueError or OverflowError if the command is a
       syntax error (OverflowError and ValueError can be produced by
       malformed literals).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='symbol'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='filename', dtype=dtypes.Data(default='<input>', size='s')),
+        NodeInputBP(label='symbol', dtype=dtypes.Data(default='single', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -36,10 +43,10 @@ rc.NodeInputBP(label='symbol'),
         self.set_output_val(0, code.compile_command(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_code_interact(rc.Node):
+class Interact_Node(NodeBase):
     title = 'interact'
-    doc = '''Closely emulate the interactive Python interpreter.
+    type_ = 'code'
+    doc = """Closely emulate the interactive Python interpreter.
 
     This is a backwards compatible interface to the InteractiveConsole
     class.  When readfunc is not specified, it attempts to import the
@@ -52,18 +59,24 @@ class AutoNode_code_interact(rc.Node):
     local -- passed to InteractiveInterpreter.__init__()
     exitmsg -- passed to InteractiveConsole.interact()
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='banner'),
-rc.NodeInputBP(label='readfunc'),
-rc.NodeInputBP(label='local'),
-rc.NodeInputBP(label='exitmsg'),
+        NodeInputBP(label='banner', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='readfunc', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='local', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='exitmsg', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, code.interact(self.input(0), self.input(1), self.input(2), self.input(3)))
         
+
+
+export_nodes(
+    Compile_Command_Node,
+    Interact_Node,
+)

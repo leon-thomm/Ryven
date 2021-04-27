@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import fileinput
 
 
-class AutoNode_fileinput__test(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Test_Node(NodeBase):
     title = '_test'
-    doc = '''None'''
+    type_ = 'fileinput'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_fileinput__test(rc.Node):
         self.set_output_val(0, fileinput._test())
         
 
-
-class AutoNode_fileinput_close(rc.Node):
+class Close_Node(NodeBase):
     title = 'close'
-    doc = '''Close the sequence.'''
+    type_ = 'fileinput'
+    doc = """Close the sequence."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,19 +40,19 @@ class AutoNode_fileinput_close(rc.Node):
         self.set_output_val(0, fileinput.close())
         
 
-
-class AutoNode_fileinput_filelineno(rc.Node):
+class Filelineno_Node(NodeBase):
     title = 'filelineno'
-    doc = '''
+    type_ = 'fileinput'
+    doc = """
     Return the line number in the current file. Before the first line
     has been read, returns 0. After the last line of the last file has
     been read, returns the line number of that line within the file.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -53,18 +60,18 @@ class AutoNode_fileinput_filelineno(rc.Node):
         self.set_output_val(0, fileinput.filelineno())
         
 
-
-class AutoNode_fileinput_filename(rc.Node):
+class Filename_Node(NodeBase):
     title = 'filename'
-    doc = '''
+    type_ = 'fileinput'
+    doc = """
     Return the name of the file currently being read.
     Before the first line has been read, returns None.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -72,18 +79,18 @@ class AutoNode_fileinput_filename(rc.Node):
         self.set_output_val(0, fileinput.filename())
         
 
-
-class AutoNode_fileinput_fileno(rc.Node):
+class Fileno_Node(NodeBase):
     title = 'fileno'
-    doc = '''
+    type_ = 'fileinput'
+    doc = """
     Return the file number of the current file. When no file is currently
     opened, returns -1.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -91,16 +98,16 @@ class AutoNode_fileinput_fileno(rc.Node):
         self.set_output_val(0, fileinput.fileno())
         
 
-
-class AutoNode_fileinput_hook_compressed(rc.Node):
+class Hook_Compressed_Node(NodeBase):
     title = 'hook_compressed'
-    doc = '''None'''
+    type_ = 'fileinput'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='mode'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -108,16 +115,16 @@ rc.NodeInputBP(label='mode'),
         self.set_output_val(0, fileinput.hook_compressed(self.input(0), self.input(1)))
         
 
-
-class AutoNode_fileinput_hook_encoded(rc.Node):
+class Hook_Encoded_Node(NodeBase):
     title = 'hook_encoded'
-    doc = '''None'''
+    type_ = 'fileinput'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='encoding'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -125,22 +132,22 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, fileinput.hook_encoded(self.input(0), self.input(1)))
         
 
-
-class AutoNode_fileinput_input(rc.Node):
+class Input_Node(NodeBase):
     title = 'input'
-    doc = '''Return an instance of the FileInput class, which can be iterated.
+    type_ = 'fileinput'
+    doc = """Return an instance of the FileInput class, which can be iterated.
 
     The parameters are passed to the constructor of the FileInput class.
     The returned instance, in addition to being an iterator,
     keeps global state for the functions of this module,.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='files'),
-rc.NodeInputBP(label='inplace'),
-rc.NodeInputBP(label='backup'),
+        NodeInputBP(label='files', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='inplace', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='backup', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -148,18 +155,18 @@ rc.NodeInputBP(label='backup'),
         self.set_output_val(0, fileinput.input(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_fileinput_isfirstline(rc.Node):
+class Isfirstline_Node(NodeBase):
     title = 'isfirstline'
-    doc = '''
+    type_ = 'fileinput'
+    doc = """
     Returns true the line just read is the first line of its file,
     otherwise returns false.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -167,18 +174,18 @@ class AutoNode_fileinput_isfirstline(rc.Node):
         self.set_output_val(0, fileinput.isfirstline())
         
 
-
-class AutoNode_fileinput_isstdin(rc.Node):
+class Isstdin_Node(NodeBase):
     title = 'isstdin'
-    doc = '''
+    type_ = 'fileinput'
+    doc = """
     Returns true if the last line was read from sys.stdin,
     otherwise returns false.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -186,19 +193,19 @@ class AutoNode_fileinput_isstdin(rc.Node):
         self.set_output_val(0, fileinput.isstdin())
         
 
-
-class AutoNode_fileinput_lineno(rc.Node):
+class Lineno_Node(NodeBase):
     title = 'lineno'
-    doc = '''
+    type_ = 'fileinput'
+    doc = """
     Return the cumulative line number of the line that has just been read.
     Before the first line has been read, returns 0. After the last line
     of the last file has been read, returns the line number of that line.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -206,10 +213,10 @@ class AutoNode_fileinput_lineno(rc.Node):
         self.set_output_val(0, fileinput.lineno())
         
 
-
-class AutoNode_fileinput_nextfile(rc.Node):
+class Nextfile_Node(NodeBase):
     title = 'nextfile'
-    doc = '''
+    type_ = 'fileinput'
+    doc = """
     Close the current file so that the next iteration will read the first
     line from the next file (if any); lines not read from the file will
     not count towards the cumulative line count. The filename is not
@@ -217,15 +224,31 @@ class AutoNode_fileinput_nextfile(rc.Node):
     Before the first line has been read, this function has no effect;
     it cannot be used to skip the first file. After the last line of the
     last file has been read, this function has no effect.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, fileinput.nextfile())
         
+
+
+export_nodes(
+    _Test_Node,
+    Close_Node,
+    Filelineno_Node,
+    Filename_Node,
+    Fileno_Node,
+    Hook_Compressed_Node,
+    Hook_Encoded_Node,
+    Input_Node,
+    Isfirstline_Node,
+    Isstdin_Node,
+    Lineno_Node,
+    Nextfile_Node,
+)

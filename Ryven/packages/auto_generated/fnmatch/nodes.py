@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import fnmatch
 
 
-class AutoNode_fnmatch_filter(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Filter_Node(NodeBase):
     title = 'filter'
-    doc = '''Return the subset of the list NAMES that match PAT.'''
+    type_ = 'fnmatch'
+    doc = """Return the subset of the list NAMES that match PAT."""
     init_inputs = [
-        rc.NodeInputBP(label='names'),
-rc.NodeInputBP(label='pat'),
+        NodeInputBP(label='names'),
+        NodeInputBP(label='pat'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,10 +25,10 @@ rc.NodeInputBP(label='pat'),
         self.set_output_val(0, fnmatch.filter(self.input(0), self.input(1)))
         
 
-
-class AutoNode_fnmatch_fnmatch(rc.Node):
+class Fnmatch_Node(NodeBase):
     title = 'fnmatch'
-    doc = '''Test whether FILENAME matches PATTERN.
+    type_ = 'fnmatch'
+    doc = """Test whether FILENAME matches PATTERN.
 
     Patterns are Unix shell style:
 
@@ -34,13 +41,13 @@ class AutoNode_fnmatch_fnmatch(rc.Node):
     Both FILENAME and PATTERN are first case-normalized
     if the operating system requires it.
     If you don't want this, use fnmatchcase(FILENAME, PATTERN).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='pat'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='pat'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -48,20 +55,20 @@ rc.NodeInputBP(label='pat'),
         self.set_output_val(0, fnmatch.fnmatch(self.input(0), self.input(1)))
         
 
-
-class AutoNode_fnmatch_fnmatchcase(rc.Node):
+class Fnmatchcase_Node(NodeBase):
     title = 'fnmatchcase'
-    doc = '''Test whether FILENAME matches PATTERN, including case.
+    type_ = 'fnmatch'
+    doc = """Test whether FILENAME matches PATTERN, including case.
 
     This is a version of fnmatch() which doesn't case-normalize
     its arguments.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='pat'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='pat'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -69,21 +76,29 @@ rc.NodeInputBP(label='pat'),
         self.set_output_val(0, fnmatch.fnmatchcase(self.input(0), self.input(1)))
         
 
-
-class AutoNode_fnmatch_translate(rc.Node):
+class Translate_Node(NodeBase):
     title = 'translate'
-    doc = '''Translate a shell PATTERN to a regular expression.
+    type_ = 'fnmatch'
+    doc = """Translate a shell PATTERN to a regular expression.
 
     There is no way to quote meta-characters.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='pat'),
+        NodeInputBP(label='pat'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, fnmatch.translate(self.input(0)))
         
+
+
+export_nodes(
+    Filter_Node,
+    Fnmatch_Node,
+    Fnmatchcase_Node,
+    Translate_Node,
+)

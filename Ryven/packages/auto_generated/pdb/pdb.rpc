@@ -1,1 +1,0 @@
-{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_pdb_find_function", "AutoNode_pdb_getsourcelines", "AutoNode_pdb_help", "AutoNode_pdb_lasti2lineno", "AutoNode_pdb_main", "AutoNode_pdb_pm", "AutoNode_pdb_post_mortem", "AutoNode_pdb_run", "AutoNode_pdb_runcall", "AutoNode_pdb_runctx", "AutoNode_pdb_runeval", "AutoNode_pdb_set_trace", "AutoNode_pdb_test"]}

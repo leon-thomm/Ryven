@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import hashlib
 
 
-class AutoNode_hashlib___get_builtin_constructor(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class __Get_Builtin_Constructor_Node(NodeBase):
     title = '__get_builtin_constructor'
-    doc = '''None'''
+    type_ = 'hashlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_hashlib___get_builtin_constructor(rc.Node):
         self.set_output_val(0, hashlib.__get_builtin_constructor(self.input(0)))
         
 
-
-class AutoNode_hashlib_md5(rc.Node):
+class Md5_Node(NodeBase):
     title = 'md5'
-    doc = '''Returns a md5 hash object; optionally initialized with a string'''
+    type_ = 'hashlib'
+    doc = """Returns a md5 hash object; optionally initialized with a string"""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string', dtype=dtypes.Data(default=b'', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,18 +40,18 @@ class AutoNode_hashlib_md5(rc.Node):
         self.set_output_val(0, hashlib.md5(self.input(0)))
         
 
-
-class AutoNode_hashlib_new(rc.Node):
+class New_Node(NodeBase):
     title = 'new'
-    doc = '''new(name, data=b'') - Return a new hashing object using the named algorithm;
+    type_ = 'hashlib'
+    doc = """new(name, data=b'') - Return a new hashing object using the named algorithm;
     optionally initialized with data (which must be a bytes-like object).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='data'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='data', dtype=dtypes.Data(default=b'', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -52,19 +59,19 @@ rc.NodeInputBP(label='data'),
         self.set_output_val(0, hashlib.new(self.input(0), self.input(1)))
         
 
-
-class AutoNode_hashlib_pbkdf2_hmac(rc.Node):
+class Pbkdf2_Hmac_Node(NodeBase):
     title = 'pbkdf2_hmac'
-    doc = '''Password based key derivation function 2 (PKCS #5 v2.0) with HMAC as pseudorandom function.'''
+    type_ = 'hashlib'
+    doc = """Password based key derivation function 2 (PKCS #5 v2.0) with HMAC as pseudorandom function."""
     init_inputs = [
-        rc.NodeInputBP(label='hash_name'),
-rc.NodeInputBP(label='password'),
-rc.NodeInputBP(label='salt'),
-rc.NodeInputBP(label='iterations'),
-rc.NodeInputBP(label='dklen'),
+        NodeInputBP(label='hash_name'),
+        NodeInputBP(label='password'),
+        NodeInputBP(label='salt'),
+        NodeInputBP(label='iterations'),
+        NodeInputBP(label='dklen', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -72,15 +79,15 @@ rc.NodeInputBP(label='dklen'),
         self.set_output_val(0, hashlib.pbkdf2_hmac(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_hashlib_scrypt(rc.Node):
+class Scrypt_Node(NodeBase):
     title = 'scrypt'
-    doc = '''scrypt password-based key derivation function.'''
+    type_ = 'hashlib'
+    doc = """scrypt password-based key derivation function."""
     init_inputs = [
-        rc.NodeInputBP(label='password'),
+        NodeInputBP(label='password'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -88,15 +95,15 @@ class AutoNode_hashlib_scrypt(rc.Node):
         self.set_output_val(0, hashlib.scrypt(self.input(0)))
         
 
-
-class AutoNode_hashlib_sha1(rc.Node):
+class Sha1_Node(NodeBase):
     title = 'sha1'
-    doc = '''Returns a sha1 hash object; optionally initialized with a string'''
+    type_ = 'hashlib'
+    doc = """Returns a sha1 hash object; optionally initialized with a string"""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string', dtype=dtypes.Data(default=b'', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -104,15 +111,15 @@ class AutoNode_hashlib_sha1(rc.Node):
         self.set_output_val(0, hashlib.sha1(self.input(0)))
         
 
-
-class AutoNode_hashlib_sha224(rc.Node):
+class Sha224_Node(NodeBase):
     title = 'sha224'
-    doc = '''Returns a sha224 hash object; optionally initialized with a string'''
+    type_ = 'hashlib'
+    doc = """Returns a sha224 hash object; optionally initialized with a string"""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string', dtype=dtypes.Data(default=b'', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -120,15 +127,15 @@ class AutoNode_hashlib_sha224(rc.Node):
         self.set_output_val(0, hashlib.sha224(self.input(0)))
         
 
-
-class AutoNode_hashlib_sha256(rc.Node):
+class Sha256_Node(NodeBase):
     title = 'sha256'
-    doc = '''Returns a sha256 hash object; optionally initialized with a string'''
+    type_ = 'hashlib'
+    doc = """Returns a sha256 hash object; optionally initialized with a string"""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string', dtype=dtypes.Data(default=b'', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -136,15 +143,15 @@ class AutoNode_hashlib_sha256(rc.Node):
         self.set_output_val(0, hashlib.sha256(self.input(0)))
         
 
-
-class AutoNode_hashlib_sha384(rc.Node):
+class Sha384_Node(NodeBase):
     title = 'sha384'
-    doc = '''Returns a sha384 hash object; optionally initialized with a string'''
+    type_ = 'hashlib'
+    doc = """Returns a sha384 hash object; optionally initialized with a string"""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string', dtype=dtypes.Data(default=b'', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -152,18 +159,32 @@ class AutoNode_hashlib_sha384(rc.Node):
         self.set_output_val(0, hashlib.sha384(self.input(0)))
         
 
-
-class AutoNode_hashlib_sha512(rc.Node):
+class Sha512_Node(NodeBase):
     title = 'sha512'
-    doc = '''Returns a sha512 hash object; optionally initialized with a string'''
+    type_ = 'hashlib'
+    doc = """Returns a sha512 hash object; optionally initialized with a string"""
     init_inputs = [
-        rc.NodeInputBP(label='string'),
+        NodeInputBP(label='string', dtype=dtypes.Data(default=b'', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, hashlib.sha512(self.input(0)))
         
+
+
+export_nodes(
+    __Get_Builtin_Constructor_Node,
+    Md5_Node,
+    New_Node,
+    Pbkdf2_Hmac_Node,
+    Scrypt_Node,
+    Sha1_Node,
+    Sha224_Node,
+    Sha256_Node,
+    Sha384_Node,
+    Sha512_Node,
+)

@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import mimetypes
 
 
-class AutoNode_mimetypes__default_mime_types(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Default_Mime_Types_Node(NodeBase):
     title = '_default_mime_types'
-    doc = '''None'''
+    type_ = 'mimetypes'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_mimetypes__default_mime_types(rc.Node):
         self.set_output_val(0, mimetypes._default_mime_types())
         
 
-
-class AutoNode_mimetypes__main(rc.Node):
+class _Main_Node(NodeBase):
     title = '_main'
-    doc = '''None'''
+    type_ = 'mimetypes'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,10 +40,10 @@ class AutoNode_mimetypes__main(rc.Node):
         self.set_output_val(0, mimetypes._main())
         
 
-
-class AutoNode_mimetypes_add_type(rc.Node):
+class Add_Type_Node(NodeBase):
     title = 'add_type'
-    doc = '''Add a mapping between a type and an extension.
+    type_ = 'mimetypes'
+    doc = """Add a mapping between a type and an extension.
 
     When the extension is already known, the new
     type will replace the old one. When the type
@@ -46,14 +53,14 @@ class AutoNode_mimetypes_add_type(rc.Node):
     If strict is true, information will be added to
     list of standard types, else to the list of non-standard
     types.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='type'),
-rc.NodeInputBP(label='ext'),
-rc.NodeInputBP(label='strict'),
+        NodeInputBP(label='type'),
+        NodeInputBP(label='ext'),
+        NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -61,10 +68,10 @@ rc.NodeInputBP(label='strict'),
         self.set_output_val(0, mimetypes.add_type(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_mimetypes_guess_all_extensions(rc.Node):
+class Guess_All_Extensions_Node(NodeBase):
     title = 'guess_all_extensions'
-    doc = '''Guess the extensions for a file based on its MIME type.
+    type_ = 'mimetypes'
+    doc = """Guess the extensions for a file based on its MIME type.
 
     Return value is a list of strings giving the possible filename
     extensions, including the leading dot ('.').  The extension is not
@@ -75,13 +82,13 @@ class AutoNode_mimetypes_guess_all_extensions(rc.Node):
 
     Optional `strict' argument when false adds a bunch of commonly found,
     but non-standard types.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='type'),
-rc.NodeInputBP(label='strict'),
+        NodeInputBP(label='type'),
+        NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -89,10 +96,10 @@ rc.NodeInputBP(label='strict'),
         self.set_output_val(0, mimetypes.guess_all_extensions(self.input(0), self.input(1)))
         
 
-
-class AutoNode_mimetypes_guess_extension(rc.Node):
+class Guess_Extension_Node(NodeBase):
     title = 'guess_extension'
-    doc = '''Guess the extension for a file based on its MIME type.
+    type_ = 'mimetypes'
+    doc = """Guess the extension for a file based on its MIME type.
 
     Return value is a string giving a filename extension, including the
     leading dot ('.').  The extension is not guaranteed to have been
@@ -102,13 +109,13 @@ class AutoNode_mimetypes_guess_extension(rc.Node):
 
     Optional `strict' argument when false adds a bunch of commonly found,
     but non-standard types.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='type'),
-rc.NodeInputBP(label='strict'),
+        NodeInputBP(label='type'),
+        NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -116,10 +123,10 @@ rc.NodeInputBP(label='strict'),
         self.set_output_val(0, mimetypes.guess_extension(self.input(0), self.input(1)))
         
 
-
-class AutoNode_mimetypes_guess_type(rc.Node):
+class Guess_Type_Node(NodeBase):
     title = 'guess_type'
-    doc = '''Guess the type of a file based on its URL.
+    type_ = 'mimetypes'
+    doc = """Guess the type of a file based on its URL.
 
     Return value is a tuple (type, encoding) where type is None if the
     type can't be guessed (no or unknown suffix) or a string of the
@@ -135,13 +142,13 @@ class AutoNode_mimetypes_guess_type(rc.Node):
 
     Optional `strict' argument when false adds a bunch of commonly found, but
     non-standard types.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='url'),
-rc.NodeInputBP(label='strict'),
+        NodeInputBP(label='url'),
+        NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -149,15 +156,15 @@ rc.NodeInputBP(label='strict'),
         self.set_output_val(0, mimetypes.guess_type(self.input(0), self.input(1)))
         
 
-
-class AutoNode_mimetypes_init(rc.Node):
+class Init_Node(NodeBase):
     title = 'init'
-    doc = '''None'''
+    type_ = 'mimetypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='files'),
+        NodeInputBP(label='files', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -165,18 +172,30 @@ class AutoNode_mimetypes_init(rc.Node):
         self.set_output_val(0, mimetypes.init(self.input(0)))
         
 
-
-class AutoNode_mimetypes_read_mime_types(rc.Node):
+class Read_Mime_Types_Node(NodeBase):
     title = 'read_mime_types'
-    doc = '''None'''
+    type_ = 'mimetypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, mimetypes.read_mime_types(self.input(0)))
         
+
+
+export_nodes(
+    _Default_Mime_Types_Node,
+    _Main_Node,
+    Add_Type_Node,
+    Guess_All_Extensions_Node,
+    Guess_Extension_Node,
+    Guess_Type_Node,
+    Init_Node,
+    Read_Mime_Types_Node,
+)

@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import dataclasses
 
 
-class AutoNode_dataclasses__asdict_inner(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Asdict_Inner_Node(NodeBase):
     title = '_asdict_inner'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='dict_factory'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='dict_factory'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,16 +25,16 @@ rc.NodeInputBP(label='dict_factory'),
         self.set_output_val(0, dataclasses._asdict_inner(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses__astuple_inner(rc.Node):
+class _Astuple_Inner_Node(NodeBase):
     title = '_astuple_inner'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='tuple_factory'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='tuple_factory'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -35,19 +42,19 @@ rc.NodeInputBP(label='tuple_factory'),
         self.set_output_val(0, dataclasses._astuple_inner(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses__cmp_fn(rc.Node):
+class _Cmp_Fn_Node(NodeBase):
     title = '_cmp_fn'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='op'),
-rc.NodeInputBP(label='self_tuple'),
-rc.NodeInputBP(label='other_tuple'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='op'),
+        NodeInputBP(label='self_tuple'),
+        NodeInputBP(label='other_tuple'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,17 +62,17 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._cmp_fn(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_dataclasses__create_fn(rc.Node):
+class _Create_Fn_Node(NodeBase):
     title = '_create_fn'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='body'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='body'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -73,18 +80,18 @@ rc.NodeInputBP(label='body'),
         self.set_output_val(0, dataclasses._create_fn(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_dataclasses__field_assign(rc.Node):
+class _Field_Assign_Node(NodeBase):
     title = '_field_assign'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='frozen'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='self_name'),
+        NodeInputBP(label='frozen'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='self_name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -92,18 +99,18 @@ rc.NodeInputBP(label='self_name'),
         self.set_output_val(0, dataclasses._field_assign(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_dataclasses__field_init(rc.Node):
+class _Field_Init_Node(NodeBase):
     title = '_field_init'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='frozen'),
-rc.NodeInputBP(label='globals'),
-rc.NodeInputBP(label='self_name'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='frozen'),
+        NodeInputBP(label='globals'),
+        NodeInputBP(label='self_name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -111,17 +118,17 @@ rc.NodeInputBP(label='self_name'),
         self.set_output_val(0, dataclasses._field_init(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_dataclasses__frozen_get_del_attr(rc.Node):
+class _Frozen_Get_Del_Attr_Node(NodeBase):
     title = '_frozen_get_del_attr'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='fields'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='fields'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -129,17 +136,17 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._frozen_get_del_attr(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_dataclasses__get_field(rc.Node):
+class _Get_Field_Node(NodeBase):
     title = '_get_field'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='a_name'),
-rc.NodeInputBP(label='a_type'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='a_name'),
+        NodeInputBP(label='a_type'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -147,17 +154,17 @@ rc.NodeInputBP(label='a_type'),
         self.set_output_val(0, dataclasses._get_field(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_dataclasses__hash_add(rc.Node):
+class _Hash_Add_Node(NodeBase):
     title = '_hash_add'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='fields'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='fields'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -165,17 +172,17 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._hash_add(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_dataclasses__hash_exception(rc.Node):
+class _Hash_Exception_Node(NodeBase):
     title = '_hash_exception'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='fields'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='fields'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -183,16 +190,16 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._hash_exception(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_dataclasses__hash_fn(rc.Node):
+class _Hash_Fn_Node(NodeBase):
     title = '_hash_fn'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='fields'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='fields'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -200,17 +207,17 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._hash_fn(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses__hash_set_none(rc.Node):
+class _Hash_Set_None_Node(NodeBase):
     title = '_hash_set_none'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='fields'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='fields'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -218,19 +225,19 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._hash_set_none(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_dataclasses__init_fn(rc.Node):
+class _Init_Fn_Node(NodeBase):
     title = '_init_fn'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='fields'),
-rc.NodeInputBP(label='frozen'),
-rc.NodeInputBP(label='has_post_init'),
-rc.NodeInputBP(label='self_name'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='fields'),
+        NodeInputBP(label='frozen'),
+        NodeInputBP(label='has_post_init'),
+        NodeInputBP(label='self_name'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -238,15 +245,15 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._init_fn(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_dataclasses__init_param(rc.Node):
+class _Init_Param_Node(NodeBase):
     title = '_init_param'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -254,16 +261,16 @@ class AutoNode_dataclasses__init_param(rc.Node):
         self.set_output_val(0, dataclasses._init_param(self.input(0)))
         
 
-
-class AutoNode_dataclasses__is_classvar(rc.Node):
+class _Is_Classvar_Node(NodeBase):
     title = '_is_classvar'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='a_type'),
-rc.NodeInputBP(label='typing'),
+        NodeInputBP(label='a_type'),
+        NodeInputBP(label='typing'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -271,15 +278,15 @@ rc.NodeInputBP(label='typing'),
         self.set_output_val(0, dataclasses._is_classvar(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses__is_dataclass_instance(rc.Node):
+class _Is_Dataclass_Instance_Node(NodeBase):
     title = '_is_dataclass_instance'
-    doc = '''Returns True if obj is an instance of a dataclass.'''
+    type_ = 'dataclasses'
+    doc = """Returns True if obj is an instance of a dataclass."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -287,16 +294,16 @@ class AutoNode_dataclasses__is_dataclass_instance(rc.Node):
         self.set_output_val(0, dataclasses._is_dataclass_instance(self.input(0)))
         
 
-
-class AutoNode_dataclasses__is_initvar(rc.Node):
+class _Is_Initvar_Node(NodeBase):
     title = '_is_initvar'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='a_type'),
-rc.NodeInputBP(label='dataclasses'),
+        NodeInputBP(label='a_type'),
+        NodeInputBP(label='dataclasses'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -304,19 +311,19 @@ rc.NodeInputBP(label='dataclasses'),
         self.set_output_val(0, dataclasses._is_initvar(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses__is_type(rc.Node):
+class _Is_Type_Node(NodeBase):
     title = '_is_type'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='annotation'),
-rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='a_module'),
-rc.NodeInputBP(label='a_type'),
-rc.NodeInputBP(label='is_type_predicate'),
+        NodeInputBP(label='annotation'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='a_module'),
+        NodeInputBP(label='a_type'),
+        NodeInputBP(label='is_type_predicate'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -324,21 +331,21 @@ rc.NodeInputBP(label='is_type_predicate'),
         self.set_output_val(0, dataclasses._is_type(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_dataclasses__process_class(rc.Node):
+class _Process_Class_Node(NodeBase):
     title = '_process_class'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='init'),
-rc.NodeInputBP(label='repr'),
-rc.NodeInputBP(label='eq'),
-rc.NodeInputBP(label='order'),
-rc.NodeInputBP(label='unsafe_hash'),
-rc.NodeInputBP(label='frozen'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='init'),
+        NodeInputBP(label='repr'),
+        NodeInputBP(label='eq'),
+        NodeInputBP(label='order'),
+        NodeInputBP(label='unsafe_hash'),
+        NodeInputBP(label='frozen'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -346,15 +353,15 @@ rc.NodeInputBP(label='frozen'),
         self.set_output_val(0, dataclasses._process_class(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6)))
         
 
-
-class AutoNode_dataclasses__recursive_repr(rc.Node):
+class _Recursive_Repr_Node(NodeBase):
     title = '_recursive_repr'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='user_function'),
+        NodeInputBP(label='user_function'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -362,16 +369,16 @@ class AutoNode_dataclasses__recursive_repr(rc.Node):
         self.set_output_val(0, dataclasses._recursive_repr(self.input(0)))
         
 
-
-class AutoNode_dataclasses__repr_fn(rc.Node):
+class _Repr_Fn_Node(NodeBase):
     title = '_repr_fn'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='fields'),
-rc.NodeInputBP(label='globals'),
+        NodeInputBP(label='fields'),
+        NodeInputBP(label='globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -379,17 +386,17 @@ rc.NodeInputBP(label='globals'),
         self.set_output_val(0, dataclasses._repr_fn(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses__set_new_attribute(rc.Node):
+class _Set_New_Attribute_Node(NodeBase):
     title = '_set_new_attribute'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -397,16 +404,16 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, dataclasses._set_new_attribute(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_dataclasses__tuple_str(rc.Node):
+class _Tuple_Str_Node(NodeBase):
     title = '_tuple_str'
-    doc = '''None'''
+    type_ = 'dataclasses'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj_name'),
-rc.NodeInputBP(label='fields'),
+        NodeInputBP(label='obj_name'),
+        NodeInputBP(label='fields'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -414,10 +421,10 @@ rc.NodeInputBP(label='fields'),
         self.set_output_val(0, dataclasses._tuple_str(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses_asdict(rc.Node):
+class Asdict_Node(NodeBase):
     title = 'asdict'
-    doc = '''Return the fields of a dataclass instance as a new dictionary mapping
+    type_ = 'dataclasses'
+    doc = """Return the fields of a dataclass instance as a new dictionary mapping
     field names to field values.
 
     Example usage:
@@ -434,12 +441,12 @@ class AutoNode_dataclasses_asdict(rc.Node):
     The function applies recursively to field values that are
     dataclass instances. This will also look into built-in containers:
     tuples, lists, and dicts.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -447,10 +454,10 @@ class AutoNode_dataclasses_asdict(rc.Node):
         self.set_output_val(0, dataclasses.asdict(self.input(0)))
         
 
-
-class AutoNode_dataclasses_astuple(rc.Node):
+class Astuple_Node(NodeBase):
     title = 'astuple'
-    doc = '''Return the fields of a dataclass instance as a new tuple of field values.
+    type_ = 'dataclasses'
+    doc = """Return the fields of a dataclass instance as a new tuple of field values.
 
     Example usage::
 
@@ -466,12 +473,12 @@ class AutoNode_dataclasses_astuple(rc.Node):
     The function applies recursively to field values that are
     dataclass instances. This will also look into built-in containers:
     tuples, lists, and dicts.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -479,10 +486,10 @@ class AutoNode_dataclasses_astuple(rc.Node):
         self.set_output_val(0, dataclasses.astuple(self.input(0)))
         
 
-
-class AutoNode_dataclasses_dataclass(rc.Node):
+class Dataclass_Node(NodeBase):
     title = 'dataclass'
-    doc = '''Returns the same class as was passed in, with dunder methods
+    type_ = 'dataclasses'
+    doc = """Returns the same class as was passed in, with dunder methods
     added based on the fields defined in the class.
 
     Examines PEP 526 __annotations__ to determine fields.
@@ -492,12 +499,12 @@ class AutoNode_dataclasses_dataclass(rc.Node):
     comparison dunder methods are added. If unsafe_hash is true, a
     __hash__() method function is added. If frozen is true, fields may
     not be assigned to after instance creation.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
+        NodeInputBP(label='cls', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -505,10 +512,10 @@ class AutoNode_dataclasses_dataclass(rc.Node):
         self.set_output_val(0, dataclasses.dataclass(self.input(0)))
         
 
-
-class AutoNode_dataclasses_field(rc.Node):
+class Field_Node(NodeBase):
     title = 'field'
-    doc = '''Return an object to identify dataclass fields.
+    type_ = 'dataclasses'
+    doc = """Return an object to identify dataclass fields.
 
     default is the default value of the field.  default_factory is a
     0-argument function called to initialize a field's value.  If init
@@ -520,12 +527,12 @@ class AutoNode_dataclasses_field(rc.Node):
     mapping which is stored but not otherwise examined by dataclass.
 
     It is an error to specify both default and default_factory.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -533,19 +540,19 @@ class AutoNode_dataclasses_field(rc.Node):
         self.set_output_val(0, dataclasses.field())
         
 
-
-class AutoNode_dataclasses_fields(rc.Node):
+class Fields_Node(NodeBase):
     title = 'fields'
-    doc = '''Return a tuple describing the fields of this dataclass.
+    type_ = 'dataclasses'
+    doc = """Return a tuple describing the fields of this dataclass.
 
     Accepts a dataclass or an instance of one. Tuple elements are of
     type Field.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='class_or_instance'),
+        NodeInputBP(label='class_or_instance'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -553,16 +560,16 @@ class AutoNode_dataclasses_fields(rc.Node):
         self.set_output_val(0, dataclasses.fields(self.input(0)))
         
 
-
-class AutoNode_dataclasses_is_dataclass(rc.Node):
+class Is_Dataclass_Node(NodeBase):
     title = 'is_dataclass'
-    doc = '''Returns True if obj is a dataclass or an instance of a
-    dataclass.'''
+    type_ = 'dataclasses'
+    doc = """Returns True if obj is a dataclass or an instance of a
+    dataclass."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -570,10 +577,10 @@ class AutoNode_dataclasses_is_dataclass(rc.Node):
         self.set_output_val(0, dataclasses.is_dataclass(self.input(0)))
         
 
-
-class AutoNode_dataclasses_make_dataclass(rc.Node):
+class Make_Dataclass_Node(NodeBase):
     title = 'make_dataclass'
-    doc = '''Return a new dynamically created dataclass.
+    type_ = 'dataclasses'
+    doc = """Return a new dynamically created dataclass.
 
     The dataclass name will be 'cls_name'.  'fields' is an iterable
     of either (name), (name, type) or (name, type, Field) objects. If type is
@@ -594,13 +601,13 @@ class AutoNode_dataclasses_make_dataclass(rc.Node):
 
     The parameters init, repr, eq, order, unsafe_hash, and frozen are passed to
     dataclass().
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls_name'),
-rc.NodeInputBP(label='fields'),
+        NodeInputBP(label='cls_name'),
+        NodeInputBP(label='fields'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -608,10 +615,10 @@ rc.NodeInputBP(label='fields'),
         self.set_output_val(0, dataclasses.make_dataclass(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dataclasses_replace(rc.Node):
+class Replace_Node(NodeBase):
     title = 'replace'
-    doc = '''Return a new object replacing specified fields with new values.
+    type_ = 'dataclasses'
+    doc = """Return a new object replacing specified fields with new values.
 
     This is especially useful for frozen classes.  Example usage:
 
@@ -623,15 +630,50 @@ class AutoNode_dataclasses_replace(rc.Node):
       c = C(1, 2)
       c1 = replace(c, x=3)
       assert c1.x == 3 and c1.y == 2
-      '''
+      """
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, dataclasses.replace(self.input(0)))
         
+
+
+export_nodes(
+    _Asdict_Inner_Node,
+    _Astuple_Inner_Node,
+    _Cmp_Fn_Node,
+    _Create_Fn_Node,
+    _Field_Assign_Node,
+    _Field_Init_Node,
+    _Frozen_Get_Del_Attr_Node,
+    _Get_Field_Node,
+    _Hash_Add_Node,
+    _Hash_Exception_Node,
+    _Hash_Fn_Node,
+    _Hash_Set_None_Node,
+    _Init_Fn_Node,
+    _Init_Param_Node,
+    _Is_Classvar_Node,
+    _Is_Dataclass_Instance_Node,
+    _Is_Initvar_Node,
+    _Is_Type_Node,
+    _Process_Class_Node,
+    _Recursive_Repr_Node,
+    _Repr_Fn_Node,
+    _Set_New_Attribute_Node,
+    _Tuple_Str_Node,
+    Asdict_Node,
+    Astuple_Node,
+    Dataclass_Node,
+    Field_Node,
+    Fields_Node,
+    Is_Dataclass_Node,
+    Make_Dataclass_Node,
+    Replace_Node,
+)

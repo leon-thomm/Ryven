@@ -1,10 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import doctest
 
 
-class AutoNode_doctest_DocFileSuite(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Docfilesuite_Node(NodeBase):
     title = 'DocFileSuite'
-    doc = '''A unittest suite for one or more doctest files.
+    type_ = 'doctest'
+    doc = """A unittest suite for one or more doctest files.
 
     The path to each doctest file is given as a string; the
     interpretation of that string depends on the keyword argument
@@ -58,12 +65,12 @@ class AutoNode_doctest_DocFileSuite(rc.Node):
 
     encoding
       An encoding that will be used to convert the files to unicode.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -71,20 +78,20 @@ class AutoNode_doctest_DocFileSuite(rc.Node):
         self.set_output_val(0, doctest.DocFileSuite())
         
 
-
-class AutoNode_doctest_DocFileTest(rc.Node):
+class Docfiletest_Node(NodeBase):
     title = 'DocFileTest'
-    doc = '''None'''
+    type_ = 'doctest'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='module_relative'),
-rc.NodeInputBP(label='package'),
-rc.NodeInputBP(label='globs'),
-rc.NodeInputBP(label='parser'),
-rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='module_relative', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='package', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='globs', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='parser', dtype=dtypes.Data(default=<doctest.DocTestParser object at 0x0000026E69CBC0D0>, size='s')),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -92,10 +99,10 @@ rc.NodeInputBP(label='encoding'),
         self.set_output_val(0, doctest.DocFileTest(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_doctest_DocTestSuite(rc.Node):
+class Doctestsuite_Node(NodeBase):
     title = 'DocTestSuite'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Convert doctest tests for a module to a unittest test suite.
 
     This converts each documentation string in a module that
@@ -128,15 +135,15 @@ class AutoNode_doctest_DocTestSuite(rc.Node):
 
     optionflags
        A set of doctest option flags expressed as an integer.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='globs'),
-rc.NodeInputBP(label='extraglobs'),
-rc.NodeInputBP(label='test_finder'),
+        NodeInputBP(label='module', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='globs', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='extraglobs', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='test_finder', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -144,15 +151,15 @@ rc.NodeInputBP(label='test_finder'),
         self.set_output_val(0, doctest.DocTestSuite(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_doctest__comment_line(rc.Node):
+class _Comment_Line_Node(NodeBase):
     title = '_comment_line'
-    doc = '''Return a commented form of the given line'''
+    type_ = 'doctest'
+    doc = """Return a commented form of the given line"""
     init_inputs = [
-        rc.NodeInputBP(label='line'),
+        NodeInputBP(label='line'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -160,20 +167,20 @@ class AutoNode_doctest__comment_line(rc.Node):
         self.set_output_val(0, doctest._comment_line(self.input(0)))
         
 
-
-class AutoNode_doctest__ellipsis_match(rc.Node):
+class _Ellipsis_Match_Node(NodeBase):
     title = '_ellipsis_match'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Essentially the only subtle case:
     >>> _ellipsis_match('aa...aa', 'aaa')
     False
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='want'),
-rc.NodeInputBP(label='got'),
+        NodeInputBP(label='want'),
+        NodeInputBP(label='got'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -181,18 +188,18 @@ rc.NodeInputBP(label='got'),
         self.set_output_val(0, doctest._ellipsis_match(self.input(0), self.input(1)))
         
 
-
-class AutoNode_doctest__exception_traceback(rc.Node):
+class _Exception_Traceback_Node(NodeBase):
     title = '_exception_traceback'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Return a string containing a traceback message for the given
     exc_info tuple (as returned by sys.exc_info()).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='exc_info'),
+        NodeInputBP(label='exc_info'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -200,18 +207,18 @@ class AutoNode_doctest__exception_traceback(rc.Node):
         self.set_output_val(0, doctest._exception_traceback(self.input(0)))
         
 
-
-class AutoNode_doctest__extract_future_flags(rc.Node):
+class _Extract_Future_Flags_Node(NodeBase):
     title = '_extract_future_flags'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Return the compiler-flags associated with the future features that
     have been imported into the given namespace (globs).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='globs'),
+        NodeInputBP(label='globs'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -219,19 +226,19 @@ class AutoNode_doctest__extract_future_flags(rc.Node):
         self.set_output_val(0, doctest._extract_future_flags(self.input(0)))
         
 
-
-class AutoNode_doctest__indent(rc.Node):
+class _Indent_Node(NodeBase):
     title = '_indent'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Add the given number of space characters to the beginning of
     every non-blank line in `s`, and return the result.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='indent'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='indent', dtype=dtypes.Data(default=4, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -239,18 +246,18 @@ rc.NodeInputBP(label='indent'),
         self.set_output_val(0, doctest._indent(self.input(0), self.input(1)))
         
 
-
-class AutoNode_doctest__load_testfile(rc.Node):
+class _Load_Testfile_Node(NodeBase):
     title = '_load_testfile'
-    doc = '''None'''
+    type_ = 'doctest'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='package'),
-rc.NodeInputBP(label='module_relative'),
-rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='package'),
+        NodeInputBP(label='module_relative'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -258,16 +265,16 @@ rc.NodeInputBP(label='encoding'),
         self.set_output_val(0, doctest._load_testfile(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_doctest__module_relative_path(rc.Node):
+class _Module_Relative_Path_Node(NodeBase):
     title = '_module_relative_path'
-    doc = '''None'''
+    type_ = 'doctest'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='test_path'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='test_path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -275,15 +282,15 @@ rc.NodeInputBP(label='test_path'),
         self.set_output_val(0, doctest._module_relative_path(self.input(0), self.input(1)))
         
 
-
-class AutoNode_doctest__newline_convert(rc.Node):
+class _Newline_Convert_Node(NodeBase):
     title = '_newline_convert'
-    doc = '''None'''
+    type_ = 'doctest'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -291,10 +298,10 @@ class AutoNode_doctest__newline_convert(rc.Node):
         self.set_output_val(0, doctest._newline_convert(self.input(0)))
         
 
-
-class AutoNode_doctest__normalize_module(rc.Node):
+class _Normalize_Module_Node(NodeBase):
     title = '_normalize_module'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Return the module specified by `module`.  In particular:
       - If `module` is a module, then return module.
       - If `module` is a string, then import and return the
@@ -302,13 +309,13 @@ class AutoNode_doctest__normalize_module(rc.Node):
       - If `module` is None, then return the calling module.
         The calling module is assumed to be the module of
         the stack frame at the given depth in the call stack.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='depth'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='depth', dtype=dtypes.Data(default=2, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -316,15 +323,15 @@ rc.NodeInputBP(label='depth'),
         self.set_output_val(0, doctest._normalize_module(self.input(0), self.input(1)))
         
 
-
-class AutoNode_doctest__strip_exception_details(rc.Node):
+class _Strip_Exception_Details_Node(NodeBase):
     title = '_strip_exception_details'
-    doc = '''None'''
+    type_ = 'doctest'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='msg'),
+        NodeInputBP(label='msg'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -332,15 +339,15 @@ class AutoNode_doctest__strip_exception_details(rc.Node):
         self.set_output_val(0, doctest._strip_exception_details(self.input(0)))
         
 
-
-class AutoNode_doctest__test(rc.Node):
+class _Test_Node(NodeBase):
     title = '_test'
-    doc = '''None'''
+    type_ = 'doctest'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -348,22 +355,22 @@ class AutoNode_doctest__test(rc.Node):
         self.set_output_val(0, doctest._test())
         
 
-
-class AutoNode_doctest_debug(rc.Node):
+class Debug_Node(NodeBase):
     title = 'debug'
-    doc = '''Debug a single doctest docstring.
+    type_ = 'doctest'
+    doc = """Debug a single doctest docstring.
 
     Provide the module (or dotted name of the module) containing the
     test to be debugged and the name (within the module) of the object
     with the docstring with tests to be debugged.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='pm'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='pm', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -371,17 +378,17 @@ rc.NodeInputBP(label='pm'),
         self.set_output_val(0, doctest.debug(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_doctest_debug_script(rc.Node):
+class Debug_Script_Node(NodeBase):
     title = 'debug_script'
-    doc = '''Debug a test script.  `src` is the script, as a string.'''
+    type_ = 'doctest'
+    doc = """Debug a test script.  `src` is the script, as a string."""
     init_inputs = [
-        rc.NodeInputBP(label='src'),
-rc.NodeInputBP(label='pm'),
-rc.NodeInputBP(label='globs'),
+        NodeInputBP(label='src'),
+        NodeInputBP(label='pm', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='globs', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -389,17 +396,17 @@ rc.NodeInputBP(label='globs'),
         self.set_output_val(0, doctest.debug_script(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_doctest_debug_src(rc.Node):
+class Debug_Src_Node(NodeBase):
     title = 'debug_src'
-    doc = '''Debug a single doctest docstring, in argument `src`''''
+    type_ = 'doctest'
+    doc = """Debug a single doctest docstring, in argument `src`'"""
     init_inputs = [
-        rc.NodeInputBP(label='src'),
-rc.NodeInputBP(label='pm'),
-rc.NodeInputBP(label='globs'),
+        NodeInputBP(label='src'),
+        NodeInputBP(label='pm', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='globs', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -407,10 +414,10 @@ rc.NodeInputBP(label='globs'),
         self.set_output_val(0, doctest.debug_src(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_doctest_namedtuple(rc.Node):
+class Namedtuple_Node(NodeBase):
     title = 'namedtuple'
-    doc = '''Returns a new subclass of tuple with named fields.
+    type_ = 'doctest'
+    doc = """Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -431,13 +438,13 @@ class AutoNode_doctest_namedtuple(rc.Node):
     >>> p._replace(x=100)               # _replace() is like str.replace() but targets named fields
     Point(x=100, y=22)
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='typename'),
-rc.NodeInputBP(label='field_names'),
+        NodeInputBP(label='typename'),
+        NodeInputBP(label='field_names'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -445,15 +452,15 @@ rc.NodeInputBP(label='field_names'),
         self.set_output_val(0, doctest.namedtuple(self.input(0), self.input(1)))
         
 
-
-class AutoNode_doctest_register_optionflag(rc.Node):
+class Register_Optionflag_Node(NodeBase):
     title = 'register_optionflag'
-    doc = '''None'''
+    type_ = 'doctest'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -461,10 +468,10 @@ class AutoNode_doctest_register_optionflag(rc.Node):
         self.set_output_val(0, doctest.register_optionflag(self.input(0)))
         
 
-
-class AutoNode_doctest_run_docstring_examples(rc.Node):
+class Run_Docstring_Examples_Node(NodeBase):
     title = 'run_docstring_examples'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Test examples in the given object's docstring (`f`), using `globs`
     as globals.  Optional argument `name` is used in failure messages.
     If the optional argument `verbose` is true, then generate output
@@ -478,17 +485,17 @@ class AutoNode_doctest_run_docstring_examples(rc.Node):
     Optional keyword arg `optionflags` specifies options for the
     testing and output.  See the documentation for `testmod` for more
     information.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='globs'),
-rc.NodeInputBP(label='verbose'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='compileflags'),
-rc.NodeInputBP(label='optionflags'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='globs'),
+        NodeInputBP(label='verbose', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='name', dtype=dtypes.Data(default='NoName', size='s')),
+        NodeInputBP(label='compileflags', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='optionflags', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -496,10 +503,10 @@ rc.NodeInputBP(label='optionflags'),
         self.set_output_val(0, doctest.run_docstring_examples(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_doctest_script_from_examples(rc.Node):
+class Script_From_Examples_Node(NodeBase):
     title = 'script_from_examples'
-    doc = '''Extract script from text with examples.
+    type_ = 'doctest'
+    doc = """Extract script from text with examples.
 
        Converts text with examples to a Python script.  Example input is
        converted to regular code.  Example output and all other words
@@ -555,12 +562,12 @@ class AutoNode_doctest_script_from_examples(rc.Node):
        #
        #     Ho hum
        <BLANKLINE>
-       '''
+       """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -568,10 +575,10 @@ class AutoNode_doctest_script_from_examples(rc.Node):
         self.set_output_val(0, doctest.script_from_examples(self.input(0)))
         
 
-
-class AutoNode_doctest_set_unittest_reportflags(rc.Node):
+class Set_Unittest_Reportflags_Node(NodeBase):
     title = 'set_unittest_reportflags'
-    doc = '''Sets the unittest option flags.
+    type_ = 'doctest'
+    doc = """Sets the unittest option flags.
 
     The old flag is returned so that a runner could restore the old
     value if it wished to:
@@ -596,12 +603,12 @@ class AutoNode_doctest_set_unittest_reportflags(rc.Node):
       >>> doctest.set_unittest_reportflags(old) == (REPORT_NDIFF |
       ...                                   REPORT_ONLY_FIRST_FAILURE)
       True
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='flags'),
+        NodeInputBP(label='flags'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -609,10 +616,10 @@ class AutoNode_doctest_set_unittest_reportflags(rc.Node):
         self.set_output_val(0, doctest.set_unittest_reportflags(self.input(0)))
         
 
-
-class AutoNode_doctest_testfile(rc.Node):
+class Testfile_Node(NodeBase):
     title = 'testfile'
-    doc = '''
+    type_ = 'doctest'
+    doc = """
     Test examples in the given file.  Return (#failures, #tests).
 
     Optional keyword arg "module_relative" specifies how filenames
@@ -687,23 +694,23 @@ class AutoNode_doctest_testfile(rc.Node):
     Passing report=0 to testmod is especially useful then, to delay
     displaying a summary.  Invoke doctest.master.summarize(verbose)
     when you're done fiddling.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='module_relative'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='package'),
-rc.NodeInputBP(label='globs'),
-rc.NodeInputBP(label='verbose'),
-rc.NodeInputBP(label='report'),
-rc.NodeInputBP(label='optionflags'),
-rc.NodeInputBP(label='extraglobs'),
-rc.NodeInputBP(label='raise_on_error'),
-rc.NodeInputBP(label='parser'),
-rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='module_relative', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='name', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='package', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='globs', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='verbose', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='report', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='optionflags', dtype=dtypes.Data(default=0, size='s')),
+        NodeInputBP(label='extraglobs', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='raise_on_error', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='parser', dtype=dtypes.Data(default=<doctest.DocTestParser object at 0x0000026E69CA7F10>, size='s')),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -711,10 +718,10 @@ rc.NodeInputBP(label='encoding'),
         self.set_output_val(0, doctest.testfile(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7), self.input(8), self.input(9), self.input(10), self.input(11)))
         
 
-
-class AutoNode_doctest_testmod(rc.Node):
+class Testmod_Node(NodeBase):
     title = 'testmod'
-    doc = '''m=None, name=None, globs=None, verbose=None, report=True,
+    type_ = 'doctest'
+    doc = """m=None, name=None, globs=None, verbose=None, report=True,
        optionflags=0, extraglobs=None, raise_on_error=False,
        exclude_empty=False
 
@@ -776,20 +783,20 @@ class AutoNode_doctest_testmod(rc.Node):
     Passing report=0 to testmod is especially useful then, to delay
     displaying a summary.  Invoke doctest.master.summarize(verbose)
     when you're done fiddling.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='m'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='globs'),
-rc.NodeInputBP(label='verbose'),
-rc.NodeInputBP(label='report'),
-rc.NodeInputBP(label='optionflags'),
-rc.NodeInputBP(label='extraglobs'),
-rc.NodeInputBP(label='raise_on_error'),
-rc.NodeInputBP(label='exclude_empty'),
+        NodeInputBP(label='m', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='name', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='globs', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='verbose', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='report', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='optionflags', dtype=dtypes.Data(default=0, size='s')),
+        NodeInputBP(label='extraglobs', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='raise_on_error', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='exclude_empty', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -797,24 +804,53 @@ rc.NodeInputBP(label='exclude_empty'),
         self.set_output_val(0, doctest.testmod(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7), self.input(8)))
         
 
-
-class AutoNode_doctest_testsource(rc.Node):
+class Testsource_Node(NodeBase):
     title = 'testsource'
-    doc = '''Extract the test sources from a doctest docstring as a script.
+    type_ = 'doctest'
+    doc = """Extract the test sources from a doctest docstring as a script.
 
     Provide the module (or dotted name of the module) containing the
     test to be debugged and the name (within the module) of the object
     with the doc string with tests to be debugged.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='name'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, doctest.testsource(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    Docfilesuite_Node,
+    Docfiletest_Node,
+    Doctestsuite_Node,
+    _Comment_Line_Node,
+    _Ellipsis_Match_Node,
+    _Exception_Traceback_Node,
+    _Extract_Future_Flags_Node,
+    _Indent_Node,
+    _Load_Testfile_Node,
+    _Module_Relative_Path_Node,
+    _Newline_Convert_Node,
+    _Normalize_Module_Node,
+    _Strip_Exception_Details_Node,
+    _Test_Node,
+    Debug_Node,
+    Debug_Script_Node,
+    Debug_Src_Node,
+    Namedtuple_Node,
+    Register_Optionflag_Node,
+    Run_Docstring_Examples_Node,
+    Script_From_Examples_Node,
+    Set_Unittest_Reportflags_Node,
+    Testfile_Node,
+    Testmod_Node,
+    Testsource_Node,
+)

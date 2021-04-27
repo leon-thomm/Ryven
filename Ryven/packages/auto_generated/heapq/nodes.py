@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import heapq
 
 
-class AutoNode_heapq__heapify_max(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Heapify_Max_Node(NodeBase):
     title = '_heapify_max'
-    doc = '''Maxheap variant of heapify.'''
+    type_ = 'heapq'
+    doc = """Maxheap variant of heapify."""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
+        NodeInputBP(label='heap'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_heapq__heapify_max(rc.Node):
         self.set_output_val(0, heapq._heapify_max(self.input(0)))
         
 
-
-class AutoNode_heapq__heappop_max(rc.Node):
+class _Heappop_Max_Node(NodeBase):
     title = '_heappop_max'
-    doc = '''Maxheap variant of heappop.'''
+    type_ = 'heapq'
+    doc = """Maxheap variant of heappop."""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
+        NodeInputBP(label='heap'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,16 +40,16 @@ class AutoNode_heapq__heappop_max(rc.Node):
         self.set_output_val(0, heapq._heappop_max(self.input(0)))
         
 
-
-class AutoNode_heapq__heapreplace_max(rc.Node):
+class _Heapreplace_Max_Node(NodeBase):
     title = '_heapreplace_max'
-    doc = '''Maxheap variant of heapreplace.'''
+    type_ = 'heapq'
+    doc = """Maxheap variant of heapreplace."""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='item'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='item'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -50,17 +57,17 @@ rc.NodeInputBP(label='item'),
         self.set_output_val(0, heapq._heapreplace_max(self.input(0), self.input(1)))
         
 
-
-class AutoNode_heapq__siftdown(rc.Node):
+class _Siftdown_Node(NodeBase):
     title = '_siftdown'
-    doc = '''None'''
+    type_ = 'heapq'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='startpos'),
-rc.NodeInputBP(label='pos'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='startpos'),
+        NodeInputBP(label='pos'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -68,17 +75,17 @@ rc.NodeInputBP(label='pos'),
         self.set_output_val(0, heapq._siftdown(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_heapq__siftdown_max(rc.Node):
+class _Siftdown_Max_Node(NodeBase):
     title = '_siftdown_max'
-    doc = '''Maxheap variant of _siftdown'''
+    type_ = 'heapq'
+    doc = """Maxheap variant of _siftdown"""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='startpos'),
-rc.NodeInputBP(label='pos'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='startpos'),
+        NodeInputBP(label='pos'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -86,16 +93,16 @@ rc.NodeInputBP(label='pos'),
         self.set_output_val(0, heapq._siftdown_max(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_heapq__siftup(rc.Node):
+class _Siftup_Node(NodeBase):
     title = '_siftup'
-    doc = '''None'''
+    type_ = 'heapq'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='pos'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='pos'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -103,16 +110,16 @@ rc.NodeInputBP(label='pos'),
         self.set_output_val(0, heapq._siftup(self.input(0), self.input(1)))
         
 
-
-class AutoNode_heapq__siftup_max(rc.Node):
+class _Siftup_Max_Node(NodeBase):
     title = '_siftup_max'
-    doc = '''Maxheap variant of _siftup'''
+    type_ = 'heapq'
+    doc = """Maxheap variant of _siftup"""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='pos'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='pos'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -120,15 +127,15 @@ rc.NodeInputBP(label='pos'),
         self.set_output_val(0, heapq._siftup_max(self.input(0), self.input(1)))
         
 
-
-class AutoNode_heapq_heapify(rc.Node):
+class Heapify_Node(NodeBase):
     title = 'heapify'
-    doc = '''Transform list into a heap, in-place, in O(len(heap)) time.'''
+    type_ = 'heapq'
+    doc = """Transform list into a heap, in-place, in O(len(heap)) time."""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
+        NodeInputBP(label='heap'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -136,15 +143,15 @@ class AutoNode_heapq_heapify(rc.Node):
         self.set_output_val(0, heapq.heapify(self.input(0)))
         
 
-
-class AutoNode_heapq_heappop(rc.Node):
+class Heappop_Node(NodeBase):
     title = 'heappop'
-    doc = '''Pop the smallest item off the heap, maintaining the heap invariant.'''
+    type_ = 'heapq'
+    doc = """Pop the smallest item off the heap, maintaining the heap invariant."""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
+        NodeInputBP(label='heap'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -152,16 +159,16 @@ class AutoNode_heapq_heappop(rc.Node):
         self.set_output_val(0, heapq.heappop(self.input(0)))
         
 
-
-class AutoNode_heapq_heappush(rc.Node):
+class Heappush_Node(NodeBase):
     title = 'heappush'
-    doc = '''Push item onto heap, maintaining the heap invariant.'''
+    type_ = 'heapq'
+    doc = """Push item onto heap, maintaining the heap invariant."""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='item'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='item'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -169,19 +176,19 @@ rc.NodeInputBP(label='item'),
         self.set_output_val(0, heapq.heappush(self.input(0), self.input(1)))
         
 
-
-class AutoNode_heapq_heappushpop(rc.Node):
+class Heappushpop_Node(NodeBase):
     title = 'heappushpop'
-    doc = '''Push item on the heap, then pop and return the smallest item from the heap.
+    type_ = 'heapq'
+    doc = """Push item on the heap, then pop and return the smallest item from the heap.
 
 The combined action runs more efficiently than heappush() followed by
-a separate call to heappop().'''
+a separate call to heappop()."""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='item'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='item'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -189,10 +196,10 @@ rc.NodeInputBP(label='item'),
         self.set_output_val(0, heapq.heappushpop(self.input(0), self.input(1)))
         
 
-
-class AutoNode_heapq_heapreplace(rc.Node):
+class Heapreplace_Node(NodeBase):
     title = 'heapreplace'
-    doc = '''Pop and return the current smallest value, and add the new item.
+    type_ = 'heapq'
+    doc = """Pop and return the current smallest value, and add the new item.
 
 This is more efficient than heappop() followed by heappush(), and can be
 more appropriate when using a fixed-size heap.  Note that the value
@@ -200,13 +207,13 @@ returned may be larger than item!  That constrains reasonable uses of
 this routine unless written as part of a conditional replacement:
 
     if item > heap[0]:
-        item = heapreplace(heap, item)'''
+        item = heapreplace(heap, item)"""
     init_inputs = [
-        rc.NodeInputBP(label='heap'),
-rc.NodeInputBP(label='item'),
+        NodeInputBP(label='heap'),
+        NodeInputBP(label='item'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -214,10 +221,10 @@ rc.NodeInputBP(label='item'),
         self.set_output_val(0, heapq.heapreplace(self.input(0), self.input(1)))
         
 
-
-class AutoNode_heapq_merge(rc.Node):
+class Merge_Node(NodeBase):
     title = 'merge'
-    doc = '''Merge multiple sorted inputs into a single sorted output.
+    type_ = 'heapq'
+    doc = """Merge multiple sorted inputs into a single sorted output.
 
     Similar to sorted(itertools.chain(*iterables)) but returns a generator,
     does not pull the data into memory all at once, and assumes that each of
@@ -232,12 +239,12 @@ class AutoNode_heapq_merge(rc.Node):
     >>> list(merge(['dog', 'horse'], ['cat', 'fish', 'kangaroo'], key=len))
     ['dog', 'cat', 'fish', 'horse', 'kangaroo']
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -245,20 +252,20 @@ class AutoNode_heapq_merge(rc.Node):
         self.set_output_val(0, heapq.merge())
         
 
-
-class AutoNode_heapq_nlargest(rc.Node):
+class Nlargest_Node(NodeBase):
     title = 'nlargest'
-    doc = '''Find the n largest elements in a dataset.
+    type_ = 'heapq'
+    doc = """Find the n largest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key, reverse=True)[:n]
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='n'),
-rc.NodeInputBP(label='iterable'),
-rc.NodeInputBP(label='key'),
+        NodeInputBP(label='n'),
+        NodeInputBP(label='iterable'),
+        NodeInputBP(label='key', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -266,23 +273,42 @@ rc.NodeInputBP(label='key'),
         self.set_output_val(0, heapq.nlargest(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_heapq_nsmallest(rc.Node):
+class Nsmallest_Node(NodeBase):
     title = 'nsmallest'
-    doc = '''Find the n smallest elements in a dataset.
+    type_ = 'heapq'
+    doc = """Find the n smallest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key)[:n]
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='n'),
-rc.NodeInputBP(label='iterable'),
-rc.NodeInputBP(label='key'),
+        NodeInputBP(label='n'),
+        NodeInputBP(label='iterable'),
+        NodeInputBP(label='key', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, heapq.nsmallest(self.input(0), self.input(1), self.input(2)))
         
+
+
+export_nodes(
+    _Heapify_Max_Node,
+    _Heappop_Max_Node,
+    _Heapreplace_Max_Node,
+    _Siftdown_Node,
+    _Siftdown_Max_Node,
+    _Siftup_Node,
+    _Siftup_Max_Node,
+    Heapify_Node,
+    Heappop_Node,
+    Heappush_Node,
+    Heappushpop_Node,
+    Heapreplace_Node,
+    Merge_Node,
+    Nlargest_Node,
+    Nsmallest_Node,
+)

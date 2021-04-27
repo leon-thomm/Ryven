@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import imghdr
 
 
-class AutoNode_imghdr_test(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Test_Node(NodeBase):
     title = 'test'
-    doc = '''None'''
+    type_ = 'imghdr'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,16 +24,16 @@ class AutoNode_imghdr_test(rc.Node):
         self.set_output_val(0, imghdr.test())
         
 
-
-class AutoNode_imghdr_test_bmp(rc.Node):
+class Test_Bmp_Node(NodeBase):
     title = 'test_bmp'
-    doc = '''None'''
+    type_ = 'imghdr'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,16 +41,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_bmp(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_exr(rc.Node):
+class Test_Exr_Node(NodeBase):
     title = 'test_exr'
-    doc = '''None'''
+    type_ = 'imghdr'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -51,16 +58,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_exr(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_gif(rc.Node):
+class Test_Gif_Node(NodeBase):
     title = 'test_gif'
-    doc = '''GIF ('87 and '89 variants)'''
+    type_ = 'imghdr'
+    doc = """GIF ('87 and '89 variants)"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -68,16 +75,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_gif(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_jpeg(rc.Node):
+class Test_Jpeg_Node(NodeBase):
     title = 'test_jpeg'
-    doc = '''JPEG data in JFIF or Exif format'''
+    type_ = 'imghdr'
+    doc = """JPEG data in JFIF or Exif format"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -85,16 +92,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_jpeg(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_pbm(rc.Node):
+class Test_Pbm_Node(NodeBase):
     title = 'test_pbm'
-    doc = '''PBM (portable bitmap)'''
+    type_ = 'imghdr'
+    doc = """PBM (portable bitmap)"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -102,16 +109,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_pbm(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_pgm(rc.Node):
+class Test_Pgm_Node(NodeBase):
     title = 'test_pgm'
-    doc = '''PGM (portable graymap)'''
+    type_ = 'imghdr'
+    doc = """PGM (portable graymap)"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -119,16 +126,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_pgm(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_png(rc.Node):
+class Test_Png_Node(NodeBase):
     title = 'test_png'
-    doc = '''None'''
+    type_ = 'imghdr'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -136,16 +143,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_png(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_ppm(rc.Node):
+class Test_Ppm_Node(NodeBase):
     title = 'test_ppm'
-    doc = '''PPM (portable pixmap)'''
+    type_ = 'imghdr'
+    doc = """PPM (portable pixmap)"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -153,16 +160,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_ppm(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_rast(rc.Node):
+class Test_Rast_Node(NodeBase):
     title = 'test_rast'
-    doc = '''Sun raster file'''
+    type_ = 'imghdr'
+    doc = """Sun raster file"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -170,16 +177,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_rast(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_rgb(rc.Node):
+class Test_Rgb_Node(NodeBase):
     title = 'test_rgb'
-    doc = '''SGI image library'''
+    type_ = 'imghdr'
+    doc = """SGI image library"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -187,16 +194,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_rgb(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_tiff(rc.Node):
+class Test_Tiff_Node(NodeBase):
     title = 'test_tiff'
-    doc = '''TIFF (can be in Motorola or Intel byte order)'''
+    type_ = 'imghdr'
+    doc = """TIFF (can be in Motorola or Intel byte order)"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -204,16 +211,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_tiff(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_webp(rc.Node):
+class Test_Webp_Node(NodeBase):
     title = 'test_webp'
-    doc = '''None'''
+    type_ = 'imghdr'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -221,16 +228,16 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_webp(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_test_xbm(rc.Node):
+class Test_Xbm_Node(NodeBase):
     title = 'test_xbm'
-    doc = '''X bitmap (X10 or X11)'''
+    type_ = 'imghdr'
+    doc = """X bitmap (X10 or X11)"""
     init_inputs = [
-        rc.NodeInputBP(label='h'),
-rc.NodeInputBP(label='f'),
+        NodeInputBP(label='h'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -238,17 +245,17 @@ rc.NodeInputBP(label='f'),
         self.set_output_val(0, imghdr.test_xbm(self.input(0), self.input(1)))
         
 
-
-class AutoNode_imghdr_testall(rc.Node):
+class Testall_Node(NodeBase):
     title = 'testall'
-    doc = '''None'''
+    type_ = 'imghdr'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='list'),
-rc.NodeInputBP(label='recursive'),
-rc.NodeInputBP(label='toplevel'),
+        NodeInputBP(label='list'),
+        NodeInputBP(label='recursive'),
+        NodeInputBP(label='toplevel'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -256,19 +263,39 @@ rc.NodeInputBP(label='toplevel'),
         self.set_output_val(0, imghdr.testall(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_imghdr_what(rc.Node):
+class What_Node(NodeBase):
     title = 'what'
-    doc = '''None'''
+    type_ = 'imghdr'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='h'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='h', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, imghdr.what(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    Test_Node,
+    Test_Bmp_Node,
+    Test_Exr_Node,
+    Test_Gif_Node,
+    Test_Jpeg_Node,
+    Test_Pbm_Node,
+    Test_Pgm_Node,
+    Test_Png_Node,
+    Test_Ppm_Node,
+    Test_Rast_Node,
+    Test_Rgb_Node,
+    Test_Tiff_Node,
+    Test_Webp_Node,
+    Test_Xbm_Node,
+    Testall_Node,
+    What_Node,
+)

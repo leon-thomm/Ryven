@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import fractions
 
 
-class AutoNode_fractions__gcd(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Gcd_Node(NodeBase):
     title = '_gcd'
-    doc = '''None'''
+    type_ = 'fractions'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,23 +25,29 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, fractions._gcd(self.input(0), self.input(1)))
         
 
-
-class AutoNode_fractions_gcd(rc.Node):
+class Gcd_Node(NodeBase):
     title = 'gcd'
-    doc = '''Calculate the Greatest Common Divisor of a and b.
+    type_ = 'fractions'
+    doc = """Calculate the Greatest Common Divisor of a and b.
 
     Unless b==0, the result will have the same sign as b (so that when
     b is divided by it, the result comes out positive).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, fractions.gcd(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Gcd_Node,
+    Gcd_Node,
+)

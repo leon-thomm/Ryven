@@ -1,17 +1,24 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import glob
 
 
-class AutoNode_glob__glob0(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Glob0_Node(NodeBase):
     title = '_glob0'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='dirname'),
-rc.NodeInputBP(label='basename'),
-rc.NodeInputBP(label='dironly'),
+        NodeInputBP(label='dirname'),
+        NodeInputBP(label='basename'),
+        NodeInputBP(label='dironly'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -19,17 +26,17 @@ rc.NodeInputBP(label='dironly'),
         self.set_output_val(0, glob._glob0(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_glob__glob1(rc.Node):
+class _Glob1_Node(NodeBase):
     title = '_glob1'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='dirname'),
-rc.NodeInputBP(label='pattern'),
-rc.NodeInputBP(label='dironly'),
+        NodeInputBP(label='dirname'),
+        NodeInputBP(label='pattern'),
+        NodeInputBP(label='dironly'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -37,17 +44,17 @@ rc.NodeInputBP(label='dironly'),
         self.set_output_val(0, glob._glob1(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_glob__glob2(rc.Node):
+class _Glob2_Node(NodeBase):
     title = '_glob2'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='dirname'),
-rc.NodeInputBP(label='pattern'),
-rc.NodeInputBP(label='dironly'),
+        NodeInputBP(label='dirname'),
+        NodeInputBP(label='pattern'),
+        NodeInputBP(label='dironly'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,17 +62,17 @@ rc.NodeInputBP(label='dironly'),
         self.set_output_val(0, glob._glob2(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_glob__iglob(rc.Node):
+class _Iglob_Node(NodeBase):
     title = '_iglob'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='pathname'),
-rc.NodeInputBP(label='recursive'),
-rc.NodeInputBP(label='dironly'),
+        NodeInputBP(label='pathname'),
+        NodeInputBP(label='recursive'),
+        NodeInputBP(label='dironly'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -73,15 +80,15 @@ rc.NodeInputBP(label='dironly'),
         self.set_output_val(0, glob._iglob(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_glob__ishidden(rc.Node):
+class _Ishidden_Node(NodeBase):
     title = '_ishidden'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -89,15 +96,15 @@ class AutoNode_glob__ishidden(rc.Node):
         self.set_output_val(0, glob._ishidden(self.input(0)))
         
 
-
-class AutoNode_glob__isrecursive(rc.Node):
+class _Isrecursive_Node(NodeBase):
     title = '_isrecursive'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='pattern'),
+        NodeInputBP(label='pattern'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -105,16 +112,16 @@ class AutoNode_glob__isrecursive(rc.Node):
         self.set_output_val(0, glob._isrecursive(self.input(0)))
         
 
-
-class AutoNode_glob__iterdir(rc.Node):
+class _Iterdir_Node(NodeBase):
     title = '_iterdir'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='dirname'),
-rc.NodeInputBP(label='dironly'),
+        NodeInputBP(label='dirname'),
+        NodeInputBP(label='dironly'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -122,16 +129,16 @@ rc.NodeInputBP(label='dironly'),
         self.set_output_val(0, glob._iterdir(self.input(0), self.input(1)))
         
 
-
-class AutoNode_glob__rlistdir(rc.Node):
+class _Rlistdir_Node(NodeBase):
     title = '_rlistdir'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='dirname'),
-rc.NodeInputBP(label='dironly'),
+        NodeInputBP(label='dirname'),
+        NodeInputBP(label='dironly'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -139,16 +146,16 @@ rc.NodeInputBP(label='dironly'),
         self.set_output_val(0, glob._rlistdir(self.input(0), self.input(1)))
         
 
-
-class AutoNode_glob_escape(rc.Node):
+class Escape_Node(NodeBase):
     title = 'escape'
-    doc = '''Escape all special characters.
-    '''
+    type_ = 'glob'
+    doc = """Escape all special characters.
+    """
     init_inputs = [
-        rc.NodeInputBP(label='pathname'),
+        NodeInputBP(label='pathname'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -156,10 +163,10 @@ class AutoNode_glob_escape(rc.Node):
         self.set_output_val(0, glob.escape(self.input(0)))
         
 
-
-class AutoNode_glob_glob(rc.Node):
+class Glob_Node(NodeBase):
     title = 'glob'
-    doc = '''Return a list of paths matching a pathname pattern.
+    type_ = 'glob'
+    doc = """Return a list of paths matching a pathname pattern.
 
     The pattern may contain simple shell-style wildcards a la
     fnmatch. However, unlike fnmatch, filenames starting with a
@@ -168,12 +175,12 @@ class AutoNode_glob_glob(rc.Node):
 
     If recursive is true, the pattern '**' will match any files and
     zero or more directories and subdirectories.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='pathname'),
+        NodeInputBP(label='pathname'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -181,16 +188,16 @@ class AutoNode_glob_glob(rc.Node):
         self.set_output_val(0, glob.glob(self.input(0)))
         
 
-
-class AutoNode_glob_glob0(rc.Node):
+class Glob0_Node(NodeBase):
     title = 'glob0'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='dirname'),
-rc.NodeInputBP(label='pattern'),
+        NodeInputBP(label='dirname'),
+        NodeInputBP(label='pattern'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -198,16 +205,16 @@ rc.NodeInputBP(label='pattern'),
         self.set_output_val(0, glob.glob0(self.input(0), self.input(1)))
         
 
-
-class AutoNode_glob_glob1(rc.Node):
+class Glob1_Node(NodeBase):
     title = 'glob1'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='dirname'),
-rc.NodeInputBP(label='pattern'),
+        NodeInputBP(label='dirname'),
+        NodeInputBP(label='pattern'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -215,15 +222,15 @@ rc.NodeInputBP(label='pattern'),
         self.set_output_val(0, glob.glob1(self.input(0), self.input(1)))
         
 
-
-class AutoNode_glob_has_magic(rc.Node):
+class Has_Magic_Node(NodeBase):
     title = 'has_magic'
-    doc = '''None'''
+    type_ = 'glob'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -231,10 +238,10 @@ class AutoNode_glob_has_magic(rc.Node):
         self.set_output_val(0, glob.has_magic(self.input(0)))
         
 
-
-class AutoNode_glob_iglob(rc.Node):
+class Iglob_Node(NodeBase):
     title = 'iglob'
-    doc = '''Return an iterator which yields the paths matching a pathname pattern.
+    type_ = 'glob'
+    doc = """Return an iterator which yields the paths matching a pathname pattern.
 
     The pattern may contain simple shell-style wildcards a la
     fnmatch. However, unlike fnmatch, filenames starting with a
@@ -243,15 +250,33 @@ class AutoNode_glob_iglob(rc.Node):
 
     If recursive is true, the pattern '**' will match any files and
     zero or more directories and subdirectories.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='pathname'),
+        NodeInputBP(label='pathname'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, glob.iglob(self.input(0)))
         
+
+
+export_nodes(
+    _Glob0_Node,
+    _Glob1_Node,
+    _Glob2_Node,
+    _Iglob_Node,
+    _Ishidden_Node,
+    _Isrecursive_Node,
+    _Iterdir_Node,
+    _Rlistdir_Node,
+    Escape_Node,
+    Glob_Node,
+    Glob0_Node,
+    Glob1_Node,
+    Has_Magic_Node,
+    Iglob_Node,
+)

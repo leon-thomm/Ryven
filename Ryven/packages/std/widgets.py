@@ -65,43 +65,22 @@ class CodeNode_MainWidget(MWB, QTextEdit):
         MWB.__init__(self, params)
         QTextEdit.__init__(self)
 
-        f = QFont('Consolas', 9)
-        self.setFont(f)
-        self.setTabStopDistance(QFontMetrics(f).width(' ')*4)
-    #
-    #     self.lexer = get_lexer_by_name('python')
-    #     self.formatter = get_formatter_by_name('html', noclasses=True, style=DraculaStyle)
-    #     # self.formatter = get_formatter_by_name('html', noclasses=True, style=LightStyle)
-    #
-    #     self.textChanged.connect(self.text_changed)
-    #
-    # def text_changed(self):
-    #
-    #     self.setUpdatesEnabled(False)  # speed up, doesnt really seem to help though
-    #
-    #     cursor_pos = self.textCursor().position()
-    #     scroll_pos = (self.horizontalScrollBar().sliderPosition(), self.verticalScrollBar().sliderPosition())
-    #
-    #     highlighted = """
-    #     <style>
-    #     * {
-    #         font-family: Consolas;
-    #     }
-    #     </style>
-    #             """ + highlight(self.toPlainText(), self.lexer, self.formatter)
-    #
-    #     self.setHtml(highlighted)
-    #
-    #     if self.hasFocus():
-    #         c = QTextCursor(self.document())
-    #         c.setPosition(cursor_pos)
-    #         self.setTextCursor(c)
-    #         self.horizontalScrollBar().setSliderPosition(scroll_pos[0])
-    #         self.verticalScrollBar().setSliderPosition(scroll_pos[1])
-    #     else:
-    #         self.textCursor().setPosition(0)
-    #
-    #     self.setUpdatesEnabled(True)
+        self.setFont(QFont('Consolas', 9))
+        self.textChanged.connect(self.text_changed)
+        self.setFixedHeight(150)
+        self.setFixedWidth(300)
+
+    def text_changed(self):
+        self.node.code = self.toPlainText()
+        self.update_node()
+
+    def get_state(self) -> dict:
+        return {
+            'text': self.toPlainText(),
+        }
+
+    def set_state(self, data: dict):
+        self.setPlainText(data['text'])
 
 
 class EvalNode_MainWidget(MWB, QPlainTextEdit):

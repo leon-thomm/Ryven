@@ -1,1 +1,0 @@
-{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_colorsys__v", "AutoNode_colorsys_hls_to_rgb", "AutoNode_colorsys_hsv_to_rgb", "AutoNode_colorsys_rgb_to_hls", "AutoNode_colorsys_rgb_to_hsv", "AutoNode_colorsys_rgb_to_yiq", "AutoNode_colorsys_yiq_to_rgb"]}

@@ -239,16 +239,76 @@ class Slider_Node(NodeBase):
         self.val = data['val']
 
 
-# class Code_Node(NodeBase):
-#     title = 'code'
-#     init_inputs = [
-#
-#     ]
-#     init_outputs = [
-#
-#     ]
-#     main_widget_class = widgets.CodeNode_MainWidget
-#     main_widget_pos = 'below ports'
+class Code_Node(NodeBase):
+    title = 'code'
+    init_inputs = [
+
+    ]
+    init_outputs = [
+
+    ]
+    main_widget_class = widgets.CodeNode_MainWidget
+    main_widget_pos = 'between ports'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.special_actions['add input'] = {'method': self.add_inp}
+        self.special_actions['add output'] = {'method': self.add_out}
+
+        self.num_inputs = 0
+        self.num_outputs = 0
+        self.code = None
+
+    def place_event(self):
+        pass
+
+    def add_inp(self):
+        self.create_input()
+
+        index = self.num_inputs
+        self.special_actions[f'remove input {index}'] = {
+            'method': self.remove_inp,
+            'data': index
+        }
+
+        self.num_inputs += 1
+
+    def remove_inp(self, index):
+        self.delete_input(index)
+        self.num_inputs -= 1
+        del self.special_actions[f'remove input {self.num_inputs}']
+
+    def add_out(self):
+        self.create_output()
+
+        index = self.num_outputs
+        self.special_actions[f'remove output {index}'] = {
+            'method': self.remove_out,
+            'data': index
+        }
+
+        self.num_outputs += 1
+
+    def remove_out(self, index):
+        self.delete_output(index)
+        self.num_outputs -= 1()
+        del self.special_actions[f'remove output {self.num_outputs}']
+
+    def update_event(self, input_called=-1):
+        exec(self.code)
+
+    def get_state(self) -> dict:
+        return {
+            'num inputs': self.num_inputs,
+            'num outputs': self.num_outputs,
+            'code': self.code,
+        }
+
+    def set_state(self, data: dict):
+        self.num_inputs = data['num inputs']
+        self.num_outputs = data['num outputs']
+        self.code = data['code']
 
 
 class Eval_Node(NodeBase):
@@ -287,23 +347,8 @@ class Eval_Node(NodeBase):
 
     def remove_param_input(self, index):
         self.delete_input(index)
-        self.rebuild_remove_actions()
-
-    def rebuild_remove_actions(self):
-
-        remove_keys = []
-        for k, v in self.special_actions.items():
-            if k.startswith('remove input'):
-                remove_keys.append(k)
-
-        for k in remove_keys:
-            del self.special_actions[k]
-
-        for i in range(self.number_param_inputs):
-            self.special_actions[f'remove input {i}'] = {
-                'method': self.remove_param_input,
-                'data': i
-            }
+        self.number_param_inputs -= 1
+        del self.special_actions[f'remove input {self.number_param_inputs}']
 
     def update_event(self, input_called=-1):
         inp = [self.input(i) for i in range(self.number_param_inputs)]
@@ -329,6 +374,6 @@ nodes = [
     Log_Node,
     Clock_Node,
     Slider_Node,
-    # Code_Node,
+    Code_Node,
     Eval_Node,
 ]

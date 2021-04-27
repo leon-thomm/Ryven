@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import optparse
 
 
-class AutoNode_optparse__(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class __Node(NodeBase):
     title = '_'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='message'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,21 +24,21 @@ class AutoNode_optparse__(rc.Node):
         self.set_output_val(0, optparse._(self.input(0)))
         
 
-
-class AutoNode_optparse__match_abbrev(rc.Node):
+class _Match_Abbrev_Node(NodeBase):
     title = '_match_abbrev'
-    doc = '''_match_abbrev(s : string, wordmap : {string : Option}) -> string
+    type_ = 'optparse'
+    doc = """_match_abbrev(s : string, wordmap : {string : Option}) -> string
 
     Return the string key in 'wordmap' for which 's' is an unambiguous
     abbreviation.  If 's' is found to be ambiguous or doesn't match any of
     'words', raise BadOptionError.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='wordmap'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='wordmap'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -39,15 +46,15 @@ rc.NodeInputBP(label='wordmap'),
         self.set_output_val(0, optparse._match_abbrev(self.input(0), self.input(1)))
         
 
-
-class AutoNode_optparse__parse_int(rc.Node):
+class _Parse_Int_Node(NodeBase):
     title = '_parse_int'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='val'),
+        NodeInputBP(label='val'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,16 +62,16 @@ class AutoNode_optparse__parse_int(rc.Node):
         self.set_output_val(0, optparse._parse_int(self.input(0)))
         
 
-
-class AutoNode_optparse__parse_num(rc.Node):
+class _Parse_Num_Node(NodeBase):
     title = '_parse_num'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='val'),
-rc.NodeInputBP(label='type'),
+        NodeInputBP(label='val'),
+        NodeInputBP(label='type'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -72,33 +79,33 @@ rc.NodeInputBP(label='type'),
         self.set_output_val(0, optparse._parse_num(self.input(0), self.input(1)))
         
 
-
-class AutoNode_optparse__repr(rc.Node):
+class _Repr_Node(NodeBase):
     title = '_repr'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
+        
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, optparse._repr(self.input(0)))
+        self.set_output_val(0, optparse._repr())
         
 
-
-class AutoNode_optparse_check_builtin(rc.Node):
+class Check_Builtin_Node(NodeBase):
     title = 'check_builtin'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='option'),
-rc.NodeInputBP(label='opt'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='option'),
+        NodeInputBP(label='opt'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -106,17 +113,17 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, optparse.check_builtin(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_optparse_check_choice(rc.Node):
+class Check_Choice_Node(NodeBase):
     title = 'check_choice'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='option'),
-rc.NodeInputBP(label='opt'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='option'),
+        NodeInputBP(label='opt'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -124,15 +131,15 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, optparse.check_choice(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_optparse_gettext(rc.Node):
+class Gettext_Node(NodeBase):
     title = 'gettext'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='message'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -140,20 +147,33 @@ class AutoNode_optparse_gettext(rc.Node):
         self.set_output_val(0, optparse.gettext(self.input(0)))
         
 
-
-class AutoNode_optparse_ngettext(rc.Node):
+class Ngettext_Node(NodeBase):
     title = 'ngettext'
-    doc = '''None'''
+    type_ = 'optparse'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, optparse.ngettext(self.input(0), self.input(1), self.input(2)))
         
+
+
+export_nodes(
+    __Node,
+    _Match_Abbrev_Node,
+    _Parse_Int_Node,
+    _Parse_Num_Node,
+    _Repr_Node,
+    Check_Builtin_Node,
+    Check_Choice_Node,
+    Gettext_Node,
+    Ngettext_Node,
+)

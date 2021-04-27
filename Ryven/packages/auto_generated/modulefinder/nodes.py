@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import modulefinder
 
 
-class AutoNode_modulefinder_AddPackagePath(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Addpackagepath_Node(NodeBase):
     title = 'AddPackagePath'
-    doc = '''None'''
+    type_ = 'modulefinder'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='packagename'),
-rc.NodeInputBP(label='path'),
+        NodeInputBP(label='packagename'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,16 +25,16 @@ rc.NodeInputBP(label='path'),
         self.set_output_val(0, modulefinder.AddPackagePath(self.input(0), self.input(1)))
         
 
-
-class AutoNode_modulefinder_ReplacePackage(rc.Node):
+class Replacepackage_Node(NodeBase):
     title = 'ReplacePackage'
-    doc = '''None'''
+    type_ = 'modulefinder'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='oldname'),
-rc.NodeInputBP(label='newname'),
+        NodeInputBP(label='oldname'),
+        NodeInputBP(label='newname'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -35,16 +42,16 @@ rc.NodeInputBP(label='newname'),
         self.set_output_val(0, modulefinder.ReplacePackage(self.input(0), self.input(1)))
         
 
-
-class AutoNode_modulefinder__find_module(rc.Node):
+class _Find_Module_Node(NodeBase):
     title = '_find_module'
-    doc = '''An importlib reimplementation of imp.find_module (for our purposes).'''
+    type_ = 'modulefinder'
+    doc = """An importlib reimplementation of imp.find_module (for our purposes)."""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='path'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -52,18 +59,26 @@ rc.NodeInputBP(label='path'),
         self.set_output_val(0, modulefinder._find_module(self.input(0), self.input(1)))
         
 
-
-class AutoNode_modulefinder_test(rc.Node):
+class Test_Node(NodeBase):
     title = 'test'
-    doc = '''None'''
+    type_ = 'modulefinder'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, modulefinder.test())
         
+
+
+export_nodes(
+    Addpackagepath_Node,
+    Replacepackage_Node,
+    _Find_Module_Node,
+    Test_Node,
+)

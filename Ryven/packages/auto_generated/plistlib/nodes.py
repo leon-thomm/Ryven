@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import plistlib
 
 
-class AutoNode_plistlib__count_to_size(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Count_To_Size_Node(NodeBase):
     title = '_count_to_size'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='count'),
+        NodeInputBP(label='count'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_plistlib__count_to_size(rc.Node):
         self.set_output_val(0, plistlib._count_to_size(self.input(0)))
         
 
-
-class AutoNode_plistlib__date_from_string(rc.Node):
+class _Date_From_String_Node(NodeBase):
     title = '_date_from_string'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,15 +40,15 @@ class AutoNode_plistlib__date_from_string(rc.Node):
         self.set_output_val(0, plistlib._date_from_string(self.input(0)))
         
 
-
-class AutoNode_plistlib__date_to_string(rc.Node):
+class _Date_To_String_Node(NodeBase):
     title = '_date_to_string'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='d'),
+        NodeInputBP(label='d'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -49,15 +56,15 @@ class AutoNode_plistlib__date_to_string(rc.Node):
         self.set_output_val(0, plistlib._date_to_string(self.input(0)))
         
 
-
-class AutoNode_plistlib__decode_base64(rc.Node):
+class _Decode_Base64_Node(NodeBase):
     title = '_decode_base64'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -65,16 +72,16 @@ class AutoNode_plistlib__decode_base64(rc.Node):
         self.set_output_val(0, plistlib._decode_base64(self.input(0)))
         
 
-
-class AutoNode_plistlib__encode_base64(rc.Node):
+class _Encode_Base64_Node(NodeBase):
     title = '_encode_base64'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
-rc.NodeInputBP(label='maxlinelength'),
+        NodeInputBP(label='s'),
+        NodeInputBP(label='maxlinelength', dtype=dtypes.Data(default=76, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -82,15 +89,15 @@ rc.NodeInputBP(label='maxlinelength'),
         self.set_output_val(0, plistlib._encode_base64(self.input(0), self.input(1)))
         
 
-
-class AutoNode_plistlib__escape(rc.Node):
+class _Escape_Node(NodeBase):
     title = '_escape'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='text'),
+        NodeInputBP(label='text'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -98,15 +105,15 @@ class AutoNode_plistlib__escape(rc.Node):
         self.set_output_val(0, plistlib._escape(self.input(0)))
         
 
-
-class AutoNode_plistlib__is_fmt_binary(rc.Node):
+class _Is_Fmt_Binary_Node(NodeBase):
     title = '_is_fmt_binary'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='header'),
+        NodeInputBP(label='header'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -114,15 +121,15 @@ class AutoNode_plistlib__is_fmt_binary(rc.Node):
         self.set_output_val(0, plistlib._is_fmt_binary(self.input(0)))
         
 
-
-class AutoNode_plistlib__is_fmt_xml(rc.Node):
+class _Is_Fmt_Xml_Node(NodeBase):
     title = '_is_fmt_xml'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='header'),
+        NodeInputBP(label='header'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -130,15 +137,15 @@ class AutoNode_plistlib__is_fmt_xml(rc.Node):
         self.set_output_val(0, plistlib._is_fmt_xml(self.input(0)))
         
 
-
-class AutoNode_plistlib__maybe_open(rc.Node):
+class _Maybe_Open_Node(NodeBase):
     title = '_maybe_open'
-    doc = '''None'''
+    type_ = 'plistlib'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -146,18 +153,18 @@ class AutoNode_plistlib__maybe_open(rc.Node):
         self.set_output_val(0, plistlib._maybe_open())
         
 
-
-class AutoNode_plistlib_dump(rc.Node):
+class Dump_Node(NodeBase):
     title = 'dump'
-    doc = '''Write 'value' to a .plist file. 'fp' should be a writable,
+    type_ = 'plistlib'
+    doc = """Write 'value' to a .plist file. 'fp' should be a writable,
     binary file object.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='fp'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='fp'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -165,16 +172,16 @@ rc.NodeInputBP(label='fp'),
         self.set_output_val(0, plistlib.dump(self.input(0), self.input(1)))
         
 
-
-class AutoNode_plistlib_dumps(rc.Node):
+class Dumps_Node(NodeBase):
     title = 'dumps'
-    doc = '''Return a bytes object with the contents for a .plist file.
-    '''
+    type_ = 'plistlib'
+    doc = """Return a bytes object with the contents for a .plist file.
+    """
     init_inputs = [
-        rc.NodeInputBP(label='value'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -182,17 +189,17 @@ class AutoNode_plistlib_dumps(rc.Node):
         self.set_output_val(0, plistlib.dumps(self.input(0)))
         
 
-
-class AutoNode_plistlib_load(rc.Node):
+class Load_Node(NodeBase):
     title = 'load'
-    doc = '''Read a .plist file. 'fp' should be a readable and binary file object.
+    type_ = 'plistlib'
+    doc = """Read a .plist file. 'fp' should be a readable and binary file object.
     Return the unpacked root object (which usually is a dictionary).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='fp'),
+        NodeInputBP(label='fp'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -200,17 +207,17 @@ class AutoNode_plistlib_load(rc.Node):
         self.set_output_val(0, plistlib.load(self.input(0)))
         
 
-
-class AutoNode_plistlib_loads(rc.Node):
+class Loads_Node(NodeBase):
     title = 'loads'
-    doc = '''Read a .plist file from a bytes object.
+    type_ = 'plistlib'
+    doc = """Read a .plist file from a bytes object.
     Return the unpacked root object (which usually is a dictionary).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='value'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -218,20 +225,20 @@ class AutoNode_plistlib_loads(rc.Node):
         self.set_output_val(0, plistlib.loads(self.input(0)))
         
 
-
-class AutoNode_plistlib_readPlist(rc.Node):
+class Readplist_Node(NodeBase):
     title = 'readPlist'
-    doc = '''
+    type_ = 'plistlib'
+    doc = """
     Read a .plist from a path or file. pathOrFile should either
     be a file name, or a readable binary file object.
 
     This function is deprecated, use load instead.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='pathOrFile'),
+        NodeInputBP(label='pathOrFile'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -239,19 +246,19 @@ class AutoNode_plistlib_readPlist(rc.Node):
         self.set_output_val(0, plistlib.readPlist(self.input(0)))
         
 
-
-class AutoNode_plistlib_readPlistFromBytes(rc.Node):
+class Readplistfrombytes_Node(NodeBase):
     title = 'readPlistFromBytes'
-    doc = '''
+    type_ = 'plistlib'
+    doc = """
     Read a plist data from a bytes object. Return the root object.
 
     This function is deprecated, use loads instead.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='data'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -259,18 +266,18 @@ class AutoNode_plistlib_readPlistFromBytes(rc.Node):
         self.set_output_val(0, plistlib.readPlistFromBytes(self.input(0)))
         
 
-
-class AutoNode_plistlib_warn(rc.Node):
+class Warn_Node(NodeBase):
     title = 'warn'
-    doc = '''Issue a warning, or maybe ignore it or raise an exception.'''
+    type_ = 'plistlib'
+    doc = """Issue a warning, or maybe ignore it or raise an exception."""
     init_inputs = [
-        rc.NodeInputBP(label='message'),
-rc.NodeInputBP(label='category'),
-rc.NodeInputBP(label='stacklevel'),
-rc.NodeInputBP(label='source'),
+        NodeInputBP(label='message'),
+        NodeInputBP(label='category', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='stacklevel', dtype=dtypes.Data(default=1, size='s')),
+        NodeInputBP(label='source', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -278,21 +285,21 @@ rc.NodeInputBP(label='source'),
         self.set_output_val(0, plistlib.warn(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_plistlib_writePlist(rc.Node):
+class Writeplist_Node(NodeBase):
     title = 'writePlist'
-    doc = '''
+    type_ = 'plistlib'
+    doc = """
     Write 'value' to a .plist file. 'pathOrFile' may either be a
     file name or a (writable) file object.
 
     This function is deprecated, use dump instead.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='value'),
-rc.NodeInputBP(label='pathOrFile'),
+        NodeInputBP(label='value'),
+        NodeInputBP(label='pathOrFile'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -300,22 +307,44 @@ rc.NodeInputBP(label='pathOrFile'),
         self.set_output_val(0, plistlib.writePlist(self.input(0), self.input(1)))
         
 
-
-class AutoNode_plistlib_writePlistToBytes(rc.Node):
+class Writeplisttobytes_Node(NodeBase):
     title = 'writePlistToBytes'
-    doc = '''
+    type_ = 'plistlib'
+    doc = """
     Return 'value' as a plist-formatted bytes object.
 
     This function is deprecated, use dumps instead.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='value'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, plistlib.writePlistToBytes(self.input(0)))
         
+
+
+export_nodes(
+    _Count_To_Size_Node,
+    _Date_From_String_Node,
+    _Date_To_String_Node,
+    _Decode_Base64_Node,
+    _Encode_Base64_Node,
+    _Escape_Node,
+    _Is_Fmt_Binary_Node,
+    _Is_Fmt_Xml_Node,
+    _Maybe_Open_Node,
+    Dump_Node,
+    Dumps_Node,
+    Load_Node,
+    Loads_Node,
+    Readplist_Node,
+    Readplistfrombytes_Node,
+    Warn_Node,
+    Writeplist_Node,
+    Writeplisttobytes_Node,
+)

@@ -1,17 +1,24 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import pickle
 
 
-class AutoNode_pickle__dump(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Dump_Node(NodeBase):
     title = '_dump'
-    doc = '''None'''
+    type_ = 'pickle'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='protocol'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='protocol', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -19,16 +26,16 @@ rc.NodeInputBP(label='protocol'),
         self.set_output_val(0, pickle._dump(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pickle__dumps(rc.Node):
+class _Dumps_Node(NodeBase):
     title = '_dumps'
-    doc = '''None'''
+    type_ = 'pickle'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='protocol'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='protocol', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -36,16 +43,16 @@ rc.NodeInputBP(label='protocol'),
         self.set_output_val(0, pickle._dumps(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pickle__getattribute(rc.Node):
+class _Getattribute_Node(NodeBase):
     title = '_getattribute'
-    doc = '''None'''
+    type_ = 'pickle'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='name'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -53,15 +60,15 @@ rc.NodeInputBP(label='name'),
         self.set_output_val(0, pickle._getattribute(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pickle__load(rc.Node):
+class _Load_Node(NodeBase):
     title = '_load'
-    doc = '''None'''
+    type_ = 'pickle'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -69,15 +76,15 @@ class AutoNode_pickle__load(rc.Node):
         self.set_output_val(0, pickle._load(self.input(0)))
         
 
-
-class AutoNode_pickle__loads(rc.Node):
+class _Loads_Node(NodeBase):
     title = '_loads'
-    doc = '''None'''
+    type_ = 'pickle'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='s'),
+        NodeInputBP(label='s'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -85,15 +92,15 @@ class AutoNode_pickle__loads(rc.Node):
         self.set_output_val(0, pickle._loads(self.input(0)))
         
 
-
-class AutoNode_pickle__test(rc.Node):
+class _Test_Node(NodeBase):
     title = '_test'
-    doc = '''None'''
+    type_ = 'pickle'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -101,10 +108,10 @@ class AutoNode_pickle__test(rc.Node):
         self.set_output_val(0, pickle._test())
         
 
-
-class AutoNode_pickle_decode_long(rc.Node):
+class Decode_Long_Node(NodeBase):
     title = 'decode_long'
-    doc = '''Decode a long from a two's complement little-endian binary string.
+    type_ = 'pickle'
+    doc = """Decode a long from a two's complement little-endian binary string.
 
     >>> decode_long(b'')
     0
@@ -120,12 +127,12 @@ class AutoNode_pickle_decode_long(rc.Node):
     -128
     >>> decode_long(b"\x7f")
     127
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='data'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -133,10 +140,10 @@ class AutoNode_pickle_decode_long(rc.Node):
         self.set_output_val(0, pickle.decode_long(self.input(0)))
         
 
-
-class AutoNode_pickle_dump(rc.Node):
+class Dump_Node(NodeBase):
     title = 'dump'
-    doc = '''Write a pickled representation of obj to the open file object file.
+    type_ = 'pickle'
+    doc = """Write a pickled representation of obj to the open file object file.
 
 This is equivalent to ``Pickler(file, protocol).dump(obj)``, but may
 be more efficient.
@@ -161,14 +168,14 @@ to map the new Python 3 names to the old module names used in Python
 
 If *buffer_callback* is None (the default), buffer views are serialized
 into *file* as part of the pickle stream.  It is an error if
-*buffer_callback* is not None and *protocol* is None or smaller than 5.'''
+*buffer_callback* is not None and *protocol* is None or smaller than 5."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='protocol'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='protocol', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -176,10 +183,10 @@ rc.NodeInputBP(label='protocol'),
         self.set_output_val(0, pickle.dump(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pickle_dumps(rc.Node):
+class Dumps_Node(NodeBase):
     title = 'dumps'
-    doc = '''Return the pickled representation of the object as a bytes object.
+    type_ = 'pickle'
+    doc = """Return the pickled representation of the object as a bytes object.
 
 The optional *protocol* argument tells the pickler to use the given
 protocol; supported protocols are 0, 1, 2, 3, 4 and 5.  The default
@@ -196,13 +203,13 @@ Python 2, so that the pickle data stream is readable with Python 2.
 
 If *buffer_callback* is None (the default), buffer views are serialized
 into *file* as part of the pickle stream.  It is an error if
-*buffer_callback* is not None and *protocol* is None or smaller than 5.'''
+*buffer_callback* is not None and *protocol* is None or smaller than 5."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='protocol'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='protocol', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -210,10 +217,10 @@ rc.NodeInputBP(label='protocol'),
         self.set_output_val(0, pickle.dumps(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pickle_encode_long(rc.Node):
+class Encode_Long_Node(NodeBase):
     title = 'encode_long'
-    doc = '''Encode a long to a two's complement little-endian binary string.
+    type_ = 'pickle'
+    doc = """Encode a long to a two's complement little-endian binary string.
     Note that 0 is a special case, returning an empty string, to save a
     byte in the LONG1 pickling context.
 
@@ -232,12 +239,12 @@ class AutoNode_pickle_encode_long(rc.Node):
     >>> encode_long(127)
     b'\x7f'
     >>>
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -245,10 +252,10 @@ class AutoNode_pickle_encode_long(rc.Node):
         self.set_output_val(0, pickle.encode_long(self.input(0)))
         
 
-
-class AutoNode_pickle_load(rc.Node):
+class Load_Node(NodeBase):
     title = 'load'
-    doc = '''Read and return an object from the pickle data stored in a file.
+    type_ = 'pickle'
+    doc = """Read and return an object from the pickle data stored in a file.
 
 This is equivalent to ``Unpickler(file).load()``, but may be more
 efficient.
@@ -270,12 +277,12 @@ map the old Python 2 names to the new names used in Python 3.  The
 *encoding* and *errors* tell pickle how to decode 8-bit string
 instances pickled by Python 2; these default to 'ASCII' and 'strict',
 respectively.  The *encoding* can be 'bytes' to read these 8-bit
-string instances as bytes objects.'''
+string instances as bytes objects."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -283,10 +290,10 @@ string instances as bytes objects.'''
         self.set_output_val(0, pickle.load(self.input(0)))
         
 
-
-class AutoNode_pickle_loads(rc.Node):
+class Loads_Node(NodeBase):
     title = 'loads'
-    doc = '''Read and return an object from the given pickle data.
+    type_ = 'pickle'
+    doc = """Read and return an object from the given pickle data.
 
 The protocol version of the pickle is detected automatically, so no
 protocol argument is needed.  Bytes past the pickled object's
@@ -299,12 +306,12 @@ map the old Python 2 names to the new names used in Python 3.  The
 *encoding* and *errors* tell pickle how to decode 8-bit string
 instances pickled by Python 2; these default to 'ASCII' and 'strict',
 respectively.  The *encoding* can be 'bytes' to read these 8-bit
-string instances as bytes objects.'''
+string instances as bytes objects."""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -312,20 +319,20 @@ string instances as bytes objects.'''
         self.set_output_val(0, pickle.loads(self.input(0)))
         
 
-
-class AutoNode_pickle_unpack(rc.Node):
+class Unpack_Node(NodeBase):
     title = 'unpack'
-    doc = '''Return a tuple containing values unpacked according to the format string.
+    type_ = 'pickle'
+    doc = """Return a tuple containing values unpacked according to the format string.
 
 The buffer's size in bytes must be calcsize(format).
 
-See help(struct) for more on format strings.'''
+See help(struct) for more on format strings."""
     init_inputs = [
-        rc.NodeInputBP(label='format'),
-rc.NodeInputBP(label='buffer'),
+        NodeInputBP(label='format'),
+        NodeInputBP(label='buffer'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -333,19 +340,37 @@ rc.NodeInputBP(label='buffer'),
         self.set_output_val(0, pickle.unpack(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pickle_whichmodule(rc.Node):
+class Whichmodule_Node(NodeBase):
     title = 'whichmodule'
-    doc = '''Find the module an object belong to.'''
+    type_ = 'pickle'
+    doc = """Find the module an object belong to."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='name'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, pickle.whichmodule(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Dump_Node,
+    _Dumps_Node,
+    _Getattribute_Node,
+    _Load_Node,
+    _Loads_Node,
+    _Test_Node,
+    Decode_Long_Node,
+    Dump_Node,
+    Dumps_Node,
+    Encode_Long_Node,
+    Load_Node,
+    Loads_Node,
+    Unpack_Node,
+    Whichmodule_Node,
+)

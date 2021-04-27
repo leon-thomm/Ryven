@@ -1,1 +1,0 @@
-{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_optparse__", "AutoNode_optparse__match_abbrev", "AutoNode_optparse__parse_int", "AutoNode_optparse__parse_num", "AutoNode_optparse__repr", "AutoNode_optparse_check_builtin", "AutoNode_optparse_check_choice", "AutoNode_optparse_gettext", "AutoNode_optparse_ngettext"]}

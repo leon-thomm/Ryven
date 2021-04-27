@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import py_compile
 
 
-class AutoNode_py_compile__get_default_invalidation_mode(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Get_Default_Invalidation_Mode_Node(NodeBase):
     title = '_get_default_invalidation_mode'
-    doc = '''None'''
+    type_ = 'py_compile'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,10 +24,10 @@ class AutoNode_py_compile__get_default_invalidation_mode(rc.Node):
         self.set_output_val(0, py_compile._get_default_invalidation_mode())
         
 
-
-class AutoNode_py_compile_compile(rc.Node):
+class Compile_Node(NodeBase):
     title = 'compile'
-    doc = '''Byte-compile one Python source file to Python bytecode.
+    type_ = 'py_compile'
+    doc = """Byte-compile one Python source file to Python bytecode.
 
     :param file: The source file name.
     :param cfile: The target byte compiled file name.  When not given, this
@@ -62,18 +69,18 @@ class AutoNode_py_compile_compile(rc.Node):
     non-regular file or symlink. Because the compilation uses a file renaming,
     the resulting file would be regular and thus not the same type of file as
     it was previously.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='cfile'),
-rc.NodeInputBP(label='dfile'),
-rc.NodeInputBP(label='doraise'),
-rc.NodeInputBP(label='optimize'),
-rc.NodeInputBP(label='invalidation_mode'),
-rc.NodeInputBP(label='quiet'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='cfile', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='dfile', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='doraise', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='optimize', dtype=dtypes.Data(default=-1, size='s')),
+        NodeInputBP(label='invalidation_mode', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='quiet', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -81,10 +88,10 @@ rc.NodeInputBP(label='quiet'),
         self.set_output_val(0, py_compile.compile(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6)))
         
 
-
-class AutoNode_py_compile_main(rc.Node):
+class Main_Node(NodeBase):
     title = 'main'
-    doc = '''Compile several source files.
+    type_ = 'py_compile'
+    doc = """Compile several source files.
 
     The files named in 'args' (or on the command line, if 'args' is
     not specified) are compiled and the resulting bytecode is cached
@@ -93,15 +100,22 @@ class AutoNode_py_compile_main(rc.Node):
     explicitly.  If '-' is the only parameter in args, the list of
     files is taken from standard input.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='args'),
+        NodeInputBP(label='args', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, py_compile.main(self.input(0)))
         
+
+
+export_nodes(
+    _Get_Default_Invalidation_Mode_Node,
+    Compile_Node,
+    Main_Node,
+)

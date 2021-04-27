@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import pdb
 
 
-class AutoNode_pdb_find_function(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Find_Function_Node(NodeBase):
     title = 'find_function'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='funcname'),
-rc.NodeInputBP(label='filename'),
+        NodeInputBP(label='funcname'),
+        NodeInputBP(label='filename'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,15 +25,15 @@ rc.NodeInputBP(label='filename'),
         self.set_output_val(0, pdb.find_function(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pdb_getsourcelines(rc.Node):
+class Getsourcelines_Node(NodeBase):
     title = 'getsourcelines'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,15 +41,15 @@ class AutoNode_pdb_getsourcelines(rc.Node):
         self.set_output_val(0, pdb.getsourcelines(self.input(0)))
         
 
-
-class AutoNode_pdb_help(rc.Node):
+class Help_Node(NodeBase):
     title = 'help'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -50,16 +57,16 @@ class AutoNode_pdb_help(rc.Node):
         self.set_output_val(0, pdb.help())
         
 
-
-class AutoNode_pdb_lasti2lineno(rc.Node):
+class Lasti2Lineno_Node(NodeBase):
     title = 'lasti2lineno'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='code'),
-rc.NodeInputBP(label='lasti'),
+        NodeInputBP(label='code'),
+        NodeInputBP(label='lasti'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -67,15 +74,15 @@ rc.NodeInputBP(label='lasti'),
         self.set_output_val(0, pdb.lasti2lineno(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pdb_main(rc.Node):
+class Main_Node(NodeBase):
     title = 'main'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -83,15 +90,15 @@ class AutoNode_pdb_main(rc.Node):
         self.set_output_val(0, pdb.main())
         
 
-
-class AutoNode_pdb_pm(rc.Node):
+class Pm_Node(NodeBase):
     title = 'pm'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -99,15 +106,15 @@ class AutoNode_pdb_pm(rc.Node):
         self.set_output_val(0, pdb.pm())
         
 
-
-class AutoNode_pdb_post_mortem(rc.Node):
+class Post_Mortem_Node(NodeBase):
     title = 'post_mortem'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='t'),
+        NodeInputBP(label='t', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -115,17 +122,17 @@ class AutoNode_pdb_post_mortem(rc.Node):
         self.set_output_val(0, pdb.post_mortem(self.input(0)))
         
 
-
-class AutoNode_pdb_run(rc.Node):
+class Run_Node(NodeBase):
     title = 'run'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='statement'),
-rc.NodeInputBP(label='globals'),
-rc.NodeInputBP(label='locals'),
+        NodeInputBP(label='statement'),
+        NodeInputBP(label='globals', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='locals', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -133,15 +140,15 @@ rc.NodeInputBP(label='locals'),
         self.set_output_val(0, pdb.run(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pdb_runcall(rc.Node):
+class Runcall_Node(NodeBase):
     title = 'runcall'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -149,17 +156,17 @@ class AutoNode_pdb_runcall(rc.Node):
         self.set_output_val(0, pdb.runcall())
         
 
-
-class AutoNode_pdb_runctx(rc.Node):
+class Runctx_Node(NodeBase):
     title = 'runctx'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='statement'),
-rc.NodeInputBP(label='globals'),
-rc.NodeInputBP(label='locals'),
+        NodeInputBP(label='statement'),
+        NodeInputBP(label='globals'),
+        NodeInputBP(label='locals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -167,17 +174,17 @@ rc.NodeInputBP(label='locals'),
         self.set_output_val(0, pdb.runctx(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pdb_runeval(rc.Node):
+class Runeval_Node(NodeBase):
     title = 'runeval'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='expression'),
-rc.NodeInputBP(label='globals'),
-rc.NodeInputBP(label='locals'),
+        NodeInputBP(label='expression'),
+        NodeInputBP(label='globals', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='locals', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -185,15 +192,15 @@ rc.NodeInputBP(label='locals'),
         self.set_output_val(0, pdb.runeval(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pdb_set_trace(rc.Node):
+class Set_Trace_Node(NodeBase):
     title = 'set_trace'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -201,18 +208,35 @@ class AutoNode_pdb_set_trace(rc.Node):
         self.set_output_val(0, pdb.set_trace())
         
 
-
-class AutoNode_pdb_test(rc.Node):
+class Test_Node(NodeBase):
     title = 'test'
-    doc = '''None'''
+    type_ = 'pdb'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, pdb.test())
         
+
+
+export_nodes(
+    Find_Function_Node,
+    Getsourcelines_Node,
+    Help_Node,
+    Lasti2Lineno_Node,
+    Main_Node,
+    Pm_Node,
+    Post_Mortem_Node,
+    Run_Node,
+    Runcall_Node,
+    Runctx_Node,
+    Runeval_Node,
+    Set_Trace_Node,
+    Test_Node,
+)

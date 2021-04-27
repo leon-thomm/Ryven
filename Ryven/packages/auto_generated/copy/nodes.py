@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import copy
 
 
-class AutoNode_copy__copy_immutable(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Copy_Immutable_Node(NodeBase):
     title = '_copy_immutable'
-    doc = '''None'''
+    type_ = 'copy'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,16 +24,16 @@ class AutoNode_copy__copy_immutable(rc.Node):
         self.set_output_val(0, copy._copy_immutable(self.input(0)))
         
 
-
-class AutoNode_copy__deepcopy_atomic(rc.Node):
+class _Deepcopy_Atomic_Node(NodeBase):
     title = '_deepcopy_atomic'
-    doc = '''None'''
+    type_ = 'copy'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,17 +41,17 @@ rc.NodeInputBP(label='memo'),
         self.set_output_val(0, copy._deepcopy_atomic(self.input(0), self.input(1)))
         
 
-
-class AutoNode_copy__deepcopy_dict(rc.Node):
+class _Deepcopy_Dict_Node(NodeBase):
     title = '_deepcopy_dict'
-    doc = '''None'''
+    type_ = 'copy'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
-rc.NodeInputBP(label='deepcopy'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo'),
+        NodeInputBP(label='deepcopy', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -52,17 +59,17 @@ rc.NodeInputBP(label='deepcopy'),
         self.set_output_val(0, copy._deepcopy_dict(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_copy__deepcopy_list(rc.Node):
+class _Deepcopy_List_Node(NodeBase):
     title = '_deepcopy_list'
-    doc = '''None'''
+    type_ = 'copy'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
-rc.NodeInputBP(label='deepcopy'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo'),
+        NodeInputBP(label='deepcopy', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -70,16 +77,16 @@ rc.NodeInputBP(label='deepcopy'),
         self.set_output_val(0, copy._deepcopy_list(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_copy__deepcopy_method(rc.Node):
+class _Deepcopy_Method_Node(NodeBase):
     title = '_deepcopy_method'
-    doc = '''None'''
+    type_ = 'copy'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -87,17 +94,17 @@ rc.NodeInputBP(label='memo'),
         self.set_output_val(0, copy._deepcopy_method(self.input(0), self.input(1)))
         
 
-
-class AutoNode_copy__deepcopy_tuple(rc.Node):
+class _Deepcopy_Tuple_Node(NodeBase):
     title = '_deepcopy_tuple'
-    doc = '''None'''
+    type_ = 'copy'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
-rc.NodeInputBP(label='deepcopy'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo'),
+        NodeInputBP(label='deepcopy', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -105,10 +112,10 @@ rc.NodeInputBP(label='deepcopy'),
         self.set_output_val(0, copy._deepcopy_tuple(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_copy__keep_alive(rc.Node):
+class _Keep_Alive_Node(NodeBase):
     title = '_keep_alive'
-    doc = '''Keeps a reference to the object x in the memo.
+    type_ = 'copy'
+    doc = """Keeps a reference to the object x in the memo.
 
     Because we remember objects by their id, we have
     to assure that possibly temporary objects are kept
@@ -116,13 +123,13 @@ class AutoNode_copy__keep_alive(rc.Node):
     We store a reference at the id of the memo, which should
     normally not be used unless someone tries to deepcopy
     the memo itself...
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -130,22 +137,22 @@ rc.NodeInputBP(label='memo'),
         self.set_output_val(0, copy._keep_alive(self.input(0), self.input(1)))
         
 
-
-class AutoNode_copy__reconstruct(rc.Node):
+class _Reconstruct_Node(NodeBase):
     title = '_reconstruct'
-    doc = '''None'''
+    type_ = 'copy'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
-rc.NodeInputBP(label='func'),
-rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='state'),
-rc.NodeInputBP(label='listiter'),
-rc.NodeInputBP(label='dictiter'),
-rc.NodeInputBP(label='deepcopy'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo'),
+        NodeInputBP(label='func'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='state', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='listiter', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='dictiter', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='deepcopy', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -153,18 +160,18 @@ rc.NodeInputBP(label='deepcopy'),
         self.set_output_val(0, copy._reconstruct(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
-
-class AutoNode_copy_copy(rc.Node):
+class Copy_Node(NodeBase):
     title = 'copy'
-    doc = '''Shallow copy operation on arbitrary Python objects.
+    type_ = 'copy'
+    doc = """Shallow copy operation on arbitrary Python objects.
 
     See the module's __doc__ string for more info.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -172,23 +179,36 @@ class AutoNode_copy_copy(rc.Node):
         self.set_output_val(0, copy.copy(self.input(0)))
         
 
-
-class AutoNode_copy_deepcopy(rc.Node):
+class Deepcopy_Node(NodeBase):
     title = 'deepcopy'
-    doc = '''Deep copy operation on arbitrary Python objects.
+    type_ = 'copy'
+    doc = """Deep copy operation on arbitrary Python objects.
 
     See the module's __doc__ string for more info.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='x'),
-rc.NodeInputBP(label='memo'),
-rc.NodeInputBP(label='_nil'),
+        NodeInputBP(label='x'),
+        NodeInputBP(label='memo', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, copy.deepcopy(self.input(0), self.input(1), self.input(2)))
+        self.set_output_val(0, copy.deepcopy(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Copy_Immutable_Node,
+    _Deepcopy_Atomic_Node,
+    _Deepcopy_Dict_Node,
+    _Deepcopy_List_Node,
+    _Deepcopy_Method_Node,
+    _Deepcopy_Tuple_Node,
+    _Keep_Alive_Node,
+    _Reconstruct_Node,
+    Copy_Node,
+    Deepcopy_Node,
+)

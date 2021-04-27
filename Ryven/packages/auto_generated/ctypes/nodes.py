@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import ctypes
 
 
-class AutoNode_ctypes_ARRAY(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Array_Node(NodeBase):
     title = 'ARRAY'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='typ'),
-rc.NodeInputBP(label='len'),
+        NodeInputBP(label='typ'),
+        NodeInputBP(label='len'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,10 +25,10 @@ rc.NodeInputBP(label='len'),
         self.set_output_val(0, ctypes.ARRAY(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes_CFUNCTYPE(rc.Node):
+class Cfunctype_Node(NodeBase):
     title = 'CFUNCTYPE'
-    doc = '''CFUNCTYPE(restype, *argtypes,
+    type_ = 'ctypes'
+    doc = """CFUNCTYPE(restype, *argtypes,
                  use_errno=False, use_last_error=False) -> function prototype.
 
     restype: the result type
@@ -35,12 +42,12 @@ class AutoNode_ctypes_CFUNCTYPE(rc.Node):
     prototype(integer index, method name[, paramflags]) -> foreign function calling a COM method
     prototype((ordinal number, dll object)[, paramflags]) -> foreign function exported by ordinal
     prototype((function name, dll object)[, paramflags]) -> foreign function exported by name
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='restype'),
+        NodeInputBP(label='restype'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -48,15 +55,15 @@ class AutoNode_ctypes_CFUNCTYPE(rc.Node):
         self.set_output_val(0, ctypes.CFUNCTYPE(self.input(0)))
         
 
-
-class AutoNode_ctypes_DllCanUnloadNow(rc.Node):
+class Dllcanunloadnow_Node(NodeBase):
     title = 'DllCanUnloadNow'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -64,17 +71,17 @@ class AutoNode_ctypes_DllCanUnloadNow(rc.Node):
         self.set_output_val(0, ctypes.DllCanUnloadNow())
         
 
-
-class AutoNode_ctypes_DllGetClassObject(rc.Node):
+class Dllgetclassobject_Node(NodeBase):
     title = 'DllGetClassObject'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='rclsid'),
-rc.NodeInputBP(label='riid'),
-rc.NodeInputBP(label='ppv'),
+        NodeInputBP(label='rclsid'),
+        NodeInputBP(label='riid'),
+        NodeInputBP(label='ppv'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -82,15 +89,15 @@ rc.NodeInputBP(label='ppv'),
         self.set_output_val(0, ctypes.DllGetClassObject(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_ctypes_PYFUNCTYPE(rc.Node):
+class Pyfunctype_Node(NodeBase):
     title = 'PYFUNCTYPE'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='restype'),
+        NodeInputBP(label='restype'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -98,16 +105,16 @@ class AutoNode_ctypes_PYFUNCTYPE(rc.Node):
         self.set_output_val(0, ctypes.PYFUNCTYPE(self.input(0)))
         
 
-
-class AutoNode_ctypes_SetPointerType(rc.Node):
+class Setpointertype_Node(NodeBase):
     title = 'SetPointerType'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='pointer'),
-rc.NodeInputBP(label='cls'),
+        NodeInputBP(label='pointer'),
+        NodeInputBP(label='cls'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -115,15 +122,15 @@ rc.NodeInputBP(label='cls'),
         self.set_output_val(0, ctypes.SetPointerType(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes_WINFUNCTYPE(rc.Node):
+class Winfunctype_Node(NodeBase):
     title = 'WINFUNCTYPE'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='restype'),
+        NodeInputBP(label='restype'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -131,16 +138,16 @@ class AutoNode_ctypes_WINFUNCTYPE(rc.Node):
         self.set_output_val(0, ctypes.WINFUNCTYPE(self.input(0)))
         
 
-
-class AutoNode_ctypes_WinError(rc.Node):
+class Winerror_Node(NodeBase):
     title = 'WinError'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='code'),
-rc.NodeInputBP(label='descr'),
+        NodeInputBP(label='code', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='descr', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -148,15 +155,15 @@ rc.NodeInputBP(label='descr'),
         self.set_output_val(0, ctypes.WinError(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes__calcsize(rc.Node):
+class _Calcsize_Node(NodeBase):
     title = '_calcsize'
-    doc = '''Return size in bytes of the struct described by the format string.'''
+    type_ = 'ctypes'
+    doc = """Return size in bytes of the struct described by the format string."""
     init_inputs = [
-        rc.NodeInputBP(label='format'),
+        NodeInputBP(label='format'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -164,16 +171,16 @@ class AutoNode_ctypes__calcsize(rc.Node):
         self.set_output_val(0, ctypes._calcsize(self.input(0)))
         
 
-
-class AutoNode_ctypes__check_size(rc.Node):
+class _Check_Size_Node(NodeBase):
     title = '_check_size'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='typ'),
-rc.NodeInputBP(label='typecode'),
+        NodeInputBP(label='typ'),
+        NodeInputBP(label='typecode', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -181,15 +188,15 @@ rc.NodeInputBP(label='typecode'),
         self.set_output_val(0, ctypes._check_size(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes__reset_cache(rc.Node):
+class _Reset_Cache_Node(NodeBase):
     title = '_reset_cache'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -197,16 +204,16 @@ class AutoNode_ctypes__reset_cache(rc.Node):
         self.set_output_val(0, ctypes._reset_cache())
         
 
-
-class AutoNode_ctypes_c_buffer(rc.Node):
+class C_Buffer_Node(NodeBase):
     title = 'c_buffer'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='init'),
-rc.NodeInputBP(label='size'),
+        NodeInputBP(label='init'),
+        NodeInputBP(label='size', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -214,16 +221,16 @@ rc.NodeInputBP(label='size'),
         self.set_output_val(0, ctypes.c_buffer(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes_cast(rc.Node):
+class Cast_Node(NodeBase):
     title = 'cast'
-    doc = '''None'''
+    type_ = 'ctypes'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='typ'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='typ'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -231,19 +238,19 @@ rc.NodeInputBP(label='typ'),
         self.set_output_val(0, ctypes.cast(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes_create_string_buffer(rc.Node):
+class Create_String_Buffer_Node(NodeBase):
     title = 'create_string_buffer'
-    doc = '''create_string_buffer(aBytes) -> character array
+    type_ = 'ctypes'
+    doc = """create_string_buffer(aBytes) -> character array
     create_string_buffer(anInteger) -> character array
     create_string_buffer(aBytes, anInteger) -> character array
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='init'),
-rc.NodeInputBP(label='size'),
+        NodeInputBP(label='init'),
+        NodeInputBP(label='size', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -251,19 +258,19 @@ rc.NodeInputBP(label='size'),
         self.set_output_val(0, ctypes.create_string_buffer(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes_create_unicode_buffer(rc.Node):
+class Create_Unicode_Buffer_Node(NodeBase):
     title = 'create_unicode_buffer'
-    doc = '''create_unicode_buffer(aString) -> character array
+    type_ = 'ctypes'
+    doc = """create_unicode_buffer(aString) -> character array
     create_unicode_buffer(anInteger) -> character array
     create_unicode_buffer(aString, anInteger) -> character array
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='init'),
-rc.NodeInputBP(label='size'),
+        NodeInputBP(label='init'),
+        NodeInputBP(label='size', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -271,18 +278,18 @@ rc.NodeInputBP(label='size'),
         self.set_output_val(0, ctypes.create_unicode_buffer(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes_string_at(rc.Node):
+class String_At_Node(NodeBase):
     title = 'string_at'
-    doc = '''string_at(addr[, size]) -> string
+    type_ = 'ctypes'
+    doc = """string_at(addr[, size]) -> string
 
-    Return the string at addr.'''
+    Return the string at addr."""
     init_inputs = [
-        rc.NodeInputBP(label='ptr'),
-rc.NodeInputBP(label='size'),
+        NodeInputBP(label='ptr'),
+        NodeInputBP(label='size', dtype=dtypes.Data(default=-1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -290,21 +297,42 @@ rc.NodeInputBP(label='size'),
         self.set_output_val(0, ctypes.string_at(self.input(0), self.input(1)))
         
 
-
-class AutoNode_ctypes_wstring_at(rc.Node):
+class Wstring_At_Node(NodeBase):
     title = 'wstring_at'
-    doc = '''wstring_at(addr[, size]) -> string
+    type_ = 'ctypes'
+    doc = """wstring_at(addr[, size]) -> string
 
-        Return the string at addr.'''
+        Return the string at addr."""
     init_inputs = [
-        rc.NodeInputBP(label='ptr'),
-rc.NodeInputBP(label='size'),
+        NodeInputBP(label='ptr'),
+        NodeInputBP(label='size', dtype=dtypes.Data(default=-1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, ctypes.wstring_at(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    Array_Node,
+    Cfunctype_Node,
+    Dllcanunloadnow_Node,
+    Dllgetclassobject_Node,
+    Pyfunctype_Node,
+    Setpointertype_Node,
+    Winfunctype_Node,
+    Winerror_Node,
+    _Calcsize_Node,
+    _Check_Size_Node,
+    _Reset_Cache_Node,
+    C_Buffer_Node,
+    Cast_Node,
+    Create_String_Buffer_Node,
+    Create_Unicode_Buffer_Node,
+    String_At_Node,
+    Wstring_At_Node,
+)

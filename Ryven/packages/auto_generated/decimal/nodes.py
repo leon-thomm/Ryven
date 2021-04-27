@@ -1,17 +1,24 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import decimal
 
 
-class AutoNode_decimal_getcontext(rc.Node):
-    title = 'getcontext'
-    doc = '''Get the current default context.
+class NodeBase(Node):
+    pass
 
-'''
+
+class Getcontext_Node(NodeBase):
+    title = 'getcontext'
+    type_ = 'decimal'
+    doc = """Get the current default context.
+
+"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -19,20 +26,20 @@ class AutoNode_decimal_getcontext(rc.Node):
         self.set_output_val(0, decimal.getcontext())
         
 
-
-class AutoNode_decimal_localcontext(rc.Node):
+class Localcontext_Node(NodeBase):
     title = 'localcontext'
-    doc = '''Return a context manager that will set the default context to a copy of ctx
+    type_ = 'decimal'
+    doc = """Return a context manager that will set the default context to a copy of ctx
 on entry to the with-statement and restore the previous default context when
 exiting the with-statement. If no context is specified, a copy of the current
 default context is used.
 
-'''
+"""
     init_inputs = [
-        rc.NodeInputBP(label='ctx'),
+        NodeInputBP(label='ctx', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -40,20 +47,27 @@ default context is used.
         self.set_output_val(0, decimal.localcontext(self.input(0)))
         
 
-
-class AutoNode_decimal_setcontext(rc.Node):
+class Setcontext_Node(NodeBase):
     title = 'setcontext'
-    doc = '''Set a new default context.
+    type_ = 'decimal'
+    doc = """Set a new default context.
 
-'''
+"""
     init_inputs = [
-        rc.NodeInputBP(label='context'),
+        NodeInputBP(label='context'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, decimal.setcontext(self.input(0)))
         
+
+
+export_nodes(
+    Getcontext_Node,
+    Localcontext_Node,
+    Setcontext_Node,
+)

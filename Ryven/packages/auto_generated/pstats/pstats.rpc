@@ -1,1 +1,0 @@
-{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_pstats_add_callers", "AutoNode_pstats_add_func_stats", "AutoNode_pstats_count_calls", "AutoNode_pstats_f8", "AutoNode_pstats_func_get_function_name", "AutoNode_pstats_func_std_string", "AutoNode_pstats_func_strip_path"]}

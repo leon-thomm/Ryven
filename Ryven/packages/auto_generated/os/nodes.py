@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import os
 
 
-class AutoNode_os__check_methods(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Check_Methods_Node(NodeBase):
     title = '_check_methods'
-    doc = '''None'''
+    type_ = 'os'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='C'),
+        NodeInputBP(label='C'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,17 +24,17 @@ class AutoNode_os__check_methods(rc.Node):
         self.set_output_val(0, os._check_methods(self.input(0)))
         
 
-
-class AutoNode_os__execvpe(rc.Node):
+class _Execvpe_Node(NodeBase):
     title = '_execvpe'
-    doc = '''None'''
+    type_ = 'os'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='env'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='env', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -35,15 +42,15 @@ rc.NodeInputBP(label='env'),
         self.set_output_val(0, os._execvpe(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os__exists(rc.Node):
+class _Exists_Node(NodeBase):
     title = '_exists'
-    doc = '''None'''
+    type_ = 'os'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -51,15 +58,15 @@ class AutoNode_os__exists(rc.Node):
         self.set_output_val(0, os._exists(self.input(0)))
         
 
-
-class AutoNode_os__exit(rc.Node):
+class _Exit_Node(NodeBase):
     title = '_exit'
-    doc = '''Exit to the system with specified status, without normal exit processing.'''
+    type_ = 'os'
+    doc = """Exit to the system with specified status, without normal exit processing."""
     init_inputs = [
-        rc.NodeInputBP(label='status'),
+        NodeInputBP(label='status'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -67,21 +74,21 @@ class AutoNode_os__exit(rc.Node):
         self.set_output_val(0, os._exit(self.input(0)))
         
 
-
-class AutoNode_os__fspath(rc.Node):
+class _Fspath_Node(NodeBase):
     title = '_fspath'
-    doc = '''Return the path representation of a path-like object.
+    type_ = 'os'
+    doc = """Return the path representation of a path-like object.
 
     If str or bytes is passed in, it is returned unchanged. Otherwise the
     os.PathLike interface is used to get the path representation. If the
     path representation is not str or bytes, TypeError is raised. If the
     provided path is not str, bytes, or os.PathLike, TypeError is raised.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -89,15 +96,15 @@ class AutoNode_os__fspath(rc.Node):
         self.set_output_val(0, os._fspath(self.input(0)))
         
 
-
-class AutoNode_os__get_exports_list(rc.Node):
+class _Get_Exports_List_Node(NodeBase):
     title = '_get_exports_list'
-    doc = '''None'''
+    type_ = 'os'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='module'),
+        NodeInputBP(label='module'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -105,16 +112,16 @@ class AutoNode_os__get_exports_list(rc.Node):
         self.set_output_val(0, os._get_exports_list(self.input(0)))
         
 
-
-class AutoNode_os__putenv(rc.Node):
+class _Putenv_Node(NodeBase):
     title = '_putenv'
-    doc = '''Change or add an environment variable.'''
+    type_ = 'os'
+    doc = """Change or add an environment variable."""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -122,15 +129,15 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, os._putenv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os__unsetenv(rc.Node):
+class _Unsetenv_Node(NodeBase):
     title = '_unsetenv'
-    doc = '''None'''
+    type_ = 'os'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
+        NodeInputBP(label='key'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -138,18 +145,18 @@ class AutoNode_os__unsetenv(rc.Node):
         self.set_output_val(0, os._unsetenv(self.input(0)))
         
 
-
-class AutoNode_os_abort(rc.Node):
+class Abort_Node(NodeBase):
     title = 'abort'
-    doc = '''Abort the interpreter immediately.
+    type_ = 'os'
+    doc = """Abort the interpreter immediately.
 
 This function 'dumps core' or otherwise fails in the hardest way possible
-on the hosting operating system.  This function never returns.'''
+on the hosting operating system.  This function never returns."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -157,10 +164,10 @@ on the hosting operating system.  This function never returns.'''
         self.set_output_val(0, os.abort())
         
 
-
-class AutoNode_os_access(rc.Node):
+class Access_Node(NodeBase):
     title = 'access'
-    doc = '''Use the real uid/gid to test for access to a path.
+    type_ = 'os'
+    doc = """Use the real uid/gid to test for access to a path.
 
   path
     Path to be tested; can be string, bytes, or a path-like object.
@@ -185,13 +192,13 @@ dir_fd, effective_ids, and follow_symlinks may not be implemented
 
 Note that most operations will use the effective uid/gid, therefore this
   routine can be used in a suid/sgid environment to test if the invoking user
-  has the specified access to the path.'''
+  has the specified access to the path."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='mode'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -199,10 +206,10 @@ rc.NodeInputBP(label='mode'),
         self.set_output_val(0, os.access(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_add_dll_directory(rc.Node):
+class Add_Dll_Directory_Node(NodeBase):
     title = 'add_dll_directory'
-    doc = '''Add a path to the DLL search path.
+    type_ = 'os'
+    doc = """Add a path to the DLL search path.
 
         This search path is used when resolving dependencies for imported
         extension modules (the module itself is resolved through sys.path),
@@ -210,12 +217,12 @@ class AutoNode_os_add_dll_directory(rc.Node):
 
         Remove the directory by calling close() on the returned object or
         using it in a with statement.
-        '''
+        """
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -223,19 +230,19 @@ class AutoNode_os_add_dll_directory(rc.Node):
         self.set_output_val(0, os.add_dll_directory(self.input(0)))
         
 
-
-class AutoNode_os_chdir(rc.Node):
+class Chdir_Node(NodeBase):
     title = 'chdir'
-    doc = '''Change the current working directory to the specified path.
+    type_ = 'os'
+    doc = """Change the current working directory to the specified path.
 
 path may always be specified as a string.
 On some platforms, path may also be specified as an open file descriptor.
-  If this functionality is unavailable, using it raises an exception.'''
+  If this functionality is unavailable, using it raises an exception."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -243,10 +250,10 @@ On some platforms, path may also be specified as an open file descriptor.
         self.set_output_val(0, os.chdir(self.input(0)))
         
 
-
-class AutoNode_os_chmod(rc.Node):
+class Chmod_Node(NodeBase):
     title = 'chmod'
-    doc = '''Change the access permissions of a file.
+    type_ = 'os'
+    doc = """Change the access permissions of a file.
 
   path
     Path to be modified.  May always be specified as a str, bytes, or a path-like object.
@@ -266,13 +273,13 @@ class AutoNode_os_chmod(rc.Node):
 It is an error to use dir_fd or follow_symlinks when specifying path as
   an open file descriptor.
 dir_fd and follow_symlinks may not be implemented on your platform.
-  If they are unavailable, using them will raise a NotImplementedError.'''
+  If they are unavailable, using them will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='mode'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -280,15 +287,15 @@ rc.NodeInputBP(label='mode'),
         self.set_output_val(0, os.chmod(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_close(rc.Node):
+class Close_Node(NodeBase):
     title = 'close'
-    doc = '''Close a file descriptor.'''
+    type_ = 'os'
+    doc = """Close a file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -296,16 +303,16 @@ class AutoNode_os_close(rc.Node):
         self.set_output_val(0, os.close(self.input(0)))
         
 
-
-class AutoNode_os_closerange(rc.Node):
+class Closerange_Node(NodeBase):
     title = 'closerange'
-    doc = '''Closes all file descriptors in [fd_low, fd_high), ignoring errors.'''
+    type_ = 'os'
+    doc = """Closes all file descriptors in [fd_low, fd_high), ignoring errors."""
     init_inputs = [
-        rc.NodeInputBP(label='fd_low'),
-rc.NodeInputBP(label='fd_high'),
+        NodeInputBP(label='fd_low'),
+        NodeInputBP(label='fd_high'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -313,19 +320,19 @@ rc.NodeInputBP(label='fd_high'),
         self.set_output_val(0, os.closerange(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_cpu_count(rc.Node):
+class Cpu_Count_Node(NodeBase):
     title = 'cpu_count'
-    doc = '''Return the number of CPUs in the system; return None if indeterminable.
+    type_ = 'os'
+    doc = """Return the number of CPUs in the system; return None if indeterminable.
 
 This number is not equivalent to the number of CPUs the current process can
 use.  The number of usable CPUs can be obtained with
-``len(os.sched_getaffinity(0))``'''
+``len(os.sched_getaffinity(0))``"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -333,18 +340,18 @@ use.  The number of usable CPUs can be obtained with
         self.set_output_val(0, os.cpu_count())
         
 
-
-class AutoNode_os_device_encoding(rc.Node):
+class Device_Encoding_Node(NodeBase):
     title = 'device_encoding'
-    doc = '''Return a string describing the encoding of a terminal's file descriptor.
+    type_ = 'os'
+    doc = """Return a string describing the encoding of a terminal's file descriptor.
 
 The file descriptor must be attached to a terminal.
-If the device is not a terminal, return None.'''
+If the device is not a terminal, return None."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -352,15 +359,15 @@ If the device is not a terminal, return None.'''
         self.set_output_val(0, os.device_encoding(self.input(0)))
         
 
-
-class AutoNode_os_dup(rc.Node):
+class Dup_Node(NodeBase):
     title = 'dup'
-    doc = '''Return a duplicate of a file descriptor.'''
+    type_ = 'os'
+    doc = """Return a duplicate of a file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -368,17 +375,17 @@ class AutoNode_os_dup(rc.Node):
         self.set_output_val(0, os.dup(self.input(0)))
         
 
-
-class AutoNode_os_dup2(rc.Node):
+class Dup2_Node(NodeBase):
     title = 'dup2'
-    doc = '''Duplicate file descriptor.'''
+    type_ = 'os'
+    doc = """Duplicate file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
-rc.NodeInputBP(label='fd2'),
-rc.NodeInputBP(label='inheritable'),
+        NodeInputBP(label='fd'),
+        NodeInputBP(label='fd2'),
+        NodeInputBP(label='inheritable', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -386,18 +393,18 @@ rc.NodeInputBP(label='inheritable'),
         self.set_output_val(0, os.dup2(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_execl(rc.Node):
+class Execl_Node(NodeBase):
     title = 'execl'
-    doc = '''execl(file, *args)
+    type_ = 'os'
+    doc = """execl(file, *args)
 
     Execute the executable file with argument list args, replacing the
-    current process. '''
+    current process. """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -405,18 +412,18 @@ class AutoNode_os_execl(rc.Node):
         self.set_output_val(0, os.execl(self.input(0)))
         
 
-
-class AutoNode_os_execle(rc.Node):
+class Execle_Node(NodeBase):
     title = 'execle'
-    doc = '''execle(file, *args, env)
+    type_ = 'os'
+    doc = """execle(file, *args, env)
 
     Execute the executable file with argument list args and
-    environment env, replacing the current process. '''
+    environment env, replacing the current process. """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -424,18 +431,18 @@ class AutoNode_os_execle(rc.Node):
         self.set_output_val(0, os.execle(self.input(0)))
         
 
-
-class AutoNode_os_execlp(rc.Node):
+class Execlp_Node(NodeBase):
     title = 'execlp'
-    doc = '''execlp(file, *args)
+    type_ = 'os'
+    doc = """execlp(file, *args)
 
     Execute the executable file (which is searched for along $PATH)
-    with argument list args, replacing the current process. '''
+    with argument list args, replacing the current process. """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -443,19 +450,19 @@ class AutoNode_os_execlp(rc.Node):
         self.set_output_val(0, os.execlp(self.input(0)))
         
 
-
-class AutoNode_os_execlpe(rc.Node):
+class Execlpe_Node(NodeBase):
     title = 'execlpe'
-    doc = '''execlpe(file, *args, env)
+    type_ = 'os'
+    doc = """execlpe(file, *args, env)
 
     Execute the executable file (which is searched for along $PATH)
     with argument list args and environment env, replacing the current
-    process. '''
+    process. """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -463,21 +470,21 @@ class AutoNode_os_execlpe(rc.Node):
         self.set_output_val(0, os.execlpe(self.input(0)))
         
 
-
-class AutoNode_os_execv(rc.Node):
+class Execv_Node(NodeBase):
     title = 'execv'
-    doc = '''Execute an executable path with arguments, replacing current process.
+    type_ = 'os'
+    doc = """Execute an executable path with arguments, replacing current process.
 
   path
     Path of executable file.
   argv
-    Tuple or list of strings.'''
+    Tuple or list of strings."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='argv'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='argv'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -485,24 +492,24 @@ rc.NodeInputBP(label='argv'),
         self.set_output_val(0, os.execv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_execve(rc.Node):
+class Execve_Node(NodeBase):
     title = 'execve'
-    doc = '''Execute an executable path with arguments, replacing current process.
+    type_ = 'os'
+    doc = """Execute an executable path with arguments, replacing current process.
 
   path
     Path of executable file.
   argv
     Tuple or list of strings.
   env
-    Dictionary of strings mapping to strings.'''
+    Dictionary of strings mapping to strings."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='argv'),
-rc.NodeInputBP(label='env'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='argv'),
+        NodeInputBP(label='env'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -510,20 +517,20 @@ rc.NodeInputBP(label='env'),
         self.set_output_val(0, os.execve(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_execvp(rc.Node):
+class Execvp_Node(NodeBase):
     title = 'execvp'
-    doc = '''execvp(file, args)
+    type_ = 'os'
+    doc = """execvp(file, args)
 
     Execute the executable file (which is searched for along $PATH)
     with argument list args, replacing the current process.
-    args may be a list or tuple of strings. '''
+    args may be a list or tuple of strings. """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='args'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='args'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -531,22 +538,22 @@ rc.NodeInputBP(label='args'),
         self.set_output_val(0, os.execvp(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_execvpe(rc.Node):
+class Execvpe_Node(NodeBase):
     title = 'execvpe'
-    doc = '''execvpe(file, args, env)
+    type_ = 'os'
+    doc = """execvpe(file, args, env)
 
     Execute the executable file (which is searched for along $PATH)
     with argument list args and environment env, replacing the
     current process.
-    args may be a list or tuple of strings. '''
+    args may be a list or tuple of strings. """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='env'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='env'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -554,15 +561,15 @@ rc.NodeInputBP(label='env'),
         self.set_output_val(0, os.execvpe(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_fdopen(rc.Node):
+class Fdopen_Node(NodeBase):
     title = 'fdopen'
-    doc = '''None'''
+    type_ = 'os'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -570,19 +577,19 @@ class AutoNode_os_fdopen(rc.Node):
         self.set_output_val(0, os.fdopen(self.input(0)))
         
 
-
-class AutoNode_os_fsdecode(rc.Node):
+class Fsdecode_Node(NodeBase):
     title = 'fsdecode'
-    doc = '''Decode filename (an os.PathLike, bytes, or str) from the filesystem
+    type_ = 'os'
+    doc = """Decode filename (an os.PathLike, bytes, or str) from the filesystem
         encoding with 'surrogateescape' error handler, return str unchanged. On
         Windows, use 'strict' error handler if the file system encoding is
         'mbcs' (which is the default encoding).
-        '''
+        """
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
+        NodeInputBP(label='filename'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -590,19 +597,19 @@ class AutoNode_os_fsdecode(rc.Node):
         self.set_output_val(0, os.fsdecode(self.input(0)))
         
 
-
-class AutoNode_os_fsencode(rc.Node):
+class Fsencode_Node(NodeBase):
     title = 'fsencode'
-    doc = '''Encode filename (an os.PathLike, bytes, or str) to the filesystem
+    type_ = 'os'
+    doc = """Encode filename (an os.PathLike, bytes, or str) to the filesystem
         encoding with 'surrogateescape' error handler, return bytes unchanged.
         On Windows, use 'strict' error handler if the file system encoding is
         'mbcs' (which is the default encoding).
-        '''
+        """
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
+        NodeInputBP(label='filename'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -610,19 +617,19 @@ class AutoNode_os_fsencode(rc.Node):
         self.set_output_val(0, os.fsencode(self.input(0)))
         
 
-
-class AutoNode_os_fspath(rc.Node):
+class Fspath_Node(NodeBase):
     title = 'fspath'
-    doc = '''Return the file system path representation of the object.
+    type_ = 'os'
+    doc = """Return the file system path representation of the object.
 
 If the object is str or bytes, then allow it to pass through as-is. If the
 object defines __fspath__(), then return the result of that method. All other
-types raise a TypeError.'''
+types raise a TypeError."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -630,18 +637,18 @@ types raise a TypeError.'''
         self.set_output_val(0, os.fspath(self.input(0)))
         
 
-
-class AutoNode_os_fstat(rc.Node):
+class Fstat_Node(NodeBase):
     title = 'fstat'
-    doc = '''Perform a stat system call on the given file descriptor.
+    type_ = 'os'
+    doc = """Perform a stat system call on the given file descriptor.
 
 Like stat(), but for an open file descriptor.
-Equivalent to os.stat(fd).'''
+Equivalent to os.stat(fd)."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -649,15 +656,15 @@ Equivalent to os.stat(fd).'''
         self.set_output_val(0, os.fstat(self.input(0)))
         
 
-
-class AutoNode_os_fsync(rc.Node):
+class Fsync_Node(NodeBase):
     title = 'fsync'
-    doc = '''Force write of fd to disk.'''
+    type_ = 'os'
+    doc = """Force write of fd to disk."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -665,16 +672,16 @@ class AutoNode_os_fsync(rc.Node):
         self.set_output_val(0, os.fsync(self.input(0)))
         
 
-
-class AutoNode_os_ftruncate(rc.Node):
+class Ftruncate_Node(NodeBase):
     title = 'ftruncate'
-    doc = '''Truncate a file, specified by file descriptor, to a specific length.'''
+    type_ = 'os'
+    doc = """Truncate a file, specified by file descriptor, to a specific length."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
-rc.NodeInputBP(label='length'),
+        NodeInputBP(label='fd'),
+        NodeInputBP(label='length'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -682,20 +689,20 @@ rc.NodeInputBP(label='length'),
         self.set_output_val(0, os.ftruncate(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_get_exec_path(rc.Node):
+class Get_Exec_Path_Node(NodeBase):
     title = 'get_exec_path'
-    doc = '''Returns the sequence of directories that will be searched for the
+    type_ = 'os'
+    doc = """Returns the sequence of directories that will be searched for the
     named executable (similar to a shell) when launching a process.
 
     *env* must be an environment variable dict or None.  If *env* is None,
     os.environ will be used.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='env'),
+        NodeInputBP(label='env', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -703,15 +710,15 @@ class AutoNode_os_get_exec_path(rc.Node):
         self.set_output_val(0, os.get_exec_path(self.input(0)))
         
 
-
-class AutoNode_os_get_handle_inheritable(rc.Node):
+class Get_Handle_Inheritable_Node(NodeBase):
     title = 'get_handle_inheritable'
-    doc = '''Get the close-on-exe flag of the specified file descriptor.'''
+    type_ = 'os'
+    doc = """Get the close-on-exe flag of the specified file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='handle'),
+        NodeInputBP(label='handle'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -719,15 +726,15 @@ class AutoNode_os_get_handle_inheritable(rc.Node):
         self.set_output_val(0, os.get_handle_inheritable(self.input(0)))
         
 
-
-class AutoNode_os_get_inheritable(rc.Node):
+class Get_Inheritable_Node(NodeBase):
     title = 'get_inheritable'
-    doc = '''Get the close-on-exe flag of the specified file descriptor.'''
+    type_ = 'os'
+    doc = """Get the close-on-exe flag of the specified file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -735,15 +742,15 @@ class AutoNode_os_get_inheritable(rc.Node):
         self.set_output_val(0, os.get_inheritable(self.input(0)))
         
 
-
-class AutoNode_os_getcwd(rc.Node):
+class Getcwd_Node(NodeBase):
     title = 'getcwd'
-    doc = '''Return a unicode string representing the current working directory.'''
+    type_ = 'os'
+    doc = """Return a unicode string representing the current working directory."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -751,15 +758,15 @@ class AutoNode_os_getcwd(rc.Node):
         self.set_output_val(0, os.getcwd())
         
 
-
-class AutoNode_os_getcwdb(rc.Node):
+class Getcwdb_Node(NodeBase):
     title = 'getcwdb'
-    doc = '''Return a bytes string representing the current working directory.'''
+    type_ = 'os'
+    doc = """Return a bytes string representing the current working directory."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -767,18 +774,18 @@ class AutoNode_os_getcwdb(rc.Node):
         self.set_output_val(0, os.getcwdb())
         
 
-
-class AutoNode_os_getenv(rc.Node):
+class Getenv_Node(NodeBase):
     title = 'getenv'
-    doc = '''Get an environment variable, return None if it doesn't exist.
+    type_ = 'os'
+    doc = """Get an environment variable, return None if it doesn't exist.
     The optional second argument can specify an alternate default.
-    key, default and the result are str.'''
+    key, default and the result are str."""
     init_inputs = [
-        rc.NodeInputBP(label='key'),
-rc.NodeInputBP(label='default'),
+        NodeInputBP(label='key'),
+        NodeInputBP(label='default', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -786,15 +793,15 @@ rc.NodeInputBP(label='default'),
         self.set_output_val(0, os.getenv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_getlogin(rc.Node):
+class Getlogin_Node(NodeBase):
     title = 'getlogin'
-    doc = '''Return the actual login name.'''
+    type_ = 'os'
+    doc = """Return the actual login name."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -802,15 +809,15 @@ class AutoNode_os_getlogin(rc.Node):
         self.set_output_val(0, os.getlogin())
         
 
-
-class AutoNode_os_getpid(rc.Node):
+class Getpid_Node(NodeBase):
     title = 'getpid'
-    doc = '''Return the current process id.'''
+    type_ = 'os'
+    doc = """Return the current process id."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -818,18 +825,18 @@ class AutoNode_os_getpid(rc.Node):
         self.set_output_val(0, os.getpid())
         
 
-
-class AutoNode_os_getppid(rc.Node):
+class Getppid_Node(NodeBase):
     title = 'getppid'
-    doc = '''Return the parent's process id.
+    type_ = 'os'
+    doc = """Return the parent's process id.
 
 If the parent process has already exited, Windows machines will still
-return its id; others systems will return the id of the 'init' process (1).'''
+return its id; others systems will return the id of the 'init' process (1)."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -837,18 +844,18 @@ return its id; others systems will return the id of the 'init' process (1).'''
         self.set_output_val(0, os.getppid())
         
 
-
-class AutoNode_os_isatty(rc.Node):
+class Isatty_Node(NodeBase):
     title = 'isatty'
-    doc = '''Return True if the fd is connected to a terminal.
+    type_ = 'os'
+    doc = """Return True if the fd is connected to a terminal.
 
 Return True if the file descriptor is an open file descriptor
-connected to the slave end of a terminal.'''
+connected to the slave end of a terminal."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
+        NodeInputBP(label='fd'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -856,16 +863,16 @@ connected to the slave end of a terminal.'''
         self.set_output_val(0, os.isatty(self.input(0)))
         
 
-
-class AutoNode_os_kill(rc.Node):
+class Kill_Node(NodeBase):
     title = 'kill'
-    doc = '''Kill a process with a signal.'''
+    type_ = 'os'
+    doc = """Kill a process with a signal."""
     init_inputs = [
-        rc.NodeInputBP(label='pid'),
-rc.NodeInputBP(label='signal'),
+        NodeInputBP(label='pid'),
+        NodeInputBP(label='signal'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -873,10 +880,10 @@ rc.NodeInputBP(label='signal'),
         self.set_output_val(0, os.kill(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_link(rc.Node):
+class Link_Node(NodeBase):
     title = 'link'
-    doc = '''Create a hard link to a file.
+    type_ = 'os'
+    doc = """Create a hard link to a file.
 
 If either src_dir_fd or dst_dir_fd is not None, it should be a file
   descriptor open to a directory, and the respective path string (src or dst)
@@ -886,13 +893,13 @@ If follow_symlinks is False, and the last element of src is a symbolic
   file the link points to.
 src_dir_fd, dst_dir_fd, and follow_symlinks may not be implemented on your
   platform.  If they are unavailable, using them will raise a
-  NotImplementedError.'''
+  NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='src'),
-rc.NodeInputBP(label='dst'),
+        NodeInputBP(label='src'),
+        NodeInputBP(label='dst'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -900,10 +907,10 @@ rc.NodeInputBP(label='dst'),
         self.set_output_val(0, os.link(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_listdir(rc.Node):
+class Listdir_Node(NodeBase):
     title = 'listdir'
-    doc = '''Return a list containing the names of the files in the directory.
+    type_ = 'os'
+    doc = """Return a list containing the names of the files in the directory.
 
 path can be specified as either str, bytes, or a path-like object.  If path is bytes,
   the filenames returned will also be bytes; in all other circumstances
@@ -914,12 +921,12 @@ On some platforms, path may also be specified as an open file descriptor;\
   If this functionality is unavailable, using it raises NotImplementedError.
 
 The list is in arbitrary order.  It does not include the special
-entries '.' and '..' even if they are present in the directory.'''
+entries '.' and '..' even if they are present in the directory."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -927,20 +934,20 @@ entries '.' and '..' even if they are present in the directory.'''
         self.set_output_val(0, os.listdir(self.input(0)))
         
 
-
-class AutoNode_os_lseek(rc.Node):
+class Lseek_Node(NodeBase):
     title = 'lseek'
-    doc = '''Set the position of a file descriptor.  Return the new position.
+    type_ = 'os'
+    doc = """Set the position of a file descriptor.  Return the new position.
 
 Return the new cursor position in number of bytes
-relative to the beginning of the file.'''
+relative to the beginning of the file."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
-rc.NodeInputBP(label='position'),
-rc.NodeInputBP(label='how'),
+        NodeInputBP(label='fd'),
+        NodeInputBP(label='position'),
+        NodeInputBP(label='how'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -948,18 +955,18 @@ rc.NodeInputBP(label='how'),
         self.set_output_val(0, os.lseek(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_lstat(rc.Node):
+class Lstat_Node(NodeBase):
     title = 'lstat'
-    doc = '''Perform a stat system call on the given path, without following symbolic links.
+    type_ = 'os'
+    doc = """Perform a stat system call on the given path, without following symbolic links.
 
 Like stat(), but do not follow symbolic links.
-Equivalent to stat(path, follow_symlinks=False).'''
+Equivalent to stat(path, follow_symlinks=False)."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -967,10 +974,10 @@ Equivalent to stat(path, follow_symlinks=False).'''
         self.set_output_val(0, os.lstat(self.input(0)))
         
 
-
-class AutoNode_os_makedirs(rc.Node):
+class Makedirs_Node(NodeBase):
     title = 'makedirs'
-    doc = '''makedirs(name [, mode=0o777][, exist_ok=False])
+    type_ = 'os'
+    doc = """makedirs(name [, mode=0o777][, exist_ok=False])
 
     Super-mkdir; create a leaf directory and all intermediate ones.  Works like
     mkdir, except that any intermediate path segment (not just the rightmost)
@@ -978,14 +985,14 @@ class AutoNode_os_makedirs(rc.Node):
     exists, raise an OSError if exist_ok is False. Otherwise no exception is
     raised.  This is recursive.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='exist_ok'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default=511, size='s')),
+        NodeInputBP(label='exist_ok', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -993,23 +1000,23 @@ rc.NodeInputBP(label='exist_ok'),
         self.set_output_val(0, os.makedirs(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_mkdir(rc.Node):
+class Mkdir_Node(NodeBase):
     title = 'mkdir'
-    doc = '''Create a directory.
+    type_ = 'os'
+    doc = """Create a directory.
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
 dir_fd may not be implemented on your platform.
   If it is unavailable, using it will raise a NotImplementedError.
 
-The mode argument is ignored on Windows.'''
+The mode argument is ignored on Windows."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default=511, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1017,22 +1024,22 @@ rc.NodeInputBP(label='mode'),
         self.set_output_val(0, os.mkdir(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_open(rc.Node):
+class Open_Node(NodeBase):
     title = 'open'
-    doc = '''Open a file for low level IO.  Returns a file descriptor (integer).
+    type_ = 'os'
+    doc = """Open a file for low level IO.  Returns a file descriptor (integer).
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
 dir_fd may not be implemented on your platform.
-  If it is unavailable, using it will raise a NotImplementedError.'''
+  If it is unavailable, using it will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='flags'),
-rc.NodeInputBP(label='mode'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='flags'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default=511, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1040,18 +1047,18 @@ rc.NodeInputBP(label='mode'),
         self.set_output_val(0, os.open(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_pipe(rc.Node):
+class Pipe_Node(NodeBase):
     title = 'pipe'
-    doc = '''Create a pipe.
+    type_ = 'os'
+    doc = """Create a pipe.
 
 Returns a tuple of two file descriptors:
-  (read_fd, write_fd)'''
+  (read_fd, write_fd)"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1059,17 +1066,17 @@ Returns a tuple of two file descriptors:
         self.set_output_val(0, os.pipe())
         
 
-
-class AutoNode_os_popen(rc.Node):
+class Popen_Node(NodeBase):
     title = 'popen'
-    doc = '''None'''
+    type_ = 'os'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cmd'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='buffering'),
+        NodeInputBP(label='cmd'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
+        NodeInputBP(label='buffering', dtype=dtypes.Data(default=-1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1077,16 +1084,16 @@ rc.NodeInputBP(label='buffering'),
         self.set_output_val(0, os.popen(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_putenv(rc.Node):
+class Putenv_Node(NodeBase):
     title = 'putenv'
-    doc = '''Change or add an environment variable.'''
+    type_ = 'os'
+    doc = """Change or add an environment variable."""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1094,16 +1101,16 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, os.putenv(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_read(rc.Node):
+class Read_Node(NodeBase):
     title = 'read'
-    doc = '''Read from a file descriptor.  Returns a bytes object.'''
+    type_ = 'os'
+    doc = """Read from a file descriptor.  Returns a bytes object."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
-rc.NodeInputBP(label='length'),
+        NodeInputBP(label='fd'),
+        NodeInputBP(label='length'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1111,21 +1118,21 @@ rc.NodeInputBP(label='length'),
         self.set_output_val(0, os.read(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_readlink(rc.Node):
+class Readlink_Node(NodeBase):
     title = 'readlink'
-    doc = '''Return a string representing the path to which the symbolic link points.
+    type_ = 'os'
+    doc = """Return a string representing the path to which the symbolic link points.
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
 and path should be relative; path will then be relative to that directory.
 
 dir_fd may not be implemented on your platform.  If it is unavailable,
-using it will raise a NotImplementedError.'''
+using it will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1133,20 +1140,20 @@ using it will raise a NotImplementedError.'''
         self.set_output_val(0, os.readlink(self.input(0)))
         
 
-
-class AutoNode_os_remove(rc.Node):
+class Remove_Node(NodeBase):
     title = 'remove'
-    doc = '''Remove a file (same as unlink()).
+    type_ = 'os'
+    doc = """Remove a file (same as unlink()).
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
 dir_fd may not be implemented on your platform.
-  If it is unavailable, using it will raise a NotImplementedError.'''
+  If it is unavailable, using it will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1154,10 +1161,10 @@ dir_fd may not be implemented on your platform.
         self.set_output_val(0, os.remove(self.input(0)))
         
 
-
-class AutoNode_os_removedirs(rc.Node):
+class Removedirs_Node(NodeBase):
     title = 'removedirs'
-    doc = '''removedirs(name)
+    type_ = 'os'
+    doc = """removedirs(name)
 
     Super-rmdir; remove a leaf directory and all empty intermediate
     ones.  Works like rmdir except that, if the leaf directory is
@@ -1166,12 +1173,12 @@ class AutoNode_os_removedirs(rc.Node):
     consumed or an error occurs.  Errors during this latter phase are
     ignored -- they generally mean that a directory was not empty.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1179,22 +1186,22 @@ class AutoNode_os_removedirs(rc.Node):
         self.set_output_val(0, os.removedirs(self.input(0)))
         
 
-
-class AutoNode_os_rename(rc.Node):
+class Rename_Node(NodeBase):
     title = 'rename'
-    doc = '''Rename a file or directory.
+    type_ = 'os'
+    doc = """Rename a file or directory.
 
 If either src_dir_fd or dst_dir_fd is not None, it should be a file
   descriptor open to a directory, and the respective path string (src or dst)
   should be relative; the path will then be relative to that directory.
 src_dir_fd and dst_dir_fd, may not be implemented on your platform.
-  If they are unavailable, using them will raise a NotImplementedError.'''
+  If they are unavailable, using them will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='src'),
-rc.NodeInputBP(label='dst'),
+        NodeInputBP(label='src'),
+        NodeInputBP(label='dst'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1202,10 +1209,10 @@ rc.NodeInputBP(label='dst'),
         self.set_output_val(0, os.rename(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_renames(rc.Node):
+class Renames_Node(NodeBase):
     title = 'renames'
-    doc = '''renames(old, new)
+    type_ = 'os'
+    doc = """renames(old, new)
 
     Super-rename; create directories as necessary and delete any left
     empty.  Works like rename, except creation of any intermediate
@@ -1218,13 +1225,13 @@ class AutoNode_os_renames(rc.Node):
     if you lack permissions needed to unlink the leaf directory or
     file.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='old'),
-rc.NodeInputBP(label='new'),
+        NodeInputBP(label='old'),
+        NodeInputBP(label='new'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1232,22 +1239,22 @@ rc.NodeInputBP(label='new'),
         self.set_output_val(0, os.renames(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_replace(rc.Node):
+class Replace_Node(NodeBase):
     title = 'replace'
-    doc = '''Rename a file or directory, overwriting the destination.
+    type_ = 'os'
+    doc = """Rename a file or directory, overwriting the destination.
 
 If either src_dir_fd or dst_dir_fd is not None, it should be a file
   descriptor open to a directory, and the respective path string (src or dst)
   should be relative; the path will then be relative to that directory.
 src_dir_fd and dst_dir_fd, may not be implemented on your platform.
-  If they are unavailable, using them will raise a NotImplementedError.'''
+  If they are unavailable, using them will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='src'),
-rc.NodeInputBP(label='dst'),
+        NodeInputBP(label='src'),
+        NodeInputBP(label='dst'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1255,20 +1262,20 @@ rc.NodeInputBP(label='dst'),
         self.set_output_val(0, os.replace(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_rmdir(rc.Node):
+class Rmdir_Node(NodeBase):
     title = 'rmdir'
-    doc = '''Remove a directory.
+    type_ = 'os'
+    doc = """Remove a directory.
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
 dir_fd may not be implemented on your platform.
-  If it is unavailable, using it will raise a NotImplementedError.'''
+  If it is unavailable, using it will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1276,21 +1283,21 @@ dir_fd may not be implemented on your platform.
         self.set_output_val(0, os.rmdir(self.input(0)))
         
 
-
-class AutoNode_os_scandir(rc.Node):
+class Scandir_Node(NodeBase):
     title = 'scandir'
-    doc = '''Return an iterator of DirEntry objects for given path.
+    type_ = 'os'
+    doc = """Return an iterator of DirEntry objects for given path.
 
 path can be specified as either str, bytes, or a path-like object.  If path
 is bytes, the names of yielded DirEntry objects will also be bytes; in
 all other circumstances they will be str.
 
-If path is None, uses the path='.'.'''
+If path is None, uses the path='.'."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1298,16 +1305,16 @@ If path is None, uses the path='.'.'''
         self.set_output_val(0, os.scandir(self.input(0)))
         
 
-
-class AutoNode_os_set_handle_inheritable(rc.Node):
+class Set_Handle_Inheritable_Node(NodeBase):
     title = 'set_handle_inheritable'
-    doc = '''Set the inheritable flag of the specified handle.'''
+    type_ = 'os'
+    doc = """Set the inheritable flag of the specified handle."""
     init_inputs = [
-        rc.NodeInputBP(label='handle'),
-rc.NodeInputBP(label='inheritable'),
+        NodeInputBP(label='handle'),
+        NodeInputBP(label='inheritable'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1315,16 +1322,16 @@ rc.NodeInputBP(label='inheritable'),
         self.set_output_val(0, os.set_handle_inheritable(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_set_inheritable(rc.Node):
+class Set_Inheritable_Node(NodeBase):
     title = 'set_inheritable'
-    doc = '''Set the inheritable flag of the specified file descriptor.'''
+    type_ = 'os'
+    doc = """Set the inheritable flag of the specified file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
-rc.NodeInputBP(label='inheritable'),
+        NodeInputBP(label='fd'),
+        NodeInputBP(label='inheritable'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1332,21 +1339,21 @@ rc.NodeInputBP(label='inheritable'),
         self.set_output_val(0, os.set_inheritable(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_spawnl(rc.Node):
+class Spawnl_Node(NodeBase):
     title = 'spawnl'
-    doc = '''spawnl(mode, file, *args) -> integer
+    type_ = 'os'
+    doc = """spawnl(mode, file, *args) -> integer
 
 Execute file with arguments from args in a subprocess.
 If mode == P_NOWAIT return the pid of the process.
 If mode == P_WAIT return the process's exit code if it exits normally;
-otherwise return -SIG, where SIG is the signal that killed it. '''
+otherwise return -SIG, where SIG is the signal that killed it. """
     init_inputs = [
-        rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='file'),
+        NodeInputBP(label='mode'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1354,22 +1361,22 @@ rc.NodeInputBP(label='file'),
         self.set_output_val(0, os.spawnl(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_spawnle(rc.Node):
+class Spawnle_Node(NodeBase):
     title = 'spawnle'
-    doc = '''spawnle(mode, file, *args, env) -> integer
+    type_ = 'os'
+    doc = """spawnle(mode, file, *args, env) -> integer
 
 Execute file with arguments from args in a subprocess with the
 supplied environment.
 If mode == P_NOWAIT return the pid of the process.
 If mode == P_WAIT return the process's exit code if it exits normally;
-otherwise return -SIG, where SIG is the signal that killed it. '''
+otherwise return -SIG, where SIG is the signal that killed it. """
     init_inputs = [
-        rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='file'),
+        NodeInputBP(label='mode'),
+        NodeInputBP(label='file'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1377,24 +1384,24 @@ rc.NodeInputBP(label='file'),
         self.set_output_val(0, os.spawnle(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_spawnv(rc.Node):
+class Spawnv_Node(NodeBase):
     title = 'spawnv'
-    doc = '''Execute the program specified by path in a new process.
+    type_ = 'os'
+    doc = """Execute the program specified by path in a new process.
 
   mode
     Mode of process creation.
   path
     Path of executable file.
   argv
-    Tuple or list of strings.'''
+    Tuple or list of strings."""
     init_inputs = [
-        rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='argv'),
+        NodeInputBP(label='mode'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='argv'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1402,10 +1409,10 @@ rc.NodeInputBP(label='argv'),
         self.set_output_val(0, os.spawnv(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_spawnve(rc.Node):
+class Spawnve_Node(NodeBase):
     title = 'spawnve'
-    doc = '''Execute the program specified by path in a new process.
+    type_ = 'os'
+    doc = """Execute the program specified by path in a new process.
 
   mode
     Mode of process creation.
@@ -1414,15 +1421,15 @@ class AutoNode_os_spawnve(rc.Node):
   argv
     Tuple or list of strings.
   env
-    Dictionary of strings mapping to strings.'''
+    Dictionary of strings mapping to strings."""
     init_inputs = [
-        rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='argv'),
-rc.NodeInputBP(label='env'),
+        NodeInputBP(label='mode'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='argv'),
+        NodeInputBP(label='env'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1430,10 +1437,10 @@ rc.NodeInputBP(label='env'),
         self.set_output_val(0, os.spawnve(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_os_stat(rc.Node):
+class Stat_Node(NodeBase):
     title = 'stat'
-    doc = '''Perform a stat system call on the given path.
+    type_ = 'os'
+    doc = """Perform a stat system call on the given path.
 
   path
     Path to be examined; can be string, bytes, a path-like object or
@@ -1452,12 +1459,12 @@ dir_fd and follow_symlinks may not be implemented
   NotImplementedError.
 
 It's an error to use dir_fd or follow_symlinks when specifying path as
-  an open file descriptor.'''
+  an open file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1465,15 +1472,15 @@ It's an error to use dir_fd or follow_symlinks when specifying path as
         self.set_output_val(0, os.stat(self.input(0)))
         
 
-
-class AutoNode_os_strerror(rc.Node):
+class Strerror_Node(NodeBase):
     title = 'strerror'
-    doc = '''Translate an error code to a message string.'''
+    type_ = 'os'
+    doc = """Translate an error code to a message string."""
     init_inputs = [
-        rc.NodeInputBP(label='code'),
+        NodeInputBP(label='code'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1481,10 +1488,10 @@ class AutoNode_os_strerror(rc.Node):
         self.set_output_val(0, os.strerror(self.input(0)))
         
 
-
-class AutoNode_os_symlink(rc.Node):
+class Symlink_Node(NodeBase):
     title = 'symlink'
-    doc = '''Create a symbolic link pointing to src named dst.
+    type_ = 'os'
+    doc = """Create a symbolic link pointing to src named dst.
 
 target_is_directory is required on Windows if the target is to be
   interpreted as a directory.  (On Windows, symlink requires
@@ -1494,14 +1501,14 @@ target_is_directory is required on Windows if the target is to be
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
 dir_fd may not be implemented on your platform.
-  If it is unavailable, using it will raise a NotImplementedError.'''
+  If it is unavailable, using it will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='src'),
-rc.NodeInputBP(label='dst'),
-rc.NodeInputBP(label='target_is_directory'),
+        NodeInputBP(label='src'),
+        NodeInputBP(label='dst'),
+        NodeInputBP(label='target_is_directory', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1509,15 +1516,15 @@ rc.NodeInputBP(label='target_is_directory'),
         self.set_output_val(0, os.symlink(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_os_system(rc.Node):
+class System_Node(NodeBase):
     title = 'system'
-    doc = '''Execute the command in a subshell.'''
+    type_ = 'os'
+    doc = """Execute the command in a subshell."""
     init_inputs = [
-        rc.NodeInputBP(label='command'),
+        NodeInputBP(label='command'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1525,19 +1532,19 @@ class AutoNode_os_system(rc.Node):
         self.set_output_val(0, os.system(self.input(0)))
         
 
-
-class AutoNode_os_times(rc.Node):
+class Times_Node(NodeBase):
     title = 'times'
-    doc = '''Return a collection containing process timing information.
+    type_ = 'os'
+    doc = """Return a collection containing process timing information.
 
 The object returned behaves like a named tuple with these fields:
   (utime, stime, cutime, cstime, elapsed_time)
-All fields are floating point numbers.'''
+All fields are floating point numbers."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1545,19 +1552,19 @@ All fields are floating point numbers.'''
         self.set_output_val(0, os.times())
         
 
-
-class AutoNode_os_truncate(rc.Node):
+class Truncate_Node(NodeBase):
     title = 'truncate'
-    doc = '''Truncate a file, specified by path, to a specific length.
+    type_ = 'os'
+    doc = """Truncate a file, specified by path, to a specific length.
 
 On some platforms, path may also be specified as an open file descriptor.
-  If this functionality is unavailable, using it raises an exception.'''
+  If this functionality is unavailable, using it raises an exception."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
-rc.NodeInputBP(label='length'),
+        NodeInputBP(label='path'),
+        NodeInputBP(label='length'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1565,15 +1572,15 @@ rc.NodeInputBP(label='length'),
         self.set_output_val(0, os.truncate(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_umask(rc.Node):
+class Umask_Node(NodeBase):
     title = 'umask'
-    doc = '''Set the current numeric umask and return the previous umask.'''
+    type_ = 'os'
+    doc = """Set the current numeric umask and return the previous umask."""
     init_inputs = [
-        rc.NodeInputBP(label='mask'),
+        NodeInputBP(label='mask'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1581,20 +1588,20 @@ class AutoNode_os_umask(rc.Node):
         self.set_output_val(0, os.umask(self.input(0)))
         
 
-
-class AutoNode_os_unlink(rc.Node):
+class Unlink_Node(NodeBase):
     title = 'unlink'
-    doc = '''Remove a file (same as remove()).
+    type_ = 'os'
+    doc = """Remove a file (same as remove()).
 
 If dir_fd is not None, it should be a file descriptor open to a directory,
   and path should be relative; path will then be relative to that directory.
 dir_fd may not be implemented on your platform.
-  If it is unavailable, using it will raise a NotImplementedError.'''
+  If it is unavailable, using it will raise a NotImplementedError."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1602,15 +1609,15 @@ dir_fd may not be implemented on your platform.
         self.set_output_val(0, os.unlink(self.input(0)))
         
 
-
-class AutoNode_os_urandom(rc.Node):
+class Urandom_Node(NodeBase):
     title = 'urandom'
-    doc = '''Return a bytes object containing random bytes suitable for cryptographic use.'''
+    type_ = 'os'
+    doc = """Return a bytes object containing random bytes suitable for cryptographic use."""
     init_inputs = [
-        rc.NodeInputBP(label='size'),
+        NodeInputBP(label='size'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1618,21 +1625,21 @@ class AutoNode_os_urandom(rc.Node):
         self.set_output_val(0, os.urandom(self.input(0)))
         
 
-
-class AutoNode_os_waitpid(rc.Node):
+class Waitpid_Node(NodeBase):
     title = 'waitpid'
-    doc = '''Wait for completion of a given process.
+    type_ = 'os'
+    doc = """Wait for completion of a given process.
 
 Returns a tuple of information regarding the process:
     (pid, status << 8)
 
-The options argument is ignored on Windows.'''
+The options argument is ignored on Windows."""
     init_inputs = [
-        rc.NodeInputBP(label='pid'),
-rc.NodeInputBP(label='options'),
+        NodeInputBP(label='pid'),
+        NodeInputBP(label='options'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1640,10 +1647,10 @@ rc.NodeInputBP(label='options'),
         self.set_output_val(0, os.waitpid(self.input(0), self.input(1)))
         
 
-
-class AutoNode_os_walk(rc.Node):
+class Walk_Node(NodeBase):
     title = 'walk'
-    doc = '''Directory tree generator.
+    type_ = 'os'
+    doc = """Directory tree generator.
 
     For each directory in the directory tree rooted at top (including top
     itself, but excluding '.' and '..'), yields a 3-tuple
@@ -1700,15 +1707,15 @@ class AutoNode_os_walk(rc.Node):
         if 'CVS' in dirs:
             dirs.remove('CVS')  # don't visit CVS directories
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='top'),
-rc.NodeInputBP(label='topdown'),
-rc.NodeInputBP(label='onerror'),
-rc.NodeInputBP(label='followlinks'),
+        NodeInputBP(label='top'),
+        NodeInputBP(label='topdown', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='onerror', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='followlinks', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1716,19 +1723,105 @@ rc.NodeInputBP(label='followlinks'),
         self.set_output_val(0, os.walk(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_os_write(rc.Node):
+class Write_Node(NodeBase):
     title = 'write'
-    doc = '''Write a bytes object to a file descriptor.'''
+    type_ = 'os'
+    doc = """Write a bytes object to a file descriptor."""
     init_inputs = [
-        rc.NodeInputBP(label='fd'),
-rc.NodeInputBP(label='data'),
+        NodeInputBP(label='fd'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, os.write(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Check_Methods_Node,
+    _Execvpe_Node,
+    _Exists_Node,
+    _Exit_Node,
+    _Fspath_Node,
+    _Get_Exports_List_Node,
+    _Putenv_Node,
+    _Unsetenv_Node,
+    Abort_Node,
+    Access_Node,
+    Add_Dll_Directory_Node,
+    Chdir_Node,
+    Chmod_Node,
+    Close_Node,
+    Closerange_Node,
+    Cpu_Count_Node,
+    Device_Encoding_Node,
+    Dup_Node,
+    Dup2_Node,
+    Execl_Node,
+    Execle_Node,
+    Execlp_Node,
+    Execlpe_Node,
+    Execv_Node,
+    Execve_Node,
+    Execvp_Node,
+    Execvpe_Node,
+    Fdopen_Node,
+    Fsdecode_Node,
+    Fsencode_Node,
+    Fspath_Node,
+    Fstat_Node,
+    Fsync_Node,
+    Ftruncate_Node,
+    Get_Exec_Path_Node,
+    Get_Handle_Inheritable_Node,
+    Get_Inheritable_Node,
+    Getcwd_Node,
+    Getcwdb_Node,
+    Getenv_Node,
+    Getlogin_Node,
+    Getpid_Node,
+    Getppid_Node,
+    Isatty_Node,
+    Kill_Node,
+    Link_Node,
+    Listdir_Node,
+    Lseek_Node,
+    Lstat_Node,
+    Makedirs_Node,
+    Mkdir_Node,
+    Open_Node,
+    Pipe_Node,
+    Popen_Node,
+    Putenv_Node,
+    Read_Node,
+    Readlink_Node,
+    Remove_Node,
+    Removedirs_Node,
+    Rename_Node,
+    Renames_Node,
+    Replace_Node,
+    Rmdir_Node,
+    Scandir_Node,
+    Set_Handle_Inheritable_Node,
+    Set_Inheritable_Node,
+    Spawnl_Node,
+    Spawnle_Node,
+    Spawnv_Node,
+    Spawnve_Node,
+    Stat_Node,
+    Strerror_Node,
+    Symlink_Node,
+    System_Node,
+    Times_Node,
+    Truncate_Node,
+    Umask_Node,
+    Unlink_Node,
+    Urandom_Node,
+    Waitpid_Node,
+    Walk_Node,
+    Write_Node,
+)

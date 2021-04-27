@@ -7,7 +7,8 @@ from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QAction
 
 # parent UI
 import MainConsole as MainConsole
-from NodesListWidget import NodesListWidget
+from NodeDetailsWidget import NodeDetailsWidget
+from NodesTreeListWidget import NodesTreeListWidget
 from ScriptUI import ScriptUI
 from WindowTheme import WindowTheme
 from nodes_package import NodesPackage
@@ -115,18 +116,22 @@ import: ctrl+i
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # self.console_nodes_tabs = QTabWidget()
+        # nodes tree
+        self.nodes_tree_widget = NodesTreeListWidget(self, self.session)
+        self.ui.bottom_splitter.addWidget(self.nodes_tree_widget)
+
+        # node details widget
+        self.node_details_widget = NodeDetailsWidget(self, self.nodes_tree_widget)
+        self.ui.bottom_splitter.addWidget(self.node_details_widget)
+
+        # main console
         if MainConsole.main_console is not None:
-            # self.console_nodes_tabs.addTab(MainConsole.main_console, 'console')
-            self.ui.right_lower_horizontal_splitter.addWidget(MainConsole.main_console)
-        self.ui.right_vertical_splitter.setSizes([600, 0])
+            self.ui.bottom_splitter.addWidget(MainConsole.main_console)
+        # self.ui.right_vertical_splitter.setSizes([600, 0])
 
-        self.nodes_widget = NodesListWidget(self, self.session)
-        # self.console_nodes_tabs.addTab(self.nodes_widget, 'nodes')
-        self.ui.right_lower_horizontal_splitter.addWidget(self.nodes_widget)
-
-        self.ui.left_vertical_splitter.setSizes([350, 350])
-        self.ui.main_horizontal_splitter.setSizes([120, 800])
+        # splitter sizes
+        # self.ui.left_vertical_splitter.setSizes([350, 350])
+        self.ui.main_vertical_splitter.setSizes([700, 0])
 
     def setup_menu_actions(self):
 
@@ -309,7 +314,7 @@ import: ctrl+i
         for n in nodes:
             self.node_packages[n] = p
 
-        self.nodes_widget.update_list()
+        self.nodes_tree_widget.update_list()
 
     def save_project(self, file_name):
         import json

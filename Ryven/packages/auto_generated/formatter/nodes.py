@@ -1,18 +1,30 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import formatter
 
 
-class AutoNode_formatter_test(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Test_Node(NodeBase):
     title = 'test'
-    doc = '''None'''
+    type_ = 'formatter'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
+        NodeInputBP(label='file', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, formatter.test(self.input(0)))
         
+
+
+export_nodes(
+    Test_Node,
+)

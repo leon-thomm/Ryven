@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import binhex
 
 
-class AutoNode_binhex_binhex(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Binhex_Node(NodeBase):
     title = 'binhex'
-    doc = '''binhex(infilename, outfilename): create binhex-encoded copy of a file'''
+    type_ = 'binhex'
+    doc = """binhex(infilename, outfilename): create binhex-encoded copy of a file"""
     init_inputs = [
-        rc.NodeInputBP(label='inp'),
-rc.NodeInputBP(label='out'),
+        NodeInputBP(label='inp'),
+        NodeInputBP(label='out'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,15 +25,15 @@ rc.NodeInputBP(label='out'),
         self.set_output_val(0, binhex.binhex(self.input(0), self.input(1)))
         
 
-
-class AutoNode_binhex_getfileinfo(rc.Node):
+class Getfileinfo_Node(NodeBase):
     title = 'getfileinfo'
-    doc = '''None'''
+    type_ = 'binhex'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,19 +41,26 @@ class AutoNode_binhex_getfileinfo(rc.Node):
         self.set_output_val(0, binhex.getfileinfo(self.input(0)))
         
 
-
-class AutoNode_binhex_hexbin(rc.Node):
+class Hexbin_Node(NodeBase):
     title = 'hexbin'
-    doc = '''hexbin(infilename, outfilename) - Decode binhexed file'''
+    type_ = 'binhex'
+    doc = """hexbin(infilename, outfilename) - Decode binhexed file"""
     init_inputs = [
-        rc.NodeInputBP(label='inp'),
-rc.NodeInputBP(label='out'),
+        NodeInputBP(label='inp'),
+        NodeInputBP(label='out'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, binhex.hexbin(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    Binhex_Node,
+    Getfileinfo_Node,
+    Hexbin_Node,
+)

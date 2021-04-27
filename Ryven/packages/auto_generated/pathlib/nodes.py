@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import pathlib
 
 
-class AutoNode_pathlib__getfinalpathname(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Getfinalpathname_Node(NodeBase):
     title = '_getfinalpathname'
-    doc = '''A helper function for samepath on windows.'''
+    type_ = 'pathlib'
+    doc = """A helper function for samepath on windows."""
     init_inputs = [
-        rc.NodeInputBP(label='path'),
+        NodeInputBP(label='path'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,15 +24,15 @@ class AutoNode_pathlib__getfinalpathname(rc.Node):
         self.set_output_val(0, pathlib._getfinalpathname(self.input(0)))
         
 
-
-class AutoNode_pathlib__ignore_error(rc.Node):
+class _Ignore_Error_Node(NodeBase):
     title = '_ignore_error'
-    doc = '''None'''
+    type_ = 'pathlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='exception'),
+        NodeInputBP(label='exception'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -33,15 +40,15 @@ class AutoNode_pathlib__ignore_error(rc.Node):
         self.set_output_val(0, pathlib._ignore_error(self.input(0)))
         
 
-
-class AutoNode_pathlib__is_wildcard_pattern(rc.Node):
+class _Is_Wildcard_Pattern_Node(NodeBase):
     title = '_is_wildcard_pattern'
-    doc = '''None'''
+    type_ = 'pathlib'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='pat'),
+        NodeInputBP(label='pat'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -49,22 +56,30 @@ class AutoNode_pathlib__is_wildcard_pattern(rc.Node):
         self.set_output_val(0, pathlib._is_wildcard_pattern(self.input(0)))
         
 
-
-class AutoNode_pathlib_urlquote_from_bytes(rc.Node):
+class Urlquote_From_Bytes_Node(NodeBase):
     title = 'urlquote_from_bytes'
-    doc = '''Like quote(), but accepts a bytes object rather than a str, and does
+    type_ = 'pathlib'
+    doc = """Like quote(), but accepts a bytes object rather than a str, and does
     not perform string-to-bytes encoding.  It always returns an ASCII string.
     quote_from_bytes(b'abc def?') -> 'abc%20def%3f'
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='bs'),
-rc.NodeInputBP(label='safe'),
+        NodeInputBP(label='bs'),
+        NodeInputBP(label='safe', dtype=dtypes.Data(default='/', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, pathlib.urlquote_from_bytes(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Getfinalpathname_Node,
+    _Ignore_Error_Node,
+    _Is_Wildcard_Pattern_Node,
+    Urlquote_From_Bytes_Node,
+)

@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import pickletools
 
 
-class AutoNode_pickletools__genops(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Genops_Node(NodeBase):
     title = '_genops'
-    doc = '''None'''
+    type_ = 'pickletools'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='yield_end_pos'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='yield_end_pos', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,15 +25,15 @@ rc.NodeInputBP(label='yield_end_pos'),
         self.set_output_val(0, pickletools._genops(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pickletools__test(rc.Node):
+class _Test_Node(NodeBase):
     title = '_test'
-    doc = '''None'''
+    type_ = 'pickletools'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,20 +41,20 @@ class AutoNode_pickletools__test(rc.Node):
         self.set_output_val(0, pickletools._test())
         
 
-
-class AutoNode_pickletools__unpack(rc.Node):
+class _Unpack_Node(NodeBase):
     title = '_unpack'
-    doc = '''Return a tuple containing values unpacked according to the format string.
+    type_ = 'pickletools'
+    doc = """Return a tuple containing values unpacked according to the format string.
 
 The buffer's size in bytes must be calcsize(format).
 
-See help(struct) for more on format strings.'''
+See help(struct) for more on format strings."""
     init_inputs = [
-        rc.NodeInputBP(label='format'),
-rc.NodeInputBP(label='buffer'),
+        NodeInputBP(label='format'),
+        NodeInputBP(label='buffer'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,10 +62,10 @@ rc.NodeInputBP(label='buffer'),
         self.set_output_val(0, pickletools._unpack(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pickletools_decode_long(rc.Node):
+class Decode_Long_Node(NodeBase):
     title = 'decode_long'
-    doc = '''Decode a long from a two's complement little-endian binary string.
+    type_ = 'pickletools'
+    doc = """Decode a long from a two's complement little-endian binary string.
 
     >>> decode_long(b'')
     0
@@ -74,12 +81,12 @@ class AutoNode_pickletools_decode_long(rc.Node):
     -128
     >>> decode_long(b"\x7f")
     127
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='data'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -87,10 +94,10 @@ class AutoNode_pickletools_decode_long(rc.Node):
         self.set_output_val(0, pickletools.decode_long(self.input(0)))
         
 
-
-class AutoNode_pickletools_dis(rc.Node):
+class Dis_Node(NodeBase):
     title = 'dis'
-    doc = '''Produce a symbolic disassembly of a pickle.
+    type_ = 'pickletools'
+    doc = """Produce a symbolic disassembly of a pickle.
 
     'pickle' is a file-like object, or string, containing a (at least one)
     pickle.  The pickle is disassembled from the current position, through
@@ -128,16 +135,16 @@ class AutoNode_pickletools_dis(rc.Node):
     + The markobject isn't stored in the memo.
 
     + A memo entry isn't redefined.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='pickle'),
-rc.NodeInputBP(label='out'),
-rc.NodeInputBP(label='memo'),
-rc.NodeInputBP(label='indentlevel'),
-rc.NodeInputBP(label='annotate'),
+        NodeInputBP(label='pickle'),
+        NodeInputBP(label='out', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='memo', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='indentlevel', dtype=dtypes.Data(default=4, size='s')),
+        NodeInputBP(label='annotate', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -145,10 +152,10 @@ rc.NodeInputBP(label='annotate'),
         self.set_output_val(0, pickletools.dis(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_pickletools_genops(rc.Node):
+class Genops_Node(NodeBase):
     title = 'genops'
-    doc = '''Generate all the opcodes in a pickle.
+    type_ = 'pickletools'
+    doc = """Generate all the opcodes in a pickle.
 
     'pickle' is a file-like object, or string, containing the pickle.
 
@@ -169,12 +176,12 @@ class AutoNode_pickletools_genops(rc.Node):
     it's wrapped in a BytesIO object, and the latter's tell() result is
     used.  Else (the pickle doesn't have a tell(), and it's not obvious how
     to query its current position) pos is None.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='pickle'),
+        NodeInputBP(label='pickle'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -182,15 +189,15 @@ class AutoNode_pickletools_genops(rc.Node):
         self.set_output_val(0, pickletools.genops(self.input(0)))
         
 
-
-class AutoNode_pickletools_optimize(rc.Node):
+class Optimize_Node(NodeBase):
     title = 'optimize'
-    doc = '''Optimize a pickle string by removing unused PUT opcodes'''
+    type_ = 'pickletools'
+    doc = """Optimize a pickle string by removing unused PUT opcodes"""
     init_inputs = [
-        rc.NodeInputBP(label='p'),
+        NodeInputBP(label='p'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -198,10 +205,10 @@ class AutoNode_pickletools_optimize(rc.Node):
         self.set_output_val(0, pickletools.optimize(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_bytearray8(rc.Node):
+class Read_Bytearray8_Node(NodeBase):
     title = 'read_bytearray8'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io, struct, sys
     >>> read_bytearray8(io.BytesIO(b"\x00\x00\x00\x00\x00\x00\x00\x00abc"))
     bytearray(b'')
@@ -212,12 +219,12 @@ class AutoNode_pickletools_read_bytearray8(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: expected ... bytes in a bytearray8, but only 6 remain
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -225,21 +232,21 @@ class AutoNode_pickletools_read_bytearray8(rc.Node):
         self.set_output_val(0, pickletools.read_bytearray8(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_bytes1(rc.Node):
+class Read_Bytes1_Node(NodeBase):
     title = 'read_bytes1'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_bytes1(io.BytesIO(b"\x00"))
     b''
     >>> read_bytes1(io.BytesIO(b"\x03abcdef"))
     b'abc'
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -247,10 +254,10 @@ class AutoNode_pickletools_read_bytes1(rc.Node):
         self.set_output_val(0, pickletools.read_bytes1(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_bytes4(rc.Node):
+class Read_Bytes4_Node(NodeBase):
     title = 'read_bytes4'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_bytes4(io.BytesIO(b"\x00\x00\x00\x00abc"))
     b''
@@ -260,12 +267,12 @@ class AutoNode_pickletools_read_bytes4(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: expected 50331648 bytes in a bytes4, but only 6 remain
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -273,10 +280,10 @@ class AutoNode_pickletools_read_bytes4(rc.Node):
         self.set_output_val(0, pickletools.read_bytes4(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_bytes8(rc.Node):
+class Read_Bytes8_Node(NodeBase):
     title = 'read_bytes8'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io, struct, sys
     >>> read_bytes8(io.BytesIO(b"\x00\x00\x00\x00\x00\x00\x00\x00abc"))
     b''
@@ -287,12 +294,12 @@ class AutoNode_pickletools_read_bytes8(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: expected ... bytes in a bytes8, but only 6 remain
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -300,10 +307,10 @@ class AutoNode_pickletools_read_bytes8(rc.Node):
         self.set_output_val(0, pickletools.read_bytes8(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_decimalnl_long(rc.Node):
+class Read_Decimalnl_Long_Node(NodeBase):
     title = 'read_decimalnl_long'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
 
     >>> read_decimalnl_long(io.BytesIO(b"1234L\n56"))
@@ -311,12 +318,12 @@ class AutoNode_pickletools_read_decimalnl_long(rc.Node):
 
     >>> read_decimalnl_long(io.BytesIO(b"123456789012345678901234L\n6"))
     123456789012345678901234
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -324,10 +331,10 @@ class AutoNode_pickletools_read_decimalnl_long(rc.Node):
         self.set_output_val(0, pickletools.read_decimalnl_long(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_decimalnl_short(rc.Node):
+class Read_Decimalnl_Short_Node(NodeBase):
     title = 'read_decimalnl_short'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_decimalnl_short(io.BytesIO(b"1234\n56"))
     1234
@@ -336,12 +343,12 @@ class AutoNode_pickletools_read_decimalnl_short(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: invalid literal for int() with base 10: b'1234L'
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -349,22 +356,22 @@ class AutoNode_pickletools_read_decimalnl_short(rc.Node):
         self.set_output_val(0, pickletools.read_decimalnl_short(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_float8(rc.Node):
+class Read_Float8_Node(NodeBase):
     title = 'read_float8'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io, struct
     >>> raw = struct.pack(">d", -1.25)
     >>> raw
     b'\xbf\xf4\x00\x00\x00\x00\x00\x00'
     >>> read_float8(io.BytesIO(raw + b"\n"))
     -1.25
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -372,19 +379,19 @@ class AutoNode_pickletools_read_float8(rc.Node):
         self.set_output_val(0, pickletools.read_float8(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_floatnl(rc.Node):
+class Read_Floatnl_Node(NodeBase):
     title = 'read_floatnl'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_floatnl(io.BytesIO(b"-1.25\n6"))
     -1.25
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -392,21 +399,21 @@ class AutoNode_pickletools_read_floatnl(rc.Node):
         self.set_output_val(0, pickletools.read_floatnl(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_int4(rc.Node):
+class Read_Int4_Node(NodeBase):
     title = 'read_int4'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_int4(io.BytesIO(b'\xff\x00\x00\x00'))
     255
     >>> read_int4(io.BytesIO(b'\x00\x00\x00\x80')) == -(2**31)
     True
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -414,10 +421,10 @@ class AutoNode_pickletools_read_int4(rc.Node):
         self.set_output_val(0, pickletools.read_int4(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_long1(rc.Node):
+class Read_Long1_Node(NodeBase):
     title = 'read_long1'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_long1(io.BytesIO(b"\x00"))
     0
@@ -429,12 +436,12 @@ class AutoNode_pickletools_read_long1(rc.Node):
     -256
     >>> read_long1(io.BytesIO(b"\x02\x00\x80"))
     -32768
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -442,10 +449,10 @@ class AutoNode_pickletools_read_long1(rc.Node):
         self.set_output_val(0, pickletools.read_long1(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_long4(rc.Node):
+class Read_Long4_Node(NodeBase):
     title = 'read_long4'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_long4(io.BytesIO(b"\x02\x00\x00\x00\xff\x00"))
     255
@@ -457,12 +464,12 @@ class AutoNode_pickletools_read_long4(rc.Node):
     -32768
     >>> read_long1(io.BytesIO(b"\x00\x00\x00\x00"))
     0
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -470,21 +477,21 @@ class AutoNode_pickletools_read_long4(rc.Node):
         self.set_output_val(0, pickletools.read_long4(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_string1(rc.Node):
+class Read_String1_Node(NodeBase):
     title = 'read_string1'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_string1(io.BytesIO(b"\x00"))
     ''
     >>> read_string1(io.BytesIO(b"\x03abcdef"))
     'abc'
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -492,10 +499,10 @@ class AutoNode_pickletools_read_string1(rc.Node):
         self.set_output_val(0, pickletools.read_string1(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_string4(rc.Node):
+class Read_String4_Node(NodeBase):
     title = 'read_string4'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_string4(io.BytesIO(b"\x00\x00\x00\x00abc"))
     ''
@@ -505,12 +512,12 @@ class AutoNode_pickletools_read_string4(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: expected 50331648 bytes in a string4, but only 6 remain
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -518,10 +525,10 @@ class AutoNode_pickletools_read_string4(rc.Node):
         self.set_output_val(0, pickletools.read_string4(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_stringnl(rc.Node):
+class Read_Stringnl_Node(NodeBase):
     title = 'read_stringnl'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_stringnl(io.BytesIO(b"'abcd'\nefg\n"))
     'abcd'
@@ -545,14 +552,14 @@ class AutoNode_pickletools_read_stringnl(rc.Node):
     Embedded escapes are undone in the result.
     >>> read_stringnl(io.BytesIO(br"'a\n\\b\x00c\td'" + b"\n'e'"))
     'a\n\\b\x00c\td'
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
-rc.NodeInputBP(label='decode'),
-rc.NodeInputBP(label='stripquotes'),
+        NodeInputBP(label='f'),
+        NodeInputBP(label='decode', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='stripquotes', dtype=dtypes.Data(default=True, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -560,15 +567,15 @@ rc.NodeInputBP(label='stripquotes'),
         self.set_output_val(0, pickletools.read_stringnl(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_pickletools_read_stringnl_noescape(rc.Node):
+class Read_Stringnl_Noescape_Node(NodeBase):
     title = 'read_stringnl_noescape'
-    doc = '''None'''
+    type_ = 'pickletools'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -576,19 +583,19 @@ class AutoNode_pickletools_read_stringnl_noescape(rc.Node):
         self.set_output_val(0, pickletools.read_stringnl_noescape(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_stringnl_noescape_pair(rc.Node):
+class Read_Stringnl_Noescape_Pair_Node(NodeBase):
     title = 'read_stringnl_noescape_pair'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_stringnl_noescape_pair(io.BytesIO(b"Queue\nEmpty\njunk"))
     'Queue Empty'
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -596,19 +603,19 @@ class AutoNode_pickletools_read_stringnl_noescape_pair(rc.Node):
         self.set_output_val(0, pickletools.read_stringnl_noescape_pair(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_uint1(rc.Node):
+class Read_Uint1_Node(NodeBase):
     title = 'read_uint1'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_uint1(io.BytesIO(b'\xff'))
     255
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -616,21 +623,21 @@ class AutoNode_pickletools_read_uint1(rc.Node):
         self.set_output_val(0, pickletools.read_uint1(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_uint2(rc.Node):
+class Read_Uint2_Node(NodeBase):
     title = 'read_uint2'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_uint2(io.BytesIO(b'\xff\x00'))
     255
     >>> read_uint2(io.BytesIO(b'\xff\xff'))
     65535
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -638,21 +645,21 @@ class AutoNode_pickletools_read_uint2(rc.Node):
         self.set_output_val(0, pickletools.read_uint2(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_uint4(rc.Node):
+class Read_Uint4_Node(NodeBase):
     title = 'read_uint4'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_uint4(io.BytesIO(b'\xff\x00\x00\x00'))
     255
     >>> read_uint4(io.BytesIO(b'\x00\x00\x00\x80')) == 2**31
     True
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -660,21 +667,21 @@ class AutoNode_pickletools_read_uint4(rc.Node):
         self.set_output_val(0, pickletools.read_uint4(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_uint8(rc.Node):
+class Read_Uint8_Node(NodeBase):
     title = 'read_uint8'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_uint8(io.BytesIO(b'\xff\x00\x00\x00\x00\x00\x00\x00'))
     255
     >>> read_uint8(io.BytesIO(b'\xff' * 8)) == 2**64-1
     True
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -682,10 +689,10 @@ class AutoNode_pickletools_read_uint8(rc.Node):
         self.set_output_val(0, pickletools.read_uint8(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_unicodestring1(rc.Node):
+class Read_Unicodestring1_Node(NodeBase):
     title = 'read_unicodestring1'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> s = 'abcd\uabcd'
     >>> enc = s.encode('utf-8')
@@ -700,12 +707,12 @@ class AutoNode_pickletools_read_unicodestring1(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: expected 7 bytes in a unicodestring1, but only 6 remain
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -713,10 +720,10 @@ class AutoNode_pickletools_read_unicodestring1(rc.Node):
         self.set_output_val(0, pickletools.read_unicodestring1(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_unicodestring4(rc.Node):
+class Read_Unicodestring4_Node(NodeBase):
     title = 'read_unicodestring4'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> s = 'abcd\uabcd'
     >>> enc = s.encode('utf-8')
@@ -731,12 +738,12 @@ class AutoNode_pickletools_read_unicodestring4(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: expected 7 bytes in a unicodestring4, but only 6 remain
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -744,10 +751,10 @@ class AutoNode_pickletools_read_unicodestring4(rc.Node):
         self.set_output_val(0, pickletools.read_unicodestring4(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_unicodestring8(rc.Node):
+class Read_Unicodestring8_Node(NodeBase):
     title = 'read_unicodestring8'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> s = 'abcd\uabcd'
     >>> enc = s.encode('utf-8')
@@ -762,12 +769,12 @@ class AutoNode_pickletools_read_unicodestring8(rc.Node):
     Traceback (most recent call last):
     ...
     ValueError: expected 7 bytes in a unicodestring8, but only 6 remain
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -775,22 +782,57 @@ class AutoNode_pickletools_read_unicodestring8(rc.Node):
         self.set_output_val(0, pickletools.read_unicodestring8(self.input(0)))
         
 
-
-class AutoNode_pickletools_read_unicodestringnl(rc.Node):
+class Read_Unicodestringnl_Node(NodeBase):
     title = 'read_unicodestringnl'
-    doc = '''
+    type_ = 'pickletools'
+    doc = """
     >>> import io
     >>> read_unicodestringnl(io.BytesIO(b"abc\\uabcd\njunk")) == 'abc\uabcd'
     True
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='f'),
+        NodeInputBP(label='f'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, pickletools.read_unicodestringnl(self.input(0)))
         
+
+
+export_nodes(
+    _Genops_Node,
+    _Test_Node,
+    _Unpack_Node,
+    Decode_Long_Node,
+    Dis_Node,
+    Genops_Node,
+    Optimize_Node,
+    Read_Bytearray8_Node,
+    Read_Bytes1_Node,
+    Read_Bytes4_Node,
+    Read_Bytes8_Node,
+    Read_Decimalnl_Long_Node,
+    Read_Decimalnl_Short_Node,
+    Read_Float8_Node,
+    Read_Floatnl_Node,
+    Read_Int4_Node,
+    Read_Long1_Node,
+    Read_Long4_Node,
+    Read_String1_Node,
+    Read_String4_Node,
+    Read_Stringnl_Node,
+    Read_Stringnl_Noescape_Node,
+    Read_Stringnl_Noescape_Pair_Node,
+    Read_Uint1_Node,
+    Read_Uint2_Node,
+    Read_Uint4_Node,
+    Read_Uint8_Node,
+    Read_Unicodestring1_Node,
+    Read_Unicodestring4_Node,
+    Read_Unicodestring8_Node,
+    Read_Unicodestringnl_Node,
+)

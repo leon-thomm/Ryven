@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import copyreg
 
 
-class AutoNode_copyreg___newobj__(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class __Newobj___Node(NodeBase):
     title = '__newobj__'
-    doc = '''None'''
+    type_ = 'copyreg'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
+        NodeInputBP(label='cls'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,19 +24,19 @@ class AutoNode_copyreg___newobj__(rc.Node):
         self.set_output_val(0, copyreg.__newobj__(self.input(0)))
         
 
-
-class AutoNode_copyreg___newobj_ex__(rc.Node):
+class __Newobj_Ex___Node(NodeBase):
     title = '__newobj_ex__'
-    doc = '''Used by pickle protocol 4, instead of __newobj__ to allow classes with
+    type_ = 'copyreg'
+    doc = """Used by pickle protocol 4, instead of __newobj__ to allow classes with
     keyword-only arguments to be pickled correctly.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='kwargs'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='kwargs'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -37,17 +44,17 @@ rc.NodeInputBP(label='kwargs'),
         self.set_output_val(0, copyreg.__newobj_ex__(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_copyreg__reconstructor(rc.Node):
+class _Reconstructor_Node(NodeBase):
     title = '_reconstructor'
-    doc = '''None'''
+    type_ = 'copyreg'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
-rc.NodeInputBP(label='base'),
-rc.NodeInputBP(label='state'),
+        NodeInputBP(label='cls'),
+        NodeInputBP(label='base'),
+        NodeInputBP(label='state'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,27 +62,26 @@ rc.NodeInputBP(label='state'),
         self.set_output_val(0, copyreg._reconstructor(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_copyreg__reduce_ex(rc.Node):
+class _Reduce_Ex_Node(NodeBase):
     title = '_reduce_ex'
-    doc = '''None'''
+    type_ = 'copyreg'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='proto'),
+        NodeInputBP(label='proto'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, copyreg._reduce_ex(self.input(0), self.input(1)))
+        self.set_output_val(0, copyreg._reduce_ex(self.input(0)))
         
 
-
-class AutoNode_copyreg__slotnames(rc.Node):
+class _Slotnames_Node(NodeBase):
     title = '_slotnames'
-    doc = '''Return a list of slot names for a given class.
+    type_ = 'copyreg'
+    doc = """Return a list of slot names for a given class.
 
     This needs to find slots defined by the class and its bases, so we
     can't simply return the __slots__ attribute.  We must walk down
@@ -83,12 +89,12 @@ class AutoNode_copyreg__slotnames(rc.Node):
     class found there.  (This assumes classes don't modify their
     __slots__ attribute to misrepresent their slots after the class is
     defined.)
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
+        NodeInputBP(label='cls'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -96,17 +102,17 @@ class AutoNode_copyreg__slotnames(rc.Node):
         self.set_output_val(0, copyreg._slotnames(self.input(0)))
         
 
-
-class AutoNode_copyreg_add_extension(rc.Node):
+class Add_Extension_Node(NodeBase):
     title = 'add_extension'
-    doc = '''Register an extension code.'''
+    type_ = 'copyreg'
+    doc = """Register an extension code."""
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='code'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='code'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -114,15 +120,15 @@ rc.NodeInputBP(label='code'),
         self.set_output_val(0, copyreg.add_extension(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_copyreg_clear_extension_cache(rc.Node):
+class Clear_Extension_Cache_Node(NodeBase):
     title = 'clear_extension_cache'
-    doc = '''None'''
+    type_ = 'copyreg'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -130,15 +136,15 @@ class AutoNode_copyreg_clear_extension_cache(rc.Node):
         self.set_output_val(0, copyreg.clear_extension_cache())
         
 
-
-class AutoNode_copyreg_constructor(rc.Node):
+class Constructor_Node(NodeBase):
     title = 'constructor'
-    doc = '''None'''
+    type_ = 'copyreg'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='object'),
+        NodeInputBP(label='object'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -146,17 +152,17 @@ class AutoNode_copyreg_constructor(rc.Node):
         self.set_output_val(0, copyreg.constructor(self.input(0)))
         
 
-
-class AutoNode_copyreg_pickle(rc.Node):
+class Pickle_Node(NodeBase):
     title = 'pickle'
-    doc = '''None'''
+    type_ = 'copyreg'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='ob_type'),
-rc.NodeInputBP(label='pickle_function'),
-rc.NodeInputBP(label='constructor_ob'),
+        NodeInputBP(label='ob_type'),
+        NodeInputBP(label='pickle_function'),
+        NodeInputBP(label='constructor_ob', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -164,15 +170,15 @@ rc.NodeInputBP(label='constructor_ob'),
         self.set_output_val(0, copyreg.pickle(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_copyreg_pickle_complex(rc.Node):
+class Pickle_Complex_Node(NodeBase):
     title = 'pickle_complex'
-    doc = '''None'''
+    type_ = 'copyreg'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='c'),
+        NodeInputBP(label='c'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -180,20 +186,35 @@ class AutoNode_copyreg_pickle_complex(rc.Node):
         self.set_output_val(0, copyreg.pickle_complex(self.input(0)))
         
 
-
-class AutoNode_copyreg_remove_extension(rc.Node):
+class Remove_Extension_Node(NodeBase):
     title = 'remove_extension'
-    doc = '''Unregister an extension code.  For testing only.'''
+    type_ = 'copyreg'
+    doc = """Unregister an extension code.  For testing only."""
     init_inputs = [
-        rc.NodeInputBP(label='module'),
-rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='code'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='code'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, copyreg.remove_extension(self.input(0), self.input(1), self.input(2)))
         
+
+
+export_nodes(
+    __Newobj___Node,
+    __Newobj_Ex___Node,
+    _Reconstructor_Node,
+    _Reduce_Ex_Node,
+    _Slotnames_Node,
+    Add_Extension_Node,
+    Clear_Extension_Cache_Node,
+    Constructor_Node,
+    Pickle_Node,
+    Pickle_Complex_Node,
+    Remove_Extension_Node,
+)

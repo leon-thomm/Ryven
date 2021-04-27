@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import pstats
 
 
-class AutoNode_pstats_add_callers(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Add_Callers_Node(NodeBase):
     title = 'add_callers'
-    doc = '''Combine two caller lists in a single list.'''
+    type_ = 'pstats'
+    doc = """Combine two caller lists in a single list."""
     init_inputs = [
-        rc.NodeInputBP(label='target'),
-rc.NodeInputBP(label='source'),
+        NodeInputBP(label='target'),
+        NodeInputBP(label='source'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,16 +25,16 @@ rc.NodeInputBP(label='source'),
         self.set_output_val(0, pstats.add_callers(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pstats_add_func_stats(rc.Node):
+class Add_Func_Stats_Node(NodeBase):
     title = 'add_func_stats'
-    doc = '''Add together all the stats for two profile entries.'''
+    type_ = 'pstats'
+    doc = """Add together all the stats for two profile entries."""
     init_inputs = [
-        rc.NodeInputBP(label='target'),
-rc.NodeInputBP(label='source'),
+        NodeInputBP(label='target'),
+        NodeInputBP(label='source'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -35,15 +42,15 @@ rc.NodeInputBP(label='source'),
         self.set_output_val(0, pstats.add_func_stats(self.input(0), self.input(1)))
         
 
-
-class AutoNode_pstats_count_calls(rc.Node):
+class Count_Calls_Node(NodeBase):
     title = 'count_calls'
-    doc = '''Sum the caller statistics to get total number of calls received.'''
+    type_ = 'pstats'
+    doc = """Sum the caller statistics to get total number of calls received."""
     init_inputs = [
-        rc.NodeInputBP(label='callers'),
+        NodeInputBP(label='callers'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -51,15 +58,15 @@ class AutoNode_pstats_count_calls(rc.Node):
         self.set_output_val(0, pstats.count_calls(self.input(0)))
         
 
-
-class AutoNode_pstats_f8(rc.Node):
+class F8_Node(NodeBase):
     title = 'f8'
-    doc = '''None'''
+    type_ = 'pstats'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -67,15 +74,15 @@ class AutoNode_pstats_f8(rc.Node):
         self.set_output_val(0, pstats.f8(self.input(0)))
         
 
-
-class AutoNode_pstats_func_get_function_name(rc.Node):
+class Func_Get_Function_Name_Node(NodeBase):
     title = 'func_get_function_name'
-    doc = '''None'''
+    type_ = 'pstats'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='func'),
+        NodeInputBP(label='func'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -83,15 +90,15 @@ class AutoNode_pstats_func_get_function_name(rc.Node):
         self.set_output_val(0, pstats.func_get_function_name(self.input(0)))
         
 
-
-class AutoNode_pstats_func_std_string(rc.Node):
+class Func_Std_String_Node(NodeBase):
     title = 'func_std_string'
-    doc = '''None'''
+    type_ = 'pstats'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='func_name'),
+        NodeInputBP(label='func_name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -99,18 +106,29 @@ class AutoNode_pstats_func_std_string(rc.Node):
         self.set_output_val(0, pstats.func_std_string(self.input(0)))
         
 
-
-class AutoNode_pstats_func_strip_path(rc.Node):
+class Func_Strip_Path_Node(NodeBase):
     title = 'func_strip_path'
-    doc = '''None'''
+    type_ = 'pstats'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='func_name'),
+        NodeInputBP(label='func_name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, pstats.func_strip_path(self.input(0)))
         
+
+
+export_nodes(
+    Add_Callers_Node,
+    Add_Func_Stats_Node,
+    Count_Calls_Node,
+    F8_Node,
+    Func_Get_Function_Name_Node,
+    Func_Std_String_Node,
+    Func_Strip_Path_Node,
+)

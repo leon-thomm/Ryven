@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import collections
 
 
-class AutoNode_collections___getattr__(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class __Getattr___Node(NodeBase):
     title = '__getattr__'
-    doc = '''None'''
+    type_ = 'collections'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,16 +24,16 @@ class AutoNode_collections___getattr__(rc.Node):
         self.set_output_val(0, collections.__getattr__(self.input(0)))
         
 
-
-class AutoNode_collections__count_elements(rc.Node):
+class _Count_Elements_Node(NodeBase):
     title = '_count_elements'
-    doc = '''Count elements in the iterable, updating the mapping'''
+    type_ = 'collections'
+    doc = """Count elements in the iterable, updating the mapping"""
     init_inputs = [
-        rc.NodeInputBP(label='mapping'),
-rc.NodeInputBP(label='iterable'),
+        NodeInputBP(label='mapping'),
+        NodeInputBP(label='iterable'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,16 +41,16 @@ rc.NodeInputBP(label='iterable'),
         self.set_output_val(0, collections._count_elements(self.input(0), self.input(1)))
         
 
-
-class AutoNode_collections__eq(rc.Node):
+class _Eq_Node(NodeBase):
     title = '_eq'
-    doc = '''Same as a == b.'''
+    type_ = 'collections'
+    doc = """Same as a == b."""
     init_inputs = [
-        rc.NodeInputBP(label='a'),
-rc.NodeInputBP(label='b'),
+        NodeInputBP(label='a'),
+        NodeInputBP(label='b'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -51,15 +58,15 @@ rc.NodeInputBP(label='b'),
         self.set_output_val(0, collections._eq(self.input(0), self.input(1)))
         
 
-
-class AutoNode_collections__recursive_repr(rc.Node):
+class _Recursive_Repr_Node(NodeBase):
     title = '_recursive_repr'
-    doc = '''Decorator to make a repr function return fillvalue for a recursive call'''
+    type_ = 'collections'
+    doc = """Decorator to make a repr function return fillvalue for a recursive call"""
     init_inputs = [
-        rc.NodeInputBP(label='fillvalue'),
+        NodeInputBP(label='fillvalue', dtype=dtypes.Data(default='...', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -67,10 +74,10 @@ class AutoNode_collections__recursive_repr(rc.Node):
         self.set_output_val(0, collections._recursive_repr(self.input(0)))
         
 
-
-class AutoNode_collections_namedtuple(rc.Node):
+class Namedtuple_Node(NodeBase):
     title = 'namedtuple'
-    doc = '''Returns a new subclass of tuple with named fields.
+    type_ = 'collections'
+    doc = """Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -91,16 +98,25 @@ class AutoNode_collections_namedtuple(rc.Node):
     >>> p._replace(x=100)               # _replace() is like str.replace() but targets named fields
     Point(x=100, y=22)
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='typename'),
-rc.NodeInputBP(label='field_names'),
+        NodeInputBP(label='typename'),
+        NodeInputBP(label='field_names'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, collections.namedtuple(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    __Getattr___Node,
+    _Count_Elements_Node,
+    _Eq_Node,
+    _Recursive_Repr_Node,
+    Namedtuple_Node,
+)

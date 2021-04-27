@@ -1,21 +1,28 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import dis
 
 
-class AutoNode_dis__disassemble_bytes(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Disassemble_Bytes_Node(NodeBase):
     title = '_disassemble_bytes'
-    doc = '''None'''
+    type_ = 'dis'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='code'),
-rc.NodeInputBP(label='lasti'),
-rc.NodeInputBP(label='varnames'),
-rc.NodeInputBP(label='names'),
-rc.NodeInputBP(label='constants'),
-rc.NodeInputBP(label='cells'),
-rc.NodeInputBP(label='linestarts'),
+        NodeInputBP(label='code'),
+        NodeInputBP(label='lasti', dtype=dtypes.Data(default=-1, size='s')),
+        NodeInputBP(label='varnames', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='names', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='constants', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='cells', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='linestarts', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -23,15 +30,15 @@ rc.NodeInputBP(label='linestarts'),
         self.set_output_val(0, dis._disassemble_bytes(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6)))
         
 
-
-class AutoNode_dis__disassemble_recursive(rc.Node):
+class _Disassemble_Recursive_Node(NodeBase):
     title = '_disassemble_recursive'
-    doc = '''None'''
+    type_ = 'dis'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='co'),
+        NodeInputBP(label='co'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -39,15 +46,15 @@ class AutoNode_dis__disassemble_recursive(rc.Node):
         self.set_output_val(0, dis._disassemble_recursive(self.input(0)))
         
 
-
-class AutoNode_dis__disassemble_str(rc.Node):
+class _Disassemble_Str_Node(NodeBase):
     title = '_disassemble_str'
-    doc = '''Compile the source string, then disassemble the code object.'''
+    type_ = 'dis'
+    doc = """Compile the source string, then disassemble the code object."""
     init_inputs = [
-        rc.NodeInputBP(label='source'),
+        NodeInputBP(label='source'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,15 +62,15 @@ class AutoNode_dis__disassemble_str(rc.Node):
         self.set_output_val(0, dis._disassemble_str(self.input(0)))
         
 
-
-class AutoNode_dis__format_code_info(rc.Node):
+class _Format_Code_Info_Node(NodeBase):
     title = '_format_code_info'
-    doc = '''None'''
+    type_ = 'dis'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='co'),
+        NodeInputBP(label='co'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -71,15 +78,15 @@ class AutoNode_dis__format_code_info(rc.Node):
         self.set_output_val(0, dis._format_code_info(self.input(0)))
         
 
-
-class AutoNode_dis__get_code_object(rc.Node):
+class _Get_Code_Object_Node(NodeBase):
     title = '_get_code_object'
-    doc = '''Helper to handle methods, compiled or raw code objects, and strings.'''
+    type_ = 'dis'
+    doc = """Helper to handle methods, compiled or raw code objects, and strings."""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -87,21 +94,21 @@ class AutoNode_dis__get_code_object(rc.Node):
         self.set_output_val(0, dis._get_code_object(self.input(0)))
         
 
-
-class AutoNode_dis__get_const_info(rc.Node):
+class _Get_Const_Info_Node(NodeBase):
     title = '_get_const_info'
-    doc = '''Helper to get optional details about const references
+    type_ = 'dis'
+    doc = """Helper to get optional details about const references
 
        Returns the dereferenced constant and its repr if the constant
        list is defined.
        Otherwise returns the constant index and its repr().
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='const_index'),
-rc.NodeInputBP(label='const_list'),
+        NodeInputBP(label='const_index'),
+        NodeInputBP(label='const_list'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -109,28 +116,28 @@ rc.NodeInputBP(label='const_list'),
         self.set_output_val(0, dis._get_const_info(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dis__get_instructions_bytes(rc.Node):
+class _Get_Instructions_Bytes_Node(NodeBase):
     title = '_get_instructions_bytes'
-    doc = '''Iterate over the instructions in a bytecode string.
+    type_ = 'dis'
+    doc = """Iterate over the instructions in a bytecode string.
 
     Generates a sequence of Instruction namedtuples giving the details of each
     opcode.  Additional information about the code's runtime environment
     (e.g. variable names, constants) can be specified using optional
     arguments.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='code'),
-rc.NodeInputBP(label='varnames'),
-rc.NodeInputBP(label='names'),
-rc.NodeInputBP(label='constants'),
-rc.NodeInputBP(label='cells'),
-rc.NodeInputBP(label='linestarts'),
-rc.NodeInputBP(label='line_offset'),
+        NodeInputBP(label='code'),
+        NodeInputBP(label='varnames', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='names', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='constants', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='cells', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='linestarts', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='line_offset', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -138,21 +145,21 @@ rc.NodeInputBP(label='line_offset'),
         self.set_output_val(0, dis._get_instructions_bytes(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6)))
         
 
-
-class AutoNode_dis__get_name_info(rc.Node):
+class _Get_Name_Info_Node(NodeBase):
     title = '_get_name_info'
-    doc = '''Helper to get optional details about named references
+    type_ = 'dis'
+    doc = """Helper to get optional details about named references
 
        Returns the dereferenced name as both value and repr if the name
        list is defined.
        Otherwise returns the name index and its repr().
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name_index'),
-rc.NodeInputBP(label='name_list'),
+        NodeInputBP(label='name_index'),
+        NodeInputBP(label='name_list'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -160,15 +167,15 @@ rc.NodeInputBP(label='name_list'),
         self.set_output_val(0, dis._get_name_info(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dis__test(rc.Node):
+class _Test_Node(NodeBase):
     title = '_test'
-    doc = '''Simple test program to disassemble a file.'''
+    type_ = 'dis'
+    doc = """Simple test program to disassemble a file."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -176,21 +183,21 @@ class AutoNode_dis__test(rc.Node):
         self.set_output_val(0, dis._test())
         
 
-
-class AutoNode_dis__try_compile(rc.Node):
+class _Try_Compile_Node(NodeBase):
     title = '_try_compile'
-    doc = '''Attempts to compile the given source, first as an expression and
+    type_ = 'dis'
+    doc = """Attempts to compile the given source, first as an expression and
        then as a statement if the first approach fails.
 
        Utility function to accept strings in functions that otherwise
        expect code objects
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='source'),
-rc.NodeInputBP(label='name'),
+        NodeInputBP(label='source'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -198,15 +205,15 @@ rc.NodeInputBP(label='name'),
         self.set_output_val(0, dis._try_compile(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dis__unpack_opargs(rc.Node):
+class _Unpack_Opargs_Node(NodeBase):
     title = '_unpack_opargs'
-    doc = '''None'''
+    type_ = 'dis'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='code'),
+        NodeInputBP(label='code'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -214,15 +221,15 @@ class AutoNode_dis__unpack_opargs(rc.Node):
         self.set_output_val(0, dis._unpack_opargs(self.input(0)))
         
 
-
-class AutoNode_dis_code_info(rc.Node):
+class Code_Info_Node(NodeBase):
     title = 'code_info'
-    doc = '''Formatted details of methods, functions, or code.'''
+    type_ = 'dis'
+    doc = """Formatted details of methods, functions, or code."""
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -230,22 +237,22 @@ class AutoNode_dis_code_info(rc.Node):
         self.set_output_val(0, dis.code_info(self.input(0)))
         
 
-
-class AutoNode_dis_dis(rc.Node):
+class Dis_Node(NodeBase):
     title = 'dis'
-    doc = '''Disassemble classes, methods, functions, and other compiled objects.
+    type_ = 'dis'
+    doc = """Disassemble classes, methods, functions, and other compiled objects.
 
     With no argument, disassemble the last traceback.
 
     Compiled objects currently include generator objects, async generator
     objects, and coroutine objects, all of which store their code object
     in a special attribute.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -253,16 +260,16 @@ class AutoNode_dis_dis(rc.Node):
         self.set_output_val(0, dis.dis(self.input(0)))
         
 
-
-class AutoNode_dis_disassemble(rc.Node):
+class Disassemble_Node(NodeBase):
     title = 'disassemble'
-    doc = '''Disassemble a code object.'''
+    type_ = 'dis'
+    doc = """Disassemble a code object."""
     init_inputs = [
-        rc.NodeInputBP(label='co'),
-rc.NodeInputBP(label='lasti'),
+        NodeInputBP(label='co'),
+        NodeInputBP(label='lasti', dtype=dtypes.Data(default=-1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -270,16 +277,16 @@ rc.NodeInputBP(label='lasti'),
         self.set_output_val(0, dis.disassemble(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dis_disco(rc.Node):
+class Disco_Node(NodeBase):
     title = 'disco'
-    doc = '''Disassemble a code object.'''
+    type_ = 'dis'
+    doc = """Disassemble a code object."""
     init_inputs = [
-        rc.NodeInputBP(label='co'),
-rc.NodeInputBP(label='lasti'),
+        NodeInputBP(label='co'),
+        NodeInputBP(label='lasti', dtype=dtypes.Data(default=-1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -287,15 +294,15 @@ rc.NodeInputBP(label='lasti'),
         self.set_output_val(0, dis.disco(self.input(0), self.input(1)))
         
 
-
-class AutoNode_dis_distb(rc.Node):
+class Distb_Node(NodeBase):
     title = 'distb'
-    doc = '''Disassemble a traceback (default: last traceback).'''
+    type_ = 'dis'
+    doc = """Disassemble a traceback (default: last traceback)."""
     init_inputs = [
-        rc.NodeInputBP(label='tb'),
+        NodeInputBP(label='tb', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -303,19 +310,19 @@ class AutoNode_dis_distb(rc.Node):
         self.set_output_val(0, dis.distb(self.input(0)))
         
 
-
-class AutoNode_dis_findlabels(rc.Node):
+class Findlabels_Node(NodeBase):
     title = 'findlabels'
-    doc = '''Detect all offsets in a byte code which are jump targets.
+    type_ = 'dis'
+    doc = """Detect all offsets in a byte code which are jump targets.
 
     Return the list of offsets.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='code'),
+        NodeInputBP(label='code'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -323,19 +330,19 @@ class AutoNode_dis_findlabels(rc.Node):
         self.set_output_val(0, dis.findlabels(self.input(0)))
         
 
-
-class AutoNode_dis_findlinestarts(rc.Node):
+class Findlinestarts_Node(NodeBase):
     title = 'findlinestarts'
-    doc = '''Find the offsets in a byte code which are start of lines in the source.
+    type_ = 'dis'
+    doc = """Find the offsets in a byte code which are start of lines in the source.
 
     Generate pairs (offset, lineno) as described in Python/compile.c.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='code'),
+        NodeInputBP(label='code'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -343,10 +350,10 @@ class AutoNode_dis_findlinestarts(rc.Node):
         self.set_output_val(0, dis.findlinestarts(self.input(0)))
         
 
-
-class AutoNode_dis_get_instructions(rc.Node):
+class Get_Instructions_Node(NodeBase):
     title = 'get_instructions'
-    doc = '''Iterator for the opcodes in methods, functions or code
+    type_ = 'dis'
+    doc = """Iterator for the opcodes in methods, functions or code
 
     Generates a series of Instruction named tuples giving the details of
     each operations in the supplied code.
@@ -355,12 +362,12 @@ class AutoNode_dis_get_instructions(rc.Node):
     be reported for the first source line in the disassembled code.
     Otherwise, the source line information (if any) is taken directly from
     the disassembled code object.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='x'),
+        NodeInputBP(label='x'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -368,15 +375,15 @@ class AutoNode_dis_get_instructions(rc.Node):
         self.set_output_val(0, dis.get_instructions(self.input(0)))
         
 
-
-class AutoNode_dis_pretty_flags(rc.Node):
+class Pretty_Flags_Node(NodeBase):
     title = 'pretty_flags'
-    doc = '''Return pretty representation of code flags.'''
+    type_ = 'dis'
+    doc = """Return pretty representation of code flags."""
     init_inputs = [
-        rc.NodeInputBP(label='flags'),
+        NodeInputBP(label='flags'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -384,18 +391,18 @@ class AutoNode_dis_pretty_flags(rc.Node):
         self.set_output_val(0, dis.pretty_flags(self.input(0)))
         
 
-
-class AutoNode_dis_show_code(rc.Node):
+class Show_Code_Node(NodeBase):
     title = 'show_code'
-    doc = '''Print details of methods, functions, or code to *file*.
+    type_ = 'dis'
+    doc = """Print details of methods, functions, or code to *file*.
 
     If *file* is not provided, the output is printed on stdout.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='co'),
+        NodeInputBP(label='co'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -403,19 +410,45 @@ class AutoNode_dis_show_code(rc.Node):
         self.set_output_val(0, dis.show_code(self.input(0)))
         
 
-
-class AutoNode_dis_stack_effect(rc.Node):
+class Stack_Effect_Node(NodeBase):
     title = 'stack_effect'
-    doc = '''Compute the stack effect of the opcode.'''
+    type_ = 'dis'
+    doc = """Compute the stack effect of the opcode."""
     init_inputs = [
-        rc.NodeInputBP(label='opcode'),
-rc.NodeInputBP(label='oparg'),
+        NodeInputBP(label='opcode'),
+        NodeInputBP(label='oparg', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, dis.stack_effect(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    _Disassemble_Bytes_Node,
+    _Disassemble_Recursive_Node,
+    _Disassemble_Str_Node,
+    _Format_Code_Info_Node,
+    _Get_Code_Object_Node,
+    _Get_Const_Info_Node,
+    _Get_Instructions_Bytes_Node,
+    _Get_Name_Info_Node,
+    _Test_Node,
+    _Try_Compile_Node,
+    _Unpack_Opargs_Node,
+    Code_Info_Node,
+    Dis_Node,
+    Disassemble_Node,
+    Disco_Node,
+    Distb_Node,
+    Findlabels_Node,
+    Findlinestarts_Node,
+    Get_Instructions_Node,
+    Pretty_Flags_Node,
+    Show_Code_Node,
+    Stack_Effect_Node,
+)

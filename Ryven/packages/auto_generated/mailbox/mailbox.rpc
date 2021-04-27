@@ -1,1 +1,0 @@
-{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_mailbox__create_carefully", "AutoNode_mailbox__create_temporary", "AutoNode_mailbox__lock_file", "AutoNode_mailbox__sync_close", "AutoNode_mailbox__sync_flush", "AutoNode_mailbox__unlock_file"]}

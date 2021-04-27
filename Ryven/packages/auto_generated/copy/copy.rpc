@@ -1,1 +1,0 @@
-{"type": "Ryven auto generated nodes package", "nodes": ["AutoNode_copy__copy_immutable", "AutoNode_copy__deepcopy_atomic", "AutoNode_copy__deepcopy_dict", "AutoNode_copy__deepcopy_list", "AutoNode_copy__deepcopy_method", "AutoNode_copy__deepcopy_tuple", "AutoNode_copy__keep_alive", "AutoNode_copy__reconstruct", "AutoNode_copy_copy", "AutoNode_copy_deepcopy"]}

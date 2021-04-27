@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import getopt
 
 
-class AutoNode_getopt__(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class __Node(NodeBase):
     title = '_'
-    doc = '''None'''
+    type_ = 'getopt'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='message'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,18 +24,18 @@ class AutoNode_getopt__(rc.Node):
         self.set_output_val(0, getopt._(self.input(0)))
         
 
-
-class AutoNode_getopt_do_longs(rc.Node):
+class Do_Longs_Node(NodeBase):
     title = 'do_longs'
-    doc = '''None'''
+    type_ = 'getopt'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='opts'),
-rc.NodeInputBP(label='opt'),
-rc.NodeInputBP(label='longopts'),
-rc.NodeInputBP(label='args'),
+        NodeInputBP(label='opts'),
+        NodeInputBP(label='opt'),
+        NodeInputBP(label='longopts'),
+        NodeInputBP(label='args'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -36,18 +43,18 @@ rc.NodeInputBP(label='args'),
         self.set_output_val(0, getopt.do_longs(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_getopt_do_shorts(rc.Node):
+class Do_Shorts_Node(NodeBase):
     title = 'do_shorts'
-    doc = '''None'''
+    type_ = 'getopt'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='opts'),
-rc.NodeInputBP(label='optstring'),
-rc.NodeInputBP(label='shortopts'),
-rc.NodeInputBP(label='args'),
+        NodeInputBP(label='opts'),
+        NodeInputBP(label='optstring'),
+        NodeInputBP(label='shortopts'),
+        NodeInputBP(label='args'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -55,10 +62,10 @@ rc.NodeInputBP(label='args'),
         self.set_output_val(0, getopt.do_shorts(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_getopt_getopt(rc.Node):
+class Getopt_Node(NodeBase):
     title = 'getopt'
-    doc = '''getopt(args, options[, long_options]) -> opts, args
+    type_ = 'getopt'
+    doc = """getopt(args, options[, long_options]) -> opts, args
 
     Parses command line options and parameter list.  args is the
     argument list to be parsed, without the leading reference to the
@@ -82,14 +89,14 @@ class AutoNode_getopt_getopt(rc.Node):
     list in the same order in which they were found, thus allowing
     multiple occurrences.  Long and short options may be mixed.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='shortopts'),
-rc.NodeInputBP(label='longopts'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='shortopts'),
+        NodeInputBP(label='longopts', dtype=dtypes.Data(default=[], size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -97,10 +104,10 @@ rc.NodeInputBP(label='longopts'),
         self.set_output_val(0, getopt.getopt(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_getopt_gnu_getopt(rc.Node):
+class Gnu_Getopt_Node(NodeBase):
     title = 'gnu_getopt'
-    doc = '''getopt(args, options[, long_options]) -> opts, args
+    type_ = 'getopt'
+    doc = """getopt(args, options[, long_options]) -> opts, args
 
     This function works like getopt(), except that GNU style scanning
     mode is used by default. This means that option and non-option
@@ -112,14 +119,14 @@ class AutoNode_getopt_gnu_getopt(rc.Node):
     environment variable POSIXLY_CORRECT is set, then option
     processing stops as soon as a non-option argument is encountered.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='args'),
-rc.NodeInputBP(label='shortopts'),
-rc.NodeInputBP(label='longopts'),
+        NodeInputBP(label='args'),
+        NodeInputBP(label='shortopts'),
+        NodeInputBP(label='longopts', dtype=dtypes.Data(default=[], size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -127,16 +134,16 @@ rc.NodeInputBP(label='longopts'),
         self.set_output_val(0, getopt.gnu_getopt(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_getopt_long_has_args(rc.Node):
+class Long_Has_Args_Node(NodeBase):
     title = 'long_has_args'
-    doc = '''None'''
+    type_ = 'getopt'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='opt'),
-rc.NodeInputBP(label='longopts'),
+        NodeInputBP(label='opt'),
+        NodeInputBP(label='longopts'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -144,19 +151,30 @@ rc.NodeInputBP(label='longopts'),
         self.set_output_val(0, getopt.long_has_args(self.input(0), self.input(1)))
         
 
-
-class AutoNode_getopt_short_has_arg(rc.Node):
+class Short_Has_Arg_Node(NodeBase):
     title = 'short_has_arg'
-    doc = '''None'''
+    type_ = 'getopt'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='opt'),
-rc.NodeInputBP(label='shortopts'),
+        NodeInputBP(label='opt'),
+        NodeInputBP(label='shortopts'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, getopt.short_has_arg(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    __Node,
+    Do_Longs_Node,
+    Do_Shorts_Node,
+    Getopt_Node,
+    Gnu_Getopt_Node,
+    Long_Has_Args_Node,
+    Short_Has_Arg_Node,
+)

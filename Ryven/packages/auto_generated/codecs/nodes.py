@@ -1,10 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import codecs
 
 
-class AutoNode_codecs_EncodedFile(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Encodedfile_Node(NodeBase):
     title = 'EncodedFile'
-    doc = ''' Return a wrapped version of file which provides transparent
+    type_ = 'codecs'
+    doc = """ Return a wrapped version of file which provides transparent
         encoding translation.
 
         Data written to the wrapped file is decoded according
@@ -26,15 +33,15 @@ class AutoNode_codecs_EncodedFile(rc.Node):
         parameters of the same name. The attributes can be used for
         introspection by Python programs.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='data_encoding'),
-rc.NodeInputBP(label='file_encoding'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='data_encoding'),
+        NodeInputBP(label='file_encoding', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default='strict', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -42,16 +49,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.EncodedFile(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_codecs_ascii_decode(rc.Node):
+class Ascii_Decode_Node(NodeBase):
     title = 'ascii_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -59,16 +66,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.ascii_decode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_ascii_encode(rc.Node):
+class Ascii_Encode_Node(NodeBase):
     title = 'ascii_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -76,15 +83,15 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.ascii_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_charmap_build(rc.Node):
+class Charmap_Build_Node(NodeBase):
     title = 'charmap_build'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='map'),
+        NodeInputBP(label='map'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -92,17 +99,17 @@ class AutoNode_codecs_charmap_build(rc.Node):
         self.set_output_val(0, codecs.charmap_build(self.input(0)))
         
 
-
-class AutoNode_codecs_charmap_decode(rc.Node):
+class Charmap_Decode_Node(NodeBase):
     title = 'charmap_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='mapping'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='mapping', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -110,17 +117,17 @@ rc.NodeInputBP(label='mapping'),
         self.set_output_val(0, codecs.charmap_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_charmap_encode(rc.Node):
+class Charmap_Encode_Node(NodeBase):
     title = 'charmap_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='mapping'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='mapping', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -128,18 +135,18 @@ rc.NodeInputBP(label='mapping'),
         self.set_output_val(0, codecs.charmap_encode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_code_page_decode(rc.Node):
+class Code_Page_Decode_Node(NodeBase):
     title = 'code_page_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='codepage'),
-rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='codepage'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -147,17 +154,17 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.code_page_decode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_codecs_code_page_encode(rc.Node):
+class Code_Page_Encode_Node(NodeBase):
     title = 'code_page_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='code_page'),
-rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='code_page'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -165,23 +172,23 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.code_page_encode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_decode(rc.Node):
+class Decode_Node(NodeBase):
     title = 'decode'
-    doc = '''Decodes obj using the codec registered for encoding.
+    type_ = 'codecs'
+    doc = """Decodes obj using the codec registered for encoding.
 
 Default encoding is 'utf-8'.  errors may be given to set a
 different error handling scheme.  Default is 'strict' meaning that encoding
 errors raise a ValueError.  Other possible values are 'ignore', 'replace'
 and 'backslashreplace' as well as any other name registered with
-codecs.register_error that can handle ValueErrors.'''
+codecs.register_error that can handle ValueErrors."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default='utf-8', size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default='strict', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -189,23 +196,23 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_encode(rc.Node):
+class Encode_Node(NodeBase):
     title = 'encode'
-    doc = '''Encodes obj using the codec registered for encoding.
+    type_ = 'codecs'
+    doc = """Encodes obj using the codec registered for encoding.
 
 The default encoding is 'utf-8'.  errors may be given to set a
 different error handling scheme.  Default is 'strict' meaning that encoding
 errors raise a ValueError.  Other possible values are 'ignore', 'replace'
 and 'backslashreplace' as well as any other name registered with
-codecs.register_error that can handle ValueErrors.'''
+codecs.register_error that can handle ValueErrors."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='obj'),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default='utf-8', size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default='strict', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -213,16 +220,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.encode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_escape_decode(rc.Node):
+class Escape_Decode_Node(NodeBase):
     title = 'escape_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -230,16 +237,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.escape_decode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_escape_encode(rc.Node):
+class Escape_Encode_Node(NodeBase):
     title = 'escape_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -247,20 +254,20 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.escape_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_getdecoder(rc.Node):
+class Getdecoder_Node(NodeBase):
     title = 'getdecoder'
-    doc = ''' Lookup up the codec for the given encoding and return
+    type_ = 'codecs'
+    doc = """ Lookup up the codec for the given encoding and return
         its decoder function.
 
         Raises a LookupError in case the encoding cannot be found.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -268,20 +275,20 @@ class AutoNode_codecs_getdecoder(rc.Node):
         self.set_output_val(0, codecs.getdecoder(self.input(0)))
         
 
-
-class AutoNode_codecs_getencoder(rc.Node):
+class Getencoder_Node(NodeBase):
     title = 'getencoder'
-    doc = ''' Lookup up the codec for the given encoding and return
+    type_ = 'codecs'
+    doc = """ Lookup up the codec for the given encoding and return
         its encoder function.
 
         Raises a LookupError in case the encoding cannot be found.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -289,21 +296,21 @@ class AutoNode_codecs_getencoder(rc.Node):
         self.set_output_val(0, codecs.getencoder(self.input(0)))
         
 
-
-class AutoNode_codecs_getincrementaldecoder(rc.Node):
+class Getincrementaldecoder_Node(NodeBase):
     title = 'getincrementaldecoder'
-    doc = ''' Lookup up the codec for the given encoding and return
+    type_ = 'codecs'
+    doc = """ Lookup up the codec for the given encoding and return
         its IncrementalDecoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
         or the codecs doesn't provide an incremental decoder.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -311,21 +318,21 @@ class AutoNode_codecs_getincrementaldecoder(rc.Node):
         self.set_output_val(0, codecs.getincrementaldecoder(self.input(0)))
         
 
-
-class AutoNode_codecs_getincrementalencoder(rc.Node):
+class Getincrementalencoder_Node(NodeBase):
     title = 'getincrementalencoder'
-    doc = ''' Lookup up the codec for the given encoding and return
+    type_ = 'codecs'
+    doc = """ Lookup up the codec for the given encoding and return
         its IncrementalEncoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
         or the codecs doesn't provide an incremental encoder.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -333,20 +340,20 @@ class AutoNode_codecs_getincrementalencoder(rc.Node):
         self.set_output_val(0, codecs.getincrementalencoder(self.input(0)))
         
 
-
-class AutoNode_codecs_getreader(rc.Node):
+class Getreader_Node(NodeBase):
     title = 'getreader'
-    doc = ''' Lookup up the codec for the given encoding and return
+    type_ = 'codecs'
+    doc = """ Lookup up the codec for the given encoding and return
         its StreamReader class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -354,20 +361,20 @@ class AutoNode_codecs_getreader(rc.Node):
         self.set_output_val(0, codecs.getreader(self.input(0)))
         
 
-
-class AutoNode_codecs_getwriter(rc.Node):
+class Getwriter_Node(NodeBase):
     title = 'getwriter'
-    doc = ''' Lookup up the codec for the given encoding and return
+    type_ = 'codecs'
+    doc = """ Lookup up the codec for the given encoding and return
         its StreamWriter class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -375,24 +382,24 @@ class AutoNode_codecs_getwriter(rc.Node):
         self.set_output_val(0, codecs.getwriter(self.input(0)))
         
 
-
-class AutoNode_codecs_iterdecode(rc.Node):
+class Iterdecode_Node(NodeBase):
     title = 'iterdecode'
-    doc = '''
+    type_ = 'codecs'
+    doc = """
     Decoding iterator.
 
     Decodes the input strings from the iterator using an IncrementalDecoder.
 
     errors and kwargs are passed through to the IncrementalDecoder
     constructor.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='iterator'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='iterator'),
+        NodeInputBP(label='encoding'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default='strict', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -400,24 +407,24 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.iterdecode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_iterencode(rc.Node):
+class Iterencode_Node(NodeBase):
     title = 'iterencode'
-    doc = '''
+    type_ = 'codecs'
+    doc = """
     Encoding iterator.
 
     Encodes the input strings from the iterator using an IncrementalEncoder.
 
     errors and kwargs are passed through to the IncrementalEncoder
     constructor.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='iterator'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='iterator'),
+        NodeInputBP(label='encoding'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default='strict', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -425,16 +432,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.iterencode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_latin_1_decode(rc.Node):
+class Latin_1_Decode_Node(NodeBase):
     title = 'latin_1_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -442,16 +449,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.latin_1_decode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_latin_1_encode(rc.Node):
+class Latin_1_Encode_Node(NodeBase):
     title = 'latin_1_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -459,15 +466,15 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.latin_1_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_lookup(rc.Node):
+class Lookup_Node(NodeBase):
     title = 'lookup'
-    doc = '''Looks up a codec tuple in the Python codec registry and returns a CodecInfo object.'''
+    type_ = 'codecs'
+    doc = """Looks up a codec tuple in the Python codec registry and returns a CodecInfo object."""
     init_inputs = [
-        rc.NodeInputBP(label='encoding'),
+        NodeInputBP(label='encoding'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -475,18 +482,18 @@ class AutoNode_codecs_lookup(rc.Node):
         self.set_output_val(0, codecs.lookup(self.input(0)))
         
 
-
-class AutoNode_codecs_lookup_error(rc.Node):
+class Lookup_Error_Node(NodeBase):
     title = 'lookup_error'
-    doc = '''lookup_error(errors) -> handler
+    type_ = 'codecs'
+    doc = """lookup_error(errors) -> handler
 
 Return the error handler for the specified error handling name or raise a
-LookupError, if no handler exists under this name.'''
+LookupError, if no handler exists under this name."""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -494,10 +501,10 @@ LookupError, if no handler exists under this name.'''
         self.set_output_val(0, codecs.lookup_error(self.input(0)))
         
 
-
-class AutoNode_codecs_make_encoding_map(rc.Node):
+class Make_Encoding_Map_Node(NodeBase):
     title = 'make_encoding_map'
-    doc = ''' Creates an encoding map from a decoding map.
+    type_ = 'codecs'
+    doc = """ Creates an encoding map from a decoding map.
 
         If a target mapping in the decoding map occurs multiple
         times, then that target is mapped to None (undefined mapping),
@@ -507,12 +514,12 @@ class AutoNode_codecs_make_encoding_map(rc.Node):
         One example where this happens is cp875.py which decodes
         multiple character to \u001a.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='decoding_map'),
+        NodeInputBP(label='decoding_map'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -520,20 +527,20 @@ class AutoNode_codecs_make_encoding_map(rc.Node):
         self.set_output_val(0, codecs.make_encoding_map(self.input(0)))
         
 
-
-class AutoNode_codecs_make_identity_dict(rc.Node):
+class Make_Identity_Dict_Node(NodeBase):
     title = 'make_identity_dict'
-    doc = ''' make_identity_dict(rng) -> dict
+    type_ = 'codecs'
+    doc = """ make_identity_dict(rng) -> dict
 
         Return a dictionary where elements of the rng sequence are
         mapped to themselves.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='rng'),
+        NodeInputBP(label='rng'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -541,17 +548,17 @@ class AutoNode_codecs_make_identity_dict(rc.Node):
         self.set_output_val(0, codecs.make_identity_dict(self.input(0)))
         
 
-
-class AutoNode_codecs_mbcs_decode(rc.Node):
+class Mbcs_Decode_Node(NodeBase):
     title = 'mbcs_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -559,16 +566,16 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.mbcs_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_mbcs_encode(rc.Node):
+class Mbcs_Encode_Node(NodeBase):
     title = 'mbcs_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -576,17 +583,17 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.mbcs_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_oem_decode(rc.Node):
+class Oem_Decode_Node(NodeBase):
     title = 'oem_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -594,16 +601,16 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.oem_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_oem_encode(rc.Node):
+class Oem_Encode_Node(NodeBase):
     title = 'oem_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -611,10 +618,10 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.oem_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_open(rc.Node):
+class Open_Node(NodeBase):
     title = 'open'
-    doc = ''' Open an encoded file using the given mode and return
+    type_ = 'codecs'
+    doc = """ Open an encoded file using the given mode and return
         a wrapped version providing transparent encoding/decoding.
 
         Note: The wrapped version will only accept the object format
@@ -641,16 +648,16 @@ class AutoNode_codecs_open(rc.Node):
         attribute is only available if an encoding was specified as
         parameter.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='buffering'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default='strict', size='s')),
+        NodeInputBP(label='buffering', dtype=dtypes.Data(default=-1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -658,16 +665,16 @@ rc.NodeInputBP(label='buffering'),
         self.set_output_val(0, codecs.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_codecs_raw_unicode_escape_decode(rc.Node):
+class Raw_Unicode_Escape_Decode_Node(NodeBase):
     title = 'raw_unicode_escape_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -675,16 +682,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.raw_unicode_escape_decode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_raw_unicode_escape_encode(rc.Node):
+class Raw_Unicode_Escape_Encode_Node(NodeBase):
     title = 'raw_unicode_escape_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -692,16 +699,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.raw_unicode_escape_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_readbuffer_encode(rc.Node):
+class Readbuffer_Encode_Node(NodeBase):
     title = 'readbuffer_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -709,19 +716,19 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.readbuffer_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_register(rc.Node):
+class Register_Node(NodeBase):
     title = 'register'
-    doc = '''Register a codec search function.
+    type_ = 'codecs'
+    doc = """Register a codec search function.
 
 Search functions are expected to take one argument, the encoding name in
 all lower case letters, and either return None, or a tuple of functions
-(encoder, decoder, stream_reader, stream_writer) (or a CodecInfo object).'''
+(encoder, decoder, stream_reader, stream_writer) (or a CodecInfo object)."""
     init_inputs = [
-        rc.NodeInputBP(label='search_function'),
+        NodeInputBP(label='search_function'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -729,20 +736,20 @@ all lower case letters, and either return None, or a tuple of functions
         self.set_output_val(0, codecs.register(self.input(0)))
         
 
-
-class AutoNode_codecs_register_error(rc.Node):
+class Register_Error_Node(NodeBase):
     title = 'register_error'
-    doc = '''Register the specified error handler under the name errors.
+    type_ = 'codecs'
+    doc = """Register the specified error handler under the name errors.
 
 handler must be a callable object, that will be called with an exception
 instance containing information about the location of the encoding/decoding
-error and must return a (replacement, new position) tuple.'''
+error and must return a (replacement, new position) tuple."""
     init_inputs = [
-        rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='handler'),
+        NodeInputBP(label='errors'),
+        NodeInputBP(label='handler'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -750,16 +757,16 @@ rc.NodeInputBP(label='handler'),
         self.set_output_val(0, codecs.register_error(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_unicode_escape_decode(rc.Node):
+class Unicode_Escape_Decode_Node(NodeBase):
     title = 'unicode_escape_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -767,16 +774,16 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.unicode_escape_decode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_unicode_escape_encode(rc.Node):
+class Unicode_Escape_Encode_Node(NodeBase):
     title = 'unicode_escape_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -784,17 +791,17 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.unicode_escape_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_utf_16_be_decode(rc.Node):
+class Utf_16_Be_Decode_Node(NodeBase):
     title = 'utf_16_be_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -802,16 +809,16 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_16_be_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_16_be_encode(rc.Node):
+class Utf_16_Be_Encode_Node(NodeBase):
     title = 'utf_16_be_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -819,17 +826,17 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.utf_16_be_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_utf_16_decode(rc.Node):
+class Utf_16_Decode_Node(NodeBase):
     title = 'utf_16_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -837,17 +844,17 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_16_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_16_encode(rc.Node):
+class Utf_16_Encode_Node(NodeBase):
     title = 'utf_16_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='byteorder'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='byteorder', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -855,18 +862,18 @@ rc.NodeInputBP(label='byteorder'),
         self.set_output_val(0, codecs.utf_16_encode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_16_ex_decode(rc.Node):
+class Utf_16_Ex_Decode_Node(NodeBase):
     title = 'utf_16_ex_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='byteorder'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='byteorder', dtype=dtypes.Data(default=0, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -874,17 +881,17 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_16_ex_decode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_codecs_utf_16_le_decode(rc.Node):
+class Utf_16_Le_Decode_Node(NodeBase):
     title = 'utf_16_le_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -892,16 +899,16 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_16_le_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_16_le_encode(rc.Node):
+class Utf_16_Le_Encode_Node(NodeBase):
     title = 'utf_16_le_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -909,17 +916,17 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.utf_16_le_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_utf_32_be_decode(rc.Node):
+class Utf_32_Be_Decode_Node(NodeBase):
     title = 'utf_32_be_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -927,16 +934,16 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_32_be_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_32_be_encode(rc.Node):
+class Utf_32_Be_Encode_Node(NodeBase):
     title = 'utf_32_be_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -944,17 +951,17 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.utf_32_be_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_utf_32_decode(rc.Node):
+class Utf_32_Decode_Node(NodeBase):
     title = 'utf_32_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -962,17 +969,17 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_32_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_32_encode(rc.Node):
+class Utf_32_Encode_Node(NodeBase):
     title = 'utf_32_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='byteorder'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='byteorder', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -980,18 +987,18 @@ rc.NodeInputBP(label='byteorder'),
         self.set_output_val(0, codecs.utf_32_encode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_32_ex_decode(rc.Node):
+class Utf_32_Ex_Decode_Node(NodeBase):
     title = 'utf_32_ex_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='byteorder'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='byteorder', dtype=dtypes.Data(default=0, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -999,17 +1006,17 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_32_ex_decode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_codecs_utf_32_le_decode(rc.Node):
+class Utf_32_Le_Decode_Node(NodeBase):
     title = 'utf_32_le_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1017,16 +1024,16 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_32_le_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_32_le_encode(rc.Node):
+class Utf_32_Le_Encode_Node(NodeBase):
     title = 'utf_32_le_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1034,17 +1041,17 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.utf_32_le_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_utf_7_decode(rc.Node):
+class Utf_7_Decode_Node(NodeBase):
     title = 'utf_7_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1052,16 +1059,16 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_7_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_7_encode(rc.Node):
+class Utf_7_Encode_Node(NodeBase):
     title = 'utf_7_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1069,17 +1076,17 @@ rc.NodeInputBP(label='errors'),
         self.set_output_val(0, codecs.utf_7_encode(self.input(0), self.input(1)))
         
 
-
-class AutoNode_codecs_utf_8_decode(rc.Node):
+class Utf_8_Decode_Node(NodeBase):
     title = 'utf_8_decode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='final'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='final', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -1087,19 +1094,79 @@ rc.NodeInputBP(label='final'),
         self.set_output_val(0, codecs.utf_8_decode(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_codecs_utf_8_encode(rc.Node):
+class Utf_8_Encode_Node(NodeBase):
     title = 'utf_8_encode'
-    doc = '''None'''
+    type_ = 'codecs'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='str'),
-rc.NodeInputBP(label='errors'),
+        NodeInputBP(label='str'),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, codecs.utf_8_encode(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    Encodedfile_Node,
+    Ascii_Decode_Node,
+    Ascii_Encode_Node,
+    Charmap_Build_Node,
+    Charmap_Decode_Node,
+    Charmap_Encode_Node,
+    Code_Page_Decode_Node,
+    Code_Page_Encode_Node,
+    Decode_Node,
+    Encode_Node,
+    Escape_Decode_Node,
+    Escape_Encode_Node,
+    Getdecoder_Node,
+    Getencoder_Node,
+    Getincrementaldecoder_Node,
+    Getincrementalencoder_Node,
+    Getreader_Node,
+    Getwriter_Node,
+    Iterdecode_Node,
+    Iterencode_Node,
+    Latin_1_Decode_Node,
+    Latin_1_Encode_Node,
+    Lookup_Node,
+    Lookup_Error_Node,
+    Make_Encoding_Map_Node,
+    Make_Identity_Dict_Node,
+    Mbcs_Decode_Node,
+    Mbcs_Encode_Node,
+    Oem_Decode_Node,
+    Oem_Encode_Node,
+    Open_Node,
+    Raw_Unicode_Escape_Decode_Node,
+    Raw_Unicode_Escape_Encode_Node,
+    Readbuffer_Encode_Node,
+    Register_Node,
+    Register_Error_Node,
+    Unicode_Escape_Decode_Node,
+    Unicode_Escape_Encode_Node,
+    Utf_16_Be_Decode_Node,
+    Utf_16_Be_Encode_Node,
+    Utf_16_Decode_Node,
+    Utf_16_Encode_Node,
+    Utf_16_Ex_Decode_Node,
+    Utf_16_Le_Decode_Node,
+    Utf_16_Le_Encode_Node,
+    Utf_32_Be_Decode_Node,
+    Utf_32_Be_Encode_Node,
+    Utf_32_Decode_Node,
+    Utf_32_Encode_Node,
+    Utf_32_Ex_Decode_Node,
+    Utf_32_Le_Decode_Node,
+    Utf_32_Le_Encode_Node,
+    Utf_7_Decode_Node,
+    Utf_7_Encode_Node,
+    Utf_8_Decode_Node,
+    Utf_8_Encode_Node,
+)

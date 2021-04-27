@@ -1,18 +1,25 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import enum
 
 
-class AutoNode_enum__decompose(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Decompose_Node(NodeBase):
     title = '_decompose'
-    doc = '''
+    type_ = 'enum'
+    doc = """
     Extract all members from the value.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='flag'),
-rc.NodeInputBP(label='value'),
+        NodeInputBP(label='flag'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -20,17 +27,17 @@ rc.NodeInputBP(label='value'),
         self.set_output_val(0, enum._decompose(self.input(0), self.input(1)))
         
 
-
-class AutoNode_enum__high_bit(rc.Node):
+class _High_Bit_Node(NodeBase):
     title = '_high_bit'
-    doc = '''
+    type_ = 'enum'
+    doc = """
     returns index of highest bit, or -1 if value is zero or negative
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='value'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -38,17 +45,17 @@ class AutoNode_enum__high_bit(rc.Node):
         self.set_output_val(0, enum._high_bit(self.input(0)))
         
 
-
-class AutoNode_enum__is_descriptor(rc.Node):
+class _Is_Descriptor_Node(NodeBase):
     title = '_is_descriptor'
-    doc = '''
+    type_ = 'enum'
+    doc = """
     Returns True if obj is a descriptor, False otherwise.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -56,17 +63,17 @@ class AutoNode_enum__is_descriptor(rc.Node):
         self.set_output_val(0, enum._is_descriptor(self.input(0)))
         
 
-
-class AutoNode_enum__is_dunder(rc.Node):
+class _Is_Dunder_Node(NodeBase):
     title = '_is_dunder'
-    doc = '''
+    type_ = 'enum'
+    doc = """
     Returns True if a __dunder__ name, False otherwise.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -74,17 +81,17 @@ class AutoNode_enum__is_dunder(rc.Node):
         self.set_output_val(0, enum._is_dunder(self.input(0)))
         
 
-
-class AutoNode_enum__is_sunder(rc.Node):
+class _Is_Sunder_Node(NodeBase):
     title = '_is_sunder'
-    doc = '''
+    type_ = 'enum'
+    doc = """
     Returns True if a _sunder_ name, False otherwise.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='name'),
+        NodeInputBP(label='name'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -92,17 +99,17 @@ class AutoNode_enum__is_sunder(rc.Node):
         self.set_output_val(0, enum._is_sunder(self.input(0)))
         
 
-
-class AutoNode_enum__make_class_unpicklable(rc.Node):
+class _Make_Class_Unpicklable_Node(NodeBase):
     title = '_make_class_unpicklable'
-    doc = '''
+    type_ = 'enum'
+    doc = """
     Make the given class un-picklable.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='cls'),
+        NodeInputBP(label='cls'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -110,15 +117,15 @@ class AutoNode_enum__make_class_unpicklable(rc.Node):
         self.set_output_val(0, enum._make_class_unpicklable(self.input(0)))
         
 
-
-class AutoNode_enum__power_of_two(rc.Node):
+class _Power_Of_Two_Node(NodeBase):
     title = '_power_of_two'
-    doc = '''None'''
+    type_ = 'enum'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='value'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -126,37 +133,49 @@ class AutoNode_enum__power_of_two(rc.Node):
         self.set_output_val(0, enum._power_of_two(self.input(0)))
         
 
-
-class AutoNode_enum__reduce_ex_by_name(rc.Node):
+class _Reduce_Ex_By_Name_Node(NodeBase):
     title = '_reduce_ex_by_name'
-    doc = '''None'''
+    type_ = 'enum'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='self'),
-rc.NodeInputBP(label='proto'),
+        NodeInputBP(label='proto'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
-        self.set_output_val(0, enum._reduce_ex_by_name(self.input(0), self.input(1)))
+        self.set_output_val(0, enum._reduce_ex_by_name(self.input(0)))
         
 
-
-class AutoNode_enum_unique(rc.Node):
+class Unique_Node(NodeBase):
     title = 'unique'
-    doc = '''
+    type_ = 'enum'
+    doc = """
     Class decorator for enumerations ensuring unique member values.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='enumeration'),
+        NodeInputBP(label='enumeration'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, enum.unique(self.input(0)))
         
+
+
+export_nodes(
+    _Decompose_Node,
+    _High_Bit_Node,
+    _Is_Descriptor_Node,
+    _Is_Dunder_Node,
+    _Is_Sunder_Node,
+    _Make_Class_Unpicklable_Node,
+    _Power_Of_Two_Node,
+    _Reduce_Ex_By_Name_Node,
+    Unique_Node,
+)

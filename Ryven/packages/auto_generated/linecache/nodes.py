@@ -1,16 +1,23 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import linecache
 
 
-class AutoNode_linecache_checkcache(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Checkcache_Node(NodeBase):
     title = 'checkcache'
-    doc = '''Discard cache entries that are out of date.
-    (This is not checked upon each call!)'''
+    type_ = 'linecache'
+    doc = """Discard cache entries that are out of date.
+    (This is not checked upon each call!)"""
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
+        NodeInputBP(label='filename', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -18,15 +25,15 @@ class AutoNode_linecache_checkcache(rc.Node):
         self.set_output_val(0, linecache.checkcache(self.input(0)))
         
 
-
-class AutoNode_linecache_clearcache(rc.Node):
+class Clearcache_Node(NodeBase):
     title = 'clearcache'
-    doc = '''Clear the cache entirely.'''
+    type_ = 'linecache'
+    doc = """Clear the cache entirely."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -34,17 +41,17 @@ class AutoNode_linecache_clearcache(rc.Node):
         self.set_output_val(0, linecache.clearcache())
         
 
-
-class AutoNode_linecache_getline(rc.Node):
+class Getline_Node(NodeBase):
     title = 'getline'
-    doc = '''None'''
+    type_ = 'linecache'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='lineno'),
-rc.NodeInputBP(label='module_globals'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='lineno'),
+        NodeInputBP(label='module_globals', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -52,17 +59,17 @@ rc.NodeInputBP(label='module_globals'),
         self.set_output_val(0, linecache.getline(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_linecache_getlines(rc.Node):
+class Getlines_Node(NodeBase):
     title = 'getlines'
-    doc = '''Get the lines for a Python source file from the cache.
-    Update the cache if it doesn't contain an entry for this file already.'''
+    type_ = 'linecache'
+    doc = """Get the lines for a Python source file from the cache.
+    Update the cache if it doesn't contain an entry for this file already."""
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='module_globals'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='module_globals', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -70,10 +77,10 @@ rc.NodeInputBP(label='module_globals'),
         self.set_output_val(0, linecache.getlines(self.input(0), self.input(1)))
         
 
-
-class AutoNode_linecache_lazycache(rc.Node):
+class Lazycache_Node(NodeBase):
     title = 'lazycache'
-    doc = '''Seed the cache for filename with module_globals.
+    type_ = 'linecache'
+    doc = """Seed the cache for filename with module_globals.
 
     The module loader will be asked for the source only when getlines is
     called, not immediately.
@@ -84,13 +91,13 @@ class AutoNode_linecache_lazycache(rc.Node):
         otherwise False. To register such a load a module loader with a
         get_source method must be found, the filename must be a cachable
         filename, and the filename must not be already cached.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='module_globals'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='module_globals'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -98,21 +105,31 @@ rc.NodeInputBP(label='module_globals'),
         self.set_output_val(0, linecache.lazycache(self.input(0), self.input(1)))
         
 
-
-class AutoNode_linecache_updatecache(rc.Node):
+class Updatecache_Node(NodeBase):
     title = 'updatecache'
-    doc = '''Update a cache entry and return its list of lines.
+    type_ = 'linecache'
+    doc = """Update a cache entry and return its list of lines.
     If something's wrong, print a message, discard the cache entry,
-    and return an empty list.'''
+    and return an empty list."""
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='module_globals'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='module_globals', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, linecache.updatecache(self.input(0), self.input(1)))
         
+
+
+export_nodes(
+    Checkcache_Node,
+    Clearcache_Node,
+    Getline_Node,
+    Getlines_Node,
+    Lazycache_Node,
+    Updatecache_Node,
+)

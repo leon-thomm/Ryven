@@ -1,10 +1,17 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import nntplib
 
 
-class AutoNode_nntplib__email_decode_header(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Email_Decode_Header_Node(NodeBase):
     title = '_email_decode_header'
-    doc = '''Decode a message header value without converting charset.
+    type_ = 'nntplib'
+    doc = """Decode a message header value without converting charset.
 
     Returns a list of (string, charset) pairs containing each of the decoded
     parts of the header.  Charset is None for non-encoded parts of the header,
@@ -16,12 +23,12 @@ class AutoNode_nntplib__email_decode_header(rc.Node):
 
     An email.errors.HeaderParseError may be raised when certain decoding error
     occurs (e.g. a base64 decoding exception).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='header'),
+        NodeInputBP(label='header'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -29,22 +36,22 @@ class AutoNode_nntplib__email_decode_header(rc.Node):
         self.set_output_val(0, nntplib._email_decode_header(self.input(0)))
         
 
-
-class AutoNode_nntplib__encrypt_on(rc.Node):
+class _Encrypt_On_Node(NodeBase):
     title = '_encrypt_on'
-    doc = '''Wrap a socket in SSL/TLS. Arguments:
+    type_ = 'nntplib'
+    doc = """Wrap a socket in SSL/TLS. Arguments:
         - sock: Socket to wrap
         - context: SSL context to use for the encrypted connection
         Returns:
         - sock: New, encrypted socket.
-        '''
+        """
     init_inputs = [
-        rc.NodeInputBP(label='sock'),
-rc.NodeInputBP(label='context'),
-rc.NodeInputBP(label='hostname'),
+        NodeInputBP(label='sock'),
+        NodeInputBP(label='context'),
+        NodeInputBP(label='hostname'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -52,19 +59,19 @@ rc.NodeInputBP(label='hostname'),
         self.set_output_val(0, nntplib._encrypt_on(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_nntplib__parse_datetime(rc.Node):
+class _Parse_Datetime_Node(NodeBase):
     title = '_parse_datetime'
-    doc = '''Parse a pair of (date, time) strings, and return a datetime object.
+    type_ = 'nntplib'
+    doc = """Parse a pair of (date, time) strings, and return a datetime object.
     If only the date is given, it is assumed to be date and time
     concatenated together (e.g. response to the DATE command).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='date_str'),
-rc.NodeInputBP(label='time_str'),
+        NodeInputBP(label='date_str'),
+        NodeInputBP(label='time_str', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -72,18 +79,18 @@ rc.NodeInputBP(label='time_str'),
         self.set_output_val(0, nntplib._parse_datetime(self.input(0), self.input(1)))
         
 
-
-class AutoNode_nntplib__parse_overview(rc.Node):
+class _Parse_Overview_Node(NodeBase):
     title = '_parse_overview'
-    doc = '''Parse the response to an OVER or XOVER command according to the
-    overview format `fmt`.'''
+    type_ = 'nntplib'
+    doc = """Parse the response to an OVER or XOVER command according to the
+    overview format `fmt`."""
     init_inputs = [
-        rc.NodeInputBP(label='lines'),
-rc.NodeInputBP(label='fmt'),
-rc.NodeInputBP(label='data_process_func'),
+        NodeInputBP(label='lines'),
+        NodeInputBP(label='fmt'),
+        NodeInputBP(label='data_process_func', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -91,18 +98,18 @@ rc.NodeInputBP(label='data_process_func'),
         self.set_output_val(0, nntplib._parse_overview(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_nntplib__parse_overview_fmt(rc.Node):
+class _Parse_Overview_Fmt_Node(NodeBase):
     title = '_parse_overview_fmt'
-    doc = '''Parse a list of string representing the response to LIST OVERVIEW.FMT
+    type_ = 'nntplib'
+    doc = """Parse a list of string representing the response to LIST OVERVIEW.FMT
     and return a list of header/metadata names.
     Raises NNTPDataError if the response is not compliant
-    (cf. RFC 3977, section 8.4).'''
+    (cf. RFC 3977, section 8.4)."""
     init_inputs = [
-        rc.NodeInputBP(label='lines'),
+        NodeInputBP(label='lines'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -110,10 +117,10 @@ class AutoNode_nntplib__parse_overview_fmt(rc.Node):
         self.set_output_val(0, nntplib._parse_overview_fmt(self.input(0)))
         
 
-
-class AutoNode_nntplib__unparse_datetime(rc.Node):
+class _Unparse_Datetime_Node(NodeBase):
     title = '_unparse_datetime'
-    doc = '''Format a date or datetime object as a pair of (date, time) strings
+    type_ = 'nntplib'
+    doc = """Format a date or datetime object as a pair of (date, time) strings
     in the format required by the NEWNEWS and NEWGROUPS commands.  If a
     date object is passed, the time is assumed to be midnight (00h00).
 
@@ -124,13 +131,13 @@ class AutoNode_nntplib__unparse_datetime(rc.Node):
       date has the YYMMDD format and time the HHMMSS format.
     RFC 3977 compliant servers should understand both formats; therefore,
     legacy is only needed when talking to old servers.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='dt'),
-rc.NodeInputBP(label='legacy'),
+        NodeInputBP(label='dt'),
+        NodeInputBP(label='legacy', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -138,19 +145,30 @@ rc.NodeInputBP(label='legacy'),
         self.set_output_val(0, nntplib._unparse_datetime(self.input(0), self.input(1)))
         
 
-
-class AutoNode_nntplib_decode_header(rc.Node):
+class Decode_Header_Node(NodeBase):
     title = 'decode_header'
-    doc = '''Takes a unicode string representing a munged header value
-    and decodes it as a (possibly non-ASCII) readable value.'''
+    type_ = 'nntplib'
+    doc = """Takes a unicode string representing a munged header value
+    and decodes it as a (possibly non-ASCII) readable value."""
     init_inputs = [
-        rc.NodeInputBP(label='header_str'),
+        NodeInputBP(label='header_str'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, nntplib.decode_header(self.input(0)))
         
+
+
+export_nodes(
+    _Email_Decode_Header_Node,
+    _Encrypt_On_Node,
+    _Parse_Datetime_Node,
+    _Parse_Overview_Node,
+    _Parse_Overview_Fmt_Node,
+    _Unparse_Datetime_Node,
+    Decode_Header_Node,
+)

@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import platform
 
 
-class AutoNode_platform__comparable_version(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _Comparable_Version_Node(NodeBase):
     title = '_comparable_version'
-    doc = '''None'''
+    type_ = 'platform'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='version'),
+        NodeInputBP(label='version'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,17 +24,17 @@ class AutoNode_platform__comparable_version(rc.Node):
         self.set_output_val(0, platform._comparable_version(self.input(0)))
         
 
-
-class AutoNode_platform__follow_symlinks(rc.Node):
+class _Follow_Symlinks_Node(NodeBase):
     title = '_follow_symlinks'
-    doc = ''' In case filepath is a symlink, follow it until a
+    type_ = 'platform'
+    doc = """ In case filepath is a symlink, follow it until a
         real file is reached.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='filepath'),
+        NodeInputBP(label='filepath'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -35,16 +42,16 @@ class AutoNode_platform__follow_symlinks(rc.Node):
         self.set_output_val(0, platform._follow_symlinks(self.input(0)))
         
 
-
-class AutoNode_platform__java_getprop(rc.Node):
+class _Java_Getprop_Node(NodeBase):
     title = '_java_getprop'
-    doc = '''None'''
+    type_ = 'platform'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='name'),
-rc.NodeInputBP(label='default'),
+        NodeInputBP(label='name'),
+        NodeInputBP(label='default'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -52,15 +59,15 @@ rc.NodeInputBP(label='default'),
         self.set_output_val(0, platform._java_getprop(self.input(0), self.input(1)))
         
 
-
-class AutoNode_platform__mac_ver_xml(rc.Node):
+class _Mac_Ver_Xml_Node(NodeBase):
     title = '_mac_ver_xml'
-    doc = '''None'''
+    type_ = 'platform'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -68,16 +75,16 @@ class AutoNode_platform__mac_ver_xml(rc.Node):
         self.set_output_val(0, platform._mac_ver_xml())
         
 
-
-class AutoNode_platform__node(rc.Node):
+class _Node_Node(NodeBase):
     title = '_node'
-    doc = ''' Helper to determine the node name of this machine.
-    '''
+    type_ = 'platform'
+    doc = """ Helper to determine the node name of this machine.
+    """
     init_inputs = [
-        rc.NodeInputBP(label='default'),
+        NodeInputBP(label='default', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -85,18 +92,18 @@ class AutoNode_platform__node(rc.Node):
         self.set_output_val(0, platform._node(self.input(0)))
         
 
-
-class AutoNode_platform__norm_version(rc.Node):
+class _Norm_Version_Node(NodeBase):
     title = '_norm_version'
-    doc = ''' Normalize the version and build strings and return a single
+    type_ = 'platform'
+    doc = """ Normalize the version and build strings and return a single
         version string using the format major.minor.build (or patchlevel).
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='version'),
-rc.NodeInputBP(label='build'),
+        NodeInputBP(label='version'),
+        NodeInputBP(label='build', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -104,17 +111,17 @@ rc.NodeInputBP(label='build'),
         self.set_output_val(0, platform._norm_version(self.input(0), self.input(1)))
         
 
-
-class AutoNode_platform__platform(rc.Node):
+class _Platform_Node(NodeBase):
     title = '_platform'
-    doc = ''' Helper to format the platform string in a filename
+    type_ = 'platform'
+    doc = """ Helper to format the platform string in a filename
         compatible format e.g. "system-version-machine".
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -122,10 +129,10 @@ class AutoNode_platform__platform(rc.Node):
         self.set_output_val(0, platform._platform())
         
 
-
-class AutoNode_platform__sys_version(rc.Node):
+class _Sys_Version_Node(NodeBase):
     title = '_sys_version'
-    doc = ''' Returns a parsed version of Python's sys.version as tuple
+    type_ = 'platform'
+    doc = """ Returns a parsed version of Python's sys.version as tuple
         (name, version, branch, revision, buildno, builddate, compiler)
         referring to the Python implementation name, version, branch,
         revision, build number, build date/time as string and the compiler
@@ -142,12 +149,12 @@ class AutoNode_platform__sys_version(rc.Node):
         string, e.g. if the version was read from a different Python
         interpreter.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='sys_version'),
+        NodeInputBP(label='sys_version', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -155,22 +162,22 @@ class AutoNode_platform__sys_version(rc.Node):
         self.set_output_val(0, platform._sys_version(self.input(0)))
         
 
-
-class AutoNode_platform__syscmd_file(rc.Node):
+class _Syscmd_File_Node(NodeBase):
     title = '_syscmd_file'
-    doc = ''' Interface to the system's file command.
+    type_ = 'platform'
+    doc = """ Interface to the system's file command.
 
         The function uses the -b option of the file command to have it
         omit the filename in its output. Follow the symlinks. It returns
         default in case the command should fail.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='target'),
-rc.NodeInputBP(label='default'),
+        NodeInputBP(label='target'),
+        NodeInputBP(label='default', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -178,17 +185,17 @@ rc.NodeInputBP(label='default'),
         self.set_output_val(0, platform._syscmd_file(self.input(0), self.input(1)))
         
 
-
-class AutoNode_platform__syscmd_uname(rc.Node):
+class _Syscmd_Uname_Node(NodeBase):
     title = '_syscmd_uname'
-    doc = ''' Interface to the system's uname command.
-    '''
+    type_ = 'platform'
+    doc = """ Interface to the system's uname command.
+    """
     init_inputs = [
-        rc.NodeInputBP(label='option'),
-rc.NodeInputBP(label='default'),
+        NodeInputBP(label='option'),
+        NodeInputBP(label='default', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -196,10 +203,10 @@ rc.NodeInputBP(label='default'),
         self.set_output_val(0, platform._syscmd_uname(self.input(0), self.input(1)))
         
 
-
-class AutoNode_platform__syscmd_ver(rc.Node):
+class _Syscmd_Ver_Node(NodeBase):
     title = '_syscmd_ver'
-    doc = ''' Tries to figure out the OS version used and returns
+    type_ = 'platform'
+    doc = """ Tries to figure out the OS version used and returns
         a tuple (system, release, version).
 
         It uses the "ver" shell command for this which is known
@@ -208,15 +215,15 @@ class AutoNode_platform__syscmd_ver(rc.Node):
         In case this fails, the given parameters are used as
         defaults.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='system'),
-rc.NodeInputBP(label='release'),
-rc.NodeInputBP(label='version'),
-rc.NodeInputBP(label='supported_platforms'),
+        NodeInputBP(label='system', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='release', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='version', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='supported_platforms', dtype=dtypes.Data(default=('win32', 'win16', 'dos'), size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -224,10 +231,10 @@ rc.NodeInputBP(label='supported_platforms'),
         self.set_output_val(0, platform._syscmd_ver(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_platform_architecture(rc.Node):
+class Architecture_Node(NodeBase):
     title = 'architecture'
-    doc = ''' Queries the given executable (defaults to the Python interpreter
+    type_ = 'platform'
+    doc = """ Queries the given executable (defaults to the Python interpreter
         binary) for various architecture information.
 
         Returns a tuple (bits, linkage) which contains information about
@@ -245,14 +252,14 @@ class AutoNode_platform_architecture(rc.Node):
         does not exist and the executable is set to the Python interpreter
         binary defaults from _default_architecture are used.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='executable'),
-rc.NodeInputBP(label='bits'),
-rc.NodeInputBP(label='linkage'),
+        NodeInputBP(label='executable', dtype=dtypes.Data(default='C:\Users\nutri\projects\ryven projects\venv38\Scripts\python.exe', size='s')),
+        NodeInputBP(label='bits', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='linkage', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -260,10 +267,10 @@ rc.NodeInputBP(label='linkage'),
         self.set_output_val(0, platform.architecture(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_platform_java_ver(rc.Node):
+class Java_Ver_Node(NodeBase):
     title = 'java_ver'
-    doc = ''' Version interface for Jython.
+    type_ = 'platform'
+    doc = """ Version interface for Jython.
 
         Returns a tuple (release, vendor, vminfo, osinfo) with vminfo being
         a tuple (vm_name, vm_release, vm_vendor) and osinfo being a
@@ -272,15 +279,15 @@ class AutoNode_platform_java_ver(rc.Node):
         Values which cannot be determined are set to the defaults
         given as parameters (which all default to '').
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='release'),
-rc.NodeInputBP(label='vendor'),
-rc.NodeInputBP(label='vminfo'),
-rc.NodeInputBP(label='osinfo'),
+        NodeInputBP(label='release', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='vendor', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='vminfo', dtype=dtypes.Data(default=('', '', ''), size='s')),
+        NodeInputBP(label='osinfo', dtype=dtypes.Data(default=('', '', ''), size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -288,10 +295,10 @@ rc.NodeInputBP(label='osinfo'),
         self.set_output_val(0, platform.java_ver(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_platform_libc_ver(rc.Node):
+class Libc_Ver_Node(NodeBase):
     title = 'libc_ver'
-    doc = ''' Tries to determine the libc version that the file executable
+    type_ = 'platform'
+    doc = """ Tries to determine the libc version that the file executable
         (which defaults to the Python interpreter) is linked against.
 
         Returns a tuple of strings (lib,version) which default to the
@@ -303,15 +310,15 @@ class AutoNode_platform_libc_ver(rc.Node):
 
         The file is read and scanned in chunks of chunksize bytes.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='executable'),
-rc.NodeInputBP(label='lib'),
-rc.NodeInputBP(label='version'),
-rc.NodeInputBP(label='chunksize'),
+        NodeInputBP(label='executable', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='lib', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='version', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='chunksize', dtype=dtypes.Data(default=16384, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -319,23 +326,23 @@ rc.NodeInputBP(label='chunksize'),
         self.set_output_val(0, platform.libc_ver(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_platform_mac_ver(rc.Node):
+class Mac_Ver_Node(NodeBase):
     title = 'mac_ver'
-    doc = ''' Get macOS version information and return it as tuple (release,
+    type_ = 'platform'
+    doc = """ Get macOS version information and return it as tuple (release,
         versioninfo, machine) with versioninfo being a tuple (version,
         dev_stage, non_release_version).
 
         Entries which cannot be determined are set to the parameter values
         which default to ''. All tuple entries are strings.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='release'),
-rc.NodeInputBP(label='versioninfo'),
-rc.NodeInputBP(label='machine'),
+        NodeInputBP(label='release', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='versioninfo', dtype=dtypes.Data(default=('', '', ''), size='s')),
+        NodeInputBP(label='machine', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -343,19 +350,19 @@ rc.NodeInputBP(label='machine'),
         self.set_output_val(0, platform.mac_ver(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_platform_machine(rc.Node):
+class Machine_Node(NodeBase):
     title = 'machine'
-    doc = ''' Returns the machine type, e.g. 'i386'
+    type_ = 'platform'
+    doc = """ Returns the machine type, e.g. 'i386'
 
         An empty string is returned if the value cannot be determined.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -363,20 +370,20 @@ class AutoNode_platform_machine(rc.Node):
         self.set_output_val(0, platform.machine())
         
 
-
-class AutoNode_platform_node(rc.Node):
+class Node_Node(NodeBase):
     title = 'node'
-    doc = ''' Returns the computer's network name (which may not be fully
+    type_ = 'platform'
+    doc = """ Returns the computer's network name (which may not be fully
         qualified)
 
         An empty string is returned if the value cannot be determined.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -384,10 +391,10 @@ class AutoNode_platform_node(rc.Node):
         self.set_output_val(0, platform.node())
         
 
-
-class AutoNode_platform_platform(rc.Node):
+class Platform_Node(NodeBase):
     title = 'platform'
-    doc = ''' Returns a single string identifying the underlying platform
+    type_ = 'platform'
+    doc = """ Returns a single string identifying the underlying platform
         with as much useful information as possible (but no more :).
 
         The output is intended to be human readable rather than
@@ -403,13 +410,13 @@ class AutoNode_platform_platform(rc.Node):
         Setting terse to true causes the function to return only the
         absolute minimum information needed to identify the platform.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='aliased'),
-rc.NodeInputBP(label='terse'),
+        NodeInputBP(label='aliased', dtype=dtypes.Data(default=0, size='s')),
+        NodeInputBP(label='terse', dtype=dtypes.Data(default=0, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -417,22 +424,22 @@ rc.NodeInputBP(label='terse'),
         self.set_output_val(0, platform.platform(self.input(0), self.input(1)))
         
 
-
-class AutoNode_platform_processor(rc.Node):
+class Processor_Node(NodeBase):
     title = 'processor'
-    doc = ''' Returns the (true) processor name, e.g. 'amdk6'
+    type_ = 'platform'
+    doc = """ Returns the (true) processor name, e.g. 'amdk6'
 
         An empty string is returned if the value cannot be
         determined. Note that many platforms do not provide this
         information or simply return the same value as for machine(),
         e.g.  NetBSD does this.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -440,10 +447,10 @@ class AutoNode_platform_processor(rc.Node):
         self.set_output_val(0, platform.processor())
         
 
-
-class AutoNode_platform_python_branch(rc.Node):
+class Python_Branch_Node(NodeBase):
     title = 'python_branch'
-    doc = ''' Returns a string identifying the Python implementation
+    type_ = 'platform'
+    doc = """ Returns a string identifying the Python implementation
         branch.
 
         For CPython this is the SCM branch from which the
@@ -451,12 +458,12 @@ class AutoNode_platform_python_branch(rc.Node):
 
         If not available, an empty string is returned.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -464,18 +471,18 @@ class AutoNode_platform_python_branch(rc.Node):
         self.set_output_val(0, platform.python_branch())
         
 
-
-class AutoNode_platform_python_build(rc.Node):
+class Python_Build_Node(NodeBase):
     title = 'python_build'
-    doc = ''' Returns a tuple (buildno, builddate) stating the Python
+    type_ = 'platform'
+    doc = """ Returns a tuple (buildno, builddate) stating the Python
         build number and date as strings.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -483,18 +490,18 @@ class AutoNode_platform_python_build(rc.Node):
         self.set_output_val(0, platform.python_build())
         
 
-
-class AutoNode_platform_python_compiler(rc.Node):
+class Python_Compiler_Node(NodeBase):
     title = 'python_compiler'
-    doc = ''' Returns a string identifying the compiler used for compiling
+    type_ = 'platform'
+    doc = """ Returns a string identifying the compiler used for compiling
         Python.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -502,10 +509,10 @@ class AutoNode_platform_python_compiler(rc.Node):
         self.set_output_val(0, platform.python_compiler())
         
 
-
-class AutoNode_platform_python_implementation(rc.Node):
+class Python_Implementation_Node(NodeBase):
     title = 'python_implementation'
-    doc = ''' Returns a string identifying the Python implementation.
+    type_ = 'platform'
+    doc = """ Returns a string identifying the Python implementation.
 
         Currently, the following implementations are identified:
           'CPython' (C implementation of Python),
@@ -513,12 +520,12 @@ class AutoNode_platform_python_implementation(rc.Node):
           'Jython' (Java implementation of Python),
           'PyPy' (Python implementation of Python).
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -526,10 +533,10 @@ class AutoNode_platform_python_implementation(rc.Node):
         self.set_output_val(0, platform.python_implementation())
         
 
-
-class AutoNode_platform_python_revision(rc.Node):
+class Python_Revision_Node(NodeBase):
     title = 'python_revision'
-    doc = ''' Returns a string identifying the Python implementation
+    type_ = 'platform'
+    doc = """ Returns a string identifying the Python implementation
         revision.
 
         For CPython this is the SCM revision from which the
@@ -537,12 +544,12 @@ class AutoNode_platform_python_revision(rc.Node):
 
         If not available, an empty string is returned.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -550,20 +557,20 @@ class AutoNode_platform_python_revision(rc.Node):
         self.set_output_val(0, platform.python_revision())
         
 
-
-class AutoNode_platform_python_version(rc.Node):
+class Python_Version_Node(NodeBase):
     title = 'python_version'
-    doc = ''' Returns the Python version as string 'major.minor.patchlevel'
+    type_ = 'platform'
+    doc = """ Returns the Python version as string 'major.minor.patchlevel'
 
         Note that unlike the Python sys.version, the returned value
         will always include the patchlevel (it defaults to 0).
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -571,21 +578,21 @@ class AutoNode_platform_python_version(rc.Node):
         self.set_output_val(0, platform.python_version())
         
 
-
-class AutoNode_platform_python_version_tuple(rc.Node):
+class Python_Version_Tuple_Node(NodeBase):
     title = 'python_version_tuple'
-    doc = ''' Returns the Python version as tuple (major, minor, patchlevel)
+    type_ = 'platform'
+    doc = """ Returns the Python version as tuple (major, minor, patchlevel)
         of strings.
 
         Note that unlike the Python sys.version, the returned value
         will always include the patchlevel (it defaults to 0).
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -593,19 +600,19 @@ class AutoNode_platform_python_version_tuple(rc.Node):
         self.set_output_val(0, platform.python_version_tuple())
         
 
-
-class AutoNode_platform_release(rc.Node):
+class Release_Node(NodeBase):
     title = 'release'
-    doc = ''' Returns the system's release, e.g. '2.2.0' or 'NT'
+    type_ = 'platform'
+    doc = """ Returns the system's release, e.g. '2.2.0' or 'NT'
 
         An empty string is returned if the value cannot be determined.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -613,19 +620,19 @@ class AutoNode_platform_release(rc.Node):
         self.set_output_val(0, platform.release())
         
 
-
-class AutoNode_platform_system(rc.Node):
+class System_Node(NodeBase):
     title = 'system'
-    doc = ''' Returns the system/OS name, e.g. 'Linux', 'Windows' or 'Java'.
+    type_ = 'platform'
+    doc = """ Returns the system/OS name, e.g. 'Linux', 'Windows' or 'Java'.
 
         An empty string is returned if the value cannot be determined.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -633,23 +640,23 @@ class AutoNode_platform_system(rc.Node):
         self.set_output_val(0, platform.system())
         
 
-
-class AutoNode_platform_system_alias(rc.Node):
+class System_Alias_Node(NodeBase):
     title = 'system_alias'
-    doc = ''' Returns (system, release, version) aliased to common
+    type_ = 'platform'
+    doc = """ Returns (system, release, version) aliased to common
         marketing names used for some systems.
 
         It also does some reordering of the information in some cases
         where it would otherwise cause confusion.
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='system'),
-rc.NodeInputBP(label='release'),
-rc.NodeInputBP(label='version'),
+        NodeInputBP(label='system'),
+        NodeInputBP(label='release'),
+        NodeInputBP(label='version'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -657,10 +664,10 @@ rc.NodeInputBP(label='version'),
         self.set_output_val(0, platform.system_alias(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_platform_uname(rc.Node):
+class Uname_Node(NodeBase):
     title = 'uname'
-    doc = ''' Fairly portable uname interface. Returns a tuple
+    type_ = 'platform'
+    doc = """ Fairly portable uname interface. Returns a tuple
         of strings (system, node, release, version, machine, processor)
         identifying the underlying platform.
 
@@ -669,12 +676,12 @@ class AutoNode_platform_uname(rc.Node):
 
         Entries which cannot be determined are set to ''.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -682,19 +689,19 @@ class AutoNode_platform_uname(rc.Node):
         self.set_output_val(0, platform.uname())
         
 
-
-class AutoNode_platform_version(rc.Node):
+class Version_Node(NodeBase):
     title = 'version'
-    doc = ''' Returns the system's release version, e.g. '#3 on degas'
+    type_ = 'platform'
+    doc = """ Returns the system's release version, e.g. '#3 on degas'
 
         An empty string is returned if the value cannot be determined.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -702,15 +709,15 @@ class AutoNode_platform_version(rc.Node):
         self.set_output_val(0, platform.version())
         
 
-
-class AutoNode_platform_win32_edition(rc.Node):
+class Win32_Edition_Node(NodeBase):
     title = 'win32_edition'
-    doc = '''None'''
+    type_ = 'platform'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -718,15 +725,15 @@ class AutoNode_platform_win32_edition(rc.Node):
         self.set_output_val(0, platform.win32_edition())
         
 
-
-class AutoNode_platform_win32_is_iot(rc.Node):
+class Win32_Is_Iot_Node(NodeBase):
     title = 'win32_is_iot'
-    doc = '''None'''
+    type_ = 'platform'
+    doc = """"""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -734,21 +741,59 @@ class AutoNode_platform_win32_is_iot(rc.Node):
         self.set_output_val(0, platform.win32_is_iot())
         
 
-
-class AutoNode_platform_win32_ver(rc.Node):
+class Win32_Ver_Node(NodeBase):
     title = 'win32_ver'
-    doc = '''None'''
+    type_ = 'platform'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='release'),
-rc.NodeInputBP(label='version'),
-rc.NodeInputBP(label='csd'),
-rc.NodeInputBP(label='ptype'),
+        NodeInputBP(label='release', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='version', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='csd', dtype=dtypes.Data(default='', size='s')),
+        NodeInputBP(label='ptype', dtype=dtypes.Data(default='', size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, platform.win32_ver(self.input(0), self.input(1), self.input(2), self.input(3)))
         
+
+
+export_nodes(
+    _Comparable_Version_Node,
+    _Follow_Symlinks_Node,
+    _Java_Getprop_Node,
+    _Mac_Ver_Xml_Node,
+    _Node_Node,
+    _Norm_Version_Node,
+    _Platform_Node,
+    _Sys_Version_Node,
+    _Syscmd_File_Node,
+    _Syscmd_Uname_Node,
+    _Syscmd_Ver_Node,
+    Architecture_Node,
+    Java_Ver_Node,
+    Libc_Ver_Node,
+    Mac_Ver_Node,
+    Machine_Node,
+    Node_Node,
+    Platform_Node,
+    Processor_Node,
+    Python_Branch_Node,
+    Python_Build_Node,
+    Python_Compiler_Node,
+    Python_Implementation_Node,
+    Python_Revision_Node,
+    Python_Version_Node,
+    Python_Version_Tuple_Node,
+    Release_Node,
+    System_Node,
+    System_Alias_Node,
+    Uname_Node,
+    Version_Node,
+    Win32_Edition_Node,
+    Win32_Is_Iot_Node,
+    Win32_Ver_Node,
+)

@@ -1,15 +1,22 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import asyncio
 
 
-class AutoNode_asyncio__all_tasks_compat(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class _All_Tasks_Compat_Node(NodeBase):
     title = '_all_tasks_compat'
-    doc = '''None'''
+    type_ = 'asyncio'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='loop'),
+        NodeInputBP(label='loop', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -17,20 +24,20 @@ class AutoNode_asyncio__all_tasks_compat(rc.Node):
         self.set_output_val(0, asyncio._all_tasks_compat(self.input(0)))
         
 
-
-class AutoNode_asyncio__enter_task(rc.Node):
+class _Enter_Task_Node(NodeBase):
     title = '_enter_task'
-    doc = '''Enter into task execution or resume suspended task.
+    type_ = 'asyncio'
+    doc = """Enter into task execution or resume suspended task.
 
 Task belongs to loop.
 
-Returns None.'''
+Returns None."""
     init_inputs = [
-        rc.NodeInputBP(label='loop'),
-rc.NodeInputBP(label='task'),
+        NodeInputBP(label='loop'),
+        NodeInputBP(label='task'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -38,18 +45,18 @@ rc.NodeInputBP(label='task'),
         self.set_output_val(0, asyncio._enter_task(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncio__get_running_loop(rc.Node):
+class _Get_Running_Loop_Node(NodeBase):
     title = '_get_running_loop'
-    doc = '''Return the running event loop or None.
+    type_ = 'asyncio'
+    doc = """Return the running event loop or None.
 
 This is a low-level function intended to be used by event loops.
-This function is thread-specific.'''
+This function is thread-specific."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -57,20 +64,20 @@ This function is thread-specific.'''
         self.set_output_val(0, asyncio._get_running_loop())
         
 
-
-class AutoNode_asyncio__leave_task(rc.Node):
+class _Leave_Task_Node(NodeBase):
     title = '_leave_task'
-    doc = '''Leave task execution or suspend a task.
+    type_ = 'asyncio'
+    doc = """Leave task execution or suspend a task.
 
 Task belongs to loop.
 
-Returns None.'''
+Returns None."""
     init_inputs = [
-        rc.NodeInputBP(label='loop'),
-rc.NodeInputBP(label='task'),
+        NodeInputBP(label='loop'),
+        NodeInputBP(label='task'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -78,17 +85,17 @@ rc.NodeInputBP(label='task'),
         self.set_output_val(0, asyncio._leave_task(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncio__register_task(rc.Node):
+class _Register_Task_Node(NodeBase):
     title = '_register_task'
-    doc = '''Register a new task in asyncio as executed by loop.
+    type_ = 'asyncio'
+    doc = """Register a new task in asyncio as executed by loop.
 
-Returns None.'''
+Returns None."""
     init_inputs = [
-        rc.NodeInputBP(label='task'),
+        NodeInputBP(label='task'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -96,18 +103,18 @@ Returns None.'''
         self.set_output_val(0, asyncio._register_task(self.input(0)))
         
 
-
-class AutoNode_asyncio__set_running_loop(rc.Node):
+class _Set_Running_Loop_Node(NodeBase):
     title = '_set_running_loop'
-    doc = '''Set the running event loop.
+    type_ = 'asyncio'
+    doc = """Set the running event loop.
 
 This is a low-level function intended to be used by event loops.
-This function is thread-specific.'''
+This function is thread-specific."""
     init_inputs = [
-        rc.NodeInputBP(label='loop'),
+        NodeInputBP(label='loop'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -115,17 +122,17 @@ This function is thread-specific.'''
         self.set_output_val(0, asyncio._set_running_loop(self.input(0)))
         
 
-
-class AutoNode_asyncio__unregister_task(rc.Node):
+class _Unregister_Task_Node(NodeBase):
     title = '_unregister_task'
-    doc = '''Unregister a task.
+    type_ = 'asyncio'
+    doc = """Unregister a task.
 
-Returns None.'''
+Returns None."""
     init_inputs = [
-        rc.NodeInputBP(label='task'),
+        NodeInputBP(label='task'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -133,15 +140,15 @@ Returns None.'''
         self.set_output_val(0, asyncio._unregister_task(self.input(0)))
         
 
-
-class AutoNode_asyncio_all_tasks(rc.Node):
+class All_Tasks_Node(NodeBase):
     title = 'all_tasks'
-    doc = '''Return a set of all tasks for the loop.'''
+    type_ = 'asyncio'
+    doc = """Return a set of all tasks for the loop."""
     init_inputs = [
-        rc.NodeInputBP(label='loop'),
+        NodeInputBP(label='loop', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -149,10 +156,10 @@ class AutoNode_asyncio_all_tasks(rc.Node):
         self.set_output_val(0, asyncio.all_tasks(self.input(0)))
         
 
-
-class AutoNode_asyncio_as_completed(rc.Node):
+class As_Completed_Node(NodeBase):
     title = 'as_completed'
-    doc = '''Return an iterator whose values are coroutines.
+    type_ = 'asyncio'
+    doc = """Return an iterator whose values are coroutines.
 
     When waiting for the yielded coroutines you'll get the results (or
     exceptions!) of the original Futures (or coroutines), in the order
@@ -168,12 +175,12 @@ class AutoNode_asyncio_as_completed(rc.Node):
     TimeoutError when the timeout occurs before all Futures are done.
 
     Note: The futures 'f' are not necessarily members of fs.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='fs'),
+        NodeInputBP(label='fs'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -181,19 +188,19 @@ class AutoNode_asyncio_as_completed(rc.Node):
         self.set_output_val(0, asyncio.as_completed(self.input(0)))
         
 
-
-class AutoNode_asyncio_coroutine(rc.Node):
+class Coroutine_Node(NodeBase):
     title = 'coroutine'
-    doc = '''Decorator to mark coroutines.
+    type_ = 'asyncio'
+    doc = """Decorator to mark coroutines.
 
     If the coroutine is not yielded from before it is destroyed,
     an error message is logged.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='func'),
+        NodeInputBP(label='func'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -201,15 +208,15 @@ class AutoNode_asyncio_coroutine(rc.Node):
         self.set_output_val(0, asyncio.coroutine(self.input(0)))
         
 
-
-class AutoNode_asyncio_create_subprocess_exec(rc.Node):
+class Create_Subprocess_Exec_Node(NodeBase):
     title = 'create_subprocess_exec'
-    doc = '''None'''
+    type_ = 'asyncio'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='program'),
+        NodeInputBP(label='program'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -217,20 +224,20 @@ class AutoNode_asyncio_create_subprocess_exec(rc.Node):
         self.set_output_val(0, asyncio.create_subprocess_exec(self.input(0)))
         
 
-
-class AutoNode_asyncio_create_subprocess_shell(rc.Node):
+class Create_Subprocess_Shell_Node(NodeBase):
     title = 'create_subprocess_shell'
-    doc = '''None'''
+    type_ = 'asyncio'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='cmd'),
-rc.NodeInputBP(label='stdin'),
-rc.NodeInputBP(label='stdout'),
-rc.NodeInputBP(label='stderr'),
-rc.NodeInputBP(label='loop'),
-rc.NodeInputBP(label='limit'),
+        NodeInputBP(label='cmd'),
+        NodeInputBP(label='stdin', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='stdout', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='stderr', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='loop', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='limit', dtype=dtypes.Data(default=65536, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -238,18 +245,18 @@ rc.NodeInputBP(label='limit'),
         self.set_output_val(0, asyncio.create_subprocess_shell(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_asyncio_create_task(rc.Node):
+class Create_Task_Node(NodeBase):
     title = 'create_task'
-    doc = '''Schedule the execution of a coroutine object in a spawn task.
+    type_ = 'asyncio'
+    doc = """Schedule the execution of a coroutine object in a spawn task.
 
     Return a Task object.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='coro'),
+        NodeInputBP(label='coro'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -257,15 +264,15 @@ class AutoNode_asyncio_create_task(rc.Node):
         self.set_output_val(0, asyncio.create_task(self.input(0)))
         
 
-
-class AutoNode_asyncio_current_task(rc.Node):
+class Current_Task_Node(NodeBase):
     title = 'current_task'
-    doc = '''Return a currently executed task.'''
+    type_ = 'asyncio'
+    doc = """Return a currently executed task."""
     init_inputs = [
-        rc.NodeInputBP(label='loop'),
+        NodeInputBP(label='loop', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -273,18 +280,18 @@ class AutoNode_asyncio_current_task(rc.Node):
         self.set_output_val(0, asyncio.current_task(self.input(0)))
         
 
-
-class AutoNode_asyncio_ensure_future(rc.Node):
+class Ensure_Future_Node(NodeBase):
     title = 'ensure_future'
-    doc = '''Wrap a coroutine or an awaitable in a future.
+    type_ = 'asyncio'
+    doc = """Wrap a coroutine or an awaitable in a future.
 
     If the argument is a Future, it is returned directly.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='coro_or_future'),
+        NodeInputBP(label='coro_or_future'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -292,10 +299,10 @@ class AutoNode_asyncio_ensure_future(rc.Node):
         self.set_output_val(0, asyncio.ensure_future(self.input(0)))
         
 
-
-class AutoNode_asyncio_gather(rc.Node):
+class Gather_Node(NodeBase):
     title = 'gather'
-    doc = '''Return a future aggregating results from the given coroutines/futures.
+    type_ = 'asyncio'
+    doc = """Return a future aggregating results from the given coroutines/futures.
 
     Coroutines will be wrapped in a future and scheduled in the event
     loop. They will not necessarily be scheduled in the same order as
@@ -323,12 +330,12 @@ class AutoNode_asyncio_gather(rc.Node):
     exception to the caller, therefore, calling ``gather.cancel()``
     after catching an exception (raised by one of the awaitables) from
     gather won't cancel any other awaitables.
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -336,15 +343,15 @@ class AutoNode_asyncio_gather(rc.Node):
         self.set_output_val(0, asyncio.gather())
         
 
-
-class AutoNode_asyncio_get_child_watcher(rc.Node):
+class Get_Child_Watcher_Node(NodeBase):
     title = 'get_child_watcher'
-    doc = '''Equivalent to calling get_event_loop_policy().get_child_watcher().'''
+    type_ = 'asyncio'
+    doc = """Equivalent to calling get_event_loop_policy().get_child_watcher()."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -352,22 +359,22 @@ class AutoNode_asyncio_get_child_watcher(rc.Node):
         self.set_output_val(0, asyncio.get_child_watcher())
         
 
-
-class AutoNode_asyncio_get_event_loop(rc.Node):
+class Get_Event_Loop_Node(NodeBase):
     title = 'get_event_loop'
-    doc = '''Return an asyncio event loop.
+    type_ = 'asyncio'
+    doc = """Return an asyncio event loop.
 
 When called from a coroutine or a callback (e.g. scheduled with
 call_soon or similar API), this function will always return the
 running event loop.
 
 If there is no running event loop set, the function will return
-the result of `get_event_loop_policy().get_event_loop()` call.'''
+the result of `get_event_loop_policy().get_event_loop()` call."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -375,15 +382,15 @@ the result of `get_event_loop_policy().get_event_loop()` call.'''
         self.set_output_val(0, asyncio.get_event_loop())
         
 
-
-class AutoNode_asyncio_get_event_loop_policy(rc.Node):
+class Get_Event_Loop_Policy_Node(NodeBase):
     title = 'get_event_loop_policy'
-    doc = '''Get the current event loop policy.'''
+    type_ = 'asyncio'
+    doc = """Get the current event loop policy."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -391,17 +398,17 @@ class AutoNode_asyncio_get_event_loop_policy(rc.Node):
         self.set_output_val(0, asyncio.get_event_loop_policy())
         
 
-
-class AutoNode_asyncio_get_running_loop(rc.Node):
+class Get_Running_Loop_Node(NodeBase):
     title = 'get_running_loop'
-    doc = '''Return the running event loop.  Raise a RuntimeError if there is none.
+    type_ = 'asyncio'
+    doc = """Return the running event loop.  Raise a RuntimeError if there is none.
 
-This function is thread-specific.'''
+This function is thread-specific."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -409,15 +416,15 @@ This function is thread-specific.'''
         self.set_output_val(0, asyncio.get_running_loop())
         
 
-
-class AutoNode_asyncio_iscoroutine(rc.Node):
+class Iscoroutine_Node(NodeBase):
     title = 'iscoroutine'
-    doc = '''Return True if obj is a coroutine object.'''
+    type_ = 'asyncio'
+    doc = """Return True if obj is a coroutine object."""
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -425,15 +432,15 @@ class AutoNode_asyncio_iscoroutine(rc.Node):
         self.set_output_val(0, asyncio.iscoroutine(self.input(0)))
         
 
-
-class AutoNode_asyncio_iscoroutinefunction(rc.Node):
+class Iscoroutinefunction_Node(NodeBase):
     title = 'iscoroutinefunction'
-    doc = '''Return True if func is a decorated coroutine function.'''
+    type_ = 'asyncio'
+    doc = """Return True if func is a decorated coroutine function."""
     init_inputs = [
-        rc.NodeInputBP(label='func'),
+        NodeInputBP(label='func'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -441,20 +448,20 @@ class AutoNode_asyncio_iscoroutinefunction(rc.Node):
         self.set_output_val(0, asyncio.iscoroutinefunction(self.input(0)))
         
 
-
-class AutoNode_asyncio_isfuture(rc.Node):
+class Isfuture_Node(NodeBase):
     title = 'isfuture'
-    doc = '''Check for a Future.
+    type_ = 'asyncio'
+    doc = """Check for a Future.
 
     This returns True when obj is a Future instance or is advertising
     itself as duck-type compatible by setting _asyncio_future_blocking.
     See comment in Future for more details.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='obj'),
+        NodeInputBP(label='obj'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -462,15 +469,15 @@ class AutoNode_asyncio_isfuture(rc.Node):
         self.set_output_val(0, asyncio.isfuture(self.input(0)))
         
 
-
-class AutoNode_asyncio_new_event_loop(rc.Node):
+class New_Event_Loop_Node(NodeBase):
     title = 'new_event_loop'
-    doc = '''Equivalent to calling get_event_loop_policy().new_event_loop().'''
+    type_ = 'asyncio'
+    doc = """Equivalent to calling get_event_loop_policy().new_event_loop()."""
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -478,10 +485,10 @@ class AutoNode_asyncio_new_event_loop(rc.Node):
         self.set_output_val(0, asyncio.new_event_loop())
         
 
-
-class AutoNode_asyncio_open_connection(rc.Node):
+class Open_Connection_Node(NodeBase):
     title = 'open_connection'
-    doc = '''A wrapper for create_connection() returning a (reader, writer) pair.
+    type_ = 'asyncio'
+    doc = """A wrapper for create_connection() returning a (reader, writer) pair.
 
     The reader returned is a StreamReader instance; the writer is a
     StreamWriter instance.
@@ -497,13 +504,13 @@ class AutoNode_asyncio_open_connection(rc.Node):
     (If you want to customize the StreamReader and/or
     StreamReaderProtocol classes, just copy the code -- there's
     really nothing special here except some convenience.)
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='host'),
-rc.NodeInputBP(label='port'),
+        NodeInputBP(label='host', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='port', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -511,10 +518,10 @@ rc.NodeInputBP(label='port'),
         self.set_output_val(0, asyncio.open_connection(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncio_run(rc.Node):
+class Run_Node(NodeBase):
     title = 'run'
-    doc = '''Execute the coroutine and return the result.
+    type_ = 'asyncio'
+    doc = """Execute the coroutine and return the result.
 
     This function runs the passed coroutine, taking care of
     managing the asyncio event loop and finalizing asynchronous
@@ -536,12 +543,12 @@ class AutoNode_asyncio_run(rc.Node):
             print('hello')
 
         asyncio.run(main())
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='main'),
+        NodeInputBP(label='main'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -549,19 +556,19 @@ class AutoNode_asyncio_run(rc.Node):
         self.set_output_val(0, asyncio.run(self.input(0)))
         
 
-
-class AutoNode_asyncio_run_coroutine_threadsafe(rc.Node):
+class Run_Coroutine_Threadsafe_Node(NodeBase):
     title = 'run_coroutine_threadsafe'
-    doc = '''Submit a coroutine object to a given event loop.
+    type_ = 'asyncio'
+    doc = """Submit a coroutine object to a given event loop.
 
     Return a concurrent.futures.Future to access the result.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='coro'),
-rc.NodeInputBP(label='loop'),
+        NodeInputBP(label='coro'),
+        NodeInputBP(label='loop'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -569,16 +576,16 @@ rc.NodeInputBP(label='loop'),
         self.set_output_val(0, asyncio.run_coroutine_threadsafe(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncio_set_child_watcher(rc.Node):
+class Set_Child_Watcher_Node(NodeBase):
     title = 'set_child_watcher'
-    doc = '''Equivalent to calling
-    get_event_loop_policy().set_child_watcher(watcher).'''
+    type_ = 'asyncio'
+    doc = """Equivalent to calling
+    get_event_loop_policy().set_child_watcher(watcher)."""
     init_inputs = [
-        rc.NodeInputBP(label='watcher'),
+        NodeInputBP(label='watcher'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -586,15 +593,15 @@ class AutoNode_asyncio_set_child_watcher(rc.Node):
         self.set_output_val(0, asyncio.set_child_watcher(self.input(0)))
         
 
-
-class AutoNode_asyncio_set_event_loop(rc.Node):
+class Set_Event_Loop_Node(NodeBase):
     title = 'set_event_loop'
-    doc = '''Equivalent to calling get_event_loop_policy().set_event_loop(loop).'''
+    type_ = 'asyncio'
+    doc = """Equivalent to calling get_event_loop_policy().set_event_loop(loop)."""
     init_inputs = [
-        rc.NodeInputBP(label='loop'),
+        NodeInputBP(label='loop'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -602,17 +609,17 @@ class AutoNode_asyncio_set_event_loop(rc.Node):
         self.set_output_val(0, asyncio.set_event_loop(self.input(0)))
         
 
-
-class AutoNode_asyncio_set_event_loop_policy(rc.Node):
+class Set_Event_Loop_Policy_Node(NodeBase):
     title = 'set_event_loop_policy'
-    doc = '''Set the current event loop policy.
+    type_ = 'asyncio'
+    doc = """Set the current event loop policy.
 
-    If policy is None, the default policy is restored.'''
+    If policy is None, the default policy is restored."""
     init_inputs = [
-        rc.NodeInputBP(label='policy'),
+        NodeInputBP(label='policy'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -620,10 +627,10 @@ class AutoNode_asyncio_set_event_loop_policy(rc.Node):
         self.set_output_val(0, asyncio.set_event_loop_policy(self.input(0)))
         
 
-
-class AutoNode_asyncio_shield(rc.Node):
+class Shield_Node(NodeBase):
     title = 'shield'
-    doc = '''Wait for a future, shielding it from cancellation.
+    type_ = 'asyncio'
+    doc = """Wait for a future, shielding it from cancellation.
 
     The statement
 
@@ -647,12 +654,12 @@ class AutoNode_asyncio_shield(rc.Node):
             res = await shield(something())
         except CancelledError:
             res = None
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='arg'),
+        NodeInputBP(label='arg'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -660,16 +667,16 @@ class AutoNode_asyncio_shield(rc.Node):
         self.set_output_val(0, asyncio.shield(self.input(0)))
         
 
-
-class AutoNode_asyncio_sleep(rc.Node):
+class Sleep_Node(NodeBase):
     title = 'sleep'
-    doc = '''Coroutine that completes after a given time (in seconds).'''
+    type_ = 'asyncio'
+    doc = """Coroutine that completes after a given time (in seconds)."""
     init_inputs = [
-        rc.NodeInputBP(label='delay'),
-rc.NodeInputBP(label='result'),
+        NodeInputBP(label='delay'),
+        NodeInputBP(label='result', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -677,10 +684,10 @@ rc.NodeInputBP(label='result'),
         self.set_output_val(0, asyncio.sleep(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncio_start_server(rc.Node):
+class Start_Server_Node(NodeBase):
     title = 'start_server'
-    doc = '''Start a socket server, call back for each client connected.
+    type_ = 'asyncio'
+    doc = """Start a socket server, call back for each client connected.
 
     The first parameter, `client_connected_cb`, takes two parameters:
     client_reader, client_writer.  client_reader is a StreamReader
@@ -700,14 +707,14 @@ class AutoNode_asyncio_start_server(rc.Node):
 
     The return value is the same as loop.create_server(), i.e. a
     Server object which can be used to stop the service.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='client_connected_cb'),
-rc.NodeInputBP(label='host'),
-rc.NodeInputBP(label='port'),
+        NodeInputBP(label='client_connected_cb'),
+        NodeInputBP(label='host', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='port', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -715,10 +722,10 @@ rc.NodeInputBP(label='port'),
         self.set_output_val(0, asyncio.start_server(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_asyncio_wait(rc.Node):
+class Wait_Node(NodeBase):
     title = 'wait'
-    doc = '''Wait for the Futures and coroutines given by fs to complete.
+    type_ = 'asyncio'
+    doc = """Wait for the Futures and coroutines given by fs to complete.
 
     The fs iterable must not be empty.
 
@@ -732,12 +739,12 @@ class AutoNode_asyncio_wait(rc.Node):
 
     Note: This does not raise TimeoutError! Futures that aren't done
     when the timeout occurs are returned in the second set.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='fs'),
+        NodeInputBP(label='fs'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -745,10 +752,10 @@ class AutoNode_asyncio_wait(rc.Node):
         self.set_output_val(0, asyncio.wait(self.input(0)))
         
 
-
-class AutoNode_asyncio_wait_for(rc.Node):
+class Wait_For_Node(NodeBase):
     title = 'wait_for'
-    doc = '''Wait for the single Future or coroutine to complete, with timeout.
+    type_ = 'asyncio'
+    doc = """Wait for the single Future or coroutine to complete, with timeout.
 
     Coroutine will be wrapped in Task.
 
@@ -759,13 +766,13 @@ class AutoNode_asyncio_wait_for(rc.Node):
     If the wait is cancelled, the task is also cancelled.
 
     This function is a coroutine.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='fut'),
-rc.NodeInputBP(label='timeout'),
+        NodeInputBP(label='fut'),
+        NodeInputBP(label='timeout'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -773,18 +780,58 @@ rc.NodeInputBP(label='timeout'),
         self.set_output_val(0, asyncio.wait_for(self.input(0), self.input(1)))
         
 
-
-class AutoNode_asyncio_wrap_future(rc.Node):
+class Wrap_Future_Node(NodeBase):
     title = 'wrap_future'
-    doc = '''Wrap concurrent.futures.Future object.'''
+    type_ = 'asyncio'
+    doc = """Wrap concurrent.futures.Future object."""
     init_inputs = [
-        rc.NodeInputBP(label='future'),
+        NodeInputBP(label='future'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, asyncio.wrap_future(self.input(0)))
         
+
+
+export_nodes(
+    _All_Tasks_Compat_Node,
+    _Enter_Task_Node,
+    _Get_Running_Loop_Node,
+    _Leave_Task_Node,
+    _Register_Task_Node,
+    _Set_Running_Loop_Node,
+    _Unregister_Task_Node,
+    All_Tasks_Node,
+    As_Completed_Node,
+    Coroutine_Node,
+    Create_Subprocess_Exec_Node,
+    Create_Subprocess_Shell_Node,
+    Create_Task_Node,
+    Current_Task_Node,
+    Ensure_Future_Node,
+    Gather_Node,
+    Get_Child_Watcher_Node,
+    Get_Event_Loop_Node,
+    Get_Event_Loop_Policy_Node,
+    Get_Running_Loop_Node,
+    Iscoroutine_Node,
+    Iscoroutinefunction_Node,
+    Isfuture_Node,
+    New_Event_Loop_Node,
+    Open_Connection_Node,
+    Run_Node,
+    Run_Coroutine_Threadsafe_Node,
+    Set_Child_Watcher_Node,
+    Set_Event_Loop_Node,
+    Set_Event_Loop_Policy_Node,
+    Shield_Node,
+    Sleep_Node,
+    Start_Server_Node,
+    Wait_Node,
+    Wait_For_Node,
+    Wrap_Future_Node,
+)

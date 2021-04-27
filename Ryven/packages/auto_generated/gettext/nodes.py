@@ -1,20 +1,27 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import gettext
 
 
-class AutoNode_gettext_Catalog(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Catalog_Node(NodeBase):
     title = 'Catalog'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='localedir'),
-rc.NodeInputBP(label='languages'),
-rc.NodeInputBP(label='class_'),
-rc.NodeInputBP(label='fallback'),
-rc.NodeInputBP(label='codeset'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='languages', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='class_', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='fallback', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='codeset', dtype=dtypes.Data(default=['unspecified'], size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -22,15 +29,15 @@ rc.NodeInputBP(label='codeset'),
         self.set_output_val(0, gettext.Catalog(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
-
-class AutoNode_gettext__as_int(rc.Node):
+class _As_Int_Node(NodeBase):
     title = '_as_int'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='n'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -38,15 +45,15 @@ class AutoNode_gettext__as_int(rc.Node):
         self.set_output_val(0, gettext._as_int(self.input(0)))
         
 
-
-class AutoNode_gettext__error(rc.Node):
+class _Error_Node(NodeBase):
     title = '_error'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='value'),
+        NodeInputBP(label='value'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -54,15 +61,15 @@ class AutoNode_gettext__error(rc.Node):
         self.set_output_val(0, gettext._error(self.input(0)))
         
 
-
-class AutoNode_gettext__expand_lang(rc.Node):
+class _Expand_Lang_Node(NodeBase):
     title = '_expand_lang'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='loc'),
+        NodeInputBP(label='loc'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -70,16 +77,16 @@ class AutoNode_gettext__expand_lang(rc.Node):
         self.set_output_val(0, gettext._expand_lang(self.input(0)))
         
 
-
-class AutoNode_gettext__parse(rc.Node):
+class _Parse_Node(NodeBase):
     title = '_parse'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='tokens'),
-rc.NodeInputBP(label='priority'),
+        NodeInputBP(label='tokens'),
+        NodeInputBP(label='priority', dtype=dtypes.Data(default=-1, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -87,15 +94,15 @@ rc.NodeInputBP(label='priority'),
         self.set_output_val(0, gettext._parse(self.input(0), self.input(1)))
         
 
-
-class AutoNode_gettext__tokenize(rc.Node):
+class _Tokenize_Node(NodeBase):
     title = '_tokenize'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='plural'),
+        NodeInputBP(label='plural'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -103,16 +110,16 @@ class AutoNode_gettext__tokenize(rc.Node):
         self.set_output_val(0, gettext._tokenize(self.input(0)))
         
 
-
-class AutoNode_gettext_bind_textdomain_codeset(rc.Node):
+class Bind_Textdomain_Codeset_Node(NodeBase):
     title = 'bind_textdomain_codeset'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='codeset'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='codeset', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -120,16 +127,16 @@ rc.NodeInputBP(label='codeset'),
         self.set_output_val(0, gettext.bind_textdomain_codeset(self.input(0), self.input(1)))
         
 
-
-class AutoNode_gettext_bindtextdomain(rc.Node):
+class Bindtextdomain_Node(NodeBase):
     title = 'bindtextdomain'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='localedir'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -137,17 +144,17 @@ rc.NodeInputBP(label='localedir'),
         self.set_output_val(0, gettext.bindtextdomain(self.input(0), self.input(1)))
         
 
-
-class AutoNode_gettext_c2py(rc.Node):
+class C2Py_Node(NodeBase):
     title = 'c2py'
-    doc = '''Gets a C expression as used in PO files for plural forms and returns a
+    type_ = 'gettext'
+    doc = """Gets a C expression as used in PO files for plural forms and returns a
     Python function that implements an equivalent expression.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='plural'),
+        NodeInputBP(label='plural'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -155,16 +162,16 @@ class AutoNode_gettext_c2py(rc.Node):
         self.set_output_val(0, gettext.c2py(self.input(0)))
         
 
-
-class AutoNode_gettext_dgettext(rc.Node):
+class Dgettext_Node(NodeBase):
     title = 'dgettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='message'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -172,18 +179,18 @@ rc.NodeInputBP(label='message'),
         self.set_output_val(0, gettext.dgettext(self.input(0), self.input(1)))
         
 
-
-class AutoNode_gettext_dngettext(rc.Node):
+class Dngettext_Node(NodeBase):
     title = 'dngettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -191,19 +198,19 @@ rc.NodeInputBP(label='n'),
         self.set_output_val(0, gettext.dngettext(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_gettext_dnpgettext(rc.Node):
+class Dnpgettext_Node(NodeBase):
     title = 'dnpgettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='context'),
-rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='context'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -211,17 +218,17 @@ rc.NodeInputBP(label='n'),
         self.set_output_val(0, gettext.dnpgettext(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
-
-class AutoNode_gettext_dpgettext(rc.Node):
+class Dpgettext_Node(NodeBase):
     title = 'dpgettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='context'),
-rc.NodeInputBP(label='message'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='context'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -229,18 +236,18 @@ rc.NodeInputBP(label='message'),
         self.set_output_val(0, gettext.dpgettext(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_gettext_find(rc.Node):
+class Find_Node(NodeBase):
     title = 'find'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='localedir'),
-rc.NodeInputBP(label='languages'),
-rc.NodeInputBP(label='all'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='languages', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='all', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -248,15 +255,15 @@ rc.NodeInputBP(label='all'),
         self.set_output_val(0, gettext.find(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_gettext_gettext(rc.Node):
+class Gettext_Node(NodeBase):
     title = 'gettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='message'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -264,18 +271,18 @@ class AutoNode_gettext_gettext(rc.Node):
         self.set_output_val(0, gettext.gettext(self.input(0)))
         
 
-
-class AutoNode_gettext_install(rc.Node):
+class Install_Node(NodeBase):
     title = 'install'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='localedir'),
-rc.NodeInputBP(label='codeset'),
-rc.NodeInputBP(label='names'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='codeset', dtype=dtypes.Data(default=['unspecified'], size='s')),
+        NodeInputBP(label='names', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -283,16 +290,16 @@ rc.NodeInputBP(label='names'),
         self.set_output_val(0, gettext.install(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_gettext_ldgettext(rc.Node):
+class Ldgettext_Node(NodeBase):
     title = 'ldgettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='message'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -300,18 +307,18 @@ rc.NodeInputBP(label='message'),
         self.set_output_val(0, gettext.ldgettext(self.input(0), self.input(1)))
         
 
-
-class AutoNode_gettext_ldngettext(rc.Node):
+class Ldngettext_Node(NodeBase):
     title = 'ldngettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -319,15 +326,15 @@ rc.NodeInputBP(label='n'),
         self.set_output_val(0, gettext.ldngettext(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_gettext_lgettext(rc.Node):
+class Lgettext_Node(NodeBase):
     title = 'lgettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='message'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -335,17 +342,17 @@ class AutoNode_gettext_lgettext(rc.Node):
         self.set_output_val(0, gettext.lgettext(self.input(0)))
         
 
-
-class AutoNode_gettext_lngettext(rc.Node):
+class Lngettext_Node(NodeBase):
     title = 'lngettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -353,17 +360,17 @@ rc.NodeInputBP(label='n'),
         self.set_output_val(0, gettext.lngettext(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_gettext_ngettext(rc.Node):
+class Ngettext_Node(NodeBase):
     title = 'ngettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -371,18 +378,18 @@ rc.NodeInputBP(label='n'),
         self.set_output_val(0, gettext.ngettext(self.input(0), self.input(1), self.input(2)))
         
 
-
-class AutoNode_gettext_npgettext(rc.Node):
+class Npgettext_Node(NodeBase):
     title = 'npgettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='context'),
-rc.NodeInputBP(label='msgid1'),
-rc.NodeInputBP(label='msgid2'),
-rc.NodeInputBP(label='n'),
+        NodeInputBP(label='context'),
+        NodeInputBP(label='msgid1'),
+        NodeInputBP(label='msgid2'),
+        NodeInputBP(label='n'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -390,16 +397,16 @@ rc.NodeInputBP(label='n'),
         self.set_output_val(0, gettext.npgettext(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
-
-class AutoNode_gettext_pgettext(rc.Node):
+class Pgettext_Node(NodeBase):
     title = 'pgettext'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='context'),
-rc.NodeInputBP(label='message'),
+        NodeInputBP(label='context'),
+        NodeInputBP(label='message'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -407,15 +414,15 @@ rc.NodeInputBP(label='message'),
         self.set_output_val(0, gettext.pgettext(self.input(0), self.input(1)))
         
 
-
-class AutoNode_gettext_textdomain(rc.Node):
+class Textdomain_Node(NodeBase):
     title = 'textdomain'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
+        NodeInputBP(label='domain', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -423,23 +430,52 @@ class AutoNode_gettext_textdomain(rc.Node):
         self.set_output_val(0, gettext.textdomain(self.input(0)))
         
 
-
-class AutoNode_gettext_translation(rc.Node):
+class Translation_Node(NodeBase):
     title = 'translation'
-    doc = '''None'''
+    type_ = 'gettext'
+    doc = """"""
     init_inputs = [
-        rc.NodeInputBP(label='domain'),
-rc.NodeInputBP(label='localedir'),
-rc.NodeInputBP(label='languages'),
-rc.NodeInputBP(label='class_'),
-rc.NodeInputBP(label='fallback'),
-rc.NodeInputBP(label='codeset'),
+        NodeInputBP(label='domain'),
+        NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='languages', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='class_', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='fallback', dtype=dtypes.Data(default=False, size='s')),
+        NodeInputBP(label='codeset', dtype=dtypes.Data(default=['unspecified'], size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, gettext.translation(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
+
+
+export_nodes(
+    Catalog_Node,
+    _As_Int_Node,
+    _Error_Node,
+    _Expand_Lang_Node,
+    _Parse_Node,
+    _Tokenize_Node,
+    Bind_Textdomain_Codeset_Node,
+    Bindtextdomain_Node,
+    C2Py_Node,
+    Dgettext_Node,
+    Dngettext_Node,
+    Dnpgettext_Node,
+    Dpgettext_Node,
+    Find_Node,
+    Gettext_Node,
+    Install_Node,
+    Ldgettext_Node,
+    Ldngettext_Node,
+    Lgettext_Node,
+    Lngettext_Node,
+    Ngettext_Node,
+    Npgettext_Node,
+    Pgettext_Node,
+    Textdomain_Node,
+    Translation_Node,
+)

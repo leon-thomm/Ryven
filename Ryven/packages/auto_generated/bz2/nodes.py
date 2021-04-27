@@ -1,22 +1,29 @@
-import ryvencore_qt as rc
+
+from NENV import *
+
 import bz2
 
 
-class AutoNode_bz2_RLock(rc.Node):
+class NodeBase(Node):
+    pass
+
+
+class Rlock_Node(NodeBase):
     title = 'RLock'
-    doc = '''Factory function that returns a new reentrant lock.
+    type_ = 'bz2'
+    doc = """Factory function that returns a new reentrant lock.
 
     A reentrant lock must be released by the thread that acquired it. Once a
     thread has acquired a reentrant lock, the same thread may acquire it again
     without blocking; the thread must release it once for each time it has
     acquired it.
 
-    '''
+    """
     init_inputs = [
         
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -24,10 +31,10 @@ class AutoNode_bz2_RLock(rc.Node):
         self.set_output_val(0, bz2.RLock())
         
 
-
-class AutoNode_bz2__builtin_open(rc.Node):
+class _Builtin_Open_Node(NodeBase):
     title = '_builtin_open'
-    doc = '''Open file and return a stream.  Raise OSError upon failure.
+    type_ = 'bz2'
+    doc = """Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -144,19 +151,19 @@ a BufferedRandom.
 It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
-opened in a binary mode.'''
+opened in a binary mode."""
     init_inputs = [
-        rc.NodeInputBP(label='file'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='buffering'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='newline'),
-rc.NodeInputBP(label='closefd'),
-rc.NodeInputBP(label='opener'),
+        NodeInputBP(label='file'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
+        NodeInputBP(label='buffering', dtype=dtypes.Data(default=-1, size='s')),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='newline', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='closefd', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='opener', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -164,21 +171,21 @@ rc.NodeInputBP(label='opener'),
         self.set_output_val(0, bz2._builtin_open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
-
-class AutoNode_bz2_compress(rc.Node):
+class Compress_Node(NodeBase):
     title = 'compress'
-    doc = '''Compress a block of data.
+    type_ = 'bz2'
+    doc = """Compress a block of data.
 
     compresslevel, if given, must be a number between 1 and 9.
 
     For incremental compression, use a BZ2Compressor object instead.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='data'),
-rc.NodeInputBP(label='compresslevel'),
+        NodeInputBP(label='data'),
+        NodeInputBP(label='compresslevel', dtype=dtypes.Data(default=9, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -186,18 +193,18 @@ rc.NodeInputBP(label='compresslevel'),
         self.set_output_val(0, bz2.compress(self.input(0), self.input(1)))
         
 
-
-class AutoNode_bz2_decompress(rc.Node):
+class Decompress_Node(NodeBase):
     title = 'decompress'
-    doc = '''Decompress a block of data.
+    type_ = 'bz2'
+    doc = """Decompress a block of data.
 
     For incremental decompression, use a BZ2Decompressor object instead.
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='data'),
+        NodeInputBP(label='data'),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
@@ -205,10 +212,10 @@ class AutoNode_bz2_decompress(rc.Node):
         self.set_output_val(0, bz2.decompress(self.input(0)))
         
 
-
-class AutoNode_bz2_open(rc.Node):
+class Open_Node(NodeBase):
     title = 'open'
-    doc = '''Open a bzip2-compressed file in binary or text mode.
+    type_ = 'bz2'
+    doc = """Open a bzip2-compressed file in binary or text mode.
 
     The filename argument can be an actual filename (a str, bytes, or
     PathLike object), or an existing file object to read from or write
@@ -226,20 +233,29 @@ class AutoNode_bz2_open(rc.Node):
     io.TextIOWrapper instance with the specified encoding, error
     handling behavior, and line ending(s).
 
-    '''
+    """
     init_inputs = [
-        rc.NodeInputBP(label='filename'),
-rc.NodeInputBP(label='mode'),
-rc.NodeInputBP(label='compresslevel'),
-rc.NodeInputBP(label='encoding'),
-rc.NodeInputBP(label='errors'),
-rc.NodeInputBP(label='newline'),
+        NodeInputBP(label='filename'),
+        NodeInputBP(label='mode', dtype=dtypes.Data(default='rb', size='s')),
+        NodeInputBP(label='compresslevel', dtype=dtypes.Data(default=9, size='s')),
+        NodeInputBP(label='encoding', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='newline', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
-        rc.NodeOutputBP(type_='data'),
+        NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
     def update_event(self, input_called=-1):
         self.set_output_val(0, bz2.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
+
+
+export_nodes(
+    Rlock_Node,
+    _Builtin_Open_Node,
+    Compress_Node,
+    Decompress_Node,
+    Open_Node,
+)
