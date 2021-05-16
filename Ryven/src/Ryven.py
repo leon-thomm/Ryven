@@ -31,6 +31,8 @@ def apply_stylesheet(style: str):
 
 if __name__ == '__main__':
 
+    os.environ['QT_API'] = 'pyside2'  # dev
+
     # change directory to current to this file's location
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 

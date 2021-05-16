@@ -1,5 +1,6 @@
 from qtpy.QtWidgets import QTextEdit, QShortcut
-from qtpy.QtGui import QFont, QFontMetrics, QTextCursor, Qt, QKeySequence
+from qtpy.QtGui import QFont, QFontMetrics, QTextCursor, QKeySequence
+from qtpy.QtCore import Qt
 
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name

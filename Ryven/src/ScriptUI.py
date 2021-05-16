@@ -45,11 +45,10 @@ class ScriptUI(QWidget):
         # logs
         self.ui.logs_scrollArea.setWidget(self.create_logs_widget())
         self.ui.splitter.setSizes([700, 0])
-        self.script.logger.new_log_created.connect(self.add_log_widget)
-        # self.script.logger.create_default_logs()
+        self.script.logs_manager.new_log_created.connect(self.add_log_widget)
 
         # catch up on logs which might have been loaded from a project already
-        for log in self.script.logger.logs:
+        for log in self.script.logs_manager.logs:
             self.add_log_widget(log)
 
 

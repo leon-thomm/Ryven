@@ -88,6 +88,9 @@ class Print_Node(DualNodeBase):
             print(self.input(0))
 
 
+import logging
+
+
 class Log_Node(DualNodeBase):
     title = 'Log'
     init_inputs = [
@@ -115,16 +118,20 @@ class Log_Node(DualNodeBase):
 
     def update_event(self, input_called=-1):
         if self.active and input_called == 0:
-            if self.target == 'own':
-                self.log.write(self.input(1))
-            else:
-                self.log_message(self.input(1), self.target)
-
+            i = 1
         elif not self.active:
-            if self.target == 'own':
-                self.log.write(self.input(0))
-            else:
-                self.log_message(self.input(0), self.target)
+            i = 0
+        else:
+            return
+
+        msg = self.input(i)
+
+        if self.target == 'own':
+            self.log.log(logging.INFO, msg=msg)
+        elif self.target == 'Global':
+            self.log_global.log(logging.INFO, msg=msg)
+        elif self.target == 'Errors':
+            self.log_errors.log(logging.INFO, msg=msg)
 
     def get_state(self) -> dict:
         return {
@@ -292,7 +299,7 @@ class Code_Node(NodeBase):
 
     def remove_out(self, index):
         self.delete_output(index)
-        self.num_outputs -= 1()
+        self.num_outputs -= 1
         del self.special_actions[f'remove output {self.num_outputs}']
 
     def update_event(self, input_called=-1):
