@@ -46,6 +46,7 @@ if __name__ == '__main__':
     else:
 
         os.environ['RYVEN_MODE'] = 'gui'
+        os.environ['QT_API'] = 'pyside2'
 
         sys.path.append(os.path.join(__file__, 'code_editor/pygments/dracula.py'))
 
