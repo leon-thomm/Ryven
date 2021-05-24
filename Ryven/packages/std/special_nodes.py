@@ -88,6 +88,9 @@ class Print_Node(DualNodeBase):
             print(self.input(0))
 
 
+import logging
+
+
 class Log_Node(DualNodeBase):
     title = 'Log'
     init_inputs = [
@@ -104,27 +107,25 @@ class Log_Node(DualNodeBase):
     def __init__(self, params):
         super().__init__(params, active=True)
 
-        self.targets = [
-            'Global',
-            'Errors',
-            'own'
-        ]
+        self.logger = self.new_logger('Log Node')
 
-        self.target = 'Global'
-        self.log = self.new_log('Log Node')
+        self.targets = {
+            **self.script.logs_manager.default_loggers,
+            'own': self.logger,
+        }
+        self.target = 'global'
 
     def update_event(self, input_called=-1):
         if self.active and input_called == 0:
-            if self.target == 'own':
-                self.log.write(self.input(1))
-            else:
-                self.log_message(self.input(1), self.target)
-
+            i = 1
         elif not self.active:
-            if self.target == 'own':
-                self.log.write(self.input(0))
-            else:
-                self.log_message(self.input(0), self.target)
+            i = 0
+        else:
+            return
+
+        msg = self.input(i)
+
+        self.targets[self.target].log(logging.INFO, msg=msg)
 
     def get_state(self) -> dict:
         return {
@@ -135,7 +136,7 @@ class Log_Node(DualNodeBase):
     def set_state(self, data: dict):
         super().set_state(data)
         self.target = data['target']
-        if self.main_widget():
+        if self.session.gui and self.main_widget():
             self.main_widget().set_target(self.target)
 
 
@@ -292,7 +293,7 @@ class Code_Node(NodeBase):
 
     def remove_out(self, index):
         self.delete_output(index)
-        self.num_outputs -= 1()
+        self.num_outputs -= 1
         del self.special_actions[f'remove output {self.num_outputs}']
 
     def update_event(self, input_called=-1):

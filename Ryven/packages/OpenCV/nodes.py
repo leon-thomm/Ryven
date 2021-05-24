@@ -16,7 +16,6 @@ widgets = import_widgets(__file__)
 import cv2
 
 
-
 class ReadImage(Node):
     title = 'Read Image'
     doc = 'Reads an image from a file'
@@ -45,15 +44,12 @@ class ReadImage(Node):
             return
         
         try:
-            self.log_message(
-                'loading image, fpath: '+self.image_filepath,
-                target='Global'
-            )
+            self.log_global.write('loading image, fpath: '+self.image_filepath)
             self.set_output_val(0, cv2.imread(self.image_filepath))
             # self.main_widget_message.emit(self.image_filepath)
         except Exception as e:
             # self.main_widget_message.emit('couldn\'t open file')
-            self.log_message(e, target='Errors')
+            self.log_errors.write(e)
 
     def get_state(self):
         data = {'image file path': self.image_filepath}

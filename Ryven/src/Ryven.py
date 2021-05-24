@@ -31,6 +31,8 @@ def apply_stylesheet(style: str):
 
 if __name__ == '__main__':
 
+    os.environ['QT_API'] = 'pyside2'  # dev
+
     # change directory to current to this file's location
     os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
@@ -78,10 +80,10 @@ if __name__ == '__main__':
 
         # init console and redirect all output
         console_stdout_redirect, console_errout_redirect = init_main_console(window_theme)
-        with redirect_stdout(console_stdout_redirect), \
-             redirect_stderr(console_errout_redirect):
+        # with redirect_stdout(console_stdout_redirect), \
+        #      redirect_stderr(console_errout_redirect):
 
-            mw = MainWindow(sw.editor_startup_configuration, window_theme)
-            mw.show()
+        mw = MainWindow(sw.editor_startup_configuration, window_theme)
+        mw.show()
 
-            sys.exit(app.exec_())
+        sys.exit(app.exec_())

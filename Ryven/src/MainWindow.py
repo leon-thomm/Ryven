@@ -115,6 +115,7 @@ import: ctrl+i
     def setup_ui(self):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.statusBar.hide()
 
         # nodes tree
         self.nodes_tree_widget = NodesTreeListWidget(self, self.session)

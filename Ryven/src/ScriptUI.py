@@ -43,25 +43,24 @@ class ScriptUI(QWidget):
         self.ui.source_code_groupBox.layout().addWidget(self.code_preview_widget)
 
         # logs
-        self.ui.logs_scrollArea.setWidget(self.create_logs_widget())
+        self.ui.logs_scrollArea.setWidget(self.create_loggers_widget())
         self.ui.splitter.setSizes([700, 0])
-        self.script.logger.new_log_created.connect(self.add_log_widget)
-        # self.script.logger.create_default_logs()
+        self.script.logs_manager.new_logger_created.connect(self.add_logger_widget)
 
         # catch up on logs which might have been loaded from a project already
-        for log in self.script.logger.logs:
-            self.add_log_widget(log)
+        for logger in self.script.logs_manager.loggers:
+            self.add_logger_widget(logger)
 
 
-    def create_logs_widget(self):
+    def create_loggers_widget(self):
         w = QWidget()
         w.setLayout(QHBoxLayout())
         # w.setStyleSheet('')
         return w
 
 
-    def add_log_widget(self, log):
-        self.ui.logs_scrollArea.widget().layout().addWidget(GUI.LogWidget(log))
+    def add_logger_widget(self, logger):
+        self.ui.logs_scrollArea.widget().layout().addWidget(GUI.LogWidget(logger))
 
 
     def flow_alg_mode_changed(self, mode: str):
