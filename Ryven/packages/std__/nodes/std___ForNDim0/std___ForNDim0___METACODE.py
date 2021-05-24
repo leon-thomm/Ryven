@@ -21,8 +21,8 @@ class %CLASS%(Node):
         self.dimensions = 1
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             self.iterate(1)
 
     def iterate(self, current_dim):

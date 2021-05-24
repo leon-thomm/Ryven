@@ -35,8 +35,8 @@ class RandSeed_Node(Node):
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             random.seed(self.input(1))
             self.exec_output(0)
 

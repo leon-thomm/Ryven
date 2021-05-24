@@ -42,8 +42,6 @@ class MainWindow(QMainWindow):
 
         # UI
         self.setup_ui()
-        self.scripts_list_widget = rc.GUI.ScriptsList(self.session)
-        self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
         self.flow_view_theme_actions = []
         self.setup_menu_actions()
@@ -96,8 +94,10 @@ class MainWindow(QMainWindow):
             self.session.load(config['content'])
             print('finished')
 
-        # FINISH SETUP
+        self.resize(1500, 800)
+        # self.showMaximized()
 
+    def print_info(self):
         print('''
 CONTROLS
 place: right mouse
@@ -107,9 +107,6 @@ save: ctrl+s
 import: ctrl+i
         ''')
 
-        self.resize(1500, 800)
-        # self.showMaximized()
-
     # UI
 
     def setup_ui(self):
@@ -117,13 +114,13 @@ import: ctrl+i
         self.ui.setupUi(self)
         self.ui.statusBar.hide()
 
-        # nodes tree
-        self.nodes_tree_widget = NodesTreeListWidget(self, self.session)
-        self.ui.bottom_splitter.addWidget(self.nodes_tree_widget)
+        # # nodes tree
+        # self.nodes_tree_widget = NodesTreeListWidget(self, self.session)
+        # self.ui.bottom_splitter.addWidget(self.nodes_tree_widget)
 
-        # node details widget
-        self.node_details_widget = NodeDetailsWidget(self, self.nodes_tree_widget)
-        self.ui.bottom_splitter.addWidget(self.node_details_widget)
+        # # node details widget
+        # self.node_details_widget = NodeDetailsWidget(self, self.nodes_tree_widget)
+        # self.ui.bottom_splitter.addWidget(self.node_details_widget)
 
         # main console
         if MainConsole.main_console is not None:
@@ -133,6 +130,11 @@ import: ctrl+i
         # splitter sizes
         # self.ui.left_vertical_splitter.setSizes([350, 350])
         self.ui.main_vertical_splitter.setSizes([700, 0])
+
+        self.scripts_list_widget = rc.GUI.ScriptsList(self.session)
+        self.scripts_list_widget.create_script_button.setProperty('class', 'small_button')
+        self.scripts_list_widget.create_macro_button.setProperty('class', 'small_button')
+        self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
     def setup_menu_actions(self):
 
@@ -260,7 +262,7 @@ import: ctrl+i
 
     def on_save_project_triggered(self):
         file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                '../saves', 'Ryven Project(*.rpo)')[0]
+                                                '../saves', '(*.json)')[0]
         if file_name != '':
             self.save_project(file_name)
 
@@ -310,12 +312,17 @@ import: ctrl+i
             p = NodesPackage(path)
 
         nodes = import_nodes_package(p)
+
+        # for n in nodes:
+        #     # modify the __module__ of the nodes to absolute paths, so inspect doesn't get confused for src code preview
+        #     n.__module__ = os.path.normpath(os.path.join(path, n.__module__))
+
         self.session.register_nodes(nodes)
 
         for n in nodes:
             self.node_packages[n] = p
 
-        self.nodes_tree_widget.update_list()
+        # self.nodes_tree_widget.update_list()
 
     def save_project(self, file_name):
         import json

@@ -21,7 +21,7 @@ class %CLASS%(Node):
         self.num_inputs = 2
 
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         try:
             sum_val = sum([self.input(i) for i in range(len(self.inputs))])
             self.set_output_val(0, sum_val)

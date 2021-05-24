@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Heapify_Max_Node(NodeBase):
+    """
+    Maxheap variant of heapify."""
+    
     title = '_heapify_max'
     type_ = 'heapq'
-    doc = """Maxheap variant of heapify."""
     init_inputs = [
         NodeInputBP(label='heap'),
     ]
@@ -20,14 +22,16 @@ class _Heapify_Max_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq._heapify_max(self.input(0)))
         
 
 class _Heappop_Max_Node(NodeBase):
+    """
+    Maxheap variant of heappop."""
+    
     title = '_heappop_max'
     type_ = 'heapq'
-    doc = """Maxheap variant of heappop."""
     init_inputs = [
         NodeInputBP(label='heap'),
     ]
@@ -36,14 +40,16 @@ class _Heappop_Max_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq._heappop_max(self.input(0)))
         
 
 class _Heapreplace_Max_Node(NodeBase):
+    """
+    Maxheap variant of heapreplace."""
+    
     title = '_heapreplace_max'
     type_ = 'heapq'
-    doc = """Maxheap variant of heapreplace."""
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='item'),
@@ -53,14 +59,16 @@ class _Heapreplace_Max_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq._heapreplace_max(self.input(0), self.input(1)))
         
 
 class _Siftdown_Node(NodeBase):
+    """
+    """
+    
     title = '_siftdown'
     type_ = 'heapq'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='startpos'),
@@ -71,14 +79,16 @@ class _Siftdown_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq._siftdown(self.input(0), self.input(1), self.input(2)))
         
 
 class _Siftdown_Max_Node(NodeBase):
+    """
+    Maxheap variant of _siftdown"""
+    
     title = '_siftdown_max'
     type_ = 'heapq'
-    doc = """Maxheap variant of _siftdown"""
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='startpos'),
@@ -89,14 +99,16 @@ class _Siftdown_Max_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq._siftdown_max(self.input(0), self.input(1), self.input(2)))
         
 
 class _Siftup_Node(NodeBase):
+    """
+    """
+    
     title = '_siftup'
     type_ = 'heapq'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='pos'),
@@ -106,14 +118,16 @@ class _Siftup_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq._siftup(self.input(0), self.input(1)))
         
 
 class _Siftup_Max_Node(NodeBase):
+    """
+    Maxheap variant of _siftup"""
+    
     title = '_siftup_max'
     type_ = 'heapq'
-    doc = """Maxheap variant of _siftup"""
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='pos'),
@@ -123,14 +137,16 @@ class _Siftup_Max_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq._siftup_max(self.input(0), self.input(1)))
         
 
 class Heapify_Node(NodeBase):
+    """
+    Transform list into a heap, in-place, in O(len(heap)) time."""
+    
     title = 'heapify'
     type_ = 'heapq'
-    doc = """Transform list into a heap, in-place, in O(len(heap)) time."""
     init_inputs = [
         NodeInputBP(label='heap'),
     ]
@@ -139,14 +155,16 @@ class Heapify_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.heapify(self.input(0)))
         
 
 class Heappop_Node(NodeBase):
+    """
+    Pop the smallest item off the heap, maintaining the heap invariant."""
+    
     title = 'heappop'
     type_ = 'heapq'
-    doc = """Pop the smallest item off the heap, maintaining the heap invariant."""
     init_inputs = [
         NodeInputBP(label='heap'),
     ]
@@ -155,14 +173,16 @@ class Heappop_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.heappop(self.input(0)))
         
 
 class Heappush_Node(NodeBase):
+    """
+    Push item onto heap, maintaining the heap invariant."""
+    
     title = 'heappush'
     type_ = 'heapq'
-    doc = """Push item onto heap, maintaining the heap invariant."""
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='item'),
@@ -172,17 +192,19 @@ class Heappush_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.heappush(self.input(0), self.input(1)))
         
 
 class Heappushpop_Node(NodeBase):
-    title = 'heappushpop'
-    type_ = 'heapq'
-    doc = """Push item on the heap, then pop and return the smallest item from the heap.
+    """
+    Push item on the heap, then pop and return the smallest item from the heap.
 
 The combined action runs more efficiently than heappush() followed by
 a separate call to heappop()."""
+    
+    title = 'heappushpop'
+    type_ = 'heapq'
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='item'),
@@ -192,14 +214,13 @@ a separate call to heappop()."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.heappushpop(self.input(0), self.input(1)))
         
 
 class Heapreplace_Node(NodeBase):
-    title = 'heapreplace'
-    type_ = 'heapq'
-    doc = """Pop and return the current smallest value, and add the new item.
+    """
+    Pop and return the current smallest value, and add the new item.
 
 This is more efficient than heappop() followed by heappush(), and can be
 more appropriate when using a fixed-size heap.  Note that the value
@@ -208,6 +229,9 @@ this routine unless written as part of a conditional replacement:
 
     if item > heap[0]:
         item = heapreplace(heap, item)"""
+    
+    title = 'heapreplace'
+    type_ = 'heapq'
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='item'),
@@ -217,14 +241,13 @@ this routine unless written as part of a conditional replacement:
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.heapreplace(self.input(0), self.input(1)))
         
 
 class Merge_Node(NodeBase):
-    title = 'merge'
-    type_ = 'heapq'
-    doc = """Merge multiple sorted inputs into a single sorted output.
+    """
+    Merge multiple sorted inputs into a single sorted output.
 
     Similar to sorted(itertools.chain(*iterables)) but returns a generator,
     does not pull the data into memory all at once, and assumes that each of
@@ -240,6 +263,9 @@ class Merge_Node(NodeBase):
     ['dog', 'cat', 'fish', 'horse', 'kangaroo']
 
     """
+    
+    title = 'merge'
+    type_ = 'heapq'
     init_inputs = [
         
     ]
@@ -248,17 +274,19 @@ class Merge_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.merge())
         
 
 class Nlargest_Node(NodeBase):
-    title = 'nlargest'
-    type_ = 'heapq'
-    doc = """Find the n largest elements in a dataset.
+    """
+    Find the n largest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key, reverse=True)[:n]
     """
+    
+    title = 'nlargest'
+    type_ = 'heapq'
     init_inputs = [
         NodeInputBP(label='n'),
         NodeInputBP(label='iterable'),
@@ -269,17 +297,19 @@ class Nlargest_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.nlargest(self.input(0), self.input(1), self.input(2)))
         
 
 class Nsmallest_Node(NodeBase):
-    title = 'nsmallest'
-    type_ = 'heapq'
-    doc = """Find the n smallest elements in a dataset.
+    """
+    Find the n smallest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key)[:n]
     """
+    
+    title = 'nsmallest'
+    type_ = 'heapq'
     init_inputs = [
         NodeInputBP(label='n'),
         NodeInputBP(label='iterable'),
@@ -290,7 +320,7 @@ class Nsmallest_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, heapq.nsmallest(self.input(0), self.input(1), self.input(2)))
         
 

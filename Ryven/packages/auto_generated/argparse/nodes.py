@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class __Node(NodeBase):
+    """
+    """
+    
     title = '_'
     type_ = 'argparse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='message'),
     ]
@@ -20,14 +22,16 @@ class __Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, argparse._(self.input(0)))
         
 
 class _Copy_Items_Node(NodeBase):
+    """
+    """
+    
     title = '_copy_items'
     type_ = 'argparse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='items'),
     ]
@@ -36,14 +40,16 @@ class _Copy_Items_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, argparse._copy_items(self.input(0)))
         
 
 class _Get_Action_Name_Node(NodeBase):
+    """
+    """
+    
     title = '_get_action_name'
     type_ = 'argparse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='argument'),
     ]
@@ -52,14 +58,16 @@ class _Get_Action_Name_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, argparse._get_action_name(self.input(0)))
         
 
 class Ngettext_Node(NodeBase):
+    """
+    """
+    
     title = 'ngettext'
     type_ = 'argparse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='msgid1'),
         NodeInputBP(label='msgid2'),
@@ -70,7 +78,7 @@ class Ngettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, argparse.ngettext(self.input(0), self.input(1), self.input(2)))
         
 

@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Find_Function_Node(NodeBase):
+    """
+    """
+    
     title = 'find_function'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='funcname'),
         NodeInputBP(label='filename'),
@@ -21,14 +23,16 @@ class Find_Function_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.find_function(self.input(0), self.input(1)))
         
 
 class Getsourcelines_Node(NodeBase):
+    """
+    """
+    
     title = 'getsourcelines'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='obj'),
     ]
@@ -37,14 +41,16 @@ class Getsourcelines_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.getsourcelines(self.input(0)))
         
 
 class Help_Node(NodeBase):
+    """
+    """
+    
     title = 'help'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -53,14 +59,16 @@ class Help_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.help())
         
 
 class Lasti2Lineno_Node(NodeBase):
+    """
+    """
+    
     title = 'lasti2lineno'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='code'),
         NodeInputBP(label='lasti'),
@@ -70,14 +78,16 @@ class Lasti2Lineno_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.lasti2lineno(self.input(0), self.input(1)))
         
 
 class Main_Node(NodeBase):
+    """
+    """
+    
     title = 'main'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -86,14 +96,16 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.main())
         
 
 class Pm_Node(NodeBase):
+    """
+    """
+    
     title = 'pm'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -102,14 +114,16 @@ class Pm_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.pm())
         
 
 class Post_Mortem_Node(NodeBase):
+    """
+    """
+    
     title = 'post_mortem'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='t', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -118,14 +132,16 @@ class Post_Mortem_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.post_mortem(self.input(0)))
         
 
 class Run_Node(NodeBase):
+    """
+    """
+    
     title = 'run'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='statement'),
         NodeInputBP(label='globals', dtype=dtypes.Data(default=None, size='s')),
@@ -136,14 +152,16 @@ class Run_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.run(self.input(0), self.input(1), self.input(2)))
         
 
 class Runcall_Node(NodeBase):
+    """
+    """
+    
     title = 'runcall'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -152,14 +170,16 @@ class Runcall_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.runcall())
         
 
 class Runctx_Node(NodeBase):
+    """
+    """
+    
     title = 'runctx'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='statement'),
         NodeInputBP(label='globals'),
@@ -170,14 +190,16 @@ class Runctx_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.runctx(self.input(0), self.input(1), self.input(2)))
         
 
 class Runeval_Node(NodeBase):
+    """
+    """
+    
     title = 'runeval'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='expression'),
         NodeInputBP(label='globals', dtype=dtypes.Data(default=None, size='s')),
@@ -188,14 +210,16 @@ class Runeval_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.runeval(self.input(0), self.input(1), self.input(2)))
         
 
 class Set_Trace_Node(NodeBase):
+    """
+    """
+    
     title = 'set_trace'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -204,14 +228,16 @@ class Set_Trace_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.set_trace())
         
 
 class Test_Node(NodeBase):
+    """
+    """
+    
     title = 'test'
     type_ = 'pdb'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -220,7 +246,7 @@ class Test_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pdb.test())
         
 

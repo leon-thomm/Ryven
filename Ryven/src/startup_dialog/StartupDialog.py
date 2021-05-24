@@ -1,10 +1,41 @@
 import sys
+import os
 
-from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog
+from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog, QRadioButton, QApplication
 from qtpy.QtGui import QIcon
 
 from nodes_package import NodesPackage
 from .SelectPackages_Dialog import SelectPackages_Dialog
+
+
+
+def apply_stylesheet(style: str):
+
+    from qtpy.QtCore import QDir
+    d = QDir()
+    d.setSearchPaths('icon', [os.path.abspath('../resources/stylesheets/icons')])
+
+    from WindowTheme import WindowTheme_Dark, WindowTheme_Light
+
+    if style == 'dark':
+        window_theme = WindowTheme_Dark()
+
+    else:
+        window_theme = WindowTheme_Light()
+
+    f = open('../resources/stylesheets/style_template.css')
+
+    from jinja2 import Template
+    jinja_template = Template(f.read())
+
+    f.close()
+
+    app = QApplication.instance()
+    app.setStyleSheet(jinja_template.render(window_theme.rules))
+    # print(app.styleSheet())
+
+    return window_theme
+
 
 
 class StartupDialog(QDialog):
@@ -54,6 +85,18 @@ class StartupDialog(QDialog):
 
         layout.addLayout(buttons_layout)
 
+        self.window_theme = apply_stylesheet('dark')
+
+        choose_theme_layout = QHBoxLayout()
+        self.dark_theme_rb = QRadioButton('dark')
+        self.dark_theme_rb.setChecked(True)
+        self.dark_theme_rb.toggled.connect(self.theme_toggled)
+        self.light_theme_rb = QRadioButton('light')
+        self.light_theme_rb.toggled.connect(self.theme_toggled)
+        choose_theme_layout.addWidget(self.dark_theme_rb)
+        choose_theme_layout.addWidget(self.light_theme_rb)
+        layout.addLayout(choose_theme_layout)
+
         self.setLayout(layout)
 
         self.setWindowTitle('Ryven')
@@ -61,6 +104,13 @@ class StartupDialog(QDialog):
         self.setFixedSize(500, 280)
 
         self.editor_startup_configuration = {}
+
+
+    def theme_toggled(self):
+        if self.dark_theme_rb.isChecked():
+            self.window_theme = apply_stylesheet('dark')
+        else:
+            self.window_theme = apply_stylesheet('light')
 
 
     def plain_project_button_clicked(self):
@@ -75,7 +125,7 @@ class StartupDialog(QDialog):
         file_name = \
             QFileDialog.getOpenFileName(
                 self, 'select project file',
-                '../saves', 'Ryven Project(*.rpo *.rypo *.json)'
+                '../saves', '(*.json)'
             )[0]
 
         try:

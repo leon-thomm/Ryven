@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Makepipeline_Node(NodeBase):
+    """
+    """
+    
     title = 'makepipeline'
     type_ = 'pipes'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='infile'),
         NodeInputBP(label='steps'),
@@ -22,14 +24,16 @@ class Makepipeline_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pipes.makepipeline(self.input(0), self.input(1), self.input(2)))
         
 
 class Quote_Node(NodeBase):
+    """
+    Return a shell-escaped version of the string *s*."""
+    
     title = 'quote'
     type_ = 'pipes'
-    doc = """Return a shell-escaped version of the string *s*."""
     init_inputs = [
         NodeInputBP(label='s'),
     ]
@@ -38,7 +42,7 @@ class Quote_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pipes.quote(self.input(0)))
         
 

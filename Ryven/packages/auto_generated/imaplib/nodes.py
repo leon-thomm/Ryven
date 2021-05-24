@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Int2Ap_Node(NodeBase):
+    """
+    Convert integer to A-P string representation."""
+    
     title = 'Int2AP'
     type_ = 'imaplib'
-    doc = """Convert integer to A-P string representation."""
     init_inputs = [
         NodeInputBP(label='num'),
     ]
@@ -20,18 +22,20 @@ class Int2Ap_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, imaplib.Int2AP(self.input(0)))
         
 
 class Internaldate2Tuple_Node(NodeBase):
-    title = 'Internaldate2tuple'
-    type_ = 'imaplib'
-    doc = """Parse an IMAP4 INTERNALDATE string.
+    """
+    Parse an IMAP4 INTERNALDATE string.
 
     Return corresponding local time.  The return value is a
     time.struct_time tuple or None if the string has wrong format.
     """
+    
+    title = 'Internaldate2tuple'
+    type_ = 'imaplib'
     init_inputs = [
         NodeInputBP(label='resp'),
     ]
@@ -40,14 +44,16 @@ class Internaldate2Tuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, imaplib.Internaldate2tuple(self.input(0)))
         
 
 class Parseflags_Node(NodeBase):
+    """
+    Convert IMAP4 flags response to python tuple."""
+    
     title = 'ParseFlags'
     type_ = 'imaplib'
-    doc = """Convert IMAP4 flags response to python tuple."""
     init_inputs = [
         NodeInputBP(label='resp'),
     ]
@@ -56,14 +62,13 @@ class Parseflags_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, imaplib.ParseFlags(self.input(0)))
         
 
 class Time2Internaldate_Node(NodeBase):
-    title = 'Time2Internaldate'
-    type_ = 'imaplib'
-    doc = """Convert date_time to IMAP4 INTERNALDATE representation.
+    """
+    Convert date_time to IMAP4 INTERNALDATE representation.
 
     Return string in form: '"DD-Mmm-YYYY HH:MM:SS +HHMM"'.  The
     date_time argument can be a number (int or float) representing
@@ -73,6 +78,9 @@ class Time2Internaldate_Node(NodeBase):
     double-quoted string.  In the last case, it is assumed to already
     be in the correct format.
     """
+    
+    title = 'Time2Internaldate'
+    type_ = 'imaplib'
     init_inputs = [
         NodeInputBP(label='date_time'),
     ]
@@ -81,7 +89,7 @@ class Time2Internaldate_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, imaplib.Time2Internaldate(self.input(0)))
         
 

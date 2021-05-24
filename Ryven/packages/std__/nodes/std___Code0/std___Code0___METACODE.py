@@ -60,13 +60,13 @@ class %CLASS%(Node):
         if self.num_data_inputs == 0:
             del self.special_actions['remove data input']
 
-    def update_event(self, input_called=-1):
-        if input_called > -1 < self.num_scripts:
+    def update_event(self, inp=-1):
+        if inp > -1 < self.num_scripts:
             try:
-                exec(self.main_widget().get_code(input_called))
-                self.exec_output(input_called)
+                exec(self.main_widget().get_code(inp))
+                self.exec_output(inp)
             except Exception as e:
-                self.log_message('couldn\'t execute script number '+str(input_called+1)+'\n    '+str(e), 'error')
+                self.log_message('couldn\'t execute script number '+str(inp+1)+'\n    '+str(e), 'error')
 
     def get_state(self):
         codes = []

@@ -20,7 +20,7 @@ class _Set_Sentinel_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _dummy_thread._set_sentinel())
         
 
@@ -36,7 +36,7 @@ class Allocate_Lock_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _dummy_thread.allocate_lock())
         
 
@@ -52,7 +52,7 @@ class Exit_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _dummy_thread.exit())
         
 
@@ -73,7 +73,7 @@ class Get_Ident_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _dummy_thread.get_ident())
         
 
@@ -90,7 +90,7 @@ class Interrupt_Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _dummy_thread.interrupt_main())
         
 
@@ -106,7 +106,7 @@ class Stack_Size_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _dummy_thread.stack_size(self.input(0)))
         
 
@@ -135,7 +135,7 @@ class Start_New_Thread_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _dummy_thread.start_new_thread(self.input(0), self.input(1), self.input(2)))
         
 

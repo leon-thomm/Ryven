@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Label_Node(NodeBase):
+    """
+    """
+    
     title = 'label'
     type_ = 'cProfile'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='code'),
     ]
@@ -20,14 +22,16 @@ class Label_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, cProfile.label(self.input(0)))
         
 
 class Main_Node(NodeBase):
+    """
+    """
+    
     title = 'main'
     type_ = 'cProfile'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -36,14 +40,13 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, cProfile.main())
         
 
 class Run_Node(NodeBase):
-    title = 'run'
-    type_ = 'cProfile'
-    doc = """Run statement under profiler optionally saving results in filename
+    """
+    Run statement under profiler optionally saving results in filename
 
     This function takes a single argument that can be passed to the
     "exec" statement, and an optional file name.  In all cases this
@@ -53,6 +56,9 @@ class Run_Node(NodeBase):
     standard name string (file/line/function-name) that is presented in
     each line.
     """
+    
+    title = 'run'
+    type_ = 'cProfile'
     init_inputs = [
         NodeInputBP(label='statement'),
         NodeInputBP(label='filename', dtype=dtypes.Data(default=None, size='s')),
@@ -63,18 +69,20 @@ class Run_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, cProfile.run(self.input(0), self.input(1), self.input(2)))
         
 
 class Runctx_Node(NodeBase):
-    title = 'runctx'
-    type_ = 'cProfile'
-    doc = """Run statement under profiler, supplying your own globals and locals,
+    """
+    Run statement under profiler, supplying your own globals and locals,
     optionally saving results in filename.
 
     statement and filename have the same semantics as profile.run
     """
+    
+    title = 'runctx'
+    type_ = 'cProfile'
     init_inputs = [
         NodeInputBP(label='statement'),
         NodeInputBP(label='globals'),
@@ -87,7 +95,7 @@ class Runctx_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, cProfile.runctx(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 

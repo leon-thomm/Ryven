@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Copy_Archive_Node(NodeBase):
+    """
+    Copy an application archive, modifying the shebang line."""
+    
     title = '_copy_archive'
     type_ = 'zipapp'
-    doc = """Copy an application archive, modifying the shebang line."""
     init_inputs = [
         NodeInputBP(label='archive'),
         NodeInputBP(label='new_archive'),
@@ -22,14 +24,16 @@ class _Copy_Archive_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, zipapp._copy_archive(self.input(0), self.input(1), self.input(2)))
         
 
 class _Maybe_Open_Node(NodeBase):
+    """
+    """
+    
     title = '_maybe_open'
     type_ = 'zipapp'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -38,14 +42,16 @@ class _Maybe_Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, zipapp._maybe_open())
         
 
 class _Write_File_Prefix_Node(NodeBase):
+    """
+    Write a shebang line."""
+    
     title = '_write_file_prefix'
     type_ = 'zipapp'
-    doc = """Write a shebang line."""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='interpreter'),
@@ -55,14 +61,13 @@ class _Write_File_Prefix_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, zipapp._write_file_prefix(self.input(0), self.input(1)))
         
 
 class Create_Archive_Node(NodeBase):
-    title = 'create_archive'
-    type_ = 'zipapp'
-    doc = """Create an application archive from SOURCE.
+    """
+    Create an application archive from SOURCE.
 
     The SOURCE can be the name of a directory, or a filename or a file-like
     object referring to an existing archive.
@@ -80,6 +85,9 @@ class Create_Archive_Node(NodeBase):
     __main__.py, and it is an error to omit MAIN if the directory has no
     __main__.py.
     """
+    
+    title = 'create_archive'
+    type_ = 'zipapp'
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='target', dtype=dtypes.Data(default=None, size='s')),
@@ -93,14 +101,16 @@ class Create_Archive_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, zipapp.create_archive(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class Get_Interpreter_Node(NodeBase):
+    """
+    """
+    
     title = 'get_interpreter'
     type_ = 'zipapp'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='archive'),
     ]
@@ -109,19 +119,21 @@ class Get_Interpreter_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, zipapp.get_interpreter(self.input(0)))
         
 
 class Main_Node(NodeBase):
-    title = 'main'
-    type_ = 'zipapp'
-    doc = """Run the zipapp command line interface.
+    """
+    Run the zipapp command line interface.
 
     The ARGS parameter lets you specify the argument list directly.
     Omitting ARGS (or setting it to None) works as for argparse, using
     sys.argv[1:] as the argument list.
     """
+    
+    title = 'main'
+    type_ = 'zipapp'
     init_inputs = [
         NodeInputBP(label='args', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -130,7 +142,7 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, zipapp.main(self.input(0)))
         
 

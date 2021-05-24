@@ -23,7 +23,7 @@ class ThreadSplitter(Node):
         NodeOutputBP(),
     ]
 
-    def update(self, input_called=-1):
+    def update(self, inp=-1):
         threads = []
         data = self.input(0)
         for out in self.outputs:

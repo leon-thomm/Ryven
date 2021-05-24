@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Cmp_Node(NodeBase):
+    """
+    """
+    
     title = '_cmp'
     type_ = 'filecmp'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -24,14 +26,16 @@ class _Cmp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp._cmp(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Do_Cmp_Node(NodeBase):
+    """
+    """
+    
     title = '_do_cmp'
     type_ = 'filecmp'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f1'),
         NodeInputBP(label='f2'),
@@ -41,14 +45,16 @@ class _Do_Cmp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp._do_cmp(self.input(0), self.input(1)))
         
 
 class _Filter_Node(NodeBase):
+    """
+    """
+    
     title = '_filter'
     type_ = 'filecmp'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='flist'),
         NodeInputBP(label='skip'),
@@ -58,14 +64,16 @@ class _Filter_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp._filter(self.input(0), self.input(1)))
         
 
 class _Sig_Node(NodeBase):
+    """
+    """
+    
     title = '_sig'
     type_ = 'filecmp'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='st'),
     ]
@@ -74,14 +82,16 @@ class _Sig_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp._sig(self.input(0)))
         
 
 class Clear_Cache_Node(NodeBase):
+    """
+    Clear the filecmp cache."""
+    
     title = 'clear_cache'
     type_ = 'filecmp'
-    doc = """Clear the filecmp cache."""
     init_inputs = [
         
     ]
@@ -90,14 +100,13 @@ class Clear_Cache_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp.clear_cache())
         
 
 class Cmp_Node(NodeBase):
-    title = 'cmp'
-    type_ = 'filecmp'
-    doc = """Compare two files.
+    """
+    Compare two files.
 
     Arguments:
 
@@ -117,6 +126,9 @@ class Cmp_Node(NodeBase):
     changes.  The cache may be cleared by calling clear_cache().
 
     """
+    
+    title = 'cmp'
+    type_ = 'filecmp'
     init_inputs = [
         NodeInputBP(label='f1'),
         NodeInputBP(label='f2'),
@@ -127,14 +139,13 @@ class Cmp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp.cmp(self.input(0), self.input(1), self.input(2)))
         
 
 class Cmpfiles_Node(NodeBase):
-    title = 'cmpfiles'
-    type_ = 'filecmp'
-    doc = """Compare common files in two directories.
+    """
+    Compare common files in two directories.
 
     a, b -- directory names
     common -- list of file names found in both directories
@@ -146,6 +157,9 @@ class Cmpfiles_Node(NodeBase):
       filenames that aren't regular files.
 
     """
+    
+    title = 'cmpfiles'
+    type_ = 'filecmp'
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -157,14 +171,16 @@ class Cmpfiles_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp.cmpfiles(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Demo_Node(NodeBase):
+    """
+    """
+    
     title = 'demo'
     type_ = 'filecmp'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -173,7 +189,7 @@ class Demo_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, filecmp.demo())
         
 

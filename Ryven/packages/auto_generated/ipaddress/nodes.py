@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class _Collapse_Addresses_Internal_Node(NodeBase):
-    title = '_collapse_addresses_internal'
-    type_ = 'ipaddress'
-    doc = """Loops through the addresses, collapsing concurrent netblocks.
+    """
+    Loops through the addresses, collapsing concurrent netblocks.
 
     Example:
 
@@ -34,6 +33,9 @@ class _Collapse_Addresses_Internal_Node(NodeBase):
         passed.
 
     """
+    
+    title = '_collapse_addresses_internal'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='addresses'),
     ]
@@ -42,14 +44,13 @@ class _Collapse_Addresses_Internal_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress._collapse_addresses_internal(self.input(0)))
         
 
 class _Count_Righthand_Zero_Bits_Node(NodeBase):
-    title = '_count_righthand_zero_bits'
-    type_ = 'ipaddress'
-    doc = """Count the number of zero bits on the right hand side.
+    """
+    Count the number of zero bits on the right hand side.
 
     Args:
         number: an integer.
@@ -59,6 +60,9 @@ class _Count_Righthand_Zero_Bits_Node(NodeBase):
         The number of zero bits on the right hand side of the number.
 
     """
+    
+    title = '_count_righthand_zero_bits'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='number'),
         NodeInputBP(label='bits'),
@@ -68,14 +72,13 @@ class _Count_Righthand_Zero_Bits_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress._count_righthand_zero_bits(self.input(0), self.input(1)))
         
 
 class _Find_Address_Range_Node(NodeBase):
-    title = '_find_address_range'
-    type_ = 'ipaddress'
-    doc = """Find a sequence of sorted deduplicated IPv#Address.
+    """
+    Find a sequence of sorted deduplicated IPv#Address.
 
     Args:
         addresses: a list of IPv#Address objects.
@@ -84,6 +87,9 @@ class _Find_Address_Range_Node(NodeBase):
         A tuple containing the first and last IP addresses in the sequence.
 
     """
+    
+    title = '_find_address_range'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='addresses'),
     ]
@@ -92,14 +98,16 @@ class _Find_Address_Range_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress._find_address_range(self.input(0)))
         
 
 class _Split_Optional_Netmask_Node(NodeBase):
+    """
+    Helper to split the netmask and raise AddressValueError if needed"""
+    
     title = '_split_optional_netmask'
     type_ = 'ipaddress'
-    doc = """Helper to split the netmask and raise AddressValueError if needed"""
     init_inputs = [
         NodeInputBP(label='address'),
     ]
@@ -108,14 +116,13 @@ class _Split_Optional_Netmask_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress._split_optional_netmask(self.input(0)))
         
 
 class Collapse_Addresses_Node(NodeBase):
-    title = 'collapse_addresses'
-    type_ = 'ipaddress'
-    doc = """Collapse a list of IP objects.
+    """
+    Collapse a list of IP objects.
 
     Example:
         collapse_addresses([IPv4Network('192.0.2.0/25'),
@@ -132,6 +139,9 @@ class Collapse_Addresses_Node(NodeBase):
         TypeError: If passed a list of mixed version objects.
 
     """
+    
+    title = 'collapse_addresses'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='addresses'),
     ]
@@ -140,14 +150,13 @@ class Collapse_Addresses_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.collapse_addresses(self.input(0)))
         
 
 class Get_Mixed_Type_Key_Node(NodeBase):
-    title = 'get_mixed_type_key'
-    type_ = 'ipaddress'
-    doc = """Return a key suitable for sorting between networks and addresses.
+    """
+    Return a key suitable for sorting between networks and addresses.
 
     Address and Network objects are not sortable by default; they're
     fundamentally different so the expression
@@ -164,6 +173,9 @@ class Get_Mixed_Type_Key_Node(NodeBase):
       appropriate key.
 
     """
+    
+    title = 'get_mixed_type_key'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='obj'),
     ]
@@ -172,14 +184,13 @@ class Get_Mixed_Type_Key_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.get_mixed_type_key(self.input(0)))
         
 
 class Ip_Address_Node(NodeBase):
-    title = 'ip_address'
-    type_ = 'ipaddress'
-    doc = """Take an IP string/int and return an object of the correct type.
+    """
+    Take an IP string/int and return an object of the correct type.
 
     Args:
         address: A string or integer, the IP address.  Either IPv4 or
@@ -194,6 +205,9 @@ class Ip_Address_Node(NodeBase):
           address
 
     """
+    
+    title = 'ip_address'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='address'),
     ]
@@ -202,14 +216,13 @@ class Ip_Address_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.ip_address(self.input(0)))
         
 
 class Ip_Interface_Node(NodeBase):
-    title = 'ip_interface'
-    type_ = 'ipaddress'
-    doc = """Take an IP string/int and return an object of the correct type.
+    """
+    Take an IP string/int and return an object of the correct type.
 
     Args:
         address: A string or integer, the IP address.  Either IPv4 or
@@ -229,6 +242,9 @@ class Ip_Interface_Node(NodeBase):
         and Network classes.
 
     """
+    
+    title = 'ip_interface'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='address'),
     ]
@@ -237,14 +253,13 @@ class Ip_Interface_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.ip_interface(self.input(0)))
         
 
 class Ip_Network_Node(NodeBase):
-    title = 'ip_network'
-    type_ = 'ipaddress'
-    doc = """Take an IP string/int and return an object of the correct type.
+    """
+    Take an IP string/int and return an object of the correct type.
 
     Args:
         address: A string or integer, the IP network.  Either IPv4 or
@@ -259,6 +274,9 @@ class Ip_Network_Node(NodeBase):
           address. Or if the network has host bits set.
 
     """
+    
+    title = 'ip_network'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='address'),
         NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
@@ -268,14 +286,13 @@ class Ip_Network_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.ip_network(self.input(0), self.input(1)))
         
 
 class Summarize_Address_Range_Node(NodeBase):
-    title = 'summarize_address_range'
-    type_ = 'ipaddress'
-    doc = """Summarize a network range given the first and last IP addresses.
+    """
+    Summarize a network range given the first and last IP addresses.
 
     Example:
         >>> list(summarize_address_range(IPv4Address('192.0.2.0'),
@@ -300,6 +317,9 @@ class Summarize_Address_Range_Node(NodeBase):
             If the version of the first address is not 4 or 6.
 
     """
+    
+    title = 'summarize_address_range'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='first'),
         NodeInputBP(label='last'),
@@ -309,14 +329,13 @@ class Summarize_Address_Range_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.summarize_address_range(self.input(0), self.input(1)))
         
 
 class V4_Int_To_Packed_Node(NodeBase):
-    title = 'v4_int_to_packed'
-    type_ = 'ipaddress'
-    doc = """Represent an address as 4 packed bytes in network (big-endian) order.
+    """
+    Represent an address as 4 packed bytes in network (big-endian) order.
 
     Args:
         address: An integer representation of an IPv4 IP address.
@@ -329,6 +348,9 @@ class V4_Int_To_Packed_Node(NodeBase):
           IPv4 IP address.
 
     """
+    
+    title = 'v4_int_to_packed'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='address'),
     ]
@@ -337,14 +359,13 @@ class V4_Int_To_Packed_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.v4_int_to_packed(self.input(0)))
         
 
 class V6_Int_To_Packed_Node(NodeBase):
-    title = 'v6_int_to_packed'
-    type_ = 'ipaddress'
-    doc = """Represent an address as 16 packed bytes in network (big-endian) order.
+    """
+    Represent an address as 16 packed bytes in network (big-endian) order.
 
     Args:
         address: An integer representation of an IPv6 IP address.
@@ -353,6 +374,9 @@ class V6_Int_To_Packed_Node(NodeBase):
         The integer address packed as 16 bytes in network (big-endian) order.
 
     """
+    
+    title = 'v6_int_to_packed'
+    type_ = 'ipaddress'
     init_inputs = [
         NodeInputBP(label='address'),
     ]
@@ -361,7 +385,7 @@ class V6_Int_To_Packed_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ipaddress.v6_int_to_packed(self.input(0)))
         
 

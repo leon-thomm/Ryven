@@ -33,8 +33,8 @@ class ArrSetAt_Node(Node):
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             arr = self.input(1)
             arr[self.input(2)] = self.input(3)
             self.set_output_val(1, arr)

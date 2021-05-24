@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Asynccontextmanager_Node(NodeBase):
-    title = 'asynccontextmanager'
-    type_ = 'contextlib'
-    doc = """@asynccontextmanager decorator.
+    """
+    @asynccontextmanager decorator.
 
     Typical usage:
 
@@ -37,6 +36,9 @@ class Asynccontextmanager_Node(NodeBase):
         finally:
             <cleanup>
     """
+    
+    title = 'asynccontextmanager'
+    type_ = 'contextlib'
     init_inputs = [
         NodeInputBP(label='func'),
     ]
@@ -45,14 +47,13 @@ class Asynccontextmanager_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, contextlib.asynccontextmanager(self.input(0)))
         
 
 class Contextmanager_Node(NodeBase):
-    title = 'contextmanager'
-    type_ = 'contextlib'
-    doc = """@contextmanager decorator.
+    """
+    @contextmanager decorator.
 
     Typical usage:
 
@@ -78,6 +79,9 @@ class Contextmanager_Node(NodeBase):
         finally:
             <cleanup>
     """
+    
+    title = 'contextmanager'
+    type_ = 'contextlib'
     init_inputs = [
         NodeInputBP(label='func'),
     ]
@@ -86,14 +90,13 @@ class Contextmanager_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, contextlib.contextmanager(self.input(0)))
         
 
 class Wraps_Node(NodeBase):
-    title = 'wraps'
-    type_ = 'contextlib'
-    doc = """Decorator factory to apply update_wrapper() to a wrapper function
+    """
+    Decorator factory to apply update_wrapper() to a wrapper function
 
        Returns a decorator that invokes update_wrapper() with the decorated
        function as the wrapper argument and the arguments to wraps() as the
@@ -101,6 +104,9 @@ class Wraps_Node(NodeBase):
        This is a convenience function to simplify applying partial() to
        update_wrapper().
     """
+    
+    title = 'wraps'
+    type_ = 'contextlib'
     init_inputs = [
         NodeInputBP(label='wrapped'),
         NodeInputBP(label='assigned', dtype=dtypes.Data(default=('__module__', '__name__', '__qualname__', '__doc__', '__annotations__'), size='s')),
@@ -111,7 +117,7 @@ class Wraps_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, contextlib.wraps(self.input(0), self.input(1), self.input(2)))
         
 

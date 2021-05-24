@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Dedent_Node(NodeBase):
-    title = 'dedent'
-    type_ = 'textwrap'
-    doc = """Remove any common leading whitespace from every line in `text`.
+    """
+    Remove any common leading whitespace from every line in `text`.
 
     This can be used to make triple-quoted strings line up with the left
     edge of the display, while still presenting them in the source code
@@ -23,6 +22,9 @@ class Dedent_Node(NodeBase):
 
     Entirely blank lines are normalized to a newline character.
     """
+    
+    title = 'dedent'
+    type_ = 'textwrap'
     init_inputs = [
         NodeInputBP(label='text'),
     ]
@@ -31,14 +33,13 @@ class Dedent_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, textwrap.dedent(self.input(0)))
         
 
 class Fill_Node(NodeBase):
-    title = 'fill'
-    type_ = 'textwrap'
-    doc = """Fill a single paragraph of text, returning a new string.
+    """
+    Fill a single paragraph of text, returning a new string.
 
     Reformat the single paragraph in 'text' to fit in lines of no more
     than 'width' columns, and return a new string containing the entire
@@ -46,6 +47,9 @@ class Fill_Node(NodeBase):
     whitespace characters converted to space.  See TextWrapper class for
     available keyword args to customize wrapping behaviour.
     """
+    
+    title = 'fill'
+    type_ = 'textwrap'
     init_inputs = [
         NodeInputBP(label='text'),
         NodeInputBP(label='width', dtype=dtypes.Data(default=70, size='s')),
@@ -55,20 +59,22 @@ class Fill_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, textwrap.fill(self.input(0), self.input(1)))
         
 
 class Indent_Node(NodeBase):
-    title = 'indent'
-    type_ = 'textwrap'
-    doc = """Adds 'prefix' to the beginning of selected lines in 'text'.
+    """
+    Adds 'prefix' to the beginning of selected lines in 'text'.
 
     If 'predicate' is provided, 'prefix' will only be added to the lines
     where 'predicate(line)' is True. If 'predicate' is not provided,
     it will default to adding 'prefix' to all non-empty lines that do not
     consist solely of whitespace characters.
     """
+    
+    title = 'indent'
+    type_ = 'textwrap'
     init_inputs = [
         NodeInputBP(label='text'),
         NodeInputBP(label='prefix'),
@@ -79,14 +85,13 @@ class Indent_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, textwrap.indent(self.input(0), self.input(1), self.input(2)))
         
 
 class Shorten_Node(NodeBase):
-    title = 'shorten'
-    type_ = 'textwrap'
-    doc = """Collapse and truncate the given text to fit in the given width.
+    """
+    Collapse and truncate the given text to fit in the given width.
 
     The text first has its whitespace collapsed.  If it then fits in
     the *width*, it is returned as is.  Otherwise, as many words
@@ -97,6 +102,9 @@ class Shorten_Node(NodeBase):
         >>> textwrap.shorten("Hello  world!", width=11)
         'Hello [...]'
     """
+    
+    title = 'shorten'
+    type_ = 'textwrap'
     init_inputs = [
         NodeInputBP(label='text'),
         NodeInputBP(label='width'),
@@ -106,14 +114,13 @@ class Shorten_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, textwrap.shorten(self.input(0), self.input(1)))
         
 
 class Wrap_Node(NodeBase):
-    title = 'wrap'
-    type_ = 'textwrap'
-    doc = """Wrap a single paragraph of text, returning a list of wrapped lines.
+    """
+    Wrap a single paragraph of text, returning a list of wrapped lines.
 
     Reformat the single paragraph in 'text' so it fits in lines of no
     more than 'width' columns, and return a list of wrapped lines.  By
@@ -122,6 +129,9 @@ class Wrap_Node(NodeBase):
     space.  See TextWrapper class for available keyword args to customize
     wrapping behaviour.
     """
+    
+    title = 'wrap'
+    type_ = 'textwrap'
     init_inputs = [
         NodeInputBP(label='text'),
         NodeInputBP(label='width', dtype=dtypes.Data(default=70, size='s')),
@@ -131,7 +141,7 @@ class Wrap_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, textwrap.wrap(self.input(0), self.input(1)))
         
 

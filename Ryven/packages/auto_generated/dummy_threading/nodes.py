@@ -20,7 +20,7 @@ class Excepthookargs_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.ExceptHookArgs(self.input(0)))
         
 
@@ -36,7 +36,7 @@ class Lock_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.Lock())
         
 
@@ -59,7 +59,7 @@ class Rlock_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.RLock())
         
 
@@ -80,7 +80,7 @@ class Active_Count_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.active_count())
         
 
@@ -101,7 +101,7 @@ class Current_Thread_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.current_thread())
         
 
@@ -123,7 +123,7 @@ class Enumerate_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.enumerate())
         
 
@@ -141,7 +141,7 @@ class Excepthook_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.excepthook(self.input(0)))
         
 
@@ -162,7 +162,7 @@ class Get_Ident_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.get_ident())
         
 
@@ -182,7 +182,7 @@ class Main_Thread_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.main_thread())
         
 
@@ -203,7 +203,7 @@ class Setprofile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.setprofile(self.input(0)))
         
 
@@ -224,7 +224,7 @@ class Settrace_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.settrace(self.input(0)))
         
 
@@ -240,7 +240,7 @@ class Stack_Size_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, dummy_threading.stack_size(self.input(0)))
         
 

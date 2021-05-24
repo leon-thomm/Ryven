@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Heappop_Node(NodeBase):
+    """
+    Pop the smallest item off the heap, maintaining the heap invariant."""
+    
     title = 'heappop'
     type_ = 'queue'
-    doc = """Pop the smallest item off the heap, maintaining the heap invariant."""
     init_inputs = [
         NodeInputBP(label='heap'),
     ]
@@ -20,14 +22,16 @@ class Heappop_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, queue.heappop(self.input(0)))
         
 
 class Heappush_Node(NodeBase):
+    """
+    Push item onto heap, maintaining the heap invariant."""
+    
     title = 'heappush'
     type_ = 'queue'
-    doc = """Push item onto heap, maintaining the heap invariant."""
     init_inputs = [
         NodeInputBP(label='heap'),
         NodeInputBP(label='item'),
@@ -37,7 +41,7 @@ class Heappush_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, queue.heappush(self.input(0), self.input(1)))
         
 

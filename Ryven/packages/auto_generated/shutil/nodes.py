@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Access_Check_Node(NodeBase):
+    """
+    """
+    
     title = '_access_check'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='fn'),
         NodeInputBP(label='mode'),
@@ -21,14 +23,28 @@ class _Access_Check_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._access_check(self.input(0), self.input(1)))
         
 
 class _Basename_Node(NodeBase):
+    """
+    A basename() variant which first strips the trailing slash, if present.
+    Thus we always get the last component of the path, even for directories.
+
+    path: Union[PathLike, str]
+
+    e.g.
+    >>> os.path.basename('/bar/foo')
+    'foo'
+    >>> os.path.basename('/bar/foo/')
+    ''
+    >>> _basename('/bar/foo/')
+    'foo'
+    """
+    
     title = '_basename'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -37,14 +53,16 @@ class _Basename_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._basename(self.input(0)))
         
 
 class _Check_Unpack_Options_Node(NodeBase):
+    """
+    Checks what gets registered as an unpacker."""
+    
     title = '_check_unpack_options'
     type_ = 'shutil'
-    doc = """Checks what gets registered as an unpacker."""
     init_inputs = [
         NodeInputBP(label='extensions'),
         NodeInputBP(label='function'),
@@ -55,17 +73,19 @@ class _Check_Unpack_Options_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._check_unpack_options(self.input(0), self.input(1), self.input(2)))
         
 
 class _Copyfileobj_Readinto_Node(NodeBase):
-    title = '_copyfileobj_readinto'
-    type_ = 'shutil'
-    doc = """readinto()/memoryview() based variant of copyfileobj().
+    """
+    readinto()/memoryview() based variant of copyfileobj().
     *fsrc* must support readinto() method and both files must be
     open in binary mode.
     """
+    
+    title = '_copyfileobj_readinto'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='fsrc'),
         NodeInputBP(label='fdst'),
@@ -76,14 +96,16 @@ class _Copyfileobj_Readinto_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._copyfileobj_readinto(self.input(0), self.input(1), self.input(2)))
         
 
 class _Copytree_Node(NodeBase):
+    """
+    """
+    
     title = '_copytree'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='entries'),
         NodeInputBP(label='src'),
@@ -99,14 +121,16 @@ class _Copytree_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._copytree(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class _Copyxattr_Node(NodeBase):
+    """
+    """
+    
     title = '_copyxattr'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -115,14 +139,16 @@ class _Copyxattr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._copyxattr())
         
 
 class _Destinsrc_Node(NodeBase):
+    """
+    """
+    
     title = '_destinsrc'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -132,14 +158,16 @@ class _Destinsrc_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._destinsrc(self.input(0), self.input(1)))
         
 
 class _Ensure_Directory_Node(NodeBase):
+    """
+    Ensure that the parent directory of `path` exists"""
+    
     title = '_ensure_directory'
     type_ = 'shutil'
-    doc = """Ensure that the parent directory of `path` exists"""
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -148,16 +176,18 @@ class _Ensure_Directory_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._ensure_directory(self.input(0)))
         
 
 class _Fastcopy_Fcopyfile_Node(NodeBase):
-    title = '_fastcopy_fcopyfile'
-    type_ = 'shutil'
-    doc = """Copy a regular file content or metadata by using high-performance
+    """
+    Copy a regular file content or metadata by using high-performance
     fcopyfile(3) syscall (macOS).
     """
+    
+    title = '_fastcopy_fcopyfile'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='fsrc'),
         NodeInputBP(label='fdst'),
@@ -168,17 +198,19 @@ class _Fastcopy_Fcopyfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._fastcopy_fcopyfile(self.input(0), self.input(1), self.input(2)))
         
 
 class _Fastcopy_Sendfile_Node(NodeBase):
-    title = '_fastcopy_sendfile'
-    type_ = 'shutil'
-    doc = """Copy data from one regular mmap-like fd to another by using
+    """
+    Copy data from one regular mmap-like fd to another by using
     high-performance sendfile(2) syscall.
     This should work on Linux >= 2.6.33 only.
     """
+    
+    title = '_fastcopy_sendfile'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='fsrc'),
         NodeInputBP(label='fdst'),
@@ -188,14 +220,16 @@ class _Fastcopy_Sendfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._fastcopy_sendfile(self.input(0), self.input(1)))
         
 
 class _Find_Unpack_Format_Node(NodeBase):
+    """
+    """
+    
     title = '_find_unpack_format'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='filename'),
     ]
@@ -204,14 +238,16 @@ class _Find_Unpack_Format_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._find_unpack_format(self.input(0)))
         
 
 class _Get_Gid_Node(NodeBase):
+    """
+    Returns a gid, given a group name."""
+    
     title = '_get_gid'
     type_ = 'shutil'
-    doc = """Returns a gid, given a group name."""
     init_inputs = [
         NodeInputBP(label='name'),
     ]
@@ -220,14 +256,16 @@ class _Get_Gid_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._get_gid(self.input(0)))
         
 
 class _Get_Uid_Node(NodeBase):
+    """
+    Returns an uid, given a user name."""
+    
     title = '_get_uid'
     type_ = 'shutil'
-    doc = """Returns an uid, given a user name."""
     init_inputs = [
         NodeInputBP(label='name'),
     ]
@@ -236,14 +274,34 @@ class _Get_Uid_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._get_uid(self.input(0)))
         
 
+class _Is_Immutable_Node(NodeBase):
+    """
+    """
+    
+    title = '_is_immutable'
+    type_ = 'shutil'
+    init_inputs = [
+        NodeInputBP(label='src'),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    color = '#32DA22'
+
+    def update_event(self, inp=-1):
+        self.set_output_val(0, shutil._is_immutable(self.input(0)))
+        
+
 class _Islink_Node(NodeBase):
+    """
+    """
+    
     title = '_islink'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='fn'),
     ]
@@ -252,14 +310,13 @@ class _Islink_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._islink(self.input(0)))
         
 
 class _Make_Tarball_Node(NodeBase):
-    title = '_make_tarball'
-    type_ = 'shutil'
-    doc = """Create a (possibly compressed) tar file from all the files under
+    """
+    Create a (possibly compressed) tar file from all the files under
     'base_dir'.
 
     'compress' must be "gzip" (the default), "bzip2", "xz", or None.
@@ -273,6 +330,9 @@ class _Make_Tarball_Node(NodeBase):
 
     Returns the output filename.
     """
+    
+    title = '_make_tarball'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='base_name'),
         NodeInputBP(label='base_dir'),
@@ -288,18 +348,20 @@ class _Make_Tarball_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._make_tarball(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class _Make_Zipfile_Node(NodeBase):
-    title = '_make_zipfile'
-    type_ = 'shutil'
-    doc = """Create a zip file from all the files under 'base_dir'.
+    """
+    Create a zip file from all the files under 'base_dir'.
 
     The output zip file will be named 'base_name' + ".zip".  Returns the
     name of the output zip file.
     """
+    
+    title = '_make_zipfile'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='base_name'),
         NodeInputBP(label='base_dir'),
@@ -312,14 +374,16 @@ class _Make_Zipfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._make_zipfile(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Rmtree_Isdir_Node(NodeBase):
+    """
+    """
+    
     title = '_rmtree_isdir'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='entry'),
     ]
@@ -328,14 +392,16 @@ class _Rmtree_Isdir_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._rmtree_isdir(self.input(0)))
         
 
 class _Rmtree_Islink_Node(NodeBase):
+    """
+    """
+    
     title = '_rmtree_islink'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -344,14 +410,16 @@ class _Rmtree_Islink_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._rmtree_islink(self.input(0)))
         
 
 class _Rmtree_Safe_Fd_Node(NodeBase):
+    """
+    """
+    
     title = '_rmtree_safe_fd'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='topfd'),
         NodeInputBP(label='path'),
@@ -362,14 +430,16 @@ class _Rmtree_Safe_Fd_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._rmtree_safe_fd(self.input(0), self.input(1), self.input(2)))
         
 
 class _Rmtree_Unsafe_Node(NodeBase):
+    """
+    """
+    
     title = '_rmtree_unsafe'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='path'),
         NodeInputBP(label='onerror'),
@@ -379,14 +449,16 @@ class _Rmtree_Unsafe_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._rmtree_unsafe(self.input(0), self.input(1)))
         
 
 class _Samefile_Node(NodeBase):
+    """
+    """
+    
     title = '_samefile'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -396,14 +468,16 @@ class _Samefile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._samefile(self.input(0), self.input(1)))
         
 
 class _Stat_Node(NodeBase):
+    """
+    """
+    
     title = '_stat'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='fn'),
     ]
@@ -412,15 +486,17 @@ class _Stat_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._stat(self.input(0)))
         
 
 class _Unpack_Tarfile_Node(NodeBase):
+    """
+    Unpack tar/tar.gz/tar.bz2/tar.xz `filename` to `extract_dir`
+    """
+    
     title = '_unpack_tarfile'
     type_ = 'shutil'
-    doc = """Unpack tar/tar.gz/tar.bz2/tar.xz `filename` to `extract_dir`
-    """
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='extract_dir'),
@@ -430,15 +506,17 @@ class _Unpack_Tarfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._unpack_tarfile(self.input(0), self.input(1)))
         
 
 class _Unpack_Zipfile_Node(NodeBase):
+    """
+    Unpack zip `filename` to `extract_dir`
+    """
+    
     title = '_unpack_zipfile'
     type_ = 'shutil'
-    doc = """Unpack zip `filename` to `extract_dir`
-    """
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='extract_dir'),
@@ -448,18 +526,20 @@ class _Unpack_Zipfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil._unpack_zipfile(self.input(0), self.input(1)))
         
 
 class Chown_Node(NodeBase):
-    title = 'chown'
-    type_ = 'shutil'
-    doc = """Change owner user and group of the given path.
+    """
+    Change owner user and group of the given path.
 
     user and group can be the uid/gid or the user/group names, and in that case,
     they are converted to their respective uid/gid.
     """
+    
+    title = 'chown'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='path'),
         NodeInputBP(label='user', dtype=dtypes.Data(default=None, size='s')),
@@ -470,14 +550,13 @@ class Chown_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.chown(self.input(0), self.input(1), self.input(2)))
         
 
 class Copy_Node(NodeBase):
-    title = 'copy'
-    type_ = 'shutil'
-    doc = """Copy data and mode bits ("cp src dst"). Return the file's destination.
+    """
+    Copy data and mode bits ("cp src dst"). Return the file's destination.
 
     The destination may be a directory.
 
@@ -488,6 +567,9 @@ class Copy_Node(NodeBase):
     raised.
 
     """
+    
+    title = 'copy'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -497,14 +579,13 @@ class Copy_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.copy(self.input(0), self.input(1)))
         
 
 class Copy2_Node(NodeBase):
-    title = 'copy2'
-    type_ = 'shutil'
-    doc = """Copy data and metadata. Return the file's destination.
+    """
+    Copy data and metadata. Return the file's destination.
 
     Metadata is copied with copystat(). Please see the copystat function
     for more information.
@@ -514,6 +595,9 @@ class Copy2_Node(NodeBase):
     If follow_symlinks is false, symlinks won't be followed. This
     resembles GNU's "cp -P src dst".
     """
+    
+    title = 'copy2'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -523,19 +607,21 @@ class Copy2_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.copy2(self.input(0), self.input(1)))
         
 
 class Copyfile_Node(NodeBase):
-    title = 'copyfile'
-    type_ = 'shutil'
-    doc = """Copy data from src to dst in the most efficient way possible.
+    """
+    Copy data from src to dst in the most efficient way possible.
 
     If follow_symlinks is not set and src is a symbolic link, a new
     symlink will be created instead of copying the file it points to.
 
     """
+    
+    title = 'copyfile'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -545,14 +631,16 @@ class Copyfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.copyfile(self.input(0), self.input(1)))
         
 
 class Copyfileobj_Node(NodeBase):
+    """
+    copy data from file-like object fsrc to file-like object fdst"""
+    
     title = 'copyfileobj'
     type_ = 'shutil'
-    doc = """copy data from file-like object fsrc to file-like object fdst"""
     init_inputs = [
         NodeInputBP(label='fsrc'),
         NodeInputBP(label='fdst'),
@@ -563,20 +651,22 @@ class Copyfileobj_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.copyfileobj(self.input(0), self.input(1), self.input(2)))
         
 
 class Copymode_Node(NodeBase):
-    title = 'copymode'
-    type_ = 'shutil'
-    doc = """Copy mode bits from src to dst.
+    """
+    Copy mode bits from src to dst.
 
     If follow_symlinks is not set, symlinks aren't followed if and only
     if both `src` and `dst` are symlinks.  If `lchmod` isn't available
     (e.g. Linux) this method does nothing.
 
     """
+    
+    title = 'copymode'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -586,14 +676,13 @@ class Copymode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.copymode(self.input(0), self.input(1)))
         
 
 class Copystat_Node(NodeBase):
-    title = 'copystat'
-    type_ = 'shutil'
-    doc = """Copy file metadata
+    """
+    Copy file metadata
 
     Copy the permission bits, last access time, last modification time, and
     flags from `src` to `dst`. On Linux, copystat() also copies the "extended
@@ -604,6 +693,9 @@ class Copystat_Node(NodeBase):
     If the optional flag `follow_symlinks` is not set, symlinks aren't
     followed if and only if both `src` and `dst` are symlinks.
     """
+    
+    title = 'copystat'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -613,14 +705,13 @@ class Copystat_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.copystat(self.input(0), self.input(1)))
         
 
 class Copytree_Node(NodeBase):
-    title = 'copytree'
-    type_ = 'shutil'
-    doc = """Recursively copy a directory tree and return the destination directory.
+    """
+    Recursively copy a directory tree and return the destination directory.
 
     dirs_exist_ok dictates whether to raise an exception in case dst or any
     missing parent directory already exists.
@@ -656,6 +747,9 @@ class Copytree_Node(NodeBase):
     function that supports the same signature (like copy()) can be used.
 
     """
+    
+    title = 'copytree'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -670,18 +764,20 @@ class Copytree_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.copytree(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6)))
         
 
 class Disk_Usage_Node(NodeBase):
-    title = 'disk_usage'
-    type_ = 'shutil'
-    doc = """Return disk usage statistics about the given path.
+    """
+    Return disk usage statistics about the given path.
 
         Returned values is a named tuple with attributes 'total', 'used' and
         'free', which are the amount of total, used and free space, in bytes.
         """
+    
+    title = 'disk_usage'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -690,17 +786,19 @@ class Disk_Usage_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.disk_usage(self.input(0)))
         
 
 class Get_Archive_Formats_Node(NodeBase):
-    title = 'get_archive_formats'
-    type_ = 'shutil'
-    doc = """Returns a list of supported formats for archiving and unarchiving.
+    """
+    Returns a list of supported formats for archiving and unarchiving.
 
     Each element of the returned sequence is a tuple (name, description)
     """
+    
+    title = 'get_archive_formats'
+    type_ = 'shutil'
     init_inputs = [
         
     ]
@@ -709,14 +807,13 @@ class Get_Archive_Formats_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.get_archive_formats())
         
 
 class Get_Terminal_Size_Node(NodeBase):
-    title = 'get_terminal_size'
-    type_ = 'shutil'
-    doc = """Get the size of the terminal window.
+    """
+    Get the size of the terminal window.
 
     For each of the two dimensions, the environment variable, COLUMNS
     and LINES respectively, is checked. If the variable is defined and
@@ -734,6 +831,9 @@ class Get_Terminal_Size_Node(NodeBase):
 
     The value returned is a named tuple of type os.terminal_size.
     """
+    
+    title = 'get_terminal_size'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='fallback', dtype=dtypes.Data(default=(80, 24), size='s')),
     ]
@@ -742,18 +842,20 @@ class Get_Terminal_Size_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.get_terminal_size(self.input(0)))
         
 
 class Get_Unpack_Formats_Node(NodeBase):
-    title = 'get_unpack_formats'
-    type_ = 'shutil'
-    doc = """Returns a list of supported formats for unpacking.
+    """
+    Returns a list of supported formats for unpacking.
 
     Each element of the returned sequence is a tuple
     (name, extensions, description)
     """
+    
+    title = 'get_unpack_formats'
+    type_ = 'shutil'
     init_inputs = [
         
     ]
@@ -762,17 +864,19 @@ class Get_Unpack_Formats_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.get_unpack_formats())
         
 
 class Ignore_Patterns_Node(NodeBase):
-    title = 'ignore_patterns'
-    type_ = 'shutil'
-    doc = """Function that can be used as copytree() ignore parameter.
+    """
+    Function that can be used as copytree() ignore parameter.
 
     Patterns is a sequence of glob-style patterns
     that are used to exclude files"""
+    
+    title = 'ignore_patterns'
+    type_ = 'shutil'
     init_inputs = [
         
     ]
@@ -781,14 +885,13 @@ class Ignore_Patterns_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.ignore_patterns())
         
 
 class Make_Archive_Node(NodeBase):
-    title = 'make_archive'
-    type_ = 'shutil'
-    doc = """Create an archive file (eg. zip or tar).
+    """
+    Create an archive file (eg. zip or tar).
 
     'base_name' is the name of the file to create, minus any format-specific
     extension; 'format' is the archive format: one of "zip", "tar", "gztar",
@@ -804,6 +907,9 @@ class Make_Archive_Node(NodeBase):
     'owner' and 'group' are used when creating a tar archive. By default,
     uses the current owner and group.
     """
+    
+    title = 'make_archive'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='base_name'),
         NodeInputBP(label='format'),
@@ -820,14 +926,13 @@ class Make_Archive_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.make_archive(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7), self.input(8)))
         
 
 class Move_Node(NodeBase):
-    title = 'move'
-    type_ = 'shutil'
-    doc = """Recursively move a file or directory to another location. This is
+    """
+    Recursively move a file or directory to another location. This is
     similar to the Unix "mv" command. Return the file or directory's
     destination.
 
@@ -852,6 +957,9 @@ class Move_Node(NodeBase):
     the issues this implementation glosses over.
 
     """
+    
+    title = 'move'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -862,14 +970,13 @@ class Move_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.move(self.input(0), self.input(1), self.input(2)))
         
 
 class Register_Archive_Format_Node(NodeBase):
-    title = 'register_archive_format'
-    type_ = 'shutil'
-    doc = """Registers an archive format.
+    """
+    Registers an archive format.
 
     name is the name of the format. function is the callable that will be
     used to create archives. If provided, extra_args is a sequence of
@@ -877,6 +984,9 @@ class Register_Archive_Format_Node(NodeBase):
     description can be provided to describe the format, and will be returned
     by the get_archive_formats() function.
     """
+    
+    title = 'register_archive_format'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='function'),
@@ -888,14 +998,13 @@ class Register_Archive_Format_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.register_archive_format(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Register_Unpack_Format_Node(NodeBase):
-    title = 'register_unpack_format'
-    type_ = 'shutil'
-    doc = """Registers an unpack format.
+    """
+    Registers an unpack format.
 
     `name` is the name of the format. `extensions` is a list of extensions
     corresponding to the format.
@@ -910,6 +1019,9 @@ class Register_Unpack_Format_Node(NodeBase):
     description can be provided to describe the format, and will be returned
     by the get_unpack_formats() function.
     """
+    
+    title = 'register_unpack_format'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='extensions'),
@@ -922,14 +1034,13 @@ class Register_Unpack_Format_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.register_unpack_format(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Rmtree_Node(NodeBase):
-    title = 'rmtree'
-    type_ = 'shutil'
-    doc = """Recursively delete a directory tree.
+    """
+    Recursively delete a directory tree.
 
     If ignore_errors is set, errors are ignored; otherwise, if onerror
     is set, it is called to handle the error with arguments (func,
@@ -939,6 +1050,9 @@ class Rmtree_Node(NodeBase):
     is false and onerror is None, an exception is raised.
 
     """
+    
+    title = 'rmtree'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='path'),
         NodeInputBP(label='ignore_errors', dtype=dtypes.Data(default=False, size='s')),
@@ -949,14 +1063,13 @@ class Rmtree_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.rmtree(self.input(0), self.input(1), self.input(2)))
         
 
 class Unpack_Archive_Node(NodeBase):
-    title = 'unpack_archive'
-    type_ = 'shutil'
-    doc = """Unpack an archive.
+    """
+    Unpack an archive.
 
     `filename` is the name of the archive.
 
@@ -970,6 +1083,9 @@ class Unpack_Archive_Node(NodeBase):
 
     In case none is found, a ValueError is raised.
     """
+    
+    title = 'unpack_archive'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='extract_dir', dtype=dtypes.Data(default=None, size='s')),
@@ -980,14 +1096,16 @@ class Unpack_Archive_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.unpack_archive(self.input(0), self.input(1), self.input(2)))
         
 
 class Unregister_Archive_Format_Node(NodeBase):
+    """
+    """
+    
     title = 'unregister_archive_format'
     type_ = 'shutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='name'),
     ]
@@ -996,14 +1114,16 @@ class Unregister_Archive_Format_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.unregister_archive_format(self.input(0)))
         
 
 class Unregister_Unpack_Format_Node(NodeBase):
+    """
+    Removes the pack format from the registry."""
+    
     title = 'unregister_unpack_format'
     type_ = 'shutil'
-    doc = """Removes the pack format from the registry."""
     init_inputs = [
         NodeInputBP(label='name'),
     ]
@@ -1012,14 +1132,13 @@ class Unregister_Unpack_Format_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.unregister_unpack_format(self.input(0)))
         
 
 class Which_Node(NodeBase):
-    title = 'which'
-    type_ = 'shutil'
-    doc = """Given a command, mode, and a PATH string, return the path which
+    """
+    Given a command, mode, and a PATH string, return the path which
     conforms to the given mode on the PATH, or None if there is no such
     file.
 
@@ -1028,6 +1147,9 @@ class Which_Node(NodeBase):
     path.
 
     """
+    
+    title = 'which'
+    type_ = 'shutil'
     init_inputs = [
         NodeInputBP(label='cmd'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default=1, size='s')),
@@ -1038,7 +1160,7 @@ class Which_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shutil.which(self.input(0), self.input(1), self.input(2)))
         
 
@@ -1057,6 +1179,7 @@ export_nodes(
     _Find_Unpack_Format_Node,
     _Get_Gid_Node,
     _Get_Uid_Node,
+    _Is_Immutable_Node,
     _Islink_Node,
     _Make_Tarball_Node,
     _Make_Zipfile_Node,

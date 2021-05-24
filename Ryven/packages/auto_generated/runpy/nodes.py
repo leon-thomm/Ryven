@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Get_Code_From_File_Node(NodeBase):
+    """
+    """
+    
     title = '_get_code_from_file'
     type_ = 'runpy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='run_name'),
         NodeInputBP(label='fname'),
@@ -21,14 +23,16 @@ class _Get_Code_From_File_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy._get_code_from_file(self.input(0), self.input(1)))
         
 
 class _Get_Main_Module_Details_Node(NodeBase):
+    """
+    """
+    
     title = '_get_main_module_details'
     type_ = 'runpy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='error', dtype=dtypes.Data(default=ImportError, size='s')),
     ]
@@ -37,14 +41,16 @@ class _Get_Main_Module_Details_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy._get_main_module_details(self.input(0)))
         
 
 class _Get_Module_Details_Node(NodeBase):
+    """
+    """
+    
     title = '_get_module_details'
     type_ = 'runpy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='mod_name'),
         NodeInputBP(label='error', dtype=dtypes.Data(default=ImportError, size='s')),
@@ -54,14 +60,16 @@ class _Get_Module_Details_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy._get_module_details(self.input(0), self.input(1)))
         
 
 class _Run_Code_Node(NodeBase):
+    """
+    Helper to run code in nominated namespace"""
+    
     title = '_run_code'
     type_ = 'runpy'
-    doc = """Helper to run code in nominated namespace"""
     init_inputs = [
         NodeInputBP(label='code'),
         NodeInputBP(label='run_globals'),
@@ -76,14 +84,13 @@ class _Run_Code_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy._run_code(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6)))
         
 
 class _Run_Module_As_Main_Node(NodeBase):
-    title = '_run_module_as_main'
-    type_ = 'runpy'
-    doc = """Runs the designated module in the __main__ namespace
+    """
+    Runs the designated module in the __main__ namespace
 
        Note that the executed module will have full access to the
        __main__ namespace. If this is not desirable, the run_module()
@@ -96,6 +103,9 @@ class _Run_Module_As_Main_Node(NodeBase):
            __loader__
            __package__
     """
+    
+    title = '_run_module_as_main'
+    type_ = 'runpy'
     init_inputs = [
         NodeInputBP(label='mod_name'),
         NodeInputBP(label='alter_argv', dtype=dtypes.Data(default=True, size='s')),
@@ -105,14 +115,16 @@ class _Run_Module_As_Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy._run_module_as_main(self.input(0), self.input(1)))
         
 
 class _Run_Module_Code_Node(NodeBase):
+    """
+    Helper to run code in new namespace with sys modified"""
+    
     title = '_run_module_code'
     type_ = 'runpy'
-    doc = """Helper to run code in new namespace with sys modified"""
     init_inputs = [
         NodeInputBP(label='code'),
         NodeInputBP(label='init_globals', dtype=dtypes.Data(default=None, size='s')),
@@ -126,14 +138,13 @@ class _Run_Module_Code_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy._run_module_code(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class Get_Importer_Node(NodeBase):
-    title = 'get_importer'
-    type_ = 'runpy'
-    doc = """Retrieve a finder for the given path item
+    """
+    Retrieve a finder for the given path item
 
     The returned finder is cached in sys.path_importer_cache
     if it was newly created by a path hook.
@@ -141,6 +152,9 @@ class Get_Importer_Node(NodeBase):
     The cache (or part of it) can be cleared manually if a
     rescan of sys.path_hooks is necessary.
     """
+    
+    title = 'get_importer'
+    type_ = 'runpy'
     init_inputs = [
         NodeInputBP(label='path_item'),
     ]
@@ -149,14 +163,16 @@ class Get_Importer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy.get_importer(self.input(0)))
         
 
 class Read_Code_Node(NodeBase):
+    """
+    """
+    
     title = 'read_code'
     type_ = 'runpy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='stream'),
     ]
@@ -165,17 +181,19 @@ class Read_Code_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy.read_code(self.input(0)))
         
 
 class Run_Module_Node(NodeBase):
-    title = 'run_module'
-    type_ = 'runpy'
-    doc = """Execute a module's code without importing it
+    """
+    Execute a module's code without importing it
 
        Returns the resulting top level namespace dictionary
     """
+    
+    title = 'run_module'
+    type_ = 'runpy'
     init_inputs = [
         NodeInputBP(label='mod_name'),
         NodeInputBP(label='init_globals', dtype=dtypes.Data(default=None, size='s')),
@@ -187,14 +205,13 @@ class Run_Module_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy.run_module(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Run_Path_Node(NodeBase):
-    title = 'run_path'
-    type_ = 'runpy'
-    doc = """Execute code located at the specified filesystem location
+    """
+    Execute code located at the specified filesystem location
 
        Returns the resulting top level namespace dictionary
 
@@ -203,6 +220,9 @@ class Run_Path_Node(NodeBase):
        it may refer to a zipfile or directory containing a top
        level __main__.py script.
     """
+    
+    title = 'run_path'
+    type_ = 'runpy'
     init_inputs = [
         NodeInputBP(label='path_name'),
         NodeInputBP(label='init_globals', dtype=dtypes.Data(default=None, size='s')),
@@ -213,7 +233,7 @@ class Run_Path_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, runpy.run_path(self.input(0), self.input(1), self.input(2)))
         
 

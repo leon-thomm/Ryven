@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Filter_Node(NodeBase):
+    """
+    Construct a list from those elements of the iterable NAMES that match PAT."""
+    
     title = 'filter'
     type_ = 'fnmatch'
-    doc = """Return the subset of the list NAMES that match PAT."""
     init_inputs = [
         NodeInputBP(label='names'),
         NodeInputBP(label='pat'),
@@ -21,14 +23,13 @@ class Filter_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, fnmatch.filter(self.input(0), self.input(1)))
         
 
 class Fnmatch_Node(NodeBase):
-    title = 'fnmatch'
-    type_ = 'fnmatch'
-    doc = """Test whether FILENAME matches PATTERN.
+    """
+    Test whether FILENAME matches PATTERN.
 
     Patterns are Unix shell style:
 
@@ -42,6 +43,9 @@ class Fnmatch_Node(NodeBase):
     if the operating system requires it.
     If you don't want this, use fnmatchcase(FILENAME, PATTERN).
     """
+    
+    title = 'fnmatch'
+    type_ = 'fnmatch'
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='pat'),
@@ -51,18 +55,20 @@ class Fnmatch_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, fnmatch.fnmatch(self.input(0), self.input(1)))
         
 
 class Fnmatchcase_Node(NodeBase):
-    title = 'fnmatchcase'
-    type_ = 'fnmatch'
-    doc = """Test whether FILENAME matches PATTERN, including case.
+    """
+    Test whether FILENAME matches PATTERN, including case.
 
     This is a version of fnmatch() which doesn't case-normalize
     its arguments.
     """
+    
+    title = 'fnmatchcase'
+    type_ = 'fnmatch'
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='pat'),
@@ -72,17 +78,19 @@ class Fnmatchcase_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, fnmatch.fnmatchcase(self.input(0), self.input(1)))
         
 
 class Translate_Node(NodeBase):
-    title = 'translate'
-    type_ = 'fnmatch'
-    doc = """Translate a shell PATTERN to a regular expression.
+    """
+    Translate a shell PATTERN to a regular expression.
 
     There is no way to quote meta-characters.
     """
+    
+    title = 'translate'
+    type_ = 'fnmatch'
     init_inputs = [
         NodeInputBP(label='pat'),
     ]
@@ -91,7 +99,7 @@ class Translate_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, fnmatch.translate(self.input(0)))
         
 

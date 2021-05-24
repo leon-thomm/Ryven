@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Namedtuple_Node(NodeBase):
-    title = 'namedtuple'
-    type_ = 'sched'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -33,6 +32,9 @@ class Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = 'namedtuple'
+    type_ = 'sched'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -42,7 +44,7 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sched.namedtuple(self.input(0), self.input(1)))
         
 

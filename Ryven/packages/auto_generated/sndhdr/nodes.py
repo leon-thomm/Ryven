@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Get_Long_Be_Node(NodeBase):
+    """
+    """
+    
     title = 'get_long_be'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='b'),
     ]
@@ -20,14 +22,16 @@ class Get_Long_Be_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.get_long_be(self.input(0)))
         
 
 class Get_Long_Le_Node(NodeBase):
+    """
+    """
+    
     title = 'get_long_le'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='b'),
     ]
@@ -36,14 +40,16 @@ class Get_Long_Le_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.get_long_le(self.input(0)))
         
 
 class Get_Short_Be_Node(NodeBase):
+    """
+    """
+    
     title = 'get_short_be'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='b'),
     ]
@@ -52,14 +58,16 @@ class Get_Short_Be_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.get_short_be(self.input(0)))
         
 
 class Get_Short_Le_Node(NodeBase):
+    """
+    """
+    
     title = 'get_short_le'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='b'),
     ]
@@ -68,14 +76,13 @@ class Get_Short_Le_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.get_short_le(self.input(0)))
         
 
 class Namedtuple_Node(NodeBase):
-    title = 'namedtuple'
-    type_ = 'sndhdr'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -97,6 +104,9 @@ class Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = 'namedtuple'
+    type_ = 'sndhdr'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -106,14 +116,16 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.namedtuple(self.input(0), self.input(1)))
         
 
 class Test_Node(NodeBase):
+    """
+    """
+    
     title = 'test'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -122,14 +134,16 @@ class Test_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test())
         
 
 class Test_8Svx_Node(NodeBase):
+    """
+    """
+    
     title = 'test_8svx'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -139,14 +153,16 @@ class Test_8Svx_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_8svx(self.input(0), self.input(1)))
         
 
 class Test_Aifc_Node(NodeBase):
+    """
+    """
+    
     title = 'test_aifc'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -156,14 +172,16 @@ class Test_Aifc_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_aifc(self.input(0), self.input(1)))
         
 
 class Test_Au_Node(NodeBase):
+    """
+    """
+    
     title = 'test_au'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -173,14 +191,16 @@ class Test_Au_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_au(self.input(0), self.input(1)))
         
 
 class Test_Hcom_Node(NodeBase):
+    """
+    """
+    
     title = 'test_hcom'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -190,14 +210,16 @@ class Test_Hcom_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_hcom(self.input(0), self.input(1)))
         
 
 class Test_Sndr_Node(NodeBase):
+    """
+    """
+    
     title = 'test_sndr'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -207,14 +229,16 @@ class Test_Sndr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_sndr(self.input(0), self.input(1)))
         
 
 class Test_Sndt_Node(NodeBase):
+    """
+    """
+    
     title = 'test_sndt'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -224,14 +248,16 @@ class Test_Sndt_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_sndt(self.input(0), self.input(1)))
         
 
 class Test_Voc_Node(NodeBase):
+    """
+    """
+    
     title = 'test_voc'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -241,14 +267,16 @@ class Test_Voc_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_voc(self.input(0), self.input(1)))
         
 
 class Test_Wav_Node(NodeBase):
+    """
+    """
+    
     title = 'test_wav'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='h'),
         NodeInputBP(label='f'),
@@ -258,14 +286,16 @@ class Test_Wav_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.test_wav(self.input(0), self.input(1)))
         
 
 class Testall_Node(NodeBase):
+    """
+    """
+    
     title = 'testall'
     type_ = 'sndhdr'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='list'),
         NodeInputBP(label='recursive'),
@@ -276,14 +306,16 @@ class Testall_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.testall(self.input(0), self.input(1), self.input(2)))
         
 
 class What_Node(NodeBase):
+    """
+    Guess the type of a sound file."""
+    
     title = 'what'
     type_ = 'sndhdr'
-    doc = """Guess the type of a sound file."""
     init_inputs = [
         NodeInputBP(label='filename'),
     ]
@@ -292,14 +324,16 @@ class What_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.what(self.input(0)))
         
 
 class Whathdr_Node(NodeBase):
+    """
+    Recognize sound headers."""
+    
     title = 'whathdr'
     type_ = 'sndhdr'
-    doc = """Recognize sound headers."""
     init_inputs = [
         NodeInputBP(label='filename'),
     ]
@@ -308,7 +342,7 @@ class Whathdr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sndhdr.whathdr(self.input(0)))
         
 

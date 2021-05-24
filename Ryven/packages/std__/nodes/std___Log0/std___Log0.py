@@ -52,8 +52,8 @@ class Log_Node(Node):
         self.target = self.default_target
         self.showing_target_option = False
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             if self.target == 'own':
                 self.log.write(self.input(1))
             else:

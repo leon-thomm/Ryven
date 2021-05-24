@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Copy_Immutable_Node(NodeBase):
+    """
+    """
+    
     title = '_copy_immutable'
     type_ = 'copy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -20,14 +22,16 @@ class _Copy_Immutable_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._copy_immutable(self.input(0)))
         
 
 class _Deepcopy_Atomic_Node(NodeBase):
+    """
+    """
+    
     title = '_deepcopy_atomic'
     type_ = 'copy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo'),
@@ -37,14 +41,16 @@ class _Deepcopy_Atomic_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._deepcopy_atomic(self.input(0), self.input(1)))
         
 
 class _Deepcopy_Dict_Node(NodeBase):
+    """
+    """
+    
     title = '_deepcopy_dict'
     type_ = 'copy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo'),
@@ -55,14 +61,16 @@ class _Deepcopy_Dict_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._deepcopy_dict(self.input(0), self.input(1), self.input(2)))
         
 
 class _Deepcopy_List_Node(NodeBase):
+    """
+    """
+    
     title = '_deepcopy_list'
     type_ = 'copy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo'),
@@ -73,14 +81,16 @@ class _Deepcopy_List_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._deepcopy_list(self.input(0), self.input(1), self.input(2)))
         
 
 class _Deepcopy_Method_Node(NodeBase):
+    """
+    """
+    
     title = '_deepcopy_method'
     type_ = 'copy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo'),
@@ -90,14 +100,16 @@ class _Deepcopy_Method_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._deepcopy_method(self.input(0), self.input(1)))
         
 
 class _Deepcopy_Tuple_Node(NodeBase):
+    """
+    """
+    
     title = '_deepcopy_tuple'
     type_ = 'copy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo'),
@@ -108,14 +120,13 @@ class _Deepcopy_Tuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._deepcopy_tuple(self.input(0), self.input(1), self.input(2)))
         
 
 class _Keep_Alive_Node(NodeBase):
-    title = '_keep_alive'
-    type_ = 'copy'
-    doc = """Keeps a reference to the object x in the memo.
+    """
+    Keeps a reference to the object x in the memo.
 
     Because we remember objects by their id, we have
     to assure that possibly temporary objects are kept
@@ -124,6 +135,9 @@ class _Keep_Alive_Node(NodeBase):
     normally not be used unless someone tries to deepcopy
     the memo itself...
     """
+    
+    title = '_keep_alive'
+    type_ = 'copy'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo'),
@@ -133,14 +147,16 @@ class _Keep_Alive_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._keep_alive(self.input(0), self.input(1)))
         
 
 class _Reconstruct_Node(NodeBase):
+    """
+    """
+    
     title = '_reconstruct'
     type_ = 'copy'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo'),
@@ -156,17 +172,19 @@ class _Reconstruct_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy._reconstruct(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class Copy_Node(NodeBase):
-    title = 'copy'
-    type_ = 'copy'
-    doc = """Shallow copy operation on arbitrary Python objects.
+    """
+    Shallow copy operation on arbitrary Python objects.
 
     See the module's __doc__ string for more info.
     """
+    
+    title = 'copy'
+    type_ = 'copy'
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -175,17 +193,19 @@ class Copy_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy.copy(self.input(0)))
         
 
 class Deepcopy_Node(NodeBase):
-    title = 'deepcopy'
-    type_ = 'copy'
-    doc = """Deep copy operation on arbitrary Python objects.
+    """
+    Deep copy operation on arbitrary Python objects.
 
     See the module's __doc__ string for more info.
     """
+    
+    title = 'deepcopy'
+    type_ = 'copy'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo', dtype=dtypes.Data(default=None, size='s')),
@@ -195,7 +215,7 @@ class Deepcopy_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copy.deepcopy(self.input(0), self.input(1)))
         
 

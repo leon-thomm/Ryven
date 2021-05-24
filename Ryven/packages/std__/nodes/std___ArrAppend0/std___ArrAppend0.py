@@ -29,8 +29,8 @@ class ArrAppend_Node(Node):
         # ...
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             arr = self.input(1)
             val = self.input(2)
             arr.append(val)

@@ -49,8 +49,8 @@ class RandInt_Node(Node):
         self.delete_output(0)
         self.active = False
 
-    def update_event(self, input_called=-1):
-        if self.active and input_called==0:
+    def update_event(self, inp=-1):
+        if self.active and inp==0:
             self.set_output_val(1, random.randint(self.input(1), self.input(2)))
             self.exec_output(0)
         else:

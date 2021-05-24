@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Iseof_Node(NodeBase):
+    """
+    """
+    
     title = 'ISEOF'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -20,14 +22,16 @@ class Iseof_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.ISEOF(self.input(0)))
         
 
 class Isnonterminal_Node(NodeBase):
+    """
+    """
+    
     title = 'ISNONTERMINAL'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -36,14 +40,16 @@ class Isnonterminal_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.ISNONTERMINAL(self.input(0)))
         
 
 class Isterminal_Node(NodeBase):
+    """
+    """
+    
     title = 'ISTERMINAL'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -52,14 +58,16 @@ class Isterminal_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.ISTERMINAL(self.input(0)))
         
 
 class _All_String_Prefixes_Node(NodeBase):
+    """
+    """
+    
     title = '_all_string_prefixes'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -68,14 +76,13 @@ class _All_String_Prefixes_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize._all_string_prefixes())
         
 
 class _Builtin_Open_Node(NodeBase):
-    title = '_builtin_open'
-    type_ = 'tokenize'
-    doc = """Open file and return a stream.  Raise OSError upon failure.
+    """
+    Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -193,6 +200,9 @@ It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
 opened in a binary mode."""
+    
+    title = '_builtin_open'
+    type_ = 'tokenize'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
@@ -208,14 +218,16 @@ opened in a binary mode."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize._builtin_open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class _Compile_Node(NodeBase):
+    """
+    """
+    
     title = '_compile'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='expr'),
     ]
@@ -224,14 +236,16 @@ class _Compile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize._compile(self.input(0)))
         
 
 class _Get_Normal_Name_Node(NodeBase):
+    """
+    Imitates get_normal_name in tokenizer.c."""
+    
     title = '_get_normal_name'
     type_ = 'tokenize'
-    doc = """Imitates get_normal_name in tokenizer.c."""
     init_inputs = [
         NodeInputBP(label='orig_enc'),
     ]
@@ -240,14 +254,16 @@ class _Get_Normal_Name_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize._get_normal_name(self.input(0)))
         
 
 class _Tokenize_Node(NodeBase):
+    """
+    """
+    
     title = '_tokenize'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='readline'),
         NodeInputBP(label='encoding'),
@@ -257,14 +273,16 @@ class _Tokenize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize._tokenize(self.input(0), self.input(1)))
         
 
 class Any_Node(NodeBase):
+    """
+    """
+    
     title = 'any'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -273,14 +291,13 @@ class Any_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.any())
         
 
 class Detect_Encoding_Node(NodeBase):
-    title = 'detect_encoding'
-    type_ = 'tokenize'
-    doc = """
+    """
+    
     The detect_encoding() function is used to detect the encoding that should
     be used to decode a Python source file.  It requires one argument, readline,
     in the same way as the tokenize() generator.
@@ -296,6 +313,9 @@ class Detect_Encoding_Node(NodeBase):
 
     If no encoding is specified, then the default of 'utf-8' will be returned.
     """
+    
+    title = 'detect_encoding'
+    type_ = 'tokenize'
     init_inputs = [
         NodeInputBP(label='readline'),
     ]
@@ -304,18 +324,20 @@ class Detect_Encoding_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.detect_encoding(self.input(0)))
         
 
 class Generate_Tokens_Node(NodeBase):
-    title = 'generate_tokens'
-    type_ = 'tokenize'
-    doc = """Tokenize a source reading Python code as unicode strings.
+    """
+    Tokenize a source reading Python code as unicode strings.
 
     This has the same API as tokenize(), except that it expects the *readline*
     callable to return str objects instead of bytes.
     """
+    
+    title = 'generate_tokens'
+    type_ = 'tokenize'
     init_inputs = [
         NodeInputBP(label='readline'),
     ]
@@ -324,14 +346,16 @@ class Generate_Tokens_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.generate_tokens(self.input(0)))
         
 
 class Group_Node(NodeBase):
+    """
+    """
+    
     title = 'group'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -340,14 +364,16 @@ class Group_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.group())
         
 
 class Lookup_Node(NodeBase):
+    """
+    Looks up a codec tuple in the Python codec registry and returns a CodecInfo object."""
+    
     title = 'lookup'
     type_ = 'tokenize'
-    doc = """Looks up a codec tuple in the Python codec registry and returns a CodecInfo object."""
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -356,14 +382,16 @@ class Lookup_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.lookup(self.input(0)))
         
 
 class Main_Node(NodeBase):
+    """
+    """
+    
     title = 'main'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -372,14 +400,16 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.main())
         
 
 class Maybe_Node(NodeBase):
+    """
+    """
+    
     title = 'maybe'
     type_ = 'tokenize'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -388,16 +418,18 @@ class Maybe_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.maybe())
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'tokenize'
-    doc = """Open a file in read only mode using the encoding detected by
+    """
+    Open a file in read only mode using the encoding detected by
     detect_encoding().
     """
+    
+    title = 'open'
+    type_ = 'tokenize'
     init_inputs = [
         NodeInputBP(label='filename'),
     ]
@@ -406,14 +438,13 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.open(self.input(0)))
         
 
 class Tokenize_Node(NodeBase):
-    title = 'tokenize'
-    type_ = 'tokenize'
-    doc = """
+    """
+    
     The tokenize() generator requires one argument, readline, which
     must be a callable object which provides the same interface as the
     readline() method of built-in file objects.  Each call to the function
@@ -431,6 +462,9 @@ class Tokenize_Node(NodeBase):
     The first token sequence will always be an ENCODING token
     which tells you which encoding was used to decode the bytes stream.
     """
+    
+    title = 'tokenize'
+    type_ = 'tokenize'
     init_inputs = [
         NodeInputBP(label='readline'),
     ]
@@ -439,14 +473,13 @@ class Tokenize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.tokenize(self.input(0)))
         
 
 class Untokenize_Node(NodeBase):
-    title = 'untokenize'
-    type_ = 'tokenize'
-    doc = """Transform tokens back into Python source code.
+    """
+    Transform tokens back into Python source code.
     It returns a bytes object, encoded using the ENCODING
     token, which is the first token sequence output by tokenize.
 
@@ -465,6 +498,9 @@ class Untokenize_Node(NodeBase):
         t2 = [tok[:2] for tok in tokenize(readline)]
         assert t1 == t2
     """
+    
+    title = 'untokenize'
+    type_ = 'tokenize'
     init_inputs = [
         NodeInputBP(label='iterable'),
     ]
@@ -473,7 +509,7 @@ class Untokenize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tokenize.untokenize(self.input(0)))
         
 

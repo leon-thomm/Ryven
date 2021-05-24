@@ -9,15 +9,17 @@ class NodeBase(Node):
 
 
 class Test_Node(NodeBase):
-    title = 'test'
-    type_ = 'telnetlib'
-    doc = """Test program for telnetlib.
+    """
+    Test program for telnetlib.
 
     Usage: python telnetlib.py [-d] ... [host [port]]
 
     Default host is localhost; default port is 23.
 
     """
+    
+    title = 'test'
+    type_ = 'telnetlib'
     init_inputs = [
         
     ]
@@ -26,7 +28,7 @@ class Test_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, telnetlib.test())
         
 

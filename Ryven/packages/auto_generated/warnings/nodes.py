@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Add_Filter_Node(NodeBase):
+    """
+    """
+    
     title = '_add_filter'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -20,14 +22,16 @@ class _Add_Filter_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._add_filter())
         
 
 class _Formatwarning_Orig_Node(NodeBase):
+    """
+    Function to format a warning the standard way."""
+    
     title = '_formatwarning_orig'
     type_ = 'warnings'
-    doc = """Function to format a warning the standard way."""
     init_inputs = [
         NodeInputBP(label='message'),
         NodeInputBP(label='category'),
@@ -40,14 +44,16 @@ class _Formatwarning_Orig_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._formatwarning_orig(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Formatwarnmsg_Node(NodeBase):
+    """
+    Function to format a warning the standard way."""
+    
     title = '_formatwarnmsg'
     type_ = 'warnings'
-    doc = """Function to format a warning the standard way."""
     init_inputs = [
         NodeInputBP(label='msg'),
     ]
@@ -56,14 +62,16 @@ class _Formatwarnmsg_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._formatwarnmsg(self.input(0)))
         
 
 class _Formatwarnmsg_Impl_Node(NodeBase):
+    """
+    """
+    
     title = '_formatwarnmsg_impl'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='msg'),
     ]
@@ -72,14 +80,16 @@ class _Formatwarnmsg_Impl_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._formatwarnmsg_impl(self.input(0)))
         
 
 class _Getaction_Node(NodeBase):
+    """
+    """
+    
     title = '_getaction'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='action'),
     ]
@@ -88,14 +98,16 @@ class _Getaction_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._getaction(self.input(0)))
         
 
 class _Getcategory_Node(NodeBase):
+    """
+    """
+    
     title = '_getcategory'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='category'),
     ]
@@ -104,14 +116,16 @@ class _Getcategory_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._getcategory(self.input(0)))
         
 
 class _Is_Internal_Frame_Node(NodeBase):
+    """
+    Signal whether the frame is an internal CPython implementation detail."""
+    
     title = '_is_internal_frame'
     type_ = 'warnings'
-    doc = """Signal whether the frame is an internal CPython implementation detail."""
     init_inputs = [
         NodeInputBP(label='frame'),
     ]
@@ -120,14 +134,16 @@ class _Is_Internal_Frame_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._is_internal_frame(self.input(0)))
         
 
 class _Next_External_Frame_Node(NodeBase):
+    """
+    Find the next frame that doesn't involve CPython internals."""
+    
     title = '_next_external_frame'
     type_ = 'warnings'
-    doc = """Find the next frame that doesn't involve CPython internals."""
     init_inputs = [
         NodeInputBP(label='frame'),
     ]
@@ -136,14 +152,16 @@ class _Next_External_Frame_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._next_external_frame(self.input(0)))
         
 
 class _Processoptions_Node(NodeBase):
+    """
+    """
+    
     title = '_processoptions'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='args'),
     ]
@@ -152,14 +170,16 @@ class _Processoptions_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._processoptions(self.input(0)))
         
 
 class _Setoption_Node(NodeBase):
+    """
+    """
+    
     title = '_setoption'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='arg'),
     ]
@@ -168,14 +188,16 @@ class _Setoption_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._setoption(self.input(0)))
         
 
 class _Showwarning_Orig_Node(NodeBase):
+    """
+    Hook to write a warning to a file; replace if you like."""
+    
     title = '_showwarning_orig'
     type_ = 'warnings'
-    doc = """Hook to write a warning to a file; replace if you like."""
     init_inputs = [
         NodeInputBP(label='message'),
         NodeInputBP(label='category'),
@@ -189,14 +211,16 @@ class _Showwarning_Orig_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._showwarning_orig(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class _Showwarnmsg_Node(NodeBase):
+    """
+    Hook to write a warning to a file; replace if you like."""
+    
     title = '_showwarnmsg'
     type_ = 'warnings'
-    doc = """Hook to write a warning to a file; replace if you like."""
     init_inputs = [
         NodeInputBP(label='msg'),
     ]
@@ -205,14 +229,16 @@ class _Showwarnmsg_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._showwarnmsg(self.input(0)))
         
 
 class _Showwarnmsg_Impl_Node(NodeBase):
+    """
+    """
+    
     title = '_showwarnmsg_impl'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='msg'),
     ]
@@ -221,14 +247,16 @@ class _Showwarnmsg_Impl_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._showwarnmsg_impl(self.input(0)))
         
 
 class _Warn_Unawaited_Coroutine_Node(NodeBase):
+    """
+    """
+    
     title = '_warn_unawaited_coroutine'
     type_ = 'warnings'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='coro'),
     ]
@@ -237,14 +265,13 @@ class _Warn_Unawaited_Coroutine_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings._warn_unawaited_coroutine(self.input(0)))
         
 
 class Filterwarnings_Node(NodeBase):
-    title = 'filterwarnings'
-    type_ = 'warnings'
-    doc = """Insert an entry into the list of warnings filters (at the front).
+    """
+    Insert an entry into the list of warnings filters (at the front).
 
     'action' -- one of "error", "ignore", "always", "default", "module",
                 or "once"
@@ -254,6 +281,9 @@ class Filterwarnings_Node(NodeBase):
     'lineno' -- an integer line number, 0 matches all warnings
     'append' -- if true, append to the list of filters
     """
+    
+    title = 'filterwarnings'
+    type_ = 'warnings'
     init_inputs = [
         NodeInputBP(label='action'),
         NodeInputBP(label='message', dtype=dtypes.Data(default='', size='s')),
@@ -267,14 +297,16 @@ class Filterwarnings_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings.filterwarnings(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class Formatwarning_Node(NodeBase):
+    """
+    Function to format a warning the standard way."""
+    
     title = 'formatwarning'
     type_ = 'warnings'
-    doc = """Function to format a warning the standard way."""
     init_inputs = [
         NodeInputBP(label='message'),
         NodeInputBP(label='category'),
@@ -287,14 +319,16 @@ class Formatwarning_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings.formatwarning(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Resetwarnings_Node(NodeBase):
+    """
+    Clear the list of warning filters, so that no filters are active."""
+    
     title = 'resetwarnings'
     type_ = 'warnings'
-    doc = """Clear the list of warning filters, so that no filters are active."""
     init_inputs = [
         
     ]
@@ -303,14 +337,16 @@ class Resetwarnings_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings.resetwarnings())
         
 
 class Showwarning_Node(NodeBase):
+    """
+    Hook to write a warning to a file; replace if you like."""
+    
     title = 'showwarning'
     type_ = 'warnings'
-    doc = """Hook to write a warning to a file; replace if you like."""
     init_inputs = [
         NodeInputBP(label='message'),
         NodeInputBP(label='category'),
@@ -324,14 +360,13 @@ class Showwarning_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings.showwarning(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class Simplefilter_Node(NodeBase):
-    title = 'simplefilter'
-    type_ = 'warnings'
-    doc = """Insert a simple entry into the list of warnings filters (at the front).
+    """
+    Insert a simple entry into the list of warnings filters (at the front).
 
     A simple filter matches all modules and messages.
     'action' -- one of "error", "ignore", "always", "default", "module",
@@ -340,6 +375,9 @@ class Simplefilter_Node(NodeBase):
     'lineno' -- an integer line number, 0 matches all warnings
     'append' -- if true, append to the list of filters
     """
+    
+    title = 'simplefilter'
+    type_ = 'warnings'
     init_inputs = [
         NodeInputBP(label='action'),
         NodeInputBP(label='category', dtype=dtypes.Data(default=Warning, size='s')),
@@ -351,14 +389,16 @@ class Simplefilter_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings.simplefilter(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Warn_Node(NodeBase):
+    """
+    Issue a warning, or maybe ignore it or raise an exception."""
+    
     title = 'warn'
     type_ = 'warnings'
-    doc = """Issue a warning, or maybe ignore it or raise an exception."""
     init_inputs = [
         NodeInputBP(label='message'),
         NodeInputBP(label='category', dtype=dtypes.Data(default=None, size='s')),
@@ -370,7 +410,7 @@ class Warn_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, warnings.warn(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 

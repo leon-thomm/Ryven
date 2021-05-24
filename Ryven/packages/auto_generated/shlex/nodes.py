@@ -9,11 +9,13 @@ class NodeBase(Node):
 
 
 class _Find_Unsafe_Node(NodeBase):
-    title = '_find_unsafe'
-    type_ = 'shlex'
-    doc = """Scan through string looking for a match, and return a corresponding match object instance.
+    """
+    Scan through string looking for a match, and return a corresponding match object instance.
 
 Return None if no position in the string matches."""
+    
+    title = '_find_unsafe'
+    type_ = 'shlex'
     init_inputs = [
         NodeInputBP(label='string'),
         NodeInputBP(label='pos', dtype=dtypes.Data(default=0, size='s')),
@@ -24,14 +26,16 @@ Return None if no position in the string matches."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shlex._find_unsafe(self.input(0), self.input(1), self.input(2)))
         
 
 class _Print_Tokens_Node(NodeBase):
+    """
+    """
+    
     title = '_print_tokens'
     type_ = 'shlex'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='lexer'),
     ]
@@ -40,14 +44,16 @@ class _Print_Tokens_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shlex._print_tokens(self.input(0)))
         
 
 class Join_Node(NodeBase):
+    """
+    Return a shell-escaped string from *split_command*."""
+    
     title = 'join'
     type_ = 'shlex'
-    doc = """Return a shell-escaped string from *split_command*."""
     init_inputs = [
         NodeInputBP(label='split_command'),
     ]
@@ -56,14 +62,16 @@ class Join_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shlex.join(self.input(0)))
         
 
 class Quote_Node(NodeBase):
+    """
+    Return a shell-escaped version of the string *s*."""
+    
     title = 'quote'
     type_ = 'shlex'
-    doc = """Return a shell-escaped version of the string *s*."""
     init_inputs = [
         NodeInputBP(label='s'),
     ]
@@ -72,14 +80,16 @@ class Quote_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shlex.quote(self.input(0)))
         
 
 class Split_Node(NodeBase):
+    """
+    Split the string *s* using shell-like syntax."""
+    
     title = 'split'
     type_ = 'shlex'
-    doc = """Split the string *s* using shell-like syntax."""
     init_inputs = [
         NodeInputBP(label='s'),
         NodeInputBP(label='comments', dtype=dtypes.Data(default=False, size='s')),
@@ -90,7 +100,7 @@ class Split_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shlex.split(self.input(0), self.input(1), self.input(2)))
         
 

@@ -63,7 +63,7 @@ class Button_Node(NodeBase):
     ]
     color = '#99dd55'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.exec_output(0)
 
 
@@ -81,8 +81,8 @@ class Print_Node(DualNodeBase):
     def __init__(self, params):
         super().__init__(params, active=True)
 
-    def update_event(self, input_called=-1):
-        if self.active and input_called == 0:
+    def update_event(self, inp=-1):
+        if self.active and inp == 0:
             print(self.input(1))
         elif not self.active:
             print(self.input(0))
@@ -115,8 +115,8 @@ class Log_Node(DualNodeBase):
         }
         self.target = 'global'
 
-    def update_event(self, input_called=-1):
-        if self.active and input_called == 0:
+    def update_event(self, inp=-1):
+        if self.active and inp == 0:
             i = 1
         elif not self.active:
             i = 0
@@ -195,7 +195,7 @@ class Clock_Node(NodeBase):
             else:
                 self.start()
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         if self.session.gui:
             self.timer.setInterval(self.input(0)*1000)
 
@@ -223,7 +223,7 @@ class Slider_Node(NodeBase):
     def place_event(self):
         self.update()
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
 
         v = self.input(0) * self.val
         if self.input(1):
@@ -296,7 +296,7 @@ class Code_Node(NodeBase):
         self.num_outputs -= 1
         del self.special_actions[f'remove output {self.num_outputs}']
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         exec(self.code)
 
     def get_state(self) -> dict:
@@ -351,7 +351,7 @@ class Eval_Node(NodeBase):
         self.number_param_inputs -= 1
         del self.special_actions[f'remove input {self.number_param_inputs}']
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         inp = [self.input(i) for i in range(self.number_param_inputs)]
         self.set_output_val(0, eval(self.expression_code))
 

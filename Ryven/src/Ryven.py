@@ -2,31 +2,7 @@ import os
 import sys
 
 
-def apply_stylesheet(style: str):
-
-    from qtpy.QtCore import QDir
-    d = QDir()
-    d.setSearchPaths('icon', [os.path.abspath('../resources/stylesheets/icons')])
-
-    from WindowTheme import WindowTheme_Dark, WindowTheme_Light
-
-    if style == 'dark':
-        window_theme = WindowTheme_Dark()
-
-    else:
-        window_theme = WindowTheme_Light()
-
-    f = open('../resources/stylesheets/style_template.css')
-
-    from jinja2 import Template
-    jinja_template = Template(f.read())
-
-    f.close()
-
-    app.setStyleSheet(jinja_template.render(window_theme.rules))
-    # print(app.styleSheet())
-
-    return window_theme
+REDIRECT_CONSOLE_OUTPUT = True
 
 
 if __name__ == '__main__':
@@ -68,7 +44,7 @@ if __name__ == '__main__':
         db.addApplicationFont('../resources/fonts/source_code_pro/SourceCodePro-Regular.ttf')
         db.addApplicationFont('../resources/fonts/asap/Asap-Regular.ttf')
 
-        window_theme = apply_stylesheet('dark' if 'light' not in sys.argv else 'light')
+        # window_theme = apply_stylesheet('dark' if 'light' not in sys.argv else 'light')
 
         # StartupDialog
         sw = StartupDialog()
@@ -78,12 +54,19 @@ if __name__ == '__main__':
         if sw.editor_startup_configuration == {}:
             sys.exit()
 
-        # init console and redirect all output
+        window_theme = sw.window_theme
+
         console_stdout_redirect, console_errout_redirect = init_main_console(window_theme)
-        # with redirect_stdout(console_stdout_redirect), \
-        #      redirect_stderr(console_errout_redirect):
 
         mw = MainWindow(sw.editor_startup_configuration, window_theme)
         mw.show()
 
-        sys.exit(app.exec_())
+        def run():
+            mw.print_info()
+            sys.exit(app.exec_())
+
+        if REDIRECT_CONSOLE_OUTPUT:
+            with redirect_stdout(console_stdout_redirect), redirect_stderr(console_errout_redirect):
+                run()
+        else:
+            run()

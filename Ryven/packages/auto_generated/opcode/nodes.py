@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Stack_Effect_Node(NodeBase):
+    """
+    Compute the stack effect of the opcode."""
+    
     title = 'stack_effect'
     type_ = 'opcode'
-    doc = """Compute the stack effect of the opcode."""
     init_inputs = [
         NodeInputBP(label='opcode'),
         NodeInputBP(label='oparg', dtype=dtypes.Data(default=None, size='s')),
@@ -21,7 +23,7 @@ class Stack_Effect_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, opcode.stack_effect(self.input(0), self.input(1)))
         
 

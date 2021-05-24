@@ -27,7 +27,7 @@ class MyNode(Node):
         # the widget name must match your registered alias/key in the dict above
         # the widget pos can be 'besides' (the port pin) or 'below' (the port pin)
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         print('I have been updated!!')
         print(self.input(0), self.input(1))
 

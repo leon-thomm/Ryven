@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Get_Class_Members_Node(NodeBase):
+    """
+    """
+    
     title = 'get_class_members'
     type_ = 'rlcompleter'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='klass'),
     ]
@@ -20,7 +22,7 @@ class Get_Class_Members_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, rlcompleter.get_class_members(self.input(0)))
         
 

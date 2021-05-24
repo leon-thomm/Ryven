@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Default_Mime_Types_Node(NodeBase):
+    """
+    """
+    
     title = '_default_mime_types'
     type_ = 'mimetypes'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -20,14 +22,16 @@ class _Default_Mime_Types_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes._default_mime_types())
         
 
 class _Main_Node(NodeBase):
+    """
+    """
+    
     title = '_main'
     type_ = 'mimetypes'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -36,14 +40,13 @@ class _Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes._main())
         
 
 class Add_Type_Node(NodeBase):
-    title = 'add_type'
-    type_ = 'mimetypes'
-    doc = """Add a mapping between a type and an extension.
+    """
+    Add a mapping between a type and an extension.
 
     When the extension is already known, the new
     type will replace the old one. When the type
@@ -54,6 +57,9 @@ class Add_Type_Node(NodeBase):
     list of standard types, else to the list of non-standard
     types.
     """
+    
+    title = 'add_type'
+    type_ = 'mimetypes'
     init_inputs = [
         NodeInputBP(label='type'),
         NodeInputBP(label='ext'),
@@ -64,14 +70,13 @@ class Add_Type_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes.add_type(self.input(0), self.input(1), self.input(2)))
         
 
 class Guess_All_Extensions_Node(NodeBase):
-    title = 'guess_all_extensions'
-    type_ = 'mimetypes'
-    doc = """Guess the extensions for a file based on its MIME type.
+    """
+    Guess the extensions for a file based on its MIME type.
 
     Return value is a list of strings giving the possible filename
     extensions, including the leading dot ('.').  The extension is not
@@ -83,6 +88,9 @@ class Guess_All_Extensions_Node(NodeBase):
     Optional `strict' argument when false adds a bunch of commonly found,
     but non-standard types.
     """
+    
+    title = 'guess_all_extensions'
+    type_ = 'mimetypes'
     init_inputs = [
         NodeInputBP(label='type'),
         NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
@@ -92,14 +100,13 @@ class Guess_All_Extensions_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes.guess_all_extensions(self.input(0), self.input(1)))
         
 
 class Guess_Extension_Node(NodeBase):
-    title = 'guess_extension'
-    type_ = 'mimetypes'
-    doc = """Guess the extension for a file based on its MIME type.
+    """
+    Guess the extension for a file based on its MIME type.
 
     Return value is a string giving a filename extension, including the
     leading dot ('.').  The extension is not guaranteed to have been
@@ -110,6 +117,9 @@ class Guess_Extension_Node(NodeBase):
     Optional `strict' argument when false adds a bunch of commonly found,
     but non-standard types.
     """
+    
+    title = 'guess_extension'
+    type_ = 'mimetypes'
     init_inputs = [
         NodeInputBP(label='type'),
         NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
@@ -119,14 +129,13 @@ class Guess_Extension_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes.guess_extension(self.input(0), self.input(1)))
         
 
 class Guess_Type_Node(NodeBase):
-    title = 'guess_type'
-    type_ = 'mimetypes'
-    doc = """Guess the type of a file based on its URL.
+    """
+    Guess the type of a file based on its URL.
 
     Return value is a tuple (type, encoding) where type is None if the
     type can't be guessed (no or unknown suffix) or a string of the
@@ -143,6 +152,9 @@ class Guess_Type_Node(NodeBase):
     Optional `strict' argument when false adds a bunch of commonly found, but
     non-standard types.
     """
+    
+    title = 'guess_type'
+    type_ = 'mimetypes'
     init_inputs = [
         NodeInputBP(label='url'),
         NodeInputBP(label='strict', dtype=dtypes.Data(default=True, size='s')),
@@ -152,14 +164,16 @@ class Guess_Type_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes.guess_type(self.input(0), self.input(1)))
         
 
 class Init_Node(NodeBase):
+    """
+    """
+    
     title = 'init'
     type_ = 'mimetypes'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='files', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -168,14 +182,16 @@ class Init_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes.init(self.input(0)))
         
 
 class Read_Mime_Types_Node(NodeBase):
+    """
+    """
+    
     title = 'read_mime_types'
     type_ = 'mimetypes'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='file'),
     ]
@@ -184,7 +200,7 @@ class Read_Mime_Types_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, mimetypes.read_mime_types(self.input(0)))
         
 

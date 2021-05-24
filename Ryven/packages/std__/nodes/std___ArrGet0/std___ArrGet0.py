@@ -29,7 +29,7 @@ class ArrGet_Node(Node):
         # ...
 
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         arr = self.input(0)
         index = self.input(1)
         self.set_output_val(0, arr[index])

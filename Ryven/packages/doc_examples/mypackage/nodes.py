@@ -27,7 +27,7 @@ class Rand_Node(NodeBase):
     ]
     color = '#aabb44'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, round(random.random() * self.input(0), 3))
 
 
@@ -39,7 +39,7 @@ class Print_Node(NodeBase):
     ]
     color = '#3355dd'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         print(self.input(0))
 
 

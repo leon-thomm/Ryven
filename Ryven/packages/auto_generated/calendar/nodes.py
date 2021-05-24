@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Monthlen_Node(NodeBase):
+    """
+    """
+    
     title = '_monthlen'
     type_ = 'calendar'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='year'),
         NodeInputBP(label='month'),
@@ -21,14 +23,16 @@ class _Monthlen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar._monthlen(self.input(0), self.input(1)))
         
 
 class _Nextmonth_Node(NodeBase):
+    """
+    """
+    
     title = '_nextmonth'
     type_ = 'calendar'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='year'),
         NodeInputBP(label='month'),
@@ -38,14 +42,16 @@ class _Nextmonth_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar._nextmonth(self.input(0), self.input(1)))
         
 
 class _Prevmonth_Node(NodeBase):
+    """
+    """
+    
     title = '_prevmonth'
     type_ = 'calendar'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='year'),
         NodeInputBP(label='month'),
@@ -55,16 +61,18 @@ class _Prevmonth_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar._prevmonth(self.input(0), self.input(1)))
         
 
 class Calendar_Node(NodeBase):
-    title = 'calendar'
-    type_ = 'calendar'
-    doc = """
+    """
+    
         Returns a year's calendar as a multi-line string.
         """
+    
+    title = 'calendar'
+    type_ = 'calendar'
     init_inputs = [
         NodeInputBP(label='theyear'),
         NodeInputBP(label='w', dtype=dtypes.Data(default=2, size='s')),
@@ -77,14 +85,16 @@ class Calendar_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.calendar(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Firstweekday_Node(NodeBase):
+    """
+    """
+    
     title = 'firstweekday'
     type_ = 'calendar'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -93,14 +103,16 @@ class Firstweekday_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.firstweekday())
         
 
 class Format_Node(NodeBase):
+    """
+    Prints multi-column formatting for year calendars"""
+    
     title = 'format'
     type_ = 'calendar'
-    doc = """Prints multi-column formatting for year calendars"""
     init_inputs = [
         NodeInputBP(label='cols'),
         NodeInputBP(label='colwidth', dtype=dtypes.Data(default=20, size='s')),
@@ -111,14 +123,16 @@ class Format_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.format(self.input(0), self.input(1), self.input(2)))
         
 
 class Formatstring_Node(NodeBase):
+    """
+    Returns a string formatted from n strings, centered within n columns."""
+    
     title = 'formatstring'
     type_ = 'calendar'
-    doc = """Returns a string formatted from n strings, centered within n columns."""
     init_inputs = [
         NodeInputBP(label='cols'),
         NodeInputBP(label='colwidth', dtype=dtypes.Data(default=20, size='s')),
@@ -129,14 +143,16 @@ class Formatstring_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.formatstring(self.input(0), self.input(1), self.input(2)))
         
 
 class Isleap_Node(NodeBase):
+    """
+    Return True for leap years, False for non-leap years."""
+    
     title = 'isleap'
     type_ = 'calendar'
-    doc = """Return True for leap years, False for non-leap years."""
     init_inputs = [
         NodeInputBP(label='year'),
     ]
@@ -145,15 +161,17 @@ class Isleap_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.isleap(self.input(0)))
         
 
 class Leapdays_Node(NodeBase):
+    """
+    Return number of leap years in range [y1, y2).
+       Assume y1 <= y2."""
+    
     title = 'leapdays'
     type_ = 'calendar'
-    doc = """Return number of leap years in range [y1, y2).
-       Assume y1 <= y2."""
     init_inputs = [
         NodeInputBP(label='y1'),
         NodeInputBP(label='y2'),
@@ -163,14 +181,16 @@ class Leapdays_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.leapdays(self.input(0), self.input(1)))
         
 
 class Main_Node(NodeBase):
+    """
+    """
+    
     title = 'main'
     type_ = 'calendar'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='args'),
     ]
@@ -179,16 +199,18 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.main(self.input(0)))
         
 
 class Month_Node(NodeBase):
-    title = 'month'
-    type_ = 'calendar'
-    doc = """
+    """
+    
         Return a month's calendar string (multi-line).
         """
+    
+    title = 'month'
+    type_ = 'calendar'
     init_inputs = [
         NodeInputBP(label='theyear'),
         NodeInputBP(label='themonth'),
@@ -200,17 +222,19 @@ class Month_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.month(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Monthcalendar_Node(NodeBase):
-    title = 'monthcalendar'
-    type_ = 'calendar'
-    doc = """
+    """
+    
         Return a matrix representing a month's calendar.
         Each row represents a week; days outside this month are zero.
         """
+    
+    title = 'monthcalendar'
+    type_ = 'calendar'
     init_inputs = [
         NodeInputBP(label='year'),
         NodeInputBP(label='month'),
@@ -220,15 +244,17 @@ class Monthcalendar_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.monthcalendar(self.input(0), self.input(1)))
         
 
 class Monthrange_Node(NodeBase):
+    """
+    Return weekday (0-6 ~ Mon-Sun) and number of days (28-31) for
+       year, month."""
+    
     title = 'monthrange'
     type_ = 'calendar'
-    doc = """Return weekday (0-6 ~ Mon-Sun) and number of days (28-31) for
-       year, month."""
     init_inputs = [
         NodeInputBP(label='year'),
         NodeInputBP(label='month'),
@@ -238,14 +264,16 @@ class Monthrange_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.monthrange(self.input(0), self.input(1)))
         
 
 class Prcal_Node(NodeBase):
+    """
+    Print a year's calendar."""
+    
     title = 'prcal'
     type_ = 'calendar'
-    doc = """Print a year's calendar."""
     init_inputs = [
         NodeInputBP(label='theyear'),
         NodeInputBP(label='w', dtype=dtypes.Data(default=0, size='s')),
@@ -258,16 +286,18 @@ class Prcal_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.prcal(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Prmonth_Node(NodeBase):
-    title = 'prmonth'
-    type_ = 'calendar'
-    doc = """
+    """
+    
         Print a month's calendar.
         """
+    
+    title = 'prmonth'
+    type_ = 'calendar'
     init_inputs = [
         NodeInputBP(label='theyear'),
         NodeInputBP(label='themonth'),
@@ -279,16 +309,18 @@ class Prmonth_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.prmonth(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Prweek_Node(NodeBase):
-    title = 'prweek'
-    type_ = 'calendar'
-    doc = """
+    """
+    
         Print a single week (no newline).
         """
+    
+    title = 'prweek'
+    type_ = 'calendar'
     init_inputs = [
         NodeInputBP(label='theweek'),
         NodeInputBP(label='width'),
@@ -298,14 +330,16 @@ class Prweek_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.prweek(self.input(0), self.input(1)))
         
 
 class Setfirstweekday_Node(NodeBase):
+    """
+    """
+    
     title = 'setfirstweekday'
     type_ = 'calendar'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='firstweekday'),
     ]
@@ -314,14 +348,16 @@ class Setfirstweekday_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.setfirstweekday(self.input(0)))
         
 
 class Timegm_Node(NodeBase):
+    """
+    Unrelated but handy function to calculate Unix timestamp from GMT."""
+    
     title = 'timegm'
     type_ = 'calendar'
-    doc = """Unrelated but handy function to calculate Unix timestamp from GMT."""
     init_inputs = [
         NodeInputBP(label='tuple'),
     ]
@@ -330,16 +366,18 @@ class Timegm_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.timegm(self.input(0)))
         
 
 class Week_Node(NodeBase):
-    title = 'week'
-    type_ = 'calendar'
-    doc = """
+    """
+    
         Returns a single week in a string (no newline).
         """
+    
+    title = 'week'
+    type_ = 'calendar'
     init_inputs = [
         NodeInputBP(label='theweek'),
         NodeInputBP(label='width'),
@@ -349,14 +387,16 @@ class Week_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.week(self.input(0), self.input(1)))
         
 
 class Weekday_Node(NodeBase):
+    """
+    Return weekday (0-6 ~ Mon-Sun) for year, month (1-12), day (1-31)."""
+    
     title = 'weekday'
     type_ = 'calendar'
-    doc = """Return weekday (0-6 ~ Mon-Sun) for year, month (1-12), day (1-31)."""
     init_inputs = [
         NodeInputBP(label='year'),
         NodeInputBP(label='month'),
@@ -367,16 +407,18 @@ class Weekday_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.weekday(self.input(0), self.input(1), self.input(2)))
         
 
 class Weekheader_Node(NodeBase):
-    title = 'weekheader'
-    type_ = 'calendar'
-    doc = """
+    """
+    
         Return a header for a week.
         """
+    
+    title = 'weekheader'
+    type_ = 'calendar'
     init_inputs = [
         NodeInputBP(label='width'),
     ]
@@ -385,7 +427,7 @@ class Weekheader_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, calendar.weekheader(self.input(0)))
         
 

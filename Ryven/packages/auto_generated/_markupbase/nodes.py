@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Declname_Match_Node(NodeBase):
+    """
+    Matches zero or more characters at the beginning of the string."""
+    
     title = '_declname_match'
     type_ = '_markupbase'
-    doc = """Matches zero or more characters at the beginning of the string."""
     init_inputs = [
         NodeInputBP(label='string'),
         NodeInputBP(label='pos', dtype=dtypes.Data(default=0, size='s')),
@@ -22,14 +24,16 @@ class _Declname_Match_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _markupbase._declname_match(self.input(0), self.input(1), self.input(2)))
         
 
 class _Declstringlit_Match_Node(NodeBase):
+    """
+    Matches zero or more characters at the beginning of the string."""
+    
     title = '_declstringlit_match'
     type_ = '_markupbase'
-    doc = """Matches zero or more characters at the beginning of the string."""
     init_inputs = [
         NodeInputBP(label='string'),
         NodeInputBP(label='pos', dtype=dtypes.Data(default=0, size='s')),
@@ -40,7 +44,7 @@ class _Declstringlit_Match_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _markupbase._declstringlit_match(self.input(0), self.input(1), self.input(2)))
         
 

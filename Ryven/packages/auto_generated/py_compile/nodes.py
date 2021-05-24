@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Get_Default_Invalidation_Mode_Node(NodeBase):
+    """
+    """
+    
     title = '_get_default_invalidation_mode'
     type_ = 'py_compile'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -20,14 +22,13 @@ class _Get_Default_Invalidation_Mode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, py_compile._get_default_invalidation_mode())
         
 
 class Compile_Node(NodeBase):
-    title = 'compile'
-    type_ = 'py_compile'
-    doc = """Byte-compile one Python source file to Python bytecode.
+    """
+    Byte-compile one Python source file to Python bytecode.
 
     :param file: The source file name.
     :param cfile: The target byte compiled file name.  When not given, this
@@ -70,6 +71,9 @@ class Compile_Node(NodeBase):
     the resulting file would be regular and thus not the same type of file as
     it was previously.
     """
+    
+    title = 'compile'
+    type_ = 'py_compile'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='cfile', dtype=dtypes.Data(default=None, size='s')),
@@ -84,14 +88,13 @@ class Compile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, py_compile.compile(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6)))
         
 
 class Main_Node(NodeBase):
-    title = 'main'
-    type_ = 'py_compile'
-    doc = """Compile several source files.
+    """
+    Compile several source files.
 
     The files named in 'args' (or on the command line, if 'args' is
     not specified) are compiled and the resulting bytecode is cached
@@ -101,6 +104,9 @@ class Main_Node(NodeBase):
     files is taken from standard input.
 
     """
+    
+    title = 'main'
+    type_ = 'py_compile'
     init_inputs = [
         NodeInputBP(label='args', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -109,7 +115,7 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, py_compile.main(self.input(0)))
         
 

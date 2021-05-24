@@ -40,13 +40,16 @@ class CodePreviewWidget(QWidget):
         # self.highlight_code_button.setEnabled(False)
         # self.highlight_code_button.clicked.connect(self.highlight_code_button_clicked)
         self.edit_code_button = QPushButton('edit')
+        self.edit_code_button.setProperty('class', 'small_button')
         self.edit_code_button.setMaximumWidth(100)
         self.edit_code_button.clicked.connect(self.edit_code_button_clicked)
         self.override_code_button = QPushButton('override')
+        self.override_code_button.setProperty('class', 'small_button')
         self.override_code_button.setMaximumWidth(100)
         self.override_code_button.setEnabled(False)
         self.override_code_button.clicked.connect(self.override_code_button_clicked)
         self.reset_code_button = QPushButton('reset')
+        self.reset_code_button.setProperty('class', 'small_button')
         self.reset_code_button.setMaximumWidth(206)
         self.reset_code_button.setEnabled(False)
         self.reset_code_button.clicked.connect(self.reset_code_button_clicked)
@@ -111,7 +114,8 @@ class CodePreviewWidget(QWidget):
             self.reset_code_button.setEnabled(True)
 
     def get_current_code_class(self):
-        return self.get_current_code_obj().__class__
+        o = self.get_current_code_obj()
+        return o.__class__
 
     def get_current_code_obj(self):
         return list(self.buttons_obj_dict.values())[self.active_class_index]

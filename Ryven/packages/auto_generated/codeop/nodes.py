@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Compile_Node(NodeBase):
+    """
+    """
+    
     title = '_compile'
     type_ = 'codeop'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='filename'),
@@ -22,14 +24,16 @@ class _Compile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codeop._compile(self.input(0), self.input(1), self.input(2)))
         
 
 class _Maybe_Compile_Node(NodeBase):
+    """
+    """
+    
     title = '_maybe_compile'
     type_ = 'codeop'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='compiler'),
         NodeInputBP(label='source'),
@@ -41,14 +45,13 @@ class _Maybe_Compile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codeop._maybe_compile(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Compile_Command_Node(NodeBase):
-    title = 'compile_command'
-    type_ = 'codeop'
-    doc = """Compile a command and determine whether it is incomplete.
+    """
+    Compile a command and determine whether it is incomplete.
 
     Arguments:
 
@@ -66,6 +69,9 @@ class Compile_Command_Node(NodeBase):
       syntax error (OverflowError and ValueError can be produced by
       malformed literals).
     """
+    
+    title = 'compile_command'
+    type_ = 'codeop'
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='filename', dtype=dtypes.Data(default='<input>', size='s')),
@@ -76,7 +82,7 @@ class Compile_Command_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codeop.compile_command(self.input(0), self.input(1), self.input(2)))
         
 

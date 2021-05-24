@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Addr_Only_Node(NodeBase):
+    """
+    """
+    
     title = '_addr_only'
     type_ = 'smtplib'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='addrstring'),
     ]
@@ -20,14 +22,16 @@ class _Addr_Only_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, smtplib._addr_only(self.input(0)))
         
 
 class _Fix_Eols_Node(NodeBase):
+    """
+    """
+    
     title = '_fix_eols'
     type_ = 'smtplib'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
     ]
@@ -36,14 +40,16 @@ class _Fix_Eols_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, smtplib._fix_eols(self.input(0)))
         
 
 class _Quote_Periods_Node(NodeBase):
+    """
+    """
+    
     title = '_quote_periods'
     type_ = 'smtplib'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='bindata'),
     ]
@@ -52,14 +58,13 @@ class _Quote_Periods_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, smtplib._quote_periods(self.input(0)))
         
 
 class Encode_Base64_Node(NodeBase):
-    title = 'encode_base64'
-    type_ = 'smtplib'
-    doc = """Encode a string with base64.
+    """
+    Encode a string with base64.
 
     Each line will be wrapped at, at most, maxlinelen characters (defaults to
     76 characters).
@@ -68,6 +73,9 @@ class Encode_Base64_Node(NodeBase):
     this to "\r\n" if you will be using the result of this function directly
     in an email.
     """
+    
+    title = 'encode_base64'
+    type_ = 'smtplib'
     init_inputs = [
         NodeInputBP(label='s'),
         NodeInputBP(label='maxlinelen', dtype=dtypes.Data(default=76, size='s')),
@@ -79,17 +87,19 @@ class Encode_Base64_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, smtplib.encode_base64(self.input(0), self.input(1), self.input(2)))
         
 
 class Quoteaddr_Node(NodeBase):
-    title = 'quoteaddr'
-    type_ = 'smtplib'
-    doc = """Quote a subset of the email addresses defined by RFC 821.
+    """
+    Quote a subset of the email addresses defined by RFC 821.
 
     Should be able to handle anything email.utils.parseaddr can handle.
     """
+    
+    title = 'quoteaddr'
+    type_ = 'smtplib'
     init_inputs = [
         NodeInputBP(label='addrstring'),
     ]
@@ -98,18 +108,20 @@ class Quoteaddr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, smtplib.quoteaddr(self.input(0)))
         
 
 class Quotedata_Node(NodeBase):
-    title = 'quotedata'
-    type_ = 'smtplib'
-    doc = """Quote data for email.
+    """
+    Quote data for email.
 
     Double leading '.', and change Unix newline '\n', or Mac '\r' into
     Internet CRLF end-of-line.
     """
+    
+    title = 'quotedata'
+    type_ = 'smtplib'
     init_inputs = [
         NodeInputBP(label='data'),
     ]
@@ -118,7 +130,7 @@ class Quotedata_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, smtplib.quotedata(self.input(0)))
         
 

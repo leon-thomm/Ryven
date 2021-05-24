@@ -986,6 +986,27 @@ RYVENCORE-QT DTYPE WIDGETS
  */
 
 
+*[class="small_button"] {
+  color: {{primaryLightColor}};
+  background-color: {{secondaryColor}};
+  border: 1px solid {{primaryColor}};
+  border-radius: 3px;
+  font-family: Segoe UI;
+  font-size: 14px;
+  font-weight: normal;
+  text-transform: none;
+  height: 15px;
+  min-height: 15px;
+  max-height: 15px;
+  margin: 0px;
+  padding: 4px 20px;
+}
+*[class="small_button"]:pressed {
+  color: {{primaryLightColor}};
+  background-color: {{secondaryLightColor}};
+}
+
+
 /* RCIW_BUILTIN_LineEdit { */
 String_IW,
 Data_IW
@@ -1032,3 +1053,4 @@ ConsoleInputLineEdit {
     font-family: Consolas;
     font-size: 12pt;
 }
+

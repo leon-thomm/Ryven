@@ -22,7 +22,7 @@ class %CLASS%(Node):
     def button_clicked(self):
         self.update()
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.exec_output(0)
 
     def get_state(self):

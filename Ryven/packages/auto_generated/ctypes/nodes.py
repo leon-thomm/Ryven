@@ -21,7 +21,7 @@ class Array_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.ARRAY(self.input(0), self.input(1)))
         
 
@@ -51,7 +51,7 @@ class Cfunctype_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.CFUNCTYPE(self.input(0)))
         
 
@@ -67,7 +67,7 @@ class Dllcanunloadnow_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.DllCanUnloadNow())
         
 
@@ -85,7 +85,7 @@ class Dllgetclassobject_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.DllGetClassObject(self.input(0), self.input(1), self.input(2)))
         
 
@@ -101,7 +101,7 @@ class Pyfunctype_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.PYFUNCTYPE(self.input(0)))
         
 
@@ -118,7 +118,7 @@ class Setpointertype_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.SetPointerType(self.input(0), self.input(1)))
         
 
@@ -134,7 +134,7 @@ class Winfunctype_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.WINFUNCTYPE(self.input(0)))
         
 
@@ -151,7 +151,7 @@ class Winerror_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.WinError(self.input(0), self.input(1)))
         
 
@@ -167,7 +167,7 @@ class _Calcsize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes._calcsize(self.input(0)))
         
 
@@ -184,7 +184,7 @@ class _Check_Size_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes._check_size(self.input(0), self.input(1)))
         
 
@@ -200,7 +200,7 @@ class _Reset_Cache_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes._reset_cache())
         
 
@@ -217,7 +217,7 @@ class C_Buffer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.c_buffer(self.input(0), self.input(1)))
         
 
@@ -234,7 +234,7 @@ class Cast_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.cast(self.input(0), self.input(1)))
         
 
@@ -254,7 +254,7 @@ class Create_String_Buffer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.create_string_buffer(self.input(0), self.input(1)))
         
 
@@ -274,7 +274,7 @@ class Create_Unicode_Buffer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.create_unicode_buffer(self.input(0), self.input(1)))
         
 
@@ -293,7 +293,7 @@ class String_At_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.string_at(self.input(0), self.input(1)))
         
 
@@ -312,7 +312,7 @@ class Wstring_At_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, ctypes.wstring_at(self.input(0), self.input(1)))
         
 

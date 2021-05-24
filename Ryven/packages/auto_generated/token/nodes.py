@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Iseof_Node(NodeBase):
+    """
+    """
+    
     title = 'ISEOF'
     type_ = 'token'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -20,14 +22,16 @@ class Iseof_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, token.ISEOF(self.input(0)))
         
 
 class Isnonterminal_Node(NodeBase):
+    """
+    """
+    
     title = 'ISNONTERMINAL'
     type_ = 'token'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -36,14 +40,16 @@ class Isnonterminal_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, token.ISNONTERMINAL(self.input(0)))
         
 
 class Isterminal_Node(NodeBase):
+    """
+    """
+    
     title = 'ISTERMINAL'
     type_ = 'token'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -52,7 +58,7 @@ class Isterminal_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, token.ISTERMINAL(self.input(0)))
         
 

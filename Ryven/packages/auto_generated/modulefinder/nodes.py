@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Addpackagepath_Node(NodeBase):
+    """
+    """
+    
     title = 'AddPackagePath'
     type_ = 'modulefinder'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='packagename'),
         NodeInputBP(label='path'),
@@ -21,14 +23,16 @@ class Addpackagepath_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, modulefinder.AddPackagePath(self.input(0), self.input(1)))
         
 
 class Replacepackage_Node(NodeBase):
+    """
+    """
+    
     title = 'ReplacePackage'
     type_ = 'modulefinder'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='oldname'),
         NodeInputBP(label='newname'),
@@ -38,14 +42,16 @@ class Replacepackage_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, modulefinder.ReplacePackage(self.input(0), self.input(1)))
         
 
 class _Find_Module_Node(NodeBase):
+    """
+    An importlib reimplementation of imp.find_module (for our purposes)."""
+    
     title = '_find_module'
     type_ = 'modulefinder'
-    doc = """An importlib reimplementation of imp.find_module (for our purposes)."""
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
@@ -55,14 +61,16 @@ class _Find_Module_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, modulefinder._find_module(self.input(0), self.input(1)))
         
 
 class Test_Node(NodeBase):
+    """
+    """
+    
     title = 'test'
     type_ = 'modulefinder'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -71,7 +79,7 @@ class Test_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, modulefinder.test())
         
 

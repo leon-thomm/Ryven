@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Openwrapper_Node(NodeBase):
-    title = 'OpenWrapper'
-    type_ = 'io'
-    doc = """Open file and return a stream.  Raise OSError upon failure.
+    """
+    Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -129,6 +128,9 @@ It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
 opened in a binary mode."""
+    
+    title = 'OpenWrapper'
+    type_ = 'io'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
@@ -144,14 +146,13 @@ opened in a binary mode."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, io.OpenWrapper(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'io'
-    doc = """Open file and return a stream.  Raise OSError upon failure.
+    """
+    Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -269,6 +270,9 @@ It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
 opened in a binary mode."""
+    
+    title = 'open'
+    type_ = 'io'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
@@ -284,17 +288,19 @@ opened in a binary mode."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, io.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class Open_Code_Node(NodeBase):
-    title = 'open_code'
-    type_ = 'io'
-    doc = """Opens the provided file with the intent to import the contents.
+    """
+    Opens the provided file with the intent to import the contents.
 
 This may perform extra validation beyond open(), but is otherwise interchangeable
 with calling open(path, 'rb')."""
+    
+    title = 'open_code'
+    type_ = 'io'
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -303,7 +309,7 @@ with calling open(path, 'rb')."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, io.open_code(self.input(0)))
         
 

@@ -9,11 +9,13 @@ class NodeBase(Node):
 
 
 class Compress_Node(NodeBase):
-    title = 'compress'
-    type_ = 'gzip'
-    doc = """Compress data in one shot and return the compressed string.
+    """
+    Compress data in one shot and return the compressed string.
     Optional argument is the compression level, in range of 0-9.
     """
+    
+    title = 'compress'
+    type_ = 'gzip'
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='compresslevel', dtype=dtypes.Data(default=9, size='s')),
@@ -23,16 +25,18 @@ class Compress_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gzip.compress(self.input(0), self.input(1)))
         
 
 class Decompress_Node(NodeBase):
-    title = 'decompress'
-    type_ = 'gzip'
-    doc = """Decompress a gzip compressed string in one shot.
+    """
+    Decompress a gzip compressed string in one shot.
     Return the decompressed string.
     """
+    
+    title = 'decompress'
+    type_ = 'gzip'
     init_inputs = [
         NodeInputBP(label='data'),
     ]
@@ -41,14 +45,16 @@ class Decompress_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gzip.decompress(self.input(0)))
         
 
 class Main_Node(NodeBase):
+    """
+    """
+    
     title = 'main'
     type_ = 'gzip'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -57,14 +63,13 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gzip.main())
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'gzip'
-    doc = """Open a gzip-compressed file in binary or text mode.
+    """
+    Open a gzip-compressed file in binary or text mode.
 
     The filename argument can be an actual filename (a str or bytes object), or
     an existing file object to read from or write to.
@@ -82,6 +87,9 @@ class Open_Node(NodeBase):
     behavior, and line ending(s).
 
     """
+    
+    title = 'open'
+    type_ = 'gzip'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='rb', size='s')),
@@ -95,14 +103,16 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gzip.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class Write32U_Node(NodeBase):
+    """
+    """
+    
     title = 'write32u'
     type_ = 'gzip'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='output'),
         NodeInputBP(label='value'),
@@ -112,7 +122,7 @@ class Write32U_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gzip.write32u(self.input(0), self.input(1)))
         
 

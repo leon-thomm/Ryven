@@ -9,11 +9,13 @@ class NodeBase(Node):
 
 
 class Getcontext_Node(NodeBase):
-    title = 'getcontext'
-    type_ = 'decimal'
-    doc = """Get the current default context.
+    """
+    Get the current default context.
 
 """
+    
+    title = 'getcontext'
+    type_ = 'decimal'
     init_inputs = [
         
     ]
@@ -22,19 +24,21 @@ class Getcontext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, decimal.getcontext())
         
 
 class Localcontext_Node(NodeBase):
-    title = 'localcontext'
-    type_ = 'decimal'
-    doc = """Return a context manager that will set the default context to a copy of ctx
+    """
+    Return a context manager that will set the default context to a copy of ctx
 on entry to the with-statement and restore the previous default context when
 exiting the with-statement. If no context is specified, a copy of the current
 default context is used.
 
 """
+    
+    title = 'localcontext'
+    type_ = 'decimal'
     init_inputs = [
         NodeInputBP(label='ctx', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -43,16 +47,18 @@ default context is used.
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, decimal.localcontext(self.input(0)))
         
 
 class Setcontext_Node(NodeBase):
-    title = 'setcontext'
-    type_ = 'decimal'
-    doc = """Set a new default context.
+    """
+    Set a new default context.
 
 """
+    
+    title = 'setcontext'
+    type_ = 'decimal'
     init_inputs = [
         NodeInputBP(label='context'),
     ]
@@ -61,7 +67,7 @@ class Setcontext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, decimal.setcontext(self.input(0)))
         
 

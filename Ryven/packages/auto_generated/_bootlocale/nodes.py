@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Getpreferredencoding_Node(NodeBase):
+    """
+    """
+    
     title = 'getpreferredencoding'
     type_ = '_bootlocale'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='do_setlocale', dtype=dtypes.Data(default=True, size='s')),
     ]
@@ -20,7 +22,7 @@ class Getpreferredencoding_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _bootlocale.getpreferredencoding(self.input(0)))
         
 

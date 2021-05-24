@@ -17,7 +17,7 @@ class %CLASS%(Node):
     def __init__(self, params):
         super(%CLASS%, self).__init__(params)
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.outputs[0].set_val(not self.input(0))
 
     def get_state(self):

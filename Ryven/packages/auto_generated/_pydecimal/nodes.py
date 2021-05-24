@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _All_Zeros_Node(NodeBase):
+    """
+    Matches zero or more characters at the beginning of the string."""
+    
     title = '_all_zeros'
     type_ = '_pydecimal'
-    doc = """Matches zero or more characters at the beginning of the string."""
     init_inputs = [
         NodeInputBP(label='string'),
         NodeInputBP(label='pos', dtype=dtypes.Data(default=0, size='s')),
@@ -22,19 +24,21 @@ class _All_Zeros_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._all_zeros(self.input(0), self.input(1), self.input(2)))
         
 
 class _Convert_For_Comparison_Node(NodeBase):
-    title = '_convert_for_comparison'
-    type_ = '_pydecimal'
-    doc = """Given a Decimal instance self and a Python object other, return
+    """
+    Given a Decimal instance self and a Python object other, return
     a pair (s, o) of Decimal instances such that "s op o" is
     equivalent to "self op other" for any of the 6 comparison
     operators "op".
 
     """
+    
+    title = '_convert_for_comparison'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='other'),
         NodeInputBP(label='equality_op', dtype=dtypes.Data(default=False, size='s')),
@@ -44,20 +48,22 @@ class _Convert_For_Comparison_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._convert_for_comparison(self.input(0), self.input(1)))
         
 
 class _Convert_Other_Node(NodeBase):
-    title = '_convert_other'
-    type_ = '_pydecimal'
-    doc = """Convert other to Decimal.
+    """
+    Convert other to Decimal.
 
     Verifies that it's ok to use in an implicit construction.
     If allow_float is true, allow conversion from float;  this
     is used in the comparison methods (__eq__ and friends).
 
     """
+    
+    title = '_convert_other'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='other'),
         NodeInputBP(label='raiseit', dtype=dtypes.Data(default=False, size='s')),
@@ -68,19 +74,21 @@ class _Convert_Other_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._convert_other(self.input(0), self.input(1), self.input(2)))
         
 
 class _Dec_From_Triple_Node(NodeBase):
-    title = '_dec_from_triple'
-    type_ = '_pydecimal'
-    doc = """Create a decimal instance directly, without any validation,
+    """
+    Create a decimal instance directly, without any validation,
     normalization (e.g. removal of leading zeros) or argument
     conversion.
 
     This function is for *internal use only*.
     """
+    
+    title = '_dec_from_triple'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='sign'),
         NodeInputBP(label='coefficient'),
@@ -92,14 +100,13 @@ class _Dec_From_Triple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._dec_from_triple(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class _Decimal_Lshift_Exact_Node(NodeBase):
-    title = '_decimal_lshift_exact'
-    type_ = '_pydecimal'
-    doc = """ Given integers n and e, return n * 10**e if it's an integer, else None.
+    """
+     Given integers n and e, return n * 10**e if it's an integer, else None.
 
     The computation is designed to avoid computing large powers of 10
     unnecessarily.
@@ -109,6 +116,9 @@ class _Decimal_Lshift_Exact_Node(NodeBase):
     >>> _decimal_lshift_exact(300, -999999999)  # returns None
 
     """
+    
+    title = '_decimal_lshift_exact'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='n'),
         NodeInputBP(label='e'),
@@ -118,14 +128,13 @@ class _Decimal_Lshift_Exact_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._decimal_lshift_exact(self.input(0), self.input(1)))
         
 
 class _Dexp_Node(NodeBase):
-    title = '_dexp'
-    type_ = '_pydecimal'
-    doc = """Compute an approximation to exp(c*10**e), with p decimal places of
+    """
+    Compute an approximation to exp(c*10**e), with p decimal places of
     precision.
 
     Returns integers d, f such that:
@@ -137,6 +146,9 @@ class _Dexp_Node(NodeBase):
     digits of precision, and with an error in d of at most 1.  This is
     almost, but not quite, the same as the error being < 1ulp: when d
     = 10**(p-1) the error could be up to 10 ulp."""
+    
+    title = '_dexp'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='c'),
         NodeInputBP(label='e'),
@@ -147,17 +159,19 @@ class _Dexp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._dexp(self.input(0), self.input(1), self.input(2)))
         
 
 class _Div_Nearest_Node(NodeBase):
-    title = '_div_nearest'
-    type_ = '_pydecimal'
-    doc = """Closest integer to a/b, a and b positive integers; rounds to even
+    """
+    Closest integer to a/b, a and b positive integers; rounds to even
     in the case of a tie.
 
     """
+    
+    title = '_div_nearest'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -167,16 +181,18 @@ class _Div_Nearest_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._div_nearest(self.input(0), self.input(1)))
         
 
 class _Dlog_Node(NodeBase):
-    title = '_dlog'
-    type_ = '_pydecimal'
-    doc = """Given integers c, e and p with c > 0, compute an integer
+    """
+    Given integers c, e and p with c > 0, compute an integer
     approximation to 10**p * log(c*10**e), with an absolute error of
     at most 1.  Assumes that c*10**e is not exactly 1."""
+    
+    title = '_dlog'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='c'),
         NodeInputBP(label='e'),
@@ -187,16 +203,18 @@ class _Dlog_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._dlog(self.input(0), self.input(1), self.input(2)))
         
 
 class _Dlog10_Node(NodeBase):
-    title = '_dlog10'
-    type_ = '_pydecimal'
-    doc = """Given integers c, e and p with c > 0, p >= 0, compute an integer
+    """
+    Given integers c, e and p with c > 0, p >= 0, compute an integer
     approximation to 10**p * log10(c*10**e), with an absolute error of
     at most 1.  Assumes that c*10**e is not exactly 1."""
+    
+    title = '_dlog10'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='c'),
         NodeInputBP(label='e'),
@@ -207,14 +225,13 @@ class _Dlog10_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._dlog10(self.input(0), self.input(1), self.input(2)))
         
 
 class _Dpower_Node(NodeBase):
-    title = '_dpower'
-    type_ = '_pydecimal'
-    doc = """Given integers xc, xe, yc and ye representing Decimals x = xc*10**xe and
+    """
+    Given integers xc, xe, yc and ye representing Decimals x = xc*10**xe and
     y = yc*10**ye, compute x**y.  Returns a pair of integers (c, e) such that:
 
       10**(p-1) <= c <= 10**p, and
@@ -227,6 +244,9 @@ class _Dpower_Node(NodeBase):
 
     We assume that: x is positive and not equal to 1, and y is nonzero.
     """
+    
+    title = '_dpower'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='xc'),
         NodeInputBP(label='xe'),
@@ -239,14 +259,16 @@ class _Dpower_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._dpower(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Exact_Half_Node(NodeBase):
+    """
+    Matches zero or more characters at the beginning of the string."""
+    
     title = '_exact_half'
     type_ = '_pydecimal'
-    doc = """Matches zero or more characters at the beginning of the string."""
     init_inputs = [
         NodeInputBP(label='string'),
         NodeInputBP(label='pos', dtype=dtypes.Data(default=0, size='s')),
@@ -257,19 +279,21 @@ class _Exact_Half_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._exact_half(self.input(0), self.input(1), self.input(2)))
         
 
 class _Format_Align_Node(NodeBase):
-    title = '_format_align'
-    type_ = '_pydecimal'
-    doc = """Given an unpadded, non-aligned numeric string 'body' and sign
+    """
+    Given an unpadded, non-aligned numeric string 'body' and sign
     string 'sign', add padding and alignment conforming to the given
     format specifier dictionary 'spec' (as produced by
     parse_format_specifier).
 
     """
+    
+    title = '_format_align'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='sign'),
         NodeInputBP(label='body'),
@@ -280,14 +304,13 @@ class _Format_Align_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._format_align(self.input(0), self.input(1), self.input(2)))
         
 
 class _Format_Number_Node(NodeBase):
-    title = '_format_number'
-    type_ = '_pydecimal'
-    doc = """Format a number, given the following data:
+    """
+    Format a number, given the following data:
 
     is_negative: true if the number is negative, else false
     intpart: string of digits that must appear before the decimal point
@@ -303,6 +326,9 @@ class _Format_Number_Node(NodeBase):
       zero-pad if necessary
       fill and align if necessary
     """
+    
+    title = '_format_number'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='is_negative'),
         NodeInputBP(label='intpart'),
@@ -315,14 +341,16 @@ class _Format_Number_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._format_number(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Format_Sign_Node(NodeBase):
+    """
+    Determine sign character."""
+    
     title = '_format_sign'
     type_ = '_pydecimal'
-    doc = """Determine sign character."""
     init_inputs = [
         NodeInputBP(label='is_negative'),
         NodeInputBP(label='spec'),
@@ -332,17 +360,19 @@ class _Format_Sign_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._format_sign(self.input(0), self.input(1)))
         
 
 class _Group_Lengths_Node(NodeBase):
-    title = '_group_lengths'
-    type_ = '_pydecimal'
-    doc = """Convert a localeconv-style grouping into a (possibly infinite)
+    """
+    Convert a localeconv-style grouping into a (possibly infinite)
     iterable of integers representing group lengths.
 
     """
+    
+    title = '_group_lengths'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='grouping'),
     ]
@@ -351,17 +381,19 @@ class _Group_Lengths_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._group_lengths(self.input(0)))
         
 
 class _Iexp_Node(NodeBase):
-    title = '_iexp'
-    type_ = '_pydecimal'
-    doc = """Given integers x and M, M > 0, such that x/M is small in absolute
+    """
+    Given integers x and M, M > 0, such that x/M is small in absolute
     value, compute an integer approximation to M*exp(x/M).  For 0 <=
     x/M <= 2.4, the absolute error in the result is bounded by 60 (and
     is usually much smaller)."""
+    
+    title = '_iexp'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='M'),
@@ -372,14 +404,13 @@ class _Iexp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._iexp(self.input(0), self.input(1), self.input(2)))
         
 
 class _Ilog_Node(NodeBase):
-    title = '_ilog'
-    type_ = '_pydecimal'
-    doc = """Integer approximation to M*log(x/M), with absolute error boundable
+    """
+    Integer approximation to M*log(x/M), with absolute error boundable
     in terms only of x/M.
 
     Given positive integers x and M, return an integer approximation to
@@ -388,6 +419,9 @@ class _Ilog_Node(NodeBase):
     L = 8 and 1.0 <= x/M <= 10.0 the difference is at most 15.  In
     both cases these are upper bounds on the error; it will usually be
     much smaller."""
+    
+    title = '_ilog'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='M'),
@@ -398,14 +432,13 @@ class _Ilog_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._ilog(self.input(0), self.input(1), self.input(2)))
         
 
 class _Insert_Thousands_Sep_Node(NodeBase):
-    title = '_insert_thousands_sep'
-    type_ = '_pydecimal'
-    doc = """Insert thousands separators into a digit string.
+    """
+    Insert thousands separators into a digit string.
 
     spec is a dictionary whose keys should include 'thousands_sep' and
     'grouping'; typically it's the result of parsing the format
@@ -420,6 +453,9 @@ class _Insert_Thousands_Sep_Node(NodeBase):
     '0,123,456', even though that has length 9.
 
     """
+    
+    title = '_insert_thousands_sep'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='digits'),
         NodeInputBP(label='spec'),
@@ -430,17 +466,19 @@ class _Insert_Thousands_Sep_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._insert_thousands_sep(self.input(0), self.input(1), self.input(2)))
         
 
 class _Log10_Digits_Node(NodeBase):
-    title = '_log10_digits'
-    type_ = '_pydecimal'
-    doc = """Given an integer p >= 0, return floor(10**p)*log(10).
+    """
+    Given an integer p >= 0, return floor(10**p)*log(10).
 
         For example, self.getdigits(3) returns 2302.
         """
+    
+    title = '_log10_digits'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='p'),
     ]
@@ -449,14 +487,16 @@ class _Log10_Digits_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._log10_digits(self.input(0)))
         
 
 class _Log10_Lb_Node(NodeBase):
+    """
+    Compute a lower bound for 100*log10(c) for a positive integer c."""
+    
     title = '_log10_lb'
     type_ = '_pydecimal'
-    doc = """Compute a lower bound for 100*log10(c) for a positive integer c."""
     init_inputs = [
         NodeInputBP(label='c'),
         NodeInputBP(label='correction', dtype=dtypes.Data(default={'1': 100, '2': 70, '3': 53, '4': 40, '5': 31, '6': 23, '7': 16, '8': 10, '9': 5}, size='s')),
@@ -466,14 +506,13 @@ class _Log10_Lb_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._log10_lb(self.input(0), self.input(1)))
         
 
 class _Namedtuple_Node(NodeBase):
-    title = '_namedtuple'
-    type_ = '_pydecimal'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -495,6 +534,9 @@ class _Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = '_namedtuple'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -504,19 +546,21 @@ class _Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._namedtuple(self.input(0), self.input(1)))
         
 
 class _Nbits_Node(NodeBase):
-    title = '_nbits'
-    type_ = '_pydecimal'
-    doc = """Number of bits necessary to represent self in binary.
+    """
+    Number of bits necessary to represent self in binary.
 
 >>> bin(37)
 '0b100101'
 >>> (37).bit_length()
 6"""
+    
+    title = '_nbits'
+    type_ = '_pydecimal'
     init_inputs = [
         
     ]
@@ -525,17 +569,19 @@ class _Nbits_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._nbits())
         
 
 class _Normalize_Node(NodeBase):
-    title = '_normalize'
-    type_ = '_pydecimal'
-    doc = """Normalizes op1, op2 to have the same exp and length of coefficient.
+    """
+    Normalizes op1, op2 to have the same exp and length of coefficient.
 
     Done during addition.
     """
+    
+    title = '_normalize'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='op1'),
         NodeInputBP(label='op2'),
@@ -546,14 +592,13 @@ class _Normalize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._normalize(self.input(0), self.input(1), self.input(2)))
         
 
 class _Parse_Format_Specifier_Node(NodeBase):
-    title = '_parse_format_specifier'
-    type_ = '_pydecimal'
-    doc = """Parse and validate a format specifier.
+    """
+    Parse and validate a format specifier.
 
     Turns a standard numeric format specifier into a dict, with the
     following entries:
@@ -571,6 +616,9 @@ class _Parse_Format_Specifier_Node(NodeBase):
       type: one of the characters 'eEfFgG%', or None
 
     """
+    
+    title = '_parse_format_specifier'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='format_spec'),
     ]
@@ -579,14 +627,16 @@ class _Parse_Format_Specifier_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._parse_format_specifier(self.input(0)))
         
 
 class _Parser_Node(NodeBase):
+    """
+    Matches zero or more characters at the beginning of the string."""
+    
     title = '_parser'
     type_ = '_pydecimal'
-    doc = """Matches zero or more characters at the beginning of the string."""
     init_inputs = [
         NodeInputBP(label='string'),
         NodeInputBP(label='pos', dtype=dtypes.Data(default=0, size='s')),
@@ -597,17 +647,19 @@ class _Parser_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._parser(self.input(0), self.input(1), self.input(2)))
         
 
 class _Rshift_Nearest_Node(NodeBase):
-    title = '_rshift_nearest'
-    type_ = '_pydecimal'
-    doc = """Given an integer x and a nonnegative integer shift, return closest
+    """
+    Given an integer x and a nonnegative integer shift, return closest
     integer to x / 2**shift; use round-to-even in case of a tie.
 
     """
+    
+    title = '_rshift_nearest'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='shift'),
@@ -617,19 +669,21 @@ class _Rshift_Nearest_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._rshift_nearest(self.input(0), self.input(1)))
         
 
 class _Sqrt_Nearest_Node(NodeBase):
-    title = '_sqrt_nearest'
-    type_ = '_pydecimal'
-    doc = """Closest integer to the square root of the positive integer n.  a is
+    """
+    Closest integer to the square root of the positive integer n.  a is
     an initial approximation to the square root.  Any positive integer
     will do for a, but the closer a is to the square root of n the
     faster convergence will be.
 
     """
+    
+    title = '_sqrt_nearest'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='n'),
         NodeInputBP(label='a'),
@@ -639,19 +693,21 @@ class _Sqrt_Nearest_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal._sqrt_nearest(self.input(0), self.input(1)))
         
 
 class Getcontext_Node(NodeBase):
-    title = 'getcontext'
-    type_ = '_pydecimal'
-    doc = """Returns this thread's context.
+    """
+    Returns this thread's context.
 
     If this thread does not yet have a context, returns
     a new context and sets this thread's context.
     New contexts are copies of DefaultContext.
     """
+    
+    title = 'getcontext'
+    type_ = '_pydecimal'
     init_inputs = [
         
     ]
@@ -660,14 +716,13 @@ class Getcontext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal.getcontext())
         
 
 class Localcontext_Node(NodeBase):
-    title = 'localcontext'
-    type_ = '_pydecimal'
-    doc = """Return a context manager for a copy of the supplied context
+    """
+    Return a context manager for a copy of the supplied context
 
     Uses a copy of the current context if no context is specified
     The returned context manager creates a local decimal context
@@ -702,6 +757,9 @@ class Localcontext_Node(NodeBase):
     >>> print(getcontext().prec)
     28
     """
+    
+    title = 'localcontext'
+    type_ = '_pydecimal'
     init_inputs = [
         NodeInputBP(label='ctx', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -710,14 +768,16 @@ class Localcontext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal.localcontext(self.input(0)))
         
 
 class Setcontext_Node(NodeBase):
+    """
+    Set this thread's context to context."""
+    
     title = 'setcontext'
     type_ = '_pydecimal'
-    doc = """Set this thread's context to context."""
     init_inputs = [
         NodeInputBP(label='context'),
     ]
@@ -726,7 +786,7 @@ class Setcontext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pydecimal.setcontext(self.input(0)))
         
 

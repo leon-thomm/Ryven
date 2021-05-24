@@ -18,8 +18,8 @@ class ForEach_Node(Node):
         super(ForEach_Node, self).__init__(params)
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             for obj in self.input(1):
                 self.set_output_val(1, obj)
                 self.exec_output(0)

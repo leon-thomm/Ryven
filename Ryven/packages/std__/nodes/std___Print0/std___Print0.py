@@ -17,8 +17,8 @@ class Print_Node(Node):
                                                      'data': 'HELLOO!?!?!?'}
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             print(self.input(1))
             self.exec_output(0)
 

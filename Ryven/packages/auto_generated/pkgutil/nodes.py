@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Get_Spec_Node(NodeBase):
+    """
+    Return the finder-specific module spec."""
+    
     title = '_get_spec'
     type_ = 'pkgutil'
-    doc = """Return the finder-specific module spec."""
     init_inputs = [
         NodeInputBP(label='finder'),
         NodeInputBP(label='name'),
@@ -21,14 +23,16 @@ class _Get_Spec_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil._get_spec(self.input(0), self.input(1)))
         
 
 class _Import_Imp_Node(NodeBase):
+    """
+    """
+    
     title = '_import_imp'
     type_ = 'pkgutil'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -37,14 +41,16 @@ class _Import_Imp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil._import_imp())
         
 
 class _Iter_File_Finder_Modules_Node(NodeBase):
+    """
+    """
+    
     title = '_iter_file_finder_modules'
     type_ = 'pkgutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='importer'),
         NodeInputBP(label='prefix', dtype=dtypes.Data(default='', size='s')),
@@ -54,14 +60,13 @@ class _Iter_File_Finder_Modules_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil._iter_file_finder_modules(self.input(0), self.input(1)))
         
 
 class Extend_Path_Node(NodeBase):
-    title = 'extend_path'
-    type_ = 'pkgutil'
-    doc = """Extend a package's path.
+    """
+    Extend a package's path.
 
     Intended use is to place the following code in a package's __init__.py:
 
@@ -92,6 +97,9 @@ class Extend_Path_Node(NodeBase):
     errors when used as filenames may cause this function to raise an
     exception (in line with os.path.isdir() behavior).
     """
+    
+    title = 'extend_path'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='path'),
         NodeInputBP(label='name'),
@@ -101,19 +109,21 @@ class Extend_Path_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.extend_path(self.input(0), self.input(1)))
         
 
 class Find_Loader_Node(NodeBase):
-    title = 'find_loader'
-    type_ = 'pkgutil'
-    doc = """Find a "loader" object for fullname
+    """
+    Find a "loader" object for fullname
 
     This is a backwards compatibility wrapper around
     importlib.util.find_spec that converts most failures to ImportError
     and only returns the loader rather than the full spec
     """
+    
+    title = 'find_loader'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='fullname'),
     ]
@@ -122,14 +132,13 @@ class Find_Loader_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.find_loader(self.input(0)))
         
 
 class Get_Data_Node(NodeBase):
-    title = 'get_data'
-    type_ = 'pkgutil'
-    doc = """Get a resource from a package.
+    """
+    Get a resource from a package.
 
     This is a wrapper round the PEP 302 loader get_data API. The package
     argument should be the name of a package, in standard module format
@@ -149,6 +158,9 @@ class Get_Data_Node(NodeBase):
     If the package cannot be located or loaded, or it uses a PEP 302 loader
     which does not support get_data(), then None is returned.
     """
+    
+    title = 'get_data'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='package'),
         NodeInputBP(label='resource'),
@@ -158,14 +170,13 @@ class Get_Data_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.get_data(self.input(0), self.input(1)))
         
 
 class Get_Importer_Node(NodeBase):
-    title = 'get_importer'
-    type_ = 'pkgutil'
-    doc = """Retrieve a finder for the given path item
+    """
+    Retrieve a finder for the given path item
 
     The returned finder is cached in sys.path_importer_cache
     if it was newly created by a path hook.
@@ -173,6 +184,9 @@ class Get_Importer_Node(NodeBase):
     The cache (or part of it) can be cleared manually if a
     rescan of sys.path_hooks is necessary.
     """
+    
+    title = 'get_importer'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='path_item'),
     ]
@@ -181,19 +195,21 @@ class Get_Importer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.get_importer(self.input(0)))
         
 
 class Get_Loader_Node(NodeBase):
-    title = 'get_loader'
-    type_ = 'pkgutil'
-    doc = """Get a "loader" object for module_or_name
+    """
+    Get a "loader" object for module_or_name
 
     Returns None if the module cannot be found or imported.
     If the named module is not already imported, its containing package
     (if any) is imported, in order to establish the package __path__.
     """
+    
+    title = 'get_loader'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='module_or_name'),
     ]
@@ -202,14 +218,16 @@ class Get_Loader_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.get_loader(self.input(0)))
         
 
 class Iter_Importer_Modules_Node(NodeBase):
+    """
+    """
+    
     title = 'iter_importer_modules'
     type_ = 'pkgutil'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -218,14 +236,13 @@ class Iter_Importer_Modules_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.iter_importer_modules())
         
 
 class Iter_Importers_Node(NodeBase):
-    title = 'iter_importers'
-    type_ = 'pkgutil'
-    doc = """Yield finders for the given module name
+    """
+    Yield finders for the given module name
 
     If fullname contains a '.', the finders will be for the package
     containing fullname, otherwise they will be all registered top level
@@ -236,6 +253,9 @@ class Iter_Importers_Node(NodeBase):
 
     If no module name is specified, all top level finders are produced.
     """
+    
+    title = 'iter_importers'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='fullname', dtype=dtypes.Data(default='', size='s')),
     ]
@@ -244,14 +264,13 @@ class Iter_Importers_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.iter_importers(self.input(0)))
         
 
 class Iter_Modules_Node(NodeBase):
-    title = 'iter_modules'
-    type_ = 'pkgutil'
-    doc = """Yields ModuleInfo for all submodules on path,
+    """
+    Yields ModuleInfo for all submodules on path,
     or, if path is None, all top-level modules on sys.path.
 
     'path' should be either None or a list of paths to look for
@@ -260,6 +279,9 @@ class Iter_Modules_Node(NodeBase):
     'prefix' is a string to output on the front of every module name
     on output.
     """
+    
+    title = 'iter_modules'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='prefix', dtype=dtypes.Data(default='', size='s')),
@@ -269,14 +291,16 @@ class Iter_Modules_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.iter_modules(self.input(0), self.input(1)))
         
 
 class Iter_Zipimport_Modules_Node(NodeBase):
+    """
+    """
+    
     title = 'iter_zipimport_modules'
     type_ = 'pkgutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='importer'),
         NodeInputBP(label='prefix', dtype=dtypes.Data(default='', size='s')),
@@ -286,14 +310,13 @@ class Iter_Zipimport_Modules_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.iter_zipimport_modules(self.input(0), self.input(1)))
         
 
 class Namedtuple_Node(NodeBase):
-    title = 'namedtuple'
-    type_ = 'pkgutil'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -315,6 +338,9 @@ class Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = 'namedtuple'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -324,14 +350,16 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.namedtuple(self.input(0), self.input(1)))
         
 
 class Read_Code_Node(NodeBase):
+    """
+    """
+    
     title = 'read_code'
     type_ = 'pkgutil'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='stream'),
     ]
@@ -340,14 +368,61 @@ class Read_Code_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.read_code(self.input(0)))
         
 
-class Simplegeneric_Node(NodeBase):
-    title = 'simplegeneric'
+class Resolve_Name_Node(NodeBase):
+    """
+    
+    Resolve a name to an object.
+
+    It is expected that `name` will be a string in one of the following
+    formats, where W is shorthand for a valid Python identifier and dot stands
+    for a literal period in these pseudo-regexes:
+
+    W(.W)*
+    W(.W)*:(W(.W)*)?
+
+    The first form is intended for backward compatibility only. It assumes that
+    some part of the dotted name is a package, and the rest is an object
+    somewhere within that package, possibly nested inside other objects.
+    Because the place where the package stops and the object hierarchy starts
+    can't be inferred by inspection, repeated attempts to import must be done
+    with this form.
+
+    In the second form, the caller makes the division point clear through the
+    provision of a single colon: the dotted name to the left of the colon is a
+    package to be imported, and the dotted name to the right is the object
+    hierarchy within that package. Only one import is needed in this form. If
+    it ends with the colon, then a module object is returned.
+
+    The function will return an object (which might be a module), or raise one
+    of the following exceptions:
+
+    ValueError - if `name` isn't in a recognised format
+    ImportError - if an import failed when it shouldn't have
+    AttributeError - if a failure occurred when traversing the object hierarchy
+                     within the imported package to get to the desired object)
+    """
+    
+    title = 'resolve_name'
     type_ = 'pkgutil'
-    doc = """Single-dispatch generic function decorator.
+    init_inputs = [
+        NodeInputBP(label='name'),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    color = '#32DA22'
+
+    def update_event(self, inp=-1):
+        self.set_output_val(0, pkgutil.resolve_name(self.input(0)))
+        
+
+class Simplegeneric_Node(NodeBase):
+    """
+    Single-dispatch generic function decorator.
 
     Transforms a function into a generic function, which can have different
     behaviours depending upon the type of its first argument. The decorated
@@ -355,6 +430,9 @@ class Simplegeneric_Node(NodeBase):
     implementations can be registered using the register() attribute of the
     generic function.
     """
+    
+    title = 'simplegeneric'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='func'),
     ]
@@ -363,14 +441,13 @@ class Simplegeneric_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.simplegeneric(self.input(0)))
         
 
 class Walk_Packages_Node(NodeBase):
-    title = 'walk_packages'
-    type_ = 'pkgutil'
-    doc = """Yields ModuleInfo for all modules recursively
+    """
+    Yields ModuleInfo for all modules recursively
     on path, or, if path is None, all accessible modules.
 
     'path' should be either None or a list of paths to look for
@@ -397,6 +474,9 @@ class Walk_Packages_Node(NodeBase):
     # list all submodules of ctypes
     walk_packages(ctypes.__path__, ctypes.__name__+'.')
     """
+    
+    title = 'walk_packages'
+    type_ = 'pkgutil'
     init_inputs = [
         NodeInputBP(label='path', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='prefix', dtype=dtypes.Data(default='', size='s')),
@@ -407,7 +487,7 @@ class Walk_Packages_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, pkgutil.walk_packages(self.input(0), self.input(1), self.input(2)))
         
 
@@ -427,6 +507,7 @@ export_nodes(
     Iter_Zipimport_Modules_Node,
     Namedtuple_Node,
     Read_Code_Node,
+    Resolve_Name_Node,
     Simplegeneric_Node,
     Walk_Packages_Node,
 )

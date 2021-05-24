@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class __Newobj___Node(NodeBase):
+    """
+    """
+    
     title = '__newobj__'
     type_ = 'copyreg'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='cls'),
     ]
@@ -20,16 +22,18 @@ class __Newobj___Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.__newobj__(self.input(0)))
         
 
 class __Newobj_Ex___Node(NodeBase):
-    title = '__newobj_ex__'
-    type_ = 'copyreg'
-    doc = """Used by pickle protocol 4, instead of __newobj__ to allow classes with
+    """
+    Used by pickle protocol 4, instead of __newobj__ to allow classes with
     keyword-only arguments to be pickled correctly.
     """
+    
+    title = '__newobj_ex__'
+    type_ = 'copyreg'
     init_inputs = [
         NodeInputBP(label='cls'),
         NodeInputBP(label='args'),
@@ -40,14 +44,16 @@ class __Newobj_Ex___Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.__newobj_ex__(self.input(0), self.input(1), self.input(2)))
         
 
 class _Reconstructor_Node(NodeBase):
+    """
+    """
+    
     title = '_reconstructor'
     type_ = 'copyreg'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='cls'),
         NodeInputBP(label='base'),
@@ -58,14 +64,16 @@ class _Reconstructor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg._reconstructor(self.input(0), self.input(1), self.input(2)))
         
 
 class _Reduce_Ex_Node(NodeBase):
+    """
+    """
+    
     title = '_reduce_ex'
     type_ = 'copyreg'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='proto'),
     ]
@@ -74,14 +82,13 @@ class _Reduce_Ex_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg._reduce_ex(self.input(0)))
         
 
 class _Slotnames_Node(NodeBase):
-    title = '_slotnames'
-    type_ = 'copyreg'
-    doc = """Return a list of slot names for a given class.
+    """
+    Return a list of slot names for a given class.
 
     This needs to find slots defined by the class and its bases, so we
     can't simply return the __slots__ attribute.  We must walk down
@@ -90,6 +97,9 @@ class _Slotnames_Node(NodeBase):
     __slots__ attribute to misrepresent their slots after the class is
     defined.)
     """
+    
+    title = '_slotnames'
+    type_ = 'copyreg'
     init_inputs = [
         NodeInputBP(label='cls'),
     ]
@@ -98,14 +108,16 @@ class _Slotnames_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg._slotnames(self.input(0)))
         
 
 class Add_Extension_Node(NodeBase):
+    """
+    Register an extension code."""
+    
     title = 'add_extension'
     type_ = 'copyreg'
-    doc = """Register an extension code."""
     init_inputs = [
         NodeInputBP(label='module'),
         NodeInputBP(label='name'),
@@ -116,14 +128,16 @@ class Add_Extension_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.add_extension(self.input(0), self.input(1), self.input(2)))
         
 
 class Clear_Extension_Cache_Node(NodeBase):
+    """
+    """
+    
     title = 'clear_extension_cache'
     type_ = 'copyreg'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -132,14 +146,16 @@ class Clear_Extension_Cache_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.clear_extension_cache())
         
 
 class Constructor_Node(NodeBase):
+    """
+    """
+    
     title = 'constructor'
     type_ = 'copyreg'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='object'),
     ]
@@ -148,14 +164,16 @@ class Constructor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.constructor(self.input(0)))
         
 
 class Pickle_Node(NodeBase):
+    """
+    """
+    
     title = 'pickle'
     type_ = 'copyreg'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='ob_type'),
         NodeInputBP(label='pickle_function'),
@@ -166,14 +184,16 @@ class Pickle_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.pickle(self.input(0), self.input(1), self.input(2)))
         
 
 class Pickle_Complex_Node(NodeBase):
+    """
+    """
+    
     title = 'pickle_complex'
     type_ = 'copyreg'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='c'),
     ]
@@ -182,14 +202,16 @@ class Pickle_Complex_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.pickle_complex(self.input(0)))
         
 
 class Remove_Extension_Node(NodeBase):
+    """
+    Unregister an extension code.  For testing only."""
+    
     title = 'remove_extension'
     type_ = 'copyreg'
-    doc = """Unregister an extension code.  For testing only."""
     init_inputs = [
         NodeInputBP(label='module'),
         NodeInputBP(label='name'),
@@ -200,7 +222,7 @@ class Remove_Extension_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, copyreg.remove_extension(self.input(0), self.input(1), self.input(2)))
         
 

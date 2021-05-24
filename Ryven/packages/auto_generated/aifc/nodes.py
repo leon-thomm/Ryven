@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Read_Float_Node(NodeBase):
+    """
+    """
+    
     title = '_read_float'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
     ]
@@ -20,14 +22,16 @@ class _Read_Float_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._read_float(self.input(0)))
         
 
 class _Read_Long_Node(NodeBase):
+    """
+    """
+    
     title = '_read_long'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='file'),
     ]
@@ -36,14 +40,16 @@ class _Read_Long_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._read_long(self.input(0)))
         
 
 class _Read_Short_Node(NodeBase):
+    """
+    """
+    
     title = '_read_short'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='file'),
     ]
@@ -52,14 +58,16 @@ class _Read_Short_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._read_short(self.input(0)))
         
 
 class _Read_String_Node(NodeBase):
+    """
+    """
+    
     title = '_read_string'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='file'),
     ]
@@ -68,14 +76,16 @@ class _Read_String_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._read_string(self.input(0)))
         
 
 class _Read_Ulong_Node(NodeBase):
+    """
+    """
+    
     title = '_read_ulong'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='file'),
     ]
@@ -84,14 +94,16 @@ class _Read_Ulong_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._read_ulong(self.input(0)))
         
 
 class _Read_Ushort_Node(NodeBase):
+    """
+    """
+    
     title = '_read_ushort'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='file'),
     ]
@@ -100,14 +112,16 @@ class _Read_Ushort_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._read_ushort(self.input(0)))
         
 
 class _Write_Float_Node(NodeBase):
+    """
+    """
+    
     title = '_write_float'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='x'),
@@ -117,14 +131,16 @@ class _Write_Float_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._write_float(self.input(0), self.input(1)))
         
 
 class _Write_Long_Node(NodeBase):
+    """
+    """
+    
     title = '_write_long'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='x'),
@@ -134,14 +150,16 @@ class _Write_Long_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._write_long(self.input(0), self.input(1)))
         
 
 class _Write_Short_Node(NodeBase):
+    """
+    """
+    
     title = '_write_short'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='x'),
@@ -151,14 +169,16 @@ class _Write_Short_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._write_short(self.input(0), self.input(1)))
         
 
 class _Write_String_Node(NodeBase):
+    """
+    """
+    
     title = '_write_string'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='s'),
@@ -168,14 +188,16 @@ class _Write_String_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._write_string(self.input(0), self.input(1)))
         
 
 class _Write_Ulong_Node(NodeBase):
+    """
+    """
+    
     title = '_write_ulong'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='x'),
@@ -185,14 +207,16 @@ class _Write_Ulong_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._write_ulong(self.input(0), self.input(1)))
         
 
 class _Write_Ushort_Node(NodeBase):
+    """
+    """
+    
     title = '_write_ushort'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='x'),
@@ -202,14 +226,13 @@ class _Write_Ushort_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc._write_ushort(self.input(0), self.input(1)))
         
 
 class Namedtuple_Node(NodeBase):
-    title = 'namedtuple'
-    type_ = 'aifc'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -231,6 +254,9 @@ class Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = 'namedtuple'
+    type_ = 'aifc'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -240,14 +266,16 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc.namedtuple(self.input(0), self.input(1)))
         
 
 class Open_Node(NodeBase):
+    """
+    """
+    
     title = 'open'
     type_ = 'aifc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default=None, size='s')),
@@ -257,25 +285,8 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, aifc.open(self.input(0), self.input(1)))
-        
-
-class Openfp_Node(NodeBase):
-    title = 'openfp'
-    type_ = 'aifc'
-    doc = """"""
-    init_inputs = [
-        NodeInputBP(label='f'),
-        NodeInputBP(label='mode', dtype=dtypes.Data(default=None, size='s')),
-    ]
-    init_outputs = [
-        NodeOutputBP(type_='data'),
-    ]
-    color = '#32DA22'
-
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, aifc.openfp(self.input(0), self.input(1)))
         
 
 
@@ -294,5 +305,4 @@ export_nodes(
     _Write_Ushort_Node,
     Namedtuple_Node,
     Open_Node,
-    Openfp_Node,
 )

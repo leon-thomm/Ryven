@@ -17,8 +17,8 @@ class If_Node(CSNodeBase):
         NodeOutputBP('exec', label='false'),
     ]
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             if self.input(1):
                 self.exec_output(0)
             else:
@@ -90,8 +90,8 @@ class ForLoop_Node(CSNodeBase):
     def output_from_dim(self, dim):
         return 2*(dim-1)
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             self.iterate(1)
             self.exec_output(len(self.outputs)-1)
 
@@ -124,7 +124,7 @@ class ForEachLoop_Node(CSNodeBase):
         NodeOutputBP('exec', label='finished'),
     ]
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         for e in self.input(0):
             self.set_output_val(1, e)
             self.exec_output(0)
@@ -143,7 +143,7 @@ class WhileLoop_Node(CSNodeBase):
         NodeOutputBP('exec', label='finished'),
     ]
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         while self.input(0):
             self.exec_output(0)
 
@@ -161,7 +161,7 @@ class DoWhileLoop_Node(CSNodeBase):
         NodeOutputBP('exec', label='finished'),
     ]
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.exec_output(0)
         while self.input(0):
             self.exec_output(0)

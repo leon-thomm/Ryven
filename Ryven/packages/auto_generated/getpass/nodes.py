@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Raw_Input_Node(NodeBase):
+    """
+    """
+    
     title = '_raw_input'
     type_ = 'getpass'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='prompt', dtype=dtypes.Data(default='', size='s')),
         NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
@@ -22,14 +24,16 @@ class _Raw_Input_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getpass._raw_input(self.input(0), self.input(1), self.input(2)))
         
 
 class Fallback_Getpass_Node(NodeBase):
+    """
+    """
+    
     title = 'fallback_getpass'
     type_ = 'getpass'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
         NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
@@ -39,14 +43,16 @@ class Fallback_Getpass_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getpass.fallback_getpass(self.input(0), self.input(1)))
         
 
 class Getpass_Node(NodeBase):
+    """
+    Prompt for password with echo off, using Windows getch()."""
+    
     title = 'getpass'
     type_ = 'getpass'
-    doc = """Prompt for password with echo off, using Windows getch()."""
     init_inputs = [
         NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
         NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
@@ -56,19 +62,21 @@ class Getpass_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getpass.getpass(self.input(0), self.input(1)))
         
 
 class Getuser_Node(NodeBase):
-    title = 'getuser'
-    type_ = 'getpass'
-    doc = """Get the username from the environment or password database.
+    """
+    Get the username from the environment or password database.
 
     First try various environment variables, then the password
     database.  This works on Windows as long as USERNAME is set.
 
     """
+    
+    title = 'getuser'
+    type_ = 'getpass'
     init_inputs = [
         
     ]
@@ -77,14 +85,13 @@ class Getuser_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getpass.getuser())
         
 
 class Unix_Getpass_Node(NodeBase):
-    title = 'unix_getpass'
-    type_ = 'getpass'
-    doc = """Prompt for a password, with echo turned off.
+    """
+    Prompt for a password, with echo turned off.
 
     Args:
       prompt: Written on stream to ask for the input.  Default: 'Password: '
@@ -98,6 +105,9 @@ class Unix_Getpass_Node(NodeBase):
 
     Always restores terminal settings before returning.
     """
+    
+    title = 'unix_getpass'
+    type_ = 'getpass'
     init_inputs = [
         NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
         NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
@@ -107,14 +117,16 @@ class Unix_Getpass_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getpass.unix_getpass(self.input(0), self.input(1)))
         
 
 class Win_Getpass_Node(NodeBase):
+    """
+    Prompt for password with echo off, using Windows getch()."""
+    
     title = 'win_getpass'
     type_ = 'getpass'
-    doc = """Prompt for password with echo off, using Windows getch()."""
     init_inputs = [
         NodeInputBP(label='prompt', dtype=dtypes.Data(default='Password: ', size='s')),
         NodeInputBP(label='stream', dtype=dtypes.Data(default=None, size='s')),
@@ -124,7 +136,7 @@ class Win_Getpass_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getpass.win_getpass(self.input(0), self.input(1)))
         
 

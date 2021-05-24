@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Test_Node(NodeBase):
+    """
+    """
+    
     title = 'test'
     type_ = 'formatter'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='file', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -20,7 +22,7 @@ class Test_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, formatter.test(self.input(0)))
         
 

@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Encodedfile_Node(NodeBase):
-    title = 'EncodedFile'
-    type_ = 'codecs'
-    doc = """ Return a wrapped version of file which provides transparent
+    """
+     Return a wrapped version of file which provides transparent
         encoding translation.
 
         Data written to the wrapped file is decoded according
@@ -34,6 +33,9 @@ class Encodedfile_Node(NodeBase):
         introspection by Python programs.
 
     """
+    
+    title = 'EncodedFile'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='data_encoding'),
@@ -45,14 +47,16 @@ class Encodedfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.EncodedFile(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Ascii_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'ascii_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -62,14 +66,16 @@ class Ascii_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.ascii_decode(self.input(0), self.input(1)))
         
 
 class Ascii_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'ascii_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -79,14 +85,16 @@ class Ascii_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.ascii_encode(self.input(0), self.input(1)))
         
 
 class Charmap_Build_Node(NodeBase):
+    """
+    """
+    
     title = 'charmap_build'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='map'),
     ]
@@ -95,14 +103,16 @@ class Charmap_Build_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.charmap_build(self.input(0)))
         
 
 class Charmap_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'charmap_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -113,14 +123,16 @@ class Charmap_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.charmap_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Charmap_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'charmap_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -131,14 +143,16 @@ class Charmap_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.charmap_encode(self.input(0), self.input(1), self.input(2)))
         
 
 class Code_Page_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'code_page_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='codepage'),
         NodeInputBP(label='data'),
@@ -150,14 +164,16 @@ class Code_Page_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.code_page_decode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Code_Page_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'code_page_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='code_page'),
         NodeInputBP(label='str'),
@@ -168,20 +184,22 @@ class Code_Page_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.code_page_encode(self.input(0), self.input(1), self.input(2)))
         
 
 class Decode_Node(NodeBase):
-    title = 'decode'
-    type_ = 'codecs'
-    doc = """Decodes obj using the codec registered for encoding.
+    """
+    Decodes obj using the codec registered for encoding.
 
 Default encoding is 'utf-8'.  errors may be given to set a
 different error handling scheme.  Default is 'strict' meaning that encoding
 errors raise a ValueError.  Other possible values are 'ignore', 'replace'
 and 'backslashreplace' as well as any other name registered with
 codecs.register_error that can handle ValueErrors."""
+    
+    title = 'decode'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='obj'),
         NodeInputBP(label='encoding', dtype=dtypes.Data(default='utf-8', size='s')),
@@ -192,20 +210,22 @@ codecs.register_error that can handle ValueErrors."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Encode_Node(NodeBase):
-    title = 'encode'
-    type_ = 'codecs'
-    doc = """Encodes obj using the codec registered for encoding.
+    """
+    Encodes obj using the codec registered for encoding.
 
 The default encoding is 'utf-8'.  errors may be given to set a
 different error handling scheme.  Default is 'strict' meaning that encoding
 errors raise a ValueError.  Other possible values are 'ignore', 'replace'
 and 'backslashreplace' as well as any other name registered with
 codecs.register_error that can handle ValueErrors."""
+    
+    title = 'encode'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='obj'),
         NodeInputBP(label='encoding', dtype=dtypes.Data(default='utf-8', size='s')),
@@ -216,14 +236,16 @@ codecs.register_error that can handle ValueErrors."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.encode(self.input(0), self.input(1), self.input(2)))
         
 
 class Escape_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'escape_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -233,14 +255,16 @@ class Escape_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.escape_decode(self.input(0), self.input(1)))
         
 
 class Escape_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'escape_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -250,19 +274,21 @@ class Escape_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.escape_encode(self.input(0), self.input(1)))
         
 
 class Getdecoder_Node(NodeBase):
-    title = 'getdecoder'
-    type_ = 'codecs'
-    doc = """ Lookup up the codec for the given encoding and return
+    """
+     Lookup up the codec for the given encoding and return
         its decoder function.
 
         Raises a LookupError in case the encoding cannot be found.
 
     """
+    
+    title = 'getdecoder'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -271,19 +297,21 @@ class Getdecoder_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.getdecoder(self.input(0)))
         
 
 class Getencoder_Node(NodeBase):
-    title = 'getencoder'
-    type_ = 'codecs'
-    doc = """ Lookup up the codec for the given encoding and return
+    """
+     Lookup up the codec for the given encoding and return
         its encoder function.
 
         Raises a LookupError in case the encoding cannot be found.
 
     """
+    
+    title = 'getencoder'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -292,20 +320,22 @@ class Getencoder_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.getencoder(self.input(0)))
         
 
 class Getincrementaldecoder_Node(NodeBase):
-    title = 'getincrementaldecoder'
-    type_ = 'codecs'
-    doc = """ Lookup up the codec for the given encoding and return
+    """
+     Lookup up the codec for the given encoding and return
         its IncrementalDecoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
         or the codecs doesn't provide an incremental decoder.
 
     """
+    
+    title = 'getincrementaldecoder'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -314,20 +344,22 @@ class Getincrementaldecoder_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.getincrementaldecoder(self.input(0)))
         
 
 class Getincrementalencoder_Node(NodeBase):
-    title = 'getincrementalencoder'
-    type_ = 'codecs'
-    doc = """ Lookup up the codec for the given encoding and return
+    """
+     Lookup up the codec for the given encoding and return
         its IncrementalEncoder class or factory function.
 
         Raises a LookupError in case the encoding cannot be found
         or the codecs doesn't provide an incremental encoder.
 
     """
+    
+    title = 'getincrementalencoder'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -336,19 +368,21 @@ class Getincrementalencoder_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.getincrementalencoder(self.input(0)))
         
 
 class Getreader_Node(NodeBase):
-    title = 'getreader'
-    type_ = 'codecs'
-    doc = """ Lookup up the codec for the given encoding and return
+    """
+     Lookup up the codec for the given encoding and return
         its StreamReader class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
 
     """
+    
+    title = 'getreader'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -357,19 +391,21 @@ class Getreader_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.getreader(self.input(0)))
         
 
 class Getwriter_Node(NodeBase):
-    title = 'getwriter'
-    type_ = 'codecs'
-    doc = """ Lookup up the codec for the given encoding and return
+    """
+     Lookup up the codec for the given encoding and return
         its StreamWriter class or factory function.
 
         Raises a LookupError in case the encoding cannot be found.
 
     """
+    
+    title = 'getwriter'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -378,14 +414,13 @@ class Getwriter_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.getwriter(self.input(0)))
         
 
 class Iterdecode_Node(NodeBase):
-    title = 'iterdecode'
-    type_ = 'codecs'
-    doc = """
+    """
+    
     Decoding iterator.
 
     Decodes the input strings from the iterator using an IncrementalDecoder.
@@ -393,6 +428,9 @@ class Iterdecode_Node(NodeBase):
     errors and kwargs are passed through to the IncrementalDecoder
     constructor.
     """
+    
+    title = 'iterdecode'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='iterator'),
         NodeInputBP(label='encoding'),
@@ -403,14 +441,13 @@ class Iterdecode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.iterdecode(self.input(0), self.input(1), self.input(2)))
         
 
 class Iterencode_Node(NodeBase):
-    title = 'iterencode'
-    type_ = 'codecs'
-    doc = """
+    """
+    
     Encoding iterator.
 
     Encodes the input strings from the iterator using an IncrementalEncoder.
@@ -418,6 +455,9 @@ class Iterencode_Node(NodeBase):
     errors and kwargs are passed through to the IncrementalEncoder
     constructor.
     """
+    
+    title = 'iterencode'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='iterator'),
         NodeInputBP(label='encoding'),
@@ -428,14 +468,16 @@ class Iterencode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.iterencode(self.input(0), self.input(1), self.input(2)))
         
 
 class Latin_1_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'latin_1_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -445,14 +487,16 @@ class Latin_1_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.latin_1_decode(self.input(0), self.input(1)))
         
 
 class Latin_1_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'latin_1_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -462,14 +506,16 @@ class Latin_1_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.latin_1_encode(self.input(0), self.input(1)))
         
 
 class Lookup_Node(NodeBase):
+    """
+    Looks up a codec tuple in the Python codec registry and returns a CodecInfo object."""
+    
     title = 'lookup'
     type_ = 'codecs'
-    doc = """Looks up a codec tuple in the Python codec registry and returns a CodecInfo object."""
     init_inputs = [
         NodeInputBP(label='encoding'),
     ]
@@ -478,17 +524,19 @@ class Lookup_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.lookup(self.input(0)))
         
 
 class Lookup_Error_Node(NodeBase):
-    title = 'lookup_error'
-    type_ = 'codecs'
-    doc = """lookup_error(errors) -> handler
+    """
+    lookup_error(errors) -> handler
 
 Return the error handler for the specified error handling name or raise a
 LookupError, if no handler exists under this name."""
+    
+    title = 'lookup_error'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='name'),
     ]
@@ -497,14 +545,13 @@ LookupError, if no handler exists under this name."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.lookup_error(self.input(0)))
         
 
 class Make_Encoding_Map_Node(NodeBase):
-    title = 'make_encoding_map'
-    type_ = 'codecs'
-    doc = """ Creates an encoding map from a decoding map.
+    """
+     Creates an encoding map from a decoding map.
 
         If a target mapping in the decoding map occurs multiple
         times, then that target is mapped to None (undefined mapping),
@@ -515,6 +562,9 @@ class Make_Encoding_Map_Node(NodeBase):
         multiple character to \u001a.
 
     """
+    
+    title = 'make_encoding_map'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='decoding_map'),
     ]
@@ -523,19 +573,21 @@ class Make_Encoding_Map_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.make_encoding_map(self.input(0)))
         
 
 class Make_Identity_Dict_Node(NodeBase):
-    title = 'make_identity_dict'
-    type_ = 'codecs'
-    doc = """ make_identity_dict(rng) -> dict
+    """
+     make_identity_dict(rng) -> dict
 
         Return a dictionary where elements of the rng sequence are
         mapped to themselves.
 
     """
+    
+    title = 'make_identity_dict'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='rng'),
     ]
@@ -544,14 +596,16 @@ class Make_Identity_Dict_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.make_identity_dict(self.input(0)))
         
 
 class Mbcs_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'mbcs_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -562,14 +616,16 @@ class Mbcs_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.mbcs_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Mbcs_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'mbcs_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -579,14 +635,16 @@ class Mbcs_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.mbcs_encode(self.input(0), self.input(1)))
         
 
 class Oem_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'oem_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -597,14 +655,16 @@ class Oem_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.oem_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Oem_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'oem_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -614,14 +674,13 @@ class Oem_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.oem_encode(self.input(0), self.input(1)))
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'codecs'
-    doc = """ Open an encoded file using the given mode and return
+    """
+     Open an encoded file using the given mode and return
         a wrapped version providing transparent encoding/decoding.
 
         Note: The wrapped version will only accept the object format
@@ -649,6 +708,9 @@ class Open_Node(NodeBase):
         parameter.
 
     """
+    
+    title = 'open'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
@@ -661,14 +723,16 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Raw_Unicode_Escape_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'raw_unicode_escape_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -678,14 +742,16 @@ class Raw_Unicode_Escape_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.raw_unicode_escape_decode(self.input(0), self.input(1)))
         
 
 class Raw_Unicode_Escape_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'raw_unicode_escape_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -695,14 +761,16 @@ class Raw_Unicode_Escape_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.raw_unicode_escape_encode(self.input(0), self.input(1)))
         
 
 class Readbuffer_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'readbuffer_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -712,18 +780,20 @@ class Readbuffer_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.readbuffer_encode(self.input(0), self.input(1)))
         
 
 class Register_Node(NodeBase):
-    title = 'register'
-    type_ = 'codecs'
-    doc = """Register a codec search function.
+    """
+    Register a codec search function.
 
 Search functions are expected to take one argument, the encoding name in
 all lower case letters, and either return None, or a tuple of functions
 (encoder, decoder, stream_reader, stream_writer) (or a CodecInfo object)."""
+    
+    title = 'register'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='search_function'),
     ]
@@ -732,18 +802,20 @@ all lower case letters, and either return None, or a tuple of functions
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.register(self.input(0)))
         
 
 class Register_Error_Node(NodeBase):
-    title = 'register_error'
-    type_ = 'codecs'
-    doc = """Register the specified error handler under the name errors.
+    """
+    Register the specified error handler under the name errors.
 
 handler must be a callable object, that will be called with an exception
 instance containing information about the location of the encoding/decoding
 error and must return a (replacement, new position) tuple."""
+    
+    title = 'register_error'
+    type_ = 'codecs'
     init_inputs = [
         NodeInputBP(label='errors'),
         NodeInputBP(label='handler'),
@@ -753,14 +825,16 @@ error and must return a (replacement, new position) tuple."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.register_error(self.input(0), self.input(1)))
         
 
 class Unicode_Escape_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'unicode_escape_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -770,14 +844,16 @@ class Unicode_Escape_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.unicode_escape_decode(self.input(0), self.input(1)))
         
 
 class Unicode_Escape_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'unicode_escape_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -787,14 +863,16 @@ class Unicode_Escape_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.unicode_escape_encode(self.input(0), self.input(1)))
         
 
 class Utf_16_Be_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_16_be_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -805,14 +883,16 @@ class Utf_16_Be_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_16_be_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_16_Be_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_16_be_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -822,14 +902,16 @@ class Utf_16_Be_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_16_be_encode(self.input(0), self.input(1)))
         
 
 class Utf_16_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_16_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -840,14 +922,16 @@ class Utf_16_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_16_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_16_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_16_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -858,14 +942,16 @@ class Utf_16_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_16_encode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_16_Ex_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_16_ex_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -877,14 +963,16 @@ class Utf_16_Ex_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_16_ex_decode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Utf_16_Le_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_16_le_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -895,14 +983,16 @@ class Utf_16_Le_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_16_le_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_16_Le_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_16_le_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -912,14 +1002,16 @@ class Utf_16_Le_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_16_le_encode(self.input(0), self.input(1)))
         
 
 class Utf_32_Be_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_32_be_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -930,14 +1022,16 @@ class Utf_32_Be_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_32_be_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_32_Be_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_32_be_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -947,14 +1041,16 @@ class Utf_32_Be_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_32_be_encode(self.input(0), self.input(1)))
         
 
 class Utf_32_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_32_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -965,14 +1061,16 @@ class Utf_32_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_32_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_32_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_32_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -983,14 +1081,16 @@ class Utf_32_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_32_encode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_32_Ex_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_32_ex_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -1002,14 +1102,16 @@ class Utf_32_Ex_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_32_ex_decode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Utf_32_Le_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_32_le_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -1020,14 +1122,16 @@ class Utf_32_Le_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_32_le_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_32_Le_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_32_le_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -1037,14 +1141,16 @@ class Utf_32_Le_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_32_le_encode(self.input(0), self.input(1)))
         
 
 class Utf_7_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_7_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -1055,14 +1161,16 @@ class Utf_7_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_7_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_7_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_7_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -1072,14 +1180,16 @@ class Utf_7_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_7_encode(self.input(0), self.input(1)))
         
 
 class Utf_8_Decode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_8_decode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -1090,14 +1200,16 @@ class Utf_8_Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_8_decode(self.input(0), self.input(1), self.input(2)))
         
 
 class Utf_8_Encode_Node(NodeBase):
+    """
+    """
+    
     title = 'utf_8_encode'
     type_ = 'codecs'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='errors', dtype=dtypes.Data(default=None, size='s')),
@@ -1107,7 +1219,7 @@ class Utf_8_Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, codecs.utf_8_encode(self.input(0), self.input(1)))
         
 

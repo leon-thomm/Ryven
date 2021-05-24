@@ -21,7 +21,7 @@ class %CLASS%(Node):
         # ...
 
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.outputs[0].set_val(self.main_widget().get_val())
 
     def get_state(self):

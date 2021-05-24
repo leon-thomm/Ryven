@@ -36,8 +36,8 @@ class If_Node(Node):
             del self.special_actions['remove else if']
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             self.do_if(0, self.else_if_enlargement_state)
 
     def do_if(self, if_cnt, current_enlarment_state):

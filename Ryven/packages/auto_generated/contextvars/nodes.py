@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Copy_Context_Node(NodeBase):
+    """
+    """
+    
     title = 'copy_context'
     type_ = 'contextvars'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -20,7 +22,7 @@ class Copy_Context_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, contextvars.copy_context())
         
 

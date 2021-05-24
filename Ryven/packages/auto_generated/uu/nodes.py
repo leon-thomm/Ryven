@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Decode_Node(NodeBase):
+    """
+    Decode uuencoded file"""
+    
     title = 'decode'
     type_ = 'uu'
-    doc = """Decode uuencoded file"""
     init_inputs = [
         NodeInputBP(label='in_file'),
         NodeInputBP(label='out_file', dtype=dtypes.Data(default=None, size='s')),
@@ -23,14 +25,16 @@ class Decode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, uu.decode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Encode_Node(NodeBase):
+    """
+    Uuencode file"""
+    
     title = 'encode'
     type_ = 'uu'
-    doc = """Uuencode file"""
     init_inputs = [
         NodeInputBP(label='in_file'),
         NodeInputBP(label='out_file'),
@@ -42,14 +46,16 @@ class Encode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, uu.encode(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Test_Node(NodeBase):
+    """
+    uuencode/uudecode main program"""
+    
     title = 'test'
     type_ = 'uu'
-    doc = """uuencode/uudecode main program"""
     init_inputs = [
         
     ]
@@ -58,7 +64,7 @@ class Test_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, uu.test())
         
 

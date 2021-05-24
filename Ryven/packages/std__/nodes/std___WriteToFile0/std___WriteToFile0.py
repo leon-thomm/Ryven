@@ -29,8 +29,8 @@ class WriteToFile_Node(Node):
         # ...
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             file = self.input(1)
             data = str(self.input(2))
             file.write(data)

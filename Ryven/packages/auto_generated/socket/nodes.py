@@ -9,12 +9,14 @@ class NodeBase(Node):
 
 
 class _Intenum_Converter_Node(NodeBase):
-    title = '_intenum_converter'
-    type_ = 'socket'
-    doc = """Convert a numeric family value to an IntEnum member.
+    """
+    Convert a numeric family value to an IntEnum member.
 
     If it's not a known member, return the numeric value itself.
     """
+    
+    title = '_intenum_converter'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='value'),
         NodeInputBP(label='enum_klass'),
@@ -24,14 +26,13 @@ class _Intenum_Converter_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket._intenum_converter(self.input(0), self.input(1)))
         
 
 class Create_Connection_Node(NodeBase):
-    title = 'create_connection'
-    type_ = 'socket'
-    doc = """Connect to *address* and return the socket object.
+    """
+    Connect to *address* and return the socket object.
 
     Convenience function.  Connect to *address* (a 2-tuple ``(host,
     port)``) and return the socket object.  Passing the optional
@@ -42,6 +43,9 @@ class Create_Connection_Node(NodeBase):
     for the socket to bind as a source address before making the connection.
     A host of '' or port 0 tells the OS to use the default.
     """
+    
+    title = 'create_connection'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='address'),
         NodeInputBP(label='timeout', dtype=dtypes.Data(default=None, size='s')),
@@ -52,14 +56,13 @@ class Create_Connection_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.create_connection(self.input(0), self.input(1), self.input(2)))
         
 
 class Create_Server_Node(NodeBase):
-    title = 'create_server'
-    type_ = 'socket'
-    doc = """Convenience function which creates a SOCK_STREAM type socket
+    """
+    Convenience function which creates a SOCK_STREAM type socket
     bound to *address* (a 2-tuple (host, port)) and return the socket
     object.
 
@@ -76,6 +79,9 @@ class Create_Server_Node(NodeBase):
     ...         conn, addr = server.accept()
     ...         # handle new connection
     """
+    
+    title = 'create_server'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='address'),
     ]
@@ -84,18 +90,20 @@ class Create_Server_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.create_server(self.input(0)))
         
 
 class Fromfd_Node(NodeBase):
-    title = 'fromfd'
-    type_ = 'socket'
-    doc = """ fromfd(fd, family, type[, proto]) -> socket object
+    """
+     fromfd(fd, family, type[, proto]) -> socket object
 
     Create a socket object from a duplicate of the given file
     descriptor.  The remaining arguments are the same as for socket().
     """
+    
+    title = 'fromfd'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='fd'),
         NodeInputBP(label='family'),
@@ -107,18 +115,20 @@ class Fromfd_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.fromfd(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Fromshare_Node(NodeBase):
-    title = 'fromshare'
-    type_ = 'socket'
-    doc = """ fromshare(info) -> socket object
+    """
+     fromshare(info) -> socket object
 
         Create a socket object from the bytes object returned by
         socket.share(pid).
         """
+    
+    title = 'fromshare'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='info'),
     ]
@@ -127,14 +137,13 @@ class Fromshare_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.fromshare(self.input(0)))
         
 
 class Getaddrinfo_Node(NodeBase):
-    title = 'getaddrinfo'
-    type_ = 'socket'
-    doc = """Resolve host and port into list of address info entries.
+    """
+    Resolve host and port into list of address info entries.
 
     Translate the host/port argument into a sequence of 5-tuples that contain
     all the necessary arguments for creating a socket connected to that service.
@@ -147,6 +156,9 @@ class Getaddrinfo_Node(NodeBase):
     narrow the list of addresses returned. Passing zero as a value for each of
     these arguments selects the full range of results.
     """
+    
+    title = 'getaddrinfo'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='host'),
         NodeInputBP(label='port'),
@@ -160,14 +172,13 @@ class Getaddrinfo_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.getaddrinfo(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class Getfqdn_Node(NodeBase):
-    title = 'getfqdn'
-    type_ = 'socket'
-    doc = """Get fully qualified domain name from name.
+    """
+    Get fully qualified domain name from name.
 
     An empty argument is interpreted as meaning the local host.
 
@@ -175,6 +186,9 @@ class Getfqdn_Node(NodeBase):
     possibly existing aliases. In case no FQDN is available, hostname
     from gethostname() is returned.
     """
+    
+    title = 'getfqdn'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='name', dtype=dtypes.Data(default='', size='s')),
     ]
@@ -183,16 +197,18 @@ class Getfqdn_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.getfqdn(self.input(0)))
         
 
 class Has_Dualstack_Ipv6_Node(NodeBase):
-    title = 'has_dualstack_ipv6'
-    type_ = 'socket'
-    doc = """Return True if the platform supports creating a SOCK_STREAM socket
+    """
+    Return True if the platform supports creating a SOCK_STREAM socket
     which can handle both AF_INET and AF_INET6 (IPv4 / IPv6) connections.
     """
+    
+    title = 'has_dualstack_ipv6'
+    type_ = 'socket'
     init_inputs = [
         
     ]
@@ -201,19 +217,21 @@ class Has_Dualstack_Ipv6_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.has_dualstack_ipv6())
         
 
 class Socketpair_Node(NodeBase):
-    title = 'socketpair'
-    type_ = 'socket'
-    doc = """socketpair([family[, type[, proto]]]) -> (socket object, socket object)
+    """
+    socketpair([family[, type[, proto]]]) -> (socket object, socket object)
 Create a pair of socket objects from the sockets returned by the platform
 socketpair() function.
 The arguments are the same as for socket() except the default family is AF_UNIX
 if defined on the platform; otherwise, the default is AF_INET.
 """
+    
+    title = 'socketpair'
+    type_ = 'socket'
     init_inputs = [
         NodeInputBP(label='family', dtype=dtypes.Data(default=2, size='s')),
         NodeInputBP(label='type', dtype=dtypes.Data(default=1, size='s')),
@@ -224,7 +242,7 @@ if defined on the platform; otherwise, the default is AF_INET.
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, socket.socketpair(self.input(0), self.input(1), self.input(2)))
         
 

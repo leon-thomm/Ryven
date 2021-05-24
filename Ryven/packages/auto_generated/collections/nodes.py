@@ -20,7 +20,7 @@ class __Getattr___Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections.__getattr__(self.input(0)))
         
 
@@ -37,7 +37,7 @@ class _Count_Elements_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections._count_elements(self.input(0), self.input(1)))
         
 
@@ -54,7 +54,7 @@ class _Eq_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections._eq(self.input(0), self.input(1)))
         
 
@@ -70,7 +70,7 @@ class _Recursive_Repr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections._recursive_repr(self.input(0)))
         
 
@@ -108,7 +108,7 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections.namedtuple(self.input(0), self.input(1)))
         
 

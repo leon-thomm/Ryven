@@ -34,7 +34,7 @@ class %CLASS%(Node):
             del self.special_actions['remove input']
 
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         result = True
         for i in range(1+self.enlargement_state):
             result = result and self.input(i) != self.input(i+1)

@@ -28,8 +28,8 @@ class WithFileOpen_Node(Node):
         # self.special_actions['action name'] = {'method': M(self.action_method)}
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             with open(self.input(1), self.input(2)) as f:
                 self.outputs[1].set_val(f)
                 self.exec_output(0)

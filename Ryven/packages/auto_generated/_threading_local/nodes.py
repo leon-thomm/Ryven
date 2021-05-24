@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Rlock_Node(NodeBase):
-    title = 'RLock'
-    type_ = '_threading_local'
-    doc = """Factory function that returns a new reentrant lock.
+    """
+    Factory function that returns a new reentrant lock.
 
     A reentrant lock must be released by the thread that acquired it. Once a
     thread has acquired a reentrant lock, the same thread may acquire it again
@@ -19,6 +18,9 @@ class Rlock_Node(NodeBase):
     acquired it.
 
     """
+    
+    title = 'RLock'
+    type_ = '_threading_local'
     init_inputs = [
         
     ]
@@ -27,14 +29,16 @@ class Rlock_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _threading_local.RLock())
         
 
 class _Patch_Node(NodeBase):
+    """
+    """
+    
     title = '_patch'
     type_ = '_threading_local'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -43,14 +47,13 @@ class _Patch_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _threading_local._patch())
         
 
 class Contextmanager_Node(NodeBase):
-    title = 'contextmanager'
-    type_ = '_threading_local'
-    doc = """@contextmanager decorator.
+    """
+    @contextmanager decorator.
 
     Typical usage:
 
@@ -76,6 +79,9 @@ class Contextmanager_Node(NodeBase):
         finally:
             <cleanup>
     """
+    
+    title = 'contextmanager'
+    type_ = '_threading_local'
     init_inputs = [
         NodeInputBP(label='func'),
     ]
@@ -84,19 +90,21 @@ class Contextmanager_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _threading_local.contextmanager(self.input(0)))
         
 
 class Current_Thread_Node(NodeBase):
-    title = 'current_thread'
-    type_ = '_threading_local'
-    doc = """Return the current Thread object, corresponding to the caller's thread of control.
+    """
+    Return the current Thread object, corresponding to the caller's thread of control.
 
     If the caller's thread of control was not created through the threading
     module, a dummy thread object with limited functionality is returned.
 
     """
+    
+    title = 'current_thread'
+    type_ = '_threading_local'
     init_inputs = [
         
     ]
@@ -105,7 +113,7 @@ class Current_Thread_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _threading_local.current_thread())
         
 

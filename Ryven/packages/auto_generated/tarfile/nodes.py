@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Safe_Print_Node(NodeBase):
+    """
+    """
+    
     title = '_safe_print'
     type_ = 'tarfile'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='s'),
     ]
@@ -20,14 +22,13 @@ class _Safe_Print_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile._safe_print(self.input(0)))
         
 
 class Bltn_Open_Node(NodeBase):
-    title = 'bltn_open'
-    type_ = 'tarfile'
-    doc = """Open file and return a stream.  Raise OSError upon failure.
+    """
+    Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -145,6 +146,9 @@ It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
 opened in a binary mode."""
+    
+    title = 'bltn_open'
+    type_ = 'tarfile'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
@@ -160,14 +164,13 @@ opened in a binary mode."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.bltn_open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class Calc_Chksums_Node(NodeBase):
-    title = 'calc_chksums'
-    type_ = 'tarfile'
-    doc = """Calculate the checksum for a member's header by summing up all
+    """
+    Calculate the checksum for a member's header by summing up all
        characters except for the chksum field which is treated as if
        it was filled with spaces. According to the GNU tar sources,
        some tars (Sun and NeXT) calculate chksum with signed char,
@@ -175,6 +178,9 @@ class Calc_Chksums_Node(NodeBase):
        the high bit set. So we calculate two checksums, unsigned and
        signed.
     """
+    
+    title = 'calc_chksums'
+    type_ = 'tarfile'
     init_inputs = [
         NodeInputBP(label='buf'),
     ]
@@ -183,16 +189,18 @@ class Calc_Chksums_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.calc_chksums(self.input(0)))
         
 
 class Copyfileobj_Node(NodeBase):
-    title = 'copyfileobj'
-    type_ = 'tarfile'
-    doc = """Copy length bytes from fileobj src to fileobj dst.
+    """
+    Copy length bytes from fileobj src to fileobj dst.
        If length is None, copy the entire content.
     """
+    
+    title = 'copyfileobj'
+    type_ = 'tarfile'
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='dst'),
@@ -205,16 +213,20 @@ class Copyfileobj_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.copyfileobj(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Is_Tarfile_Node(NodeBase):
+    """
+    Return True if name points to a tar archive that we
+       are able to handle, else return False.
+
+       'name' should be a string, file, or file-like object.
+    """
+    
     title = 'is_tarfile'
     type_ = 'tarfile'
-    doc = """Return True if name points to a tar archive that we
-       are able to handle, else return False.
-    """
     init_inputs = [
         NodeInputBP(label='name'),
     ]
@@ -223,15 +235,17 @@ class Is_Tarfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.is_tarfile(self.input(0)))
         
 
 class Itn_Node(NodeBase):
+    """
+    Convert a python number to a number field.
+    """
+    
     title = 'itn'
     type_ = 'tarfile'
-    doc = """Convert a python number to a number field.
-    """
     init_inputs = [
         NodeInputBP(label='n'),
         NodeInputBP(label='digits', dtype=dtypes.Data(default=8, size='s')),
@@ -242,14 +256,16 @@ class Itn_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.itn(self.input(0), self.input(1), self.input(2)))
         
 
 class Main_Node(NodeBase):
+    """
+    """
+    
     title = 'main'
     type_ = 'tarfile'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -258,15 +274,17 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.main())
         
 
 class Nti_Node(NodeBase):
+    """
+    Convert a number field to a python number.
+    """
+    
     title = 'nti'
     type_ = 'tarfile'
-    doc = """Convert a number field to a python number.
-    """
     init_inputs = [
         NodeInputBP(label='s'),
     ]
@@ -275,15 +293,17 @@ class Nti_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.nti(self.input(0)))
         
 
 class Nts_Node(NodeBase):
+    """
+    Convert a null-terminated bytes object to a string.
+    """
+    
     title = 'nts'
     type_ = 'tarfile'
-    doc = """Convert a null-terminated bytes object to a string.
-    """
     init_inputs = [
         NodeInputBP(label='s'),
         NodeInputBP(label='encoding'),
@@ -294,14 +314,13 @@ class Nts_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.nts(self.input(0), self.input(1), self.input(2)))
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'tarfile'
-    doc = """Open a tar archive for reading, writing or appending. Return
+    """
+    Open a tar archive for reading, writing or appending. Return
            an appropriate TarFile class.
 
            mode:
@@ -335,6 +354,9 @@ class Open_Node(NodeBase):
            'w|bz2'      open a bzip2 compressed stream for writing
            'w|xz'       open an lzma compressed stream for writing
         """
+    
+    title = 'open'
+    type_ = 'tarfile'
     init_inputs = [
         NodeInputBP(label='cls'),
         NodeInputBP(label='name', dtype=dtypes.Data(default=None, size='s')),
@@ -347,15 +369,17 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Stn_Node(NodeBase):
+    """
+    Convert a string to a null-terminated bytes object.
+    """
+    
     title = 'stn'
     type_ = 'tarfile'
-    doc = """Convert a string to a null-terminated bytes object.
-    """
     init_inputs = [
         NodeInputBP(label='s'),
         NodeInputBP(label='length'),
@@ -367,7 +391,7 @@ class Stn_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, tarfile.stn(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 

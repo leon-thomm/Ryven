@@ -9,11 +9,13 @@ class NodeBase(Node):
 
 
 class _Calc_Julian_From_U_Or_W_Node(NodeBase):
-    title = '_calc_julian_from_U_or_W'
-    type_ = '_strptime'
-    doc = """Calculate the Julian day based on the year, week of the year, and day of
+    """
+    Calculate the Julian day based on the year, week of the year, and day of
     the week, with week_start_day representing whether the week of the year
     assumes the week starts on Sunday or Monday (6 or 0)."""
+    
+    title = '_calc_julian_from_U_or_W'
+    type_ = '_strptime'
     init_inputs = [
         NodeInputBP(label='year'),
         NodeInputBP(label='week_of_year'),
@@ -25,17 +27,19 @@ class _Calc_Julian_From_U_Or_W_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime._calc_julian_from_U_or_W(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class _Calc_Julian_From_V_Node(NodeBase):
-    title = '_calc_julian_from_V'
-    type_ = '_strptime'
-    doc = """Calculate the Julian day based on the ISO 8601 year, week, and weekday.
+    """
+    Calculate the Julian day based on the ISO 8601 year, week, and weekday.
     ISO weeks start on Mondays, with week 01 being the week containing 4 Jan.
     ISO week days range from 1 (Monday) to 7 (Sunday).
     """
+    
+    title = '_calc_julian_from_V'
+    type_ = '_strptime'
     init_inputs = [
         NodeInputBP(label='iso_year'),
         NodeInputBP(label='iso_week'),
@@ -46,14 +50,16 @@ class _Calc_Julian_From_V_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime._calc_julian_from_V(self.input(0), self.input(1), self.input(2)))
         
 
 class _Getlang_Node(NodeBase):
+    """
+    """
+    
     title = '_getlang'
     type_ = '_strptime'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -62,16 +68,18 @@ class _Getlang_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime._getlang())
         
 
 class _Strptime_Node(NodeBase):
-    title = '_strptime'
-    type_ = '_strptime'
-    doc = """Return a 2-tuple consisting of a time struct and an int containing
+    """
+    Return a 2-tuple consisting of a time struct and an int containing
     the number of microseconds based on the input string and the
     format string."""
+    
+    title = '_strptime'
+    type_ = '_strptime'
     init_inputs = [
         NodeInputBP(label='data_string'),
         NodeInputBP(label='format', dtype=dtypes.Data(default='%a %b %d %H:%M:%S %Y', size='s')),
@@ -81,15 +89,17 @@ class _Strptime_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime._strptime(self.input(0), self.input(1)))
         
 
 class _Strptime_Datetime_Node(NodeBase):
+    """
+    Return a class cls instance based on the input string and the
+    format string."""
+    
     title = '_strptime_datetime'
     type_ = '_strptime'
-    doc = """Return a class cls instance based on the input string and the
-    format string."""
     init_inputs = [
         NodeInputBP(label='cls'),
         NodeInputBP(label='data_string'),
@@ -100,15 +110,17 @@ class _Strptime_Datetime_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime._strptime_datetime(self.input(0), self.input(1), self.input(2)))
         
 
 class _Strptime_Time_Node(NodeBase):
+    """
+    Return a time struct based on the input string and the
+    format string."""
+    
     title = '_strptime_time'
     type_ = '_strptime'
-    doc = """Return a time struct based on the input string and the
-    format string."""
     init_inputs = [
         NodeInputBP(label='data_string'),
         NodeInputBP(label='format', dtype=dtypes.Data(default='%a %b %d %H:%M:%S %Y', size='s')),
@@ -118,14 +130,16 @@ class _Strptime_Time_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime._strptime_time(self.input(0), self.input(1)))
         
 
 class Re_Compile_Node(NodeBase):
+    """
+    Compile a regular expression pattern, returning a Pattern object."""
+    
     title = 're_compile'
     type_ = '_strptime'
-    doc = """Compile a regular expression pattern, returning a Pattern object."""
     init_inputs = [
         NodeInputBP(label='pattern'),
         NodeInputBP(label='flags', dtype=dtypes.Data(default=0, size='s')),
@@ -135,16 +149,18 @@ class Re_Compile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime.re_compile(self.input(0), self.input(1)))
         
 
 class Re_Escape_Node(NodeBase):
-    title = 're_escape'
-    type_ = '_strptime'
-    doc = """
+    """
+    
     Escape special characters in a string.
     """
+    
+    title = 're_escape'
+    type_ = '_strptime'
     init_inputs = [
         NodeInputBP(label='pattern'),
     ]
@@ -153,7 +169,7 @@ class Re_Escape_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _strptime.re_escape(self.input(0)))
         
 

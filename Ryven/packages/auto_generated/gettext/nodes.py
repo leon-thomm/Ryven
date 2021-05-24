@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Catalog_Node(NodeBase):
+    """
+    """
+    
     title = 'Catalog'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
@@ -25,14 +27,16 @@ class Catalog_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.Catalog(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class _As_Int_Node(NodeBase):
+    """
+    """
+    
     title = '_as_int'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='n'),
     ]
@@ -41,14 +45,16 @@ class _As_Int_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext._as_int(self.input(0)))
         
 
 class _Error_Node(NodeBase):
+    """
+    """
+    
     title = '_error'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='value'),
     ]
@@ -57,14 +63,16 @@ class _Error_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext._error(self.input(0)))
         
 
 class _Expand_Lang_Node(NodeBase):
+    """
+    """
+    
     title = '_expand_lang'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='loc'),
     ]
@@ -73,14 +81,16 @@ class _Expand_Lang_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext._expand_lang(self.input(0)))
         
 
 class _Parse_Node(NodeBase):
+    """
+    """
+    
     title = '_parse'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='tokens'),
         NodeInputBP(label='priority', dtype=dtypes.Data(default=-1, size='s')),
@@ -90,14 +100,16 @@ class _Parse_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext._parse(self.input(0), self.input(1)))
         
 
 class _Tokenize_Node(NodeBase):
+    """
+    """
+    
     title = '_tokenize'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='plural'),
     ]
@@ -106,14 +118,16 @@ class _Tokenize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext._tokenize(self.input(0)))
         
 
 class Bind_Textdomain_Codeset_Node(NodeBase):
+    """
+    """
+    
     title = 'bind_textdomain_codeset'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='codeset', dtype=dtypes.Data(default=None, size='s')),
@@ -123,14 +137,16 @@ class Bind_Textdomain_Codeset_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.bind_textdomain_codeset(self.input(0), self.input(1)))
         
 
 class Bindtextdomain_Node(NodeBase):
+    """
+    """
+    
     title = 'bindtextdomain'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
@@ -140,16 +156,18 @@ class Bindtextdomain_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.bindtextdomain(self.input(0), self.input(1)))
         
 
 class C2Py_Node(NodeBase):
-    title = 'c2py'
-    type_ = 'gettext'
-    doc = """Gets a C expression as used in PO files for plural forms and returns a
+    """
+    Gets a C expression as used in PO files for plural forms and returns a
     Python function that implements an equivalent expression.
     """
+    
+    title = 'c2py'
+    type_ = 'gettext'
     init_inputs = [
         NodeInputBP(label='plural'),
     ]
@@ -158,14 +176,16 @@ class C2Py_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.c2py(self.input(0)))
         
 
 class Dgettext_Node(NodeBase):
+    """
+    """
+    
     title = 'dgettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='message'),
@@ -175,14 +195,16 @@ class Dgettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.dgettext(self.input(0), self.input(1)))
         
 
 class Dngettext_Node(NodeBase):
+    """
+    """
+    
     title = 'dngettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='msgid1'),
@@ -194,14 +216,16 @@ class Dngettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.dngettext(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Dnpgettext_Node(NodeBase):
+    """
+    """
+    
     title = 'dnpgettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='context'),
@@ -214,14 +238,16 @@ class Dnpgettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.dnpgettext(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Dpgettext_Node(NodeBase):
+    """
+    """
+    
     title = 'dpgettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='context'),
@@ -232,14 +258,16 @@ class Dpgettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.dpgettext(self.input(0), self.input(1), self.input(2)))
         
 
 class Find_Node(NodeBase):
+    """
+    """
+    
     title = 'find'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
@@ -251,14 +279,16 @@ class Find_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.find(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Gettext_Node(NodeBase):
+    """
+    """
+    
     title = 'gettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='message'),
     ]
@@ -267,14 +297,16 @@ class Gettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.gettext(self.input(0)))
         
 
 class Install_Node(NodeBase):
+    """
+    """
+    
     title = 'install'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
@@ -286,14 +318,16 @@ class Install_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.install(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Ldgettext_Node(NodeBase):
+    """
+    """
+    
     title = 'ldgettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='message'),
@@ -303,14 +337,16 @@ class Ldgettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.ldgettext(self.input(0), self.input(1)))
         
 
 class Ldngettext_Node(NodeBase):
+    """
+    """
+    
     title = 'ldngettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='msgid1'),
@@ -322,14 +358,16 @@ class Ldngettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.ldngettext(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Lgettext_Node(NodeBase):
+    """
+    """
+    
     title = 'lgettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='message'),
     ]
@@ -338,14 +376,16 @@ class Lgettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.lgettext(self.input(0)))
         
 
 class Lngettext_Node(NodeBase):
+    """
+    """
+    
     title = 'lngettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='msgid1'),
         NodeInputBP(label='msgid2'),
@@ -356,14 +396,16 @@ class Lngettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.lngettext(self.input(0), self.input(1), self.input(2)))
         
 
 class Ngettext_Node(NodeBase):
+    """
+    """
+    
     title = 'ngettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='msgid1'),
         NodeInputBP(label='msgid2'),
@@ -374,14 +416,16 @@ class Ngettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.ngettext(self.input(0), self.input(1), self.input(2)))
         
 
 class Npgettext_Node(NodeBase):
+    """
+    """
+    
     title = 'npgettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='context'),
         NodeInputBP(label='msgid1'),
@@ -393,14 +437,16 @@ class Npgettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.npgettext(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Pgettext_Node(NodeBase):
+    """
+    """
+    
     title = 'pgettext'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='context'),
         NodeInputBP(label='message'),
@@ -410,14 +456,16 @@ class Pgettext_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.pgettext(self.input(0), self.input(1)))
         
 
 class Textdomain_Node(NodeBase):
+    """
+    """
+    
     title = 'textdomain'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -426,14 +474,16 @@ class Textdomain_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.textdomain(self.input(0)))
         
 
 class Translation_Node(NodeBase):
+    """
+    """
+    
     title = 'translation'
     type_ = 'gettext'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='domain'),
         NodeInputBP(label='localedir', dtype=dtypes.Data(default=None, size='s')),
@@ -447,7 +497,7 @@ class Translation_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, gettext.translation(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 

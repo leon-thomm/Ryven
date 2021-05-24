@@ -20,7 +20,7 @@ class _All_Tasks_Compat_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio._all_tasks_compat(self.input(0)))
         
 
@@ -41,7 +41,7 @@ Returns None."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio._enter_task(self.input(0), self.input(1)))
         
 
@@ -60,7 +60,7 @@ This function is thread-specific."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio._get_running_loop())
         
 
@@ -81,7 +81,7 @@ Returns None."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio._leave_task(self.input(0), self.input(1)))
         
 
@@ -99,7 +99,7 @@ Returns None."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio._register_task(self.input(0)))
         
 
@@ -118,7 +118,7 @@ This function is thread-specific."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio._set_running_loop(self.input(0)))
         
 
@@ -136,7 +136,7 @@ Returns None."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio._unregister_task(self.input(0)))
         
 
@@ -152,7 +152,7 @@ class All_Tasks_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.all_tasks(self.input(0)))
         
 
@@ -184,7 +184,7 @@ class As_Completed_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.as_completed(self.input(0)))
         
 
@@ -204,7 +204,7 @@ class Coroutine_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.coroutine(self.input(0)))
         
 
@@ -220,7 +220,7 @@ class Create_Subprocess_Exec_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.create_subprocess_exec(self.input(0)))
         
 
@@ -241,7 +241,7 @@ class Create_Subprocess_Shell_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.create_subprocess_shell(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
@@ -260,7 +260,7 @@ class Create_Task_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.create_task(self.input(0)))
         
 
@@ -276,7 +276,7 @@ class Current_Task_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.current_task(self.input(0)))
         
 
@@ -295,7 +295,7 @@ class Ensure_Future_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.ensure_future(self.input(0)))
         
 
@@ -339,7 +339,7 @@ class Gather_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.gather())
         
 
@@ -355,7 +355,7 @@ class Get_Child_Watcher_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.get_child_watcher())
         
 
@@ -378,7 +378,7 @@ the result of `get_event_loop_policy().get_event_loop()` call."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.get_event_loop())
         
 
@@ -394,7 +394,7 @@ class Get_Event_Loop_Policy_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.get_event_loop_policy())
         
 
@@ -412,7 +412,7 @@ This function is thread-specific."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.get_running_loop())
         
 
@@ -428,7 +428,7 @@ class Iscoroutine_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.iscoroutine(self.input(0)))
         
 
@@ -444,7 +444,7 @@ class Iscoroutinefunction_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.iscoroutinefunction(self.input(0)))
         
 
@@ -465,7 +465,7 @@ class Isfuture_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.isfuture(self.input(0)))
         
 
@@ -481,7 +481,7 @@ class New_Event_Loop_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.new_event_loop())
         
 
@@ -514,7 +514,7 @@ class Open_Connection_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.open_connection(self.input(0), self.input(1)))
         
 
@@ -552,7 +552,7 @@ class Run_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.run(self.input(0)))
         
 
@@ -572,7 +572,7 @@ class Run_Coroutine_Threadsafe_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.run_coroutine_threadsafe(self.input(0), self.input(1)))
         
 
@@ -589,7 +589,7 @@ class Set_Child_Watcher_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.set_child_watcher(self.input(0)))
         
 
@@ -605,7 +605,7 @@ class Set_Event_Loop_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.set_event_loop(self.input(0)))
         
 
@@ -623,7 +623,7 @@ class Set_Event_Loop_Policy_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.set_event_loop_policy(self.input(0)))
         
 
@@ -663,7 +663,7 @@ class Shield_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.shield(self.input(0)))
         
 
@@ -680,7 +680,7 @@ class Sleep_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.sleep(self.input(0), self.input(1)))
         
 
@@ -718,7 +718,7 @@ class Start_Server_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.start_server(self.input(0), self.input(1), self.input(2)))
         
 
@@ -748,7 +748,7 @@ class Wait_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.wait(self.input(0)))
         
 
@@ -776,7 +776,7 @@ class Wait_For_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.wait_for(self.input(0), self.input(1)))
         
 
@@ -792,7 +792,7 @@ class Wrap_Future_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncio.wrap_future(self.input(0)))
         
 

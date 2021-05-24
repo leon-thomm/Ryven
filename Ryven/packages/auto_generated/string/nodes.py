@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Capwords_Node(NodeBase):
-    title = 'capwords'
-    type_ = 'string'
-    doc = """capwords(s [,sep]) -> string
+    """
+    capwords(s [,sep]) -> string
 
     Split the argument into words using split, capitalize each
     word using capitalize, and join the capitalized words using
@@ -21,6 +20,9 @@ class Capwords_Node(NodeBase):
     sep is used to split and join the words.
 
     """
+    
+    title = 'capwords'
+    type_ = 'string'
     init_inputs = [
         NodeInputBP(label='s'),
         NodeInputBP(label='sep', dtype=dtypes.Data(default=None, size='s')),
@@ -30,7 +32,7 @@ class Capwords_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, string.capwords(self.input(0), self.input(1)))
         
 

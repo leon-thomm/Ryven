@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class __Node(NodeBase):
+    """
+    """
+    
     title = '_'
     type_ = 'getopt'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='message'),
     ]
@@ -20,14 +22,16 @@ class __Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getopt._(self.input(0)))
         
 
 class Do_Longs_Node(NodeBase):
+    """
+    """
+    
     title = 'do_longs'
     type_ = 'getopt'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='opts'),
         NodeInputBP(label='opt'),
@@ -39,14 +43,16 @@ class Do_Longs_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getopt.do_longs(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Do_Shorts_Node(NodeBase):
+    """
+    """
+    
     title = 'do_shorts'
     type_ = 'getopt'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='opts'),
         NodeInputBP(label='optstring'),
@@ -58,14 +64,13 @@ class Do_Shorts_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getopt.do_shorts(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Getopt_Node(NodeBase):
-    title = 'getopt'
-    type_ = 'getopt'
-    doc = """getopt(args, options[, long_options]) -> opts, args
+    """
+    getopt(args, options[, long_options]) -> opts, args
 
     Parses command line options and parameter list.  args is the
     argument list to be parsed, without the leading reference to the
@@ -90,6 +95,9 @@ class Getopt_Node(NodeBase):
     multiple occurrences.  Long and short options may be mixed.
 
     """
+    
+    title = 'getopt'
+    type_ = 'getopt'
     init_inputs = [
         NodeInputBP(label='args'),
         NodeInputBP(label='shortopts'),
@@ -100,14 +108,13 @@ class Getopt_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getopt.getopt(self.input(0), self.input(1), self.input(2)))
         
 
 class Gnu_Getopt_Node(NodeBase):
-    title = 'gnu_getopt'
-    type_ = 'getopt'
-    doc = """getopt(args, options[, long_options]) -> opts, args
+    """
+    getopt(args, options[, long_options]) -> opts, args
 
     This function works like getopt(), except that GNU style scanning
     mode is used by default. This means that option and non-option
@@ -120,6 +127,9 @@ class Gnu_Getopt_Node(NodeBase):
     processing stops as soon as a non-option argument is encountered.
 
     """
+    
+    title = 'gnu_getopt'
+    type_ = 'getopt'
     init_inputs = [
         NodeInputBP(label='args'),
         NodeInputBP(label='shortopts'),
@@ -130,14 +140,16 @@ class Gnu_Getopt_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getopt.gnu_getopt(self.input(0), self.input(1), self.input(2)))
         
 
 class Long_Has_Args_Node(NodeBase):
+    """
+    """
+    
     title = 'long_has_args'
     type_ = 'getopt'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='opt'),
         NodeInputBP(label='longopts'),
@@ -147,14 +159,16 @@ class Long_Has_Args_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getopt.long_has_args(self.input(0), self.input(1)))
         
 
 class Short_Has_Arg_Node(NodeBase):
+    """
+    """
+    
     title = 'short_has_arg'
     type_ = 'getopt'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='opt'),
         NodeInputBP(label='shortopts'),
@@ -164,7 +178,7 @@ class Short_Has_Arg_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, getopt.short_has_arg(self.input(0), self.input(1)))
         
 

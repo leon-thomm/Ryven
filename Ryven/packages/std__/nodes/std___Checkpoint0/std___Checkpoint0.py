@@ -73,11 +73,11 @@ class Checkpoint_Node(Node):
         del self.special_actions['add sequence output']
         self.special_actions['make exec'] = {'method': self.action_make_exec}
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         if self.passive:
             self.set_output_val(0, self.input(0))
         else:
-            if input_called==0:
+            if inp==0:
                 for i in range(self.num_exec_outputs):
                     self.exec_output(i)
 

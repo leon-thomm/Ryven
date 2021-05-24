@@ -21,7 +21,7 @@ class Divided_Node(Node):
         self.num_inputs = 2
 
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         sum_val = self.input(0)
         for i in range(1, len(self.inputs)):
             sum_val /= self.input(i)

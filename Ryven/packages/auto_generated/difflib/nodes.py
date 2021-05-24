@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Is_Character_Junk_Node(NodeBase):
-    title = 'IS_CHARACTER_JUNK'
-    type_ = 'difflib'
-    doc = """
+    """
+    
     Return True for ignorable character: iff `ch` is a space or tab.
 
     Examples:
@@ -25,6 +24,9 @@ class Is_Character_Junk_Node(NodeBase):
     >>> IS_CHARACTER_JUNK('x')
     False
     """
+    
+    title = 'IS_CHARACTER_JUNK'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='ch'),
         NodeInputBP(label='ws', dtype=dtypes.Data(default=' 	', size='s')),
@@ -34,14 +36,13 @@ class Is_Character_Junk_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.IS_CHARACTER_JUNK(self.input(0), self.input(1)))
         
 
 class Is_Line_Junk_Node(NodeBase):
-    title = 'IS_LINE_JUNK'
-    type_ = 'difflib'
-    doc = """
+    """
+    
     Return True for ignorable line: iff `line` is blank or contains a single '#'.
 
     Examples:
@@ -53,23 +54,28 @@ class Is_Line_Junk_Node(NodeBase):
     >>> IS_LINE_JUNK('hello\n')
     False
     """
+    
+    title = 'IS_LINE_JUNK'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='line'),
-        NodeInputBP(label='pat', dtype=dtypes.Data(default=<built-in method match of re.Pattern object at 0x0000026E695D3C60>, size='s')),
+        NodeInputBP(label='pat', dtype=dtypes.Data(default=<built-in method match of re.Pattern object at 0x000001B8428518A0>, size='s')),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.IS_LINE_JUNK(self.input(0), self.input(1)))
         
 
 class _Calculate_Ratio_Node(NodeBase):
+    """
+    """
+    
     title = '_calculate_ratio'
     type_ = 'difflib'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='matches'),
         NodeInputBP(label='length'),
@@ -79,14 +85,16 @@ class _Calculate_Ratio_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._calculate_ratio(self.input(0), self.input(1)))
         
 
 class _Check_Types_Node(NodeBase):
+    """
+    """
+    
     title = '_check_types'
     type_ = 'difflib'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -96,14 +104,16 @@ class _Check_Types_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._check_types(self.input(0), self.input(1)))
         
 
 class _Format_Range_Context_Node(NodeBase):
+    """
+    Convert range to the "ed" format"""
+    
     title = '_format_range_context'
     type_ = 'difflib'
-    doc = """Convert range to the "ed" format"""
     init_inputs = [
         NodeInputBP(label='start'),
         NodeInputBP(label='stop'),
@@ -113,14 +123,16 @@ class _Format_Range_Context_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._format_range_context(self.input(0), self.input(1)))
         
 
 class _Format_Range_Unified_Node(NodeBase):
+    """
+    Convert range to the "ed" format"""
+    
     title = '_format_range_unified'
     type_ = 'difflib'
-    doc = """Convert range to the "ed" format"""
     init_inputs = [
         NodeInputBP(label='start'),
         NodeInputBP(label='stop'),
@@ -130,14 +142,16 @@ class _Format_Range_Unified_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._format_range_unified(self.input(0), self.input(1)))
         
 
 class _Keep_Original_Ws_Node(NodeBase):
+    """
+    Replace whitespace with the original whitespace characters in `s`"""
+    
     title = '_keep_original_ws'
     type_ = 'difflib'
-    doc = """Replace whitespace with the original whitespace characters in `s`"""
     init_inputs = [
         NodeInputBP(label='s'),
         NodeInputBP(label='tag_s'),
@@ -147,14 +161,13 @@ class _Keep_Original_Ws_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._keep_original_ws(self.input(0), self.input(1)))
         
 
 class _Mdiff_Node(NodeBase):
-    title = '_mdiff'
-    type_ = 'difflib'
-    doc = """Returns generator yielding marked up from/to side by side differences.
+    """
+    Returns generator yielding marked up from/to side by side differences.
 
     Arguments:
     fromlines -- list of text lines to compared to tolines
@@ -186,6 +199,9 @@ class _Mdiff_Node(NodeBase):
     side difference markup.  Optional ndiff arguments may be passed to this
     function and they in turn will be passed to ndiff.
     """
+    
+    title = '_mdiff'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='fromlines'),
         NodeInputBP(label='tolines'),
@@ -198,14 +214,13 @@ class _Mdiff_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._mdiff(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Namedtuple_Node(NodeBase):
-    title = '_namedtuple'
-    type_ = 'difflib'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -227,6 +242,9 @@ class _Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = '_namedtuple'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -236,17 +254,19 @@ class _Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._namedtuple(self.input(0), self.input(1)))
         
 
 class _Nlargest_Node(NodeBase):
-    title = '_nlargest'
-    type_ = 'difflib'
-    doc = """Find the n largest elements in a dataset.
+    """
+    Find the n largest elements in a dataset.
 
     Equivalent to:  sorted(iterable, key=key, reverse=True)[:n]
     """
+    
+    title = '_nlargest'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='n'),
         NodeInputBP(label='iterable'),
@@ -257,14 +277,16 @@ class _Nlargest_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._nlargest(self.input(0), self.input(1), self.input(2)))
         
 
 class _Test_Node(NodeBase):
+    """
+    """
+    
     title = '_test'
     type_ = 'difflib'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -273,14 +295,13 @@ class _Test_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib._test())
         
 
 class Context_Diff_Node(NodeBase):
-    title = 'context_diff'
-    type_ = 'difflib'
-    doc = """
+    """
+    
     Compare two sequences of lines; generate the delta as a context diff.
 
     Context diffs are a compact way of showing line changes and a few
@@ -321,6 +342,9 @@ class Context_Diff_Node(NodeBase):
     ! tree
       four
     """
+    
+    title = 'context_diff'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -337,14 +361,13 @@ class Context_Diff_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.context_diff(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class Diff_Bytes_Node(NodeBase):
-    title = 'diff_bytes'
-    type_ = 'difflib'
-    doc = """
+    """
+    
     Compare `a` and `b`, two sequences of lines represented as bytes rather
     than str. This is a wrapper for `dfunc`, which is typically either
     unified_diff() or context_diff(). Inputs are losslessly converted to
@@ -353,6 +376,9 @@ class Diff_Bytes_Node(NodeBase):
     unknown or inconsistent encoding. All other inputs (except `n`) must be
     bytes rather than str.
     """
+    
+    title = 'diff_bytes'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='dfunc'),
         NodeInputBP(label='a'),
@@ -369,14 +395,13 @@ class Diff_Bytes_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.diff_bytes(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7), self.input(8)))
         
 
 class Get_Close_Matches_Node(NodeBase):
-    title = 'get_close_matches'
-    type_ = 'difflib'
-    doc = """Use SequenceMatcher to return list of the best "good enough" matches.
+    """
+    Use SequenceMatcher to return list of the best "good enough" matches.
 
     word is a sequence for which close matches are desired (typically a
     string).
@@ -403,6 +428,9 @@ class Get_Close_Matches_Node(NodeBase):
     >>> get_close_matches("accept", _keyword.kwlist)
     ['except']
     """
+    
+    title = 'get_close_matches'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='word'),
         NodeInputBP(label='possibilities'),
@@ -414,14 +442,13 @@ class Get_Close_Matches_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.get_close_matches(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Ndiff_Node(NodeBase):
-    title = 'ndiff'
-    type_ = 'difflib'
-    doc = """
+    """
+    
     Compare `a` and `b` (lists of strings); return a `Differ`-style delta.
 
     Optional keyword parameters `linejunk` and `charjunk` are for filter
@@ -455,6 +482,9 @@ class Ndiff_Node(NodeBase):
     + tree
     + emu
     """
+    
+    title = 'ndiff'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -466,14 +496,13 @@ class Ndiff_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.ndiff(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Restore_Node(NodeBase):
-    title = 'restore'
-    type_ = 'difflib'
-    doc = """
+    """
+    
     Generate one of the two sequences that generated a delta.
 
     Given a `delta` produced by `Differ.compare()` or `ndiff()`, extract
@@ -494,6 +523,9 @@ class Restore_Node(NodeBase):
     tree
     emu
     """
+    
+    title = 'restore'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='delta'),
         NodeInputBP(label='which'),
@@ -503,14 +535,13 @@ class Restore_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.restore(self.input(0), self.input(1)))
         
 
 class Unified_Diff_Node(NodeBase):
-    title = 'unified_diff'
-    type_ = 'difflib'
-    doc = """
+    """
+    
     Compare two sequences of lines; generate the delta as a unified diff.
 
     Unified diffs are a compact way of showing line changes and a few
@@ -548,6 +579,9 @@ class Unified_Diff_Node(NodeBase):
     +tree
      four
     """
+    
+    title = 'unified_diff'
+    type_ = 'difflib'
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -564,7 +598,7 @@ class Unified_Diff_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, difflib.unified_diff(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 

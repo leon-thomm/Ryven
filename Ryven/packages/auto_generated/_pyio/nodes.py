@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class _Open_Code_With_Warning_Node(NodeBase):
-    title = '_open_code_with_warning'
-    type_ = '_pyio'
-    doc = """Opens the provided file with mode ``'rb'``. This function
+    """
+    Opens the provided file with mode ``'rb'``. This function
     should be used when the intent is to treat the contents as
     executable code.
 
@@ -21,6 +20,9 @@ class _Open_Code_With_Warning_Node(NodeBase):
     in order to allow embedders more control over code files.
     This functionality is not supported on the current runtime.
     """
+    
+    title = '_open_code_with_warning'
+    type_ = '_pyio'
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -29,19 +31,21 @@ class _Open_Code_With_Warning_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pyio._open_code_with_warning(self.input(0)))
         
 
 class _Setmode_Node(NodeBase):
-    title = '_setmode'
-    type_ = '_pyio'
-    doc = """Set the line-end translation mode for the file descriptor fd.
+    """
+    Set the line-end translation mode for the file descriptor fd.
 
 To set it to text mode, flags should be os.O_TEXT; for binary, it
 should be os.O_BINARY.
 
 Return value is the previous mode."""
+    
+    title = '_setmode'
+    type_ = '_pyio'
     init_inputs = [
         NodeInputBP(label='fd'),
         NodeInputBP(label='mode'),
@@ -51,14 +55,13 @@ Return value is the previous mode."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pyio._setmode(self.input(0), self.input(1)))
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = '_pyio'
-    doc = """Open file and return a stream.  Raise OSError upon failure.
+    """
+    Open file and return a stream.  Raise OSError upon failure.
 
     file is either a text or byte string giving the name (and the path
     if the file isn't in the current working directory) of the file to
@@ -178,6 +181,9 @@ class Open_Node(NodeBase):
     opened in a text mode, and for bytes a BytesIO can be used like a file
     opened in a binary mode.
     """
+    
+    title = 'open'
+    type_ = '_pyio'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
@@ -193,17 +199,19 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pyio.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class Open_Code_Node(NodeBase):
-    title = 'open_code'
-    type_ = '_pyio'
-    doc = """Opens the provided file with the intent to import the contents.
+    """
+    Opens the provided file with the intent to import the contents.
 
 This may perform extra validation beyond open(), but is otherwise interchangeable
 with calling open(path, 'rb')."""
+    
+    title = 'open_code'
+    type_ = '_pyio'
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -212,7 +220,7 @@ with calling open(path, 'rb')."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, _pyio.open_code(self.input(0)))
         
 

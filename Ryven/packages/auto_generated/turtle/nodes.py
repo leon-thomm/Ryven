@@ -9,11 +9,13 @@ class NodeBase(Node):
 
 
 class Screen_Node(NodeBase):
-    title = 'Screen'
-    type_ = 'turtle'
-    doc = """Return the singleton screen object.
+    """
+    Return the singleton screen object.
     If none exists at the moment, create a new one and return it,
     else return the existing one."""
+    
+    title = 'Screen'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -22,14 +24,16 @@ class Screen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.Screen())
         
 
 class __Forwardmethods_Node(NodeBase):
+    """
+    """
+    
     title = '__forwardmethods'
     type_ = 'turtle'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='fromClass'),
         NodeInputBP(label='toClass'),
@@ -41,14 +45,16 @@ class __Forwardmethods_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.__forwardmethods(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class __Methoddict_Node(NodeBase):
+    """
+    helper function for Scrolled Canvas"""
+    
     title = '__methodDict'
     type_ = 'turtle'
-    doc = """helper function for Scrolled Canvas"""
     init_inputs = [
         NodeInputBP(label='cls'),
     ]
@@ -57,14 +63,16 @@ class __Methoddict_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.__methodDict(self.input(0)))
         
 
 class __Methods_Node(NodeBase):
+    """
+    helper function for Scrolled Canvas"""
+    
     title = '__methods'
     type_ = 'turtle'
-    doc = """helper function for Scrolled Canvas"""
     init_inputs = [
         NodeInputBP(label='cls'),
     ]
@@ -73,14 +81,16 @@ class __Methods_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.__methods(self.input(0)))
         
 
 class _Make_Global_Funcs_Node(NodeBase):
+    """
+    """
+    
     title = '_make_global_funcs'
     type_ = 'turtle'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='functions'),
         NodeInputBP(label='cls'),
@@ -93,15 +103,17 @@ class _Make_Global_Funcs_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle._make_global_funcs(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Screen_Docrevise_Node(NodeBase):
+    """
+    To reduce docstrings from TurtleScreen class for functions
+    """
+    
     title = '_screen_docrevise'
     type_ = 'turtle'
-    doc = """To reduce docstrings from TurtleScreen class for functions
-    """
     init_inputs = [
         NodeInputBP(label='docstr'),
     ]
@@ -110,15 +122,17 @@ class _Screen_Docrevise_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle._screen_docrevise(self.input(0)))
         
 
 class _Turtle_Docrevise_Node(NodeBase):
+    """
+    To reduce docstrings from RawTurtle class for functions
+    """
+    
     title = '_turtle_docrevise'
     type_ = 'turtle'
-    doc = """To reduce docstrings from RawTurtle class for functions
-    """
     init_inputs = [
         NodeInputBP(label='docstr'),
     ]
@@ -127,14 +141,13 @@ class _Turtle_Docrevise_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle._turtle_docrevise(self.input(0)))
         
 
 class Addshape_Node(NodeBase):
-    title = 'addshape'
-    type_ = 'turtle'
-    doc = """Adds a turtle shape to TurtleScreen's shapelist.
+    """
+    Adds a turtle shape to TurtleScreen's shapelist.
 
         Arguments:
         (1) name is the name of a gif-file and shape is None.
@@ -156,6 +169,9 @@ class Addshape_Node(NodeBase):
         >>> register_shape("triangle", ((5,-3),(0,5),(-5,-3)))
 
         """
+    
+    title = 'addshape'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='shape', dtype=dtypes.Data(default=None, size='s')),
@@ -165,21 +181,20 @@ class Addshape_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.addshape(self.input(0), self.input(1)))
         
 
 class Back_Node(NodeBase):
-    title = 'back'
-    type_ = 'turtle'
-    doc = """Move the turtle backward by distance.
+    """
+    Move the turtle backward by distance.
 
         Aliases: back | backward | bk
 
         Argument:
         distance -- a number
 
-        Move the turtle backward by distance ,opposite to the direction the
+        Move the turtle backward by distance, opposite to the direction the
         turtle is headed. Do not change the turtle's heading.
 
         Example:
@@ -189,6 +204,9 @@ class Back_Node(NodeBase):
         >>> position()
         (-30.00, 0.00)
         """
+    
+    title = 'back'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='distance'),
     ]
@@ -197,21 +215,20 @@ class Back_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.back(self.input(0)))
         
 
 class Backward_Node(NodeBase):
-    title = 'backward'
-    type_ = 'turtle'
-    doc = """Move the turtle backward by distance.
+    """
+    Move the turtle backward by distance.
 
         Aliases: back | backward | bk
 
         Argument:
         distance -- a number
 
-        Move the turtle backward by distance ,opposite to the direction the
+        Move the turtle backward by distance, opposite to the direction the
         turtle is headed. Do not change the turtle's heading.
 
         Example:
@@ -221,6 +238,9 @@ class Backward_Node(NodeBase):
         >>> position()
         (-30.00, 0.00)
         """
+    
+    title = 'backward'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='distance'),
     ]
@@ -229,14 +249,13 @@ class Backward_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.backward(self.input(0)))
         
 
 class Begin_Fill_Node(NodeBase):
-    title = 'begin_fill'
-    type_ = 'turtle'
-    doc = """Called just before drawing a shape to be filled.
+    """
+    Called just before drawing a shape to be filled.
 
         No argument.
 
@@ -246,6 +265,9 @@ class Begin_Fill_Node(NodeBase):
         >>> circle(60)
         >>> end_fill()
         """
+    
+    title = 'begin_fill'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -254,14 +276,13 @@ class Begin_Fill_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.begin_fill())
         
 
 class Begin_Poly_Node(NodeBase):
-    title = 'begin_poly'
-    type_ = 'turtle'
-    doc = """Start recording the vertices of a polygon.
+    """
+    Start recording the vertices of a polygon.
 
         No argument.
 
@@ -271,6 +292,9 @@ class Begin_Poly_Node(NodeBase):
         Example:
         >>> begin_poly()
         """
+    
+    title = 'begin_poly'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -279,14 +303,13 @@ class Begin_Poly_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.begin_poly())
         
 
 class Bgcolor_Node(NodeBase):
-    title = 'bgcolor'
-    type_ = 'turtle'
-    doc = """Set or return backgroundcolor of the TurtleScreen.
+    """
+    Set or return backgroundcolor of the TurtleScreen.
 
         Arguments (if given): a color string or three numbers
         in the range 0..colormode or a 3-tuple of such numbers.
@@ -299,6 +322,9 @@ class Bgcolor_Node(NodeBase):
         >>> bgcolor()
         '#800080'
         """
+    
+    title = 'bgcolor'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -307,14 +333,13 @@ class Bgcolor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.bgcolor())
         
 
 class Bgpic_Node(NodeBase):
-    title = 'bgpic'
-    type_ = 'turtle'
-    doc = """Set background image or return name of current backgroundimage.
+    """
+    Set background image or return name of current backgroundimage.
 
         Optional argument:
         picname -- a string, name of a gif-file or "nopic".
@@ -330,6 +355,9 @@ class Bgpic_Node(NodeBase):
         >>> bgpic()
         'landscape.gif'
         """
+    
+    title = 'bgpic'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='picname', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -338,21 +366,20 @@ class Bgpic_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.bgpic(self.input(0)))
         
 
 class Bk_Node(NodeBase):
-    title = 'bk'
-    type_ = 'turtle'
-    doc = """Move the turtle backward by distance.
+    """
+    Move the turtle backward by distance.
 
         Aliases: back | backward | bk
 
         Argument:
         distance -- a number
 
-        Move the turtle backward by distance ,opposite to the direction the
+        Move the turtle backward by distance, opposite to the direction the
         turtle is headed. Do not change the turtle's heading.
 
         Example:
@@ -362,6 +389,9 @@ class Bk_Node(NodeBase):
         >>> position()
         (-30.00, 0.00)
         """
+    
+    title = 'bk'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='distance'),
     ]
@@ -370,18 +400,20 @@ class Bk_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.bk(self.input(0)))
         
 
 class Bye_Node(NodeBase):
-    title = 'bye'
-    type_ = 'turtle'
-    doc = """Shut the turtlegraphics window.
+    """
+    Shut the turtlegraphics window.
 
         Example:
         >>> bye()
         """
+    
+    title = 'bye'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -390,14 +422,13 @@ class Bye_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.bye())
         
 
 class Circle_Node(NodeBase):
-    title = 'circle'
-    type_ = 'turtle'
-    doc = """ Draw a circle with given radius.
+    """
+     Draw a circle with given radius.
 
         Arguments:
         radius -- a number
@@ -426,6 +457,9 @@ class Circle_Node(NodeBase):
         >>> circle(50)
         >>> circle(120, 180)  # semicircle
         """
+    
+    title = 'circle'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='radius'),
         NodeInputBP(label='extent', dtype=dtypes.Data(default=None, size='s')),
@@ -436,14 +470,13 @@ class Circle_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.circle(self.input(0), self.input(1), self.input(2)))
         
 
 class Clear_Node(NodeBase):
-    title = 'clear'
-    type_ = 'turtle'
-    doc = """Delete the turtle's drawings from the screen. Do not move 
+    """
+    Delete the turtle's drawings from the screen. Do not move 
 
         No arguments.
 
@@ -454,6 +487,9 @@ class Clear_Node(NodeBase):
         Examples:
         >>> clear()
         """
+    
+    title = 'clear'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -462,14 +498,13 @@ class Clear_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.clear())
         
 
 class Clearscreen_Node(NodeBase):
-    title = 'clearscreen'
-    type_ = 'turtle'
-    doc = """Delete all drawings and all turtles from the TurtleScreen.
+    """
+    Delete all drawings and all turtles from the TurtleScreen.
 
         No argument.
 
@@ -481,6 +516,9 @@ class Clearscreen_Node(NodeBase):
 
         Note: this method is not available as function.
         """
+    
+    title = 'clearscreen'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -489,14 +527,13 @@ class Clearscreen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.clearscreen())
         
 
 class Clearstamp_Node(NodeBase):
-    title = 'clearstamp'
-    type_ = 'turtle'
-    doc = """Delete stamp with given stampid
+    """
+    Delete stamp with given stampid
 
         Argument:
         stampid - an integer, must be return value of previous stamp() call.
@@ -507,6 +544,9 @@ class Clearstamp_Node(NodeBase):
         >>> fd(50)
         >>> clearstamp(astamp)
         """
+    
+    title = 'clearstamp'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='stampid'),
     ]
@@ -515,14 +555,13 @@ class Clearstamp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.clearstamp(self.input(0)))
         
 
 class Clearstamps_Node(NodeBase):
-    title = 'clearstamps'
-    type_ = 'turtle'
-    doc = """Delete all or first/last n of turtle's stamps.
+    """
+    Delete all or first/last n of turtle's stamps.
 
         Optional argument:
         n -- an integer
@@ -539,6 +578,9 @@ class Clearstamps_Node(NodeBase):
         >>> clearstamps(-2)
         >>> clearstamps()
         """
+    
+    title = 'clearstamps'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='n', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -547,14 +589,13 @@ class Clearstamps_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.clearstamps(self.input(0)))
         
 
 class Clone_Node(NodeBase):
-    title = 'clone'
-    type_ = 'turtle'
-    doc = """Create and return a clone of the 
+    """
+    Create and return a clone of the 
 
         No argument.
 
@@ -565,6 +606,9 @@ class Clone_Node(NodeBase):
         mick = Turtle()
         joe = mick.clone()
         """
+    
+    title = 'clone'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -573,14 +617,13 @@ class Clone_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.clone())
         
 
 class Color_Node(NodeBase):
-    title = 'color'
-    type_ = 'turtle'
-    doc = """Return or set the pencolor and fillcolor.
+    """
+    Return or set the pencolor and fillcolor.
 
         Arguments:
         Several input formats are allowed.
@@ -611,6 +654,9 @@ class Color_Node(NodeBase):
         >>> color()
         ('#285078', '#a0c8f0')
         """
+    
+    title = 'color'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -619,14 +665,13 @@ class Color_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.color())
         
 
 class Colormode_Node(NodeBase):
-    title = 'colormode'
-    type_ = 'turtle'
-    doc = """Return the colormode or set it to 1.0 or 255.
+    """
+    Return the colormode or set it to 1.0 or 255.
 
         Optional argument:
         cmode -- one of the values 1.0 or 255
@@ -639,6 +684,9 @@ class Colormode_Node(NodeBase):
         >>> colormode(255)
         >>> pencolor(240,160,80)
         """
+    
+    title = 'colormode'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='cmode', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -647,14 +695,16 @@ class Colormode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.colormode(self.input(0)))
         
 
 class Config_Dict_Node(NodeBase):
+    """
+    Convert content of config-file into dictionary."""
+    
     title = 'config_dict'
     type_ = 'turtle'
-    doc = """Convert content of config-file into dictionary."""
     init_inputs = [
         NodeInputBP(label='filename'),
     ]
@@ -663,17 +713,19 @@ class Config_Dict_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.config_dict(self.input(0)))
         
 
 class Deepcopy_Node(NodeBase):
-    title = 'deepcopy'
-    type_ = 'turtle'
-    doc = """Deep copy operation on arbitrary Python objects.
+    """
+    Deep copy operation on arbitrary Python objects.
 
     See the module's __doc__ string for more info.
     """
+    
+    title = 'deepcopy'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='memo', dtype=dtypes.Data(default=None, size='s')),
@@ -683,14 +735,13 @@ class Deepcopy_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.deepcopy(self.input(0), self.input(1)))
         
 
 class Degrees_Node(NodeBase):
-    title = 'degrees'
-    type_ = 'turtle'
-    doc = """ Set angle measurement units to degrees.
+    """
+     Set angle measurement units to degrees.
 
         Optional argument:
         fullcircle -  a number
@@ -711,6 +762,9 @@ class Degrees_Node(NodeBase):
         100
 
         """
+    
+    title = 'degrees'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fullcircle', dtype=dtypes.Data(default=360.0, size='s')),
     ]
@@ -719,14 +773,13 @@ class Degrees_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.degrees(self.input(0)))
         
 
 class Delay_Node(NodeBase):
-    title = 'delay'
-    type_ = 'turtle'
-    doc = """ Return or set the drawing delay in milliseconds.
+    """
+     Return or set the drawing delay in milliseconds.
 
         Optional argument:
         delay -- positive integer
@@ -736,6 +789,9 @@ class Delay_Node(NodeBase):
         >>> delay()
         15
         """
+    
+    title = 'delay'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='delay', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -744,14 +800,13 @@ class Delay_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.delay(self.input(0)))
         
 
 class Distance_Node(NodeBase):
-    title = 'distance'
-    type_ = 'turtle'
-    doc = """Return the distance from the turtle to (x,y) in turtle step units.
+    """
+    Return the distance from the turtle to (x,y) in turtle step units.
 
         Arguments:
         x -- a number   or  a pair/vector of numbers   or   a turtle instance
@@ -772,6 +827,9 @@ class Distance_Node(NodeBase):
         >>> distance(pen)
         77.0
         """
+    
+    title = 'distance'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='y', dtype=dtypes.Data(default=None, size='s')),
@@ -781,14 +839,13 @@ class Distance_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.distance(self.input(0), self.input(1)))
         
 
 class Done_Node(NodeBase):
-    title = 'done'
-    type_ = 'turtle'
-    doc = """Starts event loop - calling Tkinter's mainloop function.
+    """
+    Starts event loop - calling Tkinter's mainloop function.
 
         No argument.
 
@@ -800,6 +857,9 @@ class Done_Node(NodeBase):
         >>> mainloop()
 
         """
+    
+    title = 'done'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -808,14 +868,13 @@ class Done_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.done())
         
 
 class Dot_Node(NodeBase):
-    title = 'dot'
-    type_ = 'turtle'
-    doc = """Draw a dot with diameter size, using color.
+    """
+    Draw a dot with diameter size, using color.
 
         Optional arguments:
         size -- an integer >= 1 (if given)
@@ -828,6 +887,9 @@ class Dot_Node(NodeBase):
         >>> dot()
         >>> fd(50); dot(20, "blue"); fd(50)
         """
+    
+    title = 'dot'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='size', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -836,14 +898,13 @@ class Dot_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.dot(self.input(0)))
         
 
 class Down_Node(NodeBase):
-    title = 'down'
-    type_ = 'turtle'
-    doc = """Pull the pen down -- drawing when moving.
+    """
+    Pull the pen down -- drawing when moving.
 
         Aliases: pendown | pd | down
 
@@ -852,6 +913,9 @@ class Down_Node(NodeBase):
         Example:
         >>> pendown()
         """
+    
+    title = 'down'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -860,14 +924,13 @@ class Down_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.down())
         
 
 class End_Fill_Node(NodeBase):
-    title = 'end_fill'
-    type_ = 'turtle'
-    doc = """Fill the shape drawn after the call begin_fill().
+    """
+    Fill the shape drawn after the call begin_fill().
 
         No argument.
 
@@ -877,6 +940,9 @@ class End_Fill_Node(NodeBase):
         >>> circle(60)
         >>> end_fill()
         """
+    
+    title = 'end_fill'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -885,14 +951,13 @@ class End_Fill_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.end_fill())
         
 
 class End_Poly_Node(NodeBase):
-    title = 'end_poly'
-    type_ = 'turtle'
-    doc = """Stop recording the vertices of a polygon.
+    """
+    Stop recording the vertices of a polygon.
 
         No argument.
 
@@ -902,6 +967,9 @@ class End_Poly_Node(NodeBase):
         Example:
         >>> end_poly()
         """
+    
+    title = 'end_poly'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -910,14 +978,13 @@ class End_Poly_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.end_poly())
         
 
 class Exitonclick_Node(NodeBase):
-    title = 'exitonclick'
-    type_ = 'turtle'
-    doc = """Go into mainloop until the mouse is clicked.
+    """
+    Go into mainloop until the mouse is clicked.
 
         No arguments.
 
@@ -935,6 +1002,9 @@ class Exitonclick_Node(NodeBase):
         >>> exitonclick()
 
         """
+    
+    title = 'exitonclick'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -943,14 +1013,13 @@ class Exitonclick_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.exitonclick())
         
 
 class Fd_Node(NodeBase):
-    title = 'fd'
-    type_ = 'turtle'
-    doc = """Move the turtle forward by the specified distance.
+    """
+    Move the turtle forward by the specified distance.
 
         Aliases: forward | fd
 
@@ -970,6 +1039,9 @@ class Fd_Node(NodeBase):
         >>> position()
         (-50.00,0.00)
         """
+    
+    title = 'fd'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='distance'),
     ]
@@ -978,14 +1050,13 @@ class Fd_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.fd(self.input(0)))
         
 
 class Fillcolor_Node(NodeBase):
-    title = 'fillcolor'
-    type_ = 'turtle'
-    doc = """ Return or set the fillcolor.
+    """
+     Return or set the fillcolor.
 
         Arguments:
         Four input formats are allowed:
@@ -1012,6 +1083,9 @@ class Fillcolor_Node(NodeBase):
         >>> fillcolor(col)
         >>> fillcolor(0, .5, 0)
         """
+    
+    title = 'fillcolor'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1020,14 +1094,13 @@ class Fillcolor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.fillcolor())
         
 
 class Filling_Node(NodeBase):
-    title = 'filling'
-    type_ = 'turtle'
-    doc = """Return fillstate (True if filling, False else).
+    """
+    Return fillstate (True if filling, False else).
 
         No argument.
 
@@ -1038,6 +1111,9 @@ class Filling_Node(NodeBase):
         ... else:
         ...     pensize(3)
         """
+    
+    title = 'filling'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1046,14 +1122,13 @@ class Filling_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.filling())
         
 
 class Forward_Node(NodeBase):
-    title = 'forward'
-    type_ = 'turtle'
-    doc = """Move the turtle forward by the specified distance.
+    """
+    Move the turtle forward by the specified distance.
 
         Aliases: forward | fd
 
@@ -1073,6 +1148,9 @@ class Forward_Node(NodeBase):
         >>> position()
         (-50.00,0.00)
         """
+    
+    title = 'forward'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='distance'),
     ]
@@ -1081,14 +1159,13 @@ class Forward_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.forward(self.input(0)))
         
 
 class Get_Poly_Node(NodeBase):
-    title = 'get_poly'
-    type_ = 'turtle'
-    doc = """Return the lastly recorded polygon.
+    """
+    Return the lastly recorded polygon.
 
         No argument.
 
@@ -1096,6 +1173,9 @@ class Get_Poly_Node(NodeBase):
         >>> p = get_poly()
         >>> register_shape("myFavouriteShape", p)
         """
+    
+    title = 'get_poly'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1104,14 +1184,13 @@ class Get_Poly_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.get_poly())
         
 
 class Get_Shapepoly_Node(NodeBase):
-    title = 'get_shapepoly'
-    type_ = 'turtle'
-    doc = """Return the current shape polygon as tuple of coordinate pairs.
+    """
+    Return the current shape polygon as tuple of coordinate pairs.
 
         No argument.
 
@@ -1122,6 +1201,9 @@ class Get_Shapepoly_Node(NodeBase):
         ((50, -20), (30, 20), (-50, 20), (-30, -20))
 
         """
+    
+    title = 'get_shapepoly'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1130,14 +1212,13 @@ class Get_Shapepoly_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.get_shapepoly())
         
 
 class Getcanvas_Node(NodeBase):
-    title = 'getcanvas'
-    type_ = 'turtle'
-    doc = """Return the Canvas of this TurtleScreen.
+    """
+    Return the Canvas of this TurtleScreen.
 
         No argument.
 
@@ -1146,6 +1227,9 @@ class Getcanvas_Node(NodeBase):
         >>> cv
         <turtle.ScrolledCanvas instance at 0x010742D8>
         """
+    
+    title = 'getcanvas'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1154,20 +1238,22 @@ class Getcanvas_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.getcanvas())
         
 
 class Getmethparlist_Node(NodeBase):
-    title = 'getmethparlist'
-    type_ = 'turtle'
-    doc = """Get strings describing the arguments for the given object
+    """
+    Get strings describing the arguments for the given object
 
     Returns a pair of strings representing function parameter lists
     including parenthesis.  The first string is suitable for use in
     function definition and the second is suitable for use in function
     call.  The "self" parameter is not included.
     """
+    
+    title = 'getmethparlist'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='ob'),
     ]
@@ -1176,14 +1262,13 @@ class Getmethparlist_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.getmethparlist(self.input(0)))
         
 
 class Getpen_Node(NodeBase):
-    title = 'getpen'
-    type_ = 'turtle'
-    doc = """Return the Turtleobject itself.
+    """
+    Return the Turtleobject itself.
 
         No argument.
 
@@ -1197,6 +1282,9 @@ class Getpen_Node(NodeBase):
         >>> turtles()
         [<Turtle object at 0x0187D810>]
         """
+    
+    title = 'getpen'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1205,14 +1293,13 @@ class Getpen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.getpen())
         
 
 class Getscreen_Node(NodeBase):
-    title = 'getscreen'
-    type_ = 'turtle'
-    doc = """Return the TurtleScreen object, the turtle is drawing  on.
+    """
+    Return the TurtleScreen object, the turtle is drawing  on.
 
         No argument.
 
@@ -1225,6 +1312,9 @@ class Getscreen_Node(NodeBase):
         <TurtleScreen object at 0x0106B770>
         >>> ts.bgcolor("pink")
         """
+    
+    title = 'getscreen'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1233,14 +1323,13 @@ class Getscreen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.getscreen())
         
 
 class Getshapes_Node(NodeBase):
-    title = 'getshapes'
-    type_ = 'turtle'
-    doc = """Return a list of names of all currently available turtle shapes.
+    """
+    Return a list of names of all currently available turtle shapes.
 
         No argument.
 
@@ -1248,6 +1337,9 @@ class Getshapes_Node(NodeBase):
         >>> getshapes()
         ['arrow', 'blank', 'circle', ... , 'turtle']
         """
+    
+    title = 'getshapes'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1256,14 +1348,13 @@ class Getshapes_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.getshapes())
         
 
 class Getturtle_Node(NodeBase):
-    title = 'getturtle'
-    type_ = 'turtle'
-    doc = """Return the Turtleobject itself.
+    """
+    Return the Turtleobject itself.
 
         No argument.
 
@@ -1277,6 +1368,9 @@ class Getturtle_Node(NodeBase):
         >>> turtles()
         [<Turtle object at 0x0187D810>]
         """
+    
+    title = 'getturtle'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1285,14 +1379,13 @@ class Getturtle_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.getturtle())
         
 
 class Goto_Node(NodeBase):
-    title = 'goto'
-    type_ = 'turtle'
-    doc = """Move turtle to an absolute position.
+    """
+    Move turtle to an absolute position.
 
         Aliases: setpos | setposition | goto:
 
@@ -1321,6 +1414,9 @@ class Goto_Node(NodeBase):
         >>> pos()
         (0.00,0.00)
         """
+    
+    title = 'goto'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='y', dtype=dtypes.Data(default=None, size='s')),
@@ -1330,14 +1426,13 @@ class Goto_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.goto(self.input(0), self.input(1)))
         
 
 class Heading_Node(NodeBase):
-    title = 'heading'
-    type_ = 'turtle'
-    doc = """ Return the turtle's current heading.
+    """
+     Return the turtle's current heading.
 
         No arguments.
 
@@ -1346,6 +1441,9 @@ class Heading_Node(NodeBase):
         >>> heading()
         67.0
         """
+    
+    title = 'heading'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1354,14 +1452,13 @@ class Heading_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.heading())
         
 
 class Hideturtle_Node(NodeBase):
-    title = 'hideturtle'
-    type_ = 'turtle'
-    doc = """Makes the turtle invisible.
+    """
+    Makes the turtle invisible.
 
         Aliases: hideturtle | ht
 
@@ -1374,6 +1471,9 @@ class Hideturtle_Node(NodeBase):
         Example:
         >>> hideturtle()
         """
+    
+    title = 'hideturtle'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1382,14 +1482,13 @@ class Hideturtle_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.hideturtle())
         
 
 class Home_Node(NodeBase):
-    title = 'home'
-    type_ = 'turtle'
-    doc = """Move turtle to the origin - coordinates (0,0).
+    """
+    Move turtle to the origin - coordinates (0,0).
 
         No arguments.
 
@@ -1399,6 +1498,9 @@ class Home_Node(NodeBase):
         Example:
         >>> home()
         """
+    
+    title = 'home'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1407,14 +1509,13 @@ class Home_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.home())
         
 
 class Ht_Node(NodeBase):
-    title = 'ht'
-    type_ = 'turtle'
-    doc = """Makes the turtle invisible.
+    """
+    Makes the turtle invisible.
 
         Aliases: hideturtle | ht
 
@@ -1427,6 +1528,9 @@ class Ht_Node(NodeBase):
         Example:
         >>> hideturtle()
         """
+    
+    title = 'ht'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1435,14 +1539,13 @@ class Ht_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.ht())
         
 
 class Isdown_Node(NodeBase):
-    title = 'isdown'
-    type_ = 'turtle'
-    doc = """Return True if pen is down, False if it's up.
+    """
+    Return True if pen is down, False if it's up.
 
         No argument.
 
@@ -1454,6 +1557,9 @@ class Isdown_Node(NodeBase):
         >>> isdown()
         True
         """
+    
+    title = 'isdown'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1462,14 +1568,16 @@ class Isdown_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.isdown())
         
 
 class Isfile_Node(NodeBase):
+    """
+    Test whether a path is a regular file"""
+    
     title = 'isfile'
     type_ = 'turtle'
-    doc = """Test whether a path is a regular file"""
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -1478,14 +1586,13 @@ class Isfile_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.isfile(self.input(0)))
         
 
 class Isvisible_Node(NodeBase):
-    title = 'isvisible'
-    type_ = 'turtle'
-    doc = """Return True if the Turtle is shown, False if it's hidden.
+    """
+    Return True if the Turtle is shown, False if it's hidden.
 
         No argument.
 
@@ -1494,6 +1601,9 @@ class Isvisible_Node(NodeBase):
         >>> print isvisible():
         False
         """
+    
+    title = 'isvisible'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1502,14 +1612,16 @@ class Isvisible_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.isvisible())
         
 
 class Join_Node(NodeBase):
+    """
+    """
+    
     title = 'join'
     type_ = 'turtle'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -1518,14 +1630,13 @@ class Join_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.join(self.input(0)))
         
 
 class Left_Node(NodeBase):
-    title = 'left'
-    type_ = 'turtle'
-    doc = """Turn turtle left by angle units.
+    """
+    Turn turtle left by angle units.
 
         Aliases: left | lt
 
@@ -1543,6 +1654,9 @@ class Left_Node(NodeBase):
         >>> heading()
         67.0
         """
+    
+    title = 'left'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='angle'),
     ]
@@ -1551,14 +1665,13 @@ class Left_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.left(self.input(0)))
         
 
 class Listen_Node(NodeBase):
-    title = 'listen'
-    type_ = 'turtle'
-    doc = """Set focus on TurtleScreen (in order to collect key-events)
+    """
+    Set focus on TurtleScreen (in order to collect key-events)
 
         No arguments.
         Dummy arguments are provided in order
@@ -1567,6 +1680,9 @@ class Listen_Node(NodeBase):
         Example:
         >>> listen()
         """
+    
+    title = 'listen'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='xdummy', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='ydummy', dtype=dtypes.Data(default=None, size='s')),
@@ -1576,14 +1692,13 @@ class Listen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.listen(self.input(0), self.input(1)))
         
 
 class Lt_Node(NodeBase):
-    title = 'lt'
-    type_ = 'turtle'
-    doc = """Turn turtle left by angle units.
+    """
+    Turn turtle left by angle units.
 
         Aliases: left | lt
 
@@ -1601,6 +1716,9 @@ class Lt_Node(NodeBase):
         >>> heading()
         67.0
         """
+    
+    title = 'lt'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='angle'),
     ]
@@ -1609,14 +1727,13 @@ class Lt_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.lt(self.input(0)))
         
 
 class Mainloop_Node(NodeBase):
-    title = 'mainloop'
-    type_ = 'turtle'
-    doc = """Starts event loop - calling Tkinter's mainloop function.
+    """
+    Starts event loop - calling Tkinter's mainloop function.
 
         No argument.
 
@@ -1628,6 +1745,9 @@ class Mainloop_Node(NodeBase):
         >>> mainloop()
 
         """
+    
+    title = 'mainloop'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -1636,14 +1756,13 @@ class Mainloop_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.mainloop())
         
 
 class Mode_Node(NodeBase):
-    title = 'mode'
-    type_ = 'turtle'
-    doc = """Set turtle-mode ('standard', 'logo' or 'world') and perform reset.
+    """
+    Set turtle-mode ('standard', 'logo' or 'world') and perform reset.
 
         Optional argument:
         mode -- one of the strings 'standard', 'logo' or 'world'
@@ -1664,6 +1783,9 @@ class Mode_Node(NodeBase):
         >>> mode()
         'logo'
         """
+    
+    title = 'mode'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='mode', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -1672,14 +1794,13 @@ class Mode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.mode(self.input(0)))
         
 
 class Numinput_Node(NodeBase):
-    title = 'numinput'
-    type_ = 'turtle'
-    doc = """Pop up a dialog window for input of a number.
+    """
+    Pop up a dialog window for input of a number.
 
         Arguments: title is the title of the dialog window,
         prompt is a text mostly describing what numerical information to input.
@@ -1696,6 +1817,9 @@ class Numinput_Node(NodeBase):
         >>> numinput("Poker", "Your stakes:", 1000, minval=10, maxval=10000)
 
         """
+    
+    title = 'numinput'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='title'),
         NodeInputBP(label='prompt'),
@@ -1708,14 +1832,13 @@ class Numinput_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.numinput(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Onclick_Node(NodeBase):
-    title = 'onclick'
-    type_ = 'turtle'
-    doc = """Bind fun to mouse-click event on this turtle on canvas.
+    """
+    Bind fun to mouse-click event on this turtle on canvas.
 
         Arguments:
         fun --  a function with two arguments, to which will be assigned
@@ -1732,6 +1855,9 @@ class Onclick_Node(NodeBase):
         >>> onclick(turn)  # Now clicking into the turtle will turn it.
         >>> onclick(None)  # event-binding will be removed
         """
+    
+    title = 'onclick'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='btn', dtype=dtypes.Data(default=1, size='s')),
@@ -1742,14 +1868,13 @@ class Onclick_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.onclick(self.input(0), self.input(1), self.input(2)))
         
 
 class Ondrag_Node(NodeBase):
-    title = 'ondrag'
-    type_ = 'turtle'
-    doc = """Bind fun to mouse-move event on this turtle on canvas.
+    """
+    Bind fun to mouse-move event on this turtle on canvas.
 
         Arguments:
         fun -- a function with two arguments, to which will be assigned
@@ -1766,6 +1891,9 @@ class Ondrag_Node(NodeBase):
         across the screen thereby producing handdrawings (if pen is
         down).
         """
+    
+    title = 'ondrag'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='btn', dtype=dtypes.Data(default=1, size='s')),
@@ -1776,14 +1904,13 @@ class Ondrag_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.ondrag(self.input(0), self.input(1), self.input(2)))
         
 
 class Onkey_Node(NodeBase):
-    title = 'onkey'
-    type_ = 'turtle'
-    doc = """Bind fun to key-release event of key.
+    """
+    Bind fun to key-release event of key.
 
         Arguments:
         fun -- a function with no arguments
@@ -1805,6 +1932,9 @@ class Onkey_Node(NodeBase):
         the up-arrow key, consequently drawing a hexagon
 
         """
+    
+    title = 'onkey'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='key'),
@@ -1814,14 +1944,13 @@ class Onkey_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.onkey(self.input(0), self.input(1)))
         
 
 class Onkeypress_Node(NodeBase):
-    title = 'onkeypress'
-    type_ = 'turtle'
-    doc = """Bind fun to key-press event of key if key is given,
+    """
+    Bind fun to key-press event of key if key is given,
         or to any key-press-event if no key is given.
 
         Arguments:
@@ -1845,6 +1974,9 @@ class Onkeypress_Node(NodeBase):
         the up-arrow key, or by keeping pressed the up-arrow key.
         consequently drawing a hexagon.
         """
+    
+    title = 'onkeypress'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='key', dtype=dtypes.Data(default=None, size='s')),
@@ -1854,14 +1986,13 @@ class Onkeypress_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.onkeypress(self.input(0), self.input(1)))
         
 
 class Onkeyrelease_Node(NodeBase):
-    title = 'onkeyrelease'
-    type_ = 'turtle'
-    doc = """Bind fun to key-release event of key.
+    """
+    Bind fun to key-release event of key.
 
         Arguments:
         fun -- a function with no arguments
@@ -1883,6 +2014,9 @@ class Onkeyrelease_Node(NodeBase):
         the up-arrow key, consequently drawing a hexagon
 
         """
+    
+    title = 'onkeyrelease'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='key'),
@@ -1892,14 +2026,13 @@ class Onkeyrelease_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.onkeyrelease(self.input(0), self.input(1)))
         
 
 class Onrelease_Node(NodeBase):
-    title = 'onrelease'
-    type_ = 'turtle'
-    doc = """Bind fun to mouse-button-release event on this turtle on canvas.
+    """
+    Bind fun to mouse-button-release event on this turtle on canvas.
 
         Arguments:
         fun -- a function with two arguments, to which will be assigned
@@ -1920,6 +2053,9 @@ class Onrelease_Node(NodeBase):
         Clicking on joe turns fillcolor red, unclicking turns it to
         transparent.
         """
+    
+    title = 'onrelease'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='btn', dtype=dtypes.Data(default=1, size='s')),
@@ -1930,14 +2066,13 @@ class Onrelease_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.onrelease(self.input(0), self.input(1), self.input(2)))
         
 
 class Onscreenclick_Node(NodeBase):
-    title = 'onscreenclick'
-    type_ = 'turtle'
-    doc = """Bind fun to mouse-click event on canvas.
+    """
+    Bind fun to mouse-click event on canvas.
 
         Arguments:
         fun -- a function with two arguments, the coordinates of the
@@ -1951,6 +2086,9 @@ class Onscreenclick_Node(NodeBase):
         >>> # make the turtle move to the clicked point.
         >>> onclick(None)
         """
+    
+    title = 'onscreenclick'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='btn', dtype=dtypes.Data(default=1, size='s')),
@@ -1961,14 +2099,13 @@ class Onscreenclick_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.onscreenclick(self.input(0), self.input(1), self.input(2)))
         
 
 class Ontimer_Node(NodeBase):
-    title = 'ontimer'
-    type_ = 'turtle'
-    doc = """Install a timer, which calls fun after t milliseconds.
+    """
+    Install a timer, which calls fun after t milliseconds.
 
         Arguments:
         fun -- a function with no arguments.
@@ -1986,6 +2123,9 @@ class Ontimer_Node(NodeBase):
         >>> f()   # makes the turtle marching around
         >>> running = False
         """
+    
+    title = 'ontimer'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='fun'),
         NodeInputBP(label='t', dtype=dtypes.Data(default=0, size='s')),
@@ -1995,14 +2135,13 @@ class Ontimer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.ontimer(self.input(0), self.input(1)))
         
 
 class Pd_Node(NodeBase):
-    title = 'pd'
-    type_ = 'turtle'
-    doc = """Pull the pen down -- drawing when moving.
+    """
+    Pull the pen down -- drawing when moving.
 
         Aliases: pendown | pd | down
 
@@ -2011,6 +2150,9 @@ class Pd_Node(NodeBase):
         Example:
         >>> pendown()
         """
+    
+    title = 'pd'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2019,14 +2161,13 @@ class Pd_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.pd())
         
 
 class Pen_Node(NodeBase):
-    title = 'pen'
-    type_ = 'turtle'
-    doc = """Return or set the pen's attributes.
+    """
+    Return or set the pen's attributes.
 
         Arguments:
             pen -- a dictionary with some or all of the below listed keys.
@@ -2072,6 +2213,9 @@ class Pen_Node(NodeBase):
         'pencolor': 'red', 'pendown': True, 'fillcolor': 'green',
         'stretchfactor': (1,1), 'speed': 3, 'shearfactor': 0.0}
         """
+    
+    title = 'pen'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='pen', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -2080,14 +2224,13 @@ class Pen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.pen(self.input(0)))
         
 
 class Pencolor_Node(NodeBase):
-    title = 'pencolor'
-    type_ = 'turtle'
-    doc = """ Return or set the pencolor.
+    """
+     Return or set the pencolor.
 
         Arguments:
         Four input formats are allowed:
@@ -2115,6 +2258,9 @@ class Pencolor_Node(NodeBase):
         >>> pencolor()
         '#33cc8c'
         """
+    
+    title = 'pencolor'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2123,14 +2269,13 @@ class Pencolor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.pencolor())
         
 
 class Pendown_Node(NodeBase):
-    title = 'pendown'
-    type_ = 'turtle'
-    doc = """Pull the pen down -- drawing when moving.
+    """
+    Pull the pen down -- drawing when moving.
 
         Aliases: pendown | pd | down
 
@@ -2139,6 +2284,9 @@ class Pendown_Node(NodeBase):
         Example:
         >>> pendown()
         """
+    
+    title = 'pendown'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2147,14 +2295,13 @@ class Pendown_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.pendown())
         
 
 class Pensize_Node(NodeBase):
-    title = 'pensize'
-    type_ = 'turtle'
-    doc = """Set or return the line thickness.
+    """
+    Set or return the line thickness.
 
         Aliases:  pensize | width
 
@@ -2171,6 +2318,9 @@ class Pensize_Node(NodeBase):
         1
         >>> pensize(10)   # from here on lines of width 10 are drawn
         """
+    
+    title = 'pensize'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='width', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -2179,14 +2329,13 @@ class Pensize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.pensize(self.input(0)))
         
 
 class Penup_Node(NodeBase):
-    title = 'penup'
-    type_ = 'turtle'
-    doc = """Pull the pen up -- no drawing when moving.
+    """
+    Pull the pen up -- no drawing when moving.
 
         Aliases: penup | pu | up
 
@@ -2195,6 +2344,9 @@ class Penup_Node(NodeBase):
         Example:
         >>> penup()
         """
+    
+    title = 'penup'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2203,14 +2355,13 @@ class Penup_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.penup())
         
 
 class Pos_Node(NodeBase):
-    title = 'pos'
-    type_ = 'turtle'
-    doc = """Return the turtle's current location (x,y), as a Vec2D-vector.
+    """
+    Return the turtle's current location (x,y), as a Vec2D-vector.
 
         Aliases: pos | position
 
@@ -2220,6 +2371,9 @@ class Pos_Node(NodeBase):
         >>> pos()
         (0.00, 240.00)
         """
+    
+    title = 'pos'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2228,14 +2382,13 @@ class Pos_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.pos())
         
 
 class Position_Node(NodeBase):
-    title = 'position'
-    type_ = 'turtle'
-    doc = """Return the turtle's current location (x,y), as a Vec2D-vector.
+    """
+    Return the turtle's current location (x,y), as a Vec2D-vector.
 
         Aliases: pos | position
 
@@ -2245,6 +2398,9 @@ class Position_Node(NodeBase):
         >>> pos()
         (0.00, 240.00)
         """
+    
+    title = 'position'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2253,14 +2409,13 @@ class Position_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.position())
         
 
 class Pu_Node(NodeBase):
-    title = 'pu'
-    type_ = 'turtle'
-    doc = """Pull the pen up -- no drawing when moving.
+    """
+    Pull the pen up -- no drawing when moving.
 
         Aliases: penup | pu | up
 
@@ -2269,6 +2424,9 @@ class Pu_Node(NodeBase):
         Example:
         >>> penup()
         """
+    
+    title = 'pu'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2277,14 +2435,13 @@ class Pu_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.pu())
         
 
 class Radians_Node(NodeBase):
-    title = 'radians'
-    type_ = 'turtle'
-    doc = """ Set the angle measurement units to radians.
+    """
+     Set the angle measurement units to radians.
 
         No arguments.
 
@@ -2295,6 +2452,9 @@ class Radians_Node(NodeBase):
         >>> heading()
         1.5707963267948966
         """
+    
+    title = 'radians'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2303,19 +2463,21 @@ class Radians_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.radians())
         
 
 class Read_Docstrings_Node(NodeBase):
-    title = 'read_docstrings'
-    type_ = 'turtle'
-    doc = """Read in docstrings from lang-specific docstring dictionary.
+    """
+    Read in docstrings from lang-specific docstring dictionary.
 
     Transfer docstrings, translated to lang, from a dictionary-file
     to the methods of classes Screen and Turtle and - in revised form -
     to the corresponding functions.
     """
+    
+    title = 'read_docstrings'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='lang'),
     ]
@@ -2324,14 +2486,13 @@ class Read_Docstrings_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.read_docstrings(self.input(0)))
         
 
 class Readconfig_Node(NodeBase):
-    title = 'readconfig'
-    type_ = 'turtle'
-    doc = """Read config-files, change configuration-dict accordingly.
+    """
+    Read config-files, change configuration-dict accordingly.
 
     If there is a turtle.cfg file in the current working directory,
     read it from there. If this contains an importconfig-value,
@@ -2343,6 +2504,9 @@ class Readconfig_Node(NodeBase):
     current working directory.
     If no config-file is found, the default configuration is used.
     """
+    
+    title = 'readconfig'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='cfgdict'),
     ]
@@ -2351,14 +2515,13 @@ class Readconfig_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.readconfig(self.input(0)))
         
 
 class Register_Shape_Node(NodeBase):
-    title = 'register_shape'
-    type_ = 'turtle'
-    doc = """Adds a turtle shape to TurtleScreen's shapelist.
+    """
+    Adds a turtle shape to TurtleScreen's shapelist.
 
         Arguments:
         (1) name is the name of a gif-file and shape is None.
@@ -2380,6 +2543,9 @@ class Register_Shape_Node(NodeBase):
         >>> register_shape("triangle", ((5,-3),(0,5),(-5,-3)))
 
         """
+    
+    title = 'register_shape'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='shape', dtype=dtypes.Data(default=None, size='s')),
@@ -2389,14 +2555,13 @@ class Register_Shape_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.register_shape(self.input(0), self.input(1)))
         
 
 class Reset_Node(NodeBase):
-    title = 'reset'
-    type_ = 'turtle'
-    doc = """Delete the turtle's drawings and restore its default values.
+    """
+    Delete the turtle's drawings and restore its default values.
 
         No argument.
 
@@ -2414,6 +2579,9 @@ class Reset_Node(NodeBase):
         >>> heading()
         0.0
         """
+    
+    title = 'reset'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2422,20 +2590,22 @@ class Reset_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.reset())
         
 
 class Resetscreen_Node(NodeBase):
-    title = 'resetscreen'
-    type_ = 'turtle'
-    doc = """Reset all Turtles on the Screen to their initial state.
+    """
+    Reset all Turtles on the Screen to their initial state.
 
         No argument.
 
         Example:
         >>> reset()
         """
+    
+    title = 'resetscreen'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -2444,14 +2614,13 @@ class Resetscreen_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.resetscreen())
         
 
 class Resizemode_Node(NodeBase):
-    title = 'resizemode'
-    type_ = 'turtle'
-    doc = """Set resizemode to one of the values: "auto", "user", "noresize".
+    """
+    Set resizemode to one of the values: "auto", "user", "noresize".
 
         (Optional) Argument:
         rmode -- one of the strings "auto", "user", "noresize"
@@ -2472,6 +2641,9 @@ class Resizemode_Node(NodeBase):
         >>> resizemode()
         'noresize'
         """
+    
+    title = 'resizemode'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='rmode', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -2480,14 +2652,13 @@ class Resizemode_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.resizemode(self.input(0)))
         
 
 class Right_Node(NodeBase):
-    title = 'right'
-    type_ = 'turtle'
-    doc = """Turn turtle right by angle units.
+    """
+    Turn turtle right by angle units.
 
         Aliases: right | rt
 
@@ -2505,6 +2676,9 @@ class Right_Node(NodeBase):
         >>> heading()
         337.0
         """
+    
+    title = 'right'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='angle'),
     ]
@@ -2513,14 +2687,13 @@ class Right_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.right(self.input(0)))
         
 
 class Rt_Node(NodeBase):
-    title = 'rt'
-    type_ = 'turtle'
-    doc = """Turn turtle right by angle units.
+    """
+    Turn turtle right by angle units.
 
         Aliases: right | rt
 
@@ -2538,6 +2711,9 @@ class Rt_Node(NodeBase):
         >>> heading()
         337.0
         """
+    
+    title = 'rt'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='angle'),
     ]
@@ -2546,14 +2722,13 @@ class Rt_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.rt(self.input(0)))
         
 
 class Screensize_Node(NodeBase):
-    title = 'screensize'
-    type_ = 'turtle'
-    doc = """Resize the canvas the turtles are drawing on.
+    """
+    Resize the canvas the turtles are drawing on.
 
         Optional arguments:
         canvwidth -- positive integer, new width of canvas in pixels
@@ -2569,6 +2744,9 @@ class Screensize_Node(NodeBase):
         >>> turtle.screensize(2000,1500)
         >>> # e.g. to search for an erroneously escaped turtle ;-)
         """
+    
+    title = 'screensize'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='canvwidth', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='canvheight', dtype=dtypes.Data(default=None, size='s')),
@@ -2579,14 +2757,13 @@ class Screensize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.screensize(self.input(0), self.input(1), self.input(2)))
         
 
 class Seth_Node(NodeBase):
-    title = 'seth'
-    type_ = 'turtle'
-    doc = """Set the orientation of the turtle to to_angle.
+    """
+    Set the orientation of the turtle to to_angle.
 
         Aliases:  setheading | seth
 
@@ -2608,6 +2785,9 @@ class Seth_Node(NodeBase):
         >>> heading()
         90
         """
+    
+    title = 'seth'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='to_angle'),
     ]
@@ -2616,14 +2796,13 @@ class Seth_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.seth(self.input(0)))
         
 
 class Setheading_Node(NodeBase):
-    title = 'setheading'
-    type_ = 'turtle'
-    doc = """Set the orientation of the turtle to to_angle.
+    """
+    Set the orientation of the turtle to to_angle.
 
         Aliases:  setheading | seth
 
@@ -2645,6 +2824,9 @@ class Setheading_Node(NodeBase):
         >>> heading()
         90
         """
+    
+    title = 'setheading'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='to_angle'),
     ]
@@ -2653,14 +2835,13 @@ class Setheading_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.setheading(self.input(0)))
         
 
 class Setpos_Node(NodeBase):
-    title = 'setpos'
-    type_ = 'turtle'
-    doc = """Move turtle to an absolute position.
+    """
+    Move turtle to an absolute position.
 
         Aliases: setpos | setposition | goto:
 
@@ -2689,6 +2870,9 @@ class Setpos_Node(NodeBase):
         >>> pos()
         (0.00,0.00)
         """
+    
+    title = 'setpos'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='y', dtype=dtypes.Data(default=None, size='s')),
@@ -2698,14 +2882,13 @@ class Setpos_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.setpos(self.input(0), self.input(1)))
         
 
 class Setposition_Node(NodeBase):
-    title = 'setposition'
-    type_ = 'turtle'
-    doc = """Move turtle to an absolute position.
+    """
+    Move turtle to an absolute position.
 
         Aliases: setpos | setposition | goto:
 
@@ -2734,6 +2917,9 @@ class Setposition_Node(NodeBase):
         >>> pos()
         (0.00,0.00)
         """
+    
+    title = 'setposition'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='y', dtype=dtypes.Data(default=None, size='s')),
@@ -2743,14 +2929,13 @@ class Setposition_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.setposition(self.input(0), self.input(1)))
         
 
 class Settiltangle_Node(NodeBase):
-    title = 'settiltangle'
-    type_ = 'turtle'
-    doc = """Rotate the turtleshape to point in the specified direction
+    """
+    Rotate the turtleshape to point in the specified direction
 
         Argument: angle -- number
 
@@ -2769,6 +2954,9 @@ class Settiltangle_Node(NodeBase):
         >>> stamp()
         >>> fd(50)
         """
+    
+    title = 'settiltangle'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='angle'),
     ]
@@ -2777,14 +2965,13 @@ class Settiltangle_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.settiltangle(self.input(0)))
         
 
 class Setundobuffer_Node(NodeBase):
-    title = 'setundobuffer'
-    type_ = 'turtle'
-    doc = """Set or disable undobuffer.
+    """
+    Set or disable undobuffer.
 
         Argument:
         size -- an integer or None
@@ -2797,6 +2984,9 @@ class Setundobuffer_Node(NodeBase):
         Example:
         >>> setundobuffer(42)
         """
+    
+    title = 'setundobuffer'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='size'),
     ]
@@ -2805,14 +2995,13 @@ class Setundobuffer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.setundobuffer(self.input(0)))
         
 
 class Setup_Node(NodeBase):
-    title = 'setup'
-    type_ = 'turtle'
-    doc = """ Set the size and position of the main window.
+    """
+     Set the size and position of the main window.
 
         Arguments:
         width: as integer a size in pixels, as float a fraction of the 
@@ -2835,6 +3024,9 @@ class Setup_Node(NodeBase):
 
         sets window to 75% of screen by 50% of screen and centers
         """
+    
+    title = 'setup'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='width', dtype=dtypes.Data(default=0.5, size='s')),
         NodeInputBP(label='height', dtype=dtypes.Data(default=0.75, size='s')),
@@ -2846,14 +3038,13 @@ class Setup_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.setup(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Setworldcoordinates_Node(NodeBase):
-    title = 'setworldcoordinates'
-    type_ = 'turtle'
-    doc = """Set up a user defined coordinate-system.
+    """
+    Set up a user defined coordinate-system.
 
         Arguments:
         llx -- a number, x-coordinate of lower left corner of canvas
@@ -2874,6 +3065,9 @@ class Setworldcoordinates_Node(NodeBase):
         ...     left(10)
         ...     forward(0.5)
         """
+    
+    title = 'setworldcoordinates'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='llx'),
         NodeInputBP(label='lly'),
@@ -2885,14 +3079,13 @@ class Setworldcoordinates_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.setworldcoordinates(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Setx_Node(NodeBase):
-    title = 'setx'
-    type_ = 'turtle'
-    doc = """Set the turtle's first coordinate to x
+    """
+    Set the turtle's first coordinate to x
 
         Argument:
         x -- a number (integer or float)
@@ -2907,6 +3100,9 @@ class Setx_Node(NodeBase):
         >>> position()
         (10.00, 240.00)
         """
+    
+    title = 'setx'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -2915,14 +3111,13 @@ class Setx_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.setx(self.input(0)))
         
 
 class Sety_Node(NodeBase):
-    title = 'sety'
-    type_ = 'turtle'
-    doc = """Set the turtle's second coordinate to y
+    """
+    Set the turtle's second coordinate to y
 
         Argument:
         y -- a number (integer or float)
@@ -2937,6 +3132,9 @@ class Sety_Node(NodeBase):
         >>> position()
         (0.00, -10.00)
         """
+    
+    title = 'sety'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='y'),
     ]
@@ -2945,14 +3143,13 @@ class Sety_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.sety(self.input(0)))
         
 
 class Shape_Node(NodeBase):
-    title = 'shape'
-    type_ = 'turtle'
-    doc = """Set turtle shape to shape with given name / return current shapename.
+    """
+    Set turtle shape to shape with given name / return current shapename.
 
         Optional argument:
         name -- a string, which is a valid shapename
@@ -2971,6 +3168,9 @@ class Shape_Node(NodeBase):
         >>> shape()
         'turtle'
         """
+    
+    title = 'shape'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='name', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -2979,14 +3179,13 @@ class Shape_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.shape(self.input(0)))
         
 
 class Shapesize_Node(NodeBase):
-    title = 'shapesize'
-    type_ = 'turtle'
-    doc = """Set/return turtle's stretchfactors/outline. Set resizemode to "user".
+    """
+    Set/return turtle's stretchfactors/outline. Set resizemode to "user".
 
         Optional arguments:
            stretch_wid : positive number
@@ -3006,6 +3205,9 @@ class Shapesize_Node(NodeBase):
         >>> shapesize(5, 5, 12)
         >>> shapesize(outline=8)
         """
+    
+    title = 'shapesize'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='stretch_wid', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='stretch_len', dtype=dtypes.Data(default=None, size='s')),
@@ -3016,14 +3218,13 @@ class Shapesize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.shapesize(self.input(0), self.input(1), self.input(2)))
         
 
 class Shapetransform_Node(NodeBase):
-    title = 'shapetransform'
-    type_ = 'turtle'
-    doc = """Set or return the current transformation matrix of the turtle shape.
+    """
+    Set or return the current transformation matrix of the turtle shape.
 
         Optional arguments: t11, t12, t21, t22 -- numbers.
 
@@ -3042,6 +3243,9 @@ class Shapetransform_Node(NodeBase):
         >>> shapetransform()
         (4.0, -1.0, -0.0, 2.0)
         """
+    
+    title = 'shapetransform'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='t11', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='t12', dtype=dtypes.Data(default=None, size='s')),
@@ -3053,14 +3257,13 @@ class Shapetransform_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.shapetransform(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Shearfactor_Node(NodeBase):
-    title = 'shearfactor'
-    type_ = 'turtle'
-    doc = """Set or return the current shearfactor.
+    """
+    Set or return the current shearfactor.
 
         Optional argument: shear -- number, tangent of the shear angle
 
@@ -3078,6 +3281,9 @@ class Shearfactor_Node(NodeBase):
         >>> shearfactor()
         >>> 0.5
         """
+    
+    title = 'shearfactor'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='shear', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -3086,14 +3292,13 @@ class Shearfactor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.shearfactor(self.input(0)))
         
 
 class Showturtle_Node(NodeBase):
-    title = 'showturtle'
-    type_ = 'turtle'
-    doc = """Makes the turtle visible.
+    """
+    Makes the turtle visible.
 
         Aliases: showturtle | st
 
@@ -3103,6 +3308,9 @@ class Showturtle_Node(NodeBase):
         >>> hideturtle()
         >>> showturtle()
         """
+    
+    title = 'showturtle'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3111,14 +3319,13 @@ class Showturtle_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.showturtle())
         
 
 class Speed_Node(NodeBase):
-    title = 'speed'
-    type_ = 'turtle'
-    doc = """ Return or set the turtle's speed.
+    """
+     Return or set the turtle's speed.
 
         Optional argument:
         speed -- an integer in the range 0..10 or a speedstring (see below)
@@ -3144,6 +3351,9 @@ class Speed_Node(NodeBase):
         Example:
         >>> speed(3)
         """
+    
+    title = 'speed'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='speed', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -3152,17 +3362,19 @@ class Speed_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.speed(self.input(0)))
         
 
 class Split_Node(NodeBase):
-    title = 'split'
-    type_ = 'turtle'
-    doc = """Split a pathname.
+    """
+    Split a pathname.
 
     Return tuple (head, tail) where tail is everything after the final slash.
     Either part may be empty."""
+    
+    title = 'split'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='p'),
     ]
@@ -3171,14 +3383,13 @@ class Split_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.split(self.input(0)))
         
 
 class St_Node(NodeBase):
-    title = 'st'
-    type_ = 'turtle'
-    doc = """Makes the turtle visible.
+    """
+    Makes the turtle visible.
 
         Aliases: showturtle | st
 
@@ -3188,6 +3399,9 @@ class St_Node(NodeBase):
         >>> hideturtle()
         >>> showturtle()
         """
+    
+    title = 'st'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3196,14 +3410,13 @@ class St_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.st())
         
 
 class Stamp_Node(NodeBase):
-    title = 'stamp'
-    type_ = 'turtle'
-    doc = """Stamp a copy of the turtleshape onto the canvas and return its id.
+    """
+    Stamp a copy of the turtleshape onto the canvas and return its id.
 
         No argument.
 
@@ -3217,6 +3430,9 @@ class Stamp_Node(NodeBase):
         13
         >>> fd(50)
         """
+    
+    title = 'stamp'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3225,14 +3441,13 @@ class Stamp_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.stamp())
         
 
 class Textinput_Node(NodeBase):
-    title = 'textinput'
-    type_ = 'turtle'
-    doc = """Pop up a dialog window for input of a string.
+    """
+    Pop up a dialog window for input of a string.
 
         Arguments: title is the title of the dialog window,
         prompt is a text mostly describing what information to input.
@@ -3244,6 +3459,9 @@ class Textinput_Node(NodeBase):
         >>> textinput("NIM", "Name of first player:")
 
         """
+    
+    title = 'textinput'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='title'),
         NodeInputBP(label='prompt'),
@@ -3253,14 +3471,13 @@ class Textinput_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.textinput(self.input(0), self.input(1)))
         
 
 class Tilt_Node(NodeBase):
-    title = 'tilt'
-    type_ = 'turtle'
-    doc = """Rotate the turtleshape by angle.
+    """
+    Rotate the turtleshape by angle.
 
         Argument:
         angle - a number
@@ -3276,6 +3493,9 @@ class Tilt_Node(NodeBase):
         >>> tilt(30)
         >>> fd(50)
         """
+    
+    title = 'tilt'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='angle'),
     ]
@@ -3284,14 +3504,13 @@ class Tilt_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.tilt(self.input(0)))
         
 
 class Tiltangle_Node(NodeBase):
-    title = 'tiltangle'
-    type_ = 'turtle'
-    doc = """Set or return the current tilt-angle.
+    """
+    Set or return the current tilt-angle.
 
         Optional argument: angle -- number
 
@@ -3310,6 +3529,9 @@ class Tiltangle_Node(NodeBase):
         >>> tilt(45)
         >>> tiltangle()
         """
+    
+    title = 'tiltangle'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='angle', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -3318,14 +3540,13 @@ class Tiltangle_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.tiltangle(self.input(0)))
         
 
 class Title_Node(NodeBase):
-    title = 'title'
-    type_ = 'turtle'
-    doc = """Set title of turtle-window
+    """
+    Set title of turtle-window
 
         Argument:
         titlestring -- a string, to appear in the titlebar of the
@@ -3337,6 +3558,9 @@ class Title_Node(NodeBase):
         Example:
         >>> title("Welcome to the turtle-zoo!")
         """
+    
+    title = 'title'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='titlestring'),
     ]
@@ -3345,14 +3569,13 @@ class Title_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.title(self.input(0)))
         
 
 class Towards_Node(NodeBase):
-    title = 'towards'
-    type_ = 'turtle'
-    doc = """Return the angle of the line from the turtle's position to (x, y).
+    """
+    Return the angle of the line from the turtle's position to (x, y).
 
         Arguments:
         x -- a number   or  a pair/vector of numbers   or   a turtle instance
@@ -3373,6 +3596,9 @@ class Towards_Node(NodeBase):
         >>> towards(0,0)
         225.0
         """
+    
+    title = 'towards'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='x'),
         NodeInputBP(label='y', dtype=dtypes.Data(default=None, size='s')),
@@ -3382,14 +3608,13 @@ class Towards_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.towards(self.input(0), self.input(1)))
         
 
 class Tracer_Node(NodeBase):
-    title = 'tracer'
-    type_ = 'turtle'
-    doc = """Turns turtle animation on/off and set delay for update drawings.
+    """
+    Turns turtle animation on/off and set delay for update drawings.
 
         Optional arguments:
         n -- nonnegative  integer
@@ -3407,6 +3632,9 @@ class Tracer_Node(NodeBase):
         ...     rt(90)
         ...     dist += 2
         """
+    
+    title = 'tracer'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='n', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='delay', dtype=dtypes.Data(default=None, size='s')),
@@ -3416,19 +3644,21 @@ class Tracer_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.tracer(self.input(0), self.input(1)))
         
 
 class Turtles_Node(NodeBase):
-    title = 'turtles'
-    type_ = 'turtle'
-    doc = """Return the list of turtles on the 
+    """
+    Return the list of turtles on the 
 
         Example:
         >>> turtles()
         [<turtle.Turtle object at 0x00E11FB0>]
         """
+    
+    title = 'turtles'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3437,14 +3667,13 @@ class Turtles_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.turtles())
         
 
 class Turtlesize_Node(NodeBase):
-    title = 'turtlesize'
-    type_ = 'turtle'
-    doc = """Set/return turtle's stretchfactors/outline. Set resizemode to "user".
+    """
+    Set/return turtle's stretchfactors/outline. Set resizemode to "user".
 
         Optional arguments:
            stretch_wid : positive number
@@ -3464,6 +3693,9 @@ class Turtlesize_Node(NodeBase):
         >>> shapesize(5, 5, 12)
         >>> shapesize(outline=8)
         """
+    
+    title = 'turtlesize'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='stretch_wid', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='stretch_len', dtype=dtypes.Data(default=None, size='s')),
@@ -3474,14 +3706,13 @@ class Turtlesize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.turtlesize(self.input(0), self.input(1), self.input(2)))
         
 
 class Undo_Node(NodeBase):
-    title = 'undo'
-    type_ = 'turtle'
-    doc = """undo (repeatedly) the last turtle action.
+    """
+    undo (repeatedly) the last turtle action.
 
         No argument.
 
@@ -3497,6 +3728,9 @@ class Undo_Node(NodeBase):
         ...     undo()
         ...
         """
+    
+    title = 'undo'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3505,14 +3739,13 @@ class Undo_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.undo())
         
 
 class Undobufferentries_Node(NodeBase):
-    title = 'undobufferentries'
-    type_ = 'turtle'
-    doc = """Return count of entries in the undobuffer.
+    """
+    Return count of entries in the undobuffer.
 
         No argument.
 
@@ -3520,6 +3753,9 @@ class Undobufferentries_Node(NodeBase):
         >>> while undobufferentries():
         ...     undo()
         """
+    
+    title = 'undobufferentries'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3528,14 +3764,13 @@ class Undobufferentries_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.undobufferentries())
         
 
 class Up_Node(NodeBase):
-    title = 'up'
-    type_ = 'turtle'
-    doc = """Pull the pen up -- no drawing when moving.
+    """
+    Pull the pen up -- no drawing when moving.
 
         Aliases: penup | pu | up
 
@@ -3544,6 +3779,9 @@ class Up_Node(NodeBase):
         Example:
         >>> penup()
         """
+    
+    title = 'up'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3552,15 +3790,17 @@ class Up_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.up())
         
 
 class Update_Node(NodeBase):
+    """
+    Perform a TurtleScreen update.
+        """
+    
     title = 'update'
     type_ = 'turtle'
-    doc = """Perform a TurtleScreen update.
-        """
     init_inputs = [
         
     ]
@@ -3569,14 +3809,13 @@ class Update_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.update())
         
 
 class Width_Node(NodeBase):
-    title = 'width'
-    type_ = 'turtle'
-    doc = """Set or return the line thickness.
+    """
+    Set or return the line thickness.
 
         Aliases:  pensize | width
 
@@ -3593,6 +3832,9 @@ class Width_Node(NodeBase):
         1
         >>> pensize(10)   # from here on lines of width 10 are drawn
         """
+    
+    title = 'width'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='width', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -3601,19 +3843,21 @@ class Width_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.width(self.input(0)))
         
 
 class Window_Height_Node(NodeBase):
-    title = 'window_height'
-    type_ = 'turtle'
-    doc = """ Return the height of the turtle window.
+    """
+     Return the height of the turtle window.
 
         Example:
         >>> window_height()
         480
         """
+    
+    title = 'window_height'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3622,19 +3866,21 @@ class Window_Height_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.window_height())
         
 
 class Window_Width_Node(NodeBase):
-    title = 'window_width'
-    type_ = 'turtle'
-    doc = """ Return the width of the turtle window.
+    """
+     Return the width of the turtle window.
 
         Example:
         >>> window_width()
         640
         """
+    
+    title = 'window_width'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3643,14 +3889,13 @@ class Window_Width_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.window_width())
         
 
 class Write_Node(NodeBase):
-    title = 'write'
-    type_ = 'turtle'
-    doc = """Write text at the current turtle position.
+    """
+    Write text at the current turtle position.
 
         Arguments:
         arg -- info, which is to be written to the TurtleScreen
@@ -3668,6 +3913,9 @@ class Write_Node(NodeBase):
         >>> write('Home = ', True, align="center")
         >>> write((0,0), True)
         """
+    
+    title = 'write'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='arg'),
         NodeInputBP(label='move', dtype=dtypes.Data(default=False, size='s')),
@@ -3679,14 +3927,13 @@ class Write_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.write(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Write_Docstringdict_Node(NodeBase):
-    title = 'write_docstringdict'
-    type_ = 'turtle'
-    doc = """Create and write docstring-dictionary to file.
+    """
+    Create and write docstring-dictionary to file.
 
     Optional argument:
     filename -- a string, used as filename
@@ -3697,6 +3944,9 @@ class Write_Docstringdict_Node(NodeBase):
     It is intended to serve as a template for translation of the docstrings
     into different languages.
     """
+    
+    title = 'write_docstringdict'
+    type_ = 'turtle'
     init_inputs = [
         NodeInputBP(label='filename', dtype=dtypes.Data(default='turtle_docstringdict', size='s')),
     ]
@@ -3705,14 +3955,13 @@ class Write_Docstringdict_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.write_docstringdict(self.input(0)))
         
 
 class Xcor_Node(NodeBase):
-    title = 'xcor'
-    type_ = 'turtle'
-    doc = """ Return the turtle's x coordinate.
+    """
+     Return the turtle's x coordinate.
 
         No arguments.
 
@@ -3723,6 +3972,9 @@ class Xcor_Node(NodeBase):
         >>> print xcor()
         50.0
         """
+    
+    title = 'xcor'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3731,14 +3983,13 @@ class Xcor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.xcor())
         
 
 class Ycor_Node(NodeBase):
-    title = 'ycor'
-    type_ = 'turtle'
-    doc = """ Return the turtle's y coordinate
+    """
+     Return the turtle's y coordinate
         ---
         No arguments.
 
@@ -3749,6 +4000,9 @@ class Ycor_Node(NodeBase):
         >>> print ycor()
         86.6025403784
         """
+    
+    title = 'ycor'
+    type_ = 'turtle'
     init_inputs = [
         
     ]
@@ -3757,7 +4011,7 @@ class Ycor_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, turtle.ycor())
         
 

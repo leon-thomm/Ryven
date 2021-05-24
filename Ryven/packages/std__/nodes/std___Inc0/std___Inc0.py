@@ -29,8 +29,8 @@ class Inc_Node(Node):
         # ...
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             var_name = self.input(1)
             self.set_var_val(var_name, self.get_var_val(var_name)+1)
             self.outputs[1].set_val(self.input(1))

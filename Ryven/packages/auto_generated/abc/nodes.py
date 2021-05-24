@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Abc_Init_Node(NodeBase):
+    """
+    Internal ABC helper for class set-up. Should be never used outside abc module."""
+    
     title = '_abc_init'
     type_ = 'abc'
-    doc = """Internal ABC helper for class set-up. Should be never used outside abc module."""
     init_inputs = [
         
     ]
@@ -20,14 +22,16 @@ class _Abc_Init_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc._abc_init())
         
 
 class _Abc_Instancecheck_Node(NodeBase):
+    """
+    Internal ABC helper for instance checks. Should be never used outside abc module."""
+    
     title = '_abc_instancecheck'
     type_ = 'abc'
-    doc = """Internal ABC helper for instance checks. Should be never used outside abc module."""
     init_inputs = [
         NodeInputBP(label='instance'),
     ]
@@ -36,14 +40,16 @@ class _Abc_Instancecheck_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc._abc_instancecheck(self.input(0)))
         
 
 class _Abc_Register_Node(NodeBase):
+    """
+    Internal ABC helper for subclasss registration. Should be never used outside abc module."""
+    
     title = '_abc_register'
     type_ = 'abc'
-    doc = """Internal ABC helper for subclasss registration. Should be never used outside abc module."""
     init_inputs = [
         NodeInputBP(label='subclass'),
     ]
@@ -52,14 +58,16 @@ class _Abc_Register_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc._abc_register(self.input(0)))
         
 
 class _Abc_Subclasscheck_Node(NodeBase):
+    """
+    Internal ABC helper for subclasss checks. Should be never used outside abc module."""
+    
     title = '_abc_subclasscheck'
     type_ = 'abc'
-    doc = """Internal ABC helper for subclasss checks. Should be never used outside abc module."""
     init_inputs = [
         NodeInputBP(label='subclass'),
     ]
@@ -68,18 +76,20 @@ class _Abc_Subclasscheck_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc._abc_subclasscheck(self.input(0)))
         
 
 class _Get_Dump_Node(NodeBase):
-    title = '_get_dump'
-    type_ = 'abc'
-    doc = """Internal ABC helper for cache and registry debugging.
+    """
+    Internal ABC helper for cache and registry debugging.
 
 Return shallow copies of registry, of both caches, and
 negative cache version. Don't call this function directly,
 instead use ABC._dump_registry() for a nice repr."""
+    
+    title = '_get_dump'
+    type_ = 'abc'
     init_inputs = [
         
     ]
@@ -88,16 +98,18 @@ instead use ABC._dump_registry() for a nice repr."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc._get_dump())
         
 
 class _Reset_Caches_Node(NodeBase):
-    title = '_reset_caches'
-    type_ = 'abc'
-    doc = """Internal ABC helper to reset both caches of a given class.
+    """
+    Internal ABC helper to reset both caches of a given class.
 
 Should be only used by refleak.py"""
+    
+    title = '_reset_caches'
+    type_ = 'abc'
     init_inputs = [
         
     ]
@@ -106,16 +118,18 @@ Should be only used by refleak.py"""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc._reset_caches())
         
 
 class _Reset_Registry_Node(NodeBase):
-    title = '_reset_registry'
-    type_ = 'abc'
-    doc = """Internal ABC helper to reset registry of a given class.
+    """
+    Internal ABC helper to reset registry of a given class.
 
 Should be only used by refleak.py"""
+    
+    title = '_reset_registry'
+    type_ = 'abc'
     init_inputs = [
         
     ]
@@ -124,14 +138,13 @@ Should be only used by refleak.py"""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc._reset_registry())
         
 
 class Abstractmethod_Node(NodeBase):
-    title = 'abstractmethod'
-    type_ = 'abc'
-    doc = """A decorator indicating abstract methods.
+    """
+    A decorator indicating abstract methods.
 
     Requires that the metaclass is ABCMeta or derived from it.  A
     class that has a metaclass derived from ABCMeta cannot be
@@ -147,6 +160,9 @@ class Abstractmethod_Node(NodeBase):
             def my_abstract_method(self, ...):
                 ...
     """
+    
+    title = 'abstractmethod'
+    type_ = 'abc'
     init_inputs = [
         NodeInputBP(label='funcobj'),
     ]
@@ -155,18 +171,20 @@ class Abstractmethod_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc.abstractmethod(self.input(0)))
         
 
 class Get_Cache_Token_Node(NodeBase):
-    title = 'get_cache_token'
-    type_ = 'abc'
-    doc = """Returns the current ABC cache token.
+    """
+    Returns the current ABC cache token.
 
 The token is an opaque object (supporting equality testing) identifying the
 current version of the ABC cache for virtual subclasses. The token changes
 with every call to register() on any ABC."""
+    
+    title = 'get_cache_token'
+    type_ = 'abc'
     init_inputs = [
         
     ]
@@ -175,7 +193,7 @@ with every call to register() on any ABC."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, abc.get_cache_token())
         
 

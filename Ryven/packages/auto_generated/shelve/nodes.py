@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'shelve'
-    doc = """Open a persistent dictionary for reading and writing.
+    """
+    Open a persistent dictionary for reading and writing.
 
     The filename parameter is the base filename for the underlying
     database.  As a side-effect, an extension may be added to the
@@ -22,6 +21,9 @@ class Open_Node(NodeBase):
 
     See the module's __doc__ string for an overview of the interface.
     """
+    
+    title = 'open'
+    type_ = 'shelve'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='flag', dtype=dtypes.Data(default='c', size='s')),
@@ -33,7 +35,7 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, shelve.open(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 

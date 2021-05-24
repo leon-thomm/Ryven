@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class __Getattr___Node(NodeBase):
+    """
+    """
+    
     title = '__getattr__'
     type_ = 'collections.abc'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='name'),
     ]
@@ -20,14 +22,16 @@ class __Getattr___Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections.abc.__getattr__(self.input(0)))
         
 
 class _Count_Elements_Node(NodeBase):
+    """
+    Count elements in the iterable, updating the mapping"""
+    
     title = '_count_elements'
     type_ = 'collections.abc'
-    doc = """Count elements in the iterable, updating the mapping"""
     init_inputs = [
         NodeInputBP(label='mapping'),
         NodeInputBP(label='iterable'),
@@ -37,14 +41,16 @@ class _Count_Elements_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections.abc._count_elements(self.input(0), self.input(1)))
         
 
 class _Eq_Node(NodeBase):
+    """
+    Same as a == b."""
+    
     title = '_eq'
     type_ = 'collections.abc'
-    doc = """Same as a == b."""
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -54,14 +60,16 @@ class _Eq_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections.abc._eq(self.input(0), self.input(1)))
         
 
 class _Recursive_Repr_Node(NodeBase):
+    """
+    Decorator to make a repr function return fillvalue for a recursive call"""
+    
     title = '_recursive_repr'
     type_ = 'collections.abc'
-    doc = """Decorator to make a repr function return fillvalue for a recursive call"""
     init_inputs = [
         NodeInputBP(label='fillvalue', dtype=dtypes.Data(default='...', size='s')),
     ]
@@ -70,14 +78,13 @@ class _Recursive_Repr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections.abc._recursive_repr(self.input(0)))
         
 
 class Namedtuple_Node(NodeBase):
-    title = 'namedtuple'
-    type_ = 'collections.abc'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -99,6 +106,9 @@ class Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = 'namedtuple'
+    type_ = 'collections.abc'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -108,7 +118,7 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, collections.abc.namedtuple(self.input(0), self.input(1)))
         
 

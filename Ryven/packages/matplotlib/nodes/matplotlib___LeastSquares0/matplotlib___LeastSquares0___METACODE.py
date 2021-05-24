@@ -56,7 +56,7 @@ class %CLASS%(Node):
 
         self.using_function = True
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         if self.using_function:
             f = self.input(0)
             noise_range = self.input(1)

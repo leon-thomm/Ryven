@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class _Synthesize_Node(NodeBase):
-    title = '_synthesize'
-    type_ = 'webbrowser'
-    doc = """Attempt to synthesize a controller based on existing controllers.
+    """
+    Attempt to synthesize a controller based on existing controllers.
 
     This is useful to create a controller when a user specifies a path to
     an entry in the BROWSER environment variable -- we can copy a general
@@ -22,6 +21,9 @@ class _Synthesize_Node(NodeBase):
     executable for the requested browser, return [None, None].
 
     """
+    
+    title = '_synthesize'
+    type_ = 'webbrowser'
     init_inputs = [
         NodeInputBP(label='browser'),
     ]
@@ -30,14 +32,16 @@ class _Synthesize_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser._synthesize(self.input(0)))
         
 
 class Get_Node(NodeBase):
+    """
+    Return a browser launcher instance appropriate for the environment."""
+    
     title = 'get'
     type_ = 'webbrowser'
-    doc = """Return a browser launcher instance appropriate for the environment."""
     init_inputs = [
         NodeInputBP(label='using', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -46,14 +50,16 @@ class Get_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.get(self.input(0)))
         
 
 class Main_Node(NodeBase):
+    """
+    """
+    
     title = 'main'
     type_ = 'webbrowser'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -62,14 +68,13 @@ class Main_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.main())
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'webbrowser'
-    doc = """Display url using the default browser.
+    """
+    Display url using the default browser.
 
     If possible, open url in a location determined by new.
     - 0: the same browser window (the default).
@@ -77,6 +82,9 @@ class Open_Node(NodeBase):
     - 2: a new browser page ("tab").
     If possible, autoraise raises the window (the default) or not.
     """
+    
+    title = 'open'
+    type_ = 'webbrowser'
     init_inputs = [
         NodeInputBP(label='url'),
         NodeInputBP(label='new', dtype=dtypes.Data(default=0, size='s')),
@@ -87,17 +95,19 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.open(self.input(0), self.input(1), self.input(2)))
         
 
 class Open_New_Node(NodeBase):
-    title = 'open_new'
-    type_ = 'webbrowser'
-    doc = """Open url in a new window of the default browser.
+    """
+    Open url in a new window of the default browser.
 
     If not possible, then open url in the only browser window.
     """
+    
+    title = 'open_new'
+    type_ = 'webbrowser'
     init_inputs = [
         NodeInputBP(label='url'),
     ]
@@ -106,17 +116,19 @@ class Open_New_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.open_new(self.input(0)))
         
 
 class Open_New_Tab_Node(NodeBase):
-    title = 'open_new_tab'
-    type_ = 'webbrowser'
-    doc = """Open url in a new page ("tab") of the default browser.
+    """
+    Open url in a new page ("tab") of the default browser.
 
     If not possible, then the behavior becomes equivalent to open_new().
     """
+    
+    title = 'open_new_tab'
+    type_ = 'webbrowser'
     init_inputs = [
         NodeInputBP(label='url'),
     ]
@@ -125,14 +137,16 @@ class Open_New_Tab_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.open_new_tab(self.input(0)))
         
 
 class Register_Node(NodeBase):
+    """
+    Register a browser connector."""
+    
     title = 'register'
     type_ = 'webbrowser'
-    doc = """Register a browser connector."""
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='klass'),
@@ -143,14 +157,16 @@ class Register_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.register(self.input(0), self.input(1), self.input(2)))
         
 
 class Register_X_Browsers_Node(NodeBase):
+    """
+    """
+    
     title = 'register_X_browsers'
     type_ = 'webbrowser'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -159,14 +175,16 @@ class Register_X_Browsers_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.register_X_browsers())
         
 
 class Register_Standard_Browsers_Node(NodeBase):
+    """
+    """
+    
     title = 'register_standard_browsers'
     type_ = 'webbrowser'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -175,7 +193,7 @@ class Register_Standard_Browsers_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, webbrowser.register_standard_browsers())
         
 

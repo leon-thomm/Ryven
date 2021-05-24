@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Namedtuple_Node(NodeBase):
-    title = 'namedtuple'
-    type_ = 'wave'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -33,6 +32,9 @@ class Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = 'namedtuple'
+    type_ = 'wave'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -42,14 +44,16 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, wave.namedtuple(self.input(0), self.input(1)))
         
 
 class Open_Node(NodeBase):
+    """
+    """
+    
     title = 'open'
     type_ = 'wave'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='f'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default=None, size='s')),
@@ -59,30 +63,12 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, wave.open(self.input(0), self.input(1)))
-        
-
-class Openfp_Node(NodeBase):
-    title = 'openfp'
-    type_ = 'wave'
-    doc = """"""
-    init_inputs = [
-        NodeInputBP(label='f'),
-        NodeInputBP(label='mode', dtype=dtypes.Data(default=None, size='s')),
-    ]
-    init_outputs = [
-        NodeOutputBP(type_='data'),
-    ]
-    color = '#32DA22'
-
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, wave.openfp(self.input(0), self.input(1)))
         
 
 
 export_nodes(
     Namedtuple_Node,
     Open_Node,
-    Openfp_Node,
 )

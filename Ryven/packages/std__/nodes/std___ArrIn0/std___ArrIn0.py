@@ -34,7 +34,7 @@ class ArrIn_Node(Node):
         # ...
 
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, self.input(0) in self.input(1))
 
     def get_state(self):

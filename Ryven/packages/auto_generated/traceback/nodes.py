@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Format_Final_Exc_Line_Node(NodeBase):
+    """
+    """
+    
     title = '_format_final_exc_line'
     type_ = 'traceback'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='etype'),
         NodeInputBP(label='value'),
@@ -21,14 +23,16 @@ class _Format_Final_Exc_Line_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback._format_final_exc_line(self.input(0), self.input(1)))
         
 
 class _Some_Str_Node(NodeBase):
+    """
+    """
+    
     title = '_some_str'
     type_ = 'traceback'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='value'),
     ]
@@ -37,14 +41,16 @@ class _Some_Str_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback._some_str(self.input(0)))
         
 
 class Clear_Frames_Node(NodeBase):
+    """
+    Clear all references to local variables in the frames of a traceback."""
+    
     title = 'clear_frames'
     type_ = 'traceback'
-    doc = """Clear all references to local variables in the frames of a traceback."""
     init_inputs = [
         NodeInputBP(label='tb'),
     ]
@@ -53,14 +59,13 @@ class Clear_Frames_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.clear_frames(self.input(0)))
         
 
 class Extract_Stack_Node(NodeBase):
-    title = 'extract_stack'
-    type_ = 'traceback'
-    doc = """Extract the raw traceback from the current stack frame.
+    """
+    Extract the raw traceback from the current stack frame.
 
     The return value has the same format as for extract_tb().  The
     optional 'f' and 'limit' arguments have the same meaning as for
@@ -68,6 +73,9 @@ class Extract_Stack_Node(NodeBase):
     line number, function name, text), and the entries are in order
     from oldest to newest stack frame.
     """
+    
+    title = 'extract_stack'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='f', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
@@ -77,14 +85,13 @@ class Extract_Stack_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.extract_stack(self.input(0), self.input(1)))
         
 
 class Extract_Tb_Node(NodeBase):
-    title = 'extract_tb'
-    type_ = 'traceback'
-    doc = """
+    """
+    
     Return a StackSummary object representing a list of
     pre-processed entries from traceback.
 
@@ -96,6 +103,9 @@ class Extract_Tb_Node(NodeBase):
     trace.  The line is a string with leading and trailing
     whitespace stripped; if the source is not available it is None.
     """
+    
+    title = 'extract_tb'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='tb'),
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
@@ -105,14 +115,16 @@ class Extract_Tb_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.extract_tb(self.input(0), self.input(1)))
         
 
 class Format_Exc_Node(NodeBase):
+    """
+    Like print_exc() but return a string."""
+    
     title = 'format_exc'
     type_ = 'traceback'
-    doc = """Like print_exc() but return a string."""
     init_inputs = [
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='chain', dtype=dtypes.Data(default=True, size='s')),
@@ -122,14 +134,13 @@ class Format_Exc_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.format_exc(self.input(0), self.input(1)))
         
 
 class Format_Exception_Node(NodeBase):
-    title = 'format_exception'
-    type_ = 'traceback'
-    doc = """Format a stack trace and the exception information.
+    """
+    Format a stack trace and the exception information.
 
     The arguments have the same meaning as the corresponding arguments
     to print_exception().  The return value is a list of strings, each
@@ -137,6 +148,9 @@ class Format_Exception_Node(NodeBase):
     these lines are concatenated and printed, exactly the same text is
     printed as does print_exception().
     """
+    
+    title = 'format_exception'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='etype'),
         NodeInputBP(label='value'),
@@ -149,14 +163,13 @@ class Format_Exception_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.format_exception(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Format_Exception_Only_Node(NodeBase):
-    title = 'format_exception_only'
-    type_ = 'traceback'
-    doc = """Format the exception part of a traceback.
+    """
+    Format the exception part of a traceback.
 
     The arguments are the exception type and value such as given by
     sys.last_type and sys.last_value. The return value is a list of
@@ -171,6 +184,9 @@ class Format_Exception_Only_Node(NodeBase):
     string in the list.
 
     """
+    
+    title = 'format_exception_only'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='etype'),
         NodeInputBP(label='value'),
@@ -180,14 +196,13 @@ class Format_Exception_Only_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.format_exception_only(self.input(0), self.input(1)))
         
 
 class Format_List_Node(NodeBase):
-    title = 'format_list'
-    type_ = 'traceback'
-    doc = """Format a list of tuples or FrameSummary objects for printing.
+    """
+    Format a list of tuples or FrameSummary objects for printing.
 
     Given a list of tuples or FrameSummary objects as returned by
     extract_tb() or extract_stack(), return a list of strings ready
@@ -198,6 +213,9 @@ class Format_List_Node(NodeBase):
     the strings may contain internal newlines as well, for those items
     whose source text line is not None.
     """
+    
+    title = 'format_list'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='extracted_list'),
     ]
@@ -206,14 +224,16 @@ class Format_List_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.format_list(self.input(0)))
         
 
 class Format_Stack_Node(NodeBase):
+    """
+    Shorthand for 'format_list(extract_stack(f, limit))'."""
+    
     title = 'format_stack'
     type_ = 'traceback'
-    doc = """Shorthand for 'format_list(extract_stack(f, limit))'."""
     init_inputs = [
         NodeInputBP(label='f', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
@@ -223,14 +243,16 @@ class Format_Stack_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.format_stack(self.input(0), self.input(1)))
         
 
 class Format_Tb_Node(NodeBase):
+    """
+    A shorthand for 'format_list(extract_tb(tb, limit))'."""
+    
     title = 'format_tb'
     type_ = 'traceback'
-    doc = """A shorthand for 'format_list(extract_tb(tb, limit))'."""
     init_inputs = [
         NodeInputBP(label='tb'),
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
@@ -240,14 +262,16 @@ class Format_Tb_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.format_tb(self.input(0), self.input(1)))
         
 
 class Print_Exc_Node(NodeBase):
+    """
+    Shorthand for 'print_exception(*sys.exc_info(), limit, file)'."""
+    
     title = 'print_exc'
     type_ = 'traceback'
-    doc = """Shorthand for 'print_exception(*sys.exc_info(), limit, file)'."""
     init_inputs = [
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='file', dtype=dtypes.Data(default=None, size='s')),
@@ -258,14 +282,13 @@ class Print_Exc_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.print_exc(self.input(0), self.input(1), self.input(2)))
         
 
 class Print_Exception_Node(NodeBase):
-    title = 'print_exception'
-    type_ = 'traceback'
-    doc = """Print exception up to 'limit' stack trace entries from 'tb' to 'file'.
+    """
+    Print exception up to 'limit' stack trace entries from 'tb' to 'file'.
 
     This differs from print_tb() in the following ways: (1) if
     traceback is not None, it prints a header "Traceback (most recent
@@ -275,6 +298,9 @@ class Print_Exception_Node(NodeBase):
     occurred with a caret on the next line indicating the approximate
     position of the error.
     """
+    
+    title = 'print_exception'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='etype'),
         NodeInputBP(label='value'),
@@ -288,15 +314,17 @@ class Print_Exception_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.print_exception(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 
 class Print_Last_Node(NodeBase):
+    """
+    This is a shorthand for 'print_exception(sys.last_type,
+    sys.last_value, sys.last_traceback, limit, file)'."""
+    
     title = 'print_last'
     type_ = 'traceback'
-    doc = """This is a shorthand for 'print_exception(sys.last_type,
-    sys.last_value, sys.last_traceback, limit, file)'."""
     init_inputs = [
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='file', dtype=dtypes.Data(default=None, size='s')),
@@ -307,15 +335,17 @@ class Print_Last_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.print_last(self.input(0), self.input(1), self.input(2)))
         
 
 class Print_List_Node(NodeBase):
+    """
+    Print the list of tuples as returned by extract_tb() or
+    extract_stack() as a formatted stack trace to the given file."""
+    
     title = 'print_list'
     type_ = 'traceback'
-    doc = """Print the list of tuples as returned by extract_tb() or
-    extract_stack() as a formatted stack trace to the given file."""
     init_inputs = [
         NodeInputBP(label='extracted_list'),
         NodeInputBP(label='file', dtype=dtypes.Data(default=None, size='s')),
@@ -325,19 +355,21 @@ class Print_List_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.print_list(self.input(0), self.input(1)))
         
 
 class Print_Stack_Node(NodeBase):
-    title = 'print_stack'
-    type_ = 'traceback'
-    doc = """Print a stack trace from its invocation point.
+    """
+    Print a stack trace from its invocation point.
 
     The optional 'f' argument can be used to specify an alternate
     stack frame at which to start. The optional 'limit' and 'file'
     arguments have the same meaning as for print_exception().
     """
+    
+    title = 'print_stack'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='f', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
@@ -348,20 +380,22 @@ class Print_Stack_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.print_stack(self.input(0), self.input(1), self.input(2)))
         
 
 class Print_Tb_Node(NodeBase):
-    title = 'print_tb'
-    type_ = 'traceback'
-    doc = """Print up to 'limit' stack trace entries from the traceback 'tb'.
+    """
+    Print up to 'limit' stack trace entries from the traceback 'tb'.
 
     If 'limit' is omitted or None, all entries are printed.  If 'file'
     is omitted or None, the output goes to sys.stderr; otherwise
     'file' should be an open file or file-like object with a write()
     method.
     """
+    
+    title = 'print_tb'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='tb'),
         NodeInputBP(label='limit', dtype=dtypes.Data(default=None, size='s')),
@@ -372,18 +406,20 @@ class Print_Tb_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.print_tb(self.input(0), self.input(1), self.input(2)))
         
 
 class Walk_Stack_Node(NodeBase):
-    title = 'walk_stack'
-    type_ = 'traceback'
-    doc = """Walk a stack yielding the frame and line number for each frame.
+    """
+    Walk a stack yielding the frame and line number for each frame.
 
     This will follow f.f_back from the given frame. If no frame is given, the
     current stack is used. Usually used with StackSummary.extract.
     """
+    
+    title = 'walk_stack'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='f'),
     ]
@@ -392,18 +428,20 @@ class Walk_Stack_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.walk_stack(self.input(0)))
         
 
 class Walk_Tb_Node(NodeBase):
-    title = 'walk_tb'
-    type_ = 'traceback'
-    doc = """Walk a traceback yielding the frame and line number for each frame.
+    """
+    Walk a traceback yielding the frame and line number for each frame.
 
     This will follow tb.tb_next (and thus is in the opposite order to
     walk_stack). Usually used with StackSummary.extract.
     """
+    
+    title = 'walk_tb'
+    type_ = 'traceback'
     init_inputs = [
         NodeInputBP(label='tb'),
     ]
@@ -412,7 +450,7 @@ class Walk_Tb_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, traceback.walk_tb(self.input(0)))
         
 

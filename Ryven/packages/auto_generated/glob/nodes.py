@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Glob0_Node(NodeBase):
+    """
+    """
+    
     title = '_glob0'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='dirname'),
         NodeInputBP(label='basename'),
@@ -22,14 +24,16 @@ class _Glob0_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._glob0(self.input(0), self.input(1), self.input(2)))
         
 
 class _Glob1_Node(NodeBase):
+    """
+    """
+    
     title = '_glob1'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='dirname'),
         NodeInputBP(label='pattern'),
@@ -40,14 +44,16 @@ class _Glob1_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._glob1(self.input(0), self.input(1), self.input(2)))
         
 
 class _Glob2_Node(NodeBase):
+    """
+    """
+    
     title = '_glob2'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='dirname'),
         NodeInputBP(label='pattern'),
@@ -58,14 +64,16 @@ class _Glob2_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._glob2(self.input(0), self.input(1), self.input(2)))
         
 
 class _Iglob_Node(NodeBase):
+    """
+    """
+    
     title = '_iglob'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='pathname'),
         NodeInputBP(label='recursive'),
@@ -76,14 +84,16 @@ class _Iglob_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._iglob(self.input(0), self.input(1), self.input(2)))
         
 
 class _Ishidden_Node(NodeBase):
+    """
+    """
+    
     title = '_ishidden'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='path'),
     ]
@@ -92,14 +102,16 @@ class _Ishidden_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._ishidden(self.input(0)))
         
 
 class _Isrecursive_Node(NodeBase):
+    """
+    """
+    
     title = '_isrecursive'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='pattern'),
     ]
@@ -108,14 +120,16 @@ class _Isrecursive_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._isrecursive(self.input(0)))
         
 
 class _Iterdir_Node(NodeBase):
+    """
+    """
+    
     title = '_iterdir'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='dirname'),
         NodeInputBP(label='dironly'),
@@ -125,14 +139,16 @@ class _Iterdir_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._iterdir(self.input(0), self.input(1)))
         
 
 class _Rlistdir_Node(NodeBase):
+    """
+    """
+    
     title = '_rlistdir'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='dirname'),
         NodeInputBP(label='dironly'),
@@ -142,15 +158,17 @@ class _Rlistdir_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob._rlistdir(self.input(0), self.input(1)))
         
 
 class Escape_Node(NodeBase):
+    """
+    Escape all special characters.
+    """
+    
     title = 'escape'
     type_ = 'glob'
-    doc = """Escape all special characters.
-    """
     init_inputs = [
         NodeInputBP(label='pathname'),
     ]
@@ -159,14 +177,13 @@ class Escape_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob.escape(self.input(0)))
         
 
 class Glob_Node(NodeBase):
-    title = 'glob'
-    type_ = 'glob'
-    doc = """Return a list of paths matching a pathname pattern.
+    """
+    Return a list of paths matching a pathname pattern.
 
     The pattern may contain simple shell-style wildcards a la
     fnmatch. However, unlike fnmatch, filenames starting with a
@@ -176,6 +193,9 @@ class Glob_Node(NodeBase):
     If recursive is true, the pattern '**' will match any files and
     zero or more directories and subdirectories.
     """
+    
+    title = 'glob'
+    type_ = 'glob'
     init_inputs = [
         NodeInputBP(label='pathname'),
     ]
@@ -184,14 +204,16 @@ class Glob_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob.glob(self.input(0)))
         
 
 class Glob0_Node(NodeBase):
+    """
+    """
+    
     title = 'glob0'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='dirname'),
         NodeInputBP(label='pattern'),
@@ -201,14 +223,16 @@ class Glob0_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob.glob0(self.input(0), self.input(1)))
         
 
 class Glob1_Node(NodeBase):
+    """
+    """
+    
     title = 'glob1'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='dirname'),
         NodeInputBP(label='pattern'),
@@ -218,14 +242,16 @@ class Glob1_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob.glob1(self.input(0), self.input(1)))
         
 
 class Has_Magic_Node(NodeBase):
+    """
+    """
+    
     title = 'has_magic'
     type_ = 'glob'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='s'),
     ]
@@ -234,14 +260,13 @@ class Has_Magic_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob.has_magic(self.input(0)))
         
 
 class Iglob_Node(NodeBase):
-    title = 'iglob'
-    type_ = 'glob'
-    doc = """Return an iterator which yields the paths matching a pathname pattern.
+    """
+    Return an iterator which yields the paths matching a pathname pattern.
 
     The pattern may contain simple shell-style wildcards a la
     fnmatch. However, unlike fnmatch, filenames starting with a
@@ -251,6 +276,9 @@ class Iglob_Node(NodeBase):
     If recursive is true, the pattern '**' will match any files and
     zero or more directories and subdirectories.
     """
+    
+    title = 'iglob'
+    type_ = 'glob'
     init_inputs = [
         NodeInputBP(label='pathname'),
     ]
@@ -259,7 +287,7 @@ class Iglob_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, glob.iglob(self.input(0)))
         
 

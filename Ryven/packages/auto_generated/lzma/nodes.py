@@ -9,11 +9,13 @@ class NodeBase(Node):
 
 
 class _Decode_Filter_Properties_Node(NodeBase):
-    title = '_decode_filter_properties'
-    type_ = 'lzma'
-    doc = """Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
+    """
+    Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
 
 The result does not include the filter ID itself, only the options."""
+    
+    title = '_decode_filter_properties'
+    type_ = 'lzma'
     init_inputs = [
         NodeInputBP(label='filter_id'),
         NodeInputBP(label='encoded_props'),
@@ -23,16 +25,18 @@ The result does not include the filter ID itself, only the options."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, lzma._decode_filter_properties(self.input(0), self.input(1)))
         
 
 class _Encode_Filter_Properties_Node(NodeBase):
-    title = '_encode_filter_properties'
-    type_ = 'lzma'
-    doc = """Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
+    """
+    Return a bytes object encoding the options (properties) of the filter specified by *filter* (a dict).
 
 The result does not include the filter ID itself, only the options."""
+    
+    title = '_encode_filter_properties'
+    type_ = 'lzma'
     init_inputs = [
         NodeInputBP(label='filter'),
     ]
@@ -41,20 +45,22 @@ The result does not include the filter ID itself, only the options."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, lzma._encode_filter_properties(self.input(0)))
         
 
 class Compress_Node(NodeBase):
-    title = 'compress'
-    type_ = 'lzma'
-    doc = """Compress a block of data.
+    """
+    Compress a block of data.
 
     Refer to LZMACompressor's docstring for a description of the
     optional arguments *format*, *check*, *preset* and *filters*.
 
     For incremental compression, use an LZMACompressor instead.
     """
+    
+    title = 'compress'
+    type_ = 'lzma'
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='format', dtype=dtypes.Data(default=1, size='s')),
@@ -67,20 +73,22 @@ class Compress_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, lzma.compress(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class Decompress_Node(NodeBase):
-    title = 'decompress'
-    type_ = 'lzma'
-    doc = """Decompress a block of data.
+    """
+    Decompress a block of data.
 
     Refer to LZMADecompressor's docstring for a description of the
     optional arguments *format*, *check* and *filters*.
 
     For incremental decompression, use an LZMADecompressor instead.
     """
+    
+    title = 'decompress'
+    type_ = 'lzma'
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='format', dtype=dtypes.Data(default=0, size='s')),
@@ -92,16 +100,18 @@ class Decompress_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, lzma.decompress(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Is_Check_Supported_Node(NodeBase):
-    title = 'is_check_supported'
-    type_ = 'lzma'
-    doc = """Test whether the given integrity check is supported.
+    """
+    Test whether the given integrity check is supported.
 
 Always returns True for CHECK_NONE and CHECK_CRC32."""
+    
+    title = 'is_check_supported'
+    type_ = 'lzma'
     init_inputs = [
         NodeInputBP(label='check_id'),
     ]
@@ -110,14 +120,13 @@ Always returns True for CHECK_NONE and CHECK_CRC32."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, lzma.is_check_supported(self.input(0)))
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'lzma'
-    doc = """Open an LZMA-compressed file in binary or text mode.
+    """
+    Open an LZMA-compressed file in binary or text mode.
 
     filename can be either an actual file name (given as a str, bytes,
     or PathLike object), in which case the named file is opened, or it
@@ -140,6 +149,9 @@ class Open_Node(NodeBase):
     handling behavior, and line ending(s).
 
     """
+    
+    title = 'open'
+    type_ = 'lzma'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='rb', size='s')),
@@ -149,7 +161,7 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, lzma.open(self.input(0), self.input(1)))
         
 

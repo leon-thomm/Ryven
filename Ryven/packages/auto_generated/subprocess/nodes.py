@@ -9,10 +9,12 @@ class NodeBase(Node):
 
 
 class _Args_From_Interpreter_Flags_Node(NodeBase):
+    """
+    Return a list of command-line arguments reproducing the current
+    settings in sys.flags, sys.warnoptions and sys._xoptions."""
+    
     title = '_args_from_interpreter_flags'
     type_ = 'subprocess'
-    doc = """Return a list of command-line arguments reproducing the current
-    settings in sys.flags, sys.warnoptions and sys._xoptions."""
     init_inputs = [
         
     ]
@@ -21,14 +23,16 @@ class _Args_From_Interpreter_Flags_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess._args_from_interpreter_flags())
         
 
 class _Cleanup_Node(NodeBase):
+    """
+    """
+    
     title = '_cleanup'
     type_ = 'subprocess'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -37,15 +41,17 @@ class _Cleanup_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess._cleanup())
         
 
 class _Optim_Args_From_Interpreter_Flags_Node(NodeBase):
+    """
+    Return a list of command-line arguments reproducing the current
+    optimization settings in sys.flags."""
+    
     title = '_optim_args_from_interpreter_flags'
     type_ = 'subprocess'
-    doc = """Return a list of command-line arguments reproducing the current
-    optimization settings in sys.flags."""
     init_inputs = [
         
     ]
@@ -54,14 +60,13 @@ class _Optim_Args_From_Interpreter_Flags_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess._optim_args_from_interpreter_flags())
         
 
 class _Use_Posix_Spawn_Node(NodeBase):
-    title = '_use_posix_spawn'
-    type_ = 'subprocess'
-    doc = """Check if posix_spawn() can be used for subprocess.
+    """
+    Check if posix_spawn() can be used for subprocess.
 
     subprocess requires a posix_spawn() implementation that properly reports
     errors to the parent process, & sets errno on the following failures:
@@ -73,6 +78,9 @@ class _Use_Posix_Spawn_Node(NodeBase):
     Prefer an implementation which can use vfork() in some cases for best
     performance.
     """
+    
+    title = '_use_posix_spawn'
+    type_ = 'subprocess'
     init_inputs = [
         
     ]
@@ -81,20 +89,22 @@ class _Use_Posix_Spawn_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess._use_posix_spawn())
         
 
 class Call_Node(NodeBase):
-    title = 'call'
-    type_ = 'subprocess'
-    doc = """Run command with arguments.  Wait for command to complete or
+    """
+    Run command with arguments.  Wait for command to complete or
     timeout, then return the returncode attribute.
 
     The arguments are the same as for the Popen constructor.  Example:
 
     retcode = call(["ls", "-l"])
     """
+    
+    title = 'call'
+    type_ = 'subprocess'
     init_inputs = [
         
     ]
@@ -103,14 +113,13 @@ class Call_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess.call())
         
 
 class Check_Call_Node(NodeBase):
-    title = 'check_call'
-    type_ = 'subprocess'
-    doc = """Run command with arguments.  Wait for command to complete.  If
+    """
+    Run command with arguments.  Wait for command to complete.  If
     the exit code was zero then return, otherwise raise
     CalledProcessError.  The CalledProcessError object will have the
     return code in the returncode attribute.
@@ -119,6 +128,9 @@ class Check_Call_Node(NodeBase):
 
     check_call(["ls", "-l"])
     """
+    
+    title = 'check_call'
+    type_ = 'subprocess'
     init_inputs = [
         
     ]
@@ -127,14 +139,13 @@ class Check_Call_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess.check_call())
         
 
 class Check_Output_Node(NodeBase):
-    title = 'check_output'
-    type_ = 'subprocess'
-    doc = """Run command with arguments and return its output.
+    """
+    Run command with arguments and return its output.
 
     If the exit code was non-zero it raises a CalledProcessError.  The
     CalledProcessError object will have the return code in the returncode
@@ -168,6 +179,9 @@ class Check_Output_Node(NodeBase):
     decoded according to locale encoding, or by "encoding" if set. Text mode
     is triggered by setting any of text, encoding, errors or universal_newlines.
     """
+    
+    title = 'check_output'
+    type_ = 'subprocess'
     init_inputs = [
         
     ]
@@ -176,14 +190,13 @@ class Check_Output_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess.check_output())
         
 
 class Getoutput_Node(NodeBase):
-    title = 'getoutput'
-    type_ = 'subprocess'
-    doc = """Return output (stdout or stderr) of executing cmd in a shell.
+    """
+    Return output (stdout or stderr) of executing cmd in a shell.
 
     Like getstatusoutput(), except the exit status is ignored and the return
     value is a string containing the command's output.  Example:
@@ -192,6 +205,9 @@ class Getoutput_Node(NodeBase):
     >>> subprocess.getoutput('ls /bin/ls')
     '/bin/ls'
     """
+    
+    title = 'getoutput'
+    type_ = 'subprocess'
     init_inputs = [
         NodeInputBP(label='cmd'),
     ]
@@ -200,14 +216,13 @@ class Getoutput_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess.getoutput(self.input(0)))
         
 
 class Getstatusoutput_Node(NodeBase):
-    title = 'getstatusoutput'
-    type_ = 'subprocess'
-    doc = """Return (exitcode, output) of executing cmd in a shell.
+    """
+    Return (exitcode, output) of executing cmd in a shell.
 
     Execute the string 'cmd' in a shell with 'check_output' and
     return a 2-tuple (status, output). The locale encoding is used
@@ -227,6 +242,9 @@ class Getstatusoutput_Node(NodeBase):
     >>> subprocess.getstatusoutput('/bin/kill $$')
     (-15, '')
     """
+    
+    title = 'getstatusoutput'
+    type_ = 'subprocess'
     init_inputs = [
         NodeInputBP(label='cmd'),
     ]
@@ -235,14 +253,13 @@ class Getstatusoutput_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess.getstatusoutput(self.input(0)))
         
 
 class List2Cmdline_Node(NodeBase):
-    title = 'list2cmdline'
-    type_ = 'subprocess'
-    doc = """
+    """
+    
     Translate a sequence of arguments into a command line
     string, using the same rules as the MS C runtime:
 
@@ -266,6 +283,9 @@ class List2Cmdline_Node(NodeBase):
        backslash escapes the next double quotation mark as
        described in rule 3.
     """
+    
+    title = 'list2cmdline'
+    type_ = 'subprocess'
     init_inputs = [
         NodeInputBP(label='seq'),
     ]
@@ -274,14 +294,13 @@ class List2Cmdline_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess.list2cmdline(self.input(0)))
         
 
 class Run_Node(NodeBase):
-    title = 'run'
-    type_ = 'subprocess'
-    doc = """Run command with arguments and return a CompletedProcess instance.
+    """
+    Run command with arguments and return a CompletedProcess instance.
 
     The returned instance will have attributes args, returncode, stdout and
     stderr. By default, stdout and stderr are not captured, and those attributes
@@ -308,6 +327,9 @@ class Run_Node(NodeBase):
 
     The other arguments are the same as for the Popen constructor.
     """
+    
+    title = 'run'
+    type_ = 'subprocess'
     init_inputs = [
         
     ]
@@ -316,7 +338,7 @@ class Run_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, subprocess.run())
         
 

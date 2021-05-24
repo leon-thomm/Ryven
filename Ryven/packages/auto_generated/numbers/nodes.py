@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Abstractmethod_Node(NodeBase):
-    title = 'abstractmethod'
-    type_ = 'numbers'
-    doc = """A decorator indicating abstract methods.
+    """
+    A decorator indicating abstract methods.
 
     Requires that the metaclass is ABCMeta or derived from it.  A
     class that has a metaclass derived from ABCMeta cannot be
@@ -27,6 +26,9 @@ class Abstractmethod_Node(NodeBase):
             def my_abstract_method(self, ...):
                 ...
     """
+    
+    title = 'abstractmethod'
+    type_ = 'numbers'
     init_inputs = [
         NodeInputBP(label='funcobj'),
     ]
@@ -35,7 +37,7 @@ class Abstractmethod_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, numbers.abstractmethod(self.input(0)))
         
 

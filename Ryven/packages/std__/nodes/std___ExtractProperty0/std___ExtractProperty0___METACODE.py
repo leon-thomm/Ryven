@@ -46,7 +46,7 @@ class %CLASS%(Node):
             self.special_actions['remove param '+str(i)] = {'method': self.action_remove_param_input, 'data': i}
         self.param_counter -= 1
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         obj = self.input(0)
         params = [self.input(i) for i in range(1, self.param_counter+1)]
         res = eval(self.text)

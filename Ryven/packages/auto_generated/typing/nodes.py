@@ -8,10 +8,50 @@ class NodeBase(Node):
     pass
 
 
-class Newtype_Node(NodeBase):
-    title = 'NewType'
+class Namedtuple_Node(NodeBase):
+    """
+    Typed version of namedtuple.
+
+    Usage in Python versions >= 3.6::
+
+        class Employee(NamedTuple):
+            name: str
+            id: int
+
+    This is equivalent to::
+
+        Employee = collections.namedtuple('Employee', ['name', 'id'])
+
+    The resulting class has an extra __annotations__ attribute, giving a
+    dict that maps field names to types.  (The field names are also in
+    the _fields attribute, which is part of the namedtuple API.)
+    Alternative equivalent keyword syntax is also accepted::
+
+        Employee = NamedTuple('Employee', name=str, id=int)
+
+    In Python versions <= 3.5 use::
+
+        Employee = NamedTuple('Employee', [('name', str), ('id', int)])
+    """
+    
+    title = 'NamedTuple'
     type_ = 'typing'
-    doc = """NewType creates simple unique types with almost zero
+    init_inputs = [
+        NodeInputBP(label='typename'),
+        NodeInputBP(label='fields', dtype=dtypes.Data(default=None, size='s')),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    color = '#32DA22'
+
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing.NamedTuple(self.input(0), self.input(1)))
+        
+
+class Newtype_Node(NodeBase):
+    """
+    NewType creates simple unique types with almost zero
     runtime overhead. NewType(name, tp) is considered a subtype of tp
     by static type checkers. At runtime, NewType(name, tp) returns
     a dummy function that simply returns its argument. Usage::
@@ -28,6 +68,9 @@ class Newtype_Node(NodeBase):
 
         num = UserId(5) + 1     # type: int
     """
+    
+    title = 'NewType'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='tp'),
@@ -37,36 +80,79 @@ class Newtype_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.NewType(self.input(0), self.input(1)))
         
 
-class _Alias_Node(NodeBase):
-    title = '_alias'
+class Typeddict_Node(NodeBase):
+    """
+    A simple typed namespace. At runtime it is equivalent to a plain dict.
+
+    TypedDict creates a dictionary type that expects all of its
+    instances to have a certain set of keys, where each key is
+    associated with a value of a consistent type. This expectation
+    is not checked at runtime but is only enforced by type checkers.
+    Usage::
+
+        class Point2D(TypedDict):
+            x: int
+            y: int
+            label: str
+
+        a: Point2D = {'x': 1, 'y': 2, 'label': 'good'}  # OK
+        b: Point2D = {'z': 3, 'label': 'bad'}           # Fails type check
+
+        assert Point2D(x=1, y=2, label='first') == dict(x=1, y=2, label='first')
+
+    The type info can be accessed via the Point2D.__annotations__ dict, and
+    the Point2D.__required_keys__ and Point2D.__optional_keys__ frozensets.
+    TypedDict supports two additional equivalent forms::
+
+        Point2D = TypedDict('Point2D', x=int, y=int, label=str)
+        Point2D = TypedDict('Point2D', {'x': int, 'y': int, 'label': str})
+
+    By default, all keys must be present in a TypedDict. It is possible
+    to override this by specifying totality.
+    Usage::
+
+        class point2D(TypedDict, total=False):
+            x: int
+            y: int
+
+    This means that a point2D TypedDict can have any of the keys omitted.A type
+    checker is only expected to support a literal False or True as the value of
+    the total argument. True is the default, and makes all items defined in the
+    class body be required.
+
+    The class syntax is only supported in Python 3.6+, while two other
+    syntax forms work for Python 2.7 and 3.2+
+    """
+    
+    title = 'TypedDict'
     type_ = 'typing'
-    doc = """"""
     init_inputs = [
-        NodeInputBP(label='origin'),
-        NodeInputBP(label='params'),
-        NodeInputBP(label='inst', dtype=dtypes.Data(default=True, size='s')),
+        NodeInputBP(label='typename'),
+        NodeInputBP(label='fields', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._alias(self.input(0), self.input(1), self.input(2)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing.TypedDict(self.input(0), self.input(1)))
         
 
 class _Allow_Reckless_Class_Cheks_Node(NodeBase):
-    title = '_allow_reckless_class_cheks'
-    type_ = 'typing'
-    doc = """Allow instnance and class checks for special stdlib modules.
+    """
+    Allow instance and class checks for special stdlib modules.
 
     The abc and functools modules indiscriminately call isinstance() and
     issubclass() on the whole MRO of a user class, which may contain protocols.
     """
+    
+    title = '_allow_reckless_class_cheks'
+    type_ = 'typing'
     init_inputs = [
         
     ]
@@ -75,54 +161,42 @@ class _Allow_Reckless_Class_Cheks_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._allow_reckless_class_cheks())
         
 
-class _Check_Fails_Node(NodeBase):
-    title = '_check_fails'
-    type_ = 'typing'
-    doc = """"""
-    init_inputs = [
-        NodeInputBP(label='cls'),
-        NodeInputBP(label='other'),
-    ]
-    init_outputs = [
-        NodeOutputBP(type_='data'),
-    ]
-    color = '#32DA22'
-
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._check_fails(self.input(0), self.input(1)))
-        
-
 class _Check_Generic_Node(NodeBase):
-    title = '_check_generic'
-    type_ = 'typing'
-    doc = """Check correct count for parameters of a generic cls (internal helper).
+    """
+    Check correct count for parameters of a generic cls (internal helper).
     This gives a nice error message in case of count mismatch.
     """
+    
+    title = '_check_generic'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='cls'),
         NodeInputBP(label='parameters'),
+        NodeInputBP(label='elen'),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._check_generic(self.input(0), self.input(1)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._check_generic(self.input(0), self.input(1), self.input(2)))
         
 
 class _Collect_Type_Vars_Node(NodeBase):
-    title = '_collect_type_vars'
-    type_ = 'typing'
-    doc = """Collect all type variable contained in types in order of
+    """
+    Collect all type variable contained in types in order of
     first appearance (lexicographic order). For example::
 
         _collect_type_vars((T, List[S, T])) == (T, S)
     """
+    
+    title = '_collect_type_vars'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='types'),
     ]
@@ -131,50 +205,77 @@ class _Collect_Type_Vars_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._collect_type_vars(self.input(0)))
         
 
-class _Dict_New_Node(NodeBase):
-    title = '_dict_new'
+class _Deduplicate_Node(NodeBase):
+    """
+    """
+    
+    title = '_deduplicate'
     type_ = 'typing'
-    doc = """"""
     init_inputs = [
-        NodeInputBP(label='cls'),
+        NodeInputBP(label='params'),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._dict_new(self.input(0)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._deduplicate(self.input(0)))
         
 
 class _Eval_Type_Node(NodeBase):
+    """
+    Evaluate all forward references in the given type t.
+    For use of globalns and localns see the docstring for get_type_hints().
+    recursive_guard is used to prevent prevent infinite recursion
+    with recursive ForwardRef.
+    """
+    
     title = '_eval_type'
     type_ = 'typing'
-    doc = """Evaluate all forward references in the given type t.
-    For use of globalns and localns see the docstring for get_type_hints().
-    """
     init_inputs = [
         NodeInputBP(label='t'),
         NodeInputBP(label='globalns'),
         NodeInputBP(label='localns'),
+        NodeInputBP(label='recursive_guard', dtype=dtypes.Data(default=frozenset(), size='s')),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._eval_type(self.input(0), self.input(1), self.input(2)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._eval_type(self.input(0), self.input(1), self.input(2), self.input(3)))
+        
+
+class _Flatten_Literal_Params_Node(NodeBase):
+    """
+    An internal helper for Literal creation: flatten Literals among parameters"""
+    
+    title = '_flatten_literal_params'
+    type_ = 'typing'
+    init_inputs = [
+        NodeInputBP(label='parameters'),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    color = '#32DA22'
+
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._flatten_literal_params(self.input(0)))
         
 
 class _Get_Defaults_Node(NodeBase):
+    """
+    Internal helper to extract the default arguments, by name."""
+    
     title = '_get_defaults'
     type_ = 'typing'
-    doc = """Internal helper to extract the default arguments, by name."""
     init_inputs = [
         NodeInputBP(label='func'),
     ]
@@ -183,18 +284,20 @@ class _Get_Defaults_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._get_defaults(self.input(0)))
         
 
 class _Get_Protocol_Attrs_Node(NodeBase):
-    title = '_get_protocol_attrs'
-    type_ = 'typing'
-    doc = """Collect protocol members from a protocol class objects.
+    """
+    Collect protocol members from a protocol class objects.
 
     This includes names actually defined in the class dictionary, as well
     as names that appear in annotations. Special names (above) are skipped.
     """
+    
+    title = '_get_protocol_attrs'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='cls'),
     ]
@@ -203,14 +306,16 @@ class _Get_Protocol_Attrs_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._get_protocol_attrs(self.input(0)))
         
 
 class _Is_Callable_Members_Only_Node(NodeBase):
+    """
+    """
+    
     title = '_is_callable_members_only'
     type_ = 'typing'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='cls'),
     ]
@@ -219,14 +324,16 @@ class _Is_Callable_Members_Only_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._is_callable_members_only(self.input(0)))
         
 
 class _Is_Dunder_Node(NodeBase):
+    """
+    """
+    
     title = '_is_dunder'
     type_ = 'typing'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='attr'),
     ]
@@ -235,31 +342,55 @@ class _Is_Dunder_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._is_dunder(self.input(0)))
         
 
 class _Make_Nmtuple_Node(NodeBase):
+    """
+    """
+    
     title = '_make_nmtuple'
     type_ = 'typing'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='name'),
         NodeInputBP(label='types'),
+        NodeInputBP(label='module'),
+        NodeInputBP(label='defaults', dtype=dtypes.Data(default=(), size='s')),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._make_nmtuple(self.input(0), self.input(1)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._make_nmtuple(self.input(0), self.input(1), self.input(2), self.input(3)))
+        
+
+class _Namedtuple_Mro_Entries_Node(NodeBase):
+    """
+    """
+    
+    title = '_namedtuple_mro_entries'
+    type_ = 'typing'
+    init_inputs = [
+        NodeInputBP(label='bases'),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    color = '#32DA22'
+
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._namedtuple_mro_entries(self.input(0)))
         
 
 class _No_Init_Node(NodeBase):
+    """
+    """
+    
     title = '_no_init'
     type_ = 'typing'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -268,14 +399,16 @@ class _No_Init_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._no_init())
         
 
 class _Overload_Dummy_Node(NodeBase):
+    """
+    Helper for @overload to raise when called."""
+    
     title = '_overload_dummy'
     type_ = 'typing'
-    doc = """Helper for @overload to raise when called."""
     init_inputs = [
         
     ]
@@ -284,16 +417,18 @@ class _Overload_Dummy_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._overload_dummy())
         
 
 class _Remove_Dups_Flatten_Node(NodeBase):
-    title = '_remove_dups_flatten'
-    type_ = 'typing'
-    doc = """An internal helper for Union creation and substitution: flatten Unions
+    """
+    An internal helper for Union creation and substitution: flatten Unions
     among parameters, then remove duplicates.
     """
+    
+    title = '_remove_dups_flatten'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='parameters'),
     ]
@@ -302,52 +437,52 @@ class _Remove_Dups_Flatten_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._remove_dups_flatten(self.input(0)))
         
 
-class _Subs_Tvars_Node(NodeBase):
-    title = '_subs_tvars'
-    type_ = 'typing'
-    doc = """Substitute type variables 'tvars' with substitutions 'subs'.
-    These two must have the same length.
+class _Strip_Annotations_Node(NodeBase):
     """
+    Strips the annotations from a given type.
+    """
+    
+    title = '_strip_annotations'
+    type_ = 'typing'
     init_inputs = [
-        NodeInputBP(label='tp'),
-        NodeInputBP(label='tvars'),
-        NodeInputBP(label='subs'),
+        NodeInputBP(label='t'),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._subs_tvars(self.input(0), self.input(1), self.input(2)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._strip_annotations(self.input(0)))
         
 
 class _Tp_Cache_Node(NodeBase):
-    title = '_tp_cache'
-    type_ = 'typing'
-    doc = """Internal wrapper caching __getitem__ of generic types with a fallback to
+    """
+    Internal wrapper caching __getitem__ of generic types with a fallback to
     original function for non-hashable arguments.
     """
+    
+    title = '_tp_cache'
+    type_ = 'typing'
     init_inputs = [
-        NodeInputBP(label='func'),
+        NodeInputBP(label='func', dtype=dtypes.Data(default=None, size='s')),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._tp_cache(self.input(0)))
         
 
 class _Type_Check_Node(NodeBase):
-    title = '_type_check'
-    type_ = 'typing'
-    doc = """Check that the argument is a type, and return it (internal helper).
+    """
+    Check that the argument is a type, and return it (internal helper).
 
     As a special case, accept None and return type(None) instead. Also wrap strings
     into ForwardRef instances. Consider several corner cases, for example plain
@@ -358,6 +493,9 @@ class _Type_Check_Node(NodeBase):
 
     We append the repr() of the actual value (truncated to 100 chars).
     """
+    
+    title = '_type_check'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='arg'),
         NodeInputBP(label='msg'),
@@ -368,20 +506,40 @@ class _Type_Check_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._type_check(self.input(0), self.input(1), self.input(2)))
         
 
-class _Type_Repr_Node(NodeBase):
-    title = '_type_repr'
+class _Type_Convert_Node(NodeBase):
+    """
+    For converting None to type(None), and strings to ForwardRef."""
+    
+    title = '_type_convert'
     type_ = 'typing'
-    doc = """Return the repr() of an object, special-casing types (internal helper).
+    init_inputs = [
+        NodeInputBP(label='arg'),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    color = '#32DA22'
+
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._type_convert(self.input(0)))
+        
+
+class _Type_Repr_Node(NodeBase):
+    """
+    Return the repr() of an object, special-casing types (internal helper).
 
     If obj is a type, we return a shorter version than the default
     type.__repr__, based on the module and qualified name, which is
     typically enough to uniquely identify a type.  For everything
     else, we fall back on repr(obj).
     """
+    
+    title = '_type_repr'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='obj'),
     ]
@@ -390,32 +548,31 @@ class _Type_Repr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing._type_repr(self.input(0)))
         
 
-class _Typeddict_New_Node(NodeBase):
-    title = '_typeddict_new'
+class _Value_And_Type_Iter_Node(NodeBase):
+    """
+    """
+    
+    title = '_value_and_type_iter'
     type_ = 'typing'
-    doc = """"""
     init_inputs = [
-        NodeInputBP(label='cls'),
-        NodeInputBP(label='typename'),
-        NodeInputBP(label='fields', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='parameters'),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing._typeddict_new(self.input(0), self.input(1), self.input(2)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing._value_and_type_iter(self.input(0)))
         
 
 class Abstractmethod_Node(NodeBase):
-    title = 'abstractmethod'
-    type_ = 'typing'
-    doc = """A decorator indicating abstract methods.
+    """
+    A decorator indicating abstract methods.
 
     Requires that the metaclass is ABCMeta or derived from it.  A
     class that has a metaclass derived from ABCMeta cannot be
@@ -431,6 +588,9 @@ class Abstractmethod_Node(NodeBase):
             def my_abstract_method(self, ...):
                 ...
     """
+    
+    title = 'abstractmethod'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='funcobj'),
     ]
@@ -439,20 +599,22 @@ class Abstractmethod_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.abstractmethod(self.input(0)))
         
 
 class Cast_Node(NodeBase):
-    title = 'cast'
-    type_ = 'typing'
-    doc = """Cast a value to a type.
+    """
+    Cast a value to a type.
 
     This returns the value unchanged.  To the type checker this
     signals that the return value has the designated type, but at
     runtime we intentionally don't check anything (we want this
     to be as fast as possible).
     """
+    
+    title = 'cast'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='typ'),
         NodeInputBP(label='val'),
@@ -462,14 +624,13 @@ class Cast_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.cast(self.input(0), self.input(1)))
         
 
 class Final_Node(NodeBase):
-    title = 'final'
-    type_ = 'typing'
-    doc = """A decorator to indicate final methods and final classes.
+    """
+    A decorator to indicate final methods and final classes.
 
     Use this decorator to indicate to type checkers that the decorated
     method cannot be overridden, and decorated class cannot be subclassed.
@@ -491,6 +652,9 @@ class Final_Node(NodeBase):
 
     There is no runtime checking of these properties.
     """
+    
+    title = 'final'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='f'),
     ]
@@ -499,14 +663,13 @@ class Final_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.final(self.input(0)))
         
 
 class Get_Args_Node(NodeBase):
-    title = 'get_args'
-    type_ = 'typing'
-    doc = """Get type arguments with all substitutions performed.
+    """
+    Get type arguments with all substitutions performed.
 
     For unions, basic simplifications used by Union constructor are performed.
     Examples::
@@ -516,6 +679,9 @@ class Get_Args_Node(NodeBase):
         get_args(Union[int, Tuple[T, int]][str]) == (int, Tuple[str, int])
         get_args(Callable[[], T][int]) == ([], int)
     """
+    
+    title = 'get_args'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='tp'),
     ]
@@ -524,17 +690,16 @@ class Get_Args_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.get_args(self.input(0)))
         
 
 class Get_Origin_Node(NodeBase):
-    title = 'get_origin'
-    type_ = 'typing'
-    doc = """Get the unsubscripted version of a type.
+    """
+    Get the unsubscripted version of a type.
 
-    This supports generic types, Callable, Tuple, Union, Literal, Final and ClassVar.
-    Return None for unsupported types. Examples::
+    This supports generic types, Callable, Tuple, Union, Literal, Final, ClassVar
+    and Annotated. Return None for unsupported types. Examples::
 
         get_origin(Literal[42]) is Literal
         get_origin(int) is None
@@ -544,6 +709,9 @@ class Get_Origin_Node(NodeBase):
         get_origin(Union[T, int]) is Union
         get_origin(List[Tuple[T, T]][int]) == list
     """
+    
+    title = 'get_origin'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='tp'),
     ]
@@ -552,18 +720,18 @@ class Get_Origin_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.get_origin(self.input(0)))
         
 
 class Get_Type_Hints_Node(NodeBase):
-    title = 'get_type_hints'
-    type_ = 'typing'
-    doc = """Return type hints for an object.
+    """
+    Return type hints for an object.
 
     This is often the same as obj.__annotations__, but it handles
-    forward references encoded as string literals, and if necessary
-    adds Optional[t] if a default value equal to None is set.
+    forward references encoded as string literals, adds Optional[t] if a
+    default value equal to None is set and recursively replaces all
+    'Annotated[T, ...]' with 'T' (unless 'include_extras=True').
 
     The argument may be a module, class, method, or function. The annotations
     are returned as a dictionary. For classes, annotations include also
@@ -588,24 +756,27 @@ class Get_Type_Hints_Node(NodeBase):
     - If two dict arguments are passed, they specify globals and
       locals, respectively.
     """
+    
+    title = 'get_type_hints'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='obj'),
         NodeInputBP(label='globalns', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='localns', dtype=dtypes.Data(default=None, size='s')),
+        NodeInputBP(label='include_extras', dtype=dtypes.Data(default=False, size='s')),
     ]
     init_outputs = [
         NodeOutputBP(type_='data'),
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
-        self.set_output_val(0, typing.get_type_hints(self.input(0), self.input(1), self.input(2)))
+    def update_event(self, inp=-1):
+        self.set_output_val(0, typing.get_type_hints(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class No_Type_Check_Node(NodeBase):
-    title = 'no_type_check'
-    type_ = 'typing'
-    doc = """Decorator to indicate that annotations are not type hints.
+    """
+    Decorator to indicate that annotations are not type hints.
 
     The argument must be a class or function; if it is a class, it
     applies recursively to all methods and classes defined in that class
@@ -613,6 +784,9 @@ class No_Type_Check_Node(NodeBase):
 
     This mutates the function(s) or class(es) in place.
     """
+    
+    title = 'no_type_check'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='arg'),
     ]
@@ -621,18 +795,20 @@ class No_Type_Check_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.no_type_check(self.input(0)))
         
 
 class No_Type_Check_Decorator_Node(NodeBase):
-    title = 'no_type_check_decorator'
-    type_ = 'typing'
-    doc = """Decorator to give another decorator the @no_type_check effect.
+    """
+    Decorator to give another decorator the @no_type_check effect.
 
     This wraps the decorator with something that wraps the decorated
     function in @no_type_check.
     """
+    
+    title = 'no_type_check_decorator'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='decorator'),
     ]
@@ -641,14 +817,13 @@ class No_Type_Check_Decorator_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.no_type_check_decorator(self.input(0)))
         
 
 class Overload_Node(NodeBase):
-    title = 'overload'
-    type_ = 'typing'
-    doc = """Decorator for overloaded functions/methods.
+    """
+    Decorator for overloaded functions/methods.
 
     In a stub file, place two or more stub definitions for the same
     function in a row, each decorated with @overload.  For example:
@@ -673,6 +848,9 @@ class Overload_Node(NodeBase):
       def utf8(value):
           # implementation goes here
     """
+    
+    title = 'overload'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='func'),
     ]
@@ -681,14 +859,13 @@ class Overload_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.overload(self.input(0)))
         
 
 class Runtime_Checkable_Node(NodeBase):
-    title = 'runtime_checkable'
-    type_ = 'typing'
-    doc = """Mark a protocol class as a runtime protocol.
+    """
+    Mark a protocol class as a runtime protocol.
 
     Such protocol can be used with isinstance() and issubclass().
     Raise TypeError if applied to a non-protocol class.
@@ -705,6 +882,9 @@ class Runtime_Checkable_Node(NodeBase):
     Warning: this will check only the presence of the required methods,
     not their type signatures!
     """
+    
+    title = 'runtime_checkable'
+    type_ = 'typing'
     init_inputs = [
         NodeInputBP(label='cls'),
     ]
@@ -713,33 +893,36 @@ class Runtime_Checkable_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, typing.runtime_checkable(self.input(0)))
         
 
 
 export_nodes(
+    Namedtuple_Node,
     Newtype_Node,
-    _Alias_Node,
+    Typeddict_Node,
     _Allow_Reckless_Class_Cheks_Node,
-    _Check_Fails_Node,
     _Check_Generic_Node,
     _Collect_Type_Vars_Node,
-    _Dict_New_Node,
+    _Deduplicate_Node,
     _Eval_Type_Node,
+    _Flatten_Literal_Params_Node,
     _Get_Defaults_Node,
     _Get_Protocol_Attrs_Node,
     _Is_Callable_Members_Only_Node,
     _Is_Dunder_Node,
     _Make_Nmtuple_Node,
+    _Namedtuple_Mro_Entries_Node,
     _No_Init_Node,
     _Overload_Dummy_Node,
     _Remove_Dups_Flatten_Node,
-    _Subs_Tvars_Node,
+    _Strip_Annotations_Node,
     _Tp_Cache_Node,
     _Type_Check_Node,
+    _Type_Convert_Node,
     _Type_Repr_Node,
-    _Typeddict_New_Node,
+    _Value_And_Type_Iter_Node,
     Abstractmethod_Node,
     Cast_Node,
     Final_Node,

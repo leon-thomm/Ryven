@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Exception_Node(NodeBase):
+    """
+    """
+    
     title = '_exception'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='obj'),
     ]
@@ -20,14 +22,16 @@ class _Exception_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore._exception(self.input(0)))
         
 
 class _Strerror_Node(NodeBase):
+    """
+    """
+    
     title = '_strerror'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='err'),
     ]
@@ -36,14 +40,16 @@ class _Strerror_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore._strerror(self.input(0)))
         
 
 class Close_All_Node(NodeBase):
+    """
+    """
+    
     title = 'close_all'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='ignore_all', dtype=dtypes.Data(default=False, size='s')),
@@ -53,14 +59,16 @@ class Close_All_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.close_all(self.input(0), self.input(1)))
         
 
 class Compact_Traceback_Node(NodeBase):
+    """
+    """
+    
     title = 'compact_traceback'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         
     ]
@@ -69,14 +77,16 @@ class Compact_Traceback_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.compact_traceback())
         
 
 class Loop_Node(NodeBase):
+    """
+    """
+    
     title = 'loop'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='timeout', dtype=dtypes.Data(default=30.0, size='s')),
         NodeInputBP(label='use_poll', dtype=dtypes.Data(default=False, size='s')),
@@ -88,14 +98,16 @@ class Loop_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.loop(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class Poll_Node(NodeBase):
+    """
+    """
+    
     title = 'poll'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='timeout', dtype=dtypes.Data(default=0.0, size='s')),
         NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
@@ -105,14 +117,16 @@ class Poll_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.poll(self.input(0), self.input(1)))
         
 
 class Poll2_Node(NodeBase):
+    """
+    """
+    
     title = 'poll2'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='timeout', dtype=dtypes.Data(default=0.0, size='s')),
         NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
@@ -122,14 +136,16 @@ class Poll2_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.poll2(self.input(0), self.input(1)))
         
 
 class Poll3_Node(NodeBase):
+    """
+    """
+    
     title = 'poll3'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='timeout', dtype=dtypes.Data(default=0.0, size='s')),
         NodeInputBP(label='map', dtype=dtypes.Data(default=None, size='s')),
@@ -139,14 +155,16 @@ class Poll3_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.poll3(self.input(0), self.input(1)))
         
 
 class Read_Node(NodeBase):
+    """
+    """
+    
     title = 'read'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='obj'),
     ]
@@ -155,14 +173,16 @@ class Read_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.read(self.input(0)))
         
 
 class Readwrite_Node(NodeBase):
+    """
+    """
+    
     title = 'readwrite'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='obj'),
         NodeInputBP(label='flags'),
@@ -172,14 +192,16 @@ class Readwrite_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.readwrite(self.input(0), self.input(1)))
         
 
 class Write_Node(NodeBase):
+    """
+    """
+    
     title = 'write'
     type_ = 'asyncore'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='obj'),
     ]
@@ -188,7 +210,7 @@ class Write_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, asyncore.write(self.input(0)))
         
 

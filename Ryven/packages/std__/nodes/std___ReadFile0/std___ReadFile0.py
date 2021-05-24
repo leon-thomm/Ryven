@@ -29,8 +29,8 @@ class ReadFile_Node(Node):
         self.size_input_shown = False
 
 
-    def update_event(self, input_called=-1):
-        if input_called == 0:
+    def update_event(self, inp=-1):
+        if inp == 0:
             file = self.input(1)
             if self.size_input_shown:
                 size = self.input(2)

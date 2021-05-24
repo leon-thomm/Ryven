@@ -34,7 +34,7 @@ class %CLASS%(Node):
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, np.linspace(self.input(0), self.input(1), self.input(2)))
 
     def get_state(self):

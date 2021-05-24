@@ -9,10 +9,12 @@ class NodeBase(Node):
 
 
 class Checkcache_Node(NodeBase):
+    """
+    Discard cache entries that are out of date.
+    (This is not checked upon each call!)"""
+    
     title = 'checkcache'
     type_ = 'linecache'
-    doc = """Discard cache entries that are out of date.
-    (This is not checked upon each call!)"""
     init_inputs = [
         NodeInputBP(label='filename', dtype=dtypes.Data(default=None, size='s')),
     ]
@@ -21,14 +23,16 @@ class Checkcache_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, linecache.checkcache(self.input(0)))
         
 
 class Clearcache_Node(NodeBase):
+    """
+    Clear the cache entirely."""
+    
     title = 'clearcache'
     type_ = 'linecache'
-    doc = """Clear the cache entirely."""
     init_inputs = [
         
     ]
@@ -37,14 +41,17 @@ class Clearcache_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, linecache.clearcache())
         
 
 class Getline_Node(NodeBase):
+    """
+    Get a line for a Python source file from the cache.
+    Update the cache if it doesn't contain an entry for this file already."""
+    
     title = 'getline'
     type_ = 'linecache'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='lineno'),
@@ -55,15 +62,17 @@ class Getline_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, linecache.getline(self.input(0), self.input(1), self.input(2)))
         
 
 class Getlines_Node(NodeBase):
+    """
+    Get the lines for a Python source file from the cache.
+    Update the cache if it doesn't contain an entry for this file already."""
+    
     title = 'getlines'
     type_ = 'linecache'
-    doc = """Get the lines for a Python source file from the cache.
-    Update the cache if it doesn't contain an entry for this file already."""
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='module_globals', dtype=dtypes.Data(default=None, size='s')),
@@ -73,14 +82,13 @@ class Getlines_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, linecache.getlines(self.input(0), self.input(1)))
         
 
 class Lazycache_Node(NodeBase):
-    title = 'lazycache'
-    type_ = 'linecache'
-    doc = """Seed the cache for filename with module_globals.
+    """
+    Seed the cache for filename with module_globals.
 
     The module loader will be asked for the source only when getlines is
     called, not immediately.
@@ -92,6 +100,9 @@ class Lazycache_Node(NodeBase):
         get_source method must be found, the filename must be a cachable
         filename, and the filename must not be already cached.
     """
+    
+    title = 'lazycache'
+    type_ = 'linecache'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='module_globals'),
@@ -101,16 +112,18 @@ class Lazycache_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, linecache.lazycache(self.input(0), self.input(1)))
         
 
 class Updatecache_Node(NodeBase):
-    title = 'updatecache'
-    type_ = 'linecache'
-    doc = """Update a cache entry and return its list of lines.
+    """
+    Update a cache entry and return its list of lines.
     If something's wrong, print a message, discard the cache entry,
     and return an empty list."""
+    
+    title = 'updatecache'
+    type_ = 'linecache'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='module_globals', dtype=dtypes.Data(default=None, size='s')),
@@ -120,7 +133,7 @@ class Updatecache_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, linecache.updatecache(self.input(0), self.input(1)))
         
 

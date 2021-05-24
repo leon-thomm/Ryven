@@ -8,10 +8,28 @@ class NodeBase(Node):
     pass
 
 
-class _Fileobj_To_Fd_Node(NodeBase):
-    title = '_fileobj_to_fd'
+class _Can_Use_Node(NodeBase):
+    """
+    Check if we can use the selector depending upon the
+    operating system. """
+    
+    title = '_can_use'
     type_ = 'selectors'
-    doc = """Return a file descriptor from a file object.
+    init_inputs = [
+        NodeInputBP(label='method'),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    color = '#32DA22'
+
+    def update_event(self, inp=-1):
+        self.set_output_val(0, selectors._can_use(self.input(0)))
+        
+
+class _Fileobj_To_Fd_Node(NodeBase):
+    """
+    Return a file descriptor from a file object.
 
     Parameters:
     fileobj -- file object or file descriptor
@@ -22,6 +40,9 @@ class _Fileobj_To_Fd_Node(NodeBase):
     Raises:
     ValueError if the object is invalid
     """
+    
+    title = '_fileobj_to_fd'
+    type_ = 'selectors'
     init_inputs = [
         NodeInputBP(label='fileobj'),
     ]
@@ -30,14 +51,13 @@ class _Fileobj_To_Fd_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, selectors._fileobj_to_fd(self.input(0)))
         
 
 class Abstractmethod_Node(NodeBase):
-    title = 'abstractmethod'
-    type_ = 'selectors'
-    doc = """A decorator indicating abstract methods.
+    """
+    A decorator indicating abstract methods.
 
     Requires that the metaclass is ABCMeta or derived from it.  A
     class that has a metaclass derived from ABCMeta cannot be
@@ -53,6 +73,9 @@ class Abstractmethod_Node(NodeBase):
             def my_abstract_method(self, ...):
                 ...
     """
+    
+    title = 'abstractmethod'
+    type_ = 'selectors'
     init_inputs = [
         NodeInputBP(label='funcobj'),
     ]
@@ -61,14 +84,13 @@ class Abstractmethod_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, selectors.abstractmethod(self.input(0)))
         
 
 class Namedtuple_Node(NodeBase):
-    title = 'namedtuple'
-    type_ = 'selectors'
-    doc = """Returns a new subclass of tuple with named fields.
+    """
+    Returns a new subclass of tuple with named fields.
 
     >>> Point = namedtuple('Point', ['x', 'y'])
     >>> Point.__doc__                   # docstring for the new class
@@ -90,6 +112,9 @@ class Namedtuple_Node(NodeBase):
     Point(x=100, y=22)
 
     """
+    
+    title = 'namedtuple'
+    type_ = 'selectors'
     init_inputs = [
         NodeInputBP(label='typename'),
         NodeInputBP(label='field_names'),
@@ -99,12 +124,13 @@ class Namedtuple_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, selectors.namedtuple(self.input(0), self.input(1)))
         
 
 
 export_nodes(
+    _Can_Use_Node,
     _Fileobj_To_Fd_Node,
     Abstractmethod_Node,
     Namedtuple_Node,

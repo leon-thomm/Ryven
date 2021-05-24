@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Rlock_Node(NodeBase):
-    title = 'RLock'
-    type_ = 'bz2'
-    doc = """Factory function that returns a new reentrant lock.
+    """
+    Factory function that returns a new reentrant lock.
 
     A reentrant lock must be released by the thread that acquired it. Once a
     thread has acquired a reentrant lock, the same thread may acquire it again
@@ -19,6 +18,9 @@ class Rlock_Node(NodeBase):
     acquired it.
 
     """
+    
+    title = 'RLock'
+    type_ = 'bz2'
     init_inputs = [
         
     ]
@@ -27,14 +29,13 @@ class Rlock_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, bz2.RLock())
         
 
 class _Builtin_Open_Node(NodeBase):
-    title = '_builtin_open'
-    type_ = 'bz2'
-    doc = """Open file and return a stream.  Raise OSError upon failure.
+    """
+    Open file and return a stream.  Raise OSError upon failure.
 
 file is either a text or byte string giving the name (and the path
 if the file isn't in the current working directory) of the file to
@@ -152,6 +153,9 @@ It is also possible to use a string or bytearray as a file for both
 reading and writing. For strings StringIO can be used like a file
 opened in a text mode, and for bytes a BytesIO can be used like a file
 opened in a binary mode."""
+    
+    title = '_builtin_open'
+    type_ = 'bz2'
     init_inputs = [
         NodeInputBP(label='file'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='r', size='s')),
@@ -167,19 +171,21 @@ opened in a binary mode."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, bz2._builtin_open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5), self.input(6), self.input(7)))
         
 
 class Compress_Node(NodeBase):
-    title = 'compress'
-    type_ = 'bz2'
-    doc = """Compress a block of data.
+    """
+    Compress a block of data.
 
     compresslevel, if given, must be a number between 1 and 9.
 
     For incremental compression, use a BZ2Compressor object instead.
     """
+    
+    title = 'compress'
+    type_ = 'bz2'
     init_inputs = [
         NodeInputBP(label='data'),
         NodeInputBP(label='compresslevel', dtype=dtypes.Data(default=9, size='s')),
@@ -189,17 +195,19 @@ class Compress_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, bz2.compress(self.input(0), self.input(1)))
         
 
 class Decompress_Node(NodeBase):
-    title = 'decompress'
-    type_ = 'bz2'
-    doc = """Decompress a block of data.
+    """
+    Decompress a block of data.
 
     For incremental decompression, use a BZ2Decompressor object instead.
     """
+    
+    title = 'decompress'
+    type_ = 'bz2'
     init_inputs = [
         NodeInputBP(label='data'),
     ]
@@ -208,14 +216,13 @@ class Decompress_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, bz2.decompress(self.input(0)))
         
 
 class Open_Node(NodeBase):
-    title = 'open'
-    type_ = 'bz2'
-    doc = """Open a bzip2-compressed file in binary or text mode.
+    """
+    Open a bzip2-compressed file in binary or text mode.
 
     The filename argument can be an actual filename (a str, bytes, or
     PathLike object), or an existing file object to read from or write
@@ -234,6 +241,9 @@ class Open_Node(NodeBase):
     handling behavior, and line ending(s).
 
     """
+    
+    title = 'open'
+    type_ = 'bz2'
     init_inputs = [
         NodeInputBP(label='filename'),
         NodeInputBP(label='mode', dtype=dtypes.Data(default='rb', size='s')),
@@ -247,7 +257,7 @@ class Open_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, bz2.open(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4), self.input(5)))
         
 

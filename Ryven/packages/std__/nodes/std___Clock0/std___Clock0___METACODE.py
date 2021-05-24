@@ -36,7 +36,7 @@ class %CLASS%(Node):
     def view_place_event(self):
         self.input_widget(0).val_changed.connect(self.update_timer_interval)
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         pass
 
     def action_start(self):

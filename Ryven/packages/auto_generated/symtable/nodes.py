@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class Symtable_Node(NodeBase):
+    """
+    """
+    
     title = 'symtable'
     type_ = 'symtable'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='code'),
         NodeInputBP(label='filename'),
@@ -22,7 +24,7 @@ class Symtable_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, symtable.symtable(self.input(0), self.input(1), self.input(2)))
         
 

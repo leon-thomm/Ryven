@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Compile_Command_Node(NodeBase):
-    title = 'compile_command'
-    type_ = 'code'
-    doc = """Compile a command and determine whether it is incomplete.
+    """
+    Compile a command and determine whether it is incomplete.
 
     Arguments:
 
@@ -29,6 +28,9 @@ class Compile_Command_Node(NodeBase):
       syntax error (OverflowError and ValueError can be produced by
       malformed literals).
     """
+    
+    title = 'compile_command'
+    type_ = 'code'
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='filename', dtype=dtypes.Data(default='<input>', size='s')),
@@ -39,14 +41,13 @@ class Compile_Command_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, code.compile_command(self.input(0), self.input(1), self.input(2)))
         
 
 class Interact_Node(NodeBase):
-    title = 'interact'
-    type_ = 'code'
-    doc = """Closely emulate the interactive Python interpreter.
+    """
+    Closely emulate the interactive Python interpreter.
 
     This is a backwards compatible interface to the InteractiveConsole
     class.  When readfunc is not specified, it attempts to import the
@@ -60,6 +61,9 @@ class Interact_Node(NodeBase):
     exitmsg -- passed to InteractiveConsole.interact()
 
     """
+    
+    title = 'interact'
+    type_ = 'code'
     init_inputs = [
         NodeInputBP(label='banner', dtype=dtypes.Data(default=None, size='s')),
         NodeInputBP(label='readfunc', dtype=dtypes.Data(default=None, size='s')),
@@ -71,7 +75,7 @@ class Interact_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, code.interact(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 

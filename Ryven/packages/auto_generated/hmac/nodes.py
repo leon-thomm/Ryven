@@ -9,9 +9,8 @@ class NodeBase(Node):
 
 
 class Compare_Digest_Node(NodeBase):
-    title = 'compare_digest'
-    type_ = 'hmac'
-    doc = """Return 'a == b'.
+    """
+    Return 'a == b'.
 
 This function uses an approach designed to prevent
 timing analysis, making it appropriate for cryptography.
@@ -22,6 +21,9 @@ or any bytes-like object.
 Note: If a and b are of different lengths, or if an error occurs,
 a timing attack could theoretically reveal information about the
 types and lengths of a and b--but not their values."""
+    
+    title = 'compare_digest'
+    type_ = 'hmac'
     init_inputs = [
         NodeInputBP(label='a'),
         NodeInputBP(label='b'),
@@ -31,14 +33,13 @@ types and lengths of a and b--but not their values."""
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, hmac.compare_digest(self.input(0), self.input(1)))
         
 
 class Digest_Node(NodeBase):
-    title = 'digest'
-    type_ = 'hmac'
-    doc = """Fast inline implementation of HMAC.
+    """
+    Fast inline implementation of HMAC.
 
     key: bytes or buffer, The key for the keyed hash object.
     msg: bytes or buffer, Input message.
@@ -46,6 +47,9 @@ class Digest_Node(NodeBase):
             A hashlib constructor returning a new hash object. *OR*
             A module supporting PEP 247.
     """
+    
+    title = 'digest'
+    type_ = 'hmac'
     init_inputs = [
         NodeInputBP(label='key'),
         NodeInputBP(label='msg'),
@@ -56,14 +60,13 @@ class Digest_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, hmac.digest(self.input(0), self.input(1), self.input(2)))
         
 
 class New_Node(NodeBase):
-    title = 'new'
-    type_ = 'hmac'
-    doc = """Create a new hashing object and return it.
+    """
+    Create a new hashing object and return it.
 
     key: bytes or buffer, The starting key for the hash.
     msg: bytes or buffer, Initial input for the hash, or None.
@@ -79,6 +82,9 @@ class New_Node(NodeBase):
     method, and can ask for the hash value at any time by calling its digest()
     or hexdigest() methods.
     """
+    
+    title = 'new'
+    type_ = 'hmac'
     init_inputs = [
         NodeInputBP(label='key'),
         NodeInputBP(label='msg', dtype=dtypes.Data(default=None, size='s')),
@@ -89,7 +95,7 @@ class New_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, hmac.new(self.input(0), self.input(1), self.input(2)))
         
 

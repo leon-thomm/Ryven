@@ -58,7 +58,7 @@ class OperatorNodeBase(Node):
         for i in range(self.num_inputs):
             self.special_actions[f'remove input {i}'] = {'method': self.remove_operand_input, 'data': i}
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, self.apply_op([self.input(i) for i in range(len(self.inputs))]))
 
     def apply_op(self, elements: list):

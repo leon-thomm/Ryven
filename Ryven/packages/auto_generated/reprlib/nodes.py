@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Possibly_Sorted_Node(NodeBase):
+    """
+    """
+    
     title = '_possibly_sorted'
     type_ = 'reprlib'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -20,14 +22,16 @@ class _Possibly_Sorted_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, reprlib._possibly_sorted(self.input(0)))
         
 
 class Recursive_Repr_Node(NodeBase):
+    """
+    Decorator to make a repr function return fillvalue for a recursive call"""
+    
     title = 'recursive_repr'
     type_ = 'reprlib'
-    doc = """Decorator to make a repr function return fillvalue for a recursive call"""
     init_inputs = [
         NodeInputBP(label='fillvalue', dtype=dtypes.Data(default='...', size='s')),
     ]
@@ -36,14 +40,16 @@ class Recursive_Repr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, reprlib.recursive_repr(self.input(0)))
         
 
 class Repr_Node(NodeBase):
+    """
+    """
+    
     title = 'repr'
     type_ = 'reprlib'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='x'),
     ]
@@ -52,7 +58,7 @@ class Repr_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, reprlib.repr(self.input(0)))
         
 

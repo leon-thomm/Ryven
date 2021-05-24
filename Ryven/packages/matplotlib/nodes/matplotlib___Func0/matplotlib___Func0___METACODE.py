@@ -34,7 +34,7 @@ class %CLASS%(Node):
         # self.special_actions['action name'] = {'method': M(self.action_method)}
         # ...
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         x = None
         if type(self.input(0)) == str:
             x = np.linspace(*eval(self.input(0)))

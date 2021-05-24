@@ -9,9 +9,11 @@ class NodeBase(Node):
 
 
 class _Class_Escape_Node(NodeBase):
+    """
+    """
+    
     title = '_class_escape'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='escape'),
@@ -21,14 +23,16 @@ class _Class_Escape_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse._class_escape(self.input(0), self.input(1)))
         
 
 class _Escape_Node(NodeBase):
+    """
+    """
+    
     title = '_escape'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='escape'),
@@ -39,14 +43,16 @@ class _Escape_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse._escape(self.input(0), self.input(1), self.input(2)))
         
 
 class _Parse_Node(NodeBase):
+    """
+    """
+    
     title = '_parse'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='state'),
@@ -59,14 +65,16 @@ class _Parse_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse._parse(self.input(0), self.input(1), self.input(2), self.input(3), self.input(4)))
         
 
 class _Parse_Flags_Node(NodeBase):
+    """
+    """
+    
     title = '_parse_flags'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='state'),
@@ -77,14 +85,16 @@ class _Parse_Flags_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse._parse_flags(self.input(0), self.input(1), self.input(2)))
         
 
 class _Parse_Sub_Node(NodeBase):
+    """
+    """
+    
     title = '_parse_sub'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='state'),
@@ -96,14 +106,16 @@ class _Parse_Sub_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse._parse_sub(self.input(0), self.input(1), self.input(2), self.input(3)))
         
 
 class _Uniq_Node(NodeBase):
+    """
+    """
+    
     title = '_uniq'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='items'),
     ]
@@ -112,14 +124,16 @@ class _Uniq_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse._uniq(self.input(0)))
         
 
 class Expand_Template_Node(NodeBase):
+    """
+    """
+    
     title = 'expand_template'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='template'),
         NodeInputBP(label='match'),
@@ -129,14 +143,16 @@ class Expand_Template_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse.expand_template(self.input(0), self.input(1)))
         
 
 class Fix_Flags_Node(NodeBase):
+    """
+    """
+    
     title = 'fix_flags'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='src'),
         NodeInputBP(label='flags'),
@@ -146,14 +162,16 @@ class Fix_Flags_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse.fix_flags(self.input(0), self.input(1)))
         
 
 class Parse_Node(NodeBase):
+    """
+    """
+    
     title = 'parse'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='str'),
         NodeInputBP(label='flags', dtype=dtypes.Data(default=0, size='s')),
@@ -164,14 +182,16 @@ class Parse_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse.parse(self.input(0), self.input(1), self.input(2)))
         
 
 class Parse_Template_Node(NodeBase):
+    """
+    """
+    
     title = 'parse_template'
     type_ = 'sre_parse'
-    doc = """"""
     init_inputs = [
         NodeInputBP(label='source'),
         NodeInputBP(label='state'),
@@ -181,7 +201,7 @@ class Parse_Template_Node(NodeBase):
     ]
     color = '#32DA22'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, sre_parse.parse_template(self.input(0), self.input(1)))
         
 
