@@ -12,6 +12,16 @@ class NodeBase(RC_Node):
 
     main_console = None
 
+    # CODE
+
+    __class_codes__: dict = None  # used by the src code preview
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.__obj_codes__ = {}  # gets set by src code preview
+
+
     def init_default_actions(self) -> dict:
         actions = super().init_default_actions()
         actions['console ref'] = {'method': self.add_to_console}
@@ -19,16 +29,3 @@ class NodeBase(RC_Node):
 
     def add_to_console(self):
         self.main_console.add_obj_context(self)
-
-    # --------------
-
-    # # DATA INPUT WIDGET NOTATION
-    #
-    # def create_input_cw(self, label: str = '', widget_name: str = None, widget_pos: str = 'besides', pos=-1):
-    #     super().create_input(
-    #         type_='data', label=label,
-    #         add_config={'widget name': widget_name, 'widget pos': widget_pos} if widget_name else None,
-    #         pos=pos
-    #     )
-    #
-    # # --------------

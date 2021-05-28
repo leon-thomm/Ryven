@@ -440,6 +440,7 @@ QCheckBox {
   height: 30px;
   background-color: transparent;
   spacing: 5px;
+  text-transform: uppercase;
 }
 
 QRadioButton:disabled,

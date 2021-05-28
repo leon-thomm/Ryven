@@ -1,27 +1,84 @@
-import inspect
-import sys
-import os
 import types
+import ast
+
+
+def get_method_funcs(cls_def_str: str):
+    """
+    Returns a dict with functions under their names parsed from the methods in the class definition string using ast.
+    """
+
+    # extracting the functions
+    ast_funcs: [ast.FunctionDef] = [f for f in ast.parse(cls_def_str).body[0].body if type(f) == ast.FunctionDef]
+
+    funcs = {}
+    for astf in ast_funcs:
+        d = __builtins__.copy()  # important: provide builtins when parsing the function
+        exec(ast.unparse(astf), d)  # parse
+
+        # add new function to the list, identified by its name
+        funcs = {
+            **funcs,
+            astf.name: d[astf.name]
+        }
+
+    return funcs
 
 
 class SrcCodeUpdater:
+    """
+    Provides functionality to override method implementations of an object
+    """
 
     @staticmethod
-    def override_code(obj: object, new_class_code):
-        """For editing the source of an existing object in the Flow (a node or a widget).
-        It overrides the implementation of any custom methods of the original object according to the code
-        provided through the new_class_code parameter. New methods are simply added."""
+    def override_code(obj: object, new_class_src):
 
-        original_module = inspect.getmodule(obj.__class__)
-        original_module_source_code = inspect.getsource(original_module)
-        original_class_source_code = inspect.getsource(obj.__class__)
-        new_module_code = original_module_source_code.replace(original_class_source_code, new_class_code)
+        funcs = get_method_funcs(new_class_src)
+        for name, f in funcs.items():  # override all methods
+            setattr(obj, name, types.MethodType(f, obj))
+            # types.MethodType() creates a bound method, bound to obj, from the function f
+
+    # -----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @staticmethod
+    def override_code_OLD(obj: object, orig_class_src, orig_mod_src, new_class_src):
+        """
+        ONLY FOR DOCUMENTATION: THIS IS THE OLD IMPLEMENTATION, SEE DISCUSSION BELOW
+        """
+
+        import inspect
+
+        # OLD INSPECT BASED VERSION:
+        # original_module = inspect.getmodule(obj.__class__)
+        # original_module_source_code = inspect.getsource(original_module)
+        # original_class_source_code = inspect.getsource(obj.__class__)
+        # new_module_code = original_module_source_code.replace(original_class_source_code, new_class_src)
+        # NOT WORKING ANYMORE DUE TO SAME MODULE NAMES ('nodes.py')
+
+        new_module_code = orig_mod_src.replace(orig_class_src, new_class_src)
 
         # creating temporary module
         module = types.ModuleType('new_class_module')
 
         # I need to set the __file__ manually to make sure the std loading routine of the parsed source is working
-        module.__file__ = inspect.getfile(obj.__class__)
+        # setattr(module, '__file__', inspect.getfile(obj.__class__))
+        module.__file__ = inspect.getfile(obj.__class__)  # <- only works with distinct __module__ names
 
         # # make original file location visible
         # mod_dir = os.path.normpath(os.path.dirname(module.__file__))
@@ -30,15 +87,24 @@ class SrcCodeUpdater:
 
         exec(new_module_code, module.__dict__)
 
-        # # remove path again
-        # if rem:
-        #     sys.path.remove(mod_dir)
-
         # extracting the class
         new_obj_class = getattr(module, type(obj).__name__)
 
         # get all custom methods/functions from the new class and override/add them in obj
-        methods = inspect.getmembers(new_obj_class, predicate=inspect.ismethod)
+        f_methods = inspect.getmembers(new_obj_class, predicate=inspect.ismethod)
         functions = inspect.getmembers(new_obj_class, predicate=inspect.isfunction)
-        for m_name, m_obj in methods + functions:
+        for m_name, m_obj in f_methods + functions:
             setattr(obj, m_name, types.MethodType(m_obj, obj))
+
+    #   DISCUSSION
+    # I ran into lots of issues with inspect when all the node package modules got same filenames ('nodes.py').
+    # I tried to avoid them by parsing their sources right after importing them, because then their 'nodes'
+    # module is the one currently visible in path, which is now stored in Node.__class_sources__.
+    # However, I also would have to add the origin file paths, which is no big deal but significantly complicates
+    # the package loading procedure, because in order to correctly simulate the old module here via types,
+    # I also need to add the __file__ and stuff, and even then I am not sure if it would still work if
+    # the original module did unconventional imports.
+    # The above implementation is in general extremely sketchy and I am kinda amazed that this actually works
+    # most of the time. But because I want all the node modules to be names 'nodes.py', I came up with the
+    # ast-based solution above, which requires Python 3.9, but I will go with that as it is much better in
+    # every way.

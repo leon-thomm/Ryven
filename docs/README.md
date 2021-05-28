@@ -10,13 +10,13 @@ Flows you made in Ryven can be deployed directly on `ryvencore` (via *Ryven Cons
 
 ## Differences to Ryven 2
 
-Ryven 3 is a complete remake, now based on the framework, where many internal implementations have drastically changed. I completely removed the former 'NodeManager' since the new nodes system makes it pretty much useless. There is no such thing as a 'NodeInstance' anymore, everything is just nodes. All information about a node is now part of its class, so there is no need for .rpc files anymore, a node package is simply defined by the node definitions in `nodes.py`, see below. Ryven 3 is a much more consistent piece of software with focus on ease of use and scalability. You probably won't be able to port your old projects, because there's too much that changed. The future of Ryven 3 will depend on contributions by users.
+Ryven 3 is a complete remake, now based on the framework, where many internal implementations have drastically changed. I completely removed the former *NodeManager* since the new nodes system makes it pretty much useless. There is no such thing as a *NodeInstance* anymore, everything is just nodes. All information about a node is now part of its class, so there is no need for .rpc files anymore, a node package is simply defined by the node definitions in `nodes.py`, see below. Ryven 3 is a much more consistent piece of software with focus on ease of use and scalability. You probably won't be able to port your old projects, because there's too much that changed. The future of Ryven 3 will also depend on contributions.
 
 ## Flows
 
-A **Script** contains a **Flow**, a **Logger**, and a **Variables Manager**. There are normal Scripts as well as **Function Scripts** which additionally have an input and output node representing parameters and returns, and are registered as node themselves (just like functions in UE4 BluePrints).
+A **Script** contains a **Flow**, a **Logger**, and a **Variables Manager**. A special type of script is a **Macro** which additionally has an input and output node representing parameters and returns, which can be called by using the node that is automatically registered for it.
 
-Unlike most other flow-based visual scripting editors, Ryven supports 'data connections' *and* 'exec connections'. Data connections transmit data from one node to another, and exec connections only transmit a 'trigger' signal. Pure data flows (only data connections) are like the UE4 Material Editor, while exec flows (some exec connections) are more like the UE4 BluePrints.
+Unlike most other flow-based visual scripting editors, Ryven supports *data connections* **and** *exec connections*. Data connections transmit data from one node to another, and exec connections only transmit a trigger signal. Pure data flows (only data connections) are like the UE4 Material Editor, while exec flows (some exec connections) are more like the UE4 BluePrints. You can choose the appropriate algorithm (*data flow* or *exec flow*) in every script.
 
 > [!NOTE|label:The Differences in Detail]
 > *If you don't have experience with the flow-based programming idea already you can skip this, these differences don't really matter for now.*
@@ -29,13 +29,13 @@ Unlike most other flow-based visual scripting editors, Ryven supports 'data conn
 > 
 > ### Exec Flows
 > 
-> In execution flows, data isn't forward propagated on change, but generated on request (backwards), only causing update events in affected nodes once the data of an output is requested somewhere (through `self.input()` in a node). In the example above, changing the slider value would not lead to a change in the result node, but if an active node requested this data, like shown below, then the whole expression gets executed.
+> In execution flows, data isn't forward propagated on change, but generated on request (backwards), only causing update events in affected nodes once the data of an output is requested somewhere (through `Node.input()`). In the example above, changing the slider value would not lead to a change in the result node in an exec flow, but if an active node requests this data, like shown below, then the whole expression gets executed.
 > 
 > <center><img src="./images/exec_flow_example.png" style="max-width: 900px" /></center>
 > 
-> The data flow paradigm is the more important and fundamental one, and there might be changes for the exec mode in the future.
+> The data flow paradigm is the more fundamental one, and there might be changes for the exec mode in the future.
 > 
-> While you can choose the according mode for a flow, it turned out to be a use case too to use the data flow mode in combination with few exec connections. This can lead to performance issues, but is very powerful if used in the right way. Ultimately, both paradigms are possible. For more precise definitions on the aspects of flow execution, see [ryvencore-qt features](https://leon-thomm.github.io/ryvencore-qt/features/).
+> While you can choose the according mode for a flow, it turned out to be a use case too to use the data flow mode in combination with few exec connections. This can lead to performance issues, but is quite powerful if used in the right way. Ultimately, both paradigms are possible. For more precise definitions on the aspects of flow execution, see [ryvencore-qt features](https://leon-thomm.github.io/ryvencore-qt/#/features).
 
 ## Editor Overview
 
@@ -45,31 +45,34 @@ After installing the application, following the instructions on [GitHub](https:/
 
 ### Flows
 
-The flow supports all usual actions, including undo/redo operations. You can place nodes by right-clicking somewhere into the scene, and also pan around by right clicking and dragging. I would like to add sophisticated touch support, but there are Qt bugs that are not being tackled making this difficult.
+The flow supports all usual actions, including undo/redo operations. You can place nodes by right-clicking and pan around by right clicking and dragging the scene.
 
-There are many different themes for the flows, which you can select in the menu at the top of the window. Furthermore, when nodes update, they "blink" so you can easily see what's going on. There is also a performance mode which you can change to `fast` to significantly simplify the drawing and rendering of the components for "weaker" hardware (or large flows).
+> [!NOTE]
+> I would like to add sophisticated touch support, but there are Qt bugs that are not being tackled making this difficult, at least with PySide2.
+
+There are many different themes for the flows, which you can select in the menu at the top of the window. Furthermore, when nodes update, they blink so you can easily see what's going on. There is also a performance mode which you can change to `fast` to significantly simplify the rendering of the components for weaker hardware or large flows. I already introduced some caching, but the performance is usually still not so great in `pretty` mode.
 
 ### Console
 
-The console runs a Python REPL. Additionally, you can right click on a node to add a reference to it to the console, so you can directly access the node's whole API at any time. This is a really powerful feature, no matter if you would like to quickly access a few intern variables or perform some temporary modifications on the node (like adding/removing inputs/outputs), you have full control there.
+The console, located at the bottom of the window, runs a Python REPL. Additionally, you can right click on a node to add a reference to it to the console scope, so you can directly access the node's whole API at any time. This is a really powerful feature, no matter if you would like to quickly access a few intern variables or perform some temporary modifications on the node (like adding/removing inputs/outputs), you have full control there.
 
 > [!TIP|label:Session Access]
-> The session object (which is basically the project) is added to the console automatically, so you can type `session` to access it and do pretty much *everything* from there. You can play around with the `ryvencore-qt` API, for example try creating a new script via `session.create_script('hello there!')`.
+> The session object (which is basically the project) is added to the console automatically, so you can type `session` to access it and do pretty much *everything* from there. You can play around with the `ryvencore-qt` API, for example try creating a new script via `session.create_script('hello there!')`. Due to the fully signals-based communication between `ryvencore` and `ryvencore-qt`, the frontend will react accordingly to everything you do in the console.
 
 ### Script Variables
 
-The script variables, located on the right, can be modified at any time by right-clicking on them, and when you hover over one, you can see its current value and data type. The values of those variables are usually accessed and changed by your nodes. The API provides a few very simple but really powerful methods for nodes to 'register as variable receivers'. Basically, a node can dynamically register as a receiver for script variables by providing a var name and a method that is supposed to be called whenever a script variable with that name changes (or is created). I particularly like this feature, as you can easily build highly sophisticated nodes using this that automatically adapt to change of data.
+The script variables, located on the right, can be modified at any time by right-clicking on them, and when you hover over one, you can see its current value and data type. The values of those variables are usually accessed and changed by your nodes. The API provides a few very simple but really powerful methods for nodes to register as *variable receivers*. Basically, a node can dynamically register as a receiver for script variables by providing a var name and a method that is supposed to be called whenever a script variable with that name changes (or is created). I particularly like this feature, as you can easily build highly sophisticated nodes using this that automatically adapt to change of data.
 
 > [!TIP|label:Example]
 > In one of the node packages Ryven comes with, there's a *Matrix* node where you can just type a few numbers into a small textedit and it creates a numpy array out of them. But you can also type in `v('')` and the name of a script variable (instead of a number) which makes the matrix node register as a receiver, so it updates and regenerates the matrix every time the value of a script variable with that name changed. You can see this in action in the big screenshot above. In the console you can see I manually changed the variable's value which caused the matrix node to update.
 
 ### Logs
 
-The script's logs are hidden at the bottom, just drag the splitter handle. The nodes can access the two default logs via the API, and also request new ones. I think this also is a neat feature, but be aware that there might be changes/improvements in the future.
+Every script has logs of type `logging.Logger` of python's builtin `logging` module. The script's logs are located at the bottom, above the console. The nodes can access default logs via the API, and also instanciate new ones.
 
 ### Source Code Preview
 
-Next to the logs is the source code area where you can inspect the source code of the last selected node (click into the text field for syntax highlighting), and also edit method implementations of single objects. That's right, you can override method implementations of single objects. All these changes are temporary (they don't get saved) and only apply on the currently selected object, but it's a great way to play around or debug your components, especially when combining this with the console. For example you can just add some output to one of your nodes via the console, and then modify the update event of it to provide some additional data there via the source code preview. This is a really useful feature, however as you might suspect, modifying an object's method implementation is not exactly conventional and doesn't work in all cases. For example, when you created references somewhere else to this modified method, those references will still point to the old implementation of it.
+Next to the logs is the source code area where you can inspect the source code of the last selected node (click into the text field for syntax highlighting), and also edit method implementations of single objects. That's right, you can override method implementations of single objects. All these changes are temporary (they don't get saved) and only apply on the currently selected object. It's a great way to play around or debug your components, especially when combining this with the console. For example you can just add some output to one of your nodes via the console, and then modify the update event of it to provide some additional data there via the source code preview. This is a really useful feature, however as you might suspect, modifying an object's method implementation is not exactly conventional and doesn't work in all cases. For example, when you created references somewhere else to this modified method, those references will still point to the old implementation of it.
 
 > [!TIP|label:How to fix this]
 > If you need to reference methods directly somewhere (for example when passing them as 'variable receiver'), you could use a workaround by, instead of passing the actual method reference, passing a lambda causing a new search for the newest version whenever the method is called, like this
@@ -86,7 +89,7 @@ It usually works quite well, but there might be some bugs since the implementati
 
 ### Rendering Flow Images
 
-You can render images of the currently displayed flow, also via the top menus. By rendering the viewport, the picture will show what's currently visible of the flow, in the exact same resolution it is currently displayed. For high res pictures render the whole scene and zoom to the top left, the zoom factor will determine the exact resolution of your image. It can take a few seconds to render high resolution pictures.
+You can render images of the currently displayed flow, also via the top menus. By rendering the viewport, the picture will show what's currently visible of the flow, in the exact same resolution it is currently displayed. For high res pictures render the whole scene and zoom to the top left, the zoom factor will determine the exact resolution of your image. It can take a few seconds to render high resolution images.
 
 ### Save&Load
 
@@ -96,10 +99,10 @@ For programming your own nodes (see below), you only need to follow the rule tha
 
 ## Programming Nodes
 
-Now comes the technical stuff. Programming new nodes is at the heart of all this. You need basic Python knowledge, but nothing advanced.
+And there we go. Programming new nodes is at the heart of all this, you need basic Python knowledge but nothing advanced.
 
 > [!NOTE|label:Overview]
-> In Ryven, nodes are organized in *node packages*. A node package consists of a package folder (its name is the name of the package), and a file `nodes.py` where you define your node classes. Ryven comes with its own packages folder, but if you installed it via `pip`, you should define another one somewhere on your file system, so your packages don't get lost when you update the Ryven installation. For additional custom widgets you create a file `widgets.py` in the same dir which has a similar structure to `nodes.py`. In `nodes.py` you define subclasses of `Node`, set basic properties by editing static class attributes and add functionality mainly through using event methods from `Node`. You can find an example package in the Example section below.
+> In Ryven, nodes are organized in *node packages*. A node package consists of a package folder (its name is the name of the package), and a file `nodes.py` where you define your node classes. Ryven comes with its own packages folder, but if you installed it via `pip` you should define another one somewhere on your file system, so your packages don't get lost when you update the Ryven installation. For additional custom widgets you create a file `widgets.py` in the same dir which has a similar structure to `nodes.py`. In `nodes.py` you define subclasses of `Node`, set basic properties by editing static class attributes and add functionality mainly through using event methods from `Node`. You can find an example package in the Example section below.
 
 > [!NOTE]
 > There is no requirement to have only one level of `Node` class inheritance and file locality. When packages get larger it's usually better to define your own `NodeBase` class(es), decentralize your node definitions into multiple modules, and just import them in `nodes.py`. You will specify all the exact nodes that you want to expose in `export_nodes()`, see below.
@@ -113,7 +116,7 @@ class MyPrintNode(Node):
         NodeInputBP()
     ]
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         print(self.input(0))
 ```
 
@@ -169,7 +172,7 @@ class StoreDataNode(Node):
 
         self.storage = []
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.storage.append(self.input(0))
     
     def get_state(self) -> dict:
@@ -270,8 +273,10 @@ class NodeBase(Node):
 import random
 
 class Rand_Node(NodeBase):
+    """Generate a random number in a given range"""
+    # this __doc__ string will be displayed as tooltip in the editor
+
     title = 'random'
-    doc = 'generates a random number in a given range'
     init_inputs = [
         NodeInputBP(dtype=dtypes.Integer(default=1, bounds=(1, 100)), label='scale'),
     ]
@@ -280,7 +285,7 @@ class Rand_Node(NodeBase):
     ]
     color = '#aabb44'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         self.set_output_val(0, round(random.random() * self.input(0), 3))
 
 
@@ -292,7 +297,7 @@ class Print_Node(NodeBase):
     ]
     color = '#3355dd'
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         print(self.input(0))
 
 
@@ -304,9 +309,20 @@ export_nodes(
 
 Simply use `export_nodes()` to define the nodes you want to expose to Ryven. And don't forget to import `NENV`.
 
+> [!ATTENTION]
+> `export_nodes()` expects an unpacked tuple of arguments, so writing `export_nodes(MyNode)` will not work, instead write `export_nodes(MyNode, )`.
+
 After importing the nodes package in Ryven, it looks like this:
 
 <center><img src="./images/mypackage_flow.png" style="max-width: 800px" /></center>
+
+### Further Features
+
+There are a few more features for which you can find instructions in the [ryvencore-qt docs](https://leon-thomm.github.io/ryvencore-qt/#/features).
+
+#### Special Actions
+
+For example: you can use a node's `special_actions` dict to easily add dynamic right-click operations to your nodes which you can change at any time. Almost all of the example nodes make use of this feature, it's super useful.
 
 ### Custom Widgets
 
@@ -315,7 +331,9 @@ For building nodes with sophisticated UI you can implement custom Qt widgets for
 1. data input widgets, which are used for data inputs and provide an interface for the user to input data
 2. a main widget, which is usually a larger widget displayed below or between the ports
 
-Custom input widget sources should always be strictly separated from the actual node sources in `nodes.py` since those widgets are not supposed to exist when running ryven console. For the same reason, you should always program your nodes s.t. they do not depend on their widgets in order to run. The widgets should just provide an interface for the user but not perform any node functionality. The system for them is pretty much the same, you define a file `widgets.py` in the same directory as your `nodes.py`, define your widgets there and export them to make them accessible for your nodes. For example:
+Custom input widget sources should always be strictly separated from the actual node sources in `nodes.py` since those widgets are not supposed to exist when running ryven console. For the same reason, you should always program your nodes s.t. they do not depend on their widgets in order to run. The widgets should just provide an interface for the user but not perform any node functionality. To achieve this, you can always check the boolean attribute `self.session.gui` in your node to determine whether the session is running with a frontend or not.
+
+The system for them is pretty much the same as for nodes, you define a file `widgets.py` in the same directory as your `nodes.py`, define your widgets there and export them to make them accessible for your nodes. For example:
 
 Defining some basic custom Qt widgets:
 
@@ -398,13 +416,13 @@ class MyNode(Node):
         # the widget name must match your registered alias/key in the dict above
         # the widget pos can be 'besides' (the port pin) or 'below' (the port pin)
 
-    def update_event(self, input_called=-1):
+    def update_event(self, inp=-1):
         print('I have been updated!!')
         print(self.input(0), self.input(1))
 
 
 export_nodes(
-    MyNode,
+    MyNode, 
 )
 ```
 

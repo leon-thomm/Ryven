@@ -1,44 +1,60 @@
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout, \
     QPushButton
-import inspect
-
-import ryvencore_qt as rc
 
 from .EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from .CodeEditorWidget import CodeEditorWidget
 from .SourceCodeUpdater import SrcCodeUpdater
 
 
+class LinkedRadioButton(QRadioButton):
+    """Represents a button linked to one particular"""
+
+    def __init__(self, name, node, obj):
+        super().__init__(name)
+
+        self.node = node
+        self.obj = obj
+
+
 class CodePreviewWidget(QWidget):
     def __init__(self, main_window, flow):
         super(CodePreviewWidget, self).__init__()
 
+        self.codes = {
+            # structure:
+            #
+            #   <node>: {
+            #       <object>: {                 (the node instance or some widget instance)
+            #           'title': str,           (for faster widget building)
+            #           'original': str,        (original code comes from Node.__class_codes__)
+            #           'edited': str(None),    (initially None)
+            #       }
+            #   }
+        }
+        self.node = None            # currently displayed node
+        self.current_obj = None     # reference to the currently shown/edited object
+        self.radio_buttons = []     # the radio buttons to select a source
+
         flow.nodes_selection_changed.connect(self.set_selected_nodes)
 
         self.text_edit = CodeEditorWidget(main_window.theme)
+        self.setup_ui()
 
-        self.node = None
-        self.buttons_obj_dict = {}
-        self.active_class_index = -1
-        self.edited_codes = {}
+        self.set_node(None)
 
+    def setup_ui(self):
 
         secondary_layout = QHBoxLayout()
 
-
         # class radio buttons widget
-        self.class_selection_layout = QGridLayout()
+        self.class_selection_layout = QHBoxLayout()  # QGridLayout()
 
         secondary_layout.addLayout(self.class_selection_layout)
         self.class_selection_layout.setAlignment(Qt.AlignLeft)
         # secondary_layout.setAlignment(self.class_selection_layout, Qt.AlignLeft)
 
-
         # edit source code buttons
-        # self.highlight_code_button = QPushButton('HL')
-        # self.highlight_code_button.setEnabled(False)
-        # self.highlight_code_button.clicked.connect(self.highlight_code_button_clicked)
         self.edit_code_button = QPushButton('edit')
         self.edit_code_button.setProperty('class', 'small_button')
         self.edit_code_button.setMaximumWidth(100)
@@ -69,8 +85,6 @@ class CodePreviewWidget(QWidget):
         main_layout.addWidget(self.text_edit)
         self.setLayout(main_layout)
 
-        self.set_node(None)
-
     def set_selected_nodes(self, nodes):
         if len(nodes) == 0:
             self.set_node(None)
@@ -78,49 +92,106 @@ class CodePreviewWidget(QWidget):
             self.set_node(nodes[-1])
 
     def set_node(self, node):
-        self.disable_editing()
-
-        self.rebuild_class_selection(node)
-        self.update_edit_status()
 
         self.node = node
 
-        if node is None:  # no node selected
+        if node is None:  # no node selected, clear view
             self.text_edit.set_code('')
             self.edit_code_button.setEnabled(False)
             self.override_code_button.setEnabled(False)
             self.reset_code_button.setEnabled(False)
-            # self.highlight_code_button.setEnabled(False)
+            self.clear_class_layout()
             return
+
+        if node not in self.codes:  # node not yet registered
+
+            # save class sources for all objects (node, main_widget, custom input widgets)
+
+            # saving it in this structure enables easy view updates and src code overrides
+
+            node_objects = {
+                node: {
+                    'title': 'node',
+                    'original cls': node.__class_codes__['node cls'],
+                    'original mod': node.__class_codes__['node mod'],
+                    'modified cls': None,
+                },
+            }
+
+            if node.main_widget():
+                node_objects[node.main_widget()] = {
+                    'title': 'main widget',
+                    'original cls': node.__class_codes__['main widget cls'],
+                    'original mod': node.__class_codes__['main widget mod'],
+                    'modified cls': None
+                }
+
+            for i in range(len(node.inputs)):
+                iw = node.item.inputs[i].widget
+                if iw:
+                    # find code
+                    code = ''
+                    for name, cls in node.input_widget_classes:
+                        if cls == iw.__class__:
+                            code = node.__class_codes__['custom input widgets'][name]
+                            break
+
+                    else:  # no break -> no custom widget (builtin widget) -> ignore
+                        continue
+
+                    node_objects[iw] = {
+                        'title': f'inp {i}',
+                        'original cls': code,
+                        'modified cls': None,
+                    }
+
+            self.codes[node] = node_objects
+
+        self.rebuild_class_selection(node)
+        self.update_edit_statuses()
+
         self.edit_code_button.setEnabled(True)
-        # self.highlight_code_button.setEnabled(True)
 
-        self.update_code()
+        self.update_code(node, node)
 
-    def update_code(self):
+    def update_code(self, node, obj):
+        """
+        Updates the 'modified' field in the nodes dict
+        """
 
         self.disable_editing()
+        self.text_edit.disable_highlighting()
 
-        if self.active_class_index == -1 or self.node is None:
-            return
+        self.current_obj = obj
 
-        if self.get_current_code_obj() not in self.edited_codes:
-            self.text_edit.disable_highlighting()
-            self.text_edit.set_code(inspect.getsource(self.get_current_code_class()))
-            self.reset_code_button.setEnabled(False)
-        else:
-            self.text_edit.disable_highlighting()
-            self.text_edit.set_code(self.edited_codes[self.get_current_code_obj()])
+        orig = self.codes[node][obj]['original cls']
+        modf = self.codes[node][obj]['modified cls']
+
+        if modf:
+            code = modf
             self.reset_code_button.setEnabled(True)
+        else:
+            code = orig
+            self.reset_code_button.setEnabled(False)
 
-    def get_current_code_class(self):
-        o = self.get_current_code_obj()
-        return o.__class__
+        self.text_edit.set_code(code)
 
-    def get_current_code_obj(self):
-        return list(self.buttons_obj_dict.values())[self.active_class_index]
+    def rebuild_class_selection(self, node):
 
-    def rebuild_class_selection(self, obj):
+        self.clear_class_layout()
+
+        self.radio_buttons.clear()
+
+        for obj, d in self.codes[node].items():
+            rb = LinkedRadioButton(d['title'], node, obj)
+            rb.toggled.connect(self.class_RB_toggled)
+            self.class_selection_layout.addWidget(rb)
+            self.radio_buttons.append(rb)
+
+        self.radio_buttons[0].setChecked(True)
+
+    def clear_class_layout(self):
+
         # clear layout
         for i in range(self.class_selection_layout.count()):
             item = self.class_selection_layout.itemAt(0)
@@ -128,54 +199,26 @@ class CodePreviewWidget(QWidget):
             widget.hide()
             self.class_selection_layout.removeItem(item)
 
-        self.buttons_obj_dict = {}
-        self.active_class_index = -1
+    def update_edit_statuses(self):
+        """
+        Draws radio buttons referring to modified objects bold
+        """
 
-        if isinstance(obj, rc.Node):
-            # NI class
-            node_class_RB = QRadioButton('Node')
-            node_class_RB.toggled.connect(self.class_RB_toggled)
-            self.buttons_obj_dict[node_class_RB] = obj
-            self.class_selection_layout.addWidget(node_class_RB, 0, 0)
-
-            # main_widget class
-            if obj.item.main_widget is not None:
-                main_widget_class_RB = QRadioButton('MainWidget')
-                main_widget_class_RB.toggled.connect(self.class_RB_toggled)
-                self.buttons_obj_dict[main_widget_class_RB] = obj.item.main_widget
-                self.class_selection_layout.addWidget(main_widget_class_RB, 1, 0)
-
-            # data input widgets
-            count = 0
-            for i in range(len(obj.inputs)):
-                inp_widget = obj.input_widget(i)
-
-                if inp_widget:
-                    inp_widget_class_RB = QRadioButton('Input '+str(i))
-                    inp_widget_class_RB.toggled.connect(self.class_RB_toggled)
-                    self.buttons_obj_dict[inp_widget_class_RB] = inp_widget
-                    self.class_selection_layout.addWidget(inp_widget_class_RB, 0, 1+count)
-                    count += 1
-
-            node_class_RB.setChecked(True)
-
-    def update_edit_status(self):
-        for o in list(self.buttons_obj_dict.keys()):
-            if self.edited_codes.keys().__contains__(self.buttons_obj_dict[o]):
+        for b in self.radio_buttons:
+            if self.codes[b.node][b.obj]['modified cls']:
                 # o.setStyleSheet('color: #3B9CD9;')
-                f = o.font()
+                f = b.font()
                 f.setBold(True)
-                o.setFont(f)
+                b.setFont(f)
             else:
                 # o.setStyleSheet('color: white;')
-                f = o.font()
+                f = b.font()
                 f.setBold(False)
-                o.setFont(f)
+                b.setFont(f)
 
     def class_RB_toggled(self, checked):
         if checked:
-            self.active_class_index = list(self.buttons_obj_dict.keys()).index(self.sender())
-            self.update_code()
+            self.update_code(self.sender().node, self.sender().obj)
 
     def edit_code_button_clicked(self):
         if not EditSrcCodeInfoDialog.dont_show_again:
@@ -194,20 +237,31 @@ class CodePreviewWidget(QWidget):
         self.override_code_button.setEnabled(False)
 
     def override_code_button_clicked(self):
+
         new_code = self.text_edit.get_code()
-        SrcCodeUpdater.override_code(self.get_current_code_obj(), new_code)
+
+        SrcCodeUpdater.override_code(
+            obj=self.current_obj,
+            new_class_src=new_code,
+        )
+
+        self.codes[self.node][self.current_obj]['modified cls'] = new_code
+
         self.disable_editing()
 
-        self.edited_codes[self.get_current_code_obj()] = new_code
         self.reset_code_button.setEnabled(True)
-        self.update_edit_status()
+        self.update_edit_statuses()
 
     def reset_code_button_clicked(self):
-        code = inspect.getsource(self.get_current_code_class())
-        SrcCodeUpdater.override_code(self.get_current_code_obj(), code)
-        del self.edited_codes[self.get_current_code_obj()]
-        self.update_code()
-        self.update_edit_status()
 
-    # def highlight_code_button_clicked(self):
-    #     self.text_edit.highlight_now()
+        code = self.codes[self.node][self.current_obj]['original cls']
+
+        SrcCodeUpdater.override_code(
+            obj=self.current_obj,
+            new_class_src=code
+        )
+
+        self.codes[self.node][self.current_obj]['modified cls'] = None
+
+        self.update_code(self.node, self.current_obj)
+        self.update_edit_statuses()

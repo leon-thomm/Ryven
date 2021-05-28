@@ -1,10 +1,13 @@
-"""This file automatically imports all requirements for custom nodes.
-It should lie in the same location as Ryven.py so it can get imported directly from the custom sources."""
+"""This module automatically imports all requirements for custom nodes.
+It should lie in the same location as Ryven.py so it can get imported directly from the custom sources
+without path modifications which caused issues in the past."""
+
+import inspect
 import sys
 import os
 
 # dependent on gui mode:
-Node, NodeInputBP, NodeOutputBP, dtypes = None, None, None, None
+Node, NodeInputBP, NodeOutputBP, dtypes = [None]*4
 
 if os.environ['RYVEN_MODE'] == 'gui':
     from ryvencore_qt import NodeInputBP as _NodeInputBP, NodeOutputBP as _NodeOutputBP, dtypes as _dtypes
@@ -31,9 +34,6 @@ def import_widgets(origin_file: str, rel_file_path='widgets.py'):
     #   caller_location = os.path.dirname(stack()[1].filename)  # getting caller file path from stack frame
 
     abs_path = os.path.join(caller_location, rel_file_path)
-    # origin_dir = os.path.dirname(abs_path)
-    # rem = origin_dir not in sys.path
-    # sys.path.append(origin_dir)
 
     if os.environ.get('RYVEN_MODE') == 'gui':
 
@@ -52,30 +52,24 @@ def import_widgets(origin_file: str, rel_file_path='widgets.py'):
                 return None
         widgets_container = PlaceholderWidgetsContainer()
 
-    # if rem:
-    #     sys.path.remove(origin_dir)
-
     return widgets_container
-
-
-# def load_from_file(file: str, caller_file, components_list: [str], gui=False):
-#     if os.environ['RYVEN_MODE'] == 'gui' or not gui:
-#         comps = _load_from_file(file, caller_file, components_list)
-#     else:
-#         comps = tuple([None for i in range(len(components_list))])
-#
-#     return comps
-
 
 # ------------------------------------------------------
 
 
 class NodesRegistry:
     exported_nodes: [[Node]] = []
+    exported_node_sources: [[str]] = []
 
 
 def export_nodes(*args):
-    NodesRegistry.exported_nodes.append(list(args))
+
+    nodes = list(args)
+    NodesRegistry.exported_nodes.append(nodes)
+
+    # get sources
+    node_sources = [inspect.getsource(n) for n in nodes]
+    NodesRegistry.exported_node_sources.append(node_sources)
 
 
 # ------------------------------------------------------

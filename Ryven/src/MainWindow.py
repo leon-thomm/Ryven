@@ -313,14 +313,12 @@ import: ctrl+i
 
         nodes = import_nodes_package(p)
 
-        # for n in nodes:
-        #     # modify the __module__ of the nodes to absolute paths, so inspect doesn't get confused for src code preview
-        #     n.__module__ = os.path.normpath(os.path.join(path, n.__module__))
-
         self.session.register_nodes(nodes)
 
         for n in nodes:
             self.node_packages[n] = p
+
+            # self.add_src_to_node(n)
 
         # self.nodes_tree_widget.update_list()
 
