@@ -16,7 +16,12 @@ class OpenCVNode_MainWidget(QLabel, MWB):
 
     def show_image(self, img):
         self.resize(200, 200)
-        rgb_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        try:
+            rgb_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        except cv2.error:
+            return
+
         h, w, ch = rgb_image.shape
         bytes_per_line = ch * w
         qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
@@ -68,11 +73,15 @@ class PathInput(QWidget, IWB):
         self.setLayout(l)
     
     def choose_button_clicked(self):
-        f_path = QFileDialog.getSaveFileName(self, 'Save')[0]
-        self.path = f_path
-        self.path_label.setText(f_path)
+        abs_f_path = QFileDialog.getSaveFileName(self, 'Save')[0]
+        self.path = os.path.relpath(abs_f_path)
+
+        self.path_label.setText(self.path)
+        self.adjustSize()  # important! otherwise the widget won't shring
+
+        self.path_chosen.emit(self.path)
+
         self.node.update_shape()
-        self.path_chosen.emit(f_path)
 
     def get_state(self):
         return {'path': self.path}

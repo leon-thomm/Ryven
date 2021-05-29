@@ -239,7 +239,7 @@ import: ctrl+i
 
     def on_save_scene_pic_viewport_triggered(self):
         """Saves a picture of the currently visible viewport."""
-        if len(self.session.all_scripts()) == 0:
+        if len(self.session.scripts) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
@@ -251,7 +251,7 @@ import: ctrl+i
 
     def on_save_scene_pic_whole_triggered(self):
         """Saves a picture of the whole currently visible scene."""
-        if len(self.session.all_scripts()) == 0:
+        if len(self.session.scripts) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
@@ -298,7 +298,7 @@ import: ctrl+i
         return script_UI, index
 
     def get_current_script(self):
-        return self.session.all_scripts()[self.ui.scripts_tab_widget.currentIndex()]
+        return self.session.scripts[self.ui.scripts_tab_widget.currentIndex()]
 
     def import_packages(self, packages_list: [NodesPackage]):
         for p in packages_list:

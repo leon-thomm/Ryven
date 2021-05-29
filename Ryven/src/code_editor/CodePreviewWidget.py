@@ -95,13 +95,15 @@ class CodePreviewWidget(QWidget):
 
         self.node = node
 
-        if node is None:  # no node selected, clear view
+        if node is None or node.__class_codes__ is None:  # no node selected / only imported nodes have __class_codes__
+            # clear view
             self.text_edit.set_code('')
             self.edit_code_button.setEnabled(False)
             self.override_code_button.setEnabled(False)
             self.reset_code_button.setEnabled(False)
             self.clear_class_layout()
             return
+
 
         if node not in self.codes:  # node not yet registered
 
@@ -131,7 +133,7 @@ class CodePreviewWidget(QWidget):
                 if iw:
                     # find code
                     code = ''
-                    for name, cls in node.input_widget_classes:
+                    for name, cls in node.input_widget_classes.items():
                         if cls == iw.__class__:
                             code = node.__class_codes__['custom input widgets'][name]
                             break

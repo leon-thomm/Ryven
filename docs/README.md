@@ -1,4 +1,4 @@
-<center><img src="./images/logo.png" style="max-width: 500px" /></center>
+<center><img src="./img/logo.png" style="max-width: 500px" /></center>
 
 ## Project Idea
 
@@ -6,7 +6,7 @@ Ryven is an editor for flow-based visual scripting in Python. It is easy to crea
 
 Flows you made in Ryven can be deployed directly on `ryvencore` (via *Ryven Console*, simply run `ryven console`) without any frontend related dependencies (including Qt).
 
-![](images/screenshot1.png)
+![](img/screenshot1.png)
 
 ## Differences to Ryven 2
 
@@ -25,13 +25,13 @@ Unlike most other flow-based visual scripting editors, Ryven supports *data conn
 > 
 > In a data flow, every change of data (which means that a data output of a node has been changed via `self.set_output_val()`) gets forward propagated and causes an update event in all connected nodes. In the example below, changing the slider value would therefore cause immediate updates and a visible change in the result node on the right.
 > 
-> <center><img src="./images/data_flow_example.png" style="max-width: 900px" /></center>
+> <center><img src="./img/data_flow_example.png" style="max-width: 900px" /></center>
 > 
 > ### Exec Flows
 > 
 > In execution flows, data isn't forward propagated on change, but generated on request (backwards), only causing update events in affected nodes once the data of an output is requested somewhere (through `Node.input()`). In the example above, changing the slider value would not lead to a change in the result node in an exec flow, but if an active node requests this data, like shown below, then the whole expression gets executed.
 > 
-> <center><img src="./images/exec_flow_example.png" style="max-width: 900px" /></center>
+> <center><img src="./img/exec_flow_example.png" style="max-width: 900px" /></center>
 > 
 > The data flow paradigm is the more fundamental one, and there might be changes for the exec mode in the future.
 > 
@@ -314,7 +314,7 @@ Simply use `export_nodes()` to define the nodes you want to expose to Ryven. And
 
 After importing the nodes package in Ryven, it looks like this:
 
-<center><img src="./images/mypackage_flow.png" style="max-width: 800px" /></center>
+<center><img src="./img/mypackage_flow.png" style="max-width: 800px" /></center>
 
 ### Further Features
 
@@ -426,7 +426,7 @@ export_nodes(
 )
 ```
 
-<center><img src="./images/custom_widgets_example.png" style="max-width: 800px" /></center>
+<center><img src="./img/custom_widgets_example.png" style="max-width: 800px" /></center>
 
 When importing the nodes package in ryven console, `import_widgets(__file__)` does not actually import anything, so the widget classes don't get parsed at all so there is no Qt dependency then, and when trying to access them in the `widgets` object, it just just responds with `None`.
 

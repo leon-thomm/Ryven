@@ -27,7 +27,8 @@ class ValNode_MainWidget(MWB, QLineEdit):
         QLineEdit.__init__(self)
 
         # self.setFixedWidth(80)
-        self.setMinimumWidth(80)
+        # self.setMinimumWidth(80)
+        self.resize(120, 31)
         self.editingFinished.connect(self.editing_finished)
 
     def editing_finished(self):

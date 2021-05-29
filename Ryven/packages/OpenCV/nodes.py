@@ -2,18 +2,18 @@ from NENV import *
 widgets = import_widgets(__file__)
 
 
-# OpenCVNode_MainWidget,\
-# ChooseFileInputWidget,\
-# PathInput, \
-# WebcamFeedWidget, \
-#  = load_from_file(file='widgets.py', caller_file=__file__, components_list=[
-#         'OpenCVNode_MainWidget', 'ChooseFileInputWidget', 'PathInput', 'WebcamFeedWidget'
-#     ], gui=True)
-
-
-
-
 import cv2
+
+
+class CVImage:
+    """
+    The OpenCV Mat(rix) data type seems to have overridden comparison operations to perform element-wise comparisons
+    which breaks ryverncore-internal object comparisons.
+    To avoid this, I'll simply use this wrapper class and recreate a new object every time for now, so ryvencore
+    doesn't think two different images are the same.
+    """
+    def __init__(self, img):
+        self.img = img
 
 
 class ReadImage(Node):
@@ -42,14 +42,11 @@ class ReadImage(Node):
     def update_event(self, inp=-1):
         if self.image_filepath == '':
             return
-        
+
         try:
-            self.log_global.write('loading image, fpath: '+self.image_filepath)
-            self.set_output_val(0, cv2.imread(self.image_filepath))
-            # self.main_widget_message.emit(self.image_filepath)
+            self.set_output_val(0, CVImage(cv2.imread(self.image_filepath)))
         except Exception as e:
-            # self.main_widget_message.emit('couldn\'t open file')
-            self.log_errors.write(e)
+            print(e)
 
     def get_state(self):
         data = {'image file path': self.image_filepath}
@@ -106,7 +103,7 @@ class SaveImg(Node):
 
     def update_event(self, inp=-1):
         if not self.active or (self.active and inp == 0):
-            cv2.imwrite(self.file_path, self.input(0))
+            CVImage(cv2.imwrite(self.file_path, self.input(0).img))
     
     def get_state(self):
         return {'path': self.file_path}
@@ -127,7 +124,7 @@ class WebcamFeed(Node):
     color = '#00a6ff'
 
     def video_picture_updated(self, frame):
-        self.set_output_val(0, frame)
+        self.set_output_val(0, CVImage(frame))
 
 # ----------------------------------------------------------------
 
@@ -154,14 +151,19 @@ class OpenCVNodeBase(Node):
     
     def view_place_event(self):
         self.SIGNALS.new_img.connect(self.main_widget().show_image)
+
+        try:
+            self.SIGNALS.new_img.emit(self.get_img())
+        except:  # there might not be an image ready yet
+            pass
     
     def update_event(self, inp=-1):
-        new_img = self.get_img()
+        new_img_wrp = CVImage(self.get_img())
         
         if self.session.gui:
-            self.SIGNALS.new_img.emit(new_img)
+            self.SIGNALS.new_img.emit(new_img_wrp.img)
         
-        self.set_output_val(0, new_img)
+        self.set_output_val(0, new_img_wrp)
 
 
 
@@ -172,7 +174,7 @@ class DisplayImg(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        return self.input(0)
+        return self.input(0).img
 
 
 class AdjustBrightness(OpenCVNodeBase):
@@ -186,7 +188,7 @@ class AdjustBrightness(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.convertScaleAbs(
-            src=self.input(0), 
+            src=self.input(0).img,
             alpha=self.input(1), 
             beta=self.input(2)
         )
@@ -201,7 +203,7 @@ class Blur(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.blur(
-            src=self.input(0), 
+            src=self.input(0).img,
             ksize=self.input(1),
         )
 
@@ -215,7 +217,7 @@ class GaussianBlur(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.GaussianBlur(
-            src=self.input(0), 
+            src=self.input(0).img,
             ksize=self.input(1),
         )
 
@@ -229,7 +231,7 @@ class BlurMedian(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        return cv2.medianBlur(src=self.input(0), ksize=self.input(1))
+        return cv2.medianBlur(src=self.input(0).img, ksize=self.input(1))
 
 
 class Circle(OpenCVNodeBase):
@@ -244,7 +246,7 @@ class Circle(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.circle(
-            img=self.input(0).copy(),
+            img=self.input(0).img.copy(),
             center=self.input(1),
             radius=self.input(2),
             color=self.input(3),
@@ -264,7 +266,7 @@ class ArrowedLine(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.arrowedLine(
-            img=self.input(0).copy(), 
+            img=self.input(0).img.copy(),
             pt1=self.input(1), 
             pt2=self.input(2), 
             color=self.input(3), 
@@ -284,7 +286,7 @@ class Line(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.line(
-            src=self.input(0).copy(),
+            src=self.input(0).img.copy(),
             pt1=self.input(1),
             pt2=self.input(2),
             color=self.input(3),
@@ -304,7 +306,7 @@ class Rectangle(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.rectangle(
-            src=self.input(0).copy(),
+            src=self.input(0).img.copy(),
             pt1=self.input(1),
             pt2=self.input(2),
             color=self.input(3),
@@ -323,7 +325,7 @@ class BilateralFilter(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.bilateralFilter(
-            src=self.input(0), 
+            src=self.input(0).img,
             d=self.input(1), 
             sigmaColor=self.input(2),
             sigmaSpace=self.input(3)
@@ -339,7 +341,7 @@ class BlackHat(OpenCVNodeBase):  # ???
 
     def get_img(self):
         return cv2.morphologyEx(
-            src=self.input(0), 
+            src=self.input(0).img,
             op=cv2.MORPH_BLACKHAT, 
             kernel=self.input(1)
         )
@@ -355,7 +357,7 @@ class CannyEdgeDetection(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.Canny(
-            image=self.input(0), 
+            image=self.input(0).img,
             threshold1=self.input(1), 
             threshold2=self.input(2)
         )
@@ -372,7 +374,7 @@ class HarrisCornerDetection(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.cornerHarris(
-            src=self.input(0), 
+            src=self.input(0).img,
             blockSize=self.input(1), 
             ksize=self.input(2), 
             k=self.input(3)
@@ -389,7 +391,7 @@ class GreySclCircleDetections(OpenCVNodeBase):
 
     def get_img(self):
         
-        img = self.input(0).copy()
+        img = self.input(0).img.copy()
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         circles = cv2.HoughCircles(
@@ -415,7 +417,7 @@ class Closing(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.morphologyEx(
-            src=self.input(0), 
+            src=self.input(0).img,
             op=cv2.MORPH_CLOSE,
             kernel=self.input(2),
         )
@@ -429,7 +431,7 @@ class Dilate(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        return cv2.dilate(src=self.input(0), kernel=self.input(1))
+        return cv2.dilate(src=self.input(0).img, kernel=self.input(1))
 
 
 class Fourier(OpenCVNodeBase):
@@ -439,7 +441,7 @@ class Fourier(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        return cv2.dft(self.input(0))
+        return cv2.dft(self.input(0).img)
 
 
 class Erode(OpenCVNodeBase):
@@ -450,7 +452,7 @@ class Erode(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        return cv2.erode(self.input(0), self.input(1))
+        return cv2.erode(self.input(0).img, self.input(1))
 
 
 class Filter2D(OpenCVNodeBase):
@@ -464,7 +466,7 @@ class Filter2D(OpenCVNodeBase):
     def get_img(self):
         from numpy import ones, float32
         return cv2.filter2D(
-            srd=self.input(0), 
+            srd=self.input(0).img,
             ddepth=self.input(1),
             kernel=ones(self.input(2), float32)/25
         )
@@ -478,7 +480,7 @@ class RGBToGrayscale(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.cvtColor(
-            src=self.input(0),
+            src=self.input(0).img,
             code=cv2.COLOR_BGRA2GRAY,
         )
 
@@ -491,7 +493,7 @@ class GreyscaleToRGB(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.cvtColor(
-            src=self.input(0),
+            src=self.input(0).img,
             code=cv2.COLOR_BGRA2RGBA
         )
 
@@ -508,7 +510,7 @@ class ImgBlend(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.addWeighted(
-            src1=self.input(0),
+            src1=self.input(0).img,
             alpha=self.input(1),
             src2=self.input(2),
             beta=self.input(2),
@@ -525,7 +527,7 @@ class Resize(OpenCVNodeBase):
 
     def get_img(self):
         return cv2.resize(
-            src=self.input(0),
+            src=self.input(0).img,
             dsize=self.input(1),
         )
 
@@ -538,7 +540,7 @@ class ThresholdAdaptiveGaussian(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        img_gray = cv2.cvtColor(self.input(0), cv2.COLOR_BGR2GRAY)
+        img_gray = cv2.cvtColor(self.input(0).img, cv2.COLOR_BGR2GRAY)
         return cv2.adaptiveThreshold(
             src=img_gray, 
             maxValue=self.input(1), 
@@ -557,7 +559,7 @@ class ThresholdAdaptiveMean(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        img_gray = cv2.cvtColor(self.input(0), cv2.COLOR_BGR2GRAY)
+        img_gray = cv2.cvtColor(self.input(0).img, cv2.COLOR_BGR2GRAY)
         return cv2.adaptiveThreshold(
             src=img_gray, 
             maxValue=self.input(1), 
@@ -578,7 +580,7 @@ class ThresholdBase(OpenCVNodeBase):
     thresh_type = None
 
     def get_img(self):
-        img_gray = cv2.cvtColor(self.input(0), cv2.COLOR_BGR2GRAY)
+        img_gray = cv2.cvtColor(self.input(0).img, cv2.COLOR_BGR2GRAY)
         ret, result = cv2.threshold(
             src=img_gray, 
             thresh=self.input(1), 

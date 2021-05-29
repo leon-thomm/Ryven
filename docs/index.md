@@ -22,13 +22,13 @@ Unlike most other flow-based visual scripting editors, Ryven supports 'data conn
 
     In a data flow, every change of data (which means that a data output of a node has been changed via `self.set_output_val()`) gets forward propagated and causes an update event in all connected nodes. In the example below, changing the slider value would therefore cause immediate updates and a visible change in the result node on the right.
 
-    ![](images/data_flow_example.png)
+    ![](img/data_flow_example.png)
 
     ### Exec Flows
 
     In execution flows, data isn't forward propagated on change, but generated on request (backwards), only causing update events in affected nodes once the data of an output is requested somewhere (through `self.input()` in a node). In the example above, changing the slider value would not lead to a change in the result node, but if an active node requested this data, like shown below, then the whole expression gets executed.
 
-    ![](images/exec_flow_example.png)
+    ![](img/exec_flow_example.png)
 
     The data flow paradigm is the more important and fundamental one, and there might be changes for the exec mode in the future.
 
