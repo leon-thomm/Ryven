@@ -1,12 +1,14 @@
 import code
 import re
+import os
+
+from .code_editor.CodeEditorWidget import CodeEditorWidget
 
 from qtpy.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton, QGroupBox, \
     QVBoxLayout, QHBoxLayout
 from qtpy.QtCore import Signal, QEvent, Qt
 from qtpy.QtGui import QTextCharFormat, QBrush, QColor, QFont, QFontMetrics
 
-from code_editor.CodeEditorWidget import CodeEditorWidget
 
 
 class MainConsole(QWidget):
@@ -17,6 +19,8 @@ class MainConsole(QWidget):
     such as the session object and nodes (by right-click on them).
     The input field below can also expand to a text edit to take whole code blocks.
     """
+
+    instance = None
 
     def __init__(
             self,
@@ -307,15 +311,11 @@ class RedirectOutput:
 
 
 
-main_console = None     # global
-
-
 def init_main_console(window_theme):
-    global main_console
 
-    main_console = MainConsole(window_theme)
+    MainConsole.instance = MainConsole(window_theme)
 
-    console_stdout_redirect = RedirectOutput(main_console.write)
-    console_errout_redirect = RedirectOutput(main_console.errorwrite)
+    console_stdout_redirect = RedirectOutput(MainConsole.instance.write)
+    console_errout_redirect = RedirectOutput(MainConsole.instance.errorwrite)
 
     return console_stdout_redirect, console_errout_redirect

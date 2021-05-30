@@ -5,18 +5,20 @@ from os.path import join, dirname
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget
 
-import MainConsole as MainConsole
-from ScriptUI import ScriptUI
-from WindowTheme import WindowTheme
-from nodes_package import NodesPackage
-from uic.ui_main_window import Ui_MainWindow
+# import .MainConsole as MainConsole
+# import MainConsole
+from .MainConsole import *
+from .ScriptUI import ScriptUI
+from .WindowTheme import WindowTheme
+from .nodes_package import NodesPackage
+from .uic.ui_main_window import Ui_MainWindow
 
-from nodes.NodeBase import NodeBase
+from .nodes.NodeBase import NodeBase
 
 # ryvencore_qt
 import ryvencore_qt as rc
 
-from tools import import_nodes_package
+from .tools import import_nodes_package
 
 
 class MainWindow(QMainWindow):
@@ -63,9 +65,9 @@ class MainWindow(QMainWindow):
             rc.InfoMsgs.enable()
 
         #   SETUP MAIN CONSOLE
-        MainConsole.main_console.session = self.session
-        MainConsole.main_console.reset_interpreter()
-        NodeBase.main_console = MainConsole.main_console
+        MainConsole.instance.session = self.session
+        MainConsole.instance.reset_interpreter()
+        NodeBase.main_console = MainConsole.instance
 
         #   LOAD DESIGN AND FLOW THEME
         self.session.design.load_from_config('design_config.json')
@@ -117,8 +119,8 @@ import: ctrl+i
         # self.ui.bottom_splitter.addWidget(self.node_details_widget)
 
         # main console
-        if MainConsole.main_console is not None:
-            self.ui.bottom_splitter.addWidget(MainConsole.main_console)
+        if MainConsole.instance is not None:
+            self.ui.bottom_splitter.addWidget(MainConsole.instance)
         # self.ui.right_vertical_splitter.setSizes([600, 0])
 
         # splitter sizes
