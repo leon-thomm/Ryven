@@ -1,5 +1,3 @@
-*Be aware that all the all new Ryven 3, and particularly the new underlying framework, haven't been tested extensively yet, so there might be some further changes incoming.*
-
 <p align="center">
   <img src="./Ryven/resources/pics/logo.png" alt="drawing" height="200"/>
 </p>
@@ -9,6 +7,8 @@
 ## Intro
 
 Hello there! Ryven is an editor combining flow-based visual scripting with Python. It provides an easy to use system for programming nodes executing any Python code.
+
+*Be aware that all the all new Ryven 3, and particularly the new underlying framework, haven't been tested extensively yet, so there might be some further changes incoming.*
 
 ## Installation
 
@@ -47,10 +47,10 @@ All information about a node is part of its class. A minimal node definition can
 You can define *macros* which get registered as nodes themselves
 
     ![](./docs/img/macro.png)
-    Macros are like all other scripts, so they have their own flow plus input and output node
+    Macros are like all other scripts, so they have their own flow, plus input and output node
     ![](./docs/img/macro2.png)
 - **right click operations system for nodes**  
-Which can be edited through the API at any time.
+which can be edited through the API at any time.
     ```python
     self.special_actions[f'remove input {i}'] = {
         'method': self.rem_input,
@@ -60,7 +60,6 @@ Which can be edited through the API at any time.
     # with some method...
     def rem_input(self, index):
         self.delete_input(index)
-        self.my_log.write(f'input {index} removed')
         del self.special_actions[f'remove input {len(self.inputs)}']
     ```
 - **Qt widgets**  
@@ -83,17 +82,16 @@ While data flows are the most common use case, exec flows (like [UnrealEngine Bl
     ```python
     import logging
     class MyNode(rc.Node):
-        # ...
         def __init__(self, params):
             super().__init__(params)
 
-            self.my_logger = self.new_log(title='nice log')
+            self.my_logger = self.new_logger(title='nice log')
         
         def update_event(self, inp=-1):
             self.my_logger.log(logging.INFO, 'updated!')
     ```
 - **variables system**  
-With an update mechanism to build nodes that automatically adapt to change of variables.
+with an update mechanism to build nodes that automatically adapt to change of variables.
 
     ```python
     import logging
