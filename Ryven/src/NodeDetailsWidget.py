@@ -1,3 +1,7 @@
+"""
+DEV - NOT USED SO FAR
+"""
+
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QTextEdit, QGroupBox
 from qtpy.QtGui import QFont
 

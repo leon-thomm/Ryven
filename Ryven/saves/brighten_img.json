@@ -1,0 +1,197 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        {
+            "name": "OpenCV",
+            "dir": "C:/Users/nutri/projects/ryven projects/Ryven/Ryven/packages/OpenCV"
+        }
+    ],
+    "macro scripts": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "OpenCV.ReadImage",
+                        "state data": "gASVNgAAAAAAAAB9lIwPaW1hZ2UgZmlsZSBwYXRolIwdLi5cc2F2ZXNcUG9ydGFsMkhpZ2hzY29yZS5wbmeUcy4=",
+                        "special actions": {},
+                        "display title": "Read Image",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "f_path",
+                                "has widget": true,
+                                "widget name": "choose file IW",
+                                "widget pos": "besides",
+                                "widget data": "gAR9lC4="
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "img"
+                            }
+                        ],
+                        "pos x": 398.0,
+                        "pos y": 115.0,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "OpenCV.AdjustBrightness",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "Adjust Brightness",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "alpha",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "beta",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 521.0,
+                        "pos y": 361.0,
+                        "main widget data": "gAR9lC4=",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "OpenCV.SaveImg",
+                        "state data": "gASVMgAAAAAAAAB9lIwEcGF0aJSMJC4uXHNhdmVzXFBvcnRhbDJIaWdoc2NvcmVfYnJpZ2h0LnBuZ5RzLg==",
+                        "special actions": {
+                            "make executable": {
+                                "method": "action_make_executable"
+                            }
+                        },
+                        "display title": "Save Image",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "img",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "path",
+                                "val": "gAROLg==",
+                                "has widget": true,
+                                "widget name": "path input",
+                                "widget pos": "below",
+                                "widget data": "gASVMgAAAAAAAAB9lIwEcGF0aJSMJC4uXHNhdmVzXFBvcnRhbDJIaWdoc2NvcmVfYnJpZ2h0LnBuZ5RzLg=="
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 840.0,
+                        "pos y": 330.0,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEsFcy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "display title": "val",
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 144.0,
+                        "pos y": 323.0,
+                        "main widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMATWUcy4=",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.Val_Node",
+                        "state data": "gASVLAAAAAAAAAB9lIwDdmFslIwfLi5cXHNhdmVzXFxQb3J0YWwySGlnaHNjb3JlLnBuZ5RzLg==",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "display title": "val",
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 139.0,
+                        "pos y": 102.0,
+                        "main widget data": "gASVLQAAAAAAAAB9lIwEdGV4dJSMHy4uXFxzYXZlc1xcUG9ydGFsMkhpZ2hzY29yZS5wbmeUcy4=",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 1,
+                        "output port index": 0,
+                        "connected node": 2,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 2
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 4,
+                        "output port index": 0,
+                        "connected node": 0,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

@@ -5,10 +5,7 @@ from os.path import join, dirname
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget
 
-# parent UI
 import MainConsole as MainConsole
-from NodeDetailsWidget import NodeDetailsWidget
-from NodesTreeListWidget import NodesTreeListWidget
 from ScriptUI import ScriptUI
 from WindowTheme import WindowTheme
 from nodes_package import NodesPackage
@@ -29,7 +26,6 @@ class MainWindow(QMainWindow):
 
         self.session = None
         self.theme = window_theme
-        # self.package_names = []
         self.node_packages = {}  # {Node: str}
         self.script_UIs = []
 
@@ -84,13 +80,11 @@ class MainWindow(QMainWindow):
 
         #   LOAD PROJECT
         if config['config'] == 'create plain new project':
-            # self.create_new_script(title='hello world')
             self.session.create_script(title='hello world')
         elif config['config'] == 'open project':
             print('importing packages...')
             self.import_packages(config['required packages'])
             print('loading project...')
-            # self.parse_project(config['content'])
             self.session.load(config['content'])
             print('finished')
 
@@ -243,7 +237,6 @@ import: ctrl+i
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
-        # TODO: fix this...
         script = self.ui.scripts_tab_widget.currentWidget().script
         view = self.session.flow_views[script]
         img = view.get_viewport_img()
@@ -317,8 +310,6 @@ import: ctrl+i
 
         for n in nodes:
             self.node_packages[n] = p
-
-            # self.add_src_to_node(n)
 
         # self.nodes_tree_widget.update_list()
 

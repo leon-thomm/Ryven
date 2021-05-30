@@ -21,6 +21,10 @@ class WidgetsContainer:
 
 
 def export_widgets(*args):
+    """
+    Exports/exposes the specified widgets to the nodes file importing them via import_widgets().
+    Returns an object with all exported widgets as attributes for direct access.
+    """
 
     widgets = list(args)
 

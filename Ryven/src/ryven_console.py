@@ -1,33 +1,22 @@
-from ryvencore_qt.src.ryvencore import *
-from tools import import_nodes_package
-import json
+"""
+This module includes the whole Ryven Console application.
+It's quite short as all functionality is nicely split between backend and frontend
+so here we can just load a project into the backend and provide the session.
+"""
+
+import os
 from os.path import join, dirname
+import json
 import sys
 
+from ryvencore_qt.src.ryvencore import *
 
-class NodeBaseWrapper(Node):
-    """
-    Wraps the nodes s.t. their usages of ryvencore-qt or Ryven features don't brake them.
-    """
-
-    def __init__(self, params):
-        self.special_actions = dict()
-        super().__init__(params)
-
-    # def create_input(self, type_: str = 'data', label: str = '',
-    #                  widget_name: str = None, widget_pos: str = 'besides', pos=-1):
-    #     """See src.nodes.Node.Node"""
-    #     super().create_input(type_=type_, label=label, pos=pos)
+from nodes_package import NodesPackage
+from tools import import_nodes_package
 
 
 cmds = [
-    # 'import nodes',
-    # 'C:/Users/nutri/OneDrive - ETH Zurich/projects/ryven projects/Ryven/packages/linalg',
-    # 'load project',
-    # 'C:/Users/nutri/OneDrive - ETH Zurich/projects/ryven projects/Ryven/saves/matrices_MODERN3.rpo',
-    # 'script = session.scripts[0]',
-    # 'flow = script.flow',
-    # 'vars = script.vars_manager.variables',
+
 ]
 
 
@@ -46,10 +35,17 @@ def _input(msg: str = ''):
 
 
 def run():
+    os.environ['RYVEN_MODE'] = 'no-gui'
 
-    CLASSES['node base'] = NodeBaseWrapper
+    # CLASSES['node base'] = NodeBaseWrapper
     session = Session(gui=False)
-    session.register_nodes(import_nodes_package(join(dirname(__file__), 'nodes/built_in')))
+    session.register_nodes(
+        import_nodes_package(
+            NodesPackage(
+                directory=join(dirname(__file__), 'nodes/built_in/')
+            )
+        )
+    )
 
     print(
         """COMMANDS:
@@ -62,14 +58,17 @@ built-in nodes are already imported
 
     while True:
 
+        # process input commands
+
         cmd = _input()
 
         if cmd == 'import nodes':
             pkg_dir = _input('abs path to your package dir: ')
             try:
                 # package_name = os.path.basename(pkg_dir)
-                nodes = import_nodes_package(package=pkg_dir)
+                nodes = import_nodes_package(package=NodesPackage(pkg_dir))
                 session.register_nodes(nodes)
+                print('registered nodes: ', nodes)
             except Exception as e:
                 print(e)
 
@@ -80,8 +79,8 @@ built-in nodes are already imported
                 project = json.loads(f.read())
                 f.close()
                 del f
-                scripts, func_scripts = session.load(project)
-                print(f'added scripts: {scripts}\nand func scripts: {func_scripts}')
+                scripts = session.load(project)
+                print(f'added scripts: {scripts}')
             except Exception as e:
                 print(e)
 
@@ -94,10 +93,6 @@ built-in nodes are already imported
             except Exception as e:
                 print(e)
 
-  # 35.0    0.0    0.0
-  #  0.0 1809.0    0.0
-  #  0.0    0.0  157.0
 
- # 35.0   0.0   0.0
- #  0.0  54.0   0.0
- #  0.0   0.0 157.0
+if __name__ == '__main__':
+    run()

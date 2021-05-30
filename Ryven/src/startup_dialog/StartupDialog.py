@@ -32,7 +32,6 @@ def apply_stylesheet(style: str):
 
     app = QApplication.instance()
     app.setStyleSheet(jinja_template.render(window_theme.rules))
-    # print(app.styleSheet())
 
     return window_theme
 

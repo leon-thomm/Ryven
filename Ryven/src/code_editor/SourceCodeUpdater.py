@@ -2,7 +2,7 @@ import types
 import ast
 
 
-def get_method_funcs(cls_def_str: str):
+def get_method_funcs(cls_def_str: str, obj):
     """
     Returns a dict with functions under their names parsed from the methods in the class definition string using ast.
     """
@@ -15,10 +15,15 @@ def get_method_funcs(cls_def_str: str):
         d = __builtins__.copy()  # important: provide builtins when parsing the function
         exec(ast.unparse(astf), d)  # parse
 
+        f = d[astf.name]
+
+        # # add locals scope of the object to the function
+        # f.__dict__ = obj.
+
         # add new function to the list, identified by its name
         funcs = {
             **funcs,
-            astf.name: d[astf.name]
+            astf.name: f  # d[astf.name]
         }
 
     return funcs
@@ -32,7 +37,7 @@ class SrcCodeUpdater:
     @staticmethod
     def override_code(obj: object, new_class_src):
 
-        funcs = get_method_funcs(new_class_src)
+        funcs = get_method_funcs(new_class_src, obj)
         for name, f in funcs.items():  # override all methods
             setattr(obj, name, types.MethodType(f, obj))
             # types.MethodType() creates a bound method, bound to obj, from the function f

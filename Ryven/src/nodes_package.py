@@ -2,6 +2,10 @@ from os.path import basename, dirname, splitext, normpath, join
 
 
 class NodesPackage:
+    """
+    A small container to store meta data about imported node packages.
+    """
+
     def __init__(self, directory: str):
 
         self.name = basename(normpath(directory))

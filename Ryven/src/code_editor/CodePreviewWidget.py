@@ -135,7 +135,7 @@ class CodePreviewWidget(QWidget):
                     code = ''
                     for name, cls in node.input_widget_classes.items():
                         if cls == iw.__class__:
-                            code = node.__class_codes__['custom input widgets'][name]
+                            code = node.__class_codes__['custom input widgets'][name]['cls']
                             break
 
                     else:  # no break -> no custom widget (builtin widget) -> ignore

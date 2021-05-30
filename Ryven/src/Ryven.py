@@ -7,7 +7,7 @@ REDIRECT_CONSOLE_OUTPUT = True
 
 if __name__ == '__main__':
 
-    os.environ['QT_API'] = 'pyside2'  # dev
+    os.environ['QT_API'] = 'pyside2'  # PyQt5 doesn't seem to work properly yet
 
     # change directory to current to this file's location
     os.chdir(os.path.dirname(os.path.realpath(__file__)))

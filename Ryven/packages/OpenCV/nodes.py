@@ -18,6 +18,7 @@ class CVImage:
 
 class ReadImage(Node):
     """Reads an image from a file"""
+
     title = 'Read Image'
     input_widget_classes = {
         'choose file IW': widgets.ChooseFileInputWidget
@@ -34,7 +35,7 @@ class ReadImage(Node):
         super().__init__(params)
 
         self.image_filepath = ''
-    
+
     def view_place_event(self):
         self.input_widget(0).path_chosen.connect(self.path_chosen)
         # self.main_widget_message.connect(self.main_widget().show_path)
@@ -79,21 +80,21 @@ class SaveImg(Node):
         self.active = False
         self.file_path = ''
         self.special_actions['make executable'] = {'method': self.action_make_executable}
-    
+
     def view_place_event(self):
         self.input_widget(1).path_chosen.connect(self.path_chosen)
-    
+
     def path_chosen(self, new_path):
         self.file_path = new_path
         self.update()
-    
+
     def action_make_executable(self):
         self.create_input(type_='exec', insert=0)
         self.active = True
 
         del self.special_actions['make executable']
         self.special_actions['make passive'] = {'method': self.action_make_passive}
-    
+
     def action_make_passive(self):
         self.delete_input(0)
         self.active = False
@@ -104,10 +105,10 @@ class SaveImg(Node):
     def update_event(self, inp=-1):
         if not self.active or (self.active and inp == 0):
             CVImage(cv2.imwrite(self.file_path, self.input(0).img))
-    
+
     def get_state(self):
         return {'path': self.file_path}
-    
+
     def set_state(self, data):
         self.file_path = data['path']
 
@@ -130,7 +131,7 @@ class WebcamFeed(Node):
 
 
 class OpenCVNodeBase(Node):
-    
+
     init_outputs = [
         NodeOutputBP()
     ]
@@ -145,10 +146,10 @@ class OpenCVNodeBase(Node):
             from qtpy.QtCore import QObject, Signal
             class Signals(QObject):
                 new_img = Signal(object)
-            
+
             # to send images to main_widget in gui mode
             self.SIGNALS = Signals()
-    
+
     def view_place_event(self):
         self.SIGNALS.new_img.connect(self.main_widget().show_image)
 
@@ -156,13 +157,13 @@ class OpenCVNodeBase(Node):
             self.SIGNALS.new_img.emit(self.get_img())
         except:  # there might not be an image ready yet
             pass
-    
+
     def update_event(self, inp=-1):
         new_img_wrp = CVImage(self.get_img())
-        
+
         if self.session.gui:
             self.SIGNALS.new_img.emit(new_img_wrp.img)
-        
+
         self.set_output_val(0, new_img_wrp)
 
 
@@ -189,7 +190,7 @@ class AdjustBrightness(OpenCVNodeBase):
     def get_img(self):
         return cv2.convertScaleAbs(
             src=self.input(0).img,
-            alpha=self.input(1), 
+            alpha=self.input(1),
             beta=self.input(2)
         )
 
@@ -267,9 +268,9 @@ class ArrowedLine(OpenCVNodeBase):
     def get_img(self):
         return cv2.arrowedLine(
             img=self.input(0).img.copy(),
-            pt1=self.input(1), 
-            pt2=self.input(2), 
-            color=self.input(3), 
+            pt1=self.input(1),
+            pt2=self.input(2),
+            color=self.input(3),
             thickness=self.input(4)
         )
 
@@ -326,7 +327,7 @@ class BilateralFilter(OpenCVNodeBase):
     def get_img(self):
         return cv2.bilateralFilter(
             src=self.input(0).img,
-            d=self.input(1), 
+            d=self.input(1),
             sigmaColor=self.input(2),
             sigmaSpace=self.input(3)
         )
@@ -342,7 +343,7 @@ class BlackHat(OpenCVNodeBase):  # ???
     def get_img(self):
         return cv2.morphologyEx(
             src=self.input(0).img,
-            op=cv2.MORPH_BLACKHAT, 
+            op=cv2.MORPH_BLACKHAT,
             kernel=self.input(1)
         )
 
@@ -358,7 +359,7 @@ class CannyEdgeDetection(OpenCVNodeBase):
     def get_img(self):
         return cv2.Canny(
             image=self.input(0).img,
-            threshold1=self.input(1), 
+            threshold1=self.input(1),
             threshold2=self.input(2)
         )
 
@@ -375,8 +376,8 @@ class HarrisCornerDetection(OpenCVNodeBase):
     def get_img(self):
         return cv2.cornerHarris(
             src=self.input(0).img,
-            blockSize=self.input(1), 
-            ksize=self.input(2), 
+            blockSize=self.input(1),
+            ksize=self.input(2),
             k=self.input(3)
         )
 
@@ -390,14 +391,14 @@ class GreySclCircleDetections(OpenCVNodeBase):
     ]
 
     def get_img(self):
-        
+
         img = self.input(0).img.copy()
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         circles = cv2.HoughCircles(
-            image=img_gray, 
-            method=cv2.HOUGH_GRADIENT, 
-            dp=self.input(1), 
+            image=img_gray,
+            method=cv2.HOUGH_GRADIENT,
+            dp=self.input(1),
             minDist=self.input(2)
         )
         from numpy import uint16, around
@@ -542,11 +543,11 @@ class ThresholdAdaptiveGaussian(OpenCVNodeBase):
     def get_img(self):
         img_gray = cv2.cvtColor(self.input(0).img, cv2.COLOR_BGR2GRAY)
         return cv2.adaptiveThreshold(
-            src=img_gray, 
-            maxValue=self.input(1), 
-            adaptiveMethod=cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
-            thresholdType=cv2.THRESH_BINARY, 
-            blockSize=11, 
+            src=img_gray,
+            maxValue=self.input(1),
+            adaptiveMethod=cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+            thresholdType=cv2.THRESH_BINARY,
+            blockSize=11,
             C=2,
         )
 
@@ -561,11 +562,11 @@ class ThresholdAdaptiveMean(OpenCVNodeBase):
     def get_img(self):
         img_gray = cv2.cvtColor(self.input(0).img, cv2.COLOR_BGR2GRAY)
         return cv2.adaptiveThreshold(
-            src=img_gray, 
-            maxValue=self.input(1), 
-            adaptiveMethod=cv2.ADAPTIVE_THRESH_MEAN_C, 
-            thresholdType=cv2.THRESH_BINARY, 
-            blockSize=11, 
+            src=img_gray,
+            maxValue=self.input(1),
+            adaptiveMethod=cv2.ADAPTIVE_THRESH_MEAN_C,
+            thresholdType=cv2.THRESH_BINARY,
+            blockSize=11,
             C=2,
         )
 
@@ -582,9 +583,9 @@ class ThresholdBase(OpenCVNodeBase):
     def get_img(self):
         img_gray = cv2.cvtColor(self.input(0).img, cv2.COLOR_BGR2GRAY)
         ret, result = cv2.threshold(
-            src=img_gray, 
-            thresh=self.input(1), 
-            maxval=self.input(2), 
+            src=img_gray,
+            thresh=self.input(1),
+            maxval=self.input(2),
             type=self.thresh_type,
         )
         return result

@@ -10,7 +10,13 @@ from code_editor.CodeEditorWidget import CodeEditorWidget
 
 
 class MainConsole(QWidget):
-    """Interpreter with interactive console."""
+    """
+    Interpreter with interactive console.
+    All console output will be redirected to this command line.
+    It provides normal REPL functionality and additionally access to editor components
+    such as the session object and nodes (by right-click on them).
+    The input field below can also expand to a text edit to take whole code blocks.
+    """
 
     def __init__(
             self,
@@ -35,12 +41,6 @@ class MainConsole(QWidget):
         self.input_layout = QGridLayout()
         self.input_layout.setContentsMargins(0, 0, 0, 0)
         self.input_layout.setSpacing(0)
-
-        # # reset scope button
-        # self.reset_scope_button = QPushButton('reset console scope')
-        # self.reset_scope_button.clicked.connect(self.reset_scope_clicked)
-        # self.content_layout.addWidget(self.reset_scope_button, 0, 0, 1, 2)
-        # self.reset_scope_button.hide()
 
         # display for output
         self.out_display = ConsoleDisplay(blockcount)
@@ -85,11 +85,8 @@ class MainConsole(QWidget):
         # self.prompt_label.setText(text)
         ...
 
-    # def reset_scope_clicked(self):
-    #     self.reset_interpreter()
-
     def add_obj_context(self, context_obj):
-        """adds an object to the current context by initializing a new interpreter with new context"""
+        """adds an object to the current context by initializing a new interpreter with a new context"""
 
         old_context = {} if self.interp is None else self.interp.locals
         name = 'obj' + (str(self.num_added_object_contexts+1) if self.num_added_object_contexts > 0 else '')
@@ -99,7 +96,6 @@ class MainConsole(QWidget):
         print('added as ' + name)
 
         self.num_added_object_contexts += 1
-        # self.reset_scope_button.show()
 
     def reset_interpreter(self):
         """Initializes a new plain interpreter"""
@@ -192,15 +188,11 @@ class ConsoleInputLineEdit(QLineEdit):
         self.next_line = ''  # can be set by console
         self.prompt_pattern = re.compile('^[>\.]')
 
-        # once again, this doesnt work because Qt prioritizes the stylesheet, which makes absolutely no sense to me
-        # self.setFont(QFont('Source Code Pro', 12))
-
     def event(self, ev: QEvent) -> bool:
-        """
-        Tab: Insert 4 spaces
-        Arrow Up/Down: select a line from the history buffer
-        Newline: Emit returned signal
-        """
+
+        #   Tab: Insert 4 spaces
+        #   Arrow Up/Down: select a line from the history buffer
+        #   Newline: Emit returned signal
 
         if ev.type() == QEvent.KeyPress:
             if ev.key() == Qt.Key_Tab:
@@ -235,12 +227,16 @@ class ConsoleInputLineEdit(QLineEdit):
         return super().event(ev)
 
     def open_text_edit(self):
+        """Switch to the text edit for easy multi-line input"""
+
         self.hide()
         self.code_text_edit.show()
         self.code_text_edit.setText(self.text())
         self.code_text_edit.setFocus()
 
     def code_text_edit_returned(self, s):
+        """Close text edit and process input"""
+
         self.code_text_edit.hide()
         self.show()
 
@@ -275,6 +271,7 @@ class ConsoleInputLineEdit(QLineEdit):
 
 
 class ConsoleInputTextEdit(CodeEditorWidget):
+    """A text edit for parsing multi-line code blocks in the input field"""
 
     returned = Signal(str)
 
@@ -286,27 +283,19 @@ class ConsoleInputTextEdit(CodeEditorWidget):
 
 
 class ConsoleDisplay(QPlainTextEdit):
+    """The console output text field"""
+
     def __init__(self, max_block_count):
         super(ConsoleDisplay, self).__init__()
 
         self.setObjectName('ConsoleDisplay')
         self.setMaximumBlockCount(max_block_count)
         self.setReadOnly(True)
-#         self.setStyleSheet(
-#             '''
-# QPlainTextEdit {
-#     font-family: Source Code Pro;
-#     font-size: 12pt;
-# }
-#             '''
-#         )
         self.setFont(QFont('Source Code Pro', 12))
-        # self.setFont(self.font().setPointSize(12))
-        # self.setFont(QFont('Courier New', 11))  # it just won't work...
 
 
 class RedirectOutput:
-    """Redirects 'write()'-calls to a specified method."""
+    """Redirects 'write()'-calls to a specified method"""
 
     def __init__(self, func):
         self.func = func
@@ -318,19 +307,13 @@ class RedirectOutput:
 
 
 
-main_console = None
-# main_console_group_box = None
+main_console = None     # global
 
 
 def init_main_console(window_theme):
     global main_console
-    # global main_console_group_box
 
     main_console = MainConsole(window_theme)
-
-    # main_console_group_box = QGroupBox('Console')
-    # main_console_group_box.setLayout(QVBoxLayout())
-    # main_console_group_box.layout().addWidget(main_console)
 
     console_stdout_redirect = RedirectOutput(main_console.write)
     console_errout_redirect = RedirectOutput(main_console.errorwrite)

@@ -1,4 +1,5 @@
 import inspect
+import os
 from os.path import normpath, join, dirname, abspath, basename
 import importlib.util
 
@@ -39,32 +40,34 @@ def import_nodes_package(package: NodesPackage) -> list:
 
     nodes = NENV.NodesRegistry.exported_nodes[-1]
 
-    # ADD SOURCES
+    if os.environ['RYVEN_MODE'] == 'gui':
 
-    # because all the node package modules are named 'nodes.py' now, we need to retrieve the sources via inspect here
-    # since inspect will be unable to do so once we imported another 'nodes' module.
+        # ADD SOURCES
 
-    node_cls_sources = NENV.NodesRegistry.exported_node_sources[-1]
-    node_mod_sources = [inspect.getsource(inspect.getmodule(n)) for n in nodes]
+        # because all the node package modules are named 'nodes.py' now, we need to retrieve the sources via inspect here
+        # since inspect will be unable to do so once we imported another 'nodes' module.
 
-    for i in range(len(nodes)):
-        n = nodes[i]
+        node_cls_sources = NENV.NodesRegistry.exported_node_sources[-1]
+        node_mod_sources = [inspect.getsource(inspect.getmodule(n)) for n in nodes]
 
-        mw_cls_src = inspect.getsource(n.main_widget_class) if n.main_widget_class else None
-        mw_mod_src = inspect.getsource(inspect.getmodule(n.main_widget_class)) if n.main_widget_class else None
+        for i in range(len(nodes)):
+            n = nodes[i]
 
-        n.__class_codes__ = {
-            'node cls': node_cls_sources[i],
-            'node mod': node_mod_sources[i],
-            'main widget cls': mw_cls_src,
-            'main widget mod': mw_mod_src,
-            'custom input widgets': {
-                name: {
-                    'cls': inspect.getsource(inp_cls),
-                    'mod': inspect.getsource(inspect.getmodule(inp_cls))
-                } for name, inp_cls in n.input_widget_classes.items()
+            mw_cls_src = inspect.getsource(n.main_widget_class) if n.main_widget_class else None
+            mw_mod_src = inspect.getsource(inspect.getmodule(n.main_widget_class)) if n.main_widget_class else None
+
+            n.__class_codes__ = {
+                'node cls': node_cls_sources[i],
+                'node mod': node_mod_sources[i],
+                'main widget cls': mw_cls_src,
+                'main widget mod': mw_mod_src,
+                'custom input widgets': {
+                    name: {
+                        'cls': inspect.getsource(inp_cls),
+                        'mod': inspect.getsource(inspect.getmodule(inp_cls))
+                    } for name, inp_cls in n.input_widget_classes.items()
+                }
             }
-        }
 
     # -----------
 

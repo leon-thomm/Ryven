@@ -4,6 +4,33 @@ widgets = import_widgets(__file__)
 
 # from ryvencore_qt import Node
 
+#   TODO
+# class Storage_Node(Node):
+#     """Sequentially stores the data provided at the input"""
+#
+#     title = 'store'
+#     init_inputs = [
+#         NodeInputBP(),
+#     ]
+#     init_outputs = []
+#     color = '#aadd55'
+#
+#     def __init__(self, params):
+#         super().__init__(params)
+#
+#         self.storage = []
+#
+#     def update_event(self, inp=-1):
+#         self.storage.append(self.input(0))
+#
+#     def get_state(self) -> dict:
+#         return {
+#             'hand peda': self.storage,
+#         }
+#
+#     def set_state(self, data: dict):
+#         self.storage = data['hans peda']
+
 
 class NodeBase(Node):
     pass
