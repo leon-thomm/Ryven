@@ -1,6 +1,7 @@
 from NWENV import *
 
-from qtpy.QtGui import QFont, QFontMetrics, Qt
+from qtpy.QtGui import QFont, QFontMetrics
+from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QPushButton, QComboBox, QSlider, QTextEdit, QPlainTextEdit
 
 
@@ -13,7 +14,7 @@ class ButtonNode_MainWidget(QPushButton, MWB):
         self.clicked.connect(self.update_node)
 
 
-class ClockNode_MainWidget(QPushButton, MWB):
+class ClockNode_MainWidget(MWB, QPushButton):
 
     def __init__(self, params):
         MWB.__init__(self, params)

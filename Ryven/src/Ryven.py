@@ -4,7 +4,7 @@ import sys
 # change directory to this file's location
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-# PyQt5 doesn't seem to work properly yet
+# PyQt5 doesn't seem to work properly due to crucial inheritance issues
 os.environ['QT_API'] = 'pyside2'
 
 # turn off for debugging

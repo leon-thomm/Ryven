@@ -5,7 +5,7 @@ from qtpy.QtGui import QFontMetrics
 import numpy as np
 
 
-class MatrixWidget(QTextEdit, MWB):
+class MatrixWidget(MWB, QTextEdit):
 
     def __init__(self, params, base_width=50, base_height=50):
         MWB.__init__(self, params)

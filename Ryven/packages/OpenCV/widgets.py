@@ -7,7 +7,7 @@ import cv2
 import os
 
 
-class OpenCVNode_MainWidget(QLabel, MWB):
+class OpenCVNode_MainWidget(MWB, QLabel):
     def __init__(self, params):
         MWB.__init__(self, params)
         QLabel.__init__(self)
@@ -34,7 +34,7 @@ class OpenCVNode_MainWidget(QLabel, MWB):
         self.node.update_shape()
 
 
-class ChooseFileInputWidget(QPushButton, IWB):
+class ChooseFileInputWidget(IWB, QPushButton):
 
     path_chosen = Signal(str)
 
@@ -54,12 +54,12 @@ class ChooseFileInputWidget(QPushButton, IWB):
         self.path_chosen.emit(file_path)
 
 
-class PathInput(QWidget, IWB):
+class PathInput(IWB, QWidget):
     path_chosen = Signal(str)
 
     def __init__(self, params):
-        QWidget.__init__(self)
         IWB.__init__(self, params)
+        QWidget.__init__(self)
 
         self.path = ''
 
@@ -92,7 +92,7 @@ class PathInput(QWidget, IWB):
         self.node.update_shape()
 
 
-class WebcamFeedWidget(QWidget, MWB):
+class WebcamFeedWidget(MWB, QWidget):
     def __init__(self, params):
         MWB.__init__(self, params)
         QWidget.__init__(self)
