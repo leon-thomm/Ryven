@@ -2,7 +2,7 @@ import code
 import re
 import os
 
-from .code_editor.CodeEditorWidget import CodeEditorWidget
+from code_editor.CodeEditorWidget import CodeEditorWidget
 
 from qtpy.QtWidgets import QWidget, QLineEdit, QGridLayout, QPlainTextEdit, QLabel, QPushButton, QGroupBox, \
     QVBoxLayout, QHBoxLayout

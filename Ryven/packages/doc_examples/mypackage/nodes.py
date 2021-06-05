@@ -17,8 +17,9 @@ class NodeBase(Node):
 import random
 
 class Rand_Node(NodeBase):
+    """Generates random float in range"""
+
     title = 'random'
-    doc = 'generates a random number in a given range'
     init_inputs = [
         NodeInputBP(dtype=dtypes.Integer(default=1, bounds=(1, 100)), label='scale'),
     ]
@@ -32,8 +33,9 @@ class Rand_Node(NodeBase):
 
 
 class Print_Node(NodeBase):
+    """Prints your data"""
+
     title = 'print'
-    doc = 'prints data'
     init_inputs = [
         NodeInputBP(dtype=dtypes.Data(size='s')),
     ]

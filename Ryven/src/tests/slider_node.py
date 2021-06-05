@@ -27,7 +27,7 @@ if __name__ == '__main__':
     app = QApplication()
     mw = QMainWindow()
 
-    session = rc.Session(flow_theme_name='Samuel 1l')
+    session = rc.Session(flow_theme_name='pure light')
     session.register_node(MyNode)
     script = session.create_script('hello world')
     mw.setCentralWidget(session.flow_views[script])

@@ -117,3 +117,5 @@ Ryven is now built on top of [ryvencore-qt](https://github.com/leon-thomm/ryvenc
 To support the development of this project, which will decide its future, check out the [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) repo where the main development is happening.
 
 Feel free to open discussions here (there's a discussions area in this repo) also regarding the frameworks.
+
+The docs page on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), so you can improve it by simply editing the markdown.

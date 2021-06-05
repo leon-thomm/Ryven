@@ -39,7 +39,7 @@ class GetVar_Node(NodeBase):
     def update_event(self, input_called=-1):
         if self.input(0) != self.var_name:
             if self.var_name != '':  # disconnect old var val update connection
-                self.unregister_var_receiver(self.var_name)
+                self.unregister_var_receiver(self.var_name, self.var_val_changed)
 
             self.var_name = self.input(0)
 

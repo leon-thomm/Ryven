@@ -1,0 +1,507 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        {
+            "name": "std",
+            "dir": "C:/Users/nutri/projects/ryven projects/Ryven/Ryven/packages/std"
+        },
+        {
+            "name": "linalg",
+            "dir": "C:/Users/nutri/projects/ryven projects/Ryven/Ryven/packages/linalg"
+        }
+    ],
+    "macro scripts": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {
+                "a": {
+                    "serialized": "gARLHi4="
+                },
+                "mat": {
+                    "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAAAAD5AAAAAAAAAAACUdJRiLg=="
+                }
+            },
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "linalg.Matrix_Node",
+                        "state data": "gASVVAAAAAAAAAB9lCiMEm1haW4gd2lkZ2V0IGhpZGRlbpSJjBFleHByZXNzaW9uIG1hdHJpeJRdlChdlCiMAjFqlIwBMZRlXZQojAQwLTFqlIwGdignYScplGVldS4=",
+                        "special actions": {
+                            "hide preview": {
+                                "method": "action_hide_mw"
+                            }
+                        },
+                        "display title": "Matrix",
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 268.009788256565,
+                        "pos y": 113.19818962396498,
+                        "main widget data": "gASVMwAAAAAAAAB9lCiMBHRleHSUjBsgICAgMWogICAgICAxCiAgMC0xaiB2KCdhJymUjAVzaG93bpSIdS4=",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "linalg.ShowMatrix",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "Show Matrix",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 523.009788256565,
+                        "pos y": 119.19818962396498,
+                        "main widget data": "gASVNwAAAAAAAAB9lCiMBHRleHSUjB8gICAgIDFqICAoMSswaikKICAgIC0xaiAoMzArMGoplIwFc2hvd26UiHUu",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.SetVar_Node",
+                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
+                        "special actions": {
+                            "make active": {
+                                "method": "action_make_active"
+                            }
+                        },
+                        "display title": "set var",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "val": "gAROLg==",
+                                "dtype": "DType.String",
+                                "dtype state": "gASVLwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjANkb2OUaAKMBmJvdW5kc5ROjARzaXpllIwBbZR1Lg==",
+                                "has widget": true,
+                                "widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMAWGUcy4="
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "dtype": "DType.Data",
+                                "dtype state": "gASVLgAAAAAAAAB9lCiMB2RlZmF1bHSUTowDZG9jlIwAlIwGYm91bmRzlE6MBHNpemWUjAFzlHUu",
+                                "has widget": true,
+                                "widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjMwlHMu"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 549.009788256565,
+                        "pos y": 265.198189623965,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "std.Slider_Node",
+                        "state data": "gASVEwAAAAAAAAB9lIwDdmFslEc/0tDlYEGJN3Mu",
+                        "special actions": {},
+                        "display title": "slider",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "scl",
+                                "val": "gARLMi4=",
+                                "dtype": "DType.Integer",
+                                "dtype state": "gASVJAAAAAAAAAB9lCiMB2RlZmF1bHSUSwGMA2RvY5SMAJSMBmJvdW5kc5ROdS4=",
+                                "has widget": true,
+                                "widget data": "gASVDAAAAAAAAAB9lIwDdmFslEsycy4="
+                            },
+                            {
+                                "type": "data",
+                                "label": "round",
+                                "val": "gASILg==",
+                                "dtype": "DType.Boolean",
+                                "dtype state": "gASVIwAAAAAAAAB9lCiMB2RlZmF1bHSUiYwDZG9jlIwAlIwGYm91bmRzlE51Lg==",
+                                "has widget": true,
+                                "widget data": "gASVDwAAAAAAAAB9lIwHY2hlY2tlZJSIcy4="
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 214.009788256565,
+                        "pos y": 264.198189623965,
+                        "main widget data": "gASVDQAAAAAAAAB9lIwDdmFslE0mAXMu",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "std.Multiply_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {
+                            "add input": {
+                                "method": "add_operand_input"
+                            },
+                            "remove input 0": {
+                                "method": "remove_operand_input",
+                                "data": 0
+                            },
+                            "remove input 1": {
+                                "method": "remove_operand_input",
+                                "data": 1
+                            }
+                        },
+                        "display title": "*",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "dtype": "DType.Data",
+                                "dtype state": "gASVLgAAAAAAAAB9lCiMB2RlZmF1bHSUTowDZG9jlIwAlIwGYm91bmRzlE6MBHNpemWUjAFzlHUu",
+                                "has widget": true,
+                                "widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjE1lHMu"
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "val": "gARLAi4=",
+                                "dtype": "DType.Data",
+                                "dtype state": "gASVLgAAAAAAAAB9lCiMB2RlZmF1bHSUTowDZG9jlIwAlIwGYm91bmRzlE6MBHNpemWUjAFzlHUu",
+                                "has widget": true,
+                                "widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMATKUcy4="
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 385.009788256565,
+                        "pos y": 291.198189623965,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.SetVar_Node",
+                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
+                        "special actions": {
+                            "make active": {
+                                "method": "action_make_active"
+                            }
+                        },
+                        "display title": "set var",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "val": "gASVBwAAAAAAAACMA21hdJQu",
+                                "dtype": "DType.String",
+                                "dtype state": "gASVLwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjANkb2OUaAKMBmJvdW5kc5ROjARzaXpllIwBbZR1Lg==",
+                                "has widget": true,
+                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA21hdJRzLg=="
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "dtype": "DType.Data",
+                                "dtype state": "gASVLgAAAAAAAAB9lCiMB2RlZmF1bHSUTowDZG9jlIwAlIwGYm91bmRzlE6MBHNpemWUjAFzlHUu",
+                                "has widget": true,
+                                "widget data": "gASVNAAAAAAAAAB9lIwEdGV4dJSMJltbIDAuKzEuaiAgMS4rMC5qXQogWyAwLi0xLmogMzAuKzAual1dlHMu"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 851.7300738632727,
+                        "pos y": 132.0220031444171,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "get var",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "val": "gASVBwAAAAAAAACMA21hdJQu",
+                                "dtype": "DType.String",
+                                "dtype state": "gASVLwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjANkb2OUaAKMBmJvdW5kc5ROjARzaXpllIwBbZR1Lg==",
+                                "has widget": true,
+                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA21hdJRzLg=="
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 152.06383333061729,
+                        "pos y": 405.2129042004253,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "linalg.InverseMatrix",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "Inverse",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 175.96624820900752,
+                        "pos y": 548.4374023593136,
+                        "main widget data": "gASVRwAAAAAAAAB9lCiMBHRleHSUjC8gICAtMC45Njc3aiAgICAgMC4wMzIzagooMC4wMzIzKzBqKSAoMC4wMzIzKzBqKZSMBXNob3dulIh1Lg==",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "linalg.DetOfMatrix",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "Determinant",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 611.0383971650748,
+                        "pos y": 548.1962980663284,
+                        "main widget data": "gASVLQAAAAAAAAB9lCiMBHRleHSUjBUtMC4wMzIyNTgwNjQ1MTYxMjkwM2qUjAVzaG93bpSIdS4=",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "linalg.SolveLEq",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "Solve",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 885.1839459089059,
+                        "pos y": 322.570155217133,
+                        "main widget data": "gASVLwAAAAAAAAB9lCiMBHRleHSUjBcgICAtMC45Njc3aiAoMC4wMzIzKzBqKZSMBXNob3dulIh1Lg==",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "linalg.MatMul",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "Mult",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            },
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 372.26934314274683,
+                        "pos y": 442.4371649448529,
+                        "main widget data": "gASVNwAAAAAAAAB9lCiMBHRleHSUjB8gKDErMGopICAgICAgMGoKKC0wKzBqKSAgKDErMGoplIwFc2hvd26UiHUu",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "std.Eval_Node",
+                        "state data": "gASVPQAAAAAAAAB9lCiMEG51bSBwYXJhbSBpbnB1dHOUSwGMD2V4cHJlc3Npb24gY29kZZSMDihpbnBbMF0pWzBdWzpdlHUu",
+                        "special actions": {
+                            "add input": {
+                                "method": "add_param_input"
+                            },
+                            "remove input 0": {
+                                "method": "remove_param_input",
+                                "data": 0
+                            }
+                        },
+                        "display title": "eval",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 598.3422117376416,
+                        "pos y": 418.5614824529824,
+                        "main widget data": "gASVHAAAAAAAAAB9lIwEdGV4dJSMDihpbnBbMF0pWzBdWzpdlHMu",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.Result_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "result",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 882.6120564064703,
+                        "pos y": 429.0070935431757,
+                        "main widget data": "gAR9lC4=",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 0,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 1,
+                        "output port index": 0,
+                        "connected node": 5,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 1,
+                        "output port index": 0,
+                        "connected node": 9,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 3,
+                        "output port index": 0,
+                        "connected node": 4,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 4,
+                        "output port index": 0,
+                        "connected node": 2,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 0,
+                        "connected node": 10,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 0,
+                        "connected node": 7,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 7,
+                        "output port index": 0,
+                        "connected node": 8,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 7,
+                        "output port index": 0,
+                        "connected node": 10,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 10,
+                        "output port index": 0,
+                        "connected node": 11,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 11,
+                        "output port index": 0,
+                        "connected node": 9,
+                        "connected input port index": 1
+                    },
+                    {
+                        "parent node index": 11,
+                        "output port index": 0,
+                        "connected node": 12,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

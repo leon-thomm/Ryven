@@ -13,8 +13,8 @@ class If_Node(CSNodeBase):
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
     ]
     init_outputs = [
-        NodeOutputBP('exec', label='true'),
-        NodeOutputBP('exec', label='false'),
+        NodeOutputBP('true', type_='exec', ),
+        NodeOutputBP('false', type_='exec'),
     ]
 
     def update_event(self, inp=-1):
@@ -35,9 +35,9 @@ class ForLoop_Node(CSNodeBase):
         NodeInputBP(dtype=dtypes.Integer(), label='to'),
     ]
     init_outputs = [
-        NodeOutputBP('exec', label='loop'),
-        NodeOutputBP('data', label='i'),
-        NodeOutputBP('exec', label='finished'),
+        NodeOutputBP('loop', type_='exec'),
+        NodeOutputBP('i', type_='data'),
+        NodeOutputBP('finished', type_='exec'),
     ]
 
     def __init__(self, params):
@@ -51,8 +51,8 @@ class ForLoop_Node(CSNodeBase):
         new_dim = self.dims + 1
         self.create_input_dt(dtype=dtypes.Integer(), label=f'{new_dim} from')
         self.create_input_dt(dtype=dtypes.Integer(), label=f'{new_dim} to')
-        self.create_output('exec', label=f'loop {new_dim}', insert=-1)
-        self.create_output('data', label=f'i {new_dim}', insert=-1)
+        self.create_output(f'loop {new_dim}', 'exec', insert=-1)
+        self.create_output(f'i {new_dim}', 'data', insert=-1)
         self.dims += 1
 
         self.special_actions[f'remove dimension {new_dim}'] = {
@@ -119,9 +119,9 @@ class ForEachLoop_Node(CSNodeBase):
         NodeInputBP(dtype=dtypes.Integer(), label='elements'),
     ]
     init_outputs = [
-        NodeOutputBP('exec', label='loop'),
-        NodeOutputBP('data', label='e'),
-        NodeOutputBP('exec', label='finished'),
+        NodeOutputBP('loop', type_='exec'),
+        NodeOutputBP('e', type_='data'),
+        NodeOutputBP('finished', type_='exec'),
     ]
 
     def update_event(self, inp=-1):
@@ -139,8 +139,8 @@ class WhileLoop_Node(CSNodeBase):
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
     ]
     init_outputs = [
-        NodeOutputBP('exec', label='loop'),
-        NodeOutputBP('exec', label='finished'),
+        NodeOutputBP('loop', type_='exec'),
+        NodeOutputBP('finished', type_='exec'),
     ]
 
     def update_event(self, inp=-1):
@@ -157,8 +157,8 @@ class DoWhileLoop_Node(CSNodeBase):
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
     ]
     init_outputs = [
-        NodeOutputBP('exec', label='loop'),
-        NodeOutputBP('exec', label='finished'),
+        NodeOutputBP('loop', type_='exec'),
+        NodeOutputBP('finished', type_='exec'),
     ]
 
     def update_event(self, inp=-1):

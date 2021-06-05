@@ -2,38 +2,8 @@ from NENV import *
 widgets = import_widgets(__file__)
 
 
-# from ryvencore_qt import Node
-
-#   TODO
-# class Storage_Node(Node):
-#     """Sequentially stores the data provided at the input"""
-#
-#     title = 'store'
-#     init_inputs = [
-#         NodeInputBP(),
-#     ]
-#     init_outputs = []
-#     color = '#aadd55'
-#
-#     def __init__(self, params):
-#         super().__init__(params)
-#
-#         self.storage = []
-#
-#     def update_event(self, inp=-1):
-#         self.storage.append(self.input(0))
-#
-#     def get_state(self) -> dict:
-#         return {
-#             'hand peda': self.storage,
-#         }
-#
-#     def set_state(self, data: dict):
-#         self.storage = data['hans peda']
-
-
 class NodeBase(Node):
-    pass
+    color = '#FFCA00'
 
 
 class DualNodeBase(Node):
@@ -76,6 +46,131 @@ class DualNodeBase(Node):
 
 
 # -------------------------------------------
+
+
+class Checkpoint_Node(NodeBase):
+    """Provides a simple checkpoint to reroute your connections"""
+
+    title = 'checkpoint'
+    init_inputs = [
+        NodeInputBP(type_='data'),
+    ]
+    init_outputs = [
+        NodeOutputBP(type_='data'),
+    ]
+    style = 'small'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.display_title = ''
+
+        self.active = False
+
+        # initial actions
+        self.special_actions['add output'] = {
+            'method': self.add_output
+        }
+        self.special_actions['remove output'] = {
+            '0': {'method': self.remove_output, 'data': 0}
+        }
+        self.special_actions['make active'] = {
+            'method': self.make_active
+        }
+
+    """State transitions"""
+
+    def clear_ports(self):
+        # remove all outputs
+        for i in range(len(self.outputs)):
+            self.delete_output(0)
+
+        # remove all inputs
+        for i in range(len(self.inputs)):
+            self.delete_input(0)
+
+    def make_active(self):
+        self.active = True
+
+        # rebuild inputs and outputs
+        self.clear_ports()
+        self.create_input(type_='exec')
+        self.create_output(type_='exec')
+
+        # update actions
+        del self.special_actions['make active']
+        self.special_actions['make passive'] = {
+            'method': self.make_passive
+        }
+        self.special_actions['remove output'] = {
+            '0': {'method': self.remove_output, 'data': 0}
+        }
+
+    def make_passive(self):
+        self.active = False
+
+        # rebuild inputs and outputs
+        self.clear_ports()
+        self.create_input(type_='data')
+        self.create_output(type_='data')
+
+        # update actions
+        del self.special_actions['make passive']
+        self.special_actions['make active'] = {
+            'method': self.make_active
+        }
+        self.special_actions['remove output'] = {
+            '0': {'method': self.remove_output, 'data': 0}
+        }
+
+    """Actions"""
+
+    def add_output(self):
+        index = len(self.outputs)
+
+        if self.active:
+            self.create_output(type_='exec')
+        else:
+            self.create_output(type_='data')
+
+        self.special_actions['remove output'][str(index)] = {
+            'method': self.remove_output,
+            'data': index,
+        }
+
+    def remove_output(self, index):
+        self.delete_output(index)
+
+        del self.special_actions['remove output'][str(len(self.outputs))]
+
+    """Behavior"""
+
+    def update_event(self, inp=-1):
+        if self.active and inp == 0:
+            for i in range(len(self.outputs)):
+                self.exec_output(i)
+
+        elif not self.active:
+            data = self.input(0)
+            for i in range(len(self.outputs)):
+                self.set_output_val(i, data)
+
+    """State Reload"""
+
+    def get_state(self) -> dict:
+        return {
+            'active': self.active,
+            'num outputs': len(self.outputs),
+        }
+
+    def set_state(self, data: dict):
+        self.special_actions['remove output'] = {
+            {'method': self.remove_output, 'data': i}
+            for i in range(data['num outputs'])
+        }
+
+        if data['active']:
+            self.make_active()
 
 
 class Button_Node(NodeBase):
@@ -121,8 +216,8 @@ import logging
 class Log_Node(DualNodeBase):
     title = 'Log'
     init_inputs = [
-        NodeInputBP('exec'),
-        NodeInputBP('data', label='msg'),
+        NodeInputBP(type_='exec'),
+        NodeInputBP('msg', type_='data'),
     ]
     init_outputs = [
         NodeOutputBP('exec'),
@@ -211,6 +306,7 @@ class Clock_Node(NodeBase):
                 time.sleep(self.input(0))
 
     def stop(self):
+        self.iteration = 0
         if self.session.gui:
             self.timer.stop()
 
@@ -393,10 +489,48 @@ class Eval_Node(NodeBase):
         self.expression_code = data['expression code']
 
 
+class Storage_Node(Node):
+    """Sequentially stores all the data provided at the input in an array.
+    A COPY of the storage array is provided at the output"""
+
+    title = 'store'
+    init_inputs = [
+        NodeInputBP(),
+    ]
+    init_outputs = [
+        NodeOutputBP(),
+    ]
+    color = '#aadd55'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.storage = []
+
+        self.special_actions['clear'] = {'method': self.clear}
+
+    def clear(self):
+        self.storage.clear()
+        self.set_output_val(0, [])
+
+    def update_event(self, inp=-1):
+        self.storage.append(self.input(0))
+        self.set_output_val(0, self.storage.copy())
+
+    def get_state(self) -> dict:
+        return {
+            'data': self.storage,
+        }
+
+    def set_state(self, data: dict):
+        self.storage = data['data']
+
+
 # -------------------------------------------
 
 
 nodes = [
+    Checkpoint_Node,
     Button_Node,
     Print_Node,
     Log_Node,
@@ -404,4 +538,5 @@ nodes = [
     Slider_Node,
     Code_Node,
     Eval_Node,
+    Storage_Node,
 ]

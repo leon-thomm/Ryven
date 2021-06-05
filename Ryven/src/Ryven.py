@@ -1,22 +1,22 @@
 import os
 import sys
 
-# change directory to current to this file's location
+# change directory to this file's location
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 # PyQt5 doesn't seem to work properly yet
 os.environ['QT_API'] = 'pyside2'
 
-# turn off when debugging
+# turn off for debugging
 REDIRECT_CONSOLE_OUTPUT = True
 
 
 def start_ryven():
 
     # import windows
-    from src.MainConsole import init_main_console
-    from src.startup_dialog.StartupDialog import StartupDialog
-    from src.MainWindow import MainWindow
+    from MainConsole import init_main_console
+    from startup_dialog.StartupDialog import StartupDialog
+    from MainWindow import MainWindow
 
     # init application
     from qtpy.QtWidgets import QApplication
@@ -77,7 +77,6 @@ def main():
     else:
         os.environ['RYVEN_MODE'] = 'gui'
         start_ryven()
-
 
 
 if __name__ == '__main__':

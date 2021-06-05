@@ -1,5 +1,5 @@
 {
-  "init flow theme": "Samuel 1d",
+  "init flow theme": "pure dark",
   "init performance mode": "pretty",
   "init animations enabled": true,
   "flow themes": {
@@ -68,7 +68,7 @@
       "nodes background color": "default",
       "small nodes background color": "default"
     },
-    "Samuel 1d": {
+    "pure dark": {
       "exec connection color": "default",
       "exec connection width": "default",
       "exec connection pen style": "default",
@@ -82,7 +82,7 @@
       "node title color": "default",
       "port pin pen color": "default"
     },
-    "Samuel 1l": {
+    "pure light": {
       "exec connection color": "default",
       "exec connection width": "default",
       "exec connection pen style": "default",

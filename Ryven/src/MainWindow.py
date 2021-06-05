@@ -3,22 +3,20 @@ import sys
 from os.path import join, dirname
 
 from qtpy.QtGui import QIcon, QKeySequence
-from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget
+from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget, QMessageBox
 
-# import .MainConsole as MainConsole
-# import MainConsole
-from .MainConsole import *
-from .ScriptUI import ScriptUI
-from .WindowTheme import WindowTheme
-from .nodes_package import NodesPackage
-from .uic.ui_main_window import Ui_MainWindow
+from MainConsole import *
+from ScriptUI import ScriptUI
+from WindowTheme import WindowTheme
+from nodes_package import NodesPackage
+from uic.ui_main_window import Ui_MainWindow
 
-from .nodes.NodeBase import NodeBase
+from nodes.NodeBase import NodeBase
 
 # ryvencore_qt
 import ryvencore_qt as rc
 
-from .tools import import_nodes_package
+from tools import import_nodes_package
 
 
 class MainWindow(QMainWindow):
@@ -34,9 +32,17 @@ class MainWindow(QMainWindow):
         # SESSION
         self.session = rc.Session(node_class=NodeBase)
 
-        self.session.script_flow_view_created.connect(self.script_created)
+        self.session.flow_view_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
         self.session.script_deleted.connect(self.script_deleted)
+
+        # LOAD DESIGN AND FLOW THEME
+        self.session.design.load_from_config('design_config.json')
+
+        if self.theme.name == 'dark':
+            self.session.design.set_flow_theme(name='pure dark')
+        else:  # 'light'
+            self.session.design.set_flow_theme(name='pure light')
 
         # UI
         self.setup_ui()
@@ -68,14 +74,6 @@ class MainWindow(QMainWindow):
         MainConsole.instance.session = self.session
         MainConsole.instance.reset_interpreter()
         NodeBase.main_console = MainConsole.instance
-
-        #   LOAD DESIGN AND FLOW THEME
-        self.session.design.load_from_config('design_config.json')
-
-        if self.theme.name == 'dark':
-            self.session.design.set_flow_theme(name='Samuel 1d')
-        else:  # 'light'
-            self.session.design.set_flow_theme(name='Samuel 1l')
 
         #   REGISTER BUILT-IN NODES
         self.import_nodes(path=join(dirname(__file__), 'nodes/built_in/'))
@@ -156,41 +154,46 @@ import: ctrl+i
         self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
 
         # performance mode
-        self.action_set_performance_mode_fast = QAction('Fast', self)
-        self.action_set_performance_mode_fast.setCheckable(True)
+        self.ac_perf_mode_fast = QAction('Fast', self)
+        self.ac_perf_mode_fast.setCheckable(True)
 
-        self.action_set_performance_mode_pretty = QAction('Pretty', self)
-        self.action_set_performance_mode_pretty.setCheckable(True)
+        self.ac_perf_mode_pretty = QAction('Pretty', self)
+        self.ac_perf_mode_pretty.setCheckable(True)
 
-        performance_mode_AG = QActionGroup(self)
-        performance_mode_AG.addAction(self.action_set_performance_mode_fast)
-        performance_mode_AG.addAction(self.action_set_performance_mode_pretty)
-        self.action_set_performance_mode_fast.setChecked(self.session.design.performance_mode=='fast')
-        self.action_set_performance_mode_pretty.setChecked(self.session.design.performance_mode=='pretty')
-        performance_mode_AG.triggered.connect(self.on_performance_mode_changed)
+        perf_mode_ag = QActionGroup(self)
+        perf_mode_ag.addAction(self.ac_perf_mode_fast)
+        perf_mode_ag.addAction(self.ac_perf_mode_pretty)
 
-        performance_menu = QMenu('Performance Mode', self)
-        performance_menu.addAction(self.action_set_performance_mode_fast)
-        performance_menu.addAction(self.action_set_performance_mode_pretty)
+        self.ac_perf_mode_fast.setChecked(self.session.design.performance_mode == 'fast')
+        self.ac_perf_mode_pretty.setChecked(self.session.design.performance_mode == 'pretty')
 
-        self.ui.menuView.addMenu(performance_menu)
+        perf_mode_ag.triggered.connect(self.on_performance_mode_changed)
+
+        perf_menu = QMenu('Performance Mode', self)
+        perf_menu.addAction(self.ac_perf_mode_fast)
+        perf_menu.addAction(self.ac_perf_mode_pretty)
+
+        self.ui.menuView.addMenu(perf_menu)
 
         # animations
-        self.action_set_animation_active = QAction('Enabled', self)
-        self.action_set_animation_active.setCheckable(True)
+        self.ac_anims_active = QAction('Enabled', self)
+        self.ac_anims_active.setCheckable(True)
 
-        self.action_set_animations_inactive = QAction('Disabled', self)
-        self.action_set_animations_inactive.setCheckable(True)
+        self.ac_anims_inactive = QAction('Disabled', self)
+        self.ac_anims_inactive.setCheckable(True)
 
-        animation_enabled_AG = QActionGroup(self)
-        animation_enabled_AG.addAction(self.action_set_animation_active)
-        animation_enabled_AG.addAction(self.action_set_animations_inactive)
-        self.action_set_animation_active.setChecked(True)
-        animation_enabled_AG.triggered.connect(self.on_animation_enabling_changed)
+        anims_ag = QActionGroup(self)
+        anims_ag.addAction(self.ac_anims_active)
+        anims_ag.addAction(self.ac_anims_inactive)
+
+        self.ac_anims_active.setChecked(self.session.design.animations_enabled)
+        self.ac_anims_inactive.setChecked(not self.session.design.animations_enabled)
+
+        anims_ag.triggered.connect(self.on_animation_enabling_changed)
 
         animations_menu = QMenu('Animations', self)
-        animations_menu.addAction(self.action_set_animation_active)
-        animations_menu.addAction(self.action_set_animations_inactive)
+        animations_menu.addAction(self.ac_anims_active)
+        animations_menu.addAction(self.ac_anims_inactive)
 
         self.ui.menuView.addMenu(animations_menu)
 
@@ -212,13 +215,13 @@ import: ctrl+i
             self.import_nodes(path=dirname(file_path))
 
     def on_performance_mode_changed(self, action):
-        if action == self.action_set_performance_mode_fast:
+        if action == self.ac_perf_mode_fast:
             self.session.design.set_performance_mode('fast')
         else:
             self.session.design.set_performance_mode('pretty')
 
     def on_animation_enabling_changed(self, action):
-        if action == self.action_set_animation_active:
+        if action == self.ac_anims_active:
             self.session.design.animations_enabled = True
         else:
             self.session.design.animations_enabled = False
@@ -306,7 +309,11 @@ import: ctrl+i
         else:
             p = NodesPackage(path)
 
-        nodes = import_nodes_package(p)
+        try:
+            nodes = import_nodes_package(p)
+        except ModuleNotFoundError as e:
+            QMessageBox.warning(self, title='Missing Python module', text=str(e))
+            sys.exit()
 
         self.session.register_nodes(nodes)
 

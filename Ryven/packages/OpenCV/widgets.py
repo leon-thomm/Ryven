@@ -1,6 +1,6 @@
 from NWENV import *
-from qtpy.QtWidgets import QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget
-from qtpy.QtGui import QImage, QPixmap
+from qtpy.QtWidgets import QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QTextEdit
+from qtpy.QtGui import QImage, QPixmap, QFont
 from qtpy.QtCore import QObject, Signal, QSize, QTimer
 
 import cv2
@@ -77,7 +77,7 @@ class PathInput(QWidget, IWB):
         self.path = os.path.relpath(abs_f_path)
 
         self.path_label.setText(self.path)
-        self.adjustSize()  # important! otherwise the widget won't shring
+        self.adjustSize()  # important! otherwise the widget won't shrink
 
         self.path_chosen.emit(self.path)
 
@@ -136,9 +136,54 @@ class WebcamFeedWidget(QWidget, MWB):
         self.timer.stop()
 
 
+class CustomOpenCVNode_CodeWidget(QTextEdit):
+    def __init__(self):
+        QTextEdit.__init__(self)
+
+        self.setFont(QFont('Consolas', 9))
+        self.setPlainText('import cv2\nimg = None')
+        self.setFixedHeight(100)
+        self.setMinimumWidth(300)
+
+
+class CustomOpenCVNode_MainWidget(MWB, QWidget):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__(self)
+
+        self.setLayout(QVBoxLayout())
+
+        self.img_view = OpenCVNode_MainWidget(params)
+        self.editor = CustomOpenCVNode_CodeWidget()
+
+        self.layout().addWidget(self.img_view)
+        self.layout().addWidget(self.editor)
+
+        self.editor.textChanged.connect(self.text_changed)
+
+    def show_image(self, img):
+        self.img_view.show_image(img)
+        self.adjustSize()
+        # self.editor.adjustSize()
+        self.update_node_shape()
+
+    def text_changed(self):
+        self.node.code = self.editor.toPlainText()
+        self.update_node()
+
+    def get_state(self) -> dict:
+        return {
+            'text': self.editor.toPlainText(),
+        }
+
+    def set_state(self, data: dict):
+        self.editor.setPlainText(data['text'])
+
+
 export_widgets(
     OpenCVNode_MainWidget,
     ChooseFileInputWidget,
     PathInput,
     WebcamFeedWidget,
+    CustomOpenCVNode_MainWidget,
 )

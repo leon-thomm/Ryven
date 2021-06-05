@@ -106,7 +106,7 @@ class Matrix_Node(Node):
         try:
             # clear used variables
             for name in self.used_variable_names:
-                self.unregister_var_receiver(name)
+                self.unregister_var_receiver(name, self.var_val_updated)
             self.used_variable_names.clear()
 
             v = self.register_variable

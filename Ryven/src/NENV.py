@@ -17,7 +17,7 @@ else:
     # import sources directly from backend if not running in gui mode
     from ryvencore_qt.src.ryvencore import Node as _Node, NodeInputBP, NodeOutputBP, dtypes
 
-    class Node(_Node):
+    class NodeWrp(_Node):
         """
         Wraps the nodes s.t. their usages of ryvencore-qt or Ryven features don't brake them.
         """
@@ -25,6 +25,8 @@ else:
         def __init__(self, params):
             self.special_actions = dict()
             super().__init__(params)
+
+    Node = NodeWrp
 
 
 from tools import load_from_file

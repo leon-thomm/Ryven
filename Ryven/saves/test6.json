@@ -1,0 +1,276 @@
+{
+    "general info": {
+        "type": "Ryven project file"
+    },
+    "required packages": [
+        {
+            "name": "std",
+            "dir": "C:/Users/nutri/projects/ryven projects/Ryven/Ryven/packages/std"
+        }
+    ],
+    "macro scripts": [],
+    "scripts": [
+        {
+            "name": "hello world",
+            "variables": {},
+            "flow": {
+                "algorithm mode": "data",
+                "nodes": [
+                    {
+                        "identifier": "built_in.GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "get var",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "val": "gASVBAAAAAAAAACMAJQu",
+                                "dtype": "DType.String",
+                                "dtype state": "gASVLwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjANkb2OUaAKMBmJvdW5kc5ROjARzaXpllIwBbZR1Lg==",
+                                "has widget": true,
+                                "widget data": "gASVDgAAAAAAAAB9lIwEdGV4dJSMAJRzLg=="
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 456.0,
+                        "pos y": 197.0,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.Result_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "result",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 795.0,
+                        "pos y": 177.0,
+                        "main widget data": "gAR9lC4=",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.SetVar_Node",
+                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIhzLg==",
+                        "special actions": {
+                            "make passive": {
+                                "method": "action_make_passive"
+                            }
+                        },
+                        "display title": "set var",
+                        "inputs": [
+                            {
+                                "type": "exec",
+                                "label": "",
+                                "val": "gAROLg=="
+                            },
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "val": "gAROLg==",
+                                "dtype": "DType.String",
+                                "dtype state": "gASVLwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjANkb2OUaAKMBmJvdW5kc5ROjARzaXpllIwBbZR1Lg==",
+                                "has widget": true,
+                                "widget data": "gASVDgAAAAAAAAB9lIwEdGV4dJSMAJRzLg=="
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "val": "gAROLg==",
+                                "dtype": "DType.Data",
+                                "dtype state": "gASVLgAAAAAAAAB9lCiMB2RlZmF1bHSUTowDZG9jlIwAlIwGYm91bmRzlE6MBHNpemWUjAFzlHUu",
+                                "has widget": true,
+                                "widget data": "gASVEgAAAAAAAAB9lIwEdGV4dJSMBE5vbmWUcy4="
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "exec",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 670.0,
+                        "pos y": 342.0,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.SetVarsPassive_Node",
+                        "state data": "gASVEQAAAAAAAAB9lIwIbnVtIHZhcnOUSwFzLg==",
+                        "special actions": {
+                            "add var input": {
+                                "method": "add_var_input"
+                            },
+                            "remove var 1": {
+                                "method": "remove_var_input",
+                                "data": 1
+                            }
+                        },
+                        "display title": "set vars passive",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "var",
+                                "val": "gAROLg==",
+                                "dtype": "DType.String",
+                                "dtype state": "gASVLwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjANkb2OUaAKMBmJvdW5kc5ROjARzaXpllIwBbJR1Lg==",
+                                "has widget": true,
+                                "widget data": "gASVDgAAAAAAAAB9lIwEdGV4dJSMAJRzLg=="
+                            },
+                            {
+                                "type": "data",
+                                "label": "val",
+                                "val": "gAROLg==",
+                                "dtype": "DType.Data",
+                                "dtype state": "gASVLgAAAAAAAAB9lCiMB2RlZmF1bHSUTowDZG9jlIwAlIwGYm91bmRzlE6MBHNpemWUjAFslHUu",
+                                "has widget": true,
+                                "widget data": "gASVEgAAAAAAAAB9lIwEdGV4dJSMBE5vbmWUcy4="
+                            }
+                        ],
+                        "outputs": [],
+                        "pos x": 961.0,
+                        "pos y": 432.0,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.Val_Node",
+                        "state data": "gASVDAAAAAAAAAB9lIwDdmFslEt7cy4=",
+                        "special actions": {
+                            "edit val via dialog": {
+                                "method": "action_edit_via_dialog"
+                            }
+                        },
+                        "display title": "val",
+                        "inputs": [],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 174.0,
+                        "pos y": 288.0,
+                        "main widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMAzEyM5RzLg==",
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "built_in.GetVar_Node",
+                        "state data": "gAR9lC4=",
+                        "special actions": {},
+                        "display title": "get var",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "dtype": "DType.String",
+                                "dtype state": "gASVLwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjANkb2OUaAKMBmJvdW5kc5ROjARzaXpllIwBbZR1Lg==",
+                                "has widget": true,
+                                "widget data": "gASVDgAAAAAAAAB9lIwEdGV4dJSMAJRzLg=="
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": "val"
+                            }
+                        ],
+                        "pos x": 496.8941993243003,
+                        "pos y": 344.6256617846618,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    },
+                    {
+                        "identifier": "std.Checkpoint_Node",
+                        "state data": "gASVHwAAAAAAAAB9lCiMBmFjdGl2ZZSJjAtudW0gb3V0cHV0c5RLAnUu",
+                        "special actions": {
+                            "add output": {
+                                "method": "add_output"
+                            },
+                            "remove output": {
+                                "0": {
+                                    "method": "remove_output",
+                                    "data": 0
+                                },
+                                "1": {
+                                    "method": "remove_output",
+                                    "data": 1
+                                }
+                            },
+                            "make active": {
+                                "method": "make_active"
+                            }
+                        },
+                        "display title": "",
+                        "inputs": [
+                            {
+                                "type": "data",
+                                "label": "",
+                                "has widget": false
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "type": "data",
+                                "label": ""
+                            },
+                            {
+                                "type": "data",
+                                "label": ""
+                            }
+                        ],
+                        "pos x": 308.0,
+                        "pos y": 303.0,
+                        "unconnected ports hidden": false,
+                        "collapsed": false
+                    }
+                ],
+                "connections": [
+                    {
+                        "parent node index": 4,
+                        "output port index": 0,
+                        "connected node": 6,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 0,
+                        "connected node": 1,
+                        "connected input port index": 0
+                    },
+                    {
+                        "parent node index": 6,
+                        "output port index": 1,
+                        "connected node": 5,
+                        "connected input port index": 0
+                    }
+                ]
+            },
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    6400.0,
+                    4800.0
+                ]
+            }
+        }
+    ]
+}

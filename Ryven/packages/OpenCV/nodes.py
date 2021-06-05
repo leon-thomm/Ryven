@@ -16,7 +16,11 @@ class CVImage:
         self.img = img
 
 
-class ReadImage(Node):
+class NodeBase(Node):
+    color = '#00a6ff'
+
+
+class ReadImage(NodeBase):
     """Reads an image from a file"""
 
     title = 'Read Image'
@@ -29,7 +33,6 @@ class ReadImage(Node):
     init_outputs = [
         NodeOutputBP(label='img')
     ]
-    color = '#00a6ff'
 
     def __init__(self, params):
         super().__init__(params)
@@ -63,7 +66,7 @@ class ReadImage(Node):
 
 
 
-class SaveImg(Node):
+class SaveImg(NodeBase):
     title = 'Save Image'
     input_widget_classes = {
         'path input': widgets.PathInput
@@ -72,7 +75,6 @@ class SaveImg(Node):
         NodeInputBP(label='img'),
         NodeInputBP(label='path', add_config={'widget name': 'path input', 'widget pos': 'below'}),
     ]
-    color = '#00a6ff'
 
     def __init__(self, params):
         super().__init__(params)
@@ -115,14 +117,13 @@ class SaveImg(Node):
 
 # ----------------------------------------------------------------
 
-class WebcamFeed(Node):
+class WebcamFeed(NodeBase):
     title = 'Webcam Feed'
     init_inputs = []
     init_outputs = [
         NodeOutputBP(),
     ]
     main_widget_class = widgets.WebcamFeedWidget
-    color = '#00a6ff'
 
     def video_picture_updated(self, frame):
         self.set_output_val(0, CVImage(frame))
@@ -130,14 +131,13 @@ class WebcamFeed(Node):
 # ----------------------------------------------------------------
 
 
-class OpenCVNodeBase(Node):
+class OpenCVNodeBase(NodeBase):
 
     init_outputs = [
         NodeOutputBP()
     ]
     main_widget_class = widgets.OpenCVNode_MainWidget
     main_widget_pos = 'below ports'
-    color = '#00a6ff'
 
     def __init__(self, params):
         super().__init__(params)
@@ -165,6 +165,39 @@ class OpenCVNodeBase(Node):
             self.SIGNALS.new_img.emit(new_img_wrp.img)
 
         self.set_output_val(0, new_img_wrp)
+
+    def get_img(self):
+        return None
+
+
+class CustomOpenCV(OpenCVNodeBase):
+    """Provides a simple interface to run an OpenCV operation on an image.
+    To access the input image write 'img = self.input(0).img'."""
+
+    title = 'OpenCV'
+    init_inputs = [
+        NodeInputBP()
+    ]
+    main_widget_class = widgets.CustomOpenCVNode_MainWidget
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.code = ''
+
+    def get_img(self):
+        d = {**locals(), 'img': None}
+        exec(self.code, d)
+        img = d['img']
+        return img
+
+    def get_state(self) -> dict:
+        return {
+            'code': self.code,
+        }
+
+    def set_state(self, data: dict):
+        self.code = data['code']
 
 
 
@@ -632,6 +665,7 @@ export_nodes(
     SaveImg,
     WebcamFeed,
     DisplayImg,
+    CustomOpenCV,
 
     AdjustBrightness,
     Blur,

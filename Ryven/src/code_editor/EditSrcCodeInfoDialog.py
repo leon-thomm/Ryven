@@ -18,13 +18,13 @@ class EditSrcCodeInfoDialog(QDialog):
             <div style="font-family: Corbel; font-size: x-large;">
                 <p>
                     Yes, you can change method implementations of objects.
-                    This can be quite useful for understanding a node's implementation, for designing new nodes 
-                    and for debugging. But since changing an instance's implementation at runtime is kinda sketchy, 
-                    you should be a bit careful, this feature is not exactly bulletproof, and doesnt <i>always</i> work.
-                    You can override implementations of methods and add new methods to a single node object
-                    or its custom widgets.
-                    Other nodes of the same type won't be affected.
-                    Changes made to the source code are temporary and don't get saved.
+                    This can be quite useful but since changing an instance's implementation at runtime is kinda sketchy, 
+                    you should be a bit careful, it's not exactly bulletproof, and doesnt <i>always</i> work.
+                    When you override a method implementation, a new function object will be created using python's ast 
+                    module, which then gets bound to the object as method, which essentially shadows the old implementation. 
+                    Therefore, you might need to add imports etc. you node uses in the original nodes package. 
+                    All changes are temporary and only apply on a single 
+                    object.
                 </p>
                 <p>
                     Have fun.
