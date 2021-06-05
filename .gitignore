@@ -4,3 +4,4 @@ __pycache__/
 venv/
 temp/
 tests/
+code_gen/
