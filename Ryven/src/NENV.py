@@ -23,7 +23,7 @@ else:
         """
 
         def __init__(self, params):
-            self.special_actions = dict()
+            self.actions = dict()
             super().__init__(params)
 
     Node = NodeWrp

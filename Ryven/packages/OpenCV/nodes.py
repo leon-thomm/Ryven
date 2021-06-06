@@ -81,7 +81,7 @@ class SaveImg(NodeBase):
 
         self.active = False
         self.file_path = ''
-        self.special_actions['make executable'] = {'method': self.action_make_executable}
+        self.actions['make executable'] = {'method': self.action_make_executable}
 
     def view_place_event(self):
         self.input_widget(1).path_chosen.connect(self.path_chosen)
@@ -94,15 +94,15 @@ class SaveImg(NodeBase):
         self.create_input(type_='exec', insert=0)
         self.active = True
 
-        del self.special_actions['make executable']
-        self.special_actions['make passive'] = {'method': self.action_make_passive}
+        del self.actions['make executable']
+        self.actions['make passive'] = {'method': self.action_make_passive}
 
     def action_make_passive(self):
         self.delete_input(0)
         self.active = False
 
-        del self.special_actions['make passive']
-        self.special_actions['make executable'] = {'method': self.action_make_executable}
+        del self.actions['make passive']
+        self.actions['make executable'] = {'method': self.action_make_executable}
 
     def update_event(self, inp=-1):
         if not self.active or (self.active and inp == 0):

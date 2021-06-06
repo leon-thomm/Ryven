@@ -5,3 +5,4 @@ venv/
 temp/
 tests/
 code_gen/
+__own__/

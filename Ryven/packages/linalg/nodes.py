@@ -54,7 +54,7 @@ class Matrix_Node(Node):
     def __init__(self, params):
         super(Matrix_Node, self).__init__(params)
 
-        self.special_actions['hide preview'] = {'method': self.action_hide_mw}
+        self.actions['hide preview'] = {'method': self.action_hide_mw}
         self.main_widget_hidden = False
         self.expression_matrix = None
         self.evaluated_matrix = None
@@ -128,15 +128,15 @@ class Matrix_Node(Node):
 
     def action_hide_mw(self):
         self.main_widget().hide()
-        del self.special_actions['hide preview']
-        self.special_actions['show preview'] = {'method': self.action_show_mw}
+        del self.actions['hide preview']
+        self.actions['show preview'] = {'method': self.action_show_mw}
         self.main_widget_hidden = True
         self.update_shape()
 
     def action_show_mw(self):
         self.main_widget().show()
-        del self.special_actions['show preview']
-        self.special_actions['hide preview'] = {'method': self.action_hide_mw}
+        del self.actions['show preview']
+        self.actions['hide preview'] = {'method': self.action_hide_mw}
         self.main_widget_hidden = False
         self.update_shape()
 

@@ -7,7 +7,7 @@ class NodeBase(Node):
         super().__init__(params)
 
         # here we could add some stuff for all nodes below...
-        self.special_actions['asdf'] = {'method': self.asdf}
+        self.actions['asdf'] = {'method': self.asdf}
 
     def asdf(self):
         self.create_input_dt(dtype=dtypes.Integer(default=1, bounds=(1, 100)),

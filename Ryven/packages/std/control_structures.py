@@ -43,7 +43,7 @@ class ForLoop_Node(CSNodeBase):
     def __init__(self, params):
         super().__init__(params)
 
-        self.special_actions['add dimension'] = {'method': self.add_dimension}
+        self.actions['add dimension'] = {'method': self.add_dimension}
 
         self.dims = 1
 
@@ -55,7 +55,7 @@ class ForLoop_Node(CSNodeBase):
         self.create_output(f'i {new_dim}', 'data', insert=-1)
         self.dims += 1
 
-        self.special_actions[f'remove dimension {new_dim}'] = {
+        self.actions[f'remove dimension {new_dim}'] = {
             'method': self.remove_dimension,
             'data': new_dim
         }
@@ -68,21 +68,21 @@ class ForLoop_Node(CSNodeBase):
         self.delete_output(out_index)
         self.delete_output(out_index)
         self.dims -= 1
-        # del self.special_actions[f'remove dimension {dim}']
+        # del self.actions[f'remove dimension {dim}']
         self.rebuild_remove_actions()
 
     def rebuild_remove_actions(self):
 
         remove_keys = []
-        for k, v in self.special_actions.items():
+        for k, v in self.actions.items():
             if k.startswith('remove dimension'):
                 remove_keys.append(k)
 
         for k in remove_keys:
-            del self.special_actions[k]
+            del self.actions[k]
 
         for i in range(1, self.dims):
-            self.special_actions[f'remove dimension {i+1}'] = {'method': self.remove_dimension, 'data': i+1}
+            self.actions[f'remove dimension {i+1}'] = {'method': self.remove_dimension, 'data': i+1}
 
     def input_from_dim(self, dim):
         return 1 + 2*(dim-1)

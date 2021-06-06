@@ -20,7 +20,7 @@ class OperatorNodeBase(Node):
         super().__init__(params)
 
         self.num_inputs = 0
-        self.special_actions['add input'] = {'method': self.add_operand_input}
+        self.actions['add input'] = {'method': self.add_operand_input}
 
     def place_event(self):
         for i in range(len(self.inputs)):
@@ -34,12 +34,12 @@ class OperatorNodeBase(Node):
     def remove_operand_input(self, index):
         self.delete_input(index)
         self.num_inputs -= 1
-        # del self.special_actions[f'remove input {index}']
+        # del self.actions[f'remove input {index}']
         self.rebuild_remove_actions()
         self.update()
 
     def register_new_operand_input(self, index):
-        self.special_actions[f'remove input {index}'] = {
+        self.actions[f'remove input {index}'] = {
             'method': self.remove_operand_input,
             'data': index
         }
@@ -48,15 +48,15 @@ class OperatorNodeBase(Node):
     def rebuild_remove_actions(self):
 
         remove_keys = []
-        for k, v in self.special_actions.items():
+        for k, v in self.actions.items():
             if k.startswith('remove input'):
                 remove_keys.append(k)
 
         for k in remove_keys:
-            del self.special_actions[k]
+            del self.actions[k]
 
         for i in range(self.num_inputs):
-            self.special_actions[f'remove input {i}'] = {'method': self.remove_operand_input, 'data': i}
+            self.actions[f'remove input {i}'] = {'method': self.remove_operand_input, 'data': i}
 
     def update_event(self, inp=-1):
         self.set_output_val(0, self.apply_op([self.input(i) for i in range(len(self.inputs))]))

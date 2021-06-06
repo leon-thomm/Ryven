@@ -100,7 +100,7 @@ class Val_Node(NodeBase):
     def __init__(self, params):
         super().__init__(params)
 
-        self.special_actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
+        self.actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
         self.val = None
 
 
@@ -159,7 +159,7 @@ class SetVar_Node(NodeBase):
     def __init__(self, params):
         super().__init__(params)
 
-        self.special_actions['make passive'] = {'method': self.action_make_passive}
+        self.actions['make passive'] = {'method': self.action_make_passive}
         self.active = True
 
         self.var_names = ''
@@ -187,15 +187,15 @@ class SetVar_Node(NodeBase):
         self.active = False
         self.delete_input(0)
         self.delete_output(0)
-        del self.special_actions['make passive']
-        self.special_actions['make active'] = {'method': self.action_make_active}
+        del self.actions['make passive']
+        self.actions['make active'] = {'method': self.action_make_active}
 
     def action_make_active(self):
         self.active = True
         self.create_input('exec', '', pos=0)
         self.create_output('exec', '', pos=0)
-        del self.special_actions['make active']
-        self.special_actions['make passive'] = {'method': self.action_make_passive}
+        del self.actions['make active']
+        self.actions['make passive'] = {'method': self.action_make_passive}
 
     def get_state(self):
         return {'active': self.active}
@@ -219,7 +219,7 @@ class SetVarsPassive_Node(NodeBase):
     def __init__(self, params):
         super().__init__(params)
 
-        self.special_actions['add var input'] = {'method': self.add_var_input}
+        self.actions['add var input'] = {'method': self.add_var_input}
 
         self.num_vars = 0
 
@@ -232,7 +232,7 @@ class SetVarsPassive_Node(NodeBase):
         self.create_input_dt(label='val', dtype=dtypes.Data(size='l'))
         self.num_vars += 1
 
-        self.special_actions[f'remove var {self.num_vars}'] = {
+        self.actions[f'remove var {self.num_vars}'] = {
             'method': self.remove_var_input,
             'data': self.num_vars
         }
@@ -246,15 +246,15 @@ class SetVarsPassive_Node(NodeBase):
     def rebuild_remove_actions(self):
 
         remove_keys = []
-        for k, v in self.special_actions.items():
+        for k, v in self.actions.items():
             if k.startswith('remove var'):
                 remove_keys.append(k)
 
         for k in remove_keys:
-            del self.special_actions[k]
+            del self.actions[k]
 
         for i in range(self.num_vars):
-            self.special_actions[f'remove var {i+1}'] = {
+            self.actions[f'remove var {i+1}'] = {
                 'method': self.remove_var_input,
                 'data': i+1
             }
