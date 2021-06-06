@@ -322,7 +322,7 @@ There are a few more features for which you can find instructions in the [ryvenc
 
 #### Special Actions
 
-For example: you can use a node's `special_actions` dict to easily add dynamic right-click operations to your nodes which you can change at any time. Almost all of the example nodes make use of this feature, it's super useful.
+For example: you can use a node's `actions` dict to easily add dynamic right-click operations to your nodes which you can change at any time. Almost all of the example nodes make use of this feature, it's super useful.
 
 ### Custom Widgets
 

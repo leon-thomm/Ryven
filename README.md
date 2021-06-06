@@ -49,7 +49,7 @@ Macros are like all other scripts, so they have their own flow, plus input and o
 #### right click operations system for nodes
 which can be edited through the API at any time.
 ```python
-self.special_actions[f'remove input {i}'] = {
+self.actions[f'remove input {i}'] = {
     'method': self.rem_input,
     'data': i,
 }
@@ -57,7 +57,7 @@ self.special_actions[f'remove input {i}'] = {
 # with some method...
 def rem_input(self, index):
     self.delete_input(index)
-    del self.special_actions[f'remove input {len(self.inputs)}']
+    del self.actions[f'remove input {len(self.inputs)}']
 ```
 
 #### Qt widgets
