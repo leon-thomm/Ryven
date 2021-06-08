@@ -1,5 +1,6 @@
 import types
 import ast
+import traceback
 
 
 def get_method_funcs(cls_def_str: str, obj):
@@ -13,7 +14,14 @@ def get_method_funcs(cls_def_str: str, obj):
     funcs = {}
     for astf in ast_funcs:
         d = __builtins__.copy()  # important: provide builtins when parsing the function
-        exec(ast.unparse(astf), d)  # parse
+
+        try:
+            exec(ast.unparse(astf), d)  # parse
+        except AttributeError as e:     # ast.unparse() was introduced in Python 3.9
+            print(traceback.format_exc())
+            print('\n\nNOTICE: src code override only works on Python version 3.9+, '
+                  'so you may have to update to 3.9 to use it')
+            return None
 
         f = d[astf.name]
 
@@ -38,6 +46,10 @@ class SrcCodeUpdater:
     def override_code(obj: object, new_class_src):
 
         funcs = get_method_funcs(new_class_src, obj)
+
+        if funcs is None:
+            return
+
         for name, f in funcs.items():  # override all methods
             setattr(obj, name, types.MethodType(f, obj))
             # types.MethodType() creates a bound method, bound to obj, from the function f
