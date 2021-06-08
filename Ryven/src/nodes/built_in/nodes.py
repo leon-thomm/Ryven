@@ -36,6 +36,9 @@ class GetVar_Node(NodeBase):
         # self.set_output_val(0, self.get_var_val(self.var_name))
         self.update()
 
+    def view_place_event(self):
+        self.var_name = self.input(0)
+
     def update_event(self, input_called=-1):
         if self.input(0) != self.var_name:
             if self.var_name != '':  # disconnect old var val update connection
