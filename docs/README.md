@@ -197,7 +197,7 @@ class StoreDataNode(Node):
 
 ### Important API Methods
 
-Here I'll just informally present most of the important API methods for nodes you might want to use. Refer to the [ryvencore-qt API documentation](https://leon-thomm.github.io/ryvencore-qt/api/) for a complete list.
+Here I'll just informally present most of the important API methods for nodes you might want to use. Refer to the [ryvencore-qt API documentation](https://leon-thomm.github.io/ryvencore-qt/#/api) for a complete list.
 
 | Method                                                                     | Description                          |
 | -------------------------------------------------------------------------- | ------------------------------------ |
@@ -318,7 +318,7 @@ After importing the nodes package in Ryven, it looks like this:
 
 ### Further Features
 
-There are a few more features for which you can find instructions in the [ryvencore-qt docs](https://leon-thomm.github.io/ryvencore-qt/#/features).
+There are a few more features for which you can find instructions in the [ryvencore-qt docs](https://leon-thomm.github.io/ryvencore-qt/#/).
 
 #### Special Actions
 
