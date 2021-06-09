@@ -77,12 +77,12 @@ Next to the logs is the source code area where you can inspect the source code o
 > [!TIP|label:How to fix this]
 > If you need to reference methods directly somewhere (for example when passing them as 'variable receiver'), you could use a workaround by, instead of passing the actual method reference, passing a lambda causing a new search for the newest version whenever the method is called, like this
 > ```python
-def retain(foo):
-    return lambda *args, **kwargs: getattr(foo.__self__, foo.__name__)(*args, **kwargs)
+>def retain(foo):
+>    return lambda *args, **kwargs: getattr(foo.__self__, foo.__name__)(*args, **kwargs)
 > ```
 > And when referencing, for example:
 > ```python
-self.register_var_receiver('x', retain(self.my_method))
+>self.register_var_receiver('x', retain(self.my_method))
 > ```
 
 It usually works quite well, but there might be some bugs since the implementation in Ryven 3 hasn't been extensively tested yet.
@@ -131,9 +131,9 @@ The `place_event` is called every time the node is added to the flow. Notice tha
 
 > [!TIP|label:Example]
 > ```python
-class MyNode(Node):
-    def place_event(self):
-        self.update()
+>class MyNode(Node):
+>    def place_event(self):
+>        self.update()
 > ```
 
 Just like the `place_event`, there's a `remove_event` called every time the node is removed from the flow (this too can happen multiple times).
@@ -141,9 +141,9 @@ Just like the `place_event`, there's a `remove_event` called every time the node
 
 > [!TIP|label:Example]
 > ```python
-class MyNode(Node):
-    def remove_event(self):
-        self.timer.stop()
+>class MyNode(Node):
+>    def remove_event(self):
+>        self.timer.stop()
 > ```
 
 In contrast to the `place_event`, the `view_place_event` is called once the whole GUI of the node (including custom widgets) has initialized, which is important when using custom widgets, see below. Only do GUI related work here, as this method of  course is never called when running the node on ryven console since there does not exist any GUI then.
@@ -151,9 +151,9 @@ In contrast to the `place_event`, the `view_place_event` is called once the whol
 
 > [!TIP|label:Example]
 > ```python
-class MyNode(Node):
-    def view_place_event(self):
-        self.main_widget().update()
+>class MyNode(Node):
+>    def view_place_event(self):
+>        self.main_widget().update()
 > ```
 
 #### Nodes with States
@@ -226,20 +226,20 @@ Those `DTypes` are defined in an abstract way in `ryvencore` and `ryvencore-qt` 
 
 > [!TIP|label:Example]
 > ```python
-class MyNode(Node):
-    ...
-    init_inputs = [
-        NodeInputBP(
-            dtype=dtypes.Integer(default=1, bounds=(1, 100)), 
-            label='scale'
-        ),
-    ]
+>class MyNode(Node):
+>    ...
+>    init_inputs = [
+>        NodeInputBP(
+>            dtype=dtypes.Integer(default=1, bounds=(1, 100)), 
+>            label='scale'
+>        ),
+>    ]
 > ```
 > or
 > ```python
-self.create_input_dt(
-    dtype=dtypes.Integer(default=1, bounds=(1, 100)),
-    label='scale')
+>self.create_input_dt(
+>    dtype=dtypes.Integer(default=1, bounds=(1, 100)),
+>    label='scale')
 > ```
 
 Currently available `DTypes` are:
