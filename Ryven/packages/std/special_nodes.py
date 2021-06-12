@@ -30,8 +30,8 @@ class DualNodeBase(NodeBase):
     def make_active(self):
         del self.actions['make active']
 
-        self.create_input('exec', insert=0)
-        self.create_output('exec', insert=0)
+        self.create_input(type_='exec', insert=0)
+        self.create_output(type_='exec', insert=0)
         self.active = True
 
         self.actions['make passive'] = {'method': self.make_passive}
@@ -181,7 +181,7 @@ class Button_Node(NodeBase):
 
     ]
     init_outputs = [
-        NodeOutputBP('exec')
+        NodeOutputBP(type_='exec')
     ]
     color = '#99dd55'
 
@@ -220,7 +220,7 @@ class Log_Node(DualNodeBase):
         NodeInputBP('msg', type_='data'),
     ]
     init_outputs = [
-        NodeOutputBP('exec'),
+        NodeOutputBP(type_='exec'),
     ]
     main_widget_class = widgets.LogNode_MainWidget
     main_widget_pos = 'below ports'
@@ -269,7 +269,7 @@ class Clock_Node(NodeBase):
         NodeInputBP(dtype=dtypes.Integer(default=-1, bounds=(-1, 1000)), label='iterations'),
     ]
     init_outputs = [
-        NodeOutputBP('exec')
+        NodeOutputBP(type_='exec')
     ]
     color = '#5d95de'
     main_widget_class = widgets.ClockNode_MainWidget
