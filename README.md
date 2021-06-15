@@ -49,15 +49,17 @@ Macros are like all other scripts, so they have their own flow, plus input and o
 #### right click operations system for nodes
 which can be edited through the API at any time.
 ```python
-self.actions[f'remove input {i}'] = {
-    'method': self.rem_input,
-    'data': i,
-}
+class MyNode(Node):
+    ...
 
-# with some method...
-def rem_input(self, index):
-    self.delete_input(index)
-    del self.actions[f'remove input {len(self.inputs)}']
+    def a_method(self):
+        self.actions['do something'] = {
+            'method': self.do_sth,
+        }
+
+    # with some method...
+    def do_sth(self):
+        ...
 ```
 
 #### Qt widgets
@@ -84,32 +86,31 @@ While data flows are the most common use case, exec flows (like [UnrealEngine Bl
 #### logging support
 ```python
 import logging
-class MyNode(rc.Node):
+
+class MyNode(Node):
     def __init__(self, params):
         super().__init__(params)
 
-        self.my_logger = self.new_logger(title='nice log')
+        self.logger = self.new_logger('nice log')
     
     def update_event(self, inp=-1):
-        self.my_logger.log(logging.INFO, 'updated!')
+        self.logger.log(logging.INFO, 'updated!')
 ```
 
 #### variables system
 with an update mechanism to build nodes that automatically adapt to change of variables.
 
 ```python
-import logging
 class MyNode(Node):
     ...
-    def __init__(self, params):
-        super().__init__(params)
-        self.my_logger = self.new_logger(title='nice log')
-        # assuming a 'messages' var exists in the script
-        self.register_var_receiver(name='messages', method=self.new_msg)
-        # causes new_msg() to trigger when var 'messages' updates
-    
-    def new_msg(self, msgs: list):
-        self.my_logger.log(logging.INFO, f'received msg: {msgs[-1]}')
+
+    def a_method(self):
+        self.register_var_receiver('x', method=self.process)
+
+    # with some method...
+    def process(self, x):
+        # processing new value of x
+        ...
 ```
 
 Also visit the [website](https://ryven.org) if you haven't been there already.
