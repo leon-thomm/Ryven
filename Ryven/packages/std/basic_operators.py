@@ -1,6 +1,6 @@
 from NENV import *
 
-import math
+# import math
 
 
 class OperatorNodeBase(Node):
@@ -147,47 +147,67 @@ class Plus_Node(ArithmeticNodeBase):
     title = '+'
 
     def apply_op(self, elements: list):
-        return sum(elements)
+        v = elements[0]
+        for e in elements[1:]:
+            v = v + e
+        return v
+        # return sum(elements)
 
 
 class Minus_Node(ArithmeticNodeBase):
     title = '-'
 
     def apply_op(self, elements: list):
-        return sum(elements[:1])-sum(elements[1:])
+        v = elements[0]
+        for e in elements[1:]:
+            v = v - e
+        return v
+        # return sum(elements[:1])-sum(elements[1:])
 
 
 class Multiply_Node(ArithmeticNodeBase):
     title = '*'
 
     def apply_op(self, elements: list):
-        return math.prod(elements)
+        v = elements[0]
+        for e in elements[1:]:
+            v *= e
+        return v
+        # return math.prod(elements)
 
 
 class Divide_Node(ArithmeticNodeBase):
     title = '/'
 
     def apply_op(self, elements: list):
-        if len(elements) > 0:
-            x = elements[0]
-            for e in elements[1:]:
-                x /= e
-            return x
-        else:
-            return None
+        v = elements[0]
+        for e in elements[1:]:
+            v = v / e
+        return v
+        # if len(elements) > 0:
+        #     x = elements[0]
+        #     for e in elements[1:]:
+        #         x /= e
+        #     return x
+        # else:
+        #     return None
 
 
 class Power_Node(ArithmeticNodeBase):
     title = '**'
 
     def apply_op(self, elements: list):
-        if len(elements) > 0:
-            x = elements[0]
-            for e in elements[1:]:
-                x **= e
-            return x
-        else:
-            return None
+        v = elements[0]
+        for e in elements[1:]:
+            v = v ** e
+        return v
+        # if len(elements) > 0:
+        #     x = elements[0]
+        #     for e in elements[1:]:
+        #         x **= e
+        #     return x
+        # else:
+        #     return None
 
 
 arithmetic_nodes = [
@@ -207,12 +227,12 @@ class ComparatorNodeBase(OperatorNodeBase):
     color = '#a1574c'
 
     def apply_op(self, elements: list):
-        if len(elements) > 0:
-            b = True
-            for i in range(1, len(elements)):
-                b = b and (self.comp(elements[i-1], elements[i]))
-            return b
-        return None
+        # if len(elements) > 0:
+        b = True
+        for i in range(1, len(elements)):
+            b = b and (self.comp(elements[i-1], elements[i]))
+        return b
+        # return None
 
     def comp(self, a, b) -> bool:
         return False
