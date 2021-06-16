@@ -4,9 +4,11 @@
 
 # A simple flow-based visual scripting env for Python
 
-## Intro
+## Introduction
 
 Hello there! Ryven is an editor combining flow-based visual scripting with Python. It provides an easy to use system for programming nodes executing any Python code.
+
+Ryven is now based on [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a guide for Ryven can be found [here](https://ryven.org/guides.html#/).
 
 *Ryven 3 and the new underlying framework haven't been tested extensively yet, so there might be some further changes incoming.*
 
@@ -76,7 +78,8 @@ class MyNode(Node):
 ![](./docs/img/themes_1_merged.png)
 
 #### exec flow support
-While data flows are the most common use case, exec flows (like [UnrealEngine BluePrints](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Blueprints/)) are also supported.
+While data flows are the most common use case, exec flows (like [UnrealEngine BluePrints](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Blueprints/)) are also supported. 
+<!-- While while it can lead to issues when using exec connections in data flows, conceptually this also works and has proven to be also really powerful if applied correctly. -->
 
 #### stylus support for adding handwritten notes
 ![](./docs/img/stylus_light.png)
@@ -108,7 +111,7 @@ class MyNode(Node):
         self.register_var_receiver('x', method=self.process)
 
     # with some method...
-    def process(self, x):
+    def process(self, val_of_x):
         # processing new value of x
         ...
 ```
@@ -124,3 +127,5 @@ To support the development of this project, which will decide its future, check 
 Feel free to open discussions here (there's a discussions area in this repo).
 
 The docs page on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), so you can improve it by simply editing the markdown.
+
+Cheers.
