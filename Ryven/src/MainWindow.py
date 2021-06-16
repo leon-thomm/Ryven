@@ -312,7 +312,8 @@ import: ctrl+i
         try:
             nodes = import_nodes_package(p)
         except ModuleNotFoundError as e:
-            QMessageBox.warning(self, title='Missing Python module', text=str(e))
+            msg_box = QMessageBox(QMessageBox.Warning, 'Missing Python module', str(e), QMessageBox.Ok, self)
+            msg_box.exec_()
             sys.exit()
 
         self.session.register_nodes(nodes)
