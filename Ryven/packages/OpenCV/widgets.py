@@ -180,10 +180,41 @@ class CustomOpenCVNode_MainWidget(MWB, QWidget):
         self.editor.setPlainText(data['text'])
 
 
+
+# import matplotlib
+# import matplotlib.pyplot as plt
+# from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+# matplotlib.use('Qt5Agg')
+#
+#
+# class HistogramView(MWB, QWidget):
+#     def __init__(self, params):
+#         MWB.__init__(self, params)
+#         QWidget.__init__(self)
+#
+#         self.figure = plt.Figure(figsize=(255, 10))
+#         self.canvas = FigureCanvasQTAgg(self.figure)
+#         # self.ax = self.canvas.figure.subplots()
+#
+#         self.setLayout(QVBoxLayout())
+#         self.layout().addWidget(self.canvas)
+#
+#         self.setFixedWidth(400)
+#         self.setFixedHeight(300)
+#
+#     def show_histogram(self, hist):
+#
+#         self.figure.clear()
+#         ax = self.figure.add_subplot(111)
+#         ax.plot(hist)
+#         self.canvas.draw()
+
+
 export_widgets(
     OpenCVNode_MainWidget,
     ChooseFileInputWidget,
     PathInput,
     WebcamFeedWidget,
     CustomOpenCVNode_MainWidget,
+    # HistogramView,
 )

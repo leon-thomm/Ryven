@@ -9,7 +9,7 @@ class CSNodeBase(Node):
 class If_Node(CSNodeBase):
     title = 'branch'
     init_inputs = [
-        NodeInputBP('exec'),
+        NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
     ]
     init_outputs = [
@@ -30,7 +30,7 @@ class ForLoop_Node(CSNodeBase):
 
     title = 'for'
     init_inputs = [
-        NodeInputBP('exec'),
+        NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Integer(), label='from'),
         NodeInputBP(dtype=dtypes.Integer(), label='to'),
     ]
@@ -115,7 +115,7 @@ class ForLoop_Node(CSNodeBase):
 class ForEachLoop_Node(CSNodeBase):
     title = 'for each'
     init_inputs = [
-        NodeInputBP('exec'),
+        NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Integer(), label='elements'),
     ]
     init_outputs = [
@@ -135,7 +135,7 @@ class ForEachLoop_Node(CSNodeBase):
 class WhileLoop_Node(CSNodeBase):
     title = 'while'
     init_inputs = [
-        NodeInputBP('exec'),
+        NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
     ]
     init_outputs = [
@@ -153,7 +153,7 @@ class WhileLoop_Node(CSNodeBase):
 class DoWhileLoop_Node(CSNodeBase):
     title = 'do while'
     init_inputs = [
-        NodeInputBP('exec'),
+        NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
     ]
     init_outputs = [

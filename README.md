@@ -4,9 +4,11 @@
 
 # A simple flow-based visual scripting env for Python
 
-## Intro
+## Introduction
 
 Hello there! Ryven is an editor combining flow-based visual scripting with Python. It provides an easy to use system for programming nodes executing any Python code.
+
+Ryven is now based on [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a guide for Ryven can be found [here](https://ryven.org/guides.html#/).
 
 *Ryven 3 and the new underlying framework haven't been tested extensively yet, so there might be some further changes incoming.*
 
@@ -49,15 +51,17 @@ Macros are like all other scripts, so they have their own flow, plus input and o
 #### right click operations system for nodes
 which can be edited through the API at any time.
 ```python
-self.actions[f'remove input {i}'] = {
-    'method': self.rem_input,
-    'data': i,
-}
+class MyNode(Node):
+    ...
 
-# with some method...
-def rem_input(self, index):
-    self.delete_input(index)
-    del self.actions[f'remove input {len(self.inputs)}']
+    def a_method(self):
+        self.actions['do something'] = {
+            'method': self.do_sth,
+        }
+
+    # with some method...
+    def do_sth(self):
+        ...
 ```
 
 #### Qt widgets
@@ -74,7 +78,8 @@ class MyNode(Node):
 ![](./docs/img/themes_1_merged.png)
 
 #### exec flow support
-While data flows are the most common use case, exec flows (like [UnrealEngine BluePrints](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Blueprints/)) are also supported.
+While data flows are the most common use case, exec flows (like [UnrealEngine BluePrints](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Blueprints/)) are also supported. 
+<!-- While while it can lead to issues when using exec connections in data flows, conceptually this also works and has proven to be also really powerful if applied correctly. -->
 
 #### stylus support for adding handwritten notes
 ![](./docs/img/stylus_light.png)
@@ -84,32 +89,31 @@ While data flows are the most common use case, exec flows (like [UnrealEngine Bl
 #### logging support
 ```python
 import logging
-class MyNode(rc.Node):
+
+class MyNode(Node):
     def __init__(self, params):
         super().__init__(params)
 
-        self.my_logger = self.new_logger(title='nice log')
+        self.logger = self.new_logger('nice log')
     
     def update_event(self, inp=-1):
-        self.my_logger.log(logging.INFO, 'updated!')
+        self.logger.log(logging.INFO, 'updated!')
 ```
 
 #### variables system
 with an update mechanism to build nodes that automatically adapt to change of variables.
 
 ```python
-import logging
 class MyNode(Node):
     ...
-    def __init__(self, params):
-        super().__init__(params)
-        self.my_logger = self.new_logger(title='nice log')
-        # assuming a 'messages' var exists in the script
-        self.register_var_receiver(name='messages', method=self.new_msg)
-        # causes new_msg() to trigger when var 'messages' updates
-    
-    def new_msg(self, msgs: list):
-        self.my_logger.log(logging.INFO, f'received msg: {msgs[-1]}')
+
+    def a_method(self):
+        self.register_var_receiver('x', method=self.process)
+
+    # with some method...
+    def process(self, val_of_x):
+        # processing new value of x
+        ...
 ```
 
 Also visit the [website](https://ryven.org) if you haven't been there already.
@@ -123,3 +127,5 @@ To support the development of this project, which will decide its future, check 
 Feel free to open discussions here (there's a discussions area in this repo).
 
 The docs page on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), so you can improve it by simply editing the markdown.
+
+Cheers.
