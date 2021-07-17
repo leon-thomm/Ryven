@@ -1,8 +1,10 @@
+import re
+
 from NWENV import *
 
 from qtpy.QtGui import QFont, QFontMetrics
-from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QPushButton, QComboBox, QSlider, QTextEdit, QPlainTextEdit
+from qtpy.QtCore import Qt, Signal, QEvent
+from qtpy.QtWidgets import QPushButton, QComboBox, QSlider, QTextEdit, QPlainTextEdit, QWidget, QVBoxLayout, QLineEdit
 
 
 class ButtonNode_MainWidget(QPushButton, MWB):
@@ -107,6 +109,106 @@ class EvalNode_MainWidget(MWB, QPlainTextEdit):
         self.setPlainText(data['text'])
 
 
+class InterpreterConsole(MWB, QWidget):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__(self)
+
+        self.inp_line_edit = ConsoleInpLineEdit()
+        self.output_text_edit = ConsoleOutDisplay()
+
+        self.inp_line_edit.returned.connect(self.node.process_input)
+
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(self.output_text_edit)
+        self.layout().addWidget(self.inp_line_edit)
+
+        self.last_hist_len = 0
+
+    def interp_updated(self):
+
+        if self.last_hist_len < len(self.node.hist):
+            self.output_text_edit.appendPlainText('\n'.join(self.node.hist[self.last_hist_len:]))
+        else:
+            self.output_text_edit.clear()
+            self.output_text_edit.setPlainText('\n'.join(self.node.hist))
+
+        self.last_hist_len = len(self.node.hist)
+
+
+class ConsoleInpLineEdit(QLineEdit):
+
+    returned = Signal(str)
+
+    def __init__(self):
+        super().__init__()
+
+        self.hist_index = 0
+        self.hist = []
+
+    def event(self, ev: QEvent) -> bool:
+
+        if ev.type() == QEvent.KeyPress:
+
+            if ev.key() == Qt.Key_Tab:
+                self.insert(' '*4)
+                return True
+
+            elif ev.key() == Qt.Key_Backtab:
+                ccp = self.cursorPosition()
+                text_left = self.text()[:ccp]
+                text_right = self.text()[ccp:]
+                ends_with_tab = re.match(r"(.*)\s\s\s\s$", text_left)
+                if ends_with_tab:
+                    self.setText(text_left[:-4]+text_right)
+                    self.setCursorPosition(ccp-4)
+                    return True
+
+            elif ev.key() == Qt.Key_Up:
+                self.recall(self.hist_index - 1)
+                return True
+
+            elif ev.key() == Qt.Key_Down:
+                self.recall(self.hist_index + 1)
+                return True
+
+            elif ev.key() == Qt.Key_Return:
+                self.return_key()
+                return True
+
+        return super().event(ev)
+
+    def return_key(self) -> None:
+        text = self.text()
+        for line in text.splitlines():
+            self.record(line)
+        self.returned.emit(text)
+        self.clear()
+
+    def record(self, line: str) -> None:
+        """store line in history buffer and update hist_index"""
+
+        self.hist.append(line)
+
+        if self.hist_index == len(self.hist)-1 or line != self.hist[self.hist_index]:
+            self.hist_index = len(self.hist)
+
+    def recall(self, index: int) -> None:
+        """select a line from the history list"""
+
+        if len(self.hist) > 0 and 0 <= index < len(self.hist):
+            self.setText(self.hist[index])
+            self.hist_index = index
+
+
+class ConsoleOutDisplay(QPlainTextEdit):
+    def __init__(self):
+        super().__init__()
+
+        self.setReadOnly(True)
+        self.setFont(QFont('Source Code Pro', 9))
+
+
 export_widgets(
     ButtonNode_MainWidget,
     ClockNode_MainWidget,
@@ -114,4 +216,5 @@ export_widgets(
     SliderNode_MainWidget,
     CodeNode_MainWidget,
     EvalNode_MainWidget,
+    InterpreterConsole,
 )

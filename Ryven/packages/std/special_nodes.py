@@ -1,3 +1,6 @@
+import code
+from contextlib import redirect_stdout, redirect_stderr
+
 from NENV import *
 widgets = import_widgets(__file__)
 
@@ -367,16 +370,9 @@ class Slider_Node(NodeBase):
         self.val = data['val']
 
 
-class Code_Node(NodeBase):
-    title = 'code'
-    init_inputs = [
-
-    ]
-    init_outputs = [
-
-    ]
-    main_widget_class = widgets.CodeNode_MainWidget
-    main_widget_pos = 'between ports'
+class _DynamicPorts_Node(NodeBase):
+    init_inputs = []
+    init_outputs = []
 
     def __init__(self, params):
         super().__init__(params)
@@ -386,10 +382,6 @@ class Code_Node(NodeBase):
 
         self.num_inputs = 0
         self.num_outputs = 0
-        self.code = None
-
-    def place_event(self):
-        pass
 
     def add_inp(self):
         self.create_input()
@@ -423,19 +415,114 @@ class Code_Node(NodeBase):
         self.num_outputs -= 1
         del self.actions[f'remove output {self.num_outputs}']
 
-    def update_event(self, inp=-1):
-        exec(self.code)
-
     def get_state(self) -> dict:
         return {
             'num inputs': self.num_inputs,
             'num outputs': self.num_outputs,
-            'code': self.code,
         }
 
     def set_state(self, data: dict):
         self.num_inputs = data['num inputs']
         self.num_outputs = data['num outputs']
+
+
+# class Node_Node(_DynamicPorts_Node):
+#     """EXPERIMENTAL"""
+#     title = 'node'
+#     init_inputs = []
+#     init_outputs = []
+#     main_widget_class = widgets.CodeNode_MainWidget
+#     main_widget_pos = 'between ports'
+#
+#     def __init__(self, params):
+#         super().__init__(params)
+#
+#         self.code = \
+# """from NENV import *
+#
+# class CustomNode(Node):
+#     title = ''
+#     init_inputs = []
+#     init_outputs = []
+#
+#     def __init__(self, params):
+#         super().__init__(params)
+#
+#     def update_event(self, inp=-1):
+#         ...
+# """
+#         self.CustomNodeCls = None
+#         self.custom_node = None
+#         self.actions['build node'] = {'method': self.build_node}
+#
+#     def view_place_event(self):
+#         self.main_widget().setText(self.code)
+#
+#     def build_node(self):
+#         d = globals()
+#         if 'CustomNode' in d:
+#             del d['CustomNode']
+#         try:
+#             exec(self.code, d)
+#             self.CustomNodeCls = d['CustomNode']
+#             self.custom_node = self.CustomNodeCls(self.flow, self.session, {})
+#
+#             # sync ports
+#             for i, inp in enumerate(self.custom_node.inputs):
+#                 if len(self.inputs) > i:
+#                     if self.inputs[i].type_ == inp.type_ and self.inputs[i].label == inp.label:
+#                         continue
+#                     else:
+#                         self.delete_input(i)
+#                         self.create_input(inp.label, inp.type_,)
+#
+#         except Exception:
+#             pass
+#
+#     def update_event(self, inp=-1):
+#         self.custom_node.update_event(inp)
+#
+#     def get_state(self) -> dict:
+#         cn_config = {}
+#         if self.custom_node:
+#             cn_config = self.custom_node.get_state()
+#
+#         return {
+#             'custom node config': cn_config,
+#             'code': self.code,
+#         }
+#
+#     def set_state(self, data: dict):
+#         self.code = data['code']
+#         self.build_node()
+#         if self.custom_node:
+#             self.custom_node.set_state(data['custom node config'])
+
+
+class Exec_Node(_DynamicPorts_Node):
+    title = 'exec'
+    main_widget_class = widgets.CodeNode_MainWidget
+    main_widget_pos = 'between ports'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.code = None
+
+    def place_event(self):
+        pass
+
+    def update_event(self, inp=-1):
+        exec(self.code)
+
+    def get_state(self) -> dict:
+        return {
+            **super().get_state(),
+            'code': self.code,
+        }
+
+    def set_state(self, data: dict):
+        super().set_state(data)
         self.code = data['code']
 
 
@@ -491,6 +578,66 @@ class Eval_Node(NodeBase):
     def set_state(self, data: dict):
         self.number_param_inputs = data['num param inputs']
         self.expression_code = data['expression code']
+
+
+class Interpreter_Node(NodeBase):
+    """Provides a python interpreter via a basic console with access to the
+    node's properties."""
+    title = 'interpreter'
+    init_inputs = []
+    init_outputs = []
+    main_widget_class = widgets.InterpreterConsole
+
+    # DEFAULT COMMANDS
+
+    def clear(self):
+        self.hist.clear()
+        self._hist_updated()
+
+    def reset(self):
+        self.interp = code.InteractiveInterpreter(locals=locals())
+
+    COMMANDS = {
+        'clear': clear,
+        'reset': reset,
+    }
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.interp = None
+        self.hist: [str] = []
+        self.buffer: [str] = []
+
+        self.reset()
+
+    def _hist_updated(self):
+        if self.session.gui:
+            self.main_widget().interp_updated()
+
+    def process_input(self, cmds: str):
+        if m := self.COMMANDS.get(cmds):
+            m()
+        else:
+            for l in cmds.splitlines():
+                self.write(l)  # print input
+                self.buffer.append(l)
+            src = '\n'.join(self.buffer)
+
+            def run_src():
+                more_inp_required = self.interp.runsource(src, '<console>')
+                if not more_inp_required:
+                    self.buffer.clear()
+
+            if self.session.gui:
+                with redirect_stdout(self), redirect_stderr(self):
+                    run_src()
+            else:
+                run_src()
+
+    def write(self, line: str):
+        self.hist.append(line)
+        self._hist_updated()
 
 
 class Storage_Node(NodeBase):
@@ -746,9 +893,10 @@ nodes = [
     Log_Node,
     Clock_Node,
     Slider_Node,
-    Code_Node,
+    Exec_Node,
     Eval_Node,
     Storage_Node,
     LinkIN_Node,
     LinkOUT_Node,
+    Interpreter_Node,
 ]
