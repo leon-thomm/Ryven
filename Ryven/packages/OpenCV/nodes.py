@@ -30,7 +30,7 @@ class ReadImage(NodeBase):
         'choose file IW': widgets.ChooseFileInputWidget
     }
     init_inputs = [
-        NodeInputBP('f_path', add_config={'widget name': 'choose file IW', 'widget pos': 'besides'})
+        NodeInputBP('f_path', add_data={'widget name': 'choose file IW', 'widget pos': 'besides'})
     ]
     init_outputs = [
         NodeOutputBP('img')
@@ -74,7 +74,7 @@ class SaveImg(NodeBase):
     }
     init_inputs = [
         NodeInputBP('img'),
-        NodeInputBP('path', add_config={'widget name': 'path input', 'widget pos': 'below'}),
+        NodeInputBP('path', add_data={'widget name': 'path input', 'widget pos': 'below'}),
     ]
 
     def __init__(self, params):
