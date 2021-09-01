@@ -1,12 +1,22 @@
+"""A UI for scripts. Will be displayed in the tab widget in MainWindow."""
+
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QComboBox
 
-from ryvencore_qt import GUI
+import ryvencore_qt.src.conv_gui as GUI
+from ryvencore_qt.src.ryvencore.RC import FlowAlg
 
 from code_editor.CodePreviewWidget import CodePreviewWidget
 from uic.ui_script import Ui_script_widget
 
 
 class ScriptUI(QWidget):
+
+    flow_alg_mode_display_titles = {
+        FlowAlg.DATA: 'data-flow',
+        FlowAlg.DATA_OPT: 'data-flow opt',
+        FlowAlg.EXEC: 'exec-flow',
+    }
+
     def __init__(self, main_window, script, flow_view):
         super().__init__(main_window)
 
@@ -21,8 +31,8 @@ class ScriptUI(QWidget):
         # self.script.flow_view.viewport_update_mode_changed.connect(self.flow_vp_update_mode_changed)
 
         self.flow_alg_mode_dropdown = QComboBox()
-        self.flow_alg_mode_dropdown.addItem('data-flow')
-        self.flow_alg_mode_dropdown.addItem('exec-flow')
+        for mode, title in self.flow_alg_mode_display_titles.items():
+            self.flow_alg_mode_dropdown.addItem(title)
         self.ui.settings_groupBox.layout().addWidget(self.flow_alg_mode_dropdown)
         self.flow_alg_mode_dropdown.currentTextChanged.connect(self.flow_algorithm_mode_toggled)
 
@@ -64,16 +74,16 @@ class ScriptUI(QWidget):
 
 
     def flow_alg_mode_changed(self, mode: str):
-        if mode == 'data':
-            self.flow_alg_mode_dropdown.setCurrentIndex(0)
-        elif mode == 'exec':
-            self.flow_alg_mode_dropdown.setCurrentIndex(1)
+        self.flow_alg_mode_dropdown.setCurrentText(
+            self.flow_alg_mode_display_titles[FlowAlg.from_str(mode)]
+        )
 
     
     def flow_algorithm_mode_toggled(self):
-        mode = ''
-        if self.flow_alg_mode_dropdown.currentIndex() == 0:
-            mode = 'data'
-        else:
-            mode = 'exec'
-        self.script.flow.set_algorithm_mode(mode)
+
+        self.script.flow.set_algorithm_mode(
+            FlowAlg.str(
+                list(self.flow_alg_mode_display_titles.keys())
+                [self.flow_alg_mode_dropdown.currentIndex()]
+            )
+        )

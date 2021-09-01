@@ -1,6 +1,6 @@
 {
   "init flow theme": "pure dark",
-  "init performance mode": "pretty",
+  "init performance mode": "fast",
   "init animations enabled": true,
   "flow themes": {
     "Toy": {

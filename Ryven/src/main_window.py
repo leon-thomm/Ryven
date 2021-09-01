@@ -5,9 +5,9 @@ from os.path import join, dirname
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget, QMessageBox
 
-from MainConsole import *
-from ScriptUI import ScriptUI
-from WindowTheme import WindowTheme
+from main_console import *
+from script_UI import ScriptUI
+from window_theme import WindowTheme
 from nodes_package import NodesPackage
 from uic.ui_main_window import Ui_MainWindow
 
@@ -15,6 +15,7 @@ from nodes.NodeBase import NodeBase
 
 # ryvencore_qt
 import ryvencore_qt as rc
+import ryvencore_qt.src.conv_gui as rc_GUI
 
 from tools import import_nodes_package
 
@@ -31,6 +32,7 @@ class MainWindow(QMainWindow):
 
         # SESSION
         self.session = rc.Session(node_class=NodeBase)
+        # self.session.info_messenger().enable(True)
 
         self.session.flow_view_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
@@ -125,7 +127,7 @@ import: ctrl+i
         # self.ui.left_vertical_splitter.setSizes([350, 350])
         self.ui.main_vertical_splitter.setSizes([700, 0])
 
-        self.scripts_list_widget = rc.GUI.ScriptsList(self.session)
+        self.scripts_list_widget = rc_GUI.ScriptsList(self.session)
         self.scripts_list_widget.create_script_button.setProperty('class', 'small_button')
         self.scripts_list_widget.create_macro_button.setProperty('class', 'small_button')
         self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)

@@ -15,7 +15,7 @@ def apply_stylesheet(style: str):
     d = QDir()
     d.setSearchPaths('icon', [os.path.abspath('../resources/stylesheets/icons')])
 
-    from WindowTheme import WindowTheme_Dark, WindowTheme_Light
+    from window_theme import WindowTheme_Dark, WindowTheme_Light
 
     if style == 'dark':
         window_theme = WindowTheme_Dark()

@@ -1,0 +1,1 @@
+This directory hosts some tutorials for nodes built for Ryven to make it easier to get started. Not everything you see here might be 100% up to date with the most recent version. If you find inconsistencies, feel free to fix them or open issues. Also feel free to create more tutorials.

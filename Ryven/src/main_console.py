@@ -15,7 +15,7 @@ class MainConsole(QWidget):
     """
     Interpreter with interactive console.
     All console output will be redirected to this command line.
-    It provides normal REPL functionality and additionally access to editor components
+    It provides normal REPL functionality and additional access to editor components
     such as the session object and nodes (by right-click on them).
     The input field below can also expand to a text edit to take whole code blocks.
     """
@@ -197,6 +197,9 @@ class ConsoleInputLineEdit(QLineEdit):
         #   Tab: Insert 4 spaces
         #   Arrow Up/Down: select a line from the history buffer
         #   Newline: Emit returned signal
+
+        if not isinstance(ev, QEvent):
+            return False  # there seems to be a bug in Qt, ev is sometimes not an event
 
         if ev.type() == QEvent.KeyPress:
             if ev.key() == Qt.Key_Tab:

@@ -1,4 +1,8 @@
+[comment]: <> (This file is parsed by docsify and generates the Guide page on the ryven.org website. Notice that many markdown parsers won't parse the document as docsify does, some parts might be buggy in other environemnts.)
+
 <center><img src="./img/logo.png" style="max-width: 500px" /></center>
+
+This page provides an introduction into the Ryven editor and its components. It lists some basic features and shows how to use create nodes.
 
 ## Project Idea
 
@@ -254,6 +258,8 @@ Currently available `DTypes` are:
 | `Choice`                                    | drop down menu
 
 ### Example
+
+Also notice the [examples folder on GitHub]() where you can find 
 
 Below you can see a complete node file in some nodes package 'mypackage'.
 

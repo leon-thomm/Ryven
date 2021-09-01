@@ -92,17 +92,21 @@ class Val_Node(NodeBase):
 
     title = 'val'
     doc = 'returns the evaluated value that is typed into the input field'
+    init_inputs = [
+        NodeInputBP(dtype=dtypes.Data(size='s'))
+    ]
     init_outputs = [
         NodeInputBP(type_='data')
     ]
-    main_widget_class = widgets.ValNode_MainWidget
-    main_widget_pos = 'between ports'
-    style = 'normal'
+    # main_widget_class = widgets.ValNode_MainWidget
+    # main_widget_pos = 'between ports'
+    style = 'small'
     color = '#c69a15'
 
     def __init__(self, params):
         super().__init__(params)
 
+        self.display_title = ''
         self.actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
         self.val = None
 
@@ -110,14 +114,16 @@ class Val_Node(NodeBase):
     def place_event(self):
         self.update()
 
-    def view_place_event(self):
-        self.main_widget().value_changed.connect(self.main_widget_val_changed)
+    # def view_place_event(self):
+    #     self.main_widget().value_changed.connect(self.main_widget_val_changed)
 
-    def main_widget_val_changed(self, val):
-        self.val = val
-        self.update()
+    # def main_widget_val_changed(self, val):
+    #     self.val = val
+    #     self.update()
 
     def update_event(self, input_called=-1):
+        # self.set_output_val(0, self.val)
+        self.val = self.input(0)
         self.set_output_val(0, self.val)
 
     def action_edit_via_dialog(self):
