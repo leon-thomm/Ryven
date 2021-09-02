@@ -1,13 +1,12 @@
-import os
 import sys
 from os.path import join, dirname
 
 from qtpy.QtGui import QIcon, QKeySequence
-from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QTabWidget, QMessageBox
+from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
 from main_console import *
 from script_UI import ScriptUI
-from window_theme import WindowTheme
+from styling.window_theme import WindowTheme
 from nodes_package import NodesPackage
 from uic.ui_main_window import Ui_MainWindow
 
@@ -39,7 +38,7 @@ class MainWindow(QMainWindow):
         self.session.script_deleted.connect(self.script_deleted)
 
         # LOAD DESIGN AND FLOW THEME
-        self.session.design.load_from_config('design_config.json')
+        self.session.design.load_from_config('styling/design_config.json')
 
         if self.theme.name == 'dark':
             self.session.design.set_flow_theme(name='pure dark')

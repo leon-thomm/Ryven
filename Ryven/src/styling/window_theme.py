@@ -1,3 +1,8 @@
+import os
+
+from PySide2.QtWidgets import QApplication
+
+
 def hex_to_rgb(hex: str):
     return tuple(int(hex[i:i + 2], 16) for i in (1, 3, 5))
 
@@ -57,3 +62,36 @@ class WindowTheme_Light(WindowTheme):
         'warning': '#ffc107',
         'success': '#17a2b8',
     }
+
+
+def apply_stylesheet(style: str):
+
+    # set to None if not used
+    icons_dir = '../resources/stylesheets/icons'
+
+    # path to the template stylesheet file
+    template_file = '../resources/stylesheets/style_template.css'
+
+    # ------------------------------
+
+    if icons_dir is not None:
+        from qtpy.QtCore import QDir
+        d = QDir()
+        d.setSearchPaths('icon', [os.path.abspath(icons_dir)])
+
+    if style == 'dark':
+        window_theme = WindowTheme_Dark()
+    else:
+        window_theme = WindowTheme_Light()
+
+    f = open(template_file)
+
+    from jinja2 import Template
+    jinja_template = Template(f.read())
+
+    f.close()
+
+    app = QApplication.instance()
+    app.setStyleSheet(jinja_template.render(window_theme.rules))
+
+    return window_theme

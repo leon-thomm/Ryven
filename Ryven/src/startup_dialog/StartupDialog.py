@@ -1,40 +1,9 @@
-import sys
-import os
-
-from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog, QRadioButton, QApplication
+from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog, QRadioButton
 from qtpy.QtGui import QIcon
 
 from nodes_package import NodesPackage
+from styling.window_theme import apply_stylesheet
 from .SelectPackages_Dialog import SelectPackages_Dialog
-
-
-
-def apply_stylesheet(style: str):
-
-    from qtpy.QtCore import QDir
-    d = QDir()
-    d.setSearchPaths('icon', [os.path.abspath('../resources/stylesheets/icons')])
-
-    from window_theme import WindowTheme_Dark, WindowTheme_Light
-
-    if style == 'dark':
-        window_theme = WindowTheme_Dark()
-
-    else:
-        window_theme = WindowTheme_Light()
-
-    f = open('../resources/stylesheets/style_template.css')
-
-    from jinja2 import Template
-    jinja_template = Template(f.read())
-
-    f.close()
-
-    app = QApplication.instance()
-    app.setStyleSheet(jinja_template.render(window_theme.rules))
-
-    return window_theme
-
 
 
 class StartupDialog(QDialog):
