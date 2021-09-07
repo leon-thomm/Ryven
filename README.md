@@ -41,12 +41,14 @@ class PrintNode(Node):
         print(self.input(0))
 ```
 
+<!--
 #### macros / subgraphs
 You can define *macros* which get registered as nodes themselves
 
 ![](./docs/img/macro.png)
 Macros are like all other scripts, so they have their own flow, plus input and output node
 ![](./docs/img/macro2.png)
+-->
 
 #### right click operations system for nodes
 which can be edited through the API at any time.

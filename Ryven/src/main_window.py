@@ -338,7 +338,7 @@ import: ctrl+i
 
         general_project_info_dict = {'type': 'Ryven project file'}
 
-        scripts_data = self.session.data()
+        scripts_data = self.session.serialize()
 
         required_packages = set()
         for node in self.session.all_node_objects():
