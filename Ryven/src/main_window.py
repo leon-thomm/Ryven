@@ -2,8 +2,9 @@ import sys
 from os.path import join, dirname
 
 from qtpy.QtGui import QIcon, QKeySequence
-from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
+from qtpy.QtWidgets import QMainWindow, QFileDialog, QDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
+from dialogs import GetTextDialog, ChooseScriptDialog
 from main_console import *
 from script_UI import ScriptUI
 from styling.window_theme import WindowTheme
@@ -27,7 +28,7 @@ class MainWindow(QMainWindow):
         self.session = None
         self.theme = window_theme
         self.node_packages = {}  # {Node: str}
-        self.script_UIs = []
+        self.script_UIs = {}
 
         # SESSION
         self.session = rc.Session(node_class=NodeBase)
@@ -109,14 +110,6 @@ import: ctrl+i
         self.ui.setupUi(self)
         self.ui.statusBar.hide()
 
-        # # nodes tree
-        # self.nodes_tree_widget = NodesTreeListWidget(self, self.session)
-        # self.ui.bottom_splitter.addWidget(self.nodes_tree_widget)
-
-        # # node details widget
-        # self.node_details_widget = NodeDetailsWidget(self, self.nodes_tree_widget)
-        # self.ui.bottom_splitter.addWidget(self.node_details_widget)
-
         # main console
         if MainConsole.instance is not None:
             self.ui.bottom_splitter.addWidget(MainConsole.instance)
@@ -125,11 +118,6 @@ import: ctrl+i
         # splitter sizes
         # self.ui.left_vertical_splitter.setSizes([350, 350])
         self.ui.main_vertical_splitter.setSizes([700, 0])
-
-        # self.scripts_list_widget = rc_GUI.ScriptsList(self.session)
-        # self.scripts_list_widget.create_script_button.setProperty('class', 'small_button')
-        # self.scripts_list_widget.create_macro_button.setProperty('class', 'small_button')
-        # self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
         self.nodes_list_widget = rc_GUI.NodeListWidget(self.session)
         self.ui.nodes_groupBox.layout().addWidget(self.nodes_list_widget)
@@ -152,6 +140,9 @@ import: ctrl+i
 
         self.ui.actionImport_Nodes.triggered.connect(self.on_import_nodes_triggered)
         self.ui.actionSave_Project.triggered.connect(self.on_save_project_triggered)
+        self.ui.actionNew_Script.triggered.connect(self.on_new_script_triggered)
+        self.ui.actionRename_Script.triggered.connect(self.on_rename_script_triggered)
+        self.ui.actionDelete_Script.triggered.connect(self.on_delete_script_triggered)
         self.ui.actionEnableInfoMessages.triggered.connect(self.on_enable_info_msgs_triggered)
         self.ui.actionDisableInfoMessages.triggered.connect(self.on_disable_info_msgs_triggered)
         self.ui.actionSave_Pic_Viewport.triggered.connect(self.on_save_scene_pic_viewport_triggered)
@@ -268,39 +259,62 @@ import: ctrl+i
         if file_name != '':
             self.save_project(file_name)
 
+    def on_new_script_triggered(self):
+        new_script_title = GetTextDialog('choose unique title', '', 'new script title', self).get_text()
+
+        if new_script_title not in (s.title for s in self.session.scripts):
+            self.session.create_script(new_script_title)
+        else:
+            script = [s for s in self.session.scripts if s.title == new_script_title][0]
+            self.focus_on_script(script)
+
+    def on_rename_script_triggered(self):
+        script = ChooseScriptDialog('choose script', self.session.scripts, self).get_script()
+        new_title = GetTextDialog('new title', script.title, 'new script title', self).get_text()
+
+        all_other_script_titles = [
+            s.title for s in self.session.scripts if s != script
+        ]
+
+        if new_title not in all_other_script_titles:
+            self.session.rename_script(script, new_title)
+
+    def on_delete_script_triggered(self):
+        script = ChooseScriptDialog('choose script', self.session.scripts, self).get_script()
+
+        msg_box = QMessageBox(QMessageBox.Warning, 'sure about deleting script?',
+                              'You are about to delete a script. This cannot be undone, all content will be gone. '
+                              'Do you want to continue?', QMessageBox.Cancel | QMessageBox.Yes, self)
+        msg_box.setDefaultButton(QMessageBox.Cancel)
+        ret = msg_box.exec_()
+        if ret != QMessageBox.Yes:
+            return
+
+        self.session.delete_script(script)
+
     # SESSION
 
     def script_created(self, script, flow_view):
         script_widget = ScriptUI(self, script, flow_view)
-        self.script_UIs.append(script_widget)
+        self.script_UIs[script] = script_widget
         self.ui.scripts_tab_widget.addTab(script_widget, script.title)
+        self.focus_on_script(script)
 
     def script_renamed(self, script):
-        script_UI, index = self.get_script_ui(script)
-        if index != -1:
-
-            self.ui.scripts_tab_widget.setTabText(
-                index,
-                script.title
-            )
+        self.ui.scripts_tab_widget.setTabText(
+            self.session.scripts.index(script),
+            script.title
+        )
 
     def script_deleted(self, script):
-        script_UI, index = self.get_script_ui(script)
-        self.ui.scripts_tab_widget.removeTab(index)
-        self.script_UIs.remove(script_UI)
-
-    def get_script_ui(self, script):
-        script_UI = None
-        index = -1
-        for index in range(len(self.script_UIs)):
-            sui = self.script_UIs[index]
-            if sui.script == script:
-                script_UI = sui
-                break
-        return script_UI, index
+        self.ui.scripts_tab_widget.removeTab(self.ui.scripts_tab_widget.indexOf(self.script_UIs[script]))
+        del self.script_UIs[script]
 
     def get_current_script(self):
         return self.session.scripts[self.ui.scripts_tab_widget.currentIndex()]
+
+    def focus_on_script(self, script):
+        self.ui.scripts_tab_widget.setCurrentWidget(self.script_UIs[script])
 
     def import_packages(self, packages_list: [NodesPackage]):
         for p in packages_list:

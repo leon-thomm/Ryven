@@ -80,8 +80,17 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuScripts">
+     <property name="title">
+      <string>Scripts</string>
+     </property>
+     <addaction name="actionNew_Script"/>
+     <addaction name="actionRename_Script"/>
+     <addaction name="actionDelete_Script"/>
+    </widget>
     <addaction name="actionImport_Nodes"/>
     <addaction name="actionSave_Project"/>
+    <addaction name="menuScripts"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -168,6 +177,21 @@ This will save exactly what you see in the same resolution.</string>
     <string>Saves a picture of the whole current scene. 
 The more you zoomed in, the sharper the picture.
 This will take a few seconds.</string>
+   </property>
+  </action>
+  <action name="actionNew_Script">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionRename_Script">
+   <property name="text">
+    <string>Rename</string>
+   </property>
+  </action>
+  <action name="actionDelete_Script">
+   <property name="text">
+    <string>Delete</string>
    </property>
   </action>
  </widget>
