@@ -126,10 +126,13 @@ import: ctrl+i
         # self.ui.left_vertical_splitter.setSizes([350, 350])
         self.ui.main_vertical_splitter.setSizes([700, 0])
 
-        self.scripts_list_widget = rc_GUI.ScriptsList(self.session)
-        self.scripts_list_widget.create_script_button.setProperty('class', 'small_button')
-        self.scripts_list_widget.create_macro_button.setProperty('class', 'small_button')
-        self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
+        # self.scripts_list_widget = rc_GUI.ScriptsList(self.session)
+        # self.scripts_list_widget.create_script_button.setProperty('class', 'small_button')
+        # self.scripts_list_widget.create_macro_button.setProperty('class', 'small_button')
+        # self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
+
+        self.nodes_list_widget = rc_GUI.NodeListWidget(self.session)
+        self.ui.nodes_groupBox.layout().addWidget(self.nodes_list_widget)
 
     def setup_menu_actions(self):
 
@@ -322,7 +325,7 @@ import: ctrl+i
         for n in nodes:
             self.node_packages[n] = p
 
-        # self.nodes_tree_widget.update_list()
+        self.nodes_list_widget.update_list(self.session.nodes)
 
     def save_project(self, file_name):
         import json

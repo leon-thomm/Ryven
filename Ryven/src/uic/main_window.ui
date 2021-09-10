@@ -34,9 +34,9 @@
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <widget class="QGroupBox" name="scripts_groupBox">
+        <widget class="QGroupBox" name="nodes_groupBox">
          <property name="title">
-          <string>Scripts</string>
+          <string>Nodes</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout"/>
         </widget>

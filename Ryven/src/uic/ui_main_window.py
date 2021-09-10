@@ -3,14 +3,14 @@
 ################################################################################
 ## Form generated from reading UI file 'main_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.0.2
+## Created by: Qt User Interface Compiler version 5.15.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from qtpy.QtCore import *
-from qtpy.QtGui import *
-from qtpy.QtWidgets import *
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
 
 
 class Ui_MainWindow(object):
@@ -54,13 +54,13 @@ class Ui_MainWindow(object):
         self.left_vertical_splitter = QSplitter(self.main_horizontal_splitter)
         self.left_vertical_splitter.setObjectName(u"left_vertical_splitter")
         self.left_vertical_splitter.setOrientation(Qt.Vertical)
-        self.scripts_groupBox = QGroupBox(self.left_vertical_splitter)
-        self.scripts_groupBox.setObjectName(u"scripts_groupBox")
-        self.verticalLayout = QVBoxLayout(self.scripts_groupBox)
+        self.nodes_groupBox = QGroupBox(self.left_vertical_splitter)
+        self.nodes_groupBox.setObjectName(u"nodes_groupBox")
+        self.verticalLayout = QVBoxLayout(self.nodes_groupBox)
         self.verticalLayout.setSpacing(6)
         self.verticalLayout.setContentsMargins(11, 11, 11, 11)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.left_vertical_splitter.addWidget(self.scripts_groupBox)
+        self.left_vertical_splitter.addWidget(self.nodes_groupBox)
         self.main_horizontal_splitter.addWidget(self.left_vertical_splitter)
         self.scripts_tab_widget = QTabWidget(self.main_horizontal_splitter)
         self.scripts_tab_widget.setObjectName(u"scripts_tab_widget")
@@ -143,7 +143,7 @@ class Ui_MainWindow(object):
 "The more you zoomed in, the sharper the picture.\n"
 "This will take a few seconds.", None))
 #endif // QT_CONFIG(tooltip)
-        self.scripts_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Scripts", None))
+        self.nodes_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Nodes", None))
         self.scripts_tab_widget.setTabText(self.scripts_tab_widget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Main", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuView.setTitle(QCoreApplication.translate("MainWindow", u"View", None))
