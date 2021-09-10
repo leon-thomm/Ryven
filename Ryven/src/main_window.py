@@ -4,20 +4,19 @@ from os.path import join, dirname
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
-from dialogs import GetTextDialog, ChooseScriptDialog
 from main_console import *
 from script_UI import ScriptUI
 from styling.window_theme import WindowTheme
 from nodes_package import NodesPackage
 from uic.ui_main_window import Ui_MainWindow
-
+from tools import import_nodes_package
 from nodes.NodeBase import NodeBase
+from dialogs import GetTextDialog, ChooseScriptDialog
 
 # ryvencore_qt
 import ryvencore_qt as rc
 import ryvencore_qt.src.conv_gui as rc_GUI
 
-from tools import import_nodes_package
 
 
 class MainWindow(QMainWindow):
