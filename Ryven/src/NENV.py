@@ -83,7 +83,14 @@ def export_nodes(*args):
     Exports/exposes the specified nodes to Ryven for use in flows.
     """
 
-    nodes = list(args)
+    if not isinstance(args, tuple):
+        if issubclass(args, Node):
+            nodes = tuple(args)
+        else:
+            return
+    else:
+        nodes = list(args)
+
     NodesRegistry.exported_nodes.append(nodes)
 
     # get sources

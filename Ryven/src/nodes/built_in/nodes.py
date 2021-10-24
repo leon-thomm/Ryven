@@ -145,7 +145,7 @@ class Val_Node(NodeBase):
             'val': self.val  # self.main_widget().get_val()
         }
 
-    def set_state(self, data):
+    def set_state(self, data, version):
         self.val = data['val']
 
 
@@ -209,7 +209,7 @@ class SetVar_Node(NodeBase):
     def get_state(self):
         return {'active': self.active}
 
-    def set_state(self, data):
+    def set_state(self, data, version):
         self.active = data['active']
 
 
@@ -279,7 +279,7 @@ class SetVarsPassive_Node(NodeBase):
     def get_state(self):
         return {'num vars': self.num_vars}
 
-    def set_state(self, data):
+    def set_state(self, data, version):
         self.num_vars = data['num vars']
 
 

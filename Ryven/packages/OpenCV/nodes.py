@@ -58,7 +58,7 @@ class ReadImage(NodeBase):
         data = {'image file path': self.image_filepath}
         return data
 
-    def set_state(self, data):
+    def set_state(self, data, version):
         self.path_chosen(data['image file path'])
         # self.image_filepath = data['image file path']
 
@@ -112,7 +112,7 @@ class SaveImg(NodeBase):
     def get_state(self):
         return {'path': self.file_path}
 
-    def set_state(self, data):
+    def set_state(self, data, version):
         self.file_path = data['path']
 
 
@@ -197,7 +197,7 @@ class CustomOpenCV(OpenCVNodeBase):
             'code': self.code,
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         self.code = data['code']
 
 
@@ -640,6 +640,7 @@ class BlackHat(OpenCVNodeBase):  # ???
 
 class CannyEdgeDetection(OpenCVNodeBase):
     title = 'Canny'
+    tags = ['edge detection']
     init_inputs = [
         NodeInputBP('img'),
         NodeInputBP('TS1', dtype=dtypes.Data(100)),

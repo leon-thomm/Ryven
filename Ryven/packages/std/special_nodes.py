@@ -44,7 +44,7 @@ class DualNodeBase(NodeBase):
             'active': self.active
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         self.active = data['active']
 
 
@@ -166,7 +166,7 @@ class Checkpoint_Node(NodeBase):
             'num outputs': len(self.outputs),
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         self.actions['remove output'] = {
             {'method': self.remove_output, 'data': i}
             for i in range(data['num outputs'])
@@ -258,8 +258,8 @@ class Log_Node(DualNodeBase):
             'target': self.target,
         }
 
-    def set_state(self, data: dict):
-        super().set_state(data)
+    def set_state(self, data: dict, version):
+        super().set_state(data, version)
         self.target = data['target']
         if self.session.gui and self.main_widget():
             self.main_widget().set_target(self.target)
@@ -366,7 +366,7 @@ class Slider_Node(NodeBase):
             'val': self.val,
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         self.val = data['val']
 
 
@@ -521,8 +521,8 @@ class Exec_Node(_DynamicPorts_Node):
             'code': self.code,
         }
 
-    def set_state(self, data: dict):
-        super().set_state(data)
+    def set_state(self, data: dict, version):
+        super().set_state(data, version)
         self.code = data['code']
 
 
@@ -575,7 +575,7 @@ class Eval_Node(NodeBase):
             'expression code': self.expression_code,
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         self.number_param_inputs = data['num param inputs']
         self.expression_code = data['expression code']
 
@@ -673,7 +673,7 @@ class Storage_Node(NodeBase):
             'data': self.storage,
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         self.storage = data['data']
 
 
@@ -744,7 +744,7 @@ class LinkIN_Node(NodeBase):
             'ID': str(self.ID),
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         if data['ID'] in self.INSTANCES:
             # this happens when some existing node has been copied and pasted.
             # we only want to rebuild links when loading a project, considering
@@ -865,7 +865,7 @@ class LinkOUT_Node(NodeBase):
                 'linked ID': str(self.linked_node.ID),
             }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         if len(data) > 0:
             n: LinkIN_Node = LinkIN_Node.INSTANCES.get(data['linked ID'])
             if n is None:

@@ -149,7 +149,7 @@ class Matrix_Node(Node):
                 'expression matrix': expression_matrix_list}
         return data
 
-    def set_state(self, data):
+    def set_state(self, data, version):
         if self.session.gui:
             self.main_widget_hidden = data['main widget hidden']
             if self.main_widget_hidden:
