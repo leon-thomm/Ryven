@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./Ryven/resources/pics/logo.png" alt="drawing" width="50%"/>
+  <img src="./Ryven/resources/pics/logo.png" alt="drawing" width="70%"/>
 </p>
 
 # A simple flow-based visual scripting env for Python
@@ -160,7 +160,7 @@ While data flows are the most common use case, exec flows (like [UnrealEngine Bl
 #### stylus support for adding handwritten notes
 <!-- ![](./docs/img/stylus_light.png) -->
 <p align="center">
-  <img src="./docs/img/stylus_light.png" alt="drawing" width="70%"/>
+  <img src="./docs/img/stylus_dark.png" alt="drawing" width="70%"/>
 </p>
 
 #### rendering flow images
