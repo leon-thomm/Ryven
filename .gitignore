@@ -8,6 +8,7 @@ tests/
 code_gen/
 __own__/
 build/
+dist/
 *.egg-info
 
 ryvencore-drawio.xml
