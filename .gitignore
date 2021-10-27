@@ -1,14 +1,15 @@
 .idea/
 .vscode/
+.qt_for_python/
 __pycache__/
 venv/
 temp/
 tests/
 code_gen/
 __own__/
+build/
+*.egg-info
 
 ryvencore-drawio.xml
 
-.code/
-.idea/
-.qt_for_python/
+
