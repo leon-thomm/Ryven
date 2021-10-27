@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QApplication
+from qtpy.QtWidgets import QApplication
 from os.path import dirname, abspath, join
 
 
