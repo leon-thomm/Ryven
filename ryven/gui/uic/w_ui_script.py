@@ -1,6 +1,6 @@
 from qtpy.QtWidgets import QWidget
 
-from .ui_script import Ui_script_widget
+from ryven.gui.uic.ui_script import Ui_script_widget
 
 
 class WUIScript(QWidget):
