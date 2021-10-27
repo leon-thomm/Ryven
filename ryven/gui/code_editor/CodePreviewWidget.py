@@ -2,9 +2,9 @@ from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout, \
     QPushButton
 
-from .EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
-from .CodeEditorWidget import CodeEditorWidget
-from .SourceCodeUpdater import SrcCodeUpdater
+from ryven.gui.code_editor.EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
+from ryven.gui.code_editor.CodeEditorWidget import CodeEditorWidget
+from ryven.gui.code_editor.SourceCodeUpdater import SrcCodeUpdater
 
 
 class LinkedRadioButton(QRadioButton):

@@ -6,8 +6,8 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import get_formatter_by_name
 # from resources.pygments.dracula import DraculaStyle
-from .pygments.dracula import DraculaStyle
-from .pygments.light import LightStyle
+from ryven.gui.code_editor.pygments.dracula import DraculaStyle
+from ryven.gui.code_editor.pygments.light import LightStyle
 
 
 class CodeEditorWidget(QTextEdit):
