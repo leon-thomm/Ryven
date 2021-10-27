@@ -11,8 +11,8 @@ import sys
 
 from ryvencore_qt.src.ryvencore import *
 
-from nodes_package import NodesPackage
-from tools import import_nodes_package
+from ryven.core.nodes_package import NodesPackage
+from ryven.core.tools import import_nodes_package
 
 
 cmds = [

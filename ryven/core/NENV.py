@@ -10,7 +10,7 @@ import os
 if os.environ['RYVEN_MODE'] == 'gui':
 
     from ryvencore_qt import NodeInputBP, NodeOutputBP, dtypes
-    from nodes.NodeBase import NodeBase as Node
+    from ryven.core.nodes.NodeBase import NodeBase as Node
 
 else:
 
@@ -52,7 +52,7 @@ def import_widgets(origin_file: str, rel_file_path='widgets.py'):
         load_from_file(abs_path)
 
         # in GUI mode, import the widgets container from NWENV containing all the exported widget classes
-        import NWENV
+        from ryven.core import NWENV
         widgets_container = NWENV.WidgetsRegistry.exported_widgets[-1]
 
     else:

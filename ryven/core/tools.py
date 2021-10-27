@@ -3,7 +3,7 @@ import os
 from os.path import normpath, join, dirname, abspath, basename
 import importlib.util
 
-from nodes_package import NodesPackage
+from ryven.core.nodes_package import NodesPackage
 
 
 def path_from_file(f):
@@ -35,7 +35,7 @@ def load_from_file(file: str = None, components_list: [str] = []) -> tuple:
 
 
 def import_nodes_package(package: NodesPackage) -> list:
-    import NENV
+    from ryven.core import NENV
     load_from_file(package.file_path)
 
     nodes = NENV.NodesRegistry.exported_nodes[-1]
