@@ -5,8 +5,8 @@ from qtpy.QtWidgets import QWidget, QHBoxLayout, QComboBox
 import ryvencore_qt.src.conv_gui as GUI
 from ryvencore_qt.src.ryvencore.RC import FlowAlg
 
-from code_editor.CodePreviewWidget import CodePreviewWidget
-from uic.ui_script import Ui_script_widget
+from ryven.gui.code_editor.CodePreviewWidget import CodePreviewWidget
+from ryven.gui.uic.ui_script import Ui_script_widget
 
 
 class ScriptUI(QWidget):

@@ -14,9 +14,9 @@ REDIRECT_CONSOLE_OUTPUT = False
 def start_ryven():
 
     # import windows
-    from main_console import init_main_console
-    from startup_dialog.StartupDialog import StartupDialog
-    from main_window import MainWindow
+    from ryven.gui.main_console import init_main_console
+    from ryven.gui.startup_dialog.StartupDialog import StartupDialog
+    from ryven.gui.main_window import MainWindow
 
     # init application
     from qtpy.QtWidgets import QApplication
@@ -65,7 +65,7 @@ def start_ryven():
 
 
 def start_ryven_console():
-    from RyvenConsole import run
+    from ryven.core.RyvenConsole import run
     run()
 
 

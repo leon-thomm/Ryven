@@ -4,14 +4,14 @@ from os.path import join, dirname
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
-from main_console import *
-from script_UI import ScriptUI
-from styling.window_theme import WindowTheme
-from nodes_package import NodesPackage
-from uic.ui_main_window import Ui_MainWindow
-from tools import import_nodes_package
-from nodes.NodeBase import NodeBase
-from dialogs import GetTextDialog, ChooseScriptDialog
+from ryven.gui.main_console import *
+from ryven.gui.script_UI import ScriptUI
+from ryven.gui.styling.window_theme import WindowTheme
+from ryven.core.nodes_package import NodesPackage
+from ryven.gui.uic.ui_main_window import Ui_MainWindow
+from ryven.core.tools import import_nodes_package
+from ryven.core.nodes.NodeBase import NodeBase
+from ryven.gui.dialogs import GetTextDialog, ChooseScriptDialog
 
 # ryvencore_qt
 import ryvencore_qt as rc
