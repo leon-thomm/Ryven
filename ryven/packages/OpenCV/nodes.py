@@ -1,4 +1,4 @@
-from NENV import *
+from ryven.core.NENV import *
 
 widgets = import_widgets(__file__)
 

@@ -1,4 +1,4 @@
-from NWENV import *
+from ryven.core.NWENV import *
 
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QLineEdit
 

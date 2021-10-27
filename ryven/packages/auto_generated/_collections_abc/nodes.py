@@ -1,5 +1,5 @@
 
-from NENV import *
+from ryven.core.NENV import *
 
 import _collections_abc
 

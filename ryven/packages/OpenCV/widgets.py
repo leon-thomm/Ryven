@@ -1,4 +1,4 @@
-from NWENV import *
+from ryven.core.NWENV import *
 from qtpy.QtWidgets import QLabel, QPushButton, QFileDialog, QVBoxLayout, QWidget, QTextEdit
 from qtpy.QtGui import QImage, QPixmap, QFont
 from qtpy.QtCore import QObject, Signal, QSize, QTimer

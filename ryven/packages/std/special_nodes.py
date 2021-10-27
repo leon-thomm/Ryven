@@ -1,7 +1,7 @@
 import code
 from contextlib import redirect_stdout, redirect_stderr
 
-from NENV import *
+from ryven.core.NENV import *
 widgets = import_widgets(__file__)
 
 
@@ -438,7 +438,7 @@ class _DynamicPorts_Node(NodeBase):
 #         super().__init__(params)
 #
 #         self.code = \
-# """from NENV import *
+# """from ryven.core.NENV import *
 #
 # class CustomNode(Node):
 #     title = ''
