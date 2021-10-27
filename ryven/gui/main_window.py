@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         NodeBase.main_console = MainConsole.instance
 
         #   REGISTER BUILT-IN NODES
-        self.import_nodes(path=join(dirname(__file__), 'nodes/built_in/'))
+        self.import_nodes(path=join(dirname(dirname(__file__)), 'core/nodes/built_in/'))
 
         #   LOAD PROJECT
         if config['config'] == 'create plain new project':
