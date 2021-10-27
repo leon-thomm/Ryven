@@ -1,9 +1,9 @@
 from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog, QRadioButton
 from qtpy.QtGui import QIcon
 
-from nodes_package import NodesPackage
-from styling.window_theme import apply_stylesheet
-from .SelectPackages_Dialog import SelectPackages_Dialog
+from ryven.core.nodes_package import NodesPackage
+from ryven.gui.styling.window_theme import apply_stylesheet
+from ryven.gui.startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
 
 
 class StartupDialog(QDialog):
