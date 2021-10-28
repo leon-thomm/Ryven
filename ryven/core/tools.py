@@ -78,3 +78,12 @@ def import_nodes_package(package: NodesPackage) -> list:
         n.type_ = package.name if not n.type_ else package.name+f'[{n.type_}]'
 
     return nodes
+
+def ryven_file_abs_path(path_rel_to_ryven):
+    """Given a path string relative to the ryven package, return the file/folder absolute path
+
+    :param path_rel_to_ryven: path relative to ryven package (e.g. core/NENV.py)
+    :type path_rel_to_ryven: str
+    """
+    ryven_path = dirname(dirname(__file__))
+    return abspath(join(ryven_path, path_rel_to_ryven))

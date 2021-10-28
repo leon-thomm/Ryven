@@ -2,6 +2,7 @@ from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QText
 from qtpy.QtGui import QIcon
 
 from ryven.core.nodes_package import NodesPackage
+from ryven.core.tools import ryven_file_abs_path
 from ryven.gui.styling.window_theme import apply_stylesheet
 from ryven.gui.startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
 
@@ -68,7 +69,7 @@ class StartupDialog(QDialog):
         self.setLayout(layout)
 
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon('../resources/pics/Ryven_icon.png'))
+        self.setWindowIcon(QIcon(ryven_file_abs_path('resources/pics/Ryven_icon.png')))
         self.setFixedSize(500, 280)
 
         self.editor_startup_configuration = {}

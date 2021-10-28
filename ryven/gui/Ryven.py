@@ -1,5 +1,6 @@
 import os
 import sys
+from ryven.core.tools import ryven_file_abs_path
 
 # change directory to this file's location
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -25,9 +26,9 @@ def start_ryven():
     # register fonts
     from qtpy.QtGui import QFontDatabase
     db = QFontDatabase()
-    db.addApplicationFont('../resources/fonts/poppins/Poppins-Medium.ttf')
-    db.addApplicationFont('../resources/fonts/source_code_pro/SourceCodePro-Regular.ttf')
-    db.addApplicationFont('../resources/fonts/asap/Asap-Regular.ttf')
+    db.addApplicationFont(ryven_file_abs_path('resources/fonts/poppins/Poppins-Medium.ttf'))
+    db.addApplicationFont(ryven_file_abs_path('resources/fonts/source_code_pro/SourceCodePro-Regular.ttf'))
+    db.addApplicationFont(ryven_file_abs_path('resources/fonts/asap/Asap-Regular.ttf'))
 
     # StartupDialog
     sw = StartupDialog()

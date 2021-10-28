@@ -1,5 +1,5 @@
 from qtpy.QtWidgets import QApplication
-from os.path import dirname, abspath, join
+from ryven.core.tools import ryven_file_abs_path
 
 
 def hex_to_rgb(hex: str):
@@ -66,27 +66,24 @@ class WindowTheme_Light(WindowTheme):
 def apply_stylesheet(style: str):
 
     # set to None if not used
-    icons_dir = '../../resources/stylesheets/icons'
+    icons_dir = ryven_file_abs_path('resources/stylesheets/icons')
 
     # path to the template stylesheet file
-    template_file = '../../resources/stylesheets/style_template.css'
+    template_file = ryven_file_abs_path('resources/stylesheets/style_template.css')
 
     # ------------------------------
-
-    def path(rel_path: str):
-        return abspath(join(dirname(__file__), rel_path))
 
     if icons_dir is not None:
         from qtpy.QtCore import QDir
         d = QDir()
-        d.setSearchPaths('icon', [path(icons_dir)])
+        d.setSearchPaths('icon', [icons_dir])
 
     if style == 'dark':
         window_theme = WindowTheme_Dark()
     else:
         window_theme = WindowTheme_Light()
 
-    f = open(path(template_file))
+    f = open(template_file)
 
     from jinja2 import Template
     jinja_template = Template(f.read())
