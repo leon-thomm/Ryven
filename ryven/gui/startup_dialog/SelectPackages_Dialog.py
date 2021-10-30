@@ -6,7 +6,7 @@ import os
 from os.path import basename, abspath, dirname, normpath, join, splitext
 
 from ryven.core.nodes_package import NodesPackage
-from ryven.core.tools import ryven_file_abs_path
+from ryven.core.utils import ryven_file_abs_path
 
 
 class SelectPackages_Dialog(QDialog):

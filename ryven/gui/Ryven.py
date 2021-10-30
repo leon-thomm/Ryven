@@ -1,6 +1,6 @@
 import os
 import sys
-from ryven.core.tools import ryven_file_abs_path
+from ryven.core.utils import ryven_file_abs_path
 
 # change directory to this file's location
 os.chdir(os.path.dirname(os.path.realpath(__file__)))

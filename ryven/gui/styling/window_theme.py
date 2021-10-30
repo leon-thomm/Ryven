@@ -1,5 +1,5 @@
 from qtpy.QtWidgets import QApplication
-from ryven.core.tools import ryven_file_abs_path
+from ryven.core.utils import ryven_file_abs_path
 
 
 def hex_to_rgb(hex: str):

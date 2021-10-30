@@ -29,7 +29,7 @@ else:
     Node = NodeWrp
 
 
-from ryven.core.tools import load_from_file
+from ryven.core.utils import load_from_file
 # from inspect import stack
 
 

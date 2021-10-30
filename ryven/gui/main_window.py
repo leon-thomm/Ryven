@@ -9,7 +9,7 @@ from ryven.gui.script_UI import ScriptUI
 from ryven.gui.styling.window_theme import WindowTheme
 from ryven.core.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
-from ryven.core.tools import import_nodes_package, ryven_file_abs_path
+from ryven.core.utils import import_nodes_package, ryven_file_abs_path
 from ryven.core.nodes.NodeBase import NodeBase
 from ryven.gui.dialogs import GetTextDialog, ChooseScriptDialog
 
