@@ -6,7 +6,7 @@ import os
 from os.path import basename, abspath, dirname, normpath, join, splitext
 
 from ryven.core.nodes_package import NodesPackage
-from ryven.core.utils import abs_path_from_package_dir
+from ryven.core.utils import abs_path_from_package_dir, abs_path_from_ryven_dir
 
 
 class SelectPackages_Dialog(QDialog):
@@ -63,7 +63,19 @@ class SelectPackages_Dialog(QDialog):
         self.setWindowTitle('select required packages')
 
     def auto_import_button_clicked(self):
-        packages_dir = abs_path_from_package_dir('packages')
+
+        # search in user packages
+        self.auto_import(packages_dir=abs_path_from_ryven_dir('packages'))
+        if self.all_required_packages_selected():
+            self.finished()
+
+        # search in example packages
+        self.auto_import(packages_dir=abs_path_from_package_dir('example_packages'))
+        if self.all_required_packages_selected():
+            self.finished()
+
+    def auto_import(self, packages_dir: str):
+
         folders_list = [basename(x[0]) for x in os.walk(packages_dir) if
                         basename(x[0]) in self.required_packages]
 
@@ -85,12 +97,14 @@ class SelectPackages_Dialog(QDialog):
 
         self.clean_packages_list()
 
-        if self.all_required_packages_selected():
-            self.finished()
-
     def add_package_button_clicked(self):
 
-        file_names = QFileDialog.getOpenFileNames(self, 'select package file (nodes.py)', '../packages', '(*.py)')[0]
+        file_names = QFileDialog.getOpenFileNames(
+            self,
+            'select package file (nodes.py)',
+            abs_path_from_ryven_dir('packages'),
+            '(*.py)'
+        )[0]
 
         for file_name in file_names:
             try:
