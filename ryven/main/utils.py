@@ -3,7 +3,7 @@ import os
 from os.path import normpath, join, dirname, abspath, basename, expanduser
 import importlib.util
 
-from ryven.core.nodes_package import NodesPackage
+from ryven.main.nodes_package import NodesPackage
 
 
 def load_from_file(file: str = None, components_list: [str] = []) -> tuple:
@@ -86,7 +86,7 @@ def ryven_dir_path() -> str:
 def abs_path_from_package_dir(path_rel_to_ryven: str):
     """Given a path string relative to the ryven package, return the file/folder absolute path
 
-    :param path_rel_to_ryven: path relative to ryven package (e.g. core/NENV.py)
+    :param path_rel_to_ryven: path relative to ryven package (e.g. main/NENV.py)
     :type path_rel_to_ryven: str
     """
     ryven_path = dirname(dirname(__file__))

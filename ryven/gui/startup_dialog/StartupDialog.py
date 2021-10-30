@@ -1,8 +1,8 @@
 from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog, QRadioButton
 from qtpy.QtGui import QIcon
 
-from ryven.core.nodes_package import NodesPackage
-from ryven.core.utils import abs_path_from_package_dir, abs_path_from_ryven_dir
+from ryven.main.nodes_package import NodesPackage
+from ryven.main.utils import abs_path_from_package_dir, abs_path_from_ryven_dir
 from ryven.gui.styling.window_theme import apply_stylesheet
 from ryven.gui.startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
 

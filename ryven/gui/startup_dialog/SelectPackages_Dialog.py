@@ -5,8 +5,8 @@ from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QFile
 import os
 from os.path import basename, abspath, dirname, normpath, join, splitext
 
-from ryven.core.nodes_package import NodesPackage
-from ryven.core.utils import abs_path_from_package_dir, abs_path_from_ryven_dir
+from ryven.main.nodes_package import NodesPackage
+from ryven.main.utils import abs_path_from_package_dir, abs_path_from_ryven_dir
 
 
 class SelectPackages_Dialog(QDialog):

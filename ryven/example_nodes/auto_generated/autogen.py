@@ -136,7 +136,7 @@ class {node_name}(NodeBase):
 
     with open(target_path+'/nodes.py', 'w') as f:
         f.write('''
-from ryven.core.NENV import *
+from ryven.main.NENV import *
 
 import '''+mod_name+'''
 

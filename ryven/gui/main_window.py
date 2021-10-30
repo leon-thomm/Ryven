@@ -7,10 +7,10 @@ from qtpy.QtWidgets import QMainWindow, QFileDialog, QDialog, QShortcut, QAction
 from ryven.gui.main_console import *
 from ryven.gui.script_UI import ScriptUI
 from ryven.gui.styling.window_theme import WindowTheme
-from ryven.core.nodes_package import NodesPackage
+from ryven.main.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
-from ryven.core.utils import import_nodes_package, abs_path_from_package_dir, abs_path_from_ryven_dir
-from ryven.core.nodes.NodeBase import NodeBase
+from ryven.main.utils import import_nodes_package, abs_path_from_package_dir, abs_path_from_ryven_dir
+from ryven.main.nodes.NodeBase import NodeBase
 from ryven.gui.dialogs import GetTextDialog, ChooseScriptDialog
 
 # ryvencore_qt
@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         NodeBase.main_console = MainConsole.instance
 
         #   REGISTER BUILT-IN NODES
-        self.import_nodes(path=abs_path_from_package_dir('core/nodes/built_in/'))
+        self.import_nodes(path=abs_path_from_package_dir('main/nodes/built_in/'))
 
         #   LOAD PROJECT
         if config['config'] == 'create plain new project':

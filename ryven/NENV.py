@@ -10,7 +10,7 @@ import os
 if os.environ['RYVEN_MODE'] == 'gui':
 
     from ryvencore_qt import NodeInputBP, NodeOutputBP, dtypes
-    from ryven.core.nodes.NodeBase import NodeBase as Node
+    from ryven.main.nodes.NodeBase import NodeBase as Node
 
 else:
 
@@ -29,7 +29,7 @@ else:
     Node = NodeWrp
 
 
-from ryven.core.utils import load_from_file
+from ryven.main.utils import load_from_file
 # from inspect import stack
 
 

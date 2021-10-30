@@ -438,7 +438,7 @@ class _DynamicPorts_Node(NodeBase):
 #         super().__init__(params)
 #
 #         self.code = \
-# """from ryven.core.NENV import *
+# """from ryven.main.NENV import *
 #
 # class CustomNode(Node):
 #     title = ''
