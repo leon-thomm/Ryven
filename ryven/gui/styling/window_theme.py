@@ -1,5 +1,5 @@
 from qtpy.QtWidgets import QApplication
-from ryven.core.utils import ryven_file_abs_path
+from ryven.core.utils import abs_path_from_package_dir
 
 
 def hex_to_rgb(hex: str):
@@ -66,10 +66,10 @@ class WindowTheme_Light(WindowTheme):
 def apply_stylesheet(style: str):
 
     # set to None if not used
-    icons_dir = ryven_file_abs_path('resources/stylesheets/icons')
+    icons_dir = abs_path_from_package_dir('resources/stylesheets/icons')
 
     # path to the template stylesheet file
-    template_file = ryven_file_abs_path('resources/stylesheets/style_template.css')
+    template_file = abs_path_from_package_dir('resources/stylesheets/style_template.css')
 
     # ------------------------------
 

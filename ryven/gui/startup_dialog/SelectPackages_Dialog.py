@@ -6,7 +6,7 @@ import os
 from os.path import basename, abspath, dirname, normpath, join, splitext
 
 from ryven.core.nodes_package import NodesPackage
-from ryven.core.utils import ryven_file_abs_path
+from ryven.core.utils import abs_path_from_package_dir
 
 
 class SelectPackages_Dialog(QDialog):
@@ -63,7 +63,7 @@ class SelectPackages_Dialog(QDialog):
         self.setWindowTitle('select required packages')
 
     def auto_import_button_clicked(self):
-        packages_dir = ryven_file_abs_path('packages')
+        packages_dir = abs_path_from_package_dir('packages')
         folders_list = [basename(x[0]) for x in os.walk(packages_dir) if
                         basename(x[0]) in self.required_packages]
 

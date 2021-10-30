@@ -9,7 +9,7 @@ from ryven.gui.script_UI import ScriptUI
 from ryven.gui.styling.window_theme import WindowTheme
 from ryven.core.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
-from ryven.core.utils import import_nodes_package, ryven_file_abs_path
+from ryven.core.utils import import_nodes_package, abs_path_from_package_dir
 from ryven.core.nodes.NodeBase import NodeBase
 from ryven.gui.dialogs import GetTextDialog, ChooseScriptDialog
 
@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
         self.session.script_deleted.connect(self.script_deleted)
 
         # LOAD DESIGN AND FLOW THEME
-        self.session.design.load_from_config(ryven_file_abs_path('gui/styling/design_config.json'))
+        self.session.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
 
         if self.theme.name == 'dark':
             self.session.design.set_flow_theme(name='pure dark')
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
         self.setup_menu_actions()
 
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon(ryven_file_abs_path('resources/pics/Ryven_icon.png')))
+        self.setWindowIcon(QIcon(abs_path_from_package_dir('resources/pics/Ryven_icon.png')))
         self.ui.scripts_tab_widget.removeTab(0)  # remove placeholder tab
 
         # SHORTCUTS
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         import_nodes_shortcut.activated.connect(self.on_import_nodes_triggered)
 
         # TEMP FOLDER
-        temp_path = ryven_file_abs_path('temp')
+        temp_path = abs_path_from_package_dir('temp')
         if not os.path.exists(temp_path):
             os.mkdir(temp_path)
         for f in os.listdir(temp_path):
@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         NodeBase.main_console = MainConsole.instance
 
         #   REGISTER BUILT-IN NODES
-        self.import_nodes(path=ryven_file_abs_path('core/nodes/built_in/'))
+        self.import_nodes(path=abs_path_from_package_dir('core/nodes/built_in/'))
 
         #   LOAD PROJECT
         if config['config'] == 'create plain new project':
@@ -194,7 +194,7 @@ import: ctrl+i
     def load_stylesheet(self, ss):
         ss_content = ''
         try:
-            f = open(ryven_file_abs_path('resources/stylesheets/'+ss+'.txt'))
+            f = open(abs_path_from_package_dir('resources/stylesheets/' + ss + '.txt'))
             ss_content = f.read()
             f.close()
         finally:
@@ -204,7 +204,7 @@ import: ctrl+i
     # SLOTS
 
     def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', ryven_file_abs_path('packages'), '(*.py)',)[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_package_dir('packages'), '(*.py)', )[0]
         if file_path != '':
             self.import_nodes(path=dirname(file_path))
 
@@ -254,7 +254,7 @@ import: ctrl+i
 
     def on_save_project_triggered(self):
         file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                ryven_file_abs_path('saves'), '(*.json)')[0]
+                                                abs_path_from_package_dir('saves'), '(*.json)')[0]
         if file_name != '':
             self.save_project(file_name)
 
