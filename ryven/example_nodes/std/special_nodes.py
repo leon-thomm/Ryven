@@ -1,7 +1,7 @@
 import code
 from contextlib import redirect_stdout, redirect_stderr
 
-from ryven.core.NENV import *
+from ryven.NENV import *
 widgets = import_widgets(__file__)
 
 

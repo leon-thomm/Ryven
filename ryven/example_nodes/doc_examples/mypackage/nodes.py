@@ -1,4 +1,4 @@
-from ryven.core.NENV import *
+from ryven.NENV import *
 
 
 class NodeBase(Node):

@@ -31,7 +31,7 @@ def load_from_file(file: str = None, components_list: [str] = []) -> tuple:
 
 
 def import_nodes_package(package: NodesPackage) -> list:
-    from ryven.core import NENV
+    from ryven import NENV
     load_from_file(package.file_path)
 
     nodes = NENV.NodesRegistry.exported_nodes[-1]

@@ -52,7 +52,7 @@ def import_widgets(origin_file: str, rel_file_path='widgets.py'):
         load_from_file(abs_path)
 
         # in GUI mode, import the widgets container from NWENV containing all the exported widget classes
-        from ryven.core import NWENV
+        from ryven import NWENV
         widgets_container = NWENV.WidgetsRegistry.exported_widgets[-1]
 
     else:

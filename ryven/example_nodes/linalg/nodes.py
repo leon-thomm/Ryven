@@ -1,4 +1,4 @@
-from ryven.core.NENV import *
+from ryven.NENV import *
 widgets = import_widgets(__file__)
 
 import numpy as np

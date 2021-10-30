@@ -1,5 +1,5 @@
 
-from ryven.core.NENV import *
+from ryven.NENV import *
 
 import ctypes.test.test_errno
 

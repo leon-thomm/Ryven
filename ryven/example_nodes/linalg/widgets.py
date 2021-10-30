@@ -1,4 +1,4 @@
-from ryven.core.NWENV import *
+from ryven.NWENV import *
 from qtpy.QtWidgets import QTextEdit
 from qtpy.QtGui import QFontMetrics
 

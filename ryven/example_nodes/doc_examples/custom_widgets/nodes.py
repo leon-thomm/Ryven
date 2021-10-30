@@ -1,4 +1,4 @@
-from ryven.core.NENV import *
+from ryven.NENV import *
 widgets = import_widgets(__file__)  # this loads all exported widgets from widgets.py into the object
 
 

@@ -1,6 +1,6 @@
 import re
 
-from ryven.core.NWENV import *
+from ryven.NWENV import *
 
 from qtpy.QtGui import QFont
 from qtpy.QtCore import Qt, Signal, QEvent

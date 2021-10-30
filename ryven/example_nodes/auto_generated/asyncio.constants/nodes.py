@@ -1,5 +1,5 @@
 
-from ryven.core.NENV import *
+from ryven.NENV import *
 
 import asyncio.constants
 

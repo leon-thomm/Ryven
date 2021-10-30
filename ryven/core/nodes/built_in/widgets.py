@@ -1,4 +1,4 @@
-from ryven.core.NWENV import *
+from ryven.NWENV import *
 
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QLineEdit
