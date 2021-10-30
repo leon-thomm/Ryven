@@ -1,6 +1,6 @@
 import os
 import sys
-from ryven.core.utils import abs_path_from_package_dir
+from ryven.main.utils import abs_path_from_package_dir
 
 # change directory to this file's location
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -66,7 +66,7 @@ def start_ryven():
 
 
 def start_ryven_console():
-    from ryven.core.RyvenConsole import run
+    from ryven.main.RyvenConsole import run
     run()
 
 
