@@ -9,7 +9,7 @@ from ryven.gui.script_UI import ScriptUI
 from ryven.gui.styling.window_theme import WindowTheme
 from ryven.core.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
-from ryven.core.utils import import_nodes_package, abs_path_from_package_dir
+from ryven.core.utils import import_nodes_package, abs_path_from_package_dir, abs_path_from_ryven_dir
 from ryven.core.nodes.NodeBase import NodeBase
 from ryven.gui.dialogs import GetTextDialog, ChooseScriptDialog
 
@@ -204,7 +204,7 @@ import: ctrl+i
     # SLOTS
 
     def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_package_dir('packages'), '(*.py)', )[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('packages'), '(*.py)', )[0]
         if file_path != '':
             self.import_nodes(path=dirname(file_path))
 
