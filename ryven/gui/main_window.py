@@ -138,6 +138,7 @@ import: ctrl+i
         self.ui.menuFlow_Design_Style.addMenu(light_themes_menu)
 
         self.ui.actionImport_Nodes.triggered.connect(self.on_import_nodes_triggered)
+        self.ui.actionImport_Example_Nodes.triggered.connect(self.on_import_example_nodes_triggered)
         self.ui.actionSave_Project.triggered.connect(self.on_save_project_triggered)
         self.ui.actionNew_Script.triggered.connect(self.on_new_script_triggered)
         self.ui.actionRename_Script.triggered.connect(self.on_rename_script_triggered)
@@ -204,7 +205,12 @@ import: ctrl+i
     # SLOTS
 
     def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('packages'), '(*.py)', )[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('nodes'), '(*.py)', )[0]
+        if file_path != '':
+            self.import_nodes(path=dirname(file_path))
+
+    def on_import_example_nodes_triggered(self):
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_package_dir('example_nodes'), '(*.py)', )[0]
         if file_path != '':
             self.import_nodes(path=dirname(file_path))
 
@@ -254,7 +260,7 @@ import: ctrl+i
 
     def on_save_project_triggered(self):
         file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                abs_path_from_package_dir('saves'), '(*.json)')[0]
+                                                abs_path_from_ryven_dir('saves'), '(*.json)')[0]
         if file_name != '':
             self.save_project(file_name)
 

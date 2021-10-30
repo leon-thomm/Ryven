@@ -89,6 +89,7 @@
      <addaction name="actionDelete_Script"/>
     </widget>
     <addaction name="actionImport_Nodes"/>
+    <addaction name="actionImport_Example_Nodes"/>
     <addaction name="actionSave_Project"/>
     <addaction name="menuScripts"/>
    </widget>
@@ -192,6 +193,11 @@ This will take a few seconds.</string>
   <action name="actionDelete_Script">
    <property name="text">
     <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionImport_Example_Nodes">
+   <property name="text">
+    <string>Import Example Nodes</string>
    </property>
   </action>
  </widget>

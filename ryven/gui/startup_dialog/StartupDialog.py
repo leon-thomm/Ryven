@@ -2,7 +2,7 @@ from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QText
 from qtpy.QtGui import QIcon
 
 from ryven.core.nodes_package import NodesPackage
-from ryven.core.utils import abs_path_from_package_dir
+from ryven.core.utils import abs_path_from_package_dir, abs_path_from_ryven_dir
 from ryven.gui.styling.window_theme import apply_stylesheet
 from ryven.gui.startup_dialog.SelectPackages_Dialog import SelectPackages_Dialog
 
@@ -47,10 +47,13 @@ class StartupDialog(QDialog):
         plain_project_push_button.clicked.connect(self.plain_project_button_clicked)
         load_project_push_button = QPushButton('load project')
         load_project_push_button.clicked.connect(self.load_project_button_clicked)
+        load_example_project_push_button = QPushButton('load example')
+        load_example_project_push_button.clicked.connect(self.load_example_project_button_clicked)
 
         buttons_layout = QHBoxLayout()
         buttons_layout.addWidget(plain_project_push_button)
         buttons_layout.addWidget(load_project_push_button)
+        buttons_layout.addWidget(load_example_project_push_button)
 
         layout.addLayout(buttons_layout)
 
@@ -88,13 +91,29 @@ class StartupDialog(QDialog):
 
 
     def load_project_button_clicked(self):
+        self.open_project(base_dir=abs_path_from_ryven_dir('saves'))
+
+
+    def load_example_project_button_clicked(self):
+        self.open_project(base_dir=abs_path_from_package_dir('examples_projects'))
+
+
+    def open_project(self, base_dir: str):
+        """1. Opens a file dialog for selecting a project tile; returns on FileNotFoundError,
+        2. Opens the project and scans all required node packages,
+        3. If node packages are missing (i.e. they cannot be found under the path specified
+        in the project file anymore) it opens the SelectPackages_Dialog
+
+        :param base_dir: path to directory where file dialog opens
+        """
+
         self.editor_startup_configuration['config'] = 'open project'
         import json
 
         file_name = \
             QFileDialog.getOpenFileName(
                 self, 'select project file',
-                '../saves', '(*.json)'
+                base_dir, '(*.json)'
             )[0]
 
         try:
@@ -102,6 +121,7 @@ class StartupDialog(QDialog):
             project_str = f.read()
             f.close()
         except FileNotFoundError:
+            # TODO: do something useful here
             return
 
         # strict=False has to be to allow 'control characters' like '\n' for newline when loading the json

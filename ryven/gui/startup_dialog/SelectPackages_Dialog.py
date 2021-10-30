@@ -70,7 +70,7 @@ class SelectPackages_Dialog(QDialog):
             self.finished()
 
         # search in example packages
-        self.auto_import(packages_dir=abs_path_from_package_dir('example_packages'))
+        self.auto_import(packages_dir=abs_path_from_package_dir('example_nodes'))
         if self.all_required_packages_selected():
             self.finished()
 
