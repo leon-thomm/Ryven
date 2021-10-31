@@ -8,7 +8,7 @@
 
 Hello there! Ryven is an editor combining flow-based visual scripting with Python. It provides an easy to use system for programming nodes executing any Python code.
 
-Ryven is now based on [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a guide for Ryven can be found [here](https://ryven.org/guides.html#/).
+Ryven is now based on [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a guide for Ryven can be found [here](https://ryven.org/guide#/).
 
 *Ryven 3 and the new underlying framework haven't been tested extensively yet, so there might be some further changes incoming.*
 
