@@ -1,8 +1,8 @@
 recursive-include **/resources *
-recursive-include ryven/packages *
+recursive-include ryven/example_nodes *
+recursive-include ryven/example_projects *
 recursive-include docs *
-recursive-include ryven/saves *
-recursive-include ryven/stuff *
+recursive-include ryven/unused *
 recursive-include ryven *.json *.ui
 include CONTRIBUTING.md
 include LICENSE

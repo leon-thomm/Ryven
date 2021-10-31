@@ -12,7 +12,8 @@ os.environ['QT_API'] = 'pyside2'
 REDIRECT_CONSOLE_OUTPUT = False
 
 
-def start_ryven():
+def run():
+    os.environ['RYVEN_MODE'] = 'gui'
 
     # import windows
     from ryven.gui.main_console import init_main_console
@@ -65,20 +66,5 @@ def start_ryven():
         sys.exit(app.exec_())
 
 
-def start_ryven_console():
-    from ryven.main.RyvenConsole import run
-    run()
-
-
-def main():
-
-    if len(sys.argv) > 1 and sys.argv[1] == 'console':
-        os.environ['RYVEN_MODE'] = 'no-gui'
-        start_ryven_console()
-    else:
-        os.environ['RYVEN_MODE'] = 'gui'
-        start_ryven()
-
-
 if __name__ == '__main__':
-    main()
+    run()
