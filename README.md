@@ -1,22 +1,20 @@
 <p align="center">
-  <img src="./Ryven/resources/pics/logo.png" alt="drawing" width="70%"/>
+  <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
 </p>
 
 # A simple flow-based visual scripting env for Python
 
-**Ryven combines flow-based visual scripting with Python. It provides an easy-to-use system for programming nodes executing any Python code. While there are some example node packages, you will most likely rely mostly on your own nodes.**
+**Ryven combines flow-based visual scripting with Python. It provides you with absolute freedom for what your nodes can execute as well as an easy-to-use system for programming them. While there are some example node packages, you will most likely rely mostly on your own nodes.**
 
 Ryven is now based on [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a guide for Ryven can be found [here](https://ryven.org/guides.html#/).
 
 **Installation**
 
 ```
-git clone https://github.com/leon-thomm/ryven
-cd Ryven
-pip install -r requirements.txt
-cd Ryven/src
-python Ryven.py
+pip install ryven
 ```
+
+and now you can launch Ryven by running `ryven` on your terminal, and RyvenConsole via `ryven_console`.
 
 # quick start
 
@@ -24,7 +22,7 @@ A super quick intro to Ryven. If you want to know more, [visit guide on the webs
 
 **editor usage**
 
-Open Ryven by opening `Ryven.py` with python (or running `python Ryven.py` on the console from the `./Ryven/src/` dir), and create a new project. Import some nodes via `File -> Import Nodes` and select `std/nodes.py`. You should now see a long list of nodes on the left. Drag and drop them into the scene and get a feeling for how they work, everything is being executed at realtime. For instance, drag two `val` nodes into the scene, a `+` node, and a `result` node, connect them (drag and drop by mouse) in this order and type some values into the `val` nodes' input fields. Now replace one of them with a slider node generating real numbers. You can also get an interactive nodes list preview inside the scene by right-clicking. You can pan around also with the right mouse button, and zoom via `ctrl + scroll`.  You can also create new scripts (with flows) by clicking `File -> Scripts -> New`.
+Open Ryven by typing `ryven` in your terminal (or running `Ryven.py` with python), and create a new project. Import some nodes via `File -> Import Example Nodes` and select `std/nodes.py`. You should now see a long list of nodes on the left. Drag and drop them into the scene and get a feeling for how they work, everything is being executed at realtime. For instance, drag two `val` nodes into the scene, wire them together with a `+` node and display the result in a `result` node. Now replace one of them with a slider node generating real numbers. You can also get an interactive nodes list preview inside the scene by right-clicking. You can pan around also with the right mouse button, and zoom via `ctrl + scroll`.  You can also create new scripts (with flows) by clicking `File -> Scripts -> New`.
 
 Now let's check out the small example projects: open a new Ryven window and load one of them. Take a closer look and understand what they do.
 
@@ -32,7 +30,7 @@ At this point you are ready to start building your own nodes.
 
 **defining nodes**
 
-Navigate to the `./Ryven/packages/` directory and create a new folder `<your_package_name>`. Inside this folder create a python file `nodes.py` and fill it with the following content:
+Navigate to the `~/.ryven/packages/` directory and create a new folder `<your_package_name>`. Inside this folder create a python file `nodes.py` and fill it with the following content:
 
 ```python
 from NENV import *
@@ -44,7 +42,7 @@ export_nodes(
 )
 ```
 
-and now you can define your own node classes. Reference the ones you want to expose to Ryven in the `export_nodes` function (for example `export_nodes(MyNode, )` or `export_nodes(Node1, Node2)`). Let's define two basic nodes:
+and now you can define your own node classes. Reference the ones you want to expose to Ryven in the `export_nodes` function (for example `export_nodes(MyNode, )` or `export_nodes(Node1, Node2, )`). Let's define two basic nodes:
 
 one which generates random numbers
 
@@ -88,7 +86,7 @@ class PrintNode(rc.Node):
         print(self.input(0))
 ```
 
-and that's it! Go ahead and import your nodes package in Ryven just like the other ones before. Place both in the scene and connect the `Rand` node to your `Print` node.
+and that's it! Go ahead and import your nodes package in Ryven. Place both in the scene and connect the `Rand` node to your `Print` node.
 
 ***
 
