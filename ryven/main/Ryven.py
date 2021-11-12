@@ -1,6 +1,8 @@
 import os
 import sys
 from ryven.main.utils import abs_path_from_package_dir
+from ryven.main.NENV import init_node_env
+from ryven.main.NWENV import init_node_widget_env
 
 # change directory to this file's location
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
@@ -14,6 +16,8 @@ REDIRECT_CONSOLE_OUTPUT = False
 
 def run():
     os.environ['RYVEN_MODE'] = 'gui'
+    init_node_env()
+    init_node_widget_env()
 
     # import windows
     from ryven.gui.main_console import init_main_console

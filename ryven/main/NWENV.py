@@ -4,7 +4,26 @@ without path modifications which caused issues in the past."""
 
 import inspect
 
-from ryvencore_qt import Node, IWB, MWB  # for use in the widgets module importing NWENV
+# types
+Node = None
+IWB = None
+MWB = None
+
+
+def init_node_widget_env():
+    global Node
+    global IWB
+    global MWB
+
+    # for use in the widgets module importing NWENV
+    from ryvencore_qt import \
+        Node as Node_, \
+        IWB as IWB_, \
+        MWB as MWB_
+
+    Node = Node_
+    IWB = IWB_
+    MWB = MWB_
 
 
 class WidgetsRegistry:

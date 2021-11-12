@@ -13,6 +13,7 @@ from ryvencore_qt.src.ryvencore import *
 
 from ryven.main.nodes_package import NodesPackage
 from ryven.main.utils import import_nodes_package
+from ryven.main.NENV import init_node_env
 
 
 cmds = [
@@ -36,6 +37,7 @@ def _input(msg: str = ''):
 
 def run():
     os.environ['RYVEN_MODE'] = 'no-gui'
+    init_node_env()
 
     # CLASSES['node base'] = NodeBaseWrapper
     session = Session(gui=False)

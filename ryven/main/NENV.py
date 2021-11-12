@@ -7,30 +7,59 @@ import sys
 import os
 
 
-if os.environ['RYVEN_MODE'] == 'gui':
+# types
+Node = None
+NodeInputBP = None
+NodeOutputBP = None
+dtypes = None
 
-    from ryvencore_qt import NodeInputBP, NodeOutputBP, dtypes
-    from ryven.main.nodes.NodeBase import NodeBase as Node
 
-else:
+def init_node_env():
+    global Node
+    global NodeInputBP
+    global NodeOutputBP
+    global dtypes
 
-    # import sources directly from backend if not running in gui mode
-    from ryvencore_qt.src.ryvencore import Node as _Node, NodeInputBP, NodeOutputBP, dtypes
 
-    class NodeWrp(_Node):
-        """
-        Wraps the nodes s.t. their usages of ryvencore-qt or Ryven features don't brake them.
-        """
+    if os.environ['RYVEN_MODE'] == 'gui':
 
-        def __init__(self, params):
-            self.actions = dict()
-            super().__init__(params)
+        from ryvencore_qt import \
+            NodeInputBP as NodeInputBP_, \
+            NodeOutputBP as NodeOutputBP_, \
+            dtypes as dtypes_
+        from ryven.main.nodes.NodeBase import NodeBase as Node_
 
-    Node = NodeWrp
+        Node = Node_
+        NodeInputBP = NodeInputBP_
+        NodeOutputBP = NodeOutputBP_
+        dtypes = dtypes_
+
+    else:
+
+        # import sources directly from backend if not running in gui mode
+        from ryvencore_qt.src.ryvencore import \
+            Node as _Node, \
+            NodeInputBP as NodeInputBP_, \
+            NodeOutputBP as NodeOutputBP_, \
+            dtypes as dtypes_
+
+        class NodeWrp(_Node):
+            """
+            Wraps the nodes s.t. their usages of ryvencore-qt or Ryven features don't brake them.
+            TODO: move actions to ryvencore
+            """
+
+            def __init__(self, params):
+                self.actions = dict()
+                super().__init__(params)
+
+        Node = NodeWrp
+        NodeInputBP = NodeInputBP_
+        NodeOutputBP = NodeOutputBP_
+        dtypes = dtypes_
 
 
 from ryven.main.utils import load_from_file
-# from inspect import stack
 
 
 def import_widgets(origin_file: str, rel_file_path='widgets.py'):
