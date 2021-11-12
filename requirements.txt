@@ -1,3 +1,0 @@
-ryvencore-qt
-Jinja2
-Pygments

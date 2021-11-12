@@ -1,0 +1,15 @@
+recursive-include **/resources *
+recursive-include ryven/example_nodes *
+recursive-include ryven/example_projects *
+recursive-include docs *
+recursive-include ryven/unused *
+recursive-include ryven *.json *.ui
+include CONTRIBUTING.md
+include LICENSE
+include MANIFEST.in
+include pyproject.toml
+include README.md
+include requirements.txt
+include setup.cfg
+global-exclude *.py[co]
+global-exclude __pycache__

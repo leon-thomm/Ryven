@@ -1,13 +1,16 @@
 .idea/
 .vscode/
+.qt_for_python/
 __pycache__/
 venv/
 temp/
 tests/
 code_gen/
 __own__/
+build/
+dist/
+*.egg-info
 
-MANIFEST.in
 ryvencore-drawio.xml
-setup.cfg
-setup.py
+
+

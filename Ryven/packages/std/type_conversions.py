@@ -1,6 +1,0 @@
-from NENV import *
-
-
-nodes = [
-
-]
