@@ -113,7 +113,7 @@ class StartupDialog(QDialog):
         file_name = \
             QFileDialog.getOpenFileName(
                 self, 'select project file',
-                base_dir, '(*.json)'
+                base_dir, 'JSON (*.json)'
             )[0]
 
         try:

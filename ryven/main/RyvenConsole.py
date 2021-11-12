@@ -13,7 +13,7 @@ from ryvencore_qt.src.ryvencore import *
 
 from ryven.main.nodes_package import NodesPackage
 from ryven.main.utils import import_nodes_package
-from ryven.main.NENV import init_node_env
+from ryven.NENV import init_node_env
 
 
 cmds = [

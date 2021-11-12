@@ -1,6 +1,6 @@
 # from ryvencore_qt.src.ryvencore import dtypes
 
-from ryven.main.NENV import *
+from ryven.NENV import *
 widgets = import_widgets(__file__)
 
 
