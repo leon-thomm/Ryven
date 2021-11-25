@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.script_UIs = {}
 
         # SESSION
-        self.session = rc.Session(custom_classes={'node base': NodeBase})
+        self.session = rc.Session()
         # self.session.info_messenger().enable(True)
 
         self.session.flow_view_created.connect(self.script_created)

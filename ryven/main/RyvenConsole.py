@@ -9,7 +9,7 @@ from os.path import join, dirname
 import json
 import sys
 
-from ryvencore_qt.src.ryvencore import *
+from ryvencore import *
 
 from ryven.main.nodes_package import NodesPackage
 from ryven.main.utils import import_nodes_package

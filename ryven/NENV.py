@@ -37,7 +37,7 @@ def init_node_env():
     else:
 
         # import sources directly from backend if not running in gui mode
-        from ryvencore_qt.src.ryvencore import \
+        from ryvencore import \
             Node as _Node, \
             NodeInputBP as NodeInputBP_, \
             NodeOutputBP as NodeOutputBP_, \
