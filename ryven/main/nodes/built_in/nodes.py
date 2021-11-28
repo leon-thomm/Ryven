@@ -1,23 +1,17 @@
-# from ryvencore_qt.src.ryvencore import dtypes
-
 from ryven.NENV import *
 widgets = import_widgets(__file__)
 
-
-# Result_Node_MainWidget, \
-# ValNode_MainWidget, \
-#  = load_from_file(file='widgets.py', caller_file=__file__, components_list=[
-#     'Result_Node_MainWidget', 'ValNode_MainWidget',
-# ], gui=True)
 
 class NodeBase(Node):
     pass
 
 
 class GetVar_Node(NodeBase):
+    """Gets the value of a script variable"""
+
+    version = 'v0.1'
 
     title = 'get var'
-    doc = 'get the value of a script variable'
     init_inputs = [
         NodeInputBP(dtype=dtypes.String(size='m')),
     ]
@@ -33,7 +27,6 @@ class GetVar_Node(NodeBase):
         self.temp_var_val = None
 
     def place_event(self):
-        # self.set_output_val(0, self.get_var_val(self.var_name))
         self.update()
 
     def view_place_event(self):
@@ -41,6 +34,7 @@ class GetVar_Node(NodeBase):
 
     def update_event(self, input_called=-1):
         if self.input(0) != self.var_name:
+
             if self.var_name != '':  # disconnect old var val update connection
                 self.unregister_var_receiver(self.var_name, self.var_val_changed)
 
@@ -54,19 +48,15 @@ class GetVar_Node(NodeBase):
     def var_val_changed(self, name, val):
         self.set_output_val(0, val)
 
-    # def get_state(self) -> dict:
-    #     return {'var name': self.var_name}
-    #
-    # def get_state(self, data: dict):
-    #     self.var_name = data['var name']
-
 
 class Result_Node(NodeBase):
+    """Simply shows a value converted to str"""
+
+    version = 'v0.1'
 
     title = 'result'
-    doc = 'displays a value converted to string'
     init_inputs = [
-        NodeInputBP(type_='data')
+        NodeInputBP(type_='data'),
     ]
     main_widget_class = widgets.Result_Node_MainWidget
     main_widget_pos = 'between ports'
@@ -89,17 +79,17 @@ class Result_Node(NodeBase):
 
 
 class Val_Node(NodeBase):
+    """Evaluates a string from the input field"""
+
+    version = 'v0.1'
 
     title = 'val'
-    doc = 'returns the evaluated value that is typed into the input field'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.Data(size='s'))
+        NodeInputBP(dtype=dtypes.Data(size='s')),
     ]
     init_outputs = [
-        NodeInputBP(type_='data')
+        NodeInputBP(type_='data'),
     ]
-    # main_widget_class = widgets.ValNode_MainWidget
-    # main_widget_pos = 'between ports'
     style = 'small'
     color = '#c69a15'
 
@@ -114,15 +104,7 @@ class Val_Node(NodeBase):
     def place_event(self):
         self.update()
 
-    # def view_place_event(self):
-    #     self.main_widget().value_changed.connect(self.main_widget_val_changed)
-
-    # def main_widget_val_changed(self, val):
-    #     self.val = val
-    #     self.update()
-
     def update_event(self, input_called=-1):
-        # self.set_output_val(0, self.val)
         self.val = self.input(0)
         self.set_output_val(0, self.val)
 
@@ -148,11 +130,24 @@ class Val_Node(NodeBase):
     def set_state(self, data, version):
         self.val = data['val']
 
+        if version is None:
+
+            self.display_title = ''
+
+            self.create_input_dt(dtype=dtypes.Data(size='s'))
+
+            # the old version didn't use a dtype
+            self.inputs[0].dtype.val = self.val
+            self.inputs[0].update(self.val)
+
+
 
 class SetVar_Node(NodeBase):
+    """Sets the value of a script variable"""
+
+    version = 'v0.1'
 
     title = 'set var'
-    doc = 'sets the value of a script variable'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.String(), label='var'),
@@ -160,7 +155,7 @@ class SetVar_Node(NodeBase):
     ]
     init_outputs = [
         NodeOutputBP(type_='exec'),
-        NodeOutputBP(type_='data', label='val')
+        NodeOutputBP(type_='data', label='val'),
     ]
     style = 'normal'
     color = '#c69a15'
@@ -171,26 +166,22 @@ class SetVar_Node(NodeBase):
         self.actions['make passive'] = {'method': self.action_make_passive}
         self.active = True
 
-        self.var_names = ''
+        self.var_name = ''
         self.num_vars = 1
 
     def update_event(self, input_called=-1):
 
-        inp_index = -1
-
         if self.active and input_called == 0:
-            self.var_names = [self.input(i) for i in range(1, len(self.inputs), 2)]
-            values = [self.input(i) for i in range(2, len(self.inputs), 2)]
-            for i in range(len(self.var_names)):
-                self.set_output_val
 
             if self.set_var_val(self.input(1), self.input(2)):
                 self.set_output_val(1, self.input(2))
             self.exec_output(0)
+
         elif not self.active:
-            self.var_names = self.input(0)
+
+            self.var_name = self.input(0)
             if self.set_var_val(self.input(0), self.input(1)):
-                self.set_output_val(0, self.get_var_val(self.var_names))
+                self.set_output_val(0, self.get_var_val(self.var_name))
 
     def action_make_passive(self):
         self.active = False
@@ -201,8 +192,8 @@ class SetVar_Node(NodeBase):
 
     def action_make_active(self):
         self.active = True
-        self.create_input('exec', '', pos=0)
-        self.create_output('exec', '', pos=0)
+        self.create_input(type_='exec', pos=0)
+        self.create_output(type_='exec', pos=0)
         del self.actions['make active']
         self.actions['make passive'] = {'method': self.action_make_passive}
 
@@ -214,14 +205,13 @@ class SetVar_Node(NodeBase):
 
 
 class SetVarsPassive_Node(NodeBase):
+    """Sets the values of multiple script variables"""
+
+    version = 'v0.1'
+
     title = 'set vars passive'
-    doc = 'sets the value of a script variable'
-    init_inputs = [
-
-    ]
-    init_outputs = [
-
-    ]
+    init_inputs = []
+    init_outputs = []
     style = 'normal'
     color = '#c69a15'
 
