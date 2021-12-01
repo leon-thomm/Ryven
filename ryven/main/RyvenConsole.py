@@ -21,7 +21,11 @@ cmds = [
 ]
 
 
-def _input(msg: str = ''):
+class ContextContainer:
+    pass
+
+
+def next_input(msg: str = ''):
 
     if 'test' in sys.argv and len(cmds) > 0:
         if msg != '':
@@ -36,6 +40,7 @@ def _input(msg: str = ''):
 
 
 def run():
+
     os.environ['RYVEN_MODE'] = 'no-gui'
     init_node_env()
 
@@ -49,6 +54,9 @@ def run():
         )
     )
 
+    c = ContextContainer()
+    setattr(c, 'session', session)
+
     print(
         """COMMANDS:
 >>> import nodes
@@ -58,43 +66,71 @@ built-in nodes are already imported
         """
     )
 
-    while True:
+    try:
 
-        # process input commands
+        while True:
 
-        cmd = _input()
+            # process input commands
 
-        if cmd == 'import nodes':
-            pkg_dir = _input('abs path to your package dir: ')
-            try:
-                # package_name = os.path.basename(pkg_dir)
-                nodes = import_nodes_package(package=NodesPackage(pkg_dir))
-                session.register_nodes(nodes)
-                print('registered nodes: ', nodes)
-            except Exception as e:
-                print(e)
+            cmd = next_input()
 
-        elif cmd == 'load project':
-            project_file_path = _input('abs path to your project file: ')
-            try:
-                f = open(project_file_path, 'r')
-                project = json.loads(f.read())
-                f.close()
-                del f
-                scripts = session.load(project)
-                print(f'added scripts: {scripts}')
-            except Exception as e:
-                print(e)
+            # special commands
+            if cmd == 'import nodes':
+                import_nodes(session, c)
+                continue
+            elif cmd == 'load project':
+                load_project(session, c)
+                continue
 
-        else:
+            # REPL
+            locals_ = c.__dict__
+
             try:
                 try:
-                    print(eval(cmd))
+                    print(eval(cmd, globals(), locals_))
+
                 except SyntaxError:
-                    exec(cmd)
+                    out = exec(cmd, globals(), locals_)
+
+                    if out is not None:
+                        print(out)
             except Exception as e:
                 print(e)
+                continue
+
+            # merge locals
+            for name, val in locals_.items():
+                setattr(c, name, val)
+
+    except:
+        sys.exit('exiting...')
 
 
 if __name__ == '__main__':
     run()
+
+
+# specific commands
+
+def import_nodes(session, context_container):
+    pkg_dir = next_input('abs path to your package dir: ')
+    try:
+        # package_name = os.path.basename(pkg_dir)
+        nodes = import_nodes_package(package=NodesPackage(pkg_dir))
+        session.register_nodes(nodes)
+        print('registered nodes: ', nodes)
+    except Exception as e:
+        print(e)
+
+
+def load_project(session, context_container):
+    project_file_path = next_input('abs path to your project file: ')
+    try:
+        f = open(project_file_path, 'r')
+        project = json.loads(f.read())
+        f.close()
+        del f
+        scripts = session.load(project)
+        print(f'added scripts: {scripts}')
+    except Exception as e:
+        print(e)

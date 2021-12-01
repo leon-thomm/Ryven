@@ -11,7 +11,7 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 os.environ['QT_API'] = 'pyside2'
 
 # turn off for debugging
-REDIRECT_CONSOLE_OUTPUT = False
+REDIRECT_CONSOLE_OUTPUT = True
 
 
 def run():
