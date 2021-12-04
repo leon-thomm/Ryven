@@ -14,7 +14,7 @@ REDIRECT_CONSOLE_OUTPUT = True
 
 
 def run(qt_app=None, qt_api='pyside2',
-        show_dialog=True, gui_parent=None,
+        show_dialog=True, gui_parent=None, window_title='Ryven',
         window_theme_name='dark', flow_theme=None):
 
     # QtPy API
@@ -71,7 +71,7 @@ def run(qt_app=None, qt_api='pyside2',
     console_errout_redirect = init_main_console(window_theme)
 
     # init main window
-    editor = MainWindow(editor_init_config, window_theme, flow_theme, parent=gui_parent)
+    editor = MainWindow(editor_init_config, window_title, window_theme, flow_theme, parent=gui_parent)
     editor.show()
 
     if qt_app is None:

@@ -20,7 +20,7 @@ import ryvencore_qt.src.conv_gui as rc_GUI
 
 class MainWindow(QMainWindow):
 
-    def __init__(self, config: dict, window_theme: WindowTheme, flow_theme, parent=None):
+    def __init__(self, config: dict, window_title, window_theme: WindowTheme, flow_theme, parent=None):
         super().__init__(parent)
 
         self.session = None
@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         self.flow_view_theme_actions = []
         self.setup_menu_actions()
 
-        self.setWindowTitle('Ryven')
+        self.setWindowTitle(window_title)
         self.setWindowIcon(QIcon(abs_path_from_package_dir('resources/pics/Ryven_icon.png')))
         self.ui.scripts_tab_widget.removeTab(0)  # remove placeholder tab
 
@@ -56,13 +56,6 @@ class MainWindow(QMainWindow):
         save_shortcut.activated.connect(self.on_save_project_triggered)
         import_nodes_shortcut = QShortcut(QKeySequence('Ctrl+i'), self)
         import_nodes_shortcut.activated.connect(self.on_import_nodes_triggered)
-
-        # TEMP FOLDER
-        temp_path = abs_path_from_package_dir('temp')
-        if not os.path.exists(temp_path):
-            os.mkdir(temp_path)
-        for f in os.listdir(temp_path):
-            os.remove(join(temp_path, f))
 
         # PROJECT SETUP
         if 'info_msgs' in sys.argv:
