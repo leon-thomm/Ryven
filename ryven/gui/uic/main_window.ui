@@ -30,10 +30,16 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QSplitter" name="left_vertical_splitter">
+       <widget class="QSplitter" name="splitter">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
+        <widget class="QGroupBox" name="scripts_groupBox">
+         <property name="title">
+          <string>Scripts</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2"/>
+        </widget>
         <widget class="QGroupBox" name="nodes_groupBox">
          <property name="title">
           <string>Nodes</string>
@@ -58,11 +64,7 @@
         </widget>
        </widget>
       </widget>
-      <widget class="QSplitter" name="bottom_splitter">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
+      <widget class="QWidget" name="console_placeholder_widget" native="true"/>
      </widget>
     </item>
    </layout>

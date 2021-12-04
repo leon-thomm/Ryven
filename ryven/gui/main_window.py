@@ -20,8 +20,8 @@ import ryvencore_qt.src.conv_gui as rc_GUI
 
 class MainWindow(QMainWindow):
 
-    def __init__(self, config, window_theme: WindowTheme):
-        super(MainWindow, self).__init__()
+    def __init__(self, config: dict, window_theme: WindowTheme, flow_theme, parent=None):
+        super().__init__(parent)
 
         self.session = None
         self.theme = window_theme
@@ -39,10 +39,7 @@ class MainWindow(QMainWindow):
         # LOAD DESIGN AND FLOW THEME
         self.session.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
 
-        if self.theme.name == 'dark':
-            self.session.design.set_flow_theme(name='pure dark')
-        else:  # 'light'
-            self.session.design.set_flow_theme(name='pure light')
+        self.session.design.set_flow_theme(name=flow_theme)
 
         # UI
         self.setup_ui()
@@ -80,9 +77,9 @@ class MainWindow(QMainWindow):
         self.import_nodes(path=abs_path_from_package_dir('main/nodes/built_in/'))
 
         #   LOAD PROJECT
-        if config['config'] == 'create plain new project':
+        if config['action'] == 'create project':
             self.session.create_script(title='hello world')
-        elif config['config'] == 'open project':
+        elif config['action'] == 'open project':
             print('importing packages...')
             self.import_packages(config['required packages'])
             print('loading project...')
@@ -95,11 +92,13 @@ class MainWindow(QMainWindow):
     def print_info(self):
         print('''
 CONTROLS
-place: right mouse
-select: left mouse
-pan: right mouse
-save: ctrl+s
-import: ctrl+i
+    nodes dialog: right mouse in scene
+    place nodes: drag and drop from left
+        or hit enter in scene dialog
+    select: left mouse
+    pan / navigating scene: right mouse
+    save: ctrl+s
+    import: ctrl+i
         ''')
 
     # UI
@@ -111,12 +110,16 @@ import: ctrl+i
 
         # main console
         if MainConsole.instance is not None:
-            self.ui.bottom_splitter.addWidget(MainConsole.instance)
+            self.ui.main_vertical_splitter.addWidget(MainConsole.instance)
+            self.ui.console_placeholder_widget.setParent(None)
         # self.ui.right_vertical_splitter.setSizes([600, 0])
 
         # splitter sizes
         # self.ui.left_vertical_splitter.setSizes([350, 350])
         self.ui.main_vertical_splitter.setSizes([700, 0])
+
+        self.scripts_list_widget = rc_GUI.ScriptsList(self.session)
+        self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
         self.nodes_list_widget = rc_GUI.NodeListWidget(self.session)
         self.ui.nodes_groupBox.layout().addWidget(self.nodes_list_widget)

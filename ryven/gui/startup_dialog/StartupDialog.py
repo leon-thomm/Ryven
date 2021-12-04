@@ -14,8 +14,8 @@ class StartupDialog(QDialog):
     some paths are invalid, the SelectPackages_Dialog is opened to get the paths to those missing package files.
     """
 
-    def __init__(self):
-        super(StartupDialog, self).__init__()
+    def __init__(self, init_window_theme_name='dark', parent=None):
+        super().__init__(parent)
 
         layout = QVBoxLayout()
 
@@ -57,14 +57,15 @@ class StartupDialog(QDialog):
 
         layout.addLayout(buttons_layout)
 
-        self.window_theme = apply_stylesheet('dark')
+        self.window_theme = apply_stylesheet(init_window_theme_name)
 
         choose_theme_layout = QHBoxLayout()
         self.dark_theme_rb = QRadioButton('dark')
-        self.dark_theme_rb.setChecked(True)
         self.dark_theme_rb.toggled.connect(self.theme_toggled)
+        self.dark_theme_rb.setChecked(init_window_theme_name == 'dark')
         self.light_theme_rb = QRadioButton('light')
         self.light_theme_rb.toggled.connect(self.theme_toggled)
+        self.light_theme_rb.setChecked(init_window_theme_name == 'light')
         choose_theme_layout.addWidget(self.dark_theme_rb)
         choose_theme_layout.addWidget(self.light_theme_rb)
         layout.addLayout(choose_theme_layout)
@@ -86,7 +87,7 @@ class StartupDialog(QDialog):
 
 
     def plain_project_button_clicked(self):
-        self.editor_startup_configuration['config'] = 'create plain new project'
+        self.editor_startup_configuration['action'] = 'create project'
         self.accept()
 
 
@@ -107,7 +108,7 @@ class StartupDialog(QDialog):
         :param base_dir: path to directory where file dialog opens
         """
 
-        self.editor_startup_configuration['config'] = 'open project'
+        self.editor_startup_configuration['action'] = 'open project'
         import json
 
         file_name = \
