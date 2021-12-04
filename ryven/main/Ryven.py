@@ -1,5 +1,6 @@
 import os
 import sys
+import argparse
 from ryven.main.utils import abs_path_from_package_dir
 from ryven.NENV import init_node_env
 from ryven.NWENV import init_node_widget_env
@@ -14,7 +15,16 @@ os.environ['QT_API'] = 'pyside2'
 REDIRECT_CONSOLE_OUTPUT = True
 
 
-def run():
+def run(qt_app=None, show_dialog=True, build_main_window=True, register_shortcuts=True):
+
+    # # parse arguments
+    # parser = argparse.ArgumentParser(prog='ryven', description='Configuration options for Ryven')
+    # parser.add_argument('--no-dialog', action='store_true',
+    #                     help='if you want to skip the intro dialog; creates a new project')
+    # args = parser.parse_args()
+    # print(args.no_dialog)
+
+    # init environment
     os.environ['RYVEN_MODE'] = 'gui'
     init_node_env()
     init_node_widget_env()
