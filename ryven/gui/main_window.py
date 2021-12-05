@@ -117,6 +117,8 @@ CONTROLS
         self.nodes_list_widget = rc_GUI.NodeListWidget(self.session)
         self.ui.nodes_groupBox.layout().addWidget(self.nodes_list_widget)
 
+        self.ui.main_horizontal_splitter.setSizes([120, 800-120])
+
     def setup_menu_actions(self):
 
         # flow designs
@@ -354,7 +356,8 @@ CONTROLS
             rc.InfoMsgs.write('couldn\'t open file')
             return
 
-        general_project_info_dict = {'type': 'Ryven project file'}
+        # TODO: parametrize ryven version from package info
+        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': 'v3.1'}
 
         scripts_data = self.session.serialize()
 
