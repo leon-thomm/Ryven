@@ -10,13 +10,13 @@
 
 While Ryven has a large Qt-based frontend which affects performance of flow execution, you can disable particularly expensive features, and a project made in the editor can be deployed directly on the backend (ryvencore) via RyvenConsole, which does not have a single dependency!
 
-| The Ryvenverse on GitHub |  |
+| Ryven repos on GitHub | -------------------------------------------------------------------------------- |
 |---|---|
 | [ryvencore](https://github.com/leon-thomm/ryvencore) | backend / core framework |
 | [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) | Qt frontend |
 | [ryven-blender](https://github.com/leon-thomm/ryven-blender) | Ryven plugin for Blender |
 | [ryven-unreal](https://github.com/leon-thomm/ryven-unreal) | Ryven plugin for Unreal Engine |
-| [Ryven website repo](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
+| [ryven-website](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
 | [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
 
 ### Installation
