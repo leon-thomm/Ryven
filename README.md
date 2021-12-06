@@ -2,27 +2,47 @@
   <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
 </p>
 
-# A simple flow-based visual scripting env for Python
+# A simple visual node editor for Python
 
-**Ryven combines flow-based visual scripting with Python. It provides you with absolute freedom for what your nodes can execute as well as an easy-to-use system for programming them. While there are some example node packages, you will most likely rely mostly on your own nodes.**
+**Ryven combines flow-based visual scripting with Python. It gives you absolute freedom for your nodes and a simple system for programming them. While there are some example node packages, you will most likely rely mostly on your own nodes.**
 
-Ryven is now based on [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a guide for Ryven can be found [here](https://ryven.org/guides.html#/).
+<!-- Ryven is based on [ryvencore](https://github.com/leon-thomm/ryvencore) and [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt). A detailed guide for Ryven can be found [here](https://ryven.org/guides.html#/). -->
 
-**Installation**
+While Ryven has a large Qt-based frontend which affects performance of flow execution, you can disable particularly expensive features, and a project made in the editor can be deployed directly on the backend (ryvencore) via RyvenConsole, which does not have a single dependency!
+
+| The Ryvenverse on GitHub |  |
+|---|---|
+| [ryvencore](https://github.com/leon-thomm/ryvencore) | backend framework |
+| [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) | frontend framework |
+| [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
+| [ryven-blender](https://github.com/leon-thomm/ryven-blender) | Ryven plugin for Blender |
+| [ryven-unreal](https://github.com/leon-thomm/ryven-unreal) | Ryven plugin for Unreal Engine |
+| [Ryven website repo](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
+
+### Installation
 
 ```
 pip install ryven
 ```
 
-and now you can launch Ryven by running `ryven` on your terminal, and RyvenConsole via `ryven_console`.
+and now you can launch by running the command `ryven` on your terminal, and `ryven_console` for RyvenConsole. If you want to start ryven from a script, just import it and deploy it like this:
 
-# quick start
+```python
+import ryven as rv
+
+rv.run_ryven(
+    # args...
+)
+
+```
+
+### quick start
 
 A super quick intro to Ryven. If you want to know more, [visit guide on the website](https://ryven.org/guide#/).
 
 **editor usage**
 
-Open Ryven by typing `ryven` in your terminal (or running `Ryven.py` with python), and create a new project. Import some nodes via `File -> Import Example Nodes` and select `std/nodes.py`. You should now see a long list of nodes on the left. Drag and drop them into the scene and get a feeling for how they work, everything is being executed at realtime. For instance, drag two `val` nodes into the scene, wire them together with a `+` node and display the result in a `result` node. Now replace one of them with a slider node generating real numbers. You can also get an interactive nodes list preview inside the scene by right-clicking. You can pan around also with the right mouse button, and zoom via `ctrl + scroll`.  You can also create new scripts (with flows) by clicking `File -> Scripts -> New`.
+Open Ryven by typing `ryven` in your terminal (or running `Ryven.py` with python), and create a new project. Import some example nodes via `File -> Import Example Nodes` and select `std/nodes.py`. You should now see a long list of nodes on the left. Drag and drop them into the scene and get a feeling for how they work, everything is being executed at realtime. For instance, drag two `val` nodes into the scene, wire them together with a `+` node and display the result in a `result` node. Now replace one of them with a slider node generating real numbers. You can also get an interactive nodes list preview inside the scene by right-clicking. You can pan around also with the right mouse button, and zoom via `ctrl + scroll`.  You can also create new scripts, rename and delete them.
 
 Now let's check out the small example projects: open a new Ryven window and load one of them. Take a closer look and understand what they do.
 
@@ -33,7 +53,7 @@ At this point you are ready to start building your own nodes.
 Navigate to the `~/.ryven/packages/` directory and create a new folder `<your_package_name>`. Inside this folder create a python file `nodes.py` and fill it with the following content:
 
 ```python
-from NENV import *
+from ryven.NENV import *
 
 # your node definitions go here
 
@@ -75,10 +95,10 @@ class RandNode(Node):
 and another one which prints them
 
 ```python
-class PrintNode(rc.Node):
+class PrintNode(Node):
     title = 'Print'
     init_inputs = [
-        rc.NodeInputBP(),
+        NodeInputBP(),
     ]
     color = '#A9D5EF'
 
@@ -90,37 +110,26 @@ and that's it! Go ahead and import your nodes package in Ryven. Place both in th
 
 ***
 
-## Features
+You can do a lot more than shown above. A summary of the main features:
 
-Following is a list of some main features:
+- **many modifiable themes**
+- **simple and unrestricted nodes system**
+- **actions / right-click operations system for nodes**
+- **variables system** with update mechanism for nodes that automatically adapt to change of data
+- **logging support**
+- **rendering flow images**
+- **stylus support** for adding handwritten notes / drawings on touch devices
+- **exec flow support** like [UnrealEngine BluePrints](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Blueprints/)
+- **Qt widgets support**
 
-#### simple nodes system
-All information about a node is part of its class. A minimal node definition can be as simple as this
+and some examples for those:
 
-```python
-class PrintNode(Node):
-    """Prints your data."""
+#### many modifiable themes
+![](./docs/img/themes_with_logo.png)
 
-    title = 'Print'
-    init_inputs = [
-        NodeInputBP()
-    ]
-    color = '#A9D5EF'
+Also light themes!
 
-    def update_event(self, inp=-1):
-        print(self.input(0))
-```
-
-<!--
-#### macros / subgraphs
-You can define *macros* which get registered as nodes themselves
-
-![](./docs/img/macro.png)
-Macros are like all other scripts, so they have their own flow, plus input and output node
-![](./docs/img/macro2.png)
--->
-
-#### right click operations system for nodes
+#### actions / right-click operations system for nodes
 which can be edited through the API at any time.
 ```python
 class MyNode(Node):
@@ -137,31 +146,41 @@ class MyNode(Node):
 ```
 
 #### Qt widgets
-You can add custom QWidgets for your nodes, so you can also easily integrate your existing Python-Qt widgets.
+You can add custom Qt widgets for your nodes. Define a `widgets.py` file next to your `nodes.py` with similar structure to `nodes.py`, see the guide for detailed instructions.
+
+`widgets.py`
+```python
+from ryven.NWENV import *
+from qtpy.QtWidgets import QWidget
+
+class SomeMainWidget(MWB, QWidget):
+    def __init__(self, params):
+        MWB.__init__(self, params)
+        QWidget.__init__(self)
+    ...
+
+class SomeInputWidget(IWB, QWidget):
+    def __init__(self, params):
+        IWB.__init__(self, params)
+        QWidget.__init__(self)
+    ...
+
+export_widgets(
+    SomeMainWidget,
+    SomeInputWidget,
+)
+```
+`nodes.py`
 ```python
 class MyNode(Node):
     main_widget_class = MyNode_MainWidget
     main_widget_pos = 'below ports'  # alternatively 'between ports'
-    # ...
 ```
-<!-- - **convenience GUI classes** -->
 
-#### many different modifiable themes
-![](./docs/img/themes_with_logo.png)
-
-Also light themes!
-
-#### exec flow support
-While data flows are the most common use case, exec flows (like [UnrealEngine BluePrints](https://docs.unrealengine.com/4.26/en-US/ProgrammingAndScripting/Blueprints/)) are also supported. 
-<!-- While while it can lead to issues when using exec connections in data flows, conceptually this also works and has proven to be also really powerful if applied correctly. -->
-
-#### stylus support for adding handwritten notes
-<!-- ![](./docs/img/stylus_light.png) -->
+#### stylus support
 <p align="center">
   <img src="./docs/img/stylus_dark.png" alt="drawing" width="70%"/>
 </p>
-
-#### rendering flow images
 
 #### logging support
 ```python
@@ -176,11 +195,10 @@ class MyNode(Node):
 ```
 
 #### variables system
-with an update mechanism to build nodes that automatically adapt to change of variables.
+with an update mechanism to build nodes that automatically adapt to change of data.
 
 ```python
 class MyNode(Node):
-    
     def a_method(self):
         self.register_var_receiver('x', method=self.process)
 
@@ -190,15 +208,11 @@ class MyNode(Node):
         ...
 ```
 
-Also visit the [website](https://ryven.org) if you haven't been there already.
-
-Ryven is now built on top of [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt), a framework for building Ryven-like editors. Nodes from Ryven are easily migratable to other ryvencore-qt editors.
-
 ## Contributions
 
 Contributing guidelines: [here](https://github.com/leon-thomm/Ryven/blob/dev/CONTRIBUTING.md).
 
-To support the development of this project, which will decide its future, check out the [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) repo where the main development is happening. Also notice that there's a *discussions* area in this repo).
+To support the development of this project, which will decide its future, check out the [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) repo where the main development is happening. Also notice that there's a *discussions* area in this repo.
 
 Particularly effective ways to contribute outside direct development of the software include
 
