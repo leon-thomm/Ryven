@@ -17,7 +17,6 @@ While Ryven has a large Qt-based frontend which affects performance of flow exec
 | [ryven-blender](https://github.com/leon-thomm/ryven-blender) | Ryven plugin for Blender |
 | [ryven-unreal](https://github.com/leon-thomm/ryven-unreal) | Ryven plugin for Unreal Engine |
 | [Ryven website repo](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
-| and other repos not maintained by me: | ---------------------------------------------- |
 | [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
 
 ### Installation
