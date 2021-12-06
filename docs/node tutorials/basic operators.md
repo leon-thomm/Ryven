@@ -1,18 +1,20 @@
-This tutorial shows how to create nodes for some basic operations/relations, in particular **arithmetic operations**, **logic operations**, and **value comparisons**. The full nodes package is part of the `std` package, see `packages/std/basic_operators.py`.
+This tutorial shows how to create nodes for some basic operations/relations, in particular **arithmetic operations**, **logic operations**, and **value comparisons**. The full nodes package is part of the `std` package, see `ryven/example_nodes/std/basic_operators.py`.
 
 As always, we should first define a parent node class for this scope. It can be completely empty, but it's good practice to always include it as this prevents node identification issues which might occur in complex hierarchies in case you add it later.
 
 ```python
-from NENV import *
+from ryven.NENV import *
 
 class NodeBase(Node):
+
+    version = 'v0.1'
     
-    # most of our operators are of binary nature, so let's already put this here (we can override that in subclasses for the exceptions)
+    # most of our operators are binary, so let's already put this here (we can override that in subclasses for the exceptions)
     init_inputs = [
         NodeInputBP(dtype=dtypes.Data(size='s')),
         NodeInputBP(dtype=dtypes.Data(size='s')),
     ]
-    # operators in python can be defined on objects of different classes, so let's just use Data inputs for now. recall that Data inputs will evaluate input expressions (as opposed to just interpreting it as string for example)
+    # operators in python can be defined on objects of different classes, so let's just use Data dtype inputs for now. recall that Data inputs will evaluate input expressions (as opposed to just interpreting it as string for example)
     
     init_outputs = [
         NodeOutputBP(),
@@ -21,18 +23,20 @@ class NodeBase(Node):
     style = 'small'
 ```
 
-Let's leave it like this just for now, but we will later extend this class. A simple node definition for addition can now look just like this
+Let's leave it like this just for now, we can later extend this class. A simple node definition for addition can now look just like this
 
 ```python
 class PlusNode(NodeBase):
+
     title = '+'
+    version = 'v0.1'
 
     def update_event(self, inp=-1):
         # adding the first two inputs and pushing the sum to the output
         self.set_output_val(0, self.input(0) + self.input(1))
 ```
 
-That was easy, right? If we export this node
+That was easy, no? If we export this node
 
 ```python
 export_nodes(
@@ -44,12 +48,15 @@ we can see it's working as expected
 
 ![](img/plus.png)
 
-We can make all the other nodes exactly the same way. However, there is one improvement that might be really useful, which is a dynamic number of inputs for 'chaining' (`a/b/c` becomes `(a/b)/c`). Notice that so far the implementation above is combination, so the node does not have any states, hence, there's no need to preserve and rebuild the state, which makes it simple. This will change now, as the semantics of the node depends on the number of inputs.
+We can make all the other nodes exactly the same way. However, there is one improvement that might be really useful, which is a dynamic number of inputs for chaining the operation (`a/b/c` becomes `(a/b)/c`). Notice that so far the implementation above is of *combinational* type, so the node does not have any states. Hence, there's no need to preserve and rebuild the state, which makes it simple. This will change now, as the semantics of the node depends on the number of inputs.
 
 As this is useful for all our nodes, let's put all this into our `NodeBase` class
 
 ```python
 class NodeBase(Node):
+
+    version = 'v0.1'
+
     init_inputs = [
         NodeInputBP(dtype=dtypes.Data(size='s')),
         NodeInputBP(dtype=dtypes.Data(size='s')),
@@ -98,7 +105,7 @@ class NodeBase(Node):
             'num inputs': self.num_inputs,
         }
 
-    def set_state(self, data: dict):
+    def set_state(self, data: dict, version):
         self.num_inputs = data['num inputs']
 ```
 
@@ -122,6 +129,7 @@ class PlusNode(NodeBase):
     """performs addition of all inputs and returns the sum"""
 
     title = '+'
+    version = 'v0.1'
 
     def apply_op(self, values: list):
         res = values[0]
@@ -130,13 +138,14 @@ class PlusNode(NodeBase):
         return res
 ```
 
-And that's it. All the other implementation are identical...
+And that's it. All the other operators can be defined the same way.
 
 ```python
 class ANDNode(NodeBase):
     """logically ANDs all inputs"""
 
     title = 'AND'
+    version = 'v0.1'
 
     def apply_op(self, values: list):
         res = values[0]
@@ -144,3 +153,5 @@ class ANDNode(NodeBase):
             res = res and v
         return res
 ```
+
+Notice that this implementation is not exactly performant, it rather serves as example for making nodes generally.

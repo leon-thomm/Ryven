@@ -19,18 +19,23 @@ While Ryven has a large Qt-based frontend which affects performance of flow exec
 | [ryven-website](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
 | [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
 
+To get started with Ryven, these are the resources that guide you through the process:
+1. The quick start guide below
+2. The tutorials in the `docs/node_tutorials` directory
+3. The detailed [guide on the website](https://ryven.org/guide#/)
+
 ### Installation
 
 ```
 pip install ryven
 ```
 
-and now you can launch by running the command `ryven` on your terminal, and `ryven_console` for RyvenConsole. If you want to start ryven from a script, just import it and deploy it like this:
+and now you can launch it by running `ryven` on your terminal, and `ryven_console` for RyvenConsole. If you want to start Ryven from a Python script, just import it and run it like this
 
 ```python
-import ryven as rv
+import ryven
 
-rv.run_ryven(
+ryven.run_ryven(
     # args...
 )
 
@@ -38,7 +43,7 @@ rv.run_ryven(
 
 ### quick start
 
-A super quick intro to Ryven. If you want to know more, [visit guide on the website](https://ryven.org/guide#/).
+A super quick intro to Ryven.
 
 **editor usage**
 
