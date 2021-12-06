@@ -1,5 +1,4 @@
 import types
-import ast
 import traceback
 
 
@@ -7,6 +6,9 @@ def get_method_funcs(cls_def_str: str, obj):
     """
     Returns a dict with functions under their names parsed from the methods in the class definition string using ast.
     """
+
+    # requires Python >= 3.9
+    import ast
 
     # extracting the functions
     ast_funcs: [ast.FunctionDef] = [f for f in ast.parse(cls_def_str).body[0].body if type(f) == ast.FunctionDef]

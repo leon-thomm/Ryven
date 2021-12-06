@@ -616,7 +616,8 @@ class Interpreter_Node(NodeBase):
             self.main_widget().interp_updated()
 
     def process_input(self, cmds: str):
-        if m := self.COMMANDS.get(cmds):
+        m = self.COMMANDS.get(cmds)
+        if m is not None:
             m()
         else:
             for l in cmds.splitlines():
