@@ -19,10 +19,10 @@ While Ryven has a large Qt-based frontend which affects performance of flow exec
 | [ryven-website](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
 | [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
 
-To get started with Ryven, these are the resources that guide you through the process:
-1. The quick start guide below
-2. The tutorials in the `docs/node_tutorials` directory
-3. The detailed [guide on the website](https://ryven.org/guide#/)
+To get started with Ryven, these are the resources that guide you through the process (in an order that makes the most sense):
+1. the quick start guide below
+2. the tutorials in the `docs/node_tutorials` directory
+3. a longer [guide on the website](https://ryven.org/guide#/) for details
 
 ### Installation
 
