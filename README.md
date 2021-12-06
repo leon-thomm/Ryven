@@ -12,12 +12,13 @@ While Ryven has a large Qt-based frontend which affects performance of flow exec
 
 | The Ryvenverse on GitHub |  |
 |---|---|
-| [ryvencore](https://github.com/leon-thomm/ryvencore) | backend framework |
-| [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) | frontend framework |
-| [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
+| [ryvencore](https://github.com/leon-thomm/ryvencore) | backend / core framework |
+| [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) | Qt frontend |
 | [ryven-blender](https://github.com/leon-thomm/ryven-blender) | Ryven plugin for Blender |
 | [ryven-unreal](https://github.com/leon-thomm/ryven-unreal) | Ryven plugin for Unreal Engine |
 | [Ryven website repo](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
+| and other repos not maintained by me: | ---------------------------------------------- |
+| [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
 
 ### Installation
 
