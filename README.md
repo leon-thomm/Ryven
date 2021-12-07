@@ -24,7 +24,7 @@ To get started with Ryven, these are the resources that guide you through the pr
 2. the tutorials in the `docs/node_tutorials` directory
 3. a longer [guide on the website](https://ryven.org/guide#/) for details
 
-Ryven comes with some example nodes, but these are, indeed, just examples, and there's no guarantee that all of them will stay. I am planning to open a repository for maintaining particularly useful (frameworks of) nodes, but I will need contributors for that.
+Ryven comes with some example nodes, but these are, indeed, just examples, and there's no guarantee that all of them will stay. I would like to open a repository for maintaining particularly useful (frameworks of) nodes, but I will need contributors for that.
 
 ### Installation
 
@@ -219,14 +219,14 @@ class MyNode(Node):
 
 Contributing guidelines: [here](https://github.com/leon-thomm/Ryven/blob/dev/CONTRIBUTING.md).
 
-To support the development of this project, which will decide its future, check out the [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) repo where the main development is happening. Also notice that there's a *discussions* area in this repo.
-
 Particularly effective ways to contribute outside direct development of the software include
 
 - creating examples
 - creating tutorials
 - creating node packages
 - improving documentation
+
+Also notice that there's a *discussions* area in this repo.
 
 The docs page on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), so you can improve it by simply editing the markdown. The whole [website sources](https://github.com/leon-thomm/ryven-website) are also on GitHub.
 
