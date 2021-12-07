@@ -24,6 +24,8 @@ To get started with Ryven, these are the resources that guide you through the pr
 2. the tutorials in the `docs/node_tutorials` directory
 3. a longer [guide on the website](https://ryven.org/guide#/) for details
 
+Ryven comes with some example nodes, but these are, indeed, just examples, and there's no guarantee that all of them will stay. I am planning to open a repository for maintaining particularly useful (frameworks of) nodes, but I will need contributors for that.
+
 ### Installation
 
 ```
