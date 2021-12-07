@@ -1,0 +1,100 @@
+{
+  "init flow theme": "pure dark",
+  "init performance mode": "fast",
+  "init animations enabled": true,
+  "flow themes": {
+    "Toy": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default"
+    },
+    "Tron": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default"
+    },
+    "Ghost": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default",
+
+      "nodes color": "default",
+      "small nodes color": "default"
+    },
+    "Blender": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default",
+
+      "nodes color": "default"
+    },
+    "Simple": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default",
+
+      "nodes background color": "default",
+      "small nodes background color": "default"
+    },
+    "Ueli": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default",
+
+      "nodes background color": "default",
+      "small nodes background color": "default"
+    },
+    "pure dark": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default",
+
+      "extended node background color": "default",
+      "small node background color": "default",
+      "node title color": "default",
+      "port pin pen color": "default"
+    },
+    "pure light": {
+      "exec connection color": "default",
+      "exec connection width": "default",
+      "exec connection pen style": "default",
+      "data connection color": "default",
+      "data connection width": "default",
+      "data connection pen style": "default",
+      "flow background color": "default",
+
+      "extended node background color": "default",
+      "small node background color": "default",
+      "node title color": "default",
+      "port pin pen color": "default"
+    }
+  }
+}
