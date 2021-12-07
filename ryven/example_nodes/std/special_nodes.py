@@ -6,11 +6,14 @@ widgets = import_widgets(__file__)
 
 
 class NodeBase(Node):
+    version = 'v0.1'
     color = '#FFCA00'
 
 
 class DualNodeBase(NodeBase):
     """For nodes that can be active and passive"""
+
+    version = 'v0.1'
 
     def __init__(self, params, active=True):
         super().__init__(params)
@@ -55,6 +58,7 @@ class Checkpoint_Node(NodeBase):
     """Provides a simple checkpoint to reroute your connections"""
 
     title = 'checkpoint'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='data'),
     ]
@@ -178,6 +182,7 @@ class Checkpoint_Node(NodeBase):
 
 class Button_Node(NodeBase):
     title = 'Button'
+    version = 'v0.1'
     main_widget_class = widgets.ButtonNode_MainWidget
     main_widget_pos = 'between ports'
     init_inputs = [
@@ -194,6 +199,7 @@ class Button_Node(NodeBase):
 
 class Print_Node(DualNodeBase):
     title = 'Print'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Data(size='m')),
@@ -218,6 +224,7 @@ import logging
 
 class Log_Node(DualNodeBase):
     title = 'Log'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP('msg', type_='data'),
@@ -267,6 +274,7 @@ class Log_Node(DualNodeBase):
 
 class Clock_Node(NodeBase):
     title = 'clock'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(dtype=dtypes.Float(default=0.1), label='delay'),
         NodeInputBP(dtype=dtypes.Integer(default=-1, bounds=(-1, 1000)), label='iterations'),
@@ -331,6 +339,7 @@ class Clock_Node(NodeBase):
 
 class Slider_Node(NodeBase):
     title = 'slider'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(dtype=dtypes.Integer(default=1), label='scl'),
         NodeInputBP(dtype=dtypes.Boolean(default=False), label='round'),
@@ -371,6 +380,7 @@ class Slider_Node(NodeBase):
 
 
 class _DynamicPorts_Node(NodeBase):
+    version = 'v0.1'
     init_inputs = []
     init_outputs = []
 
@@ -426,81 +436,9 @@ class _DynamicPorts_Node(NodeBase):
         self.num_outputs = data['num outputs']
 
 
-# class Node_Node(_DynamicPorts_Node):
-#     """EXPERIMENTAL"""
-#     title = 'node'
-#     init_inputs = []
-#     init_outputs = []
-#     main_widget_class = widgets.CodeNode_MainWidget
-#     main_widget_pos = 'between ports'
-#
-#     def __init__(self, params):
-#         super().__init__(params)
-#
-#         self.code = \
-# """from ryven.NENV import *
-#
-# class CustomNode(Node):
-#     title = ''
-#     init_inputs = []
-#     init_outputs = []
-#
-#     def __init__(self, params):
-#         super().__init__(params)
-#
-#     def update_event(self, inp=-1):
-#         ...
-# """
-#         self.CustomNodeCls = None
-#         self.custom_node = None
-#         self.actions['build node'] = {'method': self.build_node}
-#
-#     def view_place_event(self):
-#         self.main_widget().setText(self.code)
-#
-#     def build_node(self):
-#         d = globals()
-#         if 'CustomNode' in d:
-#             del d['CustomNode']
-#         try:
-#             exec(self.code, d)
-#             self.CustomNodeCls = d['CustomNode']
-#             self.custom_node = self.CustomNodeCls(self.flow, self.session, {})
-#
-#             # sync ports
-#             for i, inp in enumerate(self.custom_node.inputs):
-#                 if len(self.inputs) > i:
-#                     if self.inputs[i].type_ == inp.type_ and self.inputs[i].label == inp.label:
-#                         continue
-#                     else:
-#                         self.delete_input(i)
-#                         self.create_input(inp.label, inp.type_,)
-#
-#         except Exception:
-#             pass
-#
-#     def update_event(self, inp=-1):
-#         self.custom_node.update_event(inp)
-#
-#     def get_state(self) -> dict:
-#         cn_config = {}
-#         if self.custom_node:
-#             cn_config = self.custom_node.get_state()
-#
-#         return {
-#             'custom node config': cn_config,
-#             'code': self.code,
-#         }
-#
-#     def set_state(self, data: dict):
-#         self.code = data['code']
-#         self.build_node()
-#         if self.custom_node:
-#             self.custom_node.set_state(data['custom node config'])
-
-
 class Exec_Node(_DynamicPorts_Node):
     title = 'exec'
+    version = 'v0.1'
     main_widget_class = widgets.CodeNode_MainWidget
     main_widget_pos = 'between ports'
 
@@ -528,6 +466,7 @@ class Exec_Node(_DynamicPorts_Node):
 
 class Eval_Node(NodeBase):
     title = 'eval'
+    version = 'v0.1'
     init_inputs = [
         # NodeInputBP(),
     ]
@@ -584,6 +523,7 @@ class Interpreter_Node(NodeBase):
     """Provides a python interpreter via a basic console with access to the
     node's properties."""
     title = 'interpreter'
+    version = 'v0.1'
     init_inputs = []
     init_outputs = []
     main_widget_class = widgets.InterpreterConsole
@@ -646,6 +586,7 @@ class Storage_Node(NodeBase):
     A COPY of the storage array is provided at the output"""
 
     title = 'store'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(),
     ]
@@ -688,6 +629,7 @@ class LinkIN_Node(NodeBase):
     and propagate it further."""
 
     title = 'link IN'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(),
     ]
@@ -771,6 +713,7 @@ class LinkOUT_Node(NodeBase):
     """The complement to the link IN node"""
 
     title = 'link OUT'
+    version = 'v0.1'
     init_inputs = []  # no inputs
     init_outputs = []  # will be synchronized with linked IN node
 

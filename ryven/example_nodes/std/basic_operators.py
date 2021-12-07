@@ -5,6 +5,8 @@ from ryven.NENV import *
 
 class OperatorNodeBase(Node):
 
+    version = 'v0.0'
+
     init_inputs = [
         NodeInputBP(dtype=dtypes.Data(size='s')),
         NodeInputBP(dtype=dtypes.Data(size='s')),

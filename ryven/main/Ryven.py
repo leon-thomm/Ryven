@@ -15,7 +15,8 @@ REDIRECT_CONSOLE_OUTPUT = True
 
 def run(qt_app=None, qt_api='pyside2',
         show_dialog=True, gui_parent=None, window_title='Ryven',
-        window_theme_name='dark', flow_theme=None):
+        window_theme_name='dark', flow_theme=None,
+        redirect_console_output=REDIRECT_CONSOLE_OUTPUT):
 
     # QtPy API
     os.environ['QT_API'] = qt_api
@@ -75,7 +76,7 @@ def run(qt_app=None, qt_api='pyside2',
     editor.show()
 
     if qt_app is None:
-        if REDIRECT_CONSOLE_OUTPUT:  # redirect console output
+        if redirect_console_output:  # redirect console output
             from contextlib import redirect_stdout, redirect_stderr
 
             with redirect_stdout(console_stdout_redirect), \

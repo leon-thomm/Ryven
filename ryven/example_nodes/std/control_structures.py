@@ -2,12 +2,14 @@ from ryven.NENV import *
 
 
 class CSNodeBase(Node):
+    version = 'v0.1'
     style = 'normal'
     color = '#b33a27'
 
 
 class If_Node(CSNodeBase):
     title = 'branch'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
@@ -29,6 +31,7 @@ class ForLoop_Node(CSNodeBase):
     """n dimensional for loop!"""
 
     title = 'for'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Integer(), label='from'),
@@ -114,6 +117,7 @@ class ForLoop_Node(CSNodeBase):
 
 class ForEachLoop_Node(CSNodeBase):
     title = 'for each'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Integer(), label='elements'),
@@ -134,6 +138,7 @@ class ForEachLoop_Node(CSNodeBase):
 
 class WhileLoop_Node(CSNodeBase):
     title = 'while'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
@@ -152,6 +157,7 @@ class WhileLoop_Node(CSNodeBase):
 
 class DoWhileLoop_Node(CSNodeBase):
     title = 'do while'
+    version = 'v0.1'
     init_inputs = [
         NodeInputBP(type_='exec'),
         NodeInputBP(dtype=dtypes.Boolean(), label='cond'),
