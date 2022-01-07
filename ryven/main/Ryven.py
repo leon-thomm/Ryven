@@ -6,8 +6,8 @@ from ryven.main.utils import abs_path_from_package_dir
 from ryven.NENV import init_node_env
 from ryven.NWENV import init_node_widget_env
 
-# change directory to this file's location
-os.chdir(os.path.dirname(os.path.realpath(__file__)))
+# # change directory to this file's location
+# os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 # turn off for debugging
 REDIRECT_CONSOLE_OUTPUT = True
