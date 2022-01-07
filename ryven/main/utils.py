@@ -11,26 +11,39 @@ def load_from_file(file: str = None, components_list: [str] = []) -> tuple:
     Imports the specified components from a python module with given file path.
     """
 
-    # if abs_file_path:
     name = basename(file).split('.')[0]
     spec = importlib.util.spec_from_file_location(name, file)
-    # else:
-    #     # file = getframeinfo(sys._getframe(1)).filename
-    #     spec = importlib.util.spec_from_file_location(file, path_from_file(caller_file) + '/' + file)
 
     importlib.util.module_from_spec(spec)
 
     mod = spec.loader.load_module(name)
     # using load_module(name) instead of exec_module(mod) here,
     # because exec_module() somehow then registers it as "built-in"
-    # which is wrong and causes effects like inspect not parsing the source
+    # which is wrong and prevents inspect from parsing the source
 
     comps = tuple([getattr(mod, c) for c in components_list])
 
     return comps
 
 
-def import_nodes_package(package: NodesPackage) -> list:
+def import_nodes_package(package: NodesPackage = None, directory: str = None) -> list:
+    """
+    This function is an interface to the node packages system in Ryven.
+    It loads nodes from a Ryven nodes package and returns them in a list.
+    It can be used without a running Ryven instance, but you need to specify in which mode nodes should be loaded
+    by setting the environment variable RYVEN_MODE to either 'gui' (gui imports enabled) or 'no-gui'.
+    You can either pass a NodesPackage object or a path to the directory where the nodes.py file is located.
+    """
+
+    if package is None:
+        package = NodesPackage(directory)
+
+    if 'RYVEN_MODE' not in os.environ:
+        raise Exception(
+            "Please specify the environment variable RYVEN_MODE ('gui' or 'no-gui') before loading any packages. "
+            "For example set os.environ['RYVEN_MODE'] = 'no-gui' for gui-less deployment."
+        )
+
     from ryven import NENV
     load_from_file(package.file_path)
 

@@ -6,6 +6,8 @@
 
 **Ryven combines flow-based visual scripting with Python. It gives you absolute freedom for your nodes and a simple system for programming them. While there are some example node packages, you will most likely rely mostly on your own nodes.**
 
+![](./docs/img/themes_with_logo.png)
+
 <!-- Ryven is based on [ryvencore](https://github.com/leon-thomm/ryvencore) and [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt). A detailed guide for Ryven can be found [here](https://ryven.org/guides.html#/). -->
 
 While Ryven has a large Qt-based frontend which affects performance of flow execution, you can disable particularly expensive features, and a project made in the editor can be deployed directly on the backend (ryvencore) via RyvenConsole, which does not have a single dependency!
@@ -119,7 +121,7 @@ and that's it! Go ahead and import your nodes package in Ryven. Place both in th
 
 You can do a lot more than shown above. A summary of the main features:
 
-- **many modifiable themes**
+- **many modifiable themes**, including light themes
 - **simple and unrestricted nodes system**
 - **actions / right-click operations system for nodes**
 - **variables system** with update mechanism for nodes that automatically adapt to change of data
@@ -130,11 +132,6 @@ You can do a lot more than shown above. A summary of the main features:
 - **Qt widgets support**
 
 and some examples for those:
-
-#### many modifiable themes
-![](./docs/img/themes_with_logo.png)
-
-Also light themes!
 
 #### actions / right-click operations system for nodes
 which can be edited through the API at any time.
