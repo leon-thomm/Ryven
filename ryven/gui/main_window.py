@@ -203,12 +203,12 @@ CONTROLS
     # SLOTS
 
     def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('nodes'), '(*.py)', )[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('nodes'), 'Python File (*.py)')[0]
         if file_path != '':
             self.import_nodes(path=dirname(file_path))
 
     def on_import_example_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_package_dir('example_nodes'), '(*.py)', )[0]
+        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_package_dir('example_nodes'), 'Python File (*.py)')[0]
         if file_path != '':
             self.import_nodes(path=dirname(file_path))
 
@@ -258,7 +258,7 @@ CONTROLS
 
     def on_save_project_triggered(self):
         file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                abs_path_from_ryven_dir('saves'), '(*.json)')[0]
+                                                abs_path_from_ryven_dir('saves'), 'JSON(*.json)')[0]
         if file_name != '':
             self.save_project(file_name)
 
