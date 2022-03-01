@@ -1,10 +1,11 @@
 import sys
-from os.path import join, dirname
+import os
+import os.path
 
 from qtpy.QtGui import QIcon, QKeySequence
-from qtpy.QtWidgets import QMainWindow, QFileDialog, QDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
+from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
-from ryven.gui.main_console import *
+from ryven.gui.main_console import MainConsole
 from ryven.gui.script_UI import ScriptUI
 from ryven.gui.styling.window_theme import WindowTheme
 from ryven.main.nodes_package import NodesPackage
@@ -72,9 +73,13 @@ class MainWindow(QMainWindow):
         #   LOAD PROJECT
         if config['action'] == 'create project':
             self.session.create_script(title='hello world')
+            print('importing additional packages...')
+            self.import_packages(config.get('load packages', []))
         elif config['action'] == 'open project':
-            print('importing packages...')
+            print('importing required packages...')
             self.import_packages(config['required packages'])
+            print('importing additional packages...')
+            self.import_packages(config.get('load packages', []))
             print('loading project...')
             self.session.load(config['content'])
             print('finished')
@@ -205,12 +210,12 @@ CONTROLS
     def on_import_nodes_triggered(self):
         file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('nodes'), 'Python File (*.py)')[0]
         if file_path != '':
-            self.import_nodes(path=dirname(file_path))
+            self.import_nodes(path=os.path.dirname(file_path))
 
     def on_import_example_nodes_triggered(self):
         file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_package_dir('example_nodes'), 'Python File (*.py)')[0]
         if file_path != '':
-            self.import_nodes(path=dirname(file_path))
+            self.import_nodes(path=os.path.dirname(file_path))
 
     def on_performance_mode_changed(self, action):
         if action == self.ac_perf_mode_fast:
