@@ -105,6 +105,10 @@ def parse_args(just_defaults=False):
     exampledir = abs_path_from_package_dir('examples_projects')
     examples = [e.stem for e in pathlib.Path(exampledir).glob('*.json')]
 
+    # Get available flow themes
+    from ryvencore_qt import flow_themes as flow_theme_classes
+    flow_themes = [theme.name.lower() for theme in flow_theme_classes]
+
     #
     # The parser
     #
@@ -169,9 +173,7 @@ def parse_args(just_defaults=False):
     group.add_argument(
         '-f', '--flow-theme',
         # FIXME: How could we get these choices dynamically?
-        choices=['toy', 'darktron', 'ghost', 'blender', 'simple', 'ueli',
-                 'pure dark', 'colorful', 'pure light', 'colorful light',
-                 'industrial', 'fusion'],
+        choices=flow_themes,
         dest='flow_theme',
         help='set the theme of the flow view '
              '(default: {pure dark|pure light}, depending on the window theme)')
