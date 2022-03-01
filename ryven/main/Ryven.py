@@ -449,7 +449,15 @@ def run(*args_,
             with open(args.project) as f:
                 project_dict = json.load(f, strict=False)
 
-            nodes = load_nodes(project_dict['required packages'])
+            req_packages = {
+                package['name']: package['dir']
+                for package in project_dict['required packages']
+            }
+            # remove manually specified packages from the required ones listed in project file
+            if args.nodes:
+                for pkg in load_nodes(args.nodes):
+                    del req_packages[pkg.name]
+            nodes = load_nodes(list(req_packages.values()))
 
             editor_config = {
                 'action': 'open project',
