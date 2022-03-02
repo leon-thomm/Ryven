@@ -145,7 +145,9 @@ def parse_args(just_defaults=False):
         dest='nodes',
         metavar='NODE',
         help='load a nodes packages; '
-             '(%(metavar)s is the path to the node package without "/nodes.py")')
+             'nodes packages loaded here take precedence over nodes packages '
+             'with the same name specified in the project file! '
+             '(%(metavar)s is the path to the nodes package without "/nodes.py")')
 
     group.add_argument(
         '-x', '--example',
@@ -249,7 +251,9 @@ def parse_args(just_defaults=False):
 
 
 def load_nodes(nodes):
-    """Take a list of nodes, check it and remove duplicates.
+    """Take a list of nodes, check it and convert it to `[NodesPackage]`.
+
+    It also removes duplicates based on the name (and not the contents!).
 
     Parameters
     ----------
@@ -276,13 +280,13 @@ def load_nodes(nodes):
         if isinstance(node, NodesPackage):
             node_packages.append(node)
         else:
-            node_path = pathlib.Path(node.directory)
+            node_path = pathlib.Path(node)
             if node_path.joinpath('nodes.py').exists():
                 node_packages.append(NodesPackage(str(node_path)))
             else:
                 # Try to find the node in Ryven's dirs
                 for name in ('package', 'example_nodes'):
-                    sys_node = abs_path_from_package_dir(name).joinpath(node)
+                    sys_node = pathlib.Path(abs_path_from_package_dir(name)).joinpath(node)
                     if sys_node.joinpath('nodes.py').exists():
                         node_packages.append(NodesPackage(str(sys_node)))
                         break
@@ -292,7 +296,7 @@ def load_nodes(nodes):
     if missing_nodes:
         sys.exit(f'Error: Nodes packages not found: {", ".join(missing_nodes)}')
 
-    # remove duplicate nodes
+    # Remove duplicate nodes
     seen = set()
     unique_nodes = []
     for node in node_packages:
@@ -461,7 +465,7 @@ def run(*args_,
     # Replace node directories with `NodePackage` instances
     if args.nodes:
         nodes = load_nodes(args.nodes)
-        editor_config['load packages'] = nodes
+        editor_config['requested packages'] = nodes
 
     # Adjust flow theme if not set
     if args.flow_theme is None:

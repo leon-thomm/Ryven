@@ -71,15 +71,14 @@ class MainWindow(QMainWindow):
         self.import_nodes(path=abs_path_from_package_dir('main/nodes/built_in/'))
 
         #   LOAD PROJECT
+        # Requested packages take precedence over other packages
+        print('importing requested packages...')
+        self.import_packages(config.get('requested packages', []))
         if config['action'] == 'create project':
             self.session.create_script(title='hello world')
-            print('importing additional packages...')
-            self.import_packages(config.get('load packages', []))
         elif config['action'] == 'open project':
             print('importing required packages...')
             self.import_packages(config['required packages'])
-            print('importing additional packages...')
-            self.import_packages(config.get('load packages', []))
             print('loading project...')
             self.session.load(config['content'])
             print('finished')
