@@ -275,18 +275,19 @@ def load_nodes(nodes):
     for node in nodes:
         if isinstance(node, NodesPackage):
             node_packages.append(node)
-        elif pathlib.Path(node, 'nodes.py').exists():
-            node_packages.append(NodesPackage(str(node)))
         else:
-            # try to find the node in Ryven's dirs
-            for name in ('package', 'example_nodes'):
-                sys_node = pathlib.Path(
-                    abs_path_from_package_dir(name), node, 'nodes.py')
-                if sys_node.exists():
-                    node_packages.append(NodesPackage(str(sys_node.parent)))
-                    break
+            node_path = pathlib.Path(node.directory)
+            if node_path.joinpath('nodes.py').exists():
+                node_packages.append(NodesPackage(str(node_path)))
             else:
-                missing_nodes.append(node)
+                # Try to find the node in Ryven's dirs
+                for name in ('package', 'example_nodes'):
+                    sys_node = abs_path_from_package_dir(name).joinpath(node)
+                    if sys_node.joinpath('nodes.py').exists():
+                        node_packages.append(NodesPackage(str(sys_node)))
+                        break
+                else:
+                    missing_nodes.append(node)
 
     if missing_nodes:
         sys.exit(f'Error: Nodes packages not found: {", ".join(missing_nodes)}')
