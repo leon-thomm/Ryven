@@ -492,6 +492,11 @@ def run(*args_,
     # Start application
     if qt_app is None:
         if args.debug:
+            # Run application
+            editor.print_info()
+            sys.exit(app.exec_())
+
+        else:
             # Redirect console output
             import contextlib
 
@@ -500,11 +505,6 @@ def run(*args_,
                 # Run application
                 editor.print_info()
                 sys.exit(app.exec_())
-
-        else:
-            # Run application
-            editor.print_info()
-            sys.exit(app.exec_())
 
     else:
         return editor
