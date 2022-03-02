@@ -251,7 +251,7 @@ def parse_args(just_defaults=False):
     return args
 
 
-def load_nodes(nodes):
+def process_nodes(nodes):
     """Take a list of nodes, check it and convert it to `[NodesPackage]`.
 
     It also removes duplicates based on the name (and not the contents!).
@@ -453,7 +453,8 @@ def run(*args_,
             with open(args.project) as f:
                 project_dict = json.load(f, strict=False)
 
-            nodes = load_nodes(project_dict['required packages'])
+            nodes = process_nodes(
+                [p['dir'] for p in project_dict['required packages']])
 
             editor_config = {
                 'action': 'open project',
@@ -465,7 +466,7 @@ def run(*args_,
 
     # Replace node directories with `NodePackage` instances
     if args.nodes:
-        nodes = load_nodes(args.nodes)
+        nodes = process_nodes(args.nodes)
         editor_config['requested packages'] = nodes
 
     # Adjust flow theme if not set
