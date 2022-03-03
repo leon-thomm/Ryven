@@ -5,8 +5,8 @@ from qtpy.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QFile
 import os
 from os.path import basename, abspath, dirname, normpath, join, splitext
 
-from ryven.main.nodes_package import NodesPackage
-from ryven.main.utils import abs_path_from_package_dir, abs_path_from_ryven_dir
+from ...main.nodes_package import NodesPackage
+from ...main.utils import abs_path_from_package_dir, abs_path_from_ryven_dir, ryven_dir_path
 
 
 class SelectPackages_Dialog(QDialog):
@@ -65,7 +65,7 @@ class SelectPackages_Dialog(QDialog):
     def auto_import_button_clicked(self):
 
         # search in user packages
-        self.auto_import(packages_dir=abs_path_from_ryven_dir('packages'))
+        self.auto_import(packages_dir=join(ryven_dir_path(), 'nodes'))
         if self.all_required_packages_selected():
             self.finished()
 

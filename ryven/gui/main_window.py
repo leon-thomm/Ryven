@@ -263,6 +263,9 @@ CONTROLS
     def on_save_project_triggered(self):
         file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
                                                 abs_path_from_ryven_dir('saves'), 'JSON(*.json)')[0]
+        if not file_name.endswith('.json'):
+            file_name += '.json'
+
         if file_name != '':
             self.save_project(file_name)
 
