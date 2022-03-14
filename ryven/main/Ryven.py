@@ -189,6 +189,13 @@ def parse_args(just_defaults=False):
         dest='debug',
         help='display messages on the console')
 
+    # FIXME: Is there a way to get the version dynamically?
+    # Could also be used in `MainWindow.save_project()`
+    group.add_argument(
+        '-v', '--version',
+        action='version',
+        version='%(prog)s 3.1')
+
     group.add_argument(
         '-q', '--qt-api',
         default='pyside2',
