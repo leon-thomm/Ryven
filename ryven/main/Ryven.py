@@ -140,11 +140,11 @@ def parse_args(just_defaults=False):
 
     group.add_argument(
         '-n', '--nodes',
-        action='append',
+        nargs='+', action='extend',
         default=[],
         dest='nodes',
         metavar='NODE',
-        help='load a nodes packages; '
+        help='load one or more nodes packages; '
              'nodes packages loaded here take precedence over nodes packages '
              'with the same name specified in the project file! '
              '(%(metavar)s is the path to the nodes package without "/nodes.py")')
@@ -266,7 +266,7 @@ def parse_args(just_defaults=False):
     return args, remaining_args
 
 
-def process_nodes(nodes):
+def process_nodes(nodes, requested_nodes=[]):
     """Take a list of nodes, check it and convert it to `[NodesPackage]`.
 
     It also removes duplicates based on the name (and not the contents!).
@@ -281,6 +281,10 @@ def process_nodes(nodes):
         If 'nodes.py' cannot be found in the path, the package is searchd in
         Ryven's directory, e.g. if "std" is given and not found locally, the
         "std" package included in Ryven is loaded.
+    requested_nodes : list of NodesPackage, optional
+        A list of nodes, which were requested. These take precedence over
+        `nodes`.
+        The default is `[]`.
 
     Returns
     -------
@@ -290,37 +294,42 @@ def process_nodes(nodes):
     """
     from ryven.main.nodes_package import NodesPackage
 
-    node_packages = []
-    missing_nodes = []
+    node_packages = set()
+    nodes_not_found = set()
     for node in nodes:
         if isinstance(node, NodesPackage):
-            node_packages.append(node)
+            node_packages.add(node)
         else:
-            node_path = pathlib.Path(node)
+            # For backward compatibility we have to deal with Windows and Posix
+            # paths in the project's file
+            node_windows_path = pathlib.PureWindowsPath(node)
+            node_posix_path = pathlib.PurePosixPath(node)
+            if len(node_windows_path.parts) > len(node_posix_path.parts):
+                node_path = pathlib.Path(node_windows_path)
+            else:
+                node_path = pathlib.Path(node_posix_path)
             if node_path.joinpath('nodes.py').exists():
-                node_packages.append(NodesPackage(str(node_path)))
+                node_packages.add(NodesPackage(str(node_path)))
             else:
                 # Try to find the node in Ryven's dirs
                 for name in ('package', 'example_nodes'):
                     sys_node = pathlib.Path(abs_path_from_package_dir(name)).joinpath(node)
                     if sys_node.joinpath('nodes.py').exists():
-                        node_packages.append(NodesPackage(str(sys_node)))
+                        node_packages.add(NodesPackage(str(sys_node)))
                         break
                 else:
-                    missing_nodes.append(node)
+                    nodes_not_found.add(node_path)
 
-    if missing_nodes:
-        sys.exit(f'Error: Nodes packages not found: {", ".join(missing_nodes)}')
+    # Check, if nodes which could not be found are already available in
+    # `requested_nodes`.
+    # This check is done by comparing the path name to the nodes' names
+    args_nodes_names = [node.name for node in requested_nodes]
+    nodes_not_found = [
+        node_path
+        for node_path in nodes_not_found
+        if node_path.name not in args_nodes_names]
 
-    # Remove duplicate nodes
-    seen = set()
-    unique_nodes = []
-    for node in node_packages:
-        if node.name not in seen:
-            unique_nodes.append(node)
-            seen.add(node.name)
-
-    return unique_nodes
+    return node_packages, nodes_not_found
 
 
 def run(*args_,
@@ -442,7 +451,18 @@ def run(*args_,
     # Ryven main window set up
     #
 
-    # Assemble `editor_config`
+    editor_config = {}
+
+    # Replace node directories with `NodePackage` instances
+    if args.nodes:
+        args.nodes, nodes_not_found = process_nodes(args.nodes)
+        if nodes_not_found:
+            sys.exit(
+                f'Error: Nodes packages not found: {", ".join(nodes_not_found)}')
+
+        editor_config['requested packages'] = args.nodes
+
+    # Get packages and project file interactively
     if args.show_dialog:
         # Startup dialog
         from ryven.gui.startup_dialog.StartupDialog import StartupDialog
@@ -451,38 +471,46 @@ def run(*args_,
         sw.exec_()
 
         # Exit if dialog couldn't initialize or is exited
-        if sw.editor_startup_configuration == {}:
+        if not sw.editor_startup_configuration:
             sys.exit('Start-up screen dismissed')
 
         args.window_theme = sw.window_theme
-        editor_config = sw.editor_startup_configuration
+        args.project = sw.file_name
+        args.nodes = sw.requested_packages
 
     else:
         args.window_theme = apply_stylesheet(args.window_theme)
 
-        if args.project:
-            # FIXME: This shadows `StartupDialog.open_project()`
-            # Move its entire functionality here (and outside of the if clause?
-            import json
+    # Get packages required by the project
+    if args.project:
+        # FIXME: This shadows `StartupDialog.open_project()`
+        # Move its entire functionality here (and outside of the if clause?
+        import json
 
-            with open(args.project) as f:
-                project_dict = json.load(f, strict=False)
+        with open(args.project) as f:
+            project_dict = json.load(f, strict=False)
 
-            nodes = process_nodes(
-                [p['dir'] for p in project_dict['required packages']])
+        nodes, nodes_not_found = process_nodes(
+            [p['dir'] for p in project_dict['required packages']],
+            requested_nodes=args.nodes)
 
-            editor_config = {
-                'action': 'open project',
-                'required packages': nodes,
-                'content': project_dict}
+        if nodes_not_found:
+            sys.exit(
+                f'The package{"s" if len(nodes_not_found)>1 else ""} '
+                f''''{"', '".join([str(p) for p in nodes_not_found])}' '''
+                f'{"were" if len(nodes_not_found)>1 else "was"} requested, '
+                f'but {"they are" if len(nodes_not_found)>1 else "it is"} not available.'
+                f'\n'
+                f'Update the project file or supply the missing package{"s" if len(nodes_not_found)>1 else ""} '
+                f''''{"', '".join([p.name for p in nodes_not_found])}' '''
+                f'on the command line with the "-n" switch.')
 
-        else:
-            editor_config = {'action': 'create project'}
+        editor_config['action'] = 'open project'
+        editor_config['required packages'] = nodes
+        editor_config['content'] = project_dict
 
-    # Replace node directories with `NodePackage` instances
-    if args.nodes:
-        nodes = process_nodes(args.nodes)
-        editor_config['requested packages'] = nodes
+    else:
+        editor_config['action'] = 'create project'
 
     # Adjust flow theme if not set
     if args.flow_theme is None:
