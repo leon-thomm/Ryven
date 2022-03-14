@@ -209,6 +209,15 @@ def parse_args(just_defaults=False):
         help="changes the window's title "
              '(default: %(default)s)')
 
+    # Qt args
+
+    parser.add_argument_group(
+        'Qt arguments',
+        description='''
+            all other arguments are passed to Qt;
+            see: https://doc.qt.io/qt-5/qapplication.html#QApplication
+        ''')
+
     # Configuration files
 
     parser.add_argument_group(
@@ -233,9 +242,9 @@ def parse_args(just_defaults=False):
 
     # Parse the arguments
     if just_defaults:
-        args = parser.parse_args([])
+        args, remaining_args = parser.parse_known_args([])
     else:
-        args = parser.parse_args()
+        args, remaining_args = parser.parse_known_args()
 
     # Check, if project file exists
     if args.project:
@@ -254,7 +263,7 @@ def parse_args(just_defaults=False):
 
         args.project = pathlib.Path(exampledir, args.example).with_suffix('.json')
 
-    return args
+    return args, remaining_args
 
 
 def process_nodes(nodes):
@@ -371,10 +380,10 @@ def run(*args_,
 
     if use_sysargs:
         # Get parsed command line arguments
-        args = parse_args()
+        args, remaining_args = parse_args()
     else:
         # Get default values
-        args = parse_args(just_defaults=True)
+        args, remaining_args = parse_args(just_defaults=True)
 
     # Update command line arguments with keyword arguments to run()
     for key, value in kwargs.items():
@@ -418,7 +427,7 @@ def run(*args_,
     # Init Qt application
     if qt_app is None:
         from qtpy.QtWidgets import QApplication
-        app = QApplication(sys.argv)
+        app = QApplication(remaining_args)
     else:
         app = qt_app
 
