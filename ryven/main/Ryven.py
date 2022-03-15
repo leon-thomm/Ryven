@@ -263,6 +263,9 @@ def parse_args(just_defaults=False):
 
         args.project = pathlib.Path(exampledir, args.example).with_suffix('.json')
 
+    # Make a `set` of nodes
+    args.nodes = set(args.nodes)
+
     return args, remaining_args
 
 
