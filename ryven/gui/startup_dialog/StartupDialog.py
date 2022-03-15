@@ -21,21 +21,19 @@ class StartupDialog(QDialog):
 
         # info text edit
         info_text_edit = QTextEdit()
-        info_text_edit.setHtml('''
+        info_text_edit.setHtml(f'''
             <center>
                 <h2 style="font-family: Segoe UI; font-size: xx-large; font-weight: 400; color: #a9d5ef;">
                     Welcome to Ryven
                 </h2>
             </center>
             <div style="font-family: Corbel; font-size: x-large;">
-            
-                <p>
-                    <img style="float:right;" height=120 src="../resources/pics/Ryven_icon_blurred.png">Hey,
-                    it's Leon, the creator of Ryven. Keep in mind that this
-                    is not a professional piece of software. Don\'t forget to save!
-                    There are always some bugs and issues but as long as you keep behaving
-                    as intended, you shouldn\'t get into too much trouble. Have fun!
-                </p>
+                <img style="float:right;" height=120 src="{abs_path_from_package_dir('resources/pics/Ryven_icon_blurred.png')}"
+                >Hey, it's Leon, the creator of Ryven. Keep in mind that this
+                is not a professional piece of software. Don't forget to save!
+                There are always some bugs and issues, but as long as you keep
+                behaving as intended, you shouldn't get into too much trouble.
+                Have fun!
             </div>
         ''')
         info_text_edit.setReadOnly(True)
