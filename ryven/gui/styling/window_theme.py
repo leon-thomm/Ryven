@@ -3,7 +3,10 @@ from ryven.main.utils import abs_path_from_package_dir
 
 
 def hex_to_rgb(hex: str):
-    return tuple(int(hex[i:i + 2], 16) for i in (1, 3, 5))
+    if hex is None:
+        return None
+    else:
+        return tuple(int(hex[i:i + 2], 16) for i in (1, 3, 5))
 
 
 class WindowTheme:
@@ -63,34 +66,53 @@ class WindowTheme_Light(WindowTheme):
     }
 
 
+class WindowTheme_Plain(WindowTheme):
+    name = 'plain'
+    colors = {
+        'primaryColor': None,
+        'primaryLightColor': None,
+        'secondaryColor': None,
+        'secondaryLightColor': None,
+        'secondaryDarkColor': None,
+        'primaryTextColor': None,
+        'secondaryTextColor': None,
+        'danger': None,
+        'warning': None,
+        'success': None,
+    }
+
+
 def apply_stylesheet(style: str):
 
     # set to None if not used
     icons_dir = abs_path_from_package_dir('resources/stylesheets/icons')
-
-    # path to the template stylesheet file
-    template_file = abs_path_from_package_dir('resources/stylesheets/style_template.css')
-
-    # ------------------------------
-
     if icons_dir is not None:
         from qtpy.QtCore import QDir
         d = QDir()
         d.setSearchPaths('icon', [icons_dir])
 
-    if style == 'dark':
-        window_theme = WindowTheme_Dark()
+    if style in (None, 'plain'):
+        window_theme = WindowTheme_Plain()
+        stylesheet = None
     else:
-        window_theme = WindowTheme_Light()
+        if style == 'dark':
+            window_theme = WindowTheme_Dark()
+        elif style == 'light':
+            window_theme = WindowTheme_Light()
+        else:
+            raise ValueError(
+                f'Unknown window theme. '
+                f'Got: {style}')
 
-    f = open(template_file)
+        from jinja2 import Template
+        # path to the template stylesheet file
+        template_file = abs_path_from_package_dir('resources/stylesheets/style_template.css')
+        with open(template_file) as f:
+            jinja_template = Template(f.read())
 
-    from jinja2 import Template
-    jinja_template = Template(f.read())
-
-    f.close()
+        stylesheet = jinja_template.render(window_theme.rules)
 
     app = QApplication.instance()
-    app.setStyleSheet(jinja_template.render(window_theme.rules))
+    app.setStyleSheet(stylesheet)
 
     return window_theme

@@ -162,7 +162,7 @@ def parse_args(just_defaults=False):
 
     group.add_argument(
         '-w', '--window-theme',
-        choices=['dark', 'light'],
+        choices=['dark', 'light', 'plain'],
         default='dark',
         dest='window_theme',
         help='set the window theme '
@@ -501,6 +501,8 @@ def run(*args_,
     #
     # Start and run application
     #
+
+    # FIXME? `window_theme` is of type `WindowTheme`, but `flow_theme` is a `str`
 
     # Init main console
     (console_stdout_redirect, console_errout_redirect
