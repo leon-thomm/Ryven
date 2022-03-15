@@ -19,12 +19,12 @@ class NodesPackage:
     def __repr__(self):
         return f'{self.__class__.__name__}({self.name}, {self.directory})'
 
-#     def __eq__(self, other):
+    def __eq__(self, other):
 #         print('==', self, other)
-#         if isinstance(other, NodesPackage):
-#             return self.name == other.name
-#         else:
-#             return self.name == str(other)
+        if isinstance(other, NodesPackage):
+            return self.name == other.name
+        else:
+            return self.name == str(other)
 
     def __hash__(self):
         return hash(self.name)
