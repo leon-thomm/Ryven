@@ -58,10 +58,6 @@ class MainWindow(QMainWindow):
         import_nodes_shortcut = QShortcut(QKeySequence('Ctrl+i'), self)
         import_nodes_shortcut.activated.connect(self.on_import_nodes_triggered)
 
-        # PROJECT SETUP
-        if 'info_msgs' in sys.argv:
-            rc.InfoMsgs.enable()
-
         #   SETUP MAIN CONSOLE
         MainConsole.instance.session = self.session
         MainConsole.instance.reset_interpreter()
@@ -342,7 +338,7 @@ CONTROLS
         except ModuleNotFoundError as e:
             msg_box = QMessageBox(QMessageBox.Warning, 'Missing Python module', str(e), QMessageBox.Ok, self)
             msg_box.exec_()
-            sys.exit()
+            sys.exit(e)
 
         self.session.register_nodes(nodes)
 

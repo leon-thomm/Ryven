@@ -178,6 +178,56 @@ def parse_args(just_defaults=False):
         help='set the theme of the flow view '
              '(default: {pure dark|pure light}, depending on the window theme)')
 
+    group.add_argument(
+        '--performance',
+        choices=['pretty', 'fast'],
+        default='pretty',
+        dest='performance',
+        help='select performance mode '
+             '(default: %(default)s)')
+
+    # TODO: Python >= 3.9
+    # group.add_argument(
+    #     '--animations',
+    #     action=argparse.BooleanOptionalAction,
+    #     dest='animations',
+    #     help='en/disable animations '
+    #          '(default: %(default)s)')
+    exclusive_group = group.add_mutually_exclusive_group()
+    exclusive_group.add_argument(
+        '--no-animations',
+        action='store_false',
+        dest='animations',
+        help='do not use animations '
+             '(default: use animations)')
+    exclusive_group.add_argument(
+        '--animations',
+        action='store_true',
+        dest='animations',
+        help='use animations '
+             '(default: use animations)')
+
+    # TODO: Python >= 3.9
+    # group.add_argument(
+    #     '--info-messages',
+    #     action=argparse.BooleanOptionalAction,
+    #     dest='info_messages',
+    #     help='en/disable info messages '
+    #          '(default: %(default)s)')
+    exclusive_group = group.add_mutually_exclusive_group()
+    exclusive_group.add_argument(
+        '--info-messages',
+        action='store_true',
+        dest='info_messages',
+        help='show info messages '
+             '(default: do not show info messages')
+    exclusive_group.add_argument(
+        '--no-info-messages',
+        action='store_false',
+        dest='info_messages',
+        help='do not show info messages '
+             '(default: do not show info messages')
+
     # Debug
 
     group = parser.add_argument_group('debug')
@@ -462,6 +512,15 @@ def run(*args_,
         args.title, args.window_theme, args.flow_theme,
         parent=gui_parent)
     editor.show()
+
+    # Project setup
+    editor.ui.actionEnableInfoMessages.setChecked(args.info_messages)
+    if args.performance == 'pretty':
+        editor.ac_perf_mode_pretty.setChecked(True)
+    elif args.performance == 'fast':
+        editor.ac_perf_mode_fast.setChecked(True)
+    editor.ac_anims_active.setChecked(args.animations)
+    editor.ac_anims_inactive.setChecked(not args.animations)
 
     # Start application
     if qt_app is None:
