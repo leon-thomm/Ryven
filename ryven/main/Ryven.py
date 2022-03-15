@@ -449,23 +449,28 @@ def run(*args_,
 
         editor_config['requested packages'] = args.nodes
 
-    # Get packages and project file interactively
+    # Get packages and project file interactively and update arguments accordingly
     if args.show_dialog:
         # Startup dialog
         from ryven.gui.startup_dialog.StartupDialog import StartupDialog
 
-        sw = StartupDialog(args.window_theme, gui_parent)
-        sw.exec_()
-
+        sw = StartupDialog(vars(args), parent=gui_parent)
         # Exit if dialog couldn't initialize or is exited
-        if not sw.editor_startup_configuration:
+        if sw.exec_() <= 0:
             sys.exit('Start-up screen dismissed')
 
-        args.window_theme = sw.window_theme
-        args.project = sw.file_name
-        args.nodes = sw.requested_packages
+        # Update `args` with `sw.configs`
+        for key, value in sw.configs.items():
+            # A little safeguard
+            if hasattr(args, key):
+                setattr(args, key, value)
+            else:
+                raise KeyError(
+                    f'The startup dialog set an unknown argument. '
+                    f'Got: {key}={value}')
 
     else:
+        # This is needed, because the stylesheet is applied in `StartupDialog`
         args.window_theme = apply_stylesheet(args.window_theme)
 
     # Get packages required by the project
