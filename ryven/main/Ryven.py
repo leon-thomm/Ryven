@@ -3,7 +3,7 @@ import sys
 import argparse
 import pathlib
 
-from ryven.main.utils import abs_path_from_package_dir
+from ryven.main.utils import abs_path_from_package_dir, ryven_dir_path
 from ryven.NENV import init_node_env
 from ryven.NWENV import init_node_widget_env
 
@@ -310,15 +310,22 @@ def process_nodes(nodes, requested_nodes=[]):
                 node_path = pathlib.Path(node_posix_path)
             if node_path.joinpath('nodes.py').exists():
                 node_packages.add(NodesPackage(str(node_path)))
-            else:
-                # Try to find the node in Ryven's dirs
-                for name in ('package', 'example_nodes'):
-                    sys_node = pathlib.Path(abs_path_from_package_dir(name)).joinpath(node)
-                    if sys_node.joinpath('nodes.py').exists():
-                        node_packages.add(NodesPackage(str(sys_node)))
-                        break
-                else:
-                    nodes_not_found.add(node_path)
+                continue
+
+            # Try to find the nodes package in Ryven's custom nodes dir
+            node_custom_path = pathlib.Path(ryven_dir_path(), 'nodes', node)
+            if node_custom_path.joinpath('nodes.py').exists():
+                node_packages.add(NodesPackage(str(node_custom_path)))
+                continue
+
+            # Try to find in Ryven's example nodes
+            node_example_path = pathlib.Path(abs_path_from_package_dir('example_nodes'), node)
+            if node_example_path.joinpath('nodes.py').exists():
+                node_packages.add(NodesPackage(str(node_example_path)))
+                continue
+
+            # Package could not be found
+            nodes_not_found.add(node_path)
 
     # Check, if nodes which could not be found are already available in
     # `requested_nodes`.
