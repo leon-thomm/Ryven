@@ -3,7 +3,7 @@ import sys
 import argparse
 import pathlib
 
-from ryven.main.utils import abs_path_from_package_dir, ryven_dir_path
+from ryven.main.utils import abs_path_from_package_dir, process_nodes_packages
 from ryven.NENV import init_node_env
 from ryven.NWENV import init_node_widget_env
 
@@ -266,79 +266,6 @@ def parse_args(just_defaults=False):
     return args, remaining_args
 
 
-def process_nodes(nodes, requested_nodes=[]):
-    """Take a list of nodes, check it and convert it to `[NodesPackage]`.
-
-    It also removes duplicates based on the name (and not the contents!).
-
-    Parameters
-    ----------
-    nodes : list of str|pathlib.Path|NodesPackage
-        A list of nodes. The node can a `NodesPackage` instance, in which case
-        the node is copied into the resulting list; otherwise the node is
-        considered as a path to 'nodes.py'. If 'nodes.py' is found in the path,
-        a `NodesPackage` instance is created and added to the resulting list.
-        If 'nodes.py' cannot be found in the path, the package is searchd in
-        Ryven's directory, e.g. if "std" is given and not found locally, the
-        "std" package included in Ryven is loaded.
-    requested_nodes : list of NodesPackage, optional
-        A list of nodes, which were requested. These take precedence over
-        `nodes`.
-        The default is `[]`.
-
-    Returns
-    -------
-    list of NodesPackage
-        unique nodes DESCRIPTION.
-
-    """
-    from ryven.main.nodes_package import NodesPackage
-
-    node_packages = set()
-    nodes_not_found = set()
-    for node in nodes:
-        if isinstance(node, NodesPackage):
-            node_packages.add(node)
-        else:
-            # For backward compatibility we have to deal with Windows and Posix
-            # paths in the project's file
-            node_windows_path = pathlib.PureWindowsPath(node)
-            node_posix_path = pathlib.PurePosixPath(node)
-            if len(node_windows_path.parts) > len(node_posix_path.parts):
-                node_path = pathlib.Path(node_windows_path)
-            else:
-                node_path = pathlib.Path(node_posix_path)
-            if node_path.joinpath('nodes.py').exists():
-                node_packages.add(NodesPackage(str(node_path)))
-                continue
-
-            # Try to find the nodes package in Ryven's custom nodes dir
-            node_custom_path = pathlib.Path(ryven_dir_path(), 'nodes', node)
-            if node_custom_path.joinpath('nodes.py').exists():
-                node_packages.add(NodesPackage(str(node_custom_path)))
-                continue
-
-            # Try to find in Ryven's example nodes
-            node_example_path = pathlib.Path(abs_path_from_package_dir('example_nodes'), node)
-            if node_example_path.joinpath('nodes.py').exists():
-                node_packages.add(NodesPackage(str(node_example_path)))
-                continue
-
-            # Package could not be found
-            nodes_not_found.add(node_path)
-
-    # Check, if nodes which could not be found are already available in
-    # `requested_nodes`.
-    # This check is done by comparing the path name to the nodes' names
-    args_nodes_names = [node.name for node in requested_nodes]
-    nodes_not_found = [
-        node_path
-        for node_path in nodes_not_found
-        if node_path.name not in args_nodes_names]
-
-    return node_packages, nodes_not_found
-
-
 def run(*args_,
         qt_app=None, gui_parent=None, use_sysargs=True,
         **kwargs):
@@ -462,7 +389,7 @@ def run(*args_,
 
     # Replace node directories with `NodePackage` instances
     if args.nodes:
-        args.nodes, nodes_not_found = process_nodes(args.nodes)
+        args.nodes, nodes_not_found, _ = process_nodes_packages(args.nodes)
         if nodes_not_found:
             sys.exit(
                 f'Error: Nodes packages not found: {", ".join(nodes_not_found)}')
@@ -490,16 +417,8 @@ def run(*args_,
 
     # Get packages required by the project
     if args.project:
-        # FIXME: This shadows `StartupDialog.open_project()`
-        # Move its entire functionality here (and outside of the if clause?
-        import json
-
-        with open(args.project) as f:
-            project_dict = json.load(f, strict=False)
-
-        nodes, nodes_not_found = process_nodes(
-            [p['dir'] for p in project_dict['required packages']],
-            requested_nodes=args.nodes)
+        nodes, nodes_not_found, project_dict = process_nodes_packages(
+            args.project, requested_nodes=args.nodes)
 
         if nodes_not_found:
             sys.exit(
