@@ -296,7 +296,10 @@ class StartupDialog(QDialog):
         plain_theme_rb.setChecked(configs['window_theme'] not in ('dark', 'light'))
 
         # Set flow theme
-        idx = flowtheme_widget.findText(configs['flow_theme'])
+        if configs['flow_theme']:
+            idx = flowtheme_widget.findText(configs['flow_theme'])
+        else:
+            idx = -1
         if idx < 0:
             idx = flowtheme_widget.findText(DEFAULT_FLOW_THEME)
         flowtheme_widget.setCurrentIndex(idx)
