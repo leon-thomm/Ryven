@@ -490,11 +490,13 @@ def run(*args_,
                 f'on the command line with the "-n" switch.')
 
         editor_config['action'] = 'open project'
+        editor_config['requested packages'] = args.nodes
         editor_config['required packages'] = nodes
         editor_config['content'] = project_dict
 
     else:
         editor_config['action'] = 'create project'
+        editor_config['requested packages'] = args.nodes
 
     # Adjust flow theme if not set
     if args.flow_theme is None:
