@@ -528,6 +528,8 @@ def run(*args_,
         editor.ac_perf_mode_pretty.setChecked(True)
     elif args.performance == 'fast':
         editor.ac_perf_mode_fast.setChecked(True)
+    # FIXME: As soon as the switching works, one of the two following calls is
+    # propably sufficient?
     editor.ac_anims_active.setChecked(args.animations)
     editor.ac_anims_inactive.setChecked(not args.animations)
 
