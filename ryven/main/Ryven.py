@@ -20,7 +20,7 @@ class CustomArgumentParser(argparse.ArgumentParser):
         - '--example=basics' (or '--example basics') on the command line
           becomes 'example: basics' (or 'example=basics') in the configuration
           file.
-        - '--debug' on the command line simply becomes 'debug' in the
+        - '--verbose' on the command line simply becomes 'verbose' in the
           configuration file.
 
     Some more comments on the file format:
@@ -228,20 +228,20 @@ def parse_args(just_defaults=False):
         help='do not show info messages '
              '(default: do not show info messages')
 
-    # Debug
+    # Debug/Verbose
 
-    group = parser.add_argument_group('debug')
+    group = parser.add_argument_group('verbose')
 
     group.add_argument(
-        '-d', '--debug',
+        '-v', '--verbose',
         action='store_true',
-        dest='debug',
+        dest='verbose',
         help='display messages on the console')
 
     # FIXME: Is there a way to get the version dynamically?
     # Could also be used in `MainWindow.save_project()`
     group.add_argument(
-        '-v', '--version',
+        '-V', '--version',
         action='version',
         version='%(prog)s 3.1')
 
@@ -533,7 +533,7 @@ def run(*args_,
 
     # Start application
     if qt_app is None:
-        if args.debug:
+        if args.verbose:
             # Run application
             editor.print_info()
             sys.exit(app.exec_())
