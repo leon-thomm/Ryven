@@ -118,6 +118,23 @@ def parse_args(just_defaults=False):
             ''',
         epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT')
 
+    # Optional arguments
+
+    parser.add_argument(
+        nargs='?',
+        dest='project',
+        metavar='PROJECT',
+        help='the project file or example to be loaded; '
+             'use "-" for standard input')
+
+    parser.add_argument(
+        '-s', '--show-dialog',
+        action='store_true',
+        dest='show_dialog',
+        help='show start-up dialog '
+             '(disables "--example", "--flow-theme" '
+             'and the loading of the project file)')
+
     parser.add_argument(
         '-V', '--version',
         action='version',
@@ -128,23 +145,6 @@ def parse_args(just_defaults=False):
         action='store_true',
         dest='verbose',
         help='display messages on the console')
-
-    parser.add_argument(
-        nargs='?',
-        dest='project',
-        metavar='PROJECT',
-        help='the project file or example to be loaded; '
-             'use "-" for standard input')
-
-    # Optional arguments
-
-    parser.add_argument(
-        '-s', '--show-dialog',
-        action='store_true',
-        dest='show_dialog',
-        help='show start-up dialog '
-             '(disables "--example", "--flow-theme" '
-             'and the loading of the project file)')
 
     # Project
 
