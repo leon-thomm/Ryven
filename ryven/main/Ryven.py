@@ -399,6 +399,8 @@ def run(*args_,
                 f"run() got an unexpected keyword argument '{key}'")
         if isinstance(getattr(args, key), list):
             getattr(args, key).extend(value)
+        elif isinstance(getattr(args, key), set):
+            setattr(args, key, getattr(args, key).union(set(value)))
         else:
             setattr(args, key, value)
 
