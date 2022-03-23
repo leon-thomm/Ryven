@@ -3,7 +3,7 @@ import sys
 import argparse
 import pathlib
 
-from ryven.main.utils import abs_path_from_package_dir, process_nodes_packages
+from ryven.main import utils
 from ryven.NENV import init_node_env
 from ryven.NWENV import init_node_widget_env
 from ryven import __version__
@@ -103,7 +103,7 @@ def parse_args(just_defaults=False):
     """
 
     # Get available examples
-    exampledir = abs_path_from_package_dir('examples_projects')
+    exampledir = utils.abs_path_from_package_dir('examples_projects')
     examples = [e.stem for e in pathlib.Path(exampledir).glob('*.json')]
 
     #
@@ -124,8 +124,12 @@ def parse_args(just_defaults=False):
         nargs='?',
         dest='project',
         metavar='PROJECT',
-        help='the project file or example to be loaded; '
-             'use "-" for standard input')
+        help=f'the project file to be loaded (the suffix ".json" can be omitted); '
+             f'if the project file cannot be found, it is searched for under '
+             f'the directory "{pathlib.PurePath(utils.ryven_dir_path(), "saves")}"; '
+             f'if the project file immediately follows nodes packages, '
+             f'separate the project file with " -- "; '
+             f'use "-" for standard input')
 
     parser.add_argument(
         '-s', '--show-dialog',
@@ -159,6 +163,8 @@ def parse_args(just_defaults=False):
         help='load one or more nodes packages; '
              'nodes packages loaded here take precedence over nodes packages '
              'with the same name specified in the project file! '
+             'If the nodes are immediately followed by the project file, '
+             'separate the project file with a " -- "; '
              '(%(metavar)s is the path to the nodes package without "/nodes.py")')
 
     group.add_argument(
@@ -319,7 +325,7 @@ def run(*args_,
         **kwargs):
     """Start the Ryven window.
 
-    The `*args` and `**kwargs` arguments correspond to their positional and
+    The `*args_` and `**kwargs` arguments correspond to their positional and
     optional command line equivalents, respectively (see `parse_args()`).
     Optional keyword arguments are specified without the leading double hyphens
     '--'. As a name, the corresponding 'dest' value of `add_argument` has to
@@ -328,13 +334,21 @@ def run(*args_,
     becomes:
         run('myproject.json', window_theme='light', nodes=['std', 'linalg'])
 
-    Note
-    ----
-    The `*args` and `**kwargs` takes predecence and overwrites the values
+    Note 1
+    ------
+    The `*args_` and `**kwargs` takes predecence and overwrites the values
     specified on the command line (or the default values, if
     `use_sysargs=False` is given). The exception are lists, which are appended,
     e.g. in the example from above, the two nodes 'std' and 'linalg' are added
     at the end of the nodes supplied at the command line.
+
+    Note 2
+    ------
+    The positional command line argument to specify the project file also
+    checks `utils.ryven_dir_path()/saves`, if it can find the project file.
+    The `*args_` does not perform this check. This is up to the developer
+    calling `run()`. The developer can always use `utils.find_project()` to
+    find projects in this additional directory.
 
     Parameters
     ----------
@@ -430,9 +444,12 @@ def run(*args_,
     # Register fonts
     from qtpy.QtGui import QFontDatabase
     db = QFontDatabase()
-    db.addApplicationFont(abs_path_from_package_dir('resources/fonts/poppins/Poppins-Medium.ttf'))
-    db.addApplicationFont(abs_path_from_package_dir('resources/fonts/source_code_pro/SourceCodePro-Regular.ttf'))
-    db.addApplicationFont(abs_path_from_package_dir('resources/fonts/asap/Asap-Regular.ttf'))
+    db.addApplicationFont(
+        utils.abs_path_from_package_dir('resources/fonts/poppins/Poppins-Medium.ttf'))
+    db.addApplicationFont(
+        utils.abs_path_from_package_dir('resources/fonts/source_code_pro/SourceCodePro-Regular.ttf'))
+    db.addApplicationFont(
+        utils.abs_path_from_package_dir('resources/fonts/asap/Asap-Regular.ttf'))
 
     #
     # Ryven main window set up
@@ -442,7 +459,7 @@ def run(*args_,
 
     # Replace node directories with `NodePackage` instances
     if args.nodes:
-        args.nodes, nodes_not_found, _ = process_nodes_packages(args.nodes)
+        args.nodes, nodes_not_found, _ = utils.process_nodes_packages(args.nodes)
         if nodes_not_found:
             sys.exit(
                 f'Error: Nodes packages not found: {", ".join(nodes_not_found)}')
@@ -475,7 +492,7 @@ def run(*args_,
 
     # Get packages required by the project
     if args.project:
-        nodes, nodes_not_found, project_dict = process_nodes_packages(
+        nodes, nodes_not_found, project_dict = utils.process_nodes_packages(
             args.project, requested_nodes=args.nodes)
 
         if nodes_not_found:
