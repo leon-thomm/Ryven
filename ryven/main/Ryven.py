@@ -118,6 +118,17 @@ def parse_args(just_defaults=False):
         epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT')
 
     parser.add_argument(
+        '-V', '--version',
+        action='version',
+        version='%(prog)s 3.1')
+    
+    parser.add_argument(
+        '-v', '--verbose',
+        action='store_true',
+        dest='verbose',
+        help='display messages on the console')
+
+    parser.add_argument(
         nargs='?',
         dest='project',
         metavar='PROJECT',
@@ -228,35 +239,18 @@ def parse_args(just_defaults=False):
         help='do not show info messages '
              '(default: do not show info messages')
 
-    # Debug/Verbose
-
-    group = parser.add_argument_group('verbose')
-
     group.add_argument(
-        '-v', '--verbose',
-        action='store_true',
-        dest='verbose',
-        help='display messages on the console')
-
-    # FIXME: Is there a way to get the version dynamically?
-    # Could also be used in `MainWindow.save_project()`
-    group.add_argument(
-        '-V', '--version',
-        action='version',
-        version=...) #'%(prog)s 3.1')
+        '-t', '--title',
+        default='Ryven',
+        dest='title',
+        help="changes the window's title "
+             '(default: %(default)s)')
 
     group.add_argument(
         '-q', '--qt-api',
         default='pyside2',
         dest='qt_api',
         help='the QT API to be used '
-             '(default: %(default)s)')
-
-    group.add_argument(
-        '-t', '--title',
-        default='Ryven',
-        dest='title',
-        help="changes the window's title "
              '(default: %(default)s)')
 
     # Qt args
