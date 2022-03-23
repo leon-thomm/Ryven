@@ -333,6 +333,12 @@ CONTROLS
         else:
             p = NodesPackage(path)
 
+        if p in self.node_packages.values():
+            # never import package twice!
+            # different packages with same name are forbidden
+            print('package with this name already exists')
+            return
+
         try:
             nodes = import_nodes_package(p)
         except ModuleNotFoundError as e:
