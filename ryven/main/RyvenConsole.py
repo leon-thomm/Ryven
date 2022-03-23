@@ -1,9 +1,10 @@
 """
 This module includes the whole Ryven Console application.
-It's quite short as all functionality is nicely split between backend and frontend
-so here we can just load a project into the backend and provide the session.
+It simply deploys a session with the project provided and implements a REPL.
+This is supposed to be used in an interactive way. For scripting and deploying
+projects without GUI programmatically, the ryvencore lib should be used directly.
 """
-
+import argparse
 import os
 from os.path import join, dirname
 import json
@@ -12,7 +13,7 @@ import sys
 from ryvencore import *
 
 from ryven.main.nodes_package import NodesPackage
-from ryven.main.utils import import_nodes_package
+from ryven.main.utils import import_nodes_package, process_nodes_packages, find_project
 from ryven.NENV import init_node_env
 
 
@@ -39,7 +40,73 @@ def next_input(msg: str = ''):
     return cmd
 
 
+def import_nodes(session: Session, context_container, nodes_package: NodesPackage):
+    try:
+        nodes = import_nodes_package(package=nodes_package)
+        session.register_nodes(nodes)
+        print('registered nodes: ', nodes)
+    except Exception as e:
+        print(e)
+
+
+def load_project(session, context_container, project_file_path):
+    try:
+        f = open(project_file_path, 'r')
+        project = json.loads(f.read())
+        f.close()
+        del f
+        scripts = session.load(project)
+        print(f'added scripts: {scripts}')
+    except Exception as e:
+        print(e)
+
+
+def parse_args():
+    """Parse the command line arguments.
+
+    Returns
+    -------
+    args : argparse.Namespace
+        The parsed command line arguments.
+    """
+
+    parser = argparse.ArgumentParser(
+        description='''
+            Console REPL for interactively running a ryven project 
+            without any GUI components. This should now require any
+            dependencies.
+            ''',
+        epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT'
+    )
+
+    parser.add_argument(
+        nargs=1,
+        dest='project',
+        metavar='PROJECT',
+        help='the project file to be loaded'
+    )
+
+    parser.add_argument(
+        '-n', '--nodes',
+        nargs='+', action='extend',
+        dest='nodes',
+        default=[],
+        metavar='NODE',
+        help='load one or more node packages; '
+             'node packages loaded here take precedence over node packages '
+             'with the same name specified in the project file! '
+             'Ryven\'s build-in nodes package is imported automatically'
+             '(%(metavar)s is the path to the nodes package without "/nodes.py")'
+    )
+
+    args, remaining_args = parser.parse_known_args()
+
+    return args
+
+
 def run():
+
+    args = parse_args()
 
     os.environ['RYVEN_MODE'] = 'no-gui'
     init_node_env()
@@ -57,16 +124,46 @@ def run():
     c = ContextContainer()
     setattr(c, 'session', session)
 
-    print(
-        """COMMANDS:
->>> import nodes
->>> load project
-anything else will be evaluated/executed
-built-in nodes are already imported
-        """
+    #
+    # LOAD PROJECT AND NODE PACKAGES -----------------------------------------------------------------------------------
+    #
+
+    # check if project file exists
+    project = find_project(args.project[0])
+    if project is None:
+        sys.exit('Could not find specified project.')
+
+    # process node packages
+    manual_nodes, _, _ = process_nodes_packages(args.nodes)
+
+    node_packages, nodes_not_found, project_dict = process_nodes_packages(
+        project, requested_nodes=manual_nodes,
     )
 
+    if nodes_not_found:
+        mul = len(nodes_not_found) > 1  # multiple packages missing ?
+        sys.exit(
+            f'The package{"s" if mul else ""} '
+            f''''{"', '".join([str(p) for p in nodes_not_found])}' '''
+            f'{"were" if mul else "was"} requested, '
+            f'but {"they are" if mul else "it is"} not available.'
+            f'\n'
+            f'Update the project file or supply the missing package{"s" if mul else ""} '
+            f''''{"', '".join([p.name for p in nodes_not_found])}' '''
+            f'on the command line with the "-n" switch.')
+
+    for np in node_packages:
+        import_nodes(session, c, np)
+
+    load_project(session, c, project)
+
+    #
+    # DEPLOY REPL ------------------------------------------------------------------------------------------------------
+    #
+
     try:
+
+        print("REPL STARTED")
 
         while True:
 
@@ -108,29 +205,3 @@ built-in nodes are already imported
 
 if __name__ == '__main__':
     run()
-
-
-# specific commands
-
-def import_nodes(session, context_container):
-    pkg_dir = next_input('abs path to your package dir: ')
-    try:
-        # package_name = os.path.basename(pkg_dir)
-        nodes = import_nodes_package(package=NodesPackage(pkg_dir))
-        session.register_nodes(nodes)
-        print('registered nodes: ', nodes)
-    except Exception as e:
-        print(e)
-
-
-def load_project(session, context_container):
-    project_file_path = next_input('abs path to your project file: ')
-    try:
-        f = open(project_file_path, 'r')
-        project = json.loads(f.read())
-        f.close()
-        del f
-        scripts = session.load(project)
-        print(f'added scripts: {scripts}')
-    except Exception as e:
-        print(e)

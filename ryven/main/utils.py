@@ -160,7 +160,7 @@ def process_nodes_packages(project_or_nodes, requested_nodes=[]):
 
     Parameters
     ----------
-    project_or_nodes : str|pathlib.Path|[str|pathlib.Path|NodesPackage]
+    project_or_nodes : str|pathlib.Path|list of (str|pathlib.Path|NodesPackage)
         Either a path to a Ryven project or a list of nodes.
         If a Ryven project is given, the required nodes packages specified
         in the project file are looked for.
@@ -171,16 +171,16 @@ def process_nodes_packages(project_or_nodes, requested_nodes=[]):
         If 'nodes.py' cannot be found in the path, the package is searched in
         Ryven's example nodes dir, e.g. if "std" is given and not found
         locally, the "std" package included in Ryven is loaded.
-    requested_nodes : list of NodesPackage, optional
+    requested_nodes : list of NodesPackage
         A list of additional node package, which were requested. These take
         precedence over `nodes`.
         The default is `[]`.
 
     Returns
     -------
-    set(NodesPackage)
+    set of NodesPackage
         Set of available nodes required by the project or from list of nodes.
-    set(NodesPackage)
+    set of NodesPackage
         Set of nodes required by the project or from list of nodes, which could
         no be found.
     dict
