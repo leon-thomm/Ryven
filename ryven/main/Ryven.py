@@ -394,7 +394,12 @@ def run(*args_,
     # Update the 'project' argument with the positional arguments to run()
     # Note, this is intentionally generic, so that changes in `parse_args`
     # does not require changes here!
-    if isinstance(args.project, list):  # Multiple 'project' arguments possible
+
+    # TODO: multiple project files
+    # though currently unsupported, multiple 'project' arguments might be possible eventually
+    # to enable passing multiple project files after adapting the editor accordingly:
+    #   change nargs of project parameter in the argument parser
+    if isinstance(args.project, list):
         args.project.extend(args)
     elif len(args_) > 1:                 # Just one argument, but more given
         raise TypeError(
