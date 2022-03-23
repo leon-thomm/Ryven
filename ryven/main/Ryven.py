@@ -243,7 +243,7 @@ def parse_args(just_defaults=False):
     group.add_argument(
         '-V', '--version',
         action='version',
-        version='%(prog)s 3.1')
+        version=...) #'%(prog)s 3.1')
 
     group.add_argument(
         '-q', '--qt-api',
@@ -515,23 +515,17 @@ def run(*args_,
     (console_stdout_redirect, console_errout_redirect
      ) = init_main_console(args.window_theme)
 
+    # Project setup
+    editor_config['info messages enabled'] = args.info_messages
+    editor_config['performance mode'] = args.performance
+    editor_config['animations enabled'] = args.animations
+
     # Init main window
     editor = MainWindow(
         editor_config,
         args.title, args.window_theme, args.flow_theme,
         parent=gui_parent)
     editor.show()
-
-    # Project setup
-    editor.ui.actionEnableInfoMessages.setChecked(args.info_messages)
-    if args.performance == 'pretty':
-        editor.ac_perf_mode_pretty.setChecked(True)
-    elif args.performance == 'fast':
-        editor.ac_perf_mode_fast.setChecked(True)
-    # FIXME: As soon as the switching works, one of the two following calls is
-    # propably sufficient?
-    editor.ac_anims_active.setChecked(args.animations)
-    editor.ac_anims_inactive.setChecked(not args.animations)
 
     # Start application
     if qt_app is None:

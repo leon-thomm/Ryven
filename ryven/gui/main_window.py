@@ -31,7 +31,10 @@ class MainWindow(QMainWindow):
 
         # SESSION
         self.session = rc.Session()
-        # self.session.info_messenger().enable(True)
+        if config['info messages enabled']:
+            self.session.info_messenger().enable(traceback=True)
+        else:
+            self.session.info_messenger().disable()
 
         self.session.flow_view_created.connect(self.script_created)
         self.session.script_renamed.connect(self.script_renamed)
@@ -41,6 +44,8 @@ class MainWindow(QMainWindow):
         self.session.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
 
         self.session.design.set_flow_theme(name=flow_theme)
+        self.session.design.set_performance_mode(config['performance mode'])
+        self.session.design.set_animations_enabled(config['animations enabled'])
 
         # UI
         self.setup_ui()
