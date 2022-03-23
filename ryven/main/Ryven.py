@@ -6,6 +6,7 @@ import pathlib
 from ryven.main.utils import abs_path_from_package_dir, process_nodes_packages
 from ryven.NENV import init_node_env
 from ryven.NWENV import init_node_widget_env
+from ryven import __version__
 
 
 class CustomArgumentParser(argparse.ArgumentParser):
@@ -120,8 +121,8 @@ def parse_args(just_defaults=False):
     parser.add_argument(
         '-V', '--version',
         action='version',
-        version='%(prog)s 3.1')
-    
+        version=f'%(prog)s {__version__}')
+
     parser.add_argument(
         '-v', '--verbose',
         action='store_true',

@@ -1,3 +1,7 @@
+# when updating the version make sure to update it in setup.cfg as well!
+__version_info__ = (3, 2, 0)
+__version__ = '.'.join([str(n) for n in __version_info__])
+
 from ryven.NENV import *
 from ryven.NWENV import *
 

@@ -5,6 +5,7 @@ import os.path
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 
+from ryven import __version__
 from ryven.gui.main_console import MainConsole
 from ryven.gui.script_UI import ScriptUI
 from ryven.gui.styling.window_theme import WindowTheme
@@ -370,8 +371,7 @@ CONTROLS
             rc.InfoMsgs.write('couldn\'t open file')
             return
 
-        # TODO: parametrize ryven version from package info
-        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': 'v3.1'}
+        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': __version__}
 
         scripts_data = self.session.serialize()
 
