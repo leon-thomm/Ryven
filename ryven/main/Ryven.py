@@ -299,12 +299,14 @@ def parse_args(just_defaults=False):
 
     # Check, if project file exists
     if args.project:
-        project = pathlib.Path(args.project)
-        if project.exists():
-            args.project = project
+        if args.project == '-':
+            args.project = sys.stdin
         else:
-            parser.error(
-                'project file does not exist')
+            project = utils.find_project(args.project)
+            if project is None:
+                parser.error(
+                    'project file does not exist')
+            args.project = project
 
     # Put example into 'project' argument
     if args.example:

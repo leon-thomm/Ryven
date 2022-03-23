@@ -90,6 +90,68 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
     return nodes
 
 
+def read_project(project_path):
+    """Read the project file and return its dictionary.
+
+    Parameters
+    ----------
+    project_path : str|pathlib.Path
+        The path to the project file.
+
+    Returns
+    -------
+    dict
+        The contents of the project file.
+
+    """
+    import io
+    import json
+
+    if isinstance(project_path, io.TextIOWrapper):
+        project_dict = json.loads(project_path.read(), strict=False)
+    else:
+        with open(project_path) as f:
+            import json
+            # strict=False is needed to allow 'control characters' like '\n'
+            # for newline when loading the json
+            project_dict = json.load(f, strict=False)
+
+    return project_dict
+
+
+def find_project(project_path):
+    """Find a project.
+
+    The `project_path` is either the path to the project file (with or without
+    the suffix '.json') or a path below `ryven_dir_path()/saves/`.
+
+    Parameters
+    ----------
+    project_path : str|pathlib.Path
+        The path to the project file or the subpath to `ryven_dir_path()/saves`.
+
+    Returns
+    -------
+    pathlib.Path|None
+        The full path to the project file or `None`, if it could not be found.
+
+    """
+    project_path = pathlib.Path(project_path)
+
+    if project_path.exists():
+        return project_path
+    elif project_path.with_suffix('.json').exists():
+        return project_path.with_suffix('.json')
+    else:
+        project_path = pathlib.Path(ryven_dir_path(), 'saves', project_path)
+        if project_path.exists():
+            return project_path
+        elif project_path.with_suffix('.json').exists():
+            return project_path.with_suffix('.json')
+        else:
+            return None
+
+
 def process_nodes_packages(project_or_nodes, requested_nodes=[]):
     """Take a project or list of nodes and check the nodes package.
 
@@ -128,15 +190,11 @@ def process_nodes_packages(project_or_nodes, requested_nodes=[]):
 
     # Find nodes in the project file
     try:
-        with open(project_or_nodes) as f:
-            import json
-            # strict=False is needed to allow 'control characters' like '\n'
-            # for newline when loading the json
-            project_dict = json.load(f, strict=False)
-            nodes = [p['dir'] for p in project_dict['required packages']]
+        project_dict = read_project(project_or_nodes)
+        nodes = [p['dir'] for p in project_dict['required packages']]
     except TypeError:
-        nodes = project_or_nodes
         project_dict = None
+        nodes = project_or_nodes
 
     node_packages = set()
     nodes_not_found = set()
