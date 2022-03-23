@@ -262,12 +262,12 @@ class StartupDialog(QDialog):
 
         # FIXME: Should the performance/animations and info-message be added?
 
-        # Debug
-        debug_label = QLabel('Debug:')
-        debug_cb = QCheckBox('Enable debug output')
-        debug_cb.setToolTip('Select if debug output should be displayed\nCan also be changed later …')
-        debug_cb.toggled.connect(self.debug_toggled)
-        fbox.addRow(debug_label, debug_cb)
+        # Verbose
+        verbose_output_label = QLabel('Verbose:')
+        verbose_output_cb = QCheckBox('Enable verbose output')
+        verbose_output_cb.setToolTip('Select if verbose output should be displayed\nCan also be changed later …')
+        verbose_output_cb.toggled.connect(self.verbose_toggled)
+        fbox.addRow(verbose_output_label, verbose_output_cb)
 
         layout.addLayout(fbox)
 
@@ -304,8 +304,8 @@ class StartupDialog(QDialog):
             idx = flowtheme_widget.findText(DEFAULT_FLOW_THEME)
         flowtheme_widget.setCurrentIndex(idx)
 
-        # Set debug
-        debug_cb.setChecked(configs['debug'])
+        # Set verbose output
+        verbose_output_cb.setChecked(configs['verbose'])
 
         # Set window title and icon
         self.setWindowTitle('Ryven')
@@ -415,12 +415,12 @@ class StartupDialog(QDialog):
         else:
             self.configs['flow_theme'] = theme
 
-    # Debug
+    # Verbose output
 
-    def debug_toggled(self, check):
-        """Call-back method, whenever the debug checkbox was toggled."""
-        # "Apply" the debug option
-        self.configs['debug'] = check
+    def verbose_toggled(self, check):
+        """Call-back method, whenever the verbose checkbox was toggled."""
+        # "Apply" the verbose option
+        self.configs['verbose'] = check
 
     #
     # Helper/Working methods
