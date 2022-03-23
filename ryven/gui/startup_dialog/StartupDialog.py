@@ -88,7 +88,7 @@ class StartupDialog(QDialog):
     The user can choose between creating a new project and loading a saved or
     example project. When a project is loaded, it scans for validity of all
     the required packages for the project, and in case some paths are invalid,
-    they are shown in the dialog. The user than can autoimport those missing
+    they are shown in the dialog. The user than can autodiscover those missing
     packages or cherry pick packages.
 
     The user can also set some common configuration options.
@@ -214,11 +214,11 @@ class StartupDialog(QDialog):
         packages_layout.addLayout(packages_sublayout)
 
         packages_buttons_widget = QDialogButtonBox()
-        self.autoimport_packages_button = QPushButton('Auto import')
-        self.autoimport_packages_button.setToolTip('Automatically find and import missing packages')
-        self.autoimport_packages_button.clicked.connect(self.autoimport_package_clicked)
-        packages_buttons_widget.addButton(self.autoimport_packages_button, QDialogButtonBox.ActionRole)
-        self.autoimport_packages_button.setEnabled(False)
+        self.autodiscover_packages_button = QPushButton('Find')
+        self.autodiscover_packages_button.setToolTip('Automatically find and import missing packages')
+        self.autodiscover_packages_button.clicked.connect(self.on_autodiscover_package_clicked)
+        packages_buttons_widget.addButton(self.autodiscover_packages_button, QDialogButtonBox.ActionRole)
+        self.autodiscover_packages_button.setEnabled(False)
         import_package_button = QPushButton('Import')
         import_package_button.setToolTip('Manually load a nodes package')
         import_package_button.clicked.connect(self.import_package_clicked)
@@ -350,14 +350,14 @@ class StartupDialog(QDialog):
         else:
             self.remove_packages_button.setEnabled(False)
 
-    def autoimport_package_clicked(self):
-        """Call-back method, whenever the 'Auto import' button was clicked."""
+    def on_autodiscover_package_clicked(self):
+        """Call-back method, whenever the 'Find' button was clicked."""
         # Search in user packages
-        self.auto_import(pathlib.Path(ryven_dir_path(), 'nodes'))
+        self.auto_discover(pathlib.Path(ryven_dir_path(), 'nodes'))
         self.update_packages_lists()
 
         # Search in example packages
-        self.auto_import(pathlib.Path(abs_path_from_package_dir('example_nodes')))
+        self.auto_discover(pathlib.Path(abs_path_from_package_dir('example_nodes')))
         self.update_packages_lists()
 
     def import_package_clicked(self):
@@ -502,7 +502,7 @@ class StartupDialog(QDialog):
 
         self.update_packages_lists()
 
-    def auto_import(self, packages_dir: str):
+    def auto_discover(self, packages_dir):
         """Automatically find and import missing packages.
 
         Parameters
@@ -534,7 +534,7 @@ class StartupDialog(QDialog):
         1. Mark all imported packages, if they were manually imported.
         2. Mark all missing packages, if they were manually imported.
         3. Repopulate the list with manually imported packages.
-        4. En/Disable 'Ok', 'Auto import' and 'Clear' buttons.
+        4. En/Disable 'Ok', 'Find' and 'Clear' buttons.
         """
         # Mark all imported packages, if they were manually imported
         for i in range(self.imported_list_widget.count()):
@@ -550,7 +550,7 @@ class StartupDialog(QDialog):
             node_item.setFont(font)
 
         # Mark all missing packages, if they were manually imported
-        missing_packages = False         # Track, if we have to enable the 'Auto import' button
+        missing_packages = False         # Track, if we have to enable the 'Find' button
         for i in range(self.missing_list_widget.count()):
             node_item = self.missing_list_widget.item(i)
             font = node_item.font()
@@ -577,10 +577,10 @@ class StartupDialog(QDialog):
             # There are still packages missing
             self.ok_button.setEnabled(False)
             self.ok_button.setToolTip('Import all missing packages first')
-            self.autoimport_packages_button.setEnabled(True)
+            self.autodiscover_packages_button.setEnabled(True)
         else:
             # No missing packages
             self.ok_button.setEnabled(True)
             self.ok_button.setToolTip(None)
-            self.autoimport_packages_button.setEnabled(False)
+            self.autodiscover_packages_button.setEnabled(False)
         self.clear_packages_button.setEnabled(bool(self.configs['nodes']))
