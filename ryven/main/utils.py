@@ -153,33 +153,34 @@ def find_project(project_path):
 
 
 def process_nodes_packages(project_or_nodes, requested_nodes=[]):
-    """Take a project or list of nodes and check the nodes package.
+    """Takes a project or list of node packages and additionally requested node
+    packages and checks whether the node packages are valid.
 
     It also removes duplicates based on the name (and not the contents!).
 
     Parameters
     ----------
-    nodes : str|pathlib.Path|[str|pathlib.Path|NodesPackage]
-        Either a string or path pointing to a Ryven project or a list of nodes.
-        If a Ryven project, the nodes packages are looked for in the project
-        file.
-        If a list the node can a `NodesPackage` instance, in which case
-        the node is copied into the resulting list; otherwise the node is
-        considered as a path to 'nodes.py'. If 'nodes.py' is found in the path,
+    project_or_nodes : str|pathlib.Path|list of (str|pathlib.Path|NodesPackage)
+        Either a path to a Ryven project or a list of nodes.
+        If a Ryven project is given, the required nodes packages specified
+        in the project file are looked for.
+        If a list is given, `NodesPackage` instances are  copied into the
+        resulting list; paths are considered to direct to 'nodes.py'.
+        If 'nodes.py' is found in the path,
         a `NodesPackage` instance is created and added to the resulting list.
-        If 'nodes.py' cannot be found in the path, the package is searchd in
-        Ryven's directory, e.g. if "std" is given and not found locally, the
-        "std" package included in Ryven is loaded.
-    requested_nodes : list of NodesPackage, optional
-        A list of nodes, which were requested. These take precedence over
-        `nodes`.
+        If 'nodes.py' cannot be found in the path, the package is searched in
+        Ryven's example nodes dir, e.g. if "std" is given and not found
+        locally, the "std" package included in Ryven is loaded.
+    requested_nodes : list of NodesPackage
+        A list of additional node package, which were requested. These take
+        precedence over `nodes`.
         The default is `[]`.
 
     Returns
     -------
-    set(NodesPackage)
+    set of NodesPackage
         Set of available nodes required by the project or from list of nodes.
-    set(NodesPackage)
+    set of NodesPackage
         Set of nodes required by the project or from list of nodes, which could
         no be found.
     dict
