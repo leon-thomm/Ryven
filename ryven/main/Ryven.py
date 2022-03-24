@@ -439,7 +439,7 @@ def run(*args_,
     # Init Qt application
     if qt_app is None:
         from qtpy.QtWidgets import QApplication
-        app = QApplication(remaining_args)
+        app = QApplication([sys.argv[0], *remaining_args])
     else:
         app = qt_app
 
