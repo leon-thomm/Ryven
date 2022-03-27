@@ -246,6 +246,13 @@ def parse_args(just_defaults=False):
         help='do not show info messages '
              '(default: do not show info messages')
 
+    group.add_argument(     # Passed to Qt
+        '--geometry',
+        dest='geometry',
+        metavar='[WxH][{+,-}X{+,-}Y]',
+        help='change the size of the window to WxH and '
+             'position it at X,Y on the screen')
+
     group.add_argument(
         '-t', '--title',
         default='Ryven',
@@ -259,15 +266,6 @@ def parse_args(just_defaults=False):
         dest='qt_api',
         help='the QT API to be used '
              '(default: %(default)s)')
-
-    # Qt args
-
-    parser.add_argument_group(
-        'Qt arguments',
-        description='''
-            all other arguments are passed to Qt;
-            see: https://doc.qt.io/qt-5/qapplication.html#QApplication
-        ''')
 
     # Configuration files
 
@@ -293,9 +291,9 @@ def parse_args(just_defaults=False):
 
     # Parse the arguments
     if just_defaults:
-        args, remaining_args = parser.parse_known_args([])
+        args = parser.parse_args([])
     else:
-        args, remaining_args = parser.parse_known_args()
+        args = parser.parse_args()
 
     # Check, if project file exists
     if args.project:
@@ -319,7 +317,7 @@ def parse_args(just_defaults=False):
     # Make a `set` of nodes
     args.nodes = set(args.nodes)
 
-    return args, remaining_args
+    return args
 
 
 def run(*args_,
@@ -387,10 +385,10 @@ def run(*args_,
 
     if use_sysargs:
         # Get parsed command line arguments
-        args, remaining_args = parse_args()
+        args = parse_args()
     else:
         # Get default values
-        args, remaining_args = parse_args(just_defaults=True)
+        args = parse_args(just_defaults=True)
 
     # Update command line arguments with keyword arguments to run()
     for key, value in kwargs.items():
@@ -441,7 +439,12 @@ def run(*args_,
     # Init Qt application
     if qt_app is None:
         from qtpy.QtWidgets import QApplication
-        app = QApplication([sys.argv[0], *remaining_args])
+        if args.geometry:
+            # Pass '--geometry' argument to Qt
+            qt_args = [sys.argv[0], '-geometry', args.geometry]
+        else:
+            qt_args = [sys.argv[0]]
+        app = QApplication(qt_args)
     else:
         app = qt_app
 
