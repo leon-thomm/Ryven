@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import re
 import pathlib
 
 from ryven.main import utils
@@ -37,10 +38,17 @@ class CustomArgumentParser(argparse.ArgumentParser):
     https://tricksntweaks.blogspot.com/2013_05_01_archive.html
     """
 
+    # Regular expression to split on spaces except within quotes - returns a
+    # tuple with three values:
+    #     (<inside double quotes>, < inside single quotes>, <without quotes>)
+    value_re = r'''"([^"]*)"|'([^']*)'|([\S]+)'''
+
     def __init__(self, *args, **kwargs):
         # Inject `fromfile_prefix_char='@'` to the keyword arguments
         kwargs['fromfile_prefix_chars'] = '@'
         super().__init__(*args, **kwargs)
+        # Speed up regular expression
+        self.value_re = re.compile(self.value_re)
 
     def convert_arg_line_to_args(self, line):
         """
@@ -65,8 +73,9 @@ class CustomArgumentParser(argparse.ArgumentParser):
         Returns
         -------
         list
-            The parsed line from the configuration file as a list with just
-            one item.
+            The parsed line from the configuration file with the key (including
+            the leading '--') as first element and then all values, where
+            quoted items their quotes stripped.
 
         """
 
@@ -77,12 +86,27 @@ class CustomArgumentParser(argparse.ArgumentParser):
             return []
 
         # Generate long command line argument
-        # Replace ':' after the key with '='
+
+        # Replace first ':' with a '='
         args = args.replace(':', '=', 1)
-        # Remove any spaces around '='
-        args = '='.join([a.strip() for a in args.split('=', maxsplit=1)])
-        # Return long command line argument
-        return [f'--{args}']
+
+        try:
+            # Split line into keyword and argument
+            key, values = args.split('=', maxsplit=1)
+        except ValueError:
+            # A key without argument is a switch
+            args = [f'--{args}']
+        else:
+            # Assemble long command line
+            args = [f'--{key.strip()}']
+            # Split values into a list of tokens taking care of quotes
+            # `self.value_re.findall()` returns a list of tuples
+            for value in self.value_re.findall(values.replace("'", '"')):
+                # Each tuple has three elements - either all elements are empty
+                # or exactly one non-empty element, look for this element and
+                # add it to your list of element.
+                args.extend([v for v in value if v])
+        return args
 
 
 def parse_args(just_defaults=False):
@@ -163,11 +187,12 @@ def parse_args(just_defaults=False):
         nargs='+', action='extend',
         default=[],
         dest='nodes',
-        metavar='NODE',
+        metavar='NODES_PKG',
         help='''
             load one or more nodes packages;
             nodes packages loaded here take precedence over nodes packages
             with the same name specified in the project file!
+            Nodes package names containing spaces must be enclosed in quotes.
             If the nodes are immediately followed by the project file,
             separate the project file with a " -- ";
             (%(metavar)s is the path to the nodes package without "/nodes.py")
@@ -201,7 +226,8 @@ def parse_args(just_defaults=False):
             'pure light', 'colorful light', 'industrial', 'fusion'],
         dest='flow_theme',
         help='''
-            set the theme of the flow view
+            set the theme of the flow view; the theme's name must be put
+            between quotation marks, if it contains spaces
             (default: {pure dark|pure light}, depending on the window theme)
             ''')
 
@@ -304,8 +330,11 @@ def parse_args(just_defaults=False):
             precedence over earlier specified arguments.
             • The format is like the long command line argument, but with the
             leading two hyphens removed. If the argument takes a value, this
-            comes after a colon, e.g. these three lines are identical:
+            comes after a colon or an equal sign,
+            e.g. these three lines are identical:
             "example: basics" and "example=basics".
+            • Values containing spaces must be enclosed in quotes as on the
+            command line.
             • Comments can be inserted after the hash sign "#".
             • If the file
             "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
@@ -502,7 +531,8 @@ def run(*args_,
         args.nodes, nodes_not_found, _ = utils.process_nodes_packages(args.nodes)
         if nodes_not_found:
             sys.exit(
-                f'Error: Nodes packages not found: {", ".join(nodes_not_found)}')
+                f'''Error: Nodes packages not found: '''
+                f'''{", ".join(['"'+str(n)+'"' for n in nodes_not_found])}''')
 
         editor_config['requested packages'] = args.nodes
 
