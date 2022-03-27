@@ -90,13 +90,14 @@ class CustomArgumentParser(argparse.ArgumentParser):
         # Replace first ':' with a '='
         args = args.replace(':', '=', 1)
 
-        try:
-            # Split line into keyword and argument
-            key, values = args.split('=', maxsplit=1)
-        except ValueError:
+        # Split line into keyword and argument
+        args = args.split('=', maxsplit=1)
+
+        if len(args) == 1:
             # A key without argument is a switch
-            args = [f'--{args}']
+            args = [f'--{args[0]}']
         else:
+            key, values = args
             # Assemble long command line
             args = [f'--{key.strip()}']
             # Split values into a list of tokens taking care of quotes
