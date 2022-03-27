@@ -85,20 +85,24 @@ class CustomArgumentParser(argparse.ArgumentParser):
         return [f'--{args}']
 
 
-def parse_args(just_defaults=False):
+def parse_args(argv, only_help=False):
     """Parse the command line arguments.
 
     Parameters
     ----------
-    just_defaults : bool, optional
-        Whether the command line arguments are to be parsed or just the
-        defaults are returned.
-        The default is `False`, which parses the command line arguments.
+    argv : list
+        The list of arguments to be processed. These should not contain the
+        program's name.
+    only_help : bool, optional
+        If `True`, only parse for '--help' and '--version'. This also returns
+        the Qt API.
+        The default is `False`, which parses and returns the command line
+        arguments.
 
     Returns
     -------
-    args : argparse.Namespace
-        The parsed command line arguments or the default values.
+    args|qt_api : argparse.Namespace|str
+        Either the parsed command line arguments or the Qt API.
 
     """
 
@@ -292,10 +296,13 @@ def parse_args(just_defaults=False):
     #
 
     # Parse the arguments
-    if just_defaults:
-        args, remaining_args = parser.parse_known_args([])
-    else:
-        args, remaining_args = parser.parse_known_args()
+    if only_help:
+        # Only check for '--help' and '--version'
+        args, remaining_args = parser.parse_known_args(argv)
+        # Return Qt API
+        return args.qt_api
+
+    args = parser.parse_args(argv)
 
     # Check, if project file exists
     if args.project:
@@ -319,7 +326,7 @@ def parse_args(just_defaults=False):
     # Make a `set` of nodes
     args.nodes = set(args.nodes)
 
-    return args, remaining_args
+    return args
 
 
 def run(*args_,
@@ -384,13 +391,51 @@ def run(*args_,
     #
     # Process command line and method's arguments
     #
+    # 1. Check for help and version request and get Qt API string
+    # 2. Pass all arguments to the new initiated `QApplication`
+    # 3. Collect all arguments not consumed by Qt
+    # 4. Finally parse those arguments
+    # This approach becomes necessary to remove clashes between Ryven's and
+    # Qt's command line arguments, because Qt uses long argument strings with
+    # just one preceding hyphen, whereas `argparse` uses two hyphens for long
+    # argument names.
 
+    # Check for help requests and get Qt API string
     if use_sysargs:
-        # Get parsed command line arguments
-        args, remaining_args = parse_args()
+        qt_api = parse_args(sys.argv, only_help=True)
     else:
-        # Get default values
-        args, remaining_args = parse_args(just_defaults=True)
+        qt_api = parse_args([], only_help=True)
+
+    # QtPy API
+    os.environ['QT_API'] = kwargs.get('qt_api', qt_api)
+
+    # Init Qt application and parse arguments
+    # The QApplication is initiated that early, so that we can pass the
+    # command line arguments to it to let it cherry pick what it needs.
+    if qt_app is None:
+        # Import GUI sources (must come after setting `os.environ['QT_API']`)
+        try:
+            from qtpy.QtWidgets import QApplication
+        except ImportError:
+            sys.exit('Qt not installed. Aborting!')
+        from ryven.gui.main_window import MainWindow
+
+        if use_sysargs:
+            # Pass all command line arguments to the `QApplication` ...
+            app = QApplication(sys.argv)
+            # ... and get those arguments not consumed by Qt
+            argv = app.arguments()[1:]
+        else:
+            app = QApplication()
+            argv = []
+    else:
+        if use_sysargs:
+            argv = sys.argv[1:]
+        else:
+            argv = []
+
+    # Get parsed command line arguments
+    args = parse_args(argv)
 
     # Update command line arguments with keyword arguments to run()
     for key, value in kwargs.items():
@@ -424,26 +469,14 @@ def run(*args_,
     # Qt application set up
     #
 
-    # QtPy API
-    os.environ['QT_API'] = args.qt_api
-
     # Init environment
     os.environ['RYVEN_MODE'] = 'gui'
     init_node_env()
     init_node_widget_env()
 
-
     # Import GUI sources (must come after setting `os.environ['QT_API']`)
     from ryven.gui.main_console import init_main_console
-    from ryven.gui.main_window import MainWindow
     from ryven.gui.styling.window_theme import apply_stylesheet
-
-    # Init Qt application
-    if qt_app is None:
-        from qtpy.QtWidgets import QApplication
-        app = QApplication([sys.argv[0], *remaining_args])
-    else:
-        app = qt_app
 
     # Register fonts
     from qtpy.QtGui import QFontDatabase
