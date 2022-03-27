@@ -124,20 +124,24 @@ def parse_args(just_defaults=False):
         nargs='?',
         dest='project',
         metavar='PROJECT',
-        help=f'the project file to be loaded (the suffix ".json" can be omitted); '
-             f'if the project file cannot be found, it is searched for under '
-             f'the directory "{pathlib.PurePath(utils.ryven_dir_path(), "saves")}"; '
-             f'if the project file immediately follows nodes packages, '
-             f'separate the project file with " -- "; '
-             f'use "-" for standard input')
+        help=f'''
+            the project file to be loaded (the suffix ".json" can be omitted);
+            if the project file cannot be found, it is searched for under the
+            directory "{pathlib.PurePath(utils.ryven_dir_path(), "saves")}";
+            if the project file immediately follows nodes packages, separate
+            the project file with " -- ";
+            use "-" for standard input
+            ''')
 
     parser.add_argument(
         '-s', '--show-dialog',
         action='store_true',
         dest='show_dialog',
-        help='show start-up dialog '
-             '(disables "--example", "--flow-theme" '
-             'and the loading of the project file)')
+        help='''
+            show the start-up dialog,
+            where project files, examples, nodes packages can be loaded and
+            some settings changed
+            ''')
 
     parser.add_argument(
         '-V', '--version',
@@ -148,7 +152,7 @@ def parse_args(just_defaults=False):
         '-v', '--verbose',
         action='store_true',
         dest='verbose',
-        help='display messages on the console')
+        help='display messages on the terminal console')
 
     # Project
 
@@ -160,19 +164,20 @@ def parse_args(just_defaults=False):
         default=[],
         dest='nodes',
         metavar='NODE',
-        help='load one or more nodes packages; '
-             'nodes packages loaded here take precedence over nodes packages '
-             'with the same name specified in the project file! '
-             'If the nodes are immediately followed by the project file, '
-             'separate the project file with a " -- "; '
-             '(%(metavar)s is the path to the nodes package without "/nodes.py")')
+        help='''
+            load one or more nodes packages;
+            nodes packages loaded here take precedence over nodes packages
+            with the same name specified in the project file!
+            If the nodes are immediately followed by the project file,
+            separate the project file with a " -- ";
+            (%(metavar)s is the path to the nodes package without "/nodes.py")
+            ''')
 
     group.add_argument(
         '-x', '--example',
         choices=examples,
         dest='example',
-        help='load an example project '
-             '(do not give PROJECT argument)')
+        help='load an example project (do not give PROJECT argument)')
 
     # Display
 
@@ -183,8 +188,10 @@ def parse_args(just_defaults=False):
         choices=['dark', 'light', 'plain'],
         default='dark',
         dest='window_theme',
-        help='set the window theme '
-             '(default: %(default)s)')
+        help='''
+            set the window theme
+            (default: %(default)s)
+            ''')
 
     group.add_argument(
         '-f', '--flow-theme',
@@ -193,16 +200,20 @@ def parse_args(just_defaults=False):
             'pure dark', 'colorful dark',
             'pure light', 'colorful light', 'industrial', 'fusion'],
         dest='flow_theme',
-        help='set the theme of the flow view '
-             '(default: {pure dark|pure light}, depending on the window theme)')
+        help='''
+            set the theme of the flow view
+            (default: {pure dark|pure light}, depending on the window theme)
+            ''')
 
     group.add_argument(
         '--performance',
         choices=['pretty', 'fast'],
         default='pretty',
         dest='performance',
-        help='select performance mode '
-             '(default: %(default)s)')
+        help='''
+            select performance mode
+            (default: %(default)s)
+            ''')
 
     # TODO: Python >= 3.9
     # group.add_argument(
@@ -216,14 +227,18 @@ def parse_args(just_defaults=False):
         '--no-animations',
         action='store_false',
         dest='animations',
-        help='do not use animations '
-             '(default: use animations)')
+        help='''
+            do not use animations
+            (default: use animations)
+            ''')
     exclusive_group.add_argument(
         '--animations',
         action='store_true',
         dest='animations',
-        help='use animations '
-             '(default: use animations)')
+        help='''
+            use animations
+            (default: use animations)
+            ''')
 
     # TODO: Python >= 3.9
     # group.add_argument(
@@ -237,35 +252,45 @@ def parse_args(just_defaults=False):
         '--info-messages',
         action='store_true',
         dest='info_messages',
-        help='show info messages '
-             '(default: do not show info messages')
+        help='''
+            show info messages
+            (default: do not show info messages)
+            ''')
     exclusive_group.add_argument(
         '--no-info-messages',
         action='store_false',
         dest='info_messages',
-        help='do not show info messages '
-             '(default: do not show info messages')
+        help='''
+            do not show info messages
+            (default: do not show info messages)
+            ''')
 
     group.add_argument(     # Passed to Qt
         '--geometry',
         dest='geometry',
         metavar='[WxH][{+,-}X{+,-}Y]',
-        help='change the size of the window to WxH and '
-             'position it at X,Y on the screen')
+        help='''
+            change the size of the window to WxH and
+            position it at X,Y on the screen
+            ''')
 
     group.add_argument(
         '-t', '--title',
         default='Ryven',
         dest='title',
-        help="changes the window's title "
-             '(default: %(default)s)')
+        help='''
+            changes the window's title
+            (default: %(default)s)
+            ''')
 
     group.add_argument(
         '-q', '--qt-api',
         default='pyside2',
         dest='qt_api',
-        help='the QT API to be used '
-             '(default: %(default)s)')
+        help='''
+            the QT API to be used
+            (default: %(default)s)
+            ''')
 
     # Configuration files
 
@@ -282,9 +307,10 @@ def parse_args(just_defaults=False):
             comes after a colon, e.g. these three lines are identical:
             "example: basics" and "example=basics".
             • Comments can be inserted after the hash sign "#".
-            • If the file "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
+            • If the file
+            "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
             exists, it will always be read as the very first configuration file.
-        ''')
+            ''')
 
 
     #
