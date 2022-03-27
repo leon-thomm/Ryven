@@ -271,7 +271,7 @@ def parse_args(just_defaults=False):
 
     parser.add_argument_group(
         'configuration files',
-        description='''
+        description=f'''
             One or more configuration files can be used at any position.
             • To mark an argument to be used as a configuration files, the file
             name must be preceded with the @-sign, e.g. "@ryven.cfg".
@@ -282,6 +282,8 @@ def parse_args(just_defaults=False):
             comes after a colon, e.g. these three lines are identical:
             "example: basics" and "example=basics".
             • Comments can be inserted after the hash sign "#".
+            • If the file "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
+            exists, it will always be read as the very first configuration file.
         ''')
 
 
@@ -382,6 +384,11 @@ def run(*args_,
     #
     # Process command line and method's arguments
     #
+
+    # Inject default configuration file in user's directory as first argument!
+    config_file = pathlib.Path(utils.ryven_dir_path()).joinpath('ryven.cfg')
+    if config_file.exists():
+        sys.argv.insert(1, f'@{config_file}')
 
     if use_sysargs:
         # Get parsed command line arguments
