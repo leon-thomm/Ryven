@@ -248,14 +248,12 @@ class StartupDialog(QDialog):
         windowtheme_layout = QHBoxLayout()
         windowtheme_button_group = QButtonGroup(windowtheme_layout)
         self.dark_theme_rb = QRadioButton('dark')
-        self.dark_theme_rb.toggled.connect(self.windowtheme_toggled)
         self.light_theme_rb = QRadioButton('light')
-        self.light_theme_rb.toggled.connect(self.windowtheme_toggled)
         plain_theme_rb = QRadioButton('plain')
-        plain_theme_rb.toggled.connect(self.windowtheme_toggled)
         windowtheme_button_group.addButton(self.dark_theme_rb)
         windowtheme_button_group.addButton(self.light_theme_rb)
         windowtheme_button_group.addButton(plain_theme_rb)
+        windowtheme_button_group.buttonToggled.connect(self.on_windowtheme_toggled)
         windowtheme_layout.addWidget(self.dark_theme_rb)
         windowtheme_layout.addWidget(self.light_theme_rb)
         windowtheme_layout.addWidget(plain_theme_rb)
@@ -275,17 +273,29 @@ class StartupDialog(QDialog):
         performance_layout = QHBoxLayout()
         performance_button_group = QButtonGroup(performance_layout)
         self.pretty_perf_mode_rb = QRadioButton('pretty')
-        # self.pretty_perf_mode_rb.toggled.connect(self.on_performance_toggled)
         self.fast_perf_mode_rb = QRadioButton('fast')
-        # self.fast_perf_mode_rb.toggled.connect(self.on_performance_toggled)
         performance_button_group.addButton(self.pretty_perf_mode_rb)
         performance_button_group.addButton(self.fast_perf_mode_rb)
-        performance_button_group.buttonClicked.connect(self.on_performance_toggled)
+        performance_button_group.buttonToggled.connect(self.on_performance_toggled)
         performance_layout.addWidget(self.pretty_perf_mode_rb)
         performance_layout.addWidget(self.fast_perf_mode_rb)
         fbox.addRow(performance_label, performance_layout)
 
-        # TODO: Animations, InfoMessages, Title
+        # Animations
+        animations_label = QLabel('Animations:')
+        animations_layout = QHBoxLayout()
+        animations_button_group = QButtonGroup(animations_layout)
+        self.animations_enabled_rb = QRadioButton('enabled')
+        self.animations_disabled_rb = QRadioButton('disabled')
+        animations_button_group.addButton(self.animations_enabled_rb)
+        animations_button_group.addButton(self.animations_disabled_rb)
+        animations_button_group.buttonToggled.connect(self.on_animations_toggled)
+        animations_layout.addWidget(self.animations_enabled_rb)
+        animations_layout.addWidget(self.animations_disabled_rb)
+        fbox.addRow(animations_label, animations_layout)
+
+
+        # TODO: InfoMessages, Title
 
         # Verbose
         verbose_output_label = QLabel('Verbose:')
@@ -323,6 +333,10 @@ class StartupDialog(QDialog):
         # Set performance mode
         self.pretty_perf_mode_rb.setChecked(configs['performance'] == 'pretty')
         self.fast_perf_mode_rb.setChecked(configs['performance'] == 'fast')
+
+        # Set animations
+        self.animations_enabled_rb.setChecked(configs['animations'])
+        self.animations_disabled_rb.setChecked(not configs['animations'])
 
         # Set flow theme
         if configs['flow_theme']:
@@ -424,7 +438,7 @@ class StartupDialog(QDialog):
 
     # Window theme
 
-    def windowtheme_toggled(self):
+    def on_windowtheme_toggled(self):
         """Call-back method, whenever a window theme radio button was toggled."""
         # Apply the selected window theme
         if self.dark_theme_rb.isChecked():
@@ -452,6 +466,15 @@ class StartupDialog(QDialog):
             self.configs['performance'] = 'pretty'
         else:
             self.configs['performance'] = 'fast'
+
+    # Animations
+
+    def on_animations_toggled(self):
+        """Call-back method, whether animations are enabled"""
+        if self.animations_enabled_rb.isChecked():
+            self.configs['animations'] = True
+        else:
+            self.configs['animations'] = False
 
     # Verbose output
 
