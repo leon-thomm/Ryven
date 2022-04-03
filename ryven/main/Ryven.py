@@ -185,18 +185,17 @@ def parse_args(just_defaults=False):
 
     group.add_argument(
         '-n', '--nodes',
-        nargs='+', action='extend',
+        action='append',
+        # nargs='+', action='extend',
         default=[],
         dest='nodes',
         metavar='NODES_PKG',
         help='''
-            load one or more nodes packages;
-            nodes packages loaded here take precedence over nodes packages
+            load a nodes package;
+            If you want to load multiple packages, use the option again; 
+            Nodes packages loaded here take precedence over nodes packages
             with the same name specified in the project file!
             Nodes package names containing spaces must be enclosed in quotes.
-            If the nodes are immediately followed by the project file,
-            separate the project file with a " -- ";
-            (%(metavar)s is the path to the nodes package without "/nodes.py")
             ''')
 
     group.add_argument(
@@ -324,22 +323,21 @@ def parse_args(just_defaults=False):
     parser.add_argument_group(
         'configuration files',
         description=f'''
-            One or more configuration files can be used at any position.
-            • To mark an argument to be used as a configuration files, the file
-            name must be preceded with the @-sign, e.g. "@ryven.cfg".
-            The later command line arguments or configuration file takes
-            precedence over earlier specified arguments.
-            • The format is like the long command line argument, but with the
-            leading two hyphens removed. If the argument takes a value, this
-            comes after a colon or an equal sign,
-            e.g. these three lines are identical:
-            "example: basics" and "example=basics".
-            • Values containing spaces must be enclosed in quotes as on the
-            command line.
-            • Comments can be inserted after the hash sign "#".
+            One or more configuration files for automatically loading optional
+             arguments can be used at any position.
             • If the file
             "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
             exists, it will always be read as the very first configuration file.
+            • To explicitly load a configuration file from a given location, the file
+            name must be preceded with the @-sign, e.g. "@ryven.cfg".
+            The later command line arguments or configuration files take
+            precedence over earlier specified arguments.
+            • The format is like the long command line argument, but with the
+            leading two hyphens removed. If the argument takes a value, this
+            comes after a colon or an equal sign, e.g. "example: basics" or "example=basics".
+            • Values containing spaces must be enclosed in quotes as on the
+            command line.
+            • Comments can be inserted after the hash sign "#".
             ''')
 
 
