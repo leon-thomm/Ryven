@@ -5,7 +5,7 @@ from qtpy.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog,
     QRadioButton, QButtonGroup, QLabel, QFormLayout, QComboBox, QDialogButtonBox,
     QCheckBox, QListWidget, QListWidgetItem,
-    QStyleOptionFrame, QStyle)
+    QStyleOptionFrame, QStyle, QLineEdit)
 from qtpy.QtCore import Qt, QSize
 from qtpy.QtGui import QIcon, QPainter
 
@@ -294,7 +294,11 @@ class StartupDialog(QDialog):
         animations_layout.addWidget(self.animations_disabled_rb)
         fbox.addRow(animations_label, animations_layout)
 
-        # TODO: InfoMessages, Title
+        # Title
+        title_label = QLabel('Window title:')
+        self.title_lineedit = QLineEdit()
+        self.title_lineedit.textChanged.connect(self.on_title_changed)
+        fbox.addRow(title_label, self.title_lineedit)
 
         # Verbose
         verbose_output_label = QLabel('Verbose:')
@@ -343,6 +347,9 @@ class StartupDialog(QDialog):
         # Set animations
         self.animations_enabled_rb.setChecked(configs['animations'])
         self.animations_disabled_rb.setChecked(not configs['animations'])
+
+        # Set title
+        self.title_lineedit.setText(configs['title'])
 
         # Set flow theme
         if configs['flow_theme']:
@@ -479,11 +486,17 @@ class StartupDialog(QDialog):
     # Animations
 
     def on_animations_toggled(self):
-        """Call-back method, whether animations are enabled"""
+        """Call-back method, whenever animations are enabled/disabled"""
         if self.animations_enabled_rb.isChecked():
             self.configs['animations'] = True
         else:
             self.configs['animations'] = False
+
+    # Title
+
+    def on_title_changed(self, t):
+        """Call-back method, whenever the title was changed"""
+        self.configs['title'] = t
 
     # Verbose output
 
