@@ -8,6 +8,7 @@ from ryven.main import utils
 from ryven.NENV import init_node_env
 from ryven.NWENV import init_node_widget_env
 from ryven import __version__
+from ryven.main.utils import find_config_file
 
 
 class CustomArgumentParser(argparse.ArgumentParser):
@@ -32,7 +33,7 @@ class CustomArgumentParser(argparse.ArgumentParser):
         - Spaces after the value are stripped.
         - Spaces are allowed on either side of ':' (or '=').
         - Empty lines are allowed.
-        - Comments can be added after a the hash sign '#'; either on a line on
+        - Comments can be added after the hash sign '#'; either on a line on
           its own or as inline comments after 'key[:value]'.
 
     https://tricksntweaks.blogspot.com/2013_05_01_archive.html
@@ -444,6 +445,16 @@ def run(*args_,
         sys.argv.insert(1, f'@{config_file}')
 
     if use_sysargs:
+        # locate '@' config files
+        for val in sys.argv:
+            if val.startswith('@'):
+                i = sys.argv.index(val)
+                sys.argv.remove(val)
+                path = str(find_config_file(val.strip('@')))
+                if path is None:
+                    sys.exit(f"Error: could not find config file: {val}")
+                sys.argv.insert(i, '@'+path)
+
         # Get parsed command line arguments
         args = parse_args()
     else:
@@ -477,7 +488,7 @@ def run(*args_,
         # does not require changes here!
         project = utils.find_project(args_[0])
         if project is None:
-            print('project file does not exist')
+            print('project no found; ignoring and proceeding with editor launch...')
             args.project = None
         else:
             args.project = project
@@ -493,7 +504,6 @@ def run(*args_,
     os.environ['RYVEN_MODE'] = 'gui'
     init_node_env()
     init_node_widget_env()
-
 
     # Import GUI sources (must come after setting `os.environ['QT_API']`)
     from ryven.gui.main_console import init_main_console
