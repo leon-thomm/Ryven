@@ -294,7 +294,6 @@ class StartupDialog(QDialog):
         animations_layout.addWidget(self.animations_disabled_rb)
         fbox.addRow(animations_label, animations_layout)
 
-
         # TODO: InfoMessages, Title
 
         # Verbose
@@ -303,6 +302,13 @@ class StartupDialog(QDialog):
         verbose_output_cb.setToolTip('Select if verbose output should be displayed\nCan also be changed later …')
         verbose_output_cb.toggled.connect(self.on_verbose_toggled)
         fbox.addRow(verbose_output_label, verbose_output_cb)
+
+        # Info messages
+        info_msgs_label = QLabel('Info Messages:')
+        info_msgs_output_cb = QCheckBox('Enable info messages')
+        info_msgs_output_cb.setToolTip('Select if info messages should be displayed\nCan also be changed later …')
+        info_msgs_output_cb.toggled.connect(self.on_info_msgs_toggled)
+        fbox.addRow(info_msgs_label, info_msgs_output_cb)
 
         layout.addLayout(fbox)
 
@@ -349,6 +355,9 @@ class StartupDialog(QDialog):
 
         # Set verbose output
         verbose_output_cb.setChecked(configs['verbose'])
+
+        # Set info messages
+        info_msgs_output_cb.setChecked(configs['info_messages'])
 
         # Set window title and icon
         self.setWindowTitle('Ryven')
@@ -482,6 +491,12 @@ class StartupDialog(QDialog):
         """Call-back method, whenever the verbose checkbox was toggled."""
         # "Apply" the verbose option
         self.configs['verbose'] = check
+
+    # Info messages
+
+    def on_info_msgs_toggled(self, check):
+        """Call-back method, whether the info messages checkbox was toggled."""
+        self.configs['info_messages'] = check
 
     #
     # Helper/Working methods
