@@ -3,7 +3,7 @@ import pathlib
 
 from qtpy.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog,
-    QRadioButton, QLabel, QFormLayout, QComboBox, QDialogButtonBox,
+    QRadioButton, QButtonGroup, QLabel, QFormLayout, QComboBox, QDialogButtonBox,
     QCheckBox, QListWidget, QListWidgetItem,
     QStyleOptionFrame, QStyle)
 from qtpy.QtCore import Qt, QSize
@@ -17,6 +17,7 @@ from ryven.gui.styling.window_theme import apply_stylesheet
 
 
 CREATE_PROJECT = '<create new project>'
+
 DEFAULT_FLOW_THEME = '<default>'
 FLOW_THEMES = [
     DEFAULT_FLOW_THEME,
@@ -24,6 +25,11 @@ FLOW_THEMES = [
     'toy', 'tron', 'ghost', 'blender', 'simple', 'ueli',
     'pure dark', 'colorful dark',
     'pure light', 'colorful light', 'industrial', 'fusion']
+
+DEFAULT_PERF_MODE = 'pretty'
+PERF_MODE = ['pretty', 'fast']
+
+DEFAULT_ANIMATIONS = True
 
 
 class ElideLabel(QLabel):
@@ -95,7 +101,7 @@ class StartupDialog(QDialog):
     """
 
     def __init__(self, configs, parent=None):
-        """Inizialize the `StartupDialog` class.
+        """Initialize the `StartupDialog` class.
 
         Parameters
         ----------
@@ -160,15 +166,15 @@ class StartupDialog(QDialog):
         self.create_project_button = QPushButton('New')
         self.create_project_button.setToolTip('Create a new project')
         self.create_project_button.setDefault(True)
-        self.create_project_button.clicked.connect(self.create_project_button_clicked)
+        self.create_project_button.clicked.connect(self.on_create_project_button_clicked)
         project_buttons_widget.addButton(self.create_project_button, QDialogButtonBox.ActionRole)
         load_project_button = QPushButton('Load')
         load_project_button.setToolTip('Load an existing project')
-        load_project_button.clicked.connect(self.load_project_button_clicked)
+        load_project_button.clicked.connect(self.on_load_project_button_clicked)
         project_buttons_widget.addButton(load_project_button, QDialogButtonBox.ActionRole)
         load_example_project_button = QPushButton('Example')
         load_example_project_button.setToolTip('Load a Ryven example')
-        load_example_project_button.clicked.connect(self.load_example_project_button_clicked)
+        load_example_project_button.clicked.connect(self.on_load_example_project_button_clicked)
         project_buttons_widget.addButton(load_example_project_button, QDialogButtonBox.ActionRole)
         project_layout.addWidget(project_buttons_widget)
 
@@ -207,7 +213,7 @@ class StartupDialog(QDialog):
         packages_manually_layout.addWidget(label_manually)
         self.manually_list_widget = QListWidget()
         self.manually_list_widget.setSelectionMode(QListWidget.MultiSelection)
-        self.manually_list_widget.itemSelectionChanged.connect(self.packages_manually_selection)
+        self.manually_list_widget.itemSelectionChanged.connect(self.on_packages_manually_selection)
         packages_manually_layout.addWidget(self.manually_list_widget)
         packages_sublayout.addLayout(packages_manually_layout)
 
@@ -221,16 +227,16 @@ class StartupDialog(QDialog):
         self.autodiscover_packages_button.setEnabled(False)
         import_package_button = QPushButton('Import')
         import_package_button.setToolTip('Manually load a nodes package')
-        import_package_button.clicked.connect(self.import_package_clicked)
+        import_package_button.clicked.connect(self.on_import_package_clicked)
         packages_buttons_widget.addButton(import_package_button, QDialogButtonBox.ActionRole)
         self.remove_packages_button = QPushButton('Remove')
         self.remove_packages_button.setToolTip('Remove manually imported nodes packages')
-        self.remove_packages_button.clicked.connect(self.remove_packages_clicked)
+        self.remove_packages_button.clicked.connect(self.on_remove_packages_clicked)
         self.remove_packages_button.setEnabled(False)
         packages_buttons_widget.addButton(self.remove_packages_button, QDialogButtonBox.ActionRole)
         self.clear_packages_button = QPushButton('Clear')
         self.clear_packages_button.setToolTip('Clear the list of manually imported nodes packages ')
-        self.clear_packages_button.clicked.connect(self.clear_packages_clicked)
+        self.clear_packages_button.clicked.connect(self.on_clear_packages_clicked)
         self.clear_packages_button.setEnabled(False)
         packages_buttons_widget.addButton(self.clear_packages_button, QDialogButtonBox.ActionRole)
         packages_layout.addWidget(packages_buttons_widget)
@@ -240,12 +246,16 @@ class StartupDialog(QDialog):
         # Window theme
         windowtheme_label = QLabel('Window theme:')
         windowtheme_layout = QHBoxLayout()
+        windowtheme_button_group = QButtonGroup(windowtheme_layout)
         self.dark_theme_rb = QRadioButton('dark')
         self.dark_theme_rb.toggled.connect(self.windowtheme_toggled)
         self.light_theme_rb = QRadioButton('light')
         self.light_theme_rb.toggled.connect(self.windowtheme_toggled)
         plain_theme_rb = QRadioButton('plain')
         plain_theme_rb.toggled.connect(self.windowtheme_toggled)
+        windowtheme_button_group.addButton(self.dark_theme_rb)
+        windowtheme_button_group.addButton(self.light_theme_rb)
+        windowtheme_button_group.addButton(plain_theme_rb)
         windowtheme_layout.addWidget(self.dark_theme_rb)
         windowtheme_layout.addWidget(self.light_theme_rb)
         windowtheme_layout.addWidget(plain_theme_rb)
@@ -257,16 +267,31 @@ class StartupDialog(QDialog):
         flowtheme_widget.setToolTip('Select the theme of the flow display\nCan also be changed later …')
         flowtheme_widget.addItems(FLOW_THEMES)
         flowtheme_widget.insertSeparator(1)
-        flowtheme_widget.currentTextChanged.connect(self.flowtheme_selected)
+        flowtheme_widget.currentTextChanged.connect(self.on_flowtheme_selected)
         fbox.addRow(flowtheme_label, flowtheme_widget)
 
-        # FIXME: Should the performance/animations and info-message be added?
+        # Performance mode
+        performance_label = QLabel('Performance mode:')
+        performance_layout = QHBoxLayout()
+        performance_button_group = QButtonGroup(performance_layout)
+        self.pretty_perf_mode_rb = QRadioButton('pretty')
+        # self.pretty_perf_mode_rb.toggled.connect(self.on_performance_toggled)
+        self.fast_perf_mode_rb = QRadioButton('fast')
+        # self.fast_perf_mode_rb.toggled.connect(self.on_performance_toggled)
+        performance_button_group.addButton(self.pretty_perf_mode_rb)
+        performance_button_group.addButton(self.fast_perf_mode_rb)
+        performance_button_group.buttonClicked.connect(self.on_performance_toggled)
+        performance_layout.addWidget(self.pretty_perf_mode_rb)
+        performance_layout.addWidget(self.fast_perf_mode_rb)
+        fbox.addRow(performance_label, performance_layout)
+
+        # TODO: Animations, InfoMessages, Title
 
         # Verbose
         verbose_output_label = QLabel('Verbose:')
         verbose_output_cb = QCheckBox('Enable verbose output')
         verbose_output_cb.setToolTip('Select if verbose output should be displayed\nCan also be changed later …')
-        verbose_output_cb.toggled.connect(self.verbose_toggled)
+        verbose_output_cb.toggled.connect(self.on_verbose_toggled)
         fbox.addRow(verbose_output_label, verbose_output_cb)
 
         layout.addLayout(fbox)
@@ -292,8 +317,12 @@ class StartupDialog(QDialog):
 
         # Set window theme
         self.dark_theme_rb.setChecked(configs['window_theme'] == 'dark')
-        self.light_theme_rb.setChecked(configs['window_theme']== 'light')
+        self.light_theme_rb.setChecked(configs['window_theme'] == 'light')
         plain_theme_rb.setChecked(configs['window_theme'] not in ('dark', 'light'))
+
+        # Set performance mode
+        self.pretty_perf_mode_rb.setChecked(configs['performance'] == 'pretty')
+        self.fast_perf_mode_rb.setChecked(configs['performance'] == 'fast')
 
         # Set flow theme
         if configs['flow_theme']:
@@ -317,12 +346,12 @@ class StartupDialog(QDialog):
 
     # Project
 
-    def create_project_button_clicked(self):
+    def on_create_project_button_clicked(self):
         """Call-back method, whenever the 'New' button was clicked."""
         # Create a new project
         self.load_project(None)
 
-    def load_project_button_clicked(self):
+    def on_load_project_button_clicked(self):
         """Call-back method, whenever the 'Load' button was clicked."""
         # Load a saved project, starting in the user's ryven directory
         project_path = self.get_project(abs_path_from_ryven_dir('saves'))
@@ -330,7 +359,7 @@ class StartupDialog(QDialog):
         if project_path is not None:
             self.load_project(project_path)
 
-    def load_example_project_button_clicked(self):
+    def on_load_example_project_button_clicked(self):
         """Call-back method, whenever the 'Example' button was clicked."""
         # Load an example project, starting in the ryven's example directory
         project_path = self.get_project(
@@ -342,7 +371,7 @@ class StartupDialog(QDialog):
 
     # Nodes packages
 
-    def packages_manually_selection(self):
+    def on_packages_manually_selection(self):
         """Call-back method, whenever a package in the manual list was selected."""
         # En/Disable the 'Remove' button
         if self.manually_list_widget.selectedItems():
@@ -360,7 +389,7 @@ class StartupDialog(QDialog):
         self.auto_discover(pathlib.Path(abs_path_from_package_dir('example_nodes')))
         self.update_packages_lists()
 
-    def import_package_clicked(self):
+    def on_import_package_clicked(self):
         """Call-back method, whenever the 'Import' button was clicked."""
         # Import a nodes package, starting in the user's ryven directory
         file_name = QFileDialog.getOpenFileName(
@@ -374,7 +403,7 @@ class StartupDialog(QDialog):
                 self.configs['nodes'].add(NodesPackage(file_path.parent))
                 self.update_packages_lists()
 
-    def remove_packages_clicked(self):
+    def on_remove_packages_clicked(self):
         """Call-back method, whenever the 'Remove' button was clicked."""
         # Remove packages selected in the manual imported list
         for item in self.manually_list_widget.selectedItems():
@@ -386,7 +415,7 @@ class StartupDialog(QDialog):
 
         self.update_packages_lists()
 
-    def clear_packages_clicked(self):
+    def on_clear_packages_clicked(self):
         """Call-back method, whenver the 'Clear' button was clicked."""
         # Clear the manual imported list
         self.configs['nodes'].clear()
@@ -407,7 +436,7 @@ class StartupDialog(QDialog):
 
     # Flow theme
 
-    def flowtheme_selected(self, theme):
+    def on_flowtheme_selected(self, theme):
         """Call-back method, whenever a new flow theme was selected."""
         # "Apply" the selected flow theme
         if theme == DEFAULT_FLOW_THEME:
@@ -415,9 +444,18 @@ class StartupDialog(QDialog):
         else:
             self.configs['flow_theme'] = theme
 
+    # Performance mode
+
+    def on_performance_toggled(self):
+        """Call-back method, whenever a new performance mode was selected"""
+        if self.pretty_perf_mode_rb.isChecked():
+            self.configs['performance'] = 'pretty'
+        else:
+            self.configs['performance'] = 'fast'
+
     # Verbose output
 
-    def verbose_toggled(self, check):
+    def on_verbose_toggled(self, check):
         """Call-back method, whenever the verbose checkbox was toggled."""
         # "Apply" the verbose option
         self.configs['verbose'] = check
