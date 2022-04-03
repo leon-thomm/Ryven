@@ -340,7 +340,6 @@ def parse_args(just_defaults=False):
             • Comments can be inserted after the hash sign "#".
             ''')
 
-
     #
     # Process the arguments
     #
@@ -463,25 +462,25 @@ def run(*args_,
         else:
             setattr(args, key, value)
 
-    # Update the 'project' argument with the positional arguments to run()
-    # Note, this is intentionally generic, so that changes in `parse_args`
-    # does not require changes here!
-
-    # TODO: multiple project files
-    # though currently unsupported, multiple 'project' arguments might be possible eventually
-    # to enable passing multiple project files after adapting the editor accordingly:
-    #   change nargs of project parameter in the argument parser
     if isinstance(args.project, list):
+        # TODO: multiple project files
+        # though currently unsupported, multiple 'project' arguments might be possible eventually
+        # to enable passing multiple project files after adapting the editor accordingly:
+        #   change nargs of project parameter in the argument parser
         args.project.extend(args)
     elif len(args_) > 1:                 # Just one argument, but more given
         raise TypeError(
             f'run() takes 1 positional argument, but {len(args)} were given')
     elif args_:                          # Exactly one argument given
+        # Update the 'project' argument with the positional arguments to run()
+        # Note, this is intentionally generic, so that changes in `parse_args`
+        # does not require changes here!
         project = utils.find_project(args_[0])
         if project is None:
-            parser.error(
-                'project file does not exist')
-        args.project = project
+            print('project file does not exist')
+            args.project = None
+        else:
+            args.project = project
 
     #
     # Qt application set up
@@ -598,8 +597,6 @@ def run(*args_,
     #
     # Start and run application
     #
-
-    # FIXME? `window_theme` is of type `WindowTheme`, but `flow_theme` is a `str`
 
     # Init main console
     (console_stdout_redirect, console_errout_redirect
