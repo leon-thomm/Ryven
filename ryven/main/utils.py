@@ -152,6 +152,38 @@ def find_project(project_path):
             return None
 
 
+def find_config_file(cfg_file_path):
+    """Find a config file.
+
+    Parameters
+    ----------
+    cfg_file_path : str
+        Either an absolute path, or relative to the ~/.ryven/ directory.
+        The file extension '.cfg' can be omitted.
+
+    Returns
+    -------
+    pathlib.Path|None
+        The full path to the config file or `None`, if it could not be found.
+    """
+
+
+    if not cfg_file_path.endswith('.cfg'):
+        cfg_file_path += '.cfg'
+
+    config_file_path = pathlib.Path(cfg_file_path)
+
+    if config_file_path.exists():
+        return config_file_path
+    else:
+        config_file_path = pathlib.Path(ryven_dir_path(), cfg_file_path)
+        if config_file_path.exists():
+            return config_file_path
+        else:
+            return None
+
+
+
 def process_nodes_packages(project_or_nodes, requested_nodes=[]):
     """Takes a project or list of node packages and additionally requested node
     packages and checks whether the node packages are valid.
