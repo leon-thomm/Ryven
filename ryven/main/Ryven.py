@@ -477,7 +477,11 @@ def run(*args_,
         raise TypeError(
             f'run() takes 1 positional argument, but {len(args)} were given')
     elif args_:                          # Exactly one argument given
-        args.project = args_[0]
+        project = utils.find_project(args_[0])
+        if project is None:
+            parser.error(
+                'project file does not exist')
+        args.project = project
 
     #
     # Qt application set up
