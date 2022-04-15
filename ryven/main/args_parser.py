@@ -1,6 +1,5 @@
 import argparse
 import pathlib
-import re
 import sys
 
 from ryven.main.utils import find_config_file
@@ -46,8 +45,6 @@ class CustomArgumentParser(argparse.ArgumentParser):
         # Inject `fromfile_prefix_char='@'` to the keyword arguments
         kwargs['fromfile_prefix_chars'] = '@'
         super().__init__(*args, **kwargs)
-        # Speed up regular expression
-        self.value_re = re.compile(self.value_re)
 
     def convert_arg_line_to_args(self, line):
         """
@@ -58,6 +55,7 @@ class CustomArgumentParser(argparse.ArgumentParser):
             - 'key: value': An argument with a value; becomes '--key=value'.
             - 'key=value': Equivalent to 'key: value'; becomes '--key=value'.
             - 'key value': Equivalent to 'key: value'; becomes '--key value'.
+            - Quotes around values are removed.
             - Comments behind '#' are removed
             - Empty lines are removed
 
@@ -90,23 +88,21 @@ class CustomArgumentParser(argparse.ArgumentParser):
         args = args.replace(':', '=', 1)
 
         # Split line into keyword and argument
-        args = args.split('=', maxsplit=1)
+        args = [a.strip() for a in args.split('=', maxsplit=1)]
 
         if len(args) == 1:
             # A key without argument is a switch
-            args = [f'--{args[0]}']
+            key = args[0]
+            return [f'--{key}']
         else:
-            key, values = args
+            key, value = args
+            # Remove optional quotes around the value
+            if value.startswith("'") and value.endswith("'"):
+                value = value[1:-1]
+            elif value.startswith('"') and value.endswith('"'):
+                value = value[1:-1]
             # Assemble long command line
-            args = [f'--{key.strip()}']
-            # Split values into a list of tokens taking care of quotes
-            # `self.value_re.findall()` returns a list of tuples
-            for value in self.value_re.findall(values.replace("'", '"')):
-                # Each tuple has three elements - either all elements are empty
-                # or exactly one non-empty element, look for this element and
-                # add it to your list of element.
-                args.extend([v for v in value if v])
-        return args
+            return [f'--{key}', value]
 
 
 def parse_sys_args(just_defaults=False):
@@ -334,8 +330,9 @@ def parse_sys_args(just_defaults=False):
             • The format is like the long command line argument, but with the
             leading two hyphens removed. If the argument takes a value, this
             comes after a colon or an equal sign, e.g. "example: basics" or "example=basics".
-            • Values containing spaces must be enclosed in quotes as on the
-            command line.
+            • There is no need to enclose values containing spaces in quotes as
+            on the command line.
+            • Symmetric single or double quotes around values are removed.
             • Comments can be inserted after the hash sign "#".
             ''')
 
