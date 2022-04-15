@@ -27,7 +27,7 @@ FLOW_THEMES = [
     'pure light', 'colorful light', 'industrial', 'fusion']
 
 DEFAULT_PERF_MODE = 'pretty'
-PERF_MODE = ['pretty', 'fast']
+# PERF_MODES = ['pretty', 'fast']
 
 DEFAULT_ANIMATIONS = True
 

@@ -473,6 +473,7 @@ def run(*args_,
         else:
             setattr(args, key, value)
 
+    # Check project
     if isinstance(args.project, list):
         # TODO: multiple project files
         # though currently unsupported, multiple 'project' arguments might be possible eventually
@@ -494,7 +495,7 @@ def run(*args_,
             args.project = project
 
     #
-    # Qt application set up
+    # Qt application setup
     #
 
     # QtPy API
@@ -533,7 +534,7 @@ def run(*args_,
         utils.abs_path_from_package_dir('resources/fonts/asap/Asap-Regular.ttf'))
 
     #
-    # Ryven main window set up
+    # Ryven editor setup
     #
 
     editor_config = {}
@@ -548,10 +549,11 @@ def run(*args_,
 
         editor_config['requested packages'] = args.nodes
 
-    # Get packages and project file interactively and update arguments accordingly
+    # Startup dialog
     if args.show_dialog:
-        # Startup dialog
         from ryven.gui.startup_dialog.StartupDialog import StartupDialog
+
+        # Get packages and project file interactively and update arguments accordingly
 
         sw = StartupDialog(vars(args), parent=gui_parent)
         # Exit if dialog couldn't initialize or is exited
@@ -591,7 +593,7 @@ def run(*args_,
         editor_config['action'] = 'open project'
         editor_config['requested packages'] = args.nodes
         editor_config['required packages'] = nodes
-        editor_config['content'] = project_dict
+        editor_config['project content'] = project_dict
 
     else:
         editor_config['action'] = 'create project'
@@ -612,16 +614,24 @@ def run(*args_,
     (console_stdout_redirect, console_errout_redirect
      ) = init_main_console(args.window_theme)
 
-    # Project setup
-    editor_config['info messages enabled'] = args.info_messages
-    editor_config['performance mode'] = args.performance
-    editor_config['animations enabled'] = args.animations
-
     # Init main window
     editor = MainWindow(
-        editor_config,
-        args.title, args.window_theme, args.flow_theme,
-        parent=gui_parent)
+        window_title=args.title,
+        window_theme=args.window_theme,
+        flow_theme=args.flow_theme,
+
+        action=editor_config['action'],
+        requested_packages=editor_config['requested packages'],
+        required_packages=editor_config.get('required packages'),
+        project_content=editor_config.get('project content'),
+        info_msgs_enabled=args.info_messages,
+        performance_mode=args.performance,
+        animations_enabled=args.animations,
+
+        # editor_config,
+        # args.title, args.window_theme, args.flow_theme,
+        parent=gui_parent
+    )
     editor.show()
 
     # Start application

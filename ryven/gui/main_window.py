@@ -22,7 +22,26 @@ import ryvencore_qt.src.conv_gui as rc_GUI
 
 class MainWindow(QMainWindow):
 
-    def __init__(self, config: dict, window_title, window_theme: WindowTheme, flow_theme, parent=None):
+    def __init__(
+            self,
+
+            window_title,
+            window_theme: WindowTheme,
+            flow_theme,
+
+            # Notice, the below default values are overwritten by the default values of the cmd
+            # line argument parser, when launching the application with cmd line arguments.
+
+            action: str = "create new project",  # or "open project'
+            requested_packages=set(),
+            required_packages: set = None,  # only valid when a project is provided
+            project_content: dict = None,
+            info_msgs_enabled: bool = False,
+            performance_mode: str = 'pretty',
+            animations_enabled: bool = True,
+
+            parent=None,
+    ):
         super().__init__(parent)
 
         self.session = None
@@ -32,7 +51,7 @@ class MainWindow(QMainWindow):
 
         # SESSION
         self.session = rc.Session()
-        if config['info messages enabled']:
+        if info_msgs_enabled:
             self.session.info_messenger().enable(traceback=True)
         else:
             self.session.info_messenger().disable()
@@ -45,8 +64,8 @@ class MainWindow(QMainWindow):
         self.session.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
 
         self.session.design.set_flow_theme(name=flow_theme)
-        self.session.design.set_performance_mode(config['performance mode'])
-        self.session.design.set_animations_enabled(config['animations enabled'])
+        self.session.design.set_performance_mode(performance_mode)
+        self.session.design.set_animations_enabled(animations_enabled)
 
         # UI
         self.setup_ui()
@@ -75,17 +94,17 @@ class MainWindow(QMainWindow):
         #   LOAD PROJECT
         # Requested packages take precedence over other packages
         print('importing requested packages...')
-        self.import_packages(config.get('requested packages', []))
-        if config['action'] == 'create project':
+        self.import_packages(requested_packages)
+        if action == 'create project':
             self.session.create_script(title='hello world')
-        elif config['action'] == 'open project':
+        elif action == 'open project':
             print('importing required packages...')
-            self.import_packages(config['required packages'])
+            self.import_packages(required_packages)
             print('loading project...')
-            self.session.load(config['content'])
-            print('finished')
+            self.session.load(project_content)
+            print('done')
 
-        self.resize(1500, 800)
+        self.resize(1500, 800)  # FIXME: this renders the --geometry argument useless, no?
         # self.showMaximized()
 
     def print_info(self):
