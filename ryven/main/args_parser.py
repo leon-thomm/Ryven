@@ -191,7 +191,7 @@ def parse_sys_args(just_defaults=False):
         metavar='NODES_PKG',
         help='''
             load a nodes package;
-            If you want to load multiple packages, use the option again; 
+            If you want to load multiple packages, use the option again;
             Nodes packages loaded here take precedence over nodes packages
             with the same name specified in the project file!
             Nodes package names containing spaces must be enclosed in quotes.
@@ -374,28 +374,51 @@ def parse_sys_args(just_defaults=False):
     return args
 
 
-def unparse_sys_args(args):
-    """Reverse parses the args object into two strings; a command representing
-    the arguments as set in `args`, as well as the corresponding config file
-    content.
+def unparse_sys_args(configs):
+    """Generate command line and configuration file.
+
+    Reverse parsing the `configs` dictionary into two strings:
+        - a command representing the command line arguments
+        - the content of the corresponding config file
 
     Parameters
     ----------
-    args : object
-        The object containing the configuration arguments.
+    configs : dict
+        The dictionary containing the configuration.
 
     Returns
     -------
     command : string
-        Represents the command that would generate the given argument config.
+        The command line argument that would generate the supplied
+        configuration.
     config : string
-        Analogous config file content.
+        The contents of a config file that would generate the supplied
+        configuration.
+
     """
 
-    # TODO
+    cmd_line = [sys.argv[0]]
+    cfg_file = []
 
-    return 'command...', 'config...'
+    for key, value in configs.items():
+        if value is True:
+            # A switch
+            cmd_line.append(f'--{key}')
+            cfg_file.append(key)
+        elif value is False:
+            # Switches can only switch on
+            pass
+        else:
+            # An argument with a value
+            if ' ' in value:
+                # Values with spaces must be enclosed in quotes
+                cmd_line.append(f'--{key}="{value}"')
+                cfg_file.append(f'{key}: {value}')
+            else:
+                cmd_line.append(f'--{key}={value}')
+                cfg_file.append(f'{key}: {value}')
 
+    return ' '.join(cmd_line), '\n'.join(cfg_file)
 
 
 def process_args(use_sysargs, *args_, **kwargs):

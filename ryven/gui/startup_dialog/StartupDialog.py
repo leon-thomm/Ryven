@@ -724,29 +724,9 @@ class StartupDialog(QDialog):
         Opens a dialog with option to save to config file.
         """
 
-        # turn self.configs into args object
-
-
-        class Object(object):
-            # just so we can set attributes
-            pass
-        args = Object()
-
-        # TODO: is there a more automated way to do this, based on the argument parser?
-        setattr(args, 'project',        self.configs['project'])
-        setattr(args, 'verbose',        self.configs['verbose'])
-        setattr(args, 'nodes',          self.configs['nodes'])
-        setattr(args, 'window_theme',   self.configs['window_theme'])
-        setattr(args, 'flow_theme',     self.configs['flow_theme'])
-        setattr(args, 'performance',    self.configs['performance'])
-        setattr(args, 'animations',     self.configs['animations'])
-        setattr(args, 'info_messages',  self.configs['info_messages'])
-        setattr(args, 'geometry',       self.configs['geometry'])
-        setattr(args, 'title',          self.configs['title'])
-        setattr(args, 'qt_api',         self.configs['qt_api'])
-        setattr(args, 'example',        self.configs['example'])
-
-        command, config = unparse_sys_args(args)
+        # Convert configuration dictionary to command line argument and
+        # configuration file contents
+        command, config = unparse_sys_args(self.configs)
 
         d = ShowCommandDialog(command, config)
         d.exec_()
