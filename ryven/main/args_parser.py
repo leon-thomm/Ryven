@@ -374,6 +374,30 @@ def parse_sys_args(just_defaults=False):
     return args
 
 
+def unparse_sys_args(args):
+    """Reverse parses the args object into two strings; a command representing
+    the arguments as set in `args`, as well as the corresponding config file
+    content.
+
+    Parameters
+    ----------
+    args : object
+        The object containing the configuration arguments.
+
+    Returns
+    -------
+    command : string
+        Represents the command that would generate the given argument config.
+    config : string
+        Analogous config file content.
+    """
+
+    # TODO
+
+    return 'command...', 'config...'
+
+
+
 def process_args(use_sysargs, *args_, **kwargs):
     """Completely processes all arguments given either through sys args,
     or through function arguments. Performs checks on argument correctness,

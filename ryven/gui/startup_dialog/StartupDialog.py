@@ -4,11 +4,12 @@ import pathlib
 from qtpy.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog,
     QRadioButton, QButtonGroup, QLabel, QFormLayout, QComboBox, QDialogButtonBox,
-    QCheckBox, QListWidget, QListWidgetItem,
+    QCheckBox, QListWidget, QListWidgetItem, QMessageBox,
     QStyleOptionFrame, QStyle, QLineEdit)
 from qtpy.QtCore import Qt, QSize
 from qtpy.QtGui import QIcon, QPainter
 
+from ryven.main.args_parser import unparse_sys_args
 from ryven.main.nodes_package import NodesPackage
 from ryven.main.utils import (
     abs_path_from_package_dir, abs_path_from_ryven_dir, ryven_dir_path,
@@ -86,6 +87,44 @@ class ElideLabel(QLabel):
         qp.drawText(r, self.alignment(),
             self.fontMetrics().elidedText(
                 self.text(), self.elideMode(), r.width()))
+
+
+class ShowCommandDialog(QDialog):
+    def __init__(self, command, config, parent=None):
+        super().__init__(parent)
+
+        layout = QVBoxLayout()
+        command_lineedit = QLineEdit(command)
+        layout.addWidget(command_lineedit)
+        self.config_text_edit = QTextEdit()
+        self.config_text_edit.setText(config)
+        layout.addWidget(self.config_text_edit)
+
+        buttons_layout = QHBoxLayout()
+        save_config_button = QPushButton('save config')
+        save_config_button.clicked.connect(self.on_save_config_clicked)
+        buttons_layout.addWidget(save_config_button)
+        close_button = QPushButton('close')
+        close_button.clicked.connect(self.accept)
+        buttons_layout.addWidget(close_button)
+        layout.addLayout(buttons_layout)
+
+        self.setLayout(layout)
+
+    def on_save_config_clicked(self):
+        config = self.config_text_edit.toPlainText()
+
+        file = QFileDialog.getSaveFileName(
+            self,
+            'select config file',
+            ryven_dir_path(),
+            'ryven config files (*.cfg)',
+        )[0]
+
+        if file != '':
+            p = pathlib.Path(file)
+            with open(p, 'w') as f:
+                f.write(config)
 
 
 class StartupDialog(QDialog):
@@ -685,4 +724,29 @@ class StartupDialog(QDialog):
         Opens a dialog with option to save to config file.
         """
 
-        pass
+        # turn self.configs into args object
+
+
+        class Object(object):
+            # just so we can set attributes
+            pass
+        args = Object()
+
+        # TODO: is there a more automated way to do this, based on the argument parser?
+        setattr(args, 'project',        self.configs['project'])
+        setattr(args, 'verbose',        self.configs['verbose'])
+        setattr(args, 'nodes',          self.configs['nodes'])
+        setattr(args, 'window_theme',   self.configs['window_theme'])
+        setattr(args, 'flow_theme',     self.configs['flow_theme'])
+        setattr(args, 'performance',    self.configs['performance'])
+        setattr(args, 'animations',     self.configs['animations'])
+        setattr(args, 'info_messages',  self.configs['info_messages'])
+        setattr(args, 'geometry',       self.configs['geometry'])
+        setattr(args, 'title',          self.configs['title'])
+        setattr(args, 'qt_api',         self.configs['qt_api'])
+        setattr(args, 'example',        self.configs['example'])
+
+        command, config = unparse_sys_args(args)
+
+        d = ShowCommandDialog(command, config)
+        d.exec_()
