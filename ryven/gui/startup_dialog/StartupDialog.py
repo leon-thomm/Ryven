@@ -317,11 +317,16 @@ class StartupDialog(QDialog):
         layout.addLayout(fbox)
 
         # Buttons
+        buttons_layout = QHBoxLayout()
+        gen_config_button = QPushButton('generate / save config')
+        gen_config_button.clicked.connect(self.gen_config_clicked)
+        buttons_layout.addWidget(gen_config_button)
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         self.ok_button = buttons.button(QDialogButtonBox.Ok)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
-        layout.addWidget(buttons)
+        buttons_layout.addWidget(buttons)
+        layout.addLayout(buttons_layout)
 
         self.setLayout(layout)
 
@@ -673,3 +678,11 @@ class StartupDialog(QDialog):
             self.ok_button.setToolTip(None)
             self.autodiscover_packages_button.setEnabled(False)
         self.clear_packages_button.setEnabled(bool(self.configs['nodes']))
+
+    def gen_config_clicked(self):
+        """Generates the command analogous to the specified settings
+        as well as the according config file content.
+        Opens a dialog with option to save to config file.
+        """
+
+        pass

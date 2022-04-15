@@ -33,8 +33,8 @@ class MainWindow(QMainWindow):
             # line argument parser, when launching the application with cmd line arguments.
 
             action: str = "create new project",  # or "open project'
-            requested_packages=set(),
-            required_packages: set = None,  # only valid when a project is provided
+            requested_packages: set = set(),
+            required_packages: set = None,  # only valid when project_content is provided
             project_content: dict = None,
             info_msgs_enabled: bool = False,
             performance_mode: str = 'pretty',
