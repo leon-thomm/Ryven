@@ -319,15 +319,15 @@ def parse_sys_args(just_defaults=False):
         'configuration files',
         description=f'''
             One or more configuration files for automatically loading optional
-             arguments can be used at any position.
-            • If the file
+             arguments can be used at any position; 
+            • if the file
             "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
-            exists, it will always be read as the very first configuration file.
-            • To explicitly load a configuration file from a given location, the file
-            name must be preceded with the @-sign, e.g. "@ryven.cfg".
-            The later command line arguments or configuration files take
-            precedence over earlier specified arguments.
-            • The format is like the long command line argument, but with the
+            exists, it will always be read as the very first configuration file; 
+            • to explicitly load a configuration file from a given location, the file
+            name must be preceded with the @-sign, e.g. "@ryven.cfg"; 
+            the later command line arguments or configuration files take
+            precedence over earlier specified arguments; 
+            • the format is like the long command line argument, but with the
             leading two hyphens removed. If the argument takes a value, this
             comes after a colon or an equal sign, e.g. "example: basics" or "example=basics".
             • There is no need to enclose values containing spaces in quotes as
@@ -490,8 +490,7 @@ def process_args(use_sysargs, *args_, **kwargs):
         # does not require changes here!
         project = utils.find_project(args_[0])
         if project is None:
-            print('project no found; ignoring and proceeding with editor launch...')
-            args.project = None
+            raise IOError('project not found')
         else:
             args.project = project
 

@@ -322,16 +322,9 @@ class StartupDialog(QDialog):
 
         # Animations
         animations_label = QLabel('Animations:')
-        animations_layout = QHBoxLayout()
-        animations_button_group = QButtonGroup(animations_layout)
-        self.animations_enabled_rb = QRadioButton('enabled')
-        self.animations_disabled_rb = QRadioButton('disabled')
-        animations_button_group.addButton(self.animations_enabled_rb)
-        animations_button_group.addButton(self.animations_disabled_rb)
-        animations_button_group.buttonToggled.connect(self.on_animations_toggled)
-        animations_layout.addWidget(self.animations_enabled_rb)
-        animations_layout.addWidget(self.animations_disabled_rb)
-        fbox.addRow(animations_label, animations_layout)
+        animations_cb = QCheckBox('Animations')
+        animations_cb.toggled.connect(self.on_animations_toggled)
+        fbox.addRow(animations_label, animations_cb)
 
         # Title
         title_label = QLabel('Window title:')
@@ -389,8 +382,7 @@ class StartupDialog(QDialog):
         self.fast_perf_mode_rb.setChecked(configs['performance'] == 'fast')
 
         # Set animations
-        self.animations_enabled_rb.setChecked(configs['animations'])
-        self.animations_disabled_rb.setChecked(not configs['animations'])
+        animations_cb.setChecked(configs['animations'])
 
         # Set title
         self.title_lineedit.setText(configs['title'])
@@ -529,12 +521,9 @@ class StartupDialog(QDialog):
 
     # Animations
 
-    def on_animations_toggled(self):
+    def on_animations_toggled(self, check):
         """Call-back method, whenever animations are enabled/disabled"""
-        if self.animations_enabled_rb.isChecked():
-            self.configs['animations'] = True
-        else:
-            self.configs['animations'] = False
+        self.configs['animations'] = check
 
     # Title
 
