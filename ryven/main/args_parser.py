@@ -31,6 +31,28 @@ def quote(s):
         return s
 
 
+class CustomHelpFormatter(argparse.HelpFormatter):
+
+    def _split_lines(self, text, width):
+        text = self._whitespace_matcher.sub(' ', text).strip()
+        # The textwrap module is used only for formatting help.
+        # Delay its import for speeding up the common usage of argparse.
+        import textwrap
+        r = []
+        for t in text.split('\\'):
+            r.extend(textwrap.wrap(t.strip(), width))
+        return r
+
+    def _fill_text(self, text, width, indent):
+        text = self._whitespace_matcher.sub(' ', text).strip()
+        import textwrap
+        return '\n'.join([
+            textwrap.fill(
+                t.strip(), width,
+                initial_indent=indent, subsequent_indent=indent)
+            for t in text.split('\\')])
+
+
 class CustomArgumentParser(argparse.ArgumentParser):
     """An `ArgumentParser` for 'key: value' configuration files.
 
@@ -156,10 +178,13 @@ def parse_sys_args(just_defaults=False):
     parser = CustomArgumentParser(
         description='''
             Flow-based visual scripting with Python with absolute freedom for
-            your nodes. See https://ryven.org/guide/ for a guide how to
+            your nodes.\\
+            \\
+            See https://ryven.org/guide/ for a guide how to
             program them.
             ''',
-        epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT')
+        epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT',
+        formatter_class=CustomHelpFormatter)
 
     # Optional arguments
 
@@ -168,12 +193,12 @@ def parse_sys_args(just_defaults=False):
         dest='project',
         metavar='PROJECT',
         help=f'''
-            the project file to be loaded (the suffix ".json" can be omitted);
-            if the project file cannot be found, it is searched for under the
-            directory "{pathlib.PurePath(utils.ryven_dir_path(), "saves")}";
-            if the project file immediately follows nodes packages, separate
-            the project file with " -- ";
-            use "-" for standard input
+            the project file to be loaded (the suffix ".json" can be omitted)\\
+            •  If the project file cannot be found, it is searched for under the
+            directory "{pathlib.PurePath(utils.ryven_dir_path(), "saves")}".\\
+            • If the project file immediately follows nodes packages, separate
+            the project file with " -- ".\\
+            • use "-" for standard input.
             ''')
 
     parser.add_argument(
@@ -183,7 +208,7 @@ def parse_sys_args(just_defaults=False):
         help='''
             show the start-up dialog,
             where project files, examples, nodes packages can be loaded and
-            some settings changed
+            some settings can bechanged and a configuration file saved
             ''')
 
     parser.add_argument(
@@ -209,18 +234,18 @@ def parse_sys_args(just_defaults=False):
         dest='nodes',
         metavar='NODES_PKG',
         help='''
-            load a nodes package;
-            If you want to load multiple packages, use the option again;
-            nodes packages loaded here take precedence over nodes packages
-            with the same name specified in the project file!
-            Nodes package names containing spaces must be enclosed in quotes.
+            load a nodes package\\
+            • If you want to load multiple packages, use the option again.\\
+            • Nodes packages loaded here take precedence over nodes packages
+            with the same name specified in the project file!\\
+            • Nodes package names containing spaces must be enclosed in quotes.
             ''')
 
     group.add_argument(
         '-x', '--example',
         choices=examples,
         dest='example',
-        help='load an example project (do not give PROJECT argument)')
+        help='load an example project (do not give the PROJECT argument)')
 
     # Display
 
@@ -232,8 +257,8 @@ def parse_sys_args(just_defaults=False):
         default='dark',
         dest='window_theme',
         help='''
-            set the window theme
-            (default: %(default)s)
+            set the window theme\\
+            Default: %(default)s
             ''')
 
     group.add_argument(
@@ -244,9 +269,10 @@ def parse_sys_args(just_defaults=False):
             'pure light', 'colorful light', 'industrial', 'fusion'],
         dest='flow_theme',
         help='''
-            set the theme of the flow view; the theme's name must be put
-            between quotation marks, if it contains spaces
-            (default: {pure dark|pure light}, depending on the window theme)
+            set the theme of the flow view\\
+            • The theme's name must be put between quotation marks, if it
+            contains spaces.\\
+            Default: {pure dark|pure light}, depending on the window theme
             ''')
 
     group.add_argument(
@@ -255,8 +281,8 @@ def parse_sys_args(just_defaults=False):
         default='pretty',
         dest='performance',
         help='''
-            select performance mode
-            (default: %(default)s)
+            select performance mode\\
+            Default: %(default)s
             ''')
 
     # TODO: Python >= 3.9
@@ -272,16 +298,16 @@ def parse_sys_args(just_defaults=False):
         action='store_false',
         dest='animations',
         help='''
-            do not use animations
-            (default: use animations)
+            do not use animations\\
+            Default: Use animations
             ''')
     exclusive_group.add_argument(
         '--animations',
         action='store_true',
         dest='animations',
         help='''
-            use animations
-            (default: use animations)
+            use animations\\
+            Default: Use animations
             ''')
 
     # TODO: Python >= 3.9
@@ -297,16 +323,16 @@ def parse_sys_args(just_defaults=False):
         action='store_true',
         dest='info_messages',
         help='''
-            show info messages
-            (default: do not show info messages)
+            show info messages\\
+            Default: Do not show info messages
             ''')
     exclusive_group.add_argument(
         '--no-info-messages',
         action='store_false',
         dest='info_messages',
         help='''
-            do not show info messages
-            (default: do not show info messages)
+            do not show info messages\\
+            Default: Do not show info messages
             ''')
 
     group.add_argument(     # Passed to Qt
@@ -323,8 +349,8 @@ def parse_sys_args(just_defaults=False):
         default='Ryven',
         dest='title',
         help='''
-            changes the window's title
-            (default: %(default)s)
+            changes the window's title\\
+            Default: %(default)s
             ''')
 
     group.add_argument(
@@ -332,8 +358,8 @@ def parse_sys_args(just_defaults=False):
         default='pyside2',
         dest='qt_api',
         help='''
-            the QT API to be used
-            (default: %(default)s)
+            the QT API to be used\\
+            Default: %(default)s
             ''')
 
     # Configuration files
@@ -342,21 +368,24 @@ def parse_sys_args(just_defaults=False):
         'configuration files',
         description=f'''
             One or more configuration files for automatically loading optional
-            arguments can be used at any position;
+            arguments can be used at any position.\\
             • If the file
-            "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
-            exists, it will always be read as the very first configuration file;
-            • to explicitly load a configuration file from a given location, the file
-            name must be preceded with the @-sign, e.g. "@ryven.cfg";
-            the later command line arguments or configuration files take
-            precedence over earlier specified arguments;
-            • the format is like the long command line argument, but with the
+            "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}"
+            exists, it will always be read as the very first configuration
+            file.\\
+            • To explicitly load a configuration file from a given location,
+            the file name must be preceded with the @-sign, e.g. "@ryven.cfg".\\
+            • The later command line arguments or configuration files take
+            precedence over earlier specified arguments.\\
+            • The format is like the long command line argument, but with the
             leading two hyphens removed. If the argument takes a value, this
-            comes after a colon or an equal sign, e.g. "example: basics" or "example=basics".
+            comes after a colon or an equal sign, e.g. "example: basics" or
+            "example=basics".\\
             • There is no need to enclose values containing spaces in quotes as
-            on the command line.
-            • Symmetric single or double quotes around values are removed.
-            • Comments can be inserted after the hash sign "#".
+            on the command line, but they can be enclosed if preferred.\\
+            • Symmetric single or double quotes around values are removed.\\
+            • Comments can be inserted after the hash sign "#" inline or on
+            a line on their own.
             ''')
 
     #
