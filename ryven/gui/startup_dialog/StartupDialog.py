@@ -501,8 +501,9 @@ class StartupDialog(QDialog):
         elif self.light_theme_rb.isChecked():
             self.args.window_theme = 'light'
         else:
-            self.args.window_theme = None
+            self.args.window_theme = 'plain'
 
+        # Set the StartupDialog to the selected theme
         apply_stylesheet(self.args.window_theme)
 
     # Flow theme

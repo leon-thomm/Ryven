@@ -8,6 +8,29 @@ from ryven import __version__
 from ryven.main import utils
 
 
+def quote(s):
+    """Puts double quotes around a string, if it contains one or more spaces.
+
+    Parameters
+    ----------
+    s : str
+        The string.
+
+    Returns
+    -------
+    str
+        If one or more spaces are found in the string, it is returned enclosed
+        in double quotes; otherwise the original string is returned
+
+    """
+
+    if ' ' in s:
+        # String with spaces must be enclosed in quotes
+        return f'"{s}"'
+    else:
+        return s
+
+
 class CustomArgumentParser(argparse.ArgumentParser):
     """An `ArgumentParser` for 'key: value' configuration files.
 
@@ -187,10 +210,10 @@ def parse_sys_args(just_defaults=False):
         metavar='NODES_PKG',
         help='''
             load a nodes package;
-            tf you want to load multiple packages, use the option again;
-            node packages loaded here take precedence over nodes packages
+            If you want to load multiple packages, use the option again;
+            nodes packages loaded here take precedence over nodes packages
             with the same name specified in the project file!
-            Node package names containing spaces must be enclosed in quotes.
+            Nodes package names containing spaces must be enclosed in quotes.
             ''')
 
     group.add_argument(
@@ -319,14 +342,14 @@ def parse_sys_args(just_defaults=False):
         'configuration files',
         description=f'''
             One or more configuration files for automatically loading optional
-             arguments can be used at any position; 
+            arguments can be used at any position;
             • If the file
             "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
-            exists, it will always be read as the very first configuration file; 
+            exists, it will always be read as the very first configuration file;
             • to explicitly load a configuration file from a given location, the file
-            name must be preceded with the @-sign, e.g. "@ryven.cfg"; 
+            name must be preceded with the @-sign, e.g. "@ryven.cfg";
             the later command line arguments or configuration files take
-            precedence over earlier specified arguments; 
+            precedence over earlier specified arguments;
             • the format is like the long command line argument, but with the
             leading two hyphens removed. If the argument takes a value, this
             comes after a colon or an equal sign, e.g. "example: basics" or "example=basics".
@@ -358,13 +381,7 @@ def parse_sys_args(just_defaults=False):
             args.project = project
 
     # Make a `set` of nodes
-    args.nodes = set(args.nodes)
-
-    # Translate node package paths into pathlib.Path objects
-    node_pkg_paths = set()
-    for nodes_pkg in args.nodes:
-        node_pkg_paths.add(pathlib.Path(nodes_pkg))
-    args.nodes = node_pkg_paths
+    args.nodes = set([pathlib.Path(nodes_pkg) for nodes_pkg in args.nodes])
 
     # Put example into 'project' argument
     if args.example:
@@ -401,20 +418,11 @@ def unparse_sys_args(args):
 
     """
 
-    cmd_line = ['ryven']
+    cmd_line = [sys.argv[0]]
     cfg_file = []
-
-    def quote(s):
-        if ' ' in s:
-            # Values with spaces must be enclosed in quotes
-            return f'"{s}"'
-        else:
-            return s
+    project = None
 
     for key, value in vars(args).items():
-
-        key = key.replace('_', '-')
-
         if value is True:
             # A positive switch
             cmd_line.append(f'--{key}')
@@ -423,35 +431,23 @@ def unparse_sys_args(args):
             # A negative switch
             cmd_line.append(f'--no-{key}')
             cfg_file.append(f'no-{key}')
+        elif isinstance(value, list):
+            for v in value:
+                # Values with spaces must be enclosed in quotes
+                cmd_line.append(f'--{key}={quote(v)}')
+                cfg_file.append(f'{key}: {v}')
+        elif key == 'project':
+            # Save the project, because it has to be the last argument
+            project = quote(value)
         else:
             # An argument with a value
+            cmd_line.append(f'--{key}={quote(v)}')
+            cfg_file.append(f'{key}: {value}')
 
-            if value is None:
-                continue
-
-            if isinstance(value, pathlib.Path):
-                value = str(value)
-
-            value_quoted = quote(value)
-
-            if key == 'nodes':
-                for n in value:
-                    value_quoted = quote(str(n))
-
-                    cmd_line.append(f'-n {value_quoted}')
-                    cfg_file.append(f'nodes: {n}')
-
-            elif key == 'project':
-                continue
-
-            else:
-                cmd_line.append(f'--{key}={value_quoted}')
-                cfg_file.append(f'{key}: {value}')
-
-    if args.project:
-        cmd_line.append(f'{quote(str(args.project))}')
-
-        # TODO: how can we specify project file in config files?
+    # Append project
+    if project:
+        cmd_line.append(project)
+        cfg_file.append(f'project: {project}')
 
     return ' '.join(cmd_line), '\n'.join(cfg_file)
 
