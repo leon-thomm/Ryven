@@ -194,7 +194,7 @@ def parse_sys_args(just_defaults=False):
         metavar='PROJECT',
         help=f'''
             the project file to be loaded (the suffix ".json" can be omitted)\\
-            •  If the project file cannot be found, it is searched for under the
+            • If the project file cannot be found, it is searched for under the
             directory "{pathlib.PurePath(utils.ryven_dir_path(), "saves")}".\\
             • If the project file immediately follows nodes packages, separate
             the project file with " -- ".\\
