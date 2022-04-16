@@ -449,7 +449,7 @@ def unparse_sys_args(args):
                 cfg_file.append(f'{key}: {value}')
 
     if args.project:
-        cmd_line.append(f'{args.project}')
+        cmd_line.append(f'{quote(str(args.project))}')
 
         # TODO: how can we specify project file in config files?
 
