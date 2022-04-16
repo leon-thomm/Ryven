@@ -187,10 +187,10 @@ def parse_sys_args(just_defaults=False):
         metavar='NODES_PKG',
         help='''
             load a nodes package;
-            If you want to load multiple packages, use the option again;
-            Nodes packages loaded here take precedence over nodes packages
+            tf you want to load multiple packages, use the option again;
+            node packages loaded here take precedence over nodes packages
             with the same name specified in the project file!
-            Nodes package names containing spaces must be enclosed in quotes.
+            Node package names containing spaces must be enclosed in quotes.
             ''')
 
     group.add_argument(
@@ -320,7 +320,7 @@ def parse_sys_args(just_defaults=False):
         description=f'''
             One or more configuration files for automatically loading optional
              arguments can be used at any position; 
-            • if the file
+            • If the file
             "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}
             exists, it will always be read as the very first configuration file; 
             • to explicitly load a configuration file from a given location, the file
@@ -357,6 +357,15 @@ def parse_sys_args(just_defaults=False):
                     'project file does not exist')
             args.project = project
 
+    # Make a `set` of nodes
+    args.nodes = set(args.nodes)
+
+    # Translate node package paths into pathlib.Path objects
+    node_pkg_paths = set()
+    for nodes_pkg in args.nodes:
+        node_pkg_paths.add(pathlib.Path(nodes_pkg))
+    args.nodes = node_pkg_paths
+
     # Put example into 'project' argument
     if args.example:
         if args.project:
@@ -365,23 +374,21 @@ def parse_sys_args(just_defaults=False):
 
         args.project = pathlib.Path(exampledir, args.example).with_suffix('.json')
 
-    # Make a `set` of nodes
-    args.nodes = set(args.nodes)
-
     return args
 
 
-def unparse_sys_args(configs):
+def unparse_sys_args(args):
     """Generate command line and configuration file.
 
-    Reverse parsing the `configs` dictionary into two strings:
+    Reverse parsing the args namespace into two strings:
         - a command representing the command line arguments
         - the content of the corresponding config file
 
     Parameters
     ----------
-    configs : dict
-        The dictionary containing the configuration.
+    args : argparse.Namespace
+        The arguments containing the configuration, just like what
+        `parse_sys_args()` returns.
 
     Returns
     -------
@@ -394,26 +401,57 @@ def unparse_sys_args(configs):
 
     """
 
-    cmd_line = [sys.argv[0]]
+    cmd_line = ['ryven']
     cfg_file = []
 
-    for key, value in configs.items():
+    def quote(s):
+        if ' ' in s:
+            # Values with spaces must be enclosed in quotes
+            return f'"{s}"'
+        else:
+            return s
+
+    for key, value in vars(args).items():
+
+        key = key.replace('_', '-')
+
         if value is True:
-            # A switch
+            # A positive switch
             cmd_line.append(f'--{key}')
             cfg_file.append(key)
         elif value is False:
-            # Switches can only switch on
-            pass
+            # A negative switch
+            cmd_line.append(f'--no-{key}')
+            cfg_file.append(f'no-{key}')
         else:
             # An argument with a value
-            if ' ' in value:
-                # Values with spaces must be enclosed in quotes
-                cmd_line.append(f'--{key}="{value}"')
-                cfg_file.append(f'{key}: {value}')
+
+            if value is None:
+                continue
+
+            if isinstance(value, pathlib.Path):
+                value = str(value)
+
+            value_quoted = quote(value)
+
+            if key == 'nodes':
+                for n in value:
+                    value_quoted = quote(str(n))
+
+                    cmd_line.append(f'-n {value_quoted}')
+                    cfg_file.append(f'nodes: {n}')
+
+            elif key == 'project':
+                continue
+
             else:
-                cmd_line.append(f'--{key}={value}')
+                cmd_line.append(f'--{key}={value_quoted}')
                 cfg_file.append(f'{key}: {value}')
+
+    if args.project:
+        cmd_line.append(f'{args.project}')
+
+        # TODO: how can we specify project file in config files?
 
     return ' '.join(cmd_line), '\n'.join(cfg_file)
 
@@ -490,7 +528,7 @@ def process_args(use_sysargs, *args_, **kwargs):
         # does not require changes here!
         project = utils.find_project(args_[0])
         if project is None:
-            raise IOError('project not found')
+            raise IOError(f'project "{args_[0]}" not found')
         else:
             args.project = project
 

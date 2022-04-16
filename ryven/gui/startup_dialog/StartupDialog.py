@@ -134,19 +134,23 @@ class StartupDialog(QDialog):
     example project. When a project is loaded, it scans for validity of all
     the required packages for the project, and in case some paths are invalid,
     they are shown in the dialog. The user than can autodiscover those missing
-    packages or cherry pick packages.
+    packages or cherry-pick by choosing paths manually.
 
-    The user can also set some common configuration options.
+    The user can also set some common configuration options, and can generate
+    an analogous command and config file and save the configuration in it.
     """
 
-    def __init__(self, configs, parent=None):
+    def __init__(self, args, parent=None):
         """Initialize the `StartupDialog` class.
 
         Parameters
         ----------
-        configs : dict
-            The configuration dictionary, which most likely comes from the
-            parsing the command line arguments.
+        args : argparse.Namespace
+            The arguments from command line or run() function interface.
+            Notice that this class operates on args directly, so all values
+            are either of primitive type (including strings), except paths
+            which are pathlib.Path objects. Translation to NodePackage objects,
+            WindowTheme objects etc. will happen at a later stage, not here.
         parent : QWidget, optional
             The parent `QWidget`.
             The default is `None`.
@@ -158,8 +162,7 @@ class StartupDialog(QDialog):
         """
         super().__init__(parent)
 
-        # Make a copy of the configs dictionary, so that we do not mess with it
-        self.configs = configs.copy()
+        self.args = args
 
         #
         # Layout the contents of the dialog
@@ -195,8 +198,8 @@ class StartupDialog(QDialog):
 
         project_layout = QVBoxLayout()
         self.project_name = ElideLabel()
-        if configs['project']:
-            self.project_name.setText(configs['project'])
+        if self.args.project:
+            self.project_name.setText(str(args.project))
         else:
             self.project_name.setText(CREATE_PROJECT)
         project_layout.addWidget(self.project_name)
@@ -367,29 +370,29 @@ class StartupDialog(QDialog):
         #
 
         # Set project
-        self.load_project(configs['project'])
+        self.load_project(self.args.project)
 
         # Set requested nodes
         self.update_packages_lists()
 
         # Set window theme
-        self.dark_theme_rb.setChecked(configs['window_theme'] == 'dark')
-        self.light_theme_rb.setChecked(configs['window_theme'] == 'light')
-        plain_theme_rb.setChecked(configs['window_theme'] not in ('dark', 'light'))
+        self.dark_theme_rb.setChecked(self.args.window_theme == 'dark')
+        self.light_theme_rb.setChecked(self.args.window_theme == 'light')
+        plain_theme_rb.setChecked(self.args.window_theme not in ('dark', 'light'))
 
         # Set performance mode
-        self.pretty_perf_mode_rb.setChecked(configs['performance'] == 'pretty')
-        self.fast_perf_mode_rb.setChecked(configs['performance'] == 'fast')
+        self.pretty_perf_mode_rb.setChecked(self.args.performance == 'pretty')
+        self.fast_perf_mode_rb.setChecked(self.args.performance == 'fast')
 
         # Set animations
-        animations_cb.setChecked(configs['animations'])
+        animations_cb.setChecked(self.args.animations)
 
         # Set title
-        self.title_lineedit.setText(configs['title'])
+        self.title_lineedit.setText(self.args.title)
 
         # Set flow theme
-        if configs['flow_theme']:
-            idx = flowtheme_widget.findText(configs['flow_theme'])
+        if self.args.flow_theme:
+            idx = flowtheme_widget.findText(self.args.flow_theme)
         else:
             idx = -1
         if idx < 0:
@@ -397,10 +400,10 @@ class StartupDialog(QDialog):
         flowtheme_widget.setCurrentIndex(idx)
 
         # Set verbose output
-        verbose_output_cb.setChecked(configs['verbose'])
+        verbose_output_cb.setChecked(self.args.verbose)
 
         # Set info messages
-        info_msgs_output_cb.setChecked(configs['info_messages'])
+        info_msgs_output_cb.setChecked(self.args.info_messages)
 
         # Set window title and icon
         self.setWindowTitle('Ryven')
@@ -466,17 +469,17 @@ class StartupDialog(QDialog):
         if file_name:
             file_path = pathlib.Path(file_name)
             if file_path.exists():
-                self.configs['nodes'].add(NodesPackage(file_path.parent))
+                self.args.nodes.add(file_path.parent)
                 self.update_packages_lists()
 
     def on_remove_packages_clicked(self):
         """Call-back method, whenever the 'Remove' button was clicked."""
         # Remove packages selected in the manual imported list
         for item in self.manually_list_widget.selectedItems():
-            node_name = item.text()
-            for node in self.configs['nodes']:
-                if node.name == node_name:
-                    self.configs['nodes'].remove(node)
+            package_name = item.text()
+            for pkg_path in self.args.nodes:
+                if pkg_path.stem == package_name:
+                    self.args.nodes.remove(pkg_path)
                     break
 
         self.update_packages_lists()
@@ -484,7 +487,7 @@ class StartupDialog(QDialog):
     def on_clear_packages_clicked(self):
         """Call-back method, whenver the 'Clear' button was clicked."""
         # Clear the manual imported list
-        self.configs['nodes'].clear()
+        self.args.nodes.clear()
 
         self.update_packages_lists()
 
@@ -494,11 +497,13 @@ class StartupDialog(QDialog):
         """Call-back method, whenever a window theme radio button was toggled."""
         # Apply the selected window theme
         if self.dark_theme_rb.isChecked():
-            self.configs['window_theme'] = apply_stylesheet('dark')
+            self.args.window_theme = 'dark'
         elif self.light_theme_rb.isChecked():
-            self.configs['window_theme'] = apply_stylesheet('light')
+            self.args.window_theme = 'light'
         else:
-            self.configs['window_theme'] = apply_stylesheet(None)
+            self.args.window_theme = None
+
+        apply_stylesheet(self.args.window_theme)
 
     # Flow theme
 
@@ -506,43 +511,43 @@ class StartupDialog(QDialog):
         """Call-back method, whenever a new flow theme was selected."""
         # "Apply" the selected flow theme
         if theme == DEFAULT_FLOW_THEME:
-            self.configs['flow_theme'] = None
+            self.args.flow_theme = None
         else:
-            self.configs['flow_theme'] = theme
+            self.args.flow_theme = theme
 
     # Performance mode
 
     def on_performance_toggled(self):
         """Call-back method, whenever a new performance mode was selected"""
         if self.pretty_perf_mode_rb.isChecked():
-            self.configs['performance'] = 'pretty'
+            self.args.performance = 'pretty'
         else:
-            self.configs['performance'] = 'fast'
+            self.args.performance = 'fast'
 
     # Animations
 
     def on_animations_toggled(self, check):
         """Call-back method, whenever animations are enabled/disabled"""
-        self.configs['animations'] = check
+        self.args.animations = check
 
     # Title
 
     def on_title_changed(self, t):
         """Call-back method, whenever the title was changed"""
-        self.configs['title'] = t
+        self.args.title = t
 
     # Verbose output
 
     def on_verbose_toggled(self, check):
         """Call-back method, whenever the verbose checkbox was toggled."""
         # "Apply" the verbose option
-        self.configs['verbose'] = check
+        self.args.verbose = check
 
     # Info messages
 
     def on_info_msgs_toggled(self, check):
         """Call-back method, whether the info messages checkbox was toggled."""
-        self.configs['info_messages'] = check
+        self.args.info_messages = check
 
     #
     # Helper/Working methods
@@ -600,12 +605,12 @@ class StartupDialog(QDialog):
         self.missing_list_widget.clear()
 
         if project_path is None:
-            self.configs['project'] = None
+            self.args.project = None
             self.project_name.setText(CREATE_PROJECT)
             self.create_project_button.setEnabled(False)
 
         else:
-            self.configs['project'] = project_path
+            self.args.project = project_path
             self.project_name.setText(project_path)
             self.create_project_button.setEnabled(True)
 
@@ -648,7 +653,7 @@ class StartupDialog(QDialog):
             if path.name in missing_packages:
                 node_path = path.joinpath('nodes.py')
                 if node_path.exists():
-                    self.configs['nodes'].add(NodesPackage(path))
+                    self.args.nodes.add(path)
 
     def update_packages_lists(self):
         """Update the packages lists and buttons.
@@ -662,8 +667,8 @@ class StartupDialog(QDialog):
         for i in range(self.imported_list_widget.count()):
             node_item = self.imported_list_widget.item(i)
             font = node_item.font()
-            for node in self.configs['nodes']:
-                if node_item.text() == node.name:
+            for pkg_path in self.args.nodes:
+                if node_item.text() == pkg_path.stem:
                     # Required package is overwritten by manually imported package
                     font.setStrikeOut(True)
                     break
@@ -676,8 +681,8 @@ class StartupDialog(QDialog):
         for i in range(self.missing_list_widget.count()):
             node_item = self.missing_list_widget.item(i)
             font = node_item.font()
-            for node in self.configs['nodes']:
-                if node_item.text() == node.name:
+            for pkg_path in self.args.nodes:
+                if node_item.text() == pkg_path.stem:
                     # Missing package is provided by manually imported package
                     font.setStrikeOut(True)
                     break
@@ -688,9 +693,9 @@ class StartupDialog(QDialog):
 
         # Repopulate the list with manually imported packages
         self.manually_list_widget.clear()
-        for node in sorted(self.configs['nodes'], key=lambda n: n.name):
-            node_item = QListWidgetItem(node.name)
-            node_item.setToolTip(str(node.directory))
+        for pkg_path in sorted(self.args.nodes):
+            node_item = QListWidgetItem(pkg_path.stem)
+            node_item.setToolTip(str(pkg_path))
             node_item.setFlags(~Qt.ItemIsEditable)
             self.manually_list_widget.addItem(node_item)
 
@@ -705,7 +710,7 @@ class StartupDialog(QDialog):
             self.ok_button.setEnabled(True)
             self.ok_button.setToolTip(None)
             self.autodiscover_packages_button.setEnabled(False)
-        self.clear_packages_button.setEnabled(bool(self.configs['nodes']))
+        self.clear_packages_button.setEnabled(bool(self.args.nodes))
 
     def gen_config_clicked(self):
         """Generates the command analogous to the specified settings
@@ -715,7 +720,7 @@ class StartupDialog(QDialog):
 
         # Convert configuration dictionary to command line argument and
         # configuration file contents
-        command, config = unparse_sys_args(self.configs)
+        command, config = unparse_sys_args(self.args)
 
         d = ShowCommandDialog(command, config)
         d.exec_()

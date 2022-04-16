@@ -183,7 +183,6 @@ def find_config_file(cfg_file_path):
             return None
 
 
-
 def process_nodes_packages(project_or_nodes, requested_nodes=[]):
     """Takes a project or list of node packages and additionally requested node
     packages and checks whether the node packages are valid.
