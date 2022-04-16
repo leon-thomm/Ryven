@@ -112,40 +112,29 @@ def run(*args_,
 
     editor_config = {}
 
-    # Replace node directories with `NodePackage` instances
-    if args.nodes:
-        args.nodes, nodes_not_found, _ = utils.process_nodes_packages(args.nodes)
-        if nodes_not_found:
-            sys.exit(
-                f'''Error: Nodes packages not found: '''
-                f'''{", ".join(['"'+str(n)+'"' for n in nodes_not_found])}''')
-
-        editor_config['requested packages'] = args.nodes
-
     # Startup dialog
     if args.show_dialog:
         from ryven.gui.startup_dialog.StartupDialog import StartupDialog
 
         # Get packages and project file interactively and update arguments accordingly
 
-        sw = StartupDialog(vars(args), parent=gui_parent)
+        sw = StartupDialog(args, parent=gui_parent)
         # Exit if dialog couldn't initialize or is exited
         if sw.exec_() <= 0:
             sys.exit('Start-up screen dismissed')
 
-        # Update `args` with `sw.configs`
-        for key, value in sw.configs.items():
-            # A little safeguard
-            if hasattr(args, key):
-                setattr(args, key, value)
-            else:
-                raise KeyError(
-                    f'The startup dialog set an unknown argument. '
-                    f'Got: {key}={value}')
+    # Replace node directories with `NodePackage` instances
+    if args.nodes:
+        args.nodes, nodes_not_found, _ = utils.process_nodes_packages(args.nodes)
+        if nodes_not_found:
+            sys.exit(
+                f'''Error: Nodes packages not found: '''
+                f'''{", ".join(['"' + str(n) + '"' for n in nodes_not_found])}''')
 
-    else:
-        # This is needed, because the stylesheet is applied in `StartupDialog`
-        args.window_theme = apply_stylesheet(args.window_theme)
+        editor_config['requested packages'] = args.nodes
+
+    # Store WindowTheme object
+    args.window_theme = apply_stylesheet(args.window_theme)
 
     # Get packages required by the project
     if args.project:

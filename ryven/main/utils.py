@@ -167,9 +167,9 @@ def find_config_file(cfg_file_path):
         The full path to the config file or `None`, if it could not be found.
     """
 
-
-    if not cfg_file_path.endswith('.cfg'):
-        cfg_file_path += '.cfg'
+    # https://github.com/leon-thomm/Ryven/commit/a712ad2f767bb14b2651729bcca9bbfa53cb73f7#commitcomment-71357528
+    # if not cfg_file_path.endswith('.cfg'):
+    #     cfg_file_path += '.cfg'
 
     config_file_path = pathlib.Path(cfg_file_path)
 
@@ -181,7 +181,6 @@ def find_config_file(cfg_file_path):
             return config_file_path
         else:
             return None
-
 
 
 def process_nodes_packages(project_or_nodes, requested_nodes=[]):
