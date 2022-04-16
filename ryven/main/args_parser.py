@@ -447,7 +447,6 @@ def unparse_sys_args(args):
     # Append project
     if project:
         cmd_line.append(project)
-        cfg_file.append(f'project: {project}')
 
     return ' '.join(cmd_line), '\n'.join(cfg_file)
 
