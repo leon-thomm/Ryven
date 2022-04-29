@@ -94,14 +94,15 @@ def apply_stylesheet(style: str):
     if style in (None, 'plain'):
         window_theme = WindowTheme_Plain()
         stylesheet = None
-    elif style == 'dark':
-        window_theme = WindowTheme_Dark()
-    elif style == 'light':
-        window_theme = WindowTheme_Light()
     else:
-        raise ValueError(
-            f'Unknown window theme. '
-            f'Got: {style}')
+        if style == 'dark':
+            window_theme = WindowTheme_Dark()
+        elif style == 'light':
+            window_theme = WindowTheme_Light()
+        else:
+            raise ValueError(
+                f'Unknown window theme. '
+                f'Got: {style}')
 
         from jinja2 import Template
         # path to the template stylesheet file

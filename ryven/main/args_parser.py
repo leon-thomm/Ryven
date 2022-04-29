@@ -8,29 +8,6 @@ from ryven import __version__
 from ryven.main import utils
 
 
-def quote(s):
-    """Puts double quotes around a string, if it contains one or more spaces.
-
-    Parameters
-    ----------
-    s : str
-        The string.
-
-    Returns
-    -------
-    str
-        If one or more spaces are found in the string, it is returned enclosed
-        in double quotes; otherwise the original string is returned
-
-    """
-
-    if ' ' in s:
-        # String with spaces must be enclosed in quotes
-        return f'"{s}"'
-    else:
-        return s
-
-
 class CustomHelpFormatter(argparse.HelpFormatter):
 
     def _split_lines(self, text, width):
@@ -177,11 +154,9 @@ def parse_sys_args(just_defaults=False):
 
     parser = CustomArgumentParser(
         description='''
-            Flow-based visual scripting with Python with absolute freedom for
-            your nodes.\\
+            Flow-based visual scripting for Python.\\
             \\
-            See https://ryven.org/guide/ for a guide how to
-            program them.
+            See https://ryven.org/guide/ for a guide on developing nodes.
             ''',
         epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT',
         formatter_class=CustomHelpFormatter)
@@ -196,8 +171,6 @@ def parse_sys_args(just_defaults=False):
             the project file to be loaded (the suffix ".json" can be omitted)\\
             • If the project file cannot be found, it is searched for under the
             directory "{pathlib.PurePath(utils.ryven_dir_path(), "saves")}".\\
-            • If the project file immediately follows nodes packages, separate
-            the project file with " -- ".\\
             • use "-" for standard input.
             ''')
 
@@ -208,7 +181,7 @@ def parse_sys_args(just_defaults=False):
         help='''
             show the start-up dialog,
             where project files, examples, nodes packages can be loaded and
-            some settings can bechanged and a configuration file saved
+            some settings can be changed and a configuration file saved
             ''')
 
     parser.add_argument(
@@ -359,6 +332,7 @@ def parse_sys_args(just_defaults=False):
         dest='qt_api',
         help='''
             the QT API to be used\\
+            • Notice that only PySide versions are allowed, Ryven does not work with PyQt.\\
             Default: %(default)s
             ''')
 
@@ -373,6 +347,8 @@ def parse_sys_args(just_defaults=False):
             "{pathlib.Path(utils.ryven_dir_path()).joinpath("ryven.cfg")}"
             exists, it will always be read as the very first configuration
             file.\\
+            • This default configuration file is created with an example during 
+            installation.\\
             • To explicitly load a configuration file from a given location,
             the file name must be preceded with the @-sign, e.g. "@ryven.cfg".\\
             • The later command line arguments or configuration files take
@@ -409,7 +385,7 @@ def parse_sys_args(just_defaults=False):
                     'project file does not exist')
             args.project = project
 
-    # Make a `set` of nodes
+    # Make a `set` of paths to node packages
     args.nodes = set([pathlib.Path(nodes_pkg) for nodes_pkg in args.nodes])
 
     # Put example into 'project' argument
@@ -421,6 +397,16 @@ def parse_sys_args(just_defaults=False):
         args.project = pathlib.Path(exampledir, args.example).with_suffix('.json')
 
     return args
+
+
+def quote(s):
+    """Puts strings with spaces in quotes; strings without spaces remain unchanged"""
+
+    if ' ' in s:
+        # Values with spaces must be enclosed in quotes
+        return f'"{s}"'
+    else:
+        return s
 
 
 def unparse_sys_args(args):
@@ -447,11 +433,13 @@ def unparse_sys_args(args):
 
     """
 
-    cmd_line = [sys.argv[0]]
+    cmd_line = ['ryven']
     cfg_file = []
-    project = None
 
     for key, value in vars(args).items():
+
+        key = key.replace('_', '-')
+
         if value is True:
             # A positive switch
             cmd_line.append(f'--{key}')
@@ -460,22 +448,35 @@ def unparse_sys_args(args):
             # A negative switch
             cmd_line.append(f'--no-{key}')
             cfg_file.append(f'no-{key}')
-        elif isinstance(value, list):
-            for v in value:
-                # Values with spaces must be enclosed in quotes
-                cmd_line.append(f'--{key}={quote(v)}')
-                cfg_file.append(f'{key}: {v}')
-        elif key == 'project':
-            # Save the project, because it has to be the last argument
-            project = quote(value)
         else:
             # An argument with a value
-            cmd_line.append(f'--{key}={quote(v)}')
-            cfg_file.append(f'{key}: {value}')
 
-    # Append project
-    if project:
-        cmd_line.append(project)
+            if value is None:
+                continue
+
+            if isinstance(value, pathlib.Path):
+                value = str(value)
+
+            value_quoted = quote(value)
+
+            if key == 'nodes':
+                for n in value:
+                    value_quoted = quote(str(n))
+
+                    cmd_line.append(f'-n {value_quoted}')
+                    cfg_file.append(f'nodes: {n}')
+
+            elif key == 'project':
+                continue
+
+            else:
+                cmd_line.append(f'--{key}={value_quoted}')
+                cfg_file.append(f'{key}: {value}')
+
+    if args.project:
+        cmd_line.append(f'{quote(str(args.project))}')
+
+        # The config file should not contain a project.
 
     return ' '.join(cmd_line), '\n'.join(cfg_file)
 

@@ -464,7 +464,7 @@ class StartupDialog(QDialog):
         file_name = QFileDialog.getOpenFileName(
             self, 'Select',
             abs_path_from_ryven_dir('packages'),
-            '(nodes.py)')[0]
+            'ryven nodes package (nodes.py)')[0]
 
         if file_name:
             file_path = pathlib.Path(file_name)

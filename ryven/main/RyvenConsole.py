@@ -88,15 +88,18 @@ def parse_args():
 
     parser.add_argument(
         '-n', '--nodes',
-        nargs='+', action='extend',
-        dest='nodes',
+        action='append',
+        # nargs='+', action='extend',
         default=[],
-        metavar='NODE',
-        help='load one or more node packages; '
-             'node packages loaded here take precedence over node packages '
-             'with the same name specified in the project file! '
-             'Ryven\'s build-in nodes package is imported automatically'
-             '(%(metavar)s is the path to the nodes package without "/nodes.py")'
+        dest='nodes',
+        metavar='NODES_PKG',
+        help='''
+            load a nodes package\\
+            • If you want to load multiple packages, use the option again.\\
+            • Nodes packages loaded here take precedence over nodes packages
+            with the same name specified in the project file!\\
+            • Nodes package names containing spaces must be enclosed in quotes.
+            '''
     )
 
     args, remaining_args = parser.parse_known_args()
@@ -163,6 +166,7 @@ def run():
 
     try:
 
+        print("you dan directly access the ryvencore session through 'session'")
         print("REPL STARTED")
 
         while True:

@@ -167,10 +167,6 @@ def find_config_file(cfg_file_path):
         The full path to the config file or `None`, if it could not be found.
     """
 
-    # https://github.com/leon-thomm/Ryven/commit/a712ad2f767bb14b2651729bcca9bbfa53cb73f7#commitcomment-71357528
-    # if not cfg_file_path.endswith('.cfg'):
-    #     cfg_file_path += '.cfg'
-
     config_file_path = pathlib.Path(cfg_file_path)
 
     if config_file_path.exists():
