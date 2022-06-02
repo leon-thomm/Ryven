@@ -13,8 +13,6 @@ There are many ways you can contribute to the Ryven project. Particularly effect
 - example content: nodes and projects
 - tutorials
 
-Also check out the other repositories.
-
 # Creating Good Issues :mega:
 
 - you might want to check the [information on the website](https://ryven.org/guide)
