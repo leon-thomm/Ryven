@@ -11,8 +11,8 @@
 ### Advisors
 
 - [dumblob](https://github.com/dumblob)
-- [Yannick Reich](https://github.com/yannick-reich)
 - [Moritz Mussgnug](https://www.linkedin.com/in/moritz-mussgnug-053b7b198/)
+- [Yannick Reich](https://github.com/yannick-reich)
 
 ### Code
 
