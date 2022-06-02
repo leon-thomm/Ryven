@@ -6,7 +6,7 @@
 
  *While there are some example node packages, you will most likely rely mostly on your own nodes.*
 
-Using RyvenConsole you can deploy graphs directly on the backend through a tiny command-line interface, with not a single dependency other than what libraries your nodes use. Ryven also features configuration options from the command-line, from configuration files, or directly from code so you can also embed it into other applications.
+Ryven features configuration options from the command-line, from configuration files, or directly from code so you can also embed it into other applications. Using RyvenConsole you can also deploy graphs directly on the backend through a tiny command-line interface, with not a single dependency other than what libraries your nodes use.
 
 | Ryven repos on GitHub | -------------------------------------------------------------------------------- |
 |---|---|
@@ -14,7 +14,6 @@ Using RyvenConsole you can deploy graphs directly on the backend through a tiny 
 | [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt) | Qt frontend |
 | [ryven-blender](https://github.com/leon-thomm/ryven-blender) | Ryven plugin for Blender |
 | [ryven-unreal](https://github.com/leon-thomm/ryven-unreal) | Ryven plugin for Unreal Engine |
-| [ryven-website](https://github.com/leon-thomm/ryven-website) | Ryven website sources |
 | [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven) | Ryven nodes for PythonOCC |
 
 ![](./docs/img/themes_with_logo.png)
@@ -32,7 +31,14 @@ Ryven comes with some example nodes, but these are, indeed, just examples, and t
 pip install ryven
 ```
 
-and now you can launch it by running `ryven -s` on your terminal, and `ryven_console` for RyvenConsole. 
+There is also a [conda-forge package](https://anaconda.org/conda-forge/ryven), so on Anaconda you can run
+```
+ conda install -c conda-forge ryven 
+ ```
+
+#### Launching
+
+Run `ryven -s` on your terminal to launch Ryven and `ryven_console` for RyvenConsole. 
 
 #### Integration
 
@@ -236,6 +242,6 @@ Contributing guidelines: [here](https://github.com/leon-thomm/Ryven/blob/dev/CON
 
 Also notice that there's a *discussions* area in this repo.
 
-The guide on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), so you can improve it by simply editing the markdown. The whole [website sources](https://github.com/leon-thomm/ryven-website) are also on GitHub.
+The guide on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), so you can improve it by simply editing the markdown, you can find the [sources on GitHub](https://github.com/leon-thomm/ryven-website-guide) as well.
 
 Cheers.
