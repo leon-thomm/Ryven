@@ -16,6 +16,8 @@
 
 ### Code
 
+- [Jan Janssen](https://github.com/jan-janssen)
+    - conda port
 - [Marcin Morys](https://github.com/mmorys)
     - pip packaging
 - [sphh](https://github.com/sphh)
