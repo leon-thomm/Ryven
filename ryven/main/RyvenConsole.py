@@ -78,7 +78,6 @@ def parse_args():
             without any GUI components. This should now require any
             dependencies.
             ''',
-        epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT'
     )
 
     parser.add_argument(

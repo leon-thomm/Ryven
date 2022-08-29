@@ -158,7 +158,6 @@ def parse_sys_args(just_defaults=False):
             \\
             See https://ryven.org/guide/ for a guide on developing nodes.
             ''',
-        epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT',
         formatter_class=CustomHelpFormatter)
 
     # Positional arguments
