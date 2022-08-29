@@ -107,13 +107,13 @@ def run(*args_,
         utils.abs_path_from_package_dir('resources/fonts/asap/Asap-Regular.ttf'))
 
     #
-    # Ryven editor setup
+    # Editor configuration
     #
 
     editor_config = {}
 
     # Startup dialog
-    if args.show_dialog:
+    if not args.skip_dialog:
         from ryven.gui.startup_dialog.StartupDialog import StartupDialog
 
         # Get packages and project file interactively and update arguments accordingly
@@ -169,7 +169,7 @@ def run(*args_,
             args.flow_theme = 'pure light'
 
     #
-    # Start and run application
+    # Launch editor
     #
 
     # Init main console

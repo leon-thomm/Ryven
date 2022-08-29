@@ -161,7 +161,7 @@ def parse_sys_args(just_defaults=False):
         epilog='Copyright (C) 2020-2022 Leon Thomm, licensed under MIT',
         formatter_class=CustomHelpFormatter)
 
-    # Optional arguments
+    # Positional arguments
 
     parser.add_argument(
         nargs='?',
@@ -174,12 +174,14 @@ def parse_sys_args(just_defaults=False):
             • use "-" for standard input.
             ''')
 
+    # Optional arguments
+
     parser.add_argument(
-        '-s', '--show-dialog',
+        '-s', '--skip-dialog',
         action='store_true',
-        dest='show_dialog',
+        dest='skip_dialog',
         help='''
-            show the start-up dialog,
+            skip the start-up dialog,
             where project files, examples, nodes packages can be loaded and
             some settings can be changed and a configuration file saved
             ''')
@@ -195,9 +197,9 @@ def parse_sys_args(just_defaults=False):
         dest='verbose',
         help='display messages on the terminal console')
 
-    # Project
+    # Project configuration
 
-    group = parser.add_argument_group('projects')
+    group = parser.add_argument_group('project configuration')
 
     group.add_argument(
         '-n', '--nodes',
