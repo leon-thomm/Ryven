@@ -44,7 +44,8 @@ def import_nodes(session: Session, context_container, nodes_package: NodesPackag
     try:
         nodes = import_nodes_package(package=nodes_package)
         session.register_nodes(nodes)
-        print('registered nodes: ', nodes)
+        print('registered nodes:')
+        print('\n\t'.join([n.__name__ for n in nodes]), '\n')
     except Exception as e:
         print(e)
 
@@ -56,7 +57,8 @@ def load_project(session, context_container, project_file_path):
         f.close()
         del f
         scripts = session.load(project)
-        print(f'added scripts: {scripts}')
+        print('added scripts:')
+        print('\n\t'.join([f'{i}: {s}' for i,s in enumerate(scripts)]), '\n')
     except Exception as e:
         print(e)
 
@@ -107,66 +109,10 @@ def parse_args():
     return args
 
 
-def run():
-
-    args = parse_args()
-
-    os.environ['RYVEN_MODE'] = 'no-gui'
-    init_node_env()
-
-    # CLASSES['node base'] = NodeBaseWrapper
-    session = Session(gui=False)
-    session.register_nodes(
-        import_nodes_package(
-            NodesPackage(
-                directory=join(dirname(__file__), 'nodes/built_in/')
-            )
-        )
-    )
-
-    c = ContextContainer()
-    setattr(c, 'session', session)
-
-    #
-    # LOAD PROJECT AND NODE PACKAGES -----------------------------------------------------------------------------------
-    #
-
-    # check if project file exists
-    project = find_project(args.project[0])
-    if project is None:
-        sys.exit('Could not find specified project.')
-
-    # process node packages
-    manual_nodes, _, _ = process_nodes_packages(args.nodes)
-
-    node_packages, nodes_not_found, project_dict = process_nodes_packages(
-        project, requested_nodes=manual_nodes,
-    )
-
-    if nodes_not_found:
-        mul = len(nodes_not_found) > 1  # multiple packages missing ?
-        sys.exit(
-            f'The package{"s" if mul else ""} '
-            f''''{"', '".join([str(p) for p in nodes_not_found])}' '''
-            f'{"were" if mul else "was"} requested, '
-            f'but {"they are" if mul else "it is"} not available.'
-            f'\n'
-            f'Update the project file or supply the missing package{"s" if mul else ""} '
-            f''''{"', '".join([p.name for p in nodes_not_found])}' '''
-            f'on the command line with the "-n" switch.')
-
-    for np in node_packages:
-        import_nodes(session, c, np)
-
-    load_project(session, c, project)
-
-    #
-    # DEPLOY REPL ------------------------------------------------------------------------------------------------------
-    #
-
+def repl(session: Session, c: ContextContainer):
     try:
 
-        print("you dan directly access the ryvencore session through 'session'")
+        print("you dan directly access the ryvencore session through `session`")
         print("REPL STARTED")
 
         while True:
@@ -205,6 +151,70 @@ def run():
 
     except:
         sys.exit('exiting...')
+
+
+def run():
+
+    args = parse_args()
+
+    #
+    # initialize session
+    #
+
+    os.environ['RYVEN_MODE'] = 'no-gui'
+    init_node_env()
+
+    # CLASSES['node base'] = NodeBaseWrapper
+    session = Session(gui=False)
+    session.register_nodes(
+        import_nodes_package(
+            NodesPackage(
+                directory=join(dirname(__file__), 'nodes/built_in/')
+            )
+        )
+    )
+
+    c = ContextContainer()
+    setattr(c, 'session', session)
+
+    #
+    # load project and nodes packages
+    #
+
+    # check if project file exists
+    project = find_project(args.project[0])
+    if project is None:
+        sys.exit('Could not find specified project.')
+
+    # process node packages
+    manual_nodes, _, _ = process_nodes_packages(args.nodes)
+
+    node_packages, nodes_not_found, project_dict = process_nodes_packages(
+        project, requested_nodes=manual_nodes,
+    )
+
+    if nodes_not_found:
+        mul = len(nodes_not_found) > 1  # multiple packages missing ?
+        sys.exit(
+            f'The package{"s" if mul else ""} '
+            f''''{"', '".join([str(p) for p in nodes_not_found])}' '''
+            f'{"were" if mul else "was"} requested, '
+            f'but {"they are" if mul else "it is"} not available.'
+            f'\n'
+            f'Update the project file or supply the missing package{"s" if mul else ""} '
+            f''''{"', '".join([p.name for p in nodes_not_found])}' '''
+            f'on the command line with the "-n" switch.')
+
+    for np in node_packages:
+        import_nodes(session, c, np)
+
+    load_project(session, c, project)
+
+    #
+    # deploy REPL
+    #
+
+    repl(session, c)
 
 
 if __name__ == '__main__':
