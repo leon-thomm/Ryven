@@ -223,6 +223,9 @@ def process_nodes_packages(project_or_nodes, requested_nodes=[]):
     except TypeError:
         project_dict = None
         nodes = project_or_nodes
+    except KeyError:
+        # No required packages found
+        nodes = []
 
     node_packages = set()
     nodes_not_found = set()
