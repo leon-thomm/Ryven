@@ -25,8 +25,8 @@ def init_node_env():
     if os.environ['RYVEN_MODE'] == 'gui':
 
         from ryvencore_qt import \
-            NodeInputBP as NodeInputType_, \
-            NodeOutputBP as NodeOutputType_, \
+            NodeInputType as NodeInputType_, \
+            NodeOutputType as NodeOutputType_, \
             dtypes as dtypes_
         from ryven.main.nodes.NodeBase import NodeBase as Node_
 
