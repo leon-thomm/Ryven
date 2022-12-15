@@ -17,17 +17,17 @@ class ScriptUI(QWidget):
         FlowAlg.EXEC: 'exec-flow',
     }
 
-    def __init__(self, main_window, script, flow_view):
+    def __init__(self, main_window, flow, flow_view):
         super().__init__(main_window)
 
-        self.script = script
+        self.flow = flow
         self.flow_view = flow_view
         
         # UI
         self.ui = Ui_script_widget()
         self.ui.setupUi(self)
 
-        self.script.flow.algorithm_mode_changed.connect(self.flow_alg_mode_changed)
+        self.flow.algorithm_mode_changed.connect(self.flow_alg_mode_changed)
         # self.script.flow_view.viewport_update_mode_changed.connect(self.flow_vp_update_mode_changed)
 
         self.flow_alg_mode_dropdown = QComboBox()
@@ -37,7 +37,7 @@ class ScriptUI(QWidget):
         self.flow_alg_mode_dropdown.currentTextChanged.connect(self.flow_algorithm_mode_toggled)
 
         # catch up on flow modes
-        self.flow_alg_mode_changed(self.script.flow.algorithm_mode())
+        self.flow_alg_mode_changed(self.flow.algorithm_mode())
         # self.flow_vp_update_mode_changed(self.script.flow_view.viewport_update_mode())
 
         # variables list widget
