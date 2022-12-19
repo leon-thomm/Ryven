@@ -41,7 +41,7 @@ class ScriptUI(QWidget):
         # self.flow_vp_update_mode_changed(self.script.flow_view.viewport_update_mode())
 
         # variables list widget
-        self.vars_list_widget = GUI.VarsList(self.script.vars_manager)
+        self.vars_list_widget = GUI.VarsList(self.flow.session.addons.get('Variables'), self.flow) # TODO: how are vars now managed?
         self.ui.variables_group_box.layout().addWidget(self.vars_list_widget)
         self.ui.settings_vars_splitter.setSizes([40, 700])
 
