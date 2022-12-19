@@ -55,10 +55,12 @@ class ScriptUI(QWidget):
         # logs
         self.ui.logs_scrollArea.setWidget(self.create_loggers_widget())
         self.ui.splitter.setSizes([700, 0])
-        self.script.logs_manager.new_logger_created.connect(self.add_logger_widget)
+
+        # TODO: need to connect to logging event but seems it isn't implemented yet
+        #self.flow.session.addons.get('Logging').logs_manager.new_logger_created.connect(self.add_logger_widget)
 
         # catch up on logs which might have been loaded from a project already
-        for logger in self.script.logs_manager.loggers:
+        for logger in self.flow.session.addons.get('Logging').loggers:
             self.add_logger_widget(logger)
 
 
