@@ -106,7 +106,7 @@ class Val_Node(NodeBase):
 
     def update_event(self, input_called=-1):
         self.val = self.input(0)
-        self.set_output_val(0, self.val)
+        self.set_output_val(0, Data(self.val))
 
     def action_edit_via_dialog(self):
         return

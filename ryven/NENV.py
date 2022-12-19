@@ -61,6 +61,7 @@ def init_node_env():
 
 
 from ryven.main.utils import load_from_file
+from ryvencore.Data import Data
 
 
 def import_widgets(origin_file: str, rel_file_path='widgets.py'):
