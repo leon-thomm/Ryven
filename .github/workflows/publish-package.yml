@@ -1,8 +1,8 @@
 name: Publish package distribution to TestPyPi and PyPi
 on:
-  push:
-    branches:
-      - master
+  create:
+    tags:
+      - '*'
 jobs:
   Build-and-Publish:
     runs-on: ubuntu-latest
