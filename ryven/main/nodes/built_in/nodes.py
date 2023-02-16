@@ -85,7 +85,7 @@ class Val_Node(NodeBase):
 
     title = 'val'
     init_inputs = [
-        NodeInputBP(),
+        NodeInputBP(default=Data()),
     ]
     init_outputs = [
         NodeInputBP(type_='data'),
@@ -98,7 +98,7 @@ class Val_Node(NodeBase):
 
         self.display_title = ''
         self.actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
-        self.val = None
+        self.val = Data()
 
 
     def place_event(self):
@@ -106,7 +106,7 @@ class Val_Node(NodeBase):
 
     def update_event(self, input_called=-1):
         self.val = self.input(0)
-        self.set_output_val(0, Data(self.val))
+        self.set_output_val(0, self.val)
 
     def action_edit_via_dialog(self):
         return
