@@ -13,6 +13,7 @@ Node = None
 NodeInputBP = None
 NodeOutputBP = None
 dtypes = None
+Data = None
 
 
 def init_node_env():
@@ -20,20 +21,23 @@ def init_node_env():
     global NodeInputBP
     global NodeOutputBP
     global dtypes
+    global Data
 
 
     if os.environ['RYVEN_MODE'] == 'gui':
-
+        import ryvencore_qt
         from ryvencore_qt import \
             NodeInputType as NodeInputType_, \
             NodeOutputType as NodeOutputType_, \
-            dtypes as dtypes_
+            dtypes as dtypes_, \
+            Data as Data_
         from ryven.main.nodes.NodeBase import NodeBase as Node_
 
         Node = Node_
         NodeInputBP = NodeInputType_
         NodeOutputBP = NodeOutputType_
         dtypes = dtypes_
+        Data = Data_
 
     else:
 
@@ -42,7 +46,8 @@ def init_node_env():
             Node as _Node, \
             NodeInputType as NodeInputType_, \
             NodeOutputType as NodeOutputType_, \
-            dtypes as dtypes_
+            dtypes as dtypes_, \
+            Data as Data_
 
         class NodeWrp(_Node):
             """
@@ -58,10 +63,11 @@ def init_node_env():
         NodeInputBP = NodeInputType_
         NodeOutputBP = NodeOutputType_
         dtypes = dtypes_
+        Data = Data_
 
 
 from ryven.main.utils import load_from_file
-from ryvencore.Data import Data
+
 
 
 def import_widgets(origin_file: str, rel_file_path='widgets.py'):
