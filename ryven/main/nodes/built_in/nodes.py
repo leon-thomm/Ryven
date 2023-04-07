@@ -13,10 +13,10 @@ class GetVar_Node(NodeBase):
 
     title = 'get var'
     init_inputs = [
-        NodeInputBP(),
+        NodeInputType(),
     ]
     init_outputs = [
-        NodeOutputBP(label='val')
+        NodeOutputType(label='val')
     ]
     color = '#c69a15'
 
@@ -56,7 +56,7 @@ class Result_Node(NodeBase):
 
     title = 'result'
     init_inputs = [
-        NodeInputBP(type_='data'),
+        NodeInputType(type_='data'),
     ]
     main_widget_class = widgets.Result_Node_MainWidget
     main_widget_pos = 'between ports'
@@ -85,10 +85,10 @@ class Val_Node(NodeBase):
 
     title = 'val'
     init_inputs = [
-        NodeInputBP(default=Data()),
+        NodeInputType(default=Data()),
     ]
     init_outputs = [
-        NodeInputBP(type_='data'),
+        NodeInputType(type_='data'),
     ]
     style = 'small'
     color = '#c69a15'
@@ -149,13 +149,13 @@ class SetVar_Node(NodeBase):
 
     title = 'set var'
     init_inputs = [
-        NodeInputBP(type_='exec'),
-        NodeInputBP(label='var'),
-        NodeInputBP(label='val'),
+        NodeInputType(type_='exec'),
+        NodeInputType(label='var'),
+        NodeInputType(label='val'),
     ]
     init_outputs = [
-        NodeOutputBP(type_='exec'),
-        NodeOutputBP(type_='data', label='val'),
+        NodeOutputType(type_='exec'),
+        NodeOutputType(type_='data', label='val'),
     ]
     style = 'normal'
     color = '#c69a15'

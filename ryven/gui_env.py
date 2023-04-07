@@ -4,10 +4,11 @@ without path modifications which caused issues in the past."""
 
 import inspect
 
+from ryvencore_qt import \
+    IWB, MWB
 
 def init_node_guis_env():
-    from ryvencore_qt import \
-        IWB, MWB
+    pass
 
 
 class GuiClassesRegistry:

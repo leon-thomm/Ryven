@@ -48,7 +48,7 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
     from ryven import node_env
     load_from_file(package.file_path)
 
-    nodes = NENV.NodesRegistry.exported_nodes[-1]
+    nodes = node_env.NodesRegistry.exported_nodes[-1]
 
     if os.environ['RYVEN_MODE'] == 'gui':
 
@@ -57,16 +57,17 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
         # because all the node package modules are named 'nodes.py' now, we need to retrieve the sources via inspect here
         # since inspect will be unable to do so once we imported another 'nodes' module.
 
-        node_cls_sources = NENV.NodesRegistry.exported_node_sources[-1]
+        node_cls_sources = node_env.NodesRegistry.exported_node_sources[-1]
         node_mod_sources = [inspect.getsource(inspect.getmodule(n)) for n in nodes]
 
         for i in range(len(nodes)):
             n = nodes[i]
+            has_gui = hasattr(n, 'gui')
+            mw_cls_src = inspect.getsource(n.gui.main_widget_class) if has_gui else None
+            mw_mod_src = inspect.getsource(inspect.getmodule(n.gui.main_widget_class)) if has_gui else None
 
-            mw_cls_src = inspect.getsource(n.main_widget_class) if n.main_widget_class else None
-            mw_mod_src = inspect.getsource(inspect.getmodule(n.main_widget_class)) if n.main_widget_class else None
-
-            n.__class_codes__ = {
+            # TODO: change this. Don't store that information in the Node class.
+            setattr(n, '__class_codes__', {
                 'node cls': node_cls_sources[i],
                 'node mod': node_mod_sources[i],
                 'main widget cls': mw_cls_src,
@@ -75,9 +76,9 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
                     name: {
                         'cls': inspect.getsource(inp_cls),
                         'mod': inspect.getsource(inspect.getmodule(inp_cls))
-                    } for name, inp_cls in n.input_widget_classes.items()
+                    } for name, inp_cls in (n.gui.input_widget_classes.items() if has_gui else [])
                 }
-            }
+            })
 
     # -----------
 

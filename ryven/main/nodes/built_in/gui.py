@@ -51,7 +51,7 @@ class ValNode_MainWidget(MWB, QLineEdit):
         self.setText(data['text'])
 
 
-export_widgets(
+export_guis(
     Result_Node_MainWidget,
     ValNode_MainWidget,
 )
