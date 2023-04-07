@@ -63,8 +63,9 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
         for i in range(len(nodes)):
             n = nodes[i]
             has_gui = hasattr(n, 'gui')
-            mw_cls_src = inspect.getsource(n.gui.main_widget_class) if has_gui else None
-            mw_mod_src = inspect.getsource(inspect.getmodule(n.gui.main_widget_class)) if has_gui else None
+            has_mw = has_gui and n.gui.main_widget_class is not None
+            mw_cls_src = inspect.getsource(n.gui.main_widget_class) if has_mw else None
+            mw_mod_src = inspect.getsource(inspect.getmodule(n.gui.main_widget_class)) if has_mw else None
 
             # TODO: change this. Don't store that information in the Node class.
             setattr(n, '__class_codes__', {
