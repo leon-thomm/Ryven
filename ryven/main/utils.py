@@ -83,9 +83,9 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
 
     # add package name to identifiers and define custom types
 
-    for n in nodes:
-        n.identifier_prefix = package.name  #  + '.' + (n.identifier if n.identifier else n.__name__)
-        n.type_ = package.name if not n.type_ else f'{package.name}[{n.type_}]'
+    # for n in nodes:
+    #     n.identifier_prefix = package.name  #  + '.' + (n.identifier if n.identifier else n.__name__)
+    #     n.type_ = package.name if not n.type_ else f'{package.name}[{n.type_}]'
 
     return nodes
 
@@ -223,6 +223,9 @@ def process_nodes_packages(project_or_nodes, requested_nodes=[]):
     except TypeError:
         project_dict = None
         nodes = project_or_nodes
+    except KeyError:
+        # No required packages found
+        nodes = []
 
     node_packages = set()
     nodes_not_found = set()

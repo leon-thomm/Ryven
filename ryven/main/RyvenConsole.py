@@ -127,38 +127,8 @@ def run():
     c = ContextContainer()
     setattr(c, 'session', session)
 
-    #
-    # LOAD PROJECT AND NODE PACKAGES -----------------------------------------------------------------------------------
-    #
-
-    # check if project file exists
-    project = find_project(args.project[0])
-    if project is None:
-        sys.exit('Could not find specified project.')
-
-    # process node packages
-    manual_nodes, _, _ = process_nodes_packages(args.nodes)
-
-    node_packages, nodes_not_found, project_dict = process_nodes_packages(
-        project, requested_nodes=manual_nodes,
-    )
-
-    if nodes_not_found:
-        mul = len(nodes_not_found) > 1  # multiple packages missing ?
-        sys.exit(
-            f'The package{"s" if mul else ""} '
-            f''''{"', '".join([str(p) for p in nodes_not_found])}' '''
-            f'{"were" if mul else "was"} requested, '
-            f'but {"they are" if mul else "it is"} not available.'
-            f'\n'
-            f'Update the project file or supply the missing package{"s" if mul else ""} '
-            f''''{"', '".join([p.name for p in nodes_not_found])}' '''
-            f'on the command line with the "-n" switch.')
-
-    for np in node_packages:
-        import_nodes(session, c, np)
-
-    load_project(session, c, project)
+    # What happens here and underneath needs to be refactored for clarity
+    load_project_and_nodes(args.project[0], args.nodes, c, session)
 
     #
     # DEPLOY REPL ------------------------------------------------------------------------------------------------------
@@ -205,6 +175,35 @@ def run():
 
     except:
         sys.exit('exiting...')
+
+
+def load_project_and_nodes(project_path, nodes, c, session):
+    #
+    # LOAD PROJECT AND NODE PACKAGES -----------------------------------------------------------------------------------
+    #
+    # check if project file exists
+    project = find_project(project_path)
+    if project is None:
+        sys.exit('Could not find specified project.')
+    # process node packages
+    manual_nodes, _, _ = process_nodes_packages(nodes)
+    node_packages, nodes_not_found, project_dict = process_nodes_packages(
+        project, requested_nodes=manual_nodes,
+    )
+    if nodes_not_found:
+        mul = len(nodes_not_found) > 1  # multiple packages missing ?
+        sys.exit(
+            f'The package{"s" if mul else ""} '
+            f''''{"', '".join([str(p) for p in nodes_not_found])}' '''
+            f'{"were" if mul else "was"} requested, '
+            f'but {"they are" if mul else "it is"} not available.'
+            f'\n'
+            f'Update the project file or supply the missing package{"s" if mul else ""} '
+            f''''{"', '".join([p.name for p in nodes_not_found])}' '''
+            f'on the command line with the "-n" switch.')
+    for np in node_packages:
+        import_nodes(session, c, np)
+    load_project(session, c, project)
 
 
 if __name__ == '__main__':

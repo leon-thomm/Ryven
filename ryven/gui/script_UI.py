@@ -17,17 +17,17 @@ class ScriptUI(QWidget):
         FlowAlg.EXEC: 'exec-flow',
     }
 
-    def __init__(self, main_window, script, flow_view):
+    def __init__(self, main_window, flow, flow_view):
         super().__init__(main_window)
 
-        self.script = script
+        self.flow = flow
         self.flow_view = flow_view
         
         # UI
         self.ui = Ui_script_widget()
         self.ui.setupUi(self)
 
-        self.script.flow.algorithm_mode_changed.connect(self.flow_alg_mode_changed)
+        self.flow.algorithm_mode_changed.connect(self.flow_alg_mode_changed)
         # self.script.flow_view.viewport_update_mode_changed.connect(self.flow_vp_update_mode_changed)
 
         self.flow_alg_mode_dropdown = QComboBox()
@@ -37,11 +37,11 @@ class ScriptUI(QWidget):
         self.flow_alg_mode_dropdown.currentTextChanged.connect(self.flow_algorithm_mode_toggled)
 
         # catch up on flow modes
-        self.flow_alg_mode_changed(self.script.flow.algorithm_mode())
+        self.flow_alg_mode_changed(self.flow.algorithm_mode())
         # self.flow_vp_update_mode_changed(self.script.flow_view.viewport_update_mode())
 
         # variables list widget
-        self.vars_list_widget = GUI.VarsList(self.script.vars_manager)
+        self.vars_list_widget = GUI.VarsList(self.flow.session.addons.get('Variables'), self.flow) # TODO: how are vars now managed?
         self.ui.variables_group_box.layout().addWidget(self.vars_list_widget)
         self.ui.settings_vars_splitter.setSizes([40, 700])
 
@@ -55,10 +55,12 @@ class ScriptUI(QWidget):
         # logs
         self.ui.logs_scrollArea.setWidget(self.create_loggers_widget())
         self.ui.splitter.setSizes([700, 0])
-        self.script.logs_manager.new_logger_created.connect(self.add_logger_widget)
+
+        # TODO: need to connect to logging event but seems it isn't implemented yet
+        #self.flow.session.addons.get('Logging').logs_manager.new_logger_created.connect(self.add_logger_widget)
 
         # catch up on logs which might have been loaded from a project already
-        for logger in self.script.logs_manager.loggers:
+        for logger in self.flow.session.addons.get('Logging').loggers:
             self.add_logger_widget(logger)
 
 

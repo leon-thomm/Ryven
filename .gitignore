@@ -4,12 +4,12 @@
 __pycache__/
 venv/
 temp/
-tests/
 code_gen/
 __own__/
 build/
 dist/
 *.egg-info
+tests/data
 
 ryvencore-drawio.xml
 

@@ -52,13 +52,13 @@ class MainWindow(QMainWindow):
         # SESSION
         self.session = rc.Session()
         if info_msgs_enabled:
-            self.session.info_messenger().enable(traceback=True)
+            self.session._info_messenger().enable(traceback=True)
         else:
-            self.session.info_messenger().disable()
+            self.session._info_messenger().disable()
 
-        self.session.flow_view_created.connect(self.script_created)
-        self.session.script_renamed.connect(self.script_renamed)
-        self.session.script_deleted.connect(self.script_deleted)
+        self.session.flow_view_created.connect(self.flow_created)
+        self.session.flow_renamed.connect(self.flow_renamed)
+        self.session.flow_deleted.connect(self.flow_deleted)
 
         # LOAD DESIGN AND FLOW THEME
         self.session.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
@@ -96,7 +96,7 @@ class MainWindow(QMainWindow):
         print('importing requested packages...')
         self.import_packages(requested_packages)
         if action == 'create project':
-            self.session.create_script(title='hello world')
+            self.session.create_flow(title='hello world')
         elif action == 'open project':
             print('importing required packages...')
             self.import_packages(required_packages)
@@ -136,7 +136,7 @@ CONTROLS
         # self.ui.left_vertical_splitter.setSizes([350, 350])
         self.ui.main_vertical_splitter.setSizes([700, 0])
 
-        self.scripts_list_widget = rc_GUI.ScriptsList(self.session)
+        self.scripts_list_widget = rc_GUI.FlowsList(self.session)
         self.ui.scripts_groupBox.layout().addWidget(self.scripts_list_widget)
 
         self.nodes_list_widget = rc_GUI.NodeListWidget(self.session)
@@ -294,7 +294,7 @@ CONTROLS
         new_script_title = GetTextDialog('choose unique title', '', 'new script title', self).get_text()
 
         if new_script_title not in (s.title for s in self.session.scripts):
-            self.session.create_script(new_script_title)
+            self.session.create_flow(new_script_title)
         else:
             script = [s for s in self.session.scripts if s.title == new_script_title][0]
             self.focus_on_script(script)
@@ -325,19 +325,19 @@ CONTROLS
 
     # SESSION
 
-    def script_created(self, script, flow_view):
+    def flow_created(self, script, flow_view):
         script_widget = ScriptUI(self, script, flow_view)
         self.script_UIs[script] = script_widget
         self.ui.scripts_tab_widget.addTab(script_widget, script.title)
         self.focus_on_script(script)
 
-    def script_renamed(self, script):
+    def flow_renamed(self, script):
         self.ui.scripts_tab_widget.setTabText(
             self.session.scripts.index(script),
             script.title
         )
 
-    def script_deleted(self, script):
+    def flow_deleted(self, script):
         self.ui.scripts_tab_widget.removeTab(self.ui.scripts_tab_widget.indexOf(self.script_UIs[script]))
         del self.script_UIs[script]
 

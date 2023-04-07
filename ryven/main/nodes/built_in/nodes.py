@@ -13,7 +13,7 @@ class GetVar_Node(NodeBase):
 
     title = 'get var'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.String(size='m')),
+        NodeInputBP(),
     ]
     init_outputs = [
         NodeOutputBP(label='val')
@@ -85,7 +85,7 @@ class Val_Node(NodeBase):
 
     title = 'val'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.Data(size='s')),
+        NodeInputBP(default=Data()),
     ]
     init_outputs = [
         NodeInputBP(type_='data'),
@@ -98,7 +98,7 @@ class Val_Node(NodeBase):
 
         self.display_title = ''
         self.actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
-        self.val = None
+        self.val = Data()
 
 
     def place_event(self):
@@ -150,8 +150,8 @@ class SetVar_Node(NodeBase):
     title = 'set var'
     init_inputs = [
         NodeInputBP(type_='exec'),
-        NodeInputBP(dtype=dtypes.String(), label='var'),
-        NodeInputBP(dtype=dtypes.Data(size='s'), label='val'),
+        NodeInputBP(label='var'),
+        NodeInputBP(label='val'),
     ]
     init_outputs = [
         NodeOutputBP(type_='exec'),
