@@ -5,7 +5,7 @@ import unittest
 from os.path import join, dirname
 
 import ryvencore as rc
-from ryven.NENV import init_node_env
+from ryven.node_env import init_node_env
 from ryven.main.nodes_package import NodesPackage
 from ryven.main.utils import import_nodes_package
 

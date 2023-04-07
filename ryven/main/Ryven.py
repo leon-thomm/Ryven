@@ -2,8 +2,8 @@ import os
 import sys
 
 from ryven.main import utils
-from ryven.NENV import init_node_env
-from ryven.NWENV import init_node_widget_env
+from ryven.node_env import init_node_env
+from ryven.gui_env import init_node_guis_env
 from ryven.main.args_parser import process_args
 
 
@@ -77,7 +77,7 @@ def run(*args_,
     # Init environment
     os.environ['RYVEN_MODE'] = 'gui'
     init_node_env()
-    init_node_widget_env()
+    init_node_guis_env()
 
     # Import GUI sources (must come after setting `os.environ['QT_API']`)
     from ryven.gui.main_console import init_main_console

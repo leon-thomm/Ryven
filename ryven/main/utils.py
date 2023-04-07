@@ -45,7 +45,7 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
             "For example set os.environ['RYVEN_MODE'] = 'no-gui' for gui-less deployment."
         )
 
-    from ryven import NENV
+    from ryven import node_env
     load_from_file(package.file_path)
 
     nodes = NENV.NodesRegistry.exported_nodes[-1]
@@ -282,7 +282,7 @@ def ryven_dir_path() -> str:
 def abs_path_from_package_dir(path_rel_to_ryven: str):
     """Given a path string relative to the ryven package, return the file/folder absolute path
 
-    :param path_rel_to_ryven: path relative to ryven package (e.g. main/NENV.py)
+    :param path_rel_to_ryven: path relative to ryven package (e.g. main/node_env.py)
     :type path_rel_to_ryven: str
     """
     ryven_path = dirname(dirname(__file__))

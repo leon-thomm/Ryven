@@ -63,7 +63,7 @@ You can also create new scripts, rename and delete them. Now let's check out the
 Now it's time to build our own nodes. Navigate to the `~/.ryven/packages/` directory and create a new folder `<your_package_name>`. Inside this folder create a python file `nodes.py` and fill it with the following content:
 
 ```python
-from ryven.NENV import *
+from ryven.node_env import *
 
 # your node definitions go here
 

@@ -14,7 +14,7 @@ from ryvencore import *
 
 from ryven.main.nodes_package import NodesPackage
 from ryven.main.utils import import_nodes_package, process_nodes_packages, find_project
-from ryven.NENV import init_node_env
+from ryven.node_env import init_node_env
 
 
 cmds = [

@@ -1,4 +1,4 @@
-from ryven.NWENV import *
+from ryven.gui_env import *
 
 from qtpy.QtWidgets import QTextEdit
 # from qtpy.QtCore import ...
