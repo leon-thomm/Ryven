@@ -1,15 +1,15 @@
-"""A UI for scripts. Will be displayed in the tab widget in MainWindow."""
+"""A UI for flows. Will be displayed in the tab widget in MainWindow."""
 
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QComboBox
 
-import ryvencore_qt.src.conv_gui as GUI
+import ryvencore_qt.src.widgets as GUI
 from ryvencore.RC import FlowAlg
 
 from ryven.gui.code_editor.CodePreviewWidget import CodePreviewWidget
 from ryven.gui.uic.ui_script import Ui_script_widget
 
 
-class ScriptUI(QWidget):
+class FlowUI(QWidget):
 
     flow_alg_mode_display_titles = {
         FlowAlg.DATA: 'data-flow',
@@ -27,7 +27,7 @@ class ScriptUI(QWidget):
         self.ui = Ui_script_widget()
         self.ui.setupUi(self)
 
-        self.flow.algorithm_mode_changed.connect(self.flow_alg_mode_changed)
+        self.flow.algorithm_mode_changed.sub(self.flow_alg_mode_changed)
         # self.script.flow_view.viewport_update_mode_changed.connect(self.flow_vp_update_mode_changed)
 
         self.flow_alg_mode_dropdown = QComboBox()
@@ -83,7 +83,7 @@ class ScriptUI(QWidget):
     
     def flow_algorithm_mode_toggled(self):
 
-        self.script.flow.set_algorithm_mode(
+        self.flow.set_algorithm_mode(
             FlowAlg.str(
                 list(self.flow_alg_mode_display_titles.keys())
                 [self.flow_alg_mode_dropdown.currentIndex()]

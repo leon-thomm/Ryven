@@ -22,26 +22,26 @@ class GetTextDialog(QDialog):
         return self.text
 
 
-class ChooseScriptDialog(QDialog):
-    def __init__(self, window_title, scripts, parent=None):
+class ChooseFlowDialog(QDialog):
+    def __init__(self, window_title, flows, parent=None):
         super().__init__(parent)
 
-        self.script = None
-        self.button_scripts = {}
+        self.flow = None
+        self.button_flows = {}
 
         self.setLayout(QVBoxLayout())
-        for s in scripts:
+        for s in flows:
             b = QPushButton(s.title)
             b.pressed.connect(self.button_pressed)
-            self.button_scripts[b] = s
+            self.button_flows[b] = s
             self.layout().addWidget(b)
 
         self.setWindowTitle(window_title)
 
     def button_pressed(self):
-        self.script = self.button_scripts[self.sender()]
+        self.flow = self.button_flows[self.sender()]
         self.accept()
 
-    def get_script(self):
+    def get_flow(self):
         self.exec_()
-        return self.script
+        return self.flow
