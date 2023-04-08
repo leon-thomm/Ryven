@@ -92,7 +92,7 @@ class Val_Node(NodeBase):
 
     title = 'val'
     init_inputs = [
-        NodeInputType(default=Data()),
+        # NodeInputType(default=Data()),
     ]
     init_outputs = [
         NodeInputType(type_='data'),
@@ -110,7 +110,7 @@ class Val_Node(NodeBase):
         self.update()
 
     def update_event(self, input_called=-1):
-        self.val = self.input(0)
+        # self.val = self.input(0)
         self.set_output_val(0, self.val)
 
     def get_current_var_name(self):

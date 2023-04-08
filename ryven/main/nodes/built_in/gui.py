@@ -1,3 +1,5 @@
+from ryvencore import Data
+
 from ryven.gui_env import *
 
 from qtpy.QtGui import QKeySequence
@@ -43,7 +45,6 @@ class ValNode_MainWidget(MWB, QLineEdit):
         self.editingFinished.connect(self.editing_finished)
 
     def editing_finished(self):
-        # self.node.update()
         self.value_changed.emit(self.get_val())
 
     def get_val(self):
@@ -118,7 +119,12 @@ class ValGui(NodeGUI):
     color = '#c69a15'
 
     def initialized(self):
+        self.main_widget().value_changed.connect(self.widget_val_updated)
         self.actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
+
+    def widget_val_updated(self):
+        self.node.val = Data(self.main_widget().get_val())
+        self.node.update()
 
     def action_edit_via_dialog(self):
         val_dialog = EditVal_Dialog(parent=None, init_val=self.node.val)

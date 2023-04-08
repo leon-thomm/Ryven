@@ -48,48 +48,9 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
     from ryven import node_env
     load_from_file(package.file_path)
 
-    nodes = node_env.NodesRegistry.exported_nodes[-1]
+    node_types = node_env.NodesRegistry.exported_nodes[-1]
 
-    if os.environ['RYVEN_MODE'] == 'gui':
-
-        # ADD SOURCES
-
-        # because all the node package modules are named 'nodes.py' now, we need to retrieve the sources via inspect here
-        # since inspect will be unable to do so once we imported another 'nodes' module.
-
-        node_cls_sources = node_env.NodesRegistry.exported_node_sources[-1]
-        node_mod_sources = [inspect.getsource(inspect.getmodule(n)) for n in nodes]
-
-        for i in range(len(nodes)):
-            n = nodes[i]
-            has_gui = hasattr(n, 'gui')
-            has_mw = has_gui and n.gui.main_widget_class is not None
-            mw_cls_src = inspect.getsource(n.gui.main_widget_class) if has_mw else None
-            mw_mod_src = inspect.getsource(inspect.getmodule(n.gui.main_widget_class)) if has_mw else None
-
-            # TODO: change this. Don't store that information in the Node class.
-            setattr(n, '__class_codes__', {
-                'node cls': node_cls_sources[i],
-                'node mod': node_mod_sources[i],
-                'main widget cls': mw_cls_src,
-                'main widget mod': mw_mod_src,
-                'custom input widgets': {
-                    name: {
-                        'cls': inspect.getsource(inp_cls),
-                        'mod': inspect.getsource(inspect.getmodule(inp_cls))
-                    } for name, inp_cls in (n.gui.input_widget_classes.items() if has_gui else [])
-                }
-            })
-
-    # -----------
-
-    # add package name to identifiers and define custom types
-
-    # for n in nodes:
-    #     n.identifier_prefix = package.name  #  + '.' + (n.identifier if n.identifier else n.__name__)
-    #     n.type_ = package.name if not n.type_ else f'{package.name}[{n.type_}]'
-
-    return nodes
+    return node_types
 
 
 def read_project(project_path):

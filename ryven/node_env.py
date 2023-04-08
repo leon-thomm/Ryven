@@ -2,14 +2,12 @@
 It should lie in the same location as Ryven.py so it can get imported directly from the custom sources
 without path modifications which caused issues in the past."""
 
-import inspect
-import sys
 import os
+from typing import Type
 
 from ryven.main.utils import load_from_file
 
-from ryvencore import \
-    Node, NodeInputType, NodeOutputType, Data
+from ryvencore import Node
 
 
 def init_node_env():
@@ -66,8 +64,6 @@ def import_guis(origin_file: str, gui_file_name='gui.py'):
 
     return gui_classes_container
 
-# ------------------------------------------------------
-
 
 class NodesRegistry:
     """
@@ -75,8 +71,9 @@ class NodesRegistry:
     After running the imported nodes.py module (which causes export_nodes() to run),
     Ryven can find the exported nodes in exported_nodes.
     """
-    exported_nodes: [[Node]] = []
-    exported_node_sources: [[str]] = []
+
+    # stores, for each nodes package separately, a list of exported node types
+    exported_nodes: [[Type[Node]]] = []
 
 
 def export_nodes(*args):
@@ -86,17 +83,16 @@ def export_nodes(*args):
 
     if not isinstance(args, tuple):
         if issubclass(args, Node):
-            nodes = tuple(args)
+            node_types = tuple(args)
         else:
             return
     else:
-        nodes = list(args)
+        node_types = list(args)
 
-    NodesRegistry.exported_nodes.append(nodes)
+    NodesRegistry.exported_nodes.append(node_types)
 
-    # get sources
-    node_sources = [inspect.getsource(n) for n in nodes]
-    NodesRegistry.exported_node_sources.append(node_sources)
-
-
-# ------------------------------------------------------
+    if os.environ['RYVEN_MODE'] == 'gui':
+        # store node sources for code inspection
+        from ryven.gui.code_editor.codes_storage import register_node_type
+        for node_type in node_types:
+            register_node_type(node_type)

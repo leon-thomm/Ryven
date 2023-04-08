@@ -36,6 +36,11 @@ class CodeEditorWidget(QTextEdit):
         else:
             self.formatter = get_formatter_by_name('html', noclasses=True, style=LightStyle)
 
+        if self.editing:
+            self.enable_editing()
+        else:
+            self.disable_editing()
+
     def enable_editing(self):
         self.editing = True
         self.setReadOnly(False)

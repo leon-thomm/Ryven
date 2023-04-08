@@ -7,6 +7,10 @@ from ryven.main.utils import find_config_file
 from ryven import __version__
 from ryven.main import utils
 
+# TODO: add flags for 'console'/'no-console' and 'src-code-edits'/'no-src-code-edits';
+#  feature 'src-code-edits' can lead to high memory consumption;
+#  it also requires Python >= 3.9
+
 
 class CustomHelpFormatter(argparse.HelpFormatter):
 
