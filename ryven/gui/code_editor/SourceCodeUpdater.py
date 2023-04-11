@@ -1,4 +1,5 @@
 import types
+from typing import Union
 
 
 def get_method_funcs(cls_def_str: str, obj):
@@ -40,7 +41,7 @@ class SrcCodeUpdater:
     """
 
     @staticmethod
-    def override_code(obj: object, new_class_src) -> None | Exception:
+    def override_code(obj: object, new_class_src) -> Union[None, Exception]:
         try:
             funcs = get_method_funcs(new_class_src, obj)
             for name, f in funcs.items():  # override all methods
