@@ -188,7 +188,7 @@ def load_project_and_nodes(project_path, nodes, c, session):
     # process node packages
     manual_nodes, _, _ = process_nodes_packages(nodes)
     node_packages, nodes_not_found, project_dict = process_nodes_packages(
-        project, requested_nodes=manual_nodes,
+        project, requested_packages=manual_nodes,
     )
     if nodes_not_found:
         mul = len(nodes_not_found) > 1  # multiple packages missing ?

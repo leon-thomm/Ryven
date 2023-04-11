@@ -125,11 +125,10 @@ def run(*args_,
 
     # Replace node directories with `NodePackage` instances
     if args.nodes:
-        args.nodes, nodes_not_found, _ = utils.process_nodes_packages(args.nodes)
-        if nodes_not_found:
+        args.nodes, pkgs_not_found, _ = utils.process_nodes_packages(args.nodes)
+        if pkgs_not_found:
             sys.exit(
-                f'''Error: Nodes packages not found: '''
-                f'''{", ".join(['"' + str(n) + '"' for n in nodes_not_found])}''')
+                f'Error: Nodes packages not found: {", ".join([str(p) for p in pkgs_not_found])}')
 
         editor_config['requested packages'] = args.nodes
 
@@ -138,23 +137,22 @@ def run(*args_,
 
     # Get packages required by the project
     if args.project:
-        nodes, nodes_not_found, project_dict = utils.process_nodes_packages(
-            args.project, requested_nodes=args.nodes)
+        pkgs, pkgs_not_found, project_dict = utils.process_nodes_packages(
+            args.project, requested_packages=args.nodes)
 
-        if nodes_not_found:
+        if pkgs_not_found:
+            str_missing_pkgs = ', '.join([str(p.name) for p in pkgs_not_found])
+            plural = len(pkgs_not_found) > 1
             sys.exit(
-                f'The package{"s" if len(nodes_not_found)>1 else ""} '
-                f''''{"', '".join([str(p) for p in nodes_not_found])}' '''
-                f'{"were" if len(nodes_not_found)>1 else "was"} requested, '
-                f'but {"they are" if len(nodes_not_found)>1 else "it is"} not available.'
-                f'\n'
-                f'Update the project file or supply the missing package{"s" if len(nodes_not_found)>1 else ""} '
-                f''''{"', '".join([p.name for p in nodes_not_found])}' '''
-                f'on the command line with the "-n" switch.')
+                f'The package{"s" if plural else ""} {str_missing_pkgs}'
+                f'{"were" if plural else "was"} requested, '
+                f'but {"they are" if plural else "it is"} not available.\n'
+                f'Update the project file or supply the missing package{"s" if plural else ""} '
+                f'{str_missing_pkgs} on the command line with the "-n" switch.')
 
         editor_config['action'] = 'open project'
         editor_config['requested packages'] = args.nodes
-        editor_config['required packages'] = nodes
+        editor_config['required packages'] = pkgs
         editor_config['project content'] = project_dict
 
     else:
