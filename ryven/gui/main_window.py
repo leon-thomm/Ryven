@@ -19,6 +19,8 @@ from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 import ryvencore_qt as rc
 import ryvencore_qt.src.widgets as rc_GUI
 
+from ryvencore import InfoMsgs
+
 
 class MainWindow(QMainWindow):
 
@@ -33,7 +35,7 @@ class MainWindow(QMainWindow):
             # line argument parser, when launching the application with cmd line arguments.
 
             action: str = "create new project",  # or "open project'
-            requested_packages: set = set(),
+            requested_packages: set = (),
             required_packages: set = None,  # only valid when project_content is provided
             project_content: dict = None,
             info_msgs_enabled: bool = False,
@@ -269,10 +271,10 @@ CONTROLS
         self.session_gui.design.set_flow_theme(self.session_gui.design.flow_themes[index])
 
     def on_enable_info_msgs_triggered(self):
-        rc.InfoMsgs.enable()
+        InfoMsgs.enable()
 
     def on_disable_info_msgs_triggered(self):
-        rc.InfoMsgs.disable()
+        InfoMsgs.disable()
 
     def on_save_scene_pic_viewport_triggered(self):
         """Saves a picture of the currently visible viewport."""
@@ -398,7 +400,7 @@ CONTROLS
                 os.remove(file_name)
             file = open(file_name, 'w')
         except FileNotFoundError:
-            rc.InfoMsgs.write('couldn\'t open file')
+            InfoMsgs.write('couldn\'t open file')
             return
 
         general_project_info_dict = {'type': 'Ryven project file', 'ryven version': __version__}
@@ -420,7 +422,7 @@ CONTROLS
                               **flows_data}
 
         data = json.dumps(whole_project_dict, indent=4)
-        rc.InfoMsgs.write(data)
+        InfoMsgs.write(data)
 
         file.write(data)
         file.close()
