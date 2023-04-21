@@ -17,8 +17,8 @@ def register_node_type(n: Type[Node]):
     src = inspect.getsource(n)
     mw_src = inspect.getsource(n.GUI.main_widget_class) if has_mw else None
     inp_src = {
-        name: inspect.getsource(n.GUI.custom_input_widgets[name])
-        for i, name in n.GUI.init_input_widgets.items()
+        name: inspect.getsource(cls)
+        for name, cls in n.GUI.input_widget_classes.items()
     } if has_gui else None
 
     class_codes[n] = NodeTypeCodes(

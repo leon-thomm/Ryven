@@ -151,7 +151,7 @@ class CodePreviewWidget(QWidget):
         for i in range(len(node.inputs)):
             inp = node.inputs[i]
             if inp in node.gui.input_widgets:
-                name = node.gui.input_widgets[inp]
+                name = node.gui.input_widgets[inp]['name']
                 widget = node.gui.item.inputs[i].widget
                 code = codes.custom_input_widget_clss[name]
                 code = modif_codes.get(widget, code)
