@@ -200,10 +200,6 @@ class SetVarsPassive_Node(NodeBase):
 
         self.num_vars = 0
 
-    def place_event(self):
-        if self.num_vars == 0:
-            self.add_var_input()
-
     def add_var_input(self):
         # self.create_input_dt(label='var', dtype=dtypes.String(size='l'))
         # self.create_input_dt(label='val', dtype=dtypes.Data(size='l'))
@@ -212,29 +208,35 @@ class SetVarsPassive_Node(NodeBase):
 
         self.num_vars += 1
 
+        if self.have_gui():
+            self.gui.rebuild_remove_actions()
+
     def remove_var_input(self, number):
         self.delete_input((number-1)*2)
         self.delete_input((number-1)*2)
         self.num_vars -= 1
-        self.rebuild_remove_actions()
+        # self.rebuild_remove_actions()
 
-    def rebuild_remove_actions(self):
-        if not self.have_gui():
-            return
+        if self.have_gui():
+            self.gui.rebuild_remove_actions()
 
-        remove_keys = []
-        for k, v in self.gui.actions.items():
-            if k.startswith('remove var'):
-                remove_keys.append(k)
-
-        for k in remove_keys:
-            del self.gui.actions[k]
-
-        for i in range(self.num_vars):
-            self.gui.actions[f'remove var {i+1}'] = {
-                'method': self.remove_var_input,
-                'data': i+1
-            }
+    # def rebuild_remove_actions(self):
+    #     if not self.have_gui():
+    #         return
+    #
+    #     remove_keys = []
+    #     for k, v in self.gui.actions.items():
+    #         if k.startswith('remove var'):
+    #             remove_keys.append(k)
+    #
+    #     for k in remove_keys:
+    #         del self.gui.actions[k]
+    #
+    #     for i in range(self.num_vars):
+    #         self.gui.actions[f'remove var {i+1}'] = {
+    #             'method': self.remove_var_input,
+    #             'data': i+1
+    #         }
 
     def update_event(self, input_called=-1):
 

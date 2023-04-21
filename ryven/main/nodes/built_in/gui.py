@@ -139,14 +139,15 @@ class SetVarsGui(NodeGUI):
     color = '#c69a15'
 
     def initialized(self):
-        self.actions = {
-            'add var input': {'method': self.add_var},
-            'remove var input': {},
-        }
+        self.actions['add var input'] = {'method': self.add_var}
+        self.actions['remove var input'] = {}
+        self.rebuild_remove_actions()
 
     def add_var(self):
         self.node.add_var_input()
-        self.rebuild_remove_actions()
+
+    def remove_var(self, i):
+        self.node.remove_var_input(i)
 
     def rebuild_remove_actions(self):
 
@@ -159,8 +160,8 @@ class SetVarsGui(NodeGUI):
         self.actions['remove var input'] = {}
 
         for i in range(self.node.num_vars):
-            self.actions[f'remove var {i+1}'] = {
-                'method': self.remove_var_input,
+            self.actions[f'remove var input'][f'{i+1}'] = {
+                'method': self.remove_var,
                 'data': i+1
             }
 
