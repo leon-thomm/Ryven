@@ -7,6 +7,10 @@ from ryven.main.utils import find_config_file
 from ryven import __version__
 from ryven.main import utils
 
+# TODO: add flags for 'console'/'no-console' and 'src-code-edits'/'no-src-code-edits';
+#  feature 'src-code-edits' can lead to high memory consumption;
+#  it also requires Python >= 3.9
+
 
 class CustomHelpFormatter(argparse.HelpFormatter):
 
@@ -504,13 +508,13 @@ def process_args(use_sysargs, *args_, **kwargs):
         config file arguments.
     """
 
-    # Inject default configuration file in user's directory as first argument!
+    # Inject default configuration file in user's directory as first argument
     config_file = pathlib.Path(utils.ryven_dir_path()).joinpath('ryven.cfg')
     if config_file.exists():
         sys.argv.insert(1, f'@{config_file}')
 
+    # Locate config files
     if use_sysargs:
-        # locate '@' config files
         for val in sys.argv:
             if val.startswith('@'):
                 i = sys.argv.index(val)
@@ -539,15 +543,9 @@ def process_args(use_sysargs, *args_, **kwargs):
             setattr(args, key, value)
 
     # Check project
-    if isinstance(args.project, list):
-        # TODO: multiple project files
-        # though currently unsupported, multiple 'project' arguments might be possible eventually
-        # to enable passing multiple project files after adapting the editor accordingly:
-        #   change nargs of project parameter in the argument parser
-        args.project.extend(args)
-    elif len(args_) > 1:                 # Just one argument, but more given
+    if len(args_) > 1:                 # Just one argument, but more given
         raise TypeError(
-            f'run() takes 1 positional argument, but {len(args)} were given')
+            f'run() takes 1 positional argument, but {len(args_)} were given')
     elif args_:                          # Exactly one argument given
         # Update the 'project' argument with the positional arguments to run()
         # Note, this is intentionally generic, so that changes in `parse_args`

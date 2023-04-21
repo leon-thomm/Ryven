@@ -2,8 +2,8 @@
 __version_info__ = (3, 2, 0)
 __version__ = '.'.join([str(n) for n in __version_info__])
 
-from ryven.NENV import *
-from ryven.NWENV import *
+from ryven.node_env import *
+from ryven.gui_env import *
 
 import ryven.main.utils as utils
 

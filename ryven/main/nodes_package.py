@@ -20,7 +20,6 @@ class NodesPackage:
         return f'{self.__class__.__name__}({self.name}, {self.directory})'
 
     def __eq__(self, other):
-#         print('==', self, other)
         if isinstance(other, NodesPackage):
             return self.name == other.name
         else:

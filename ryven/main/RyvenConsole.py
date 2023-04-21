@@ -14,7 +14,7 @@ from ryvencore import *
 
 from ryven.main.nodes_package import NodesPackage
 from ryven.main.utils import import_nodes_package, process_nodes_packages, find_project
-from ryven.NENV import init_node_env
+from ryven.node_env import init_node_env
 
 
 cmds = [
@@ -42,10 +42,10 @@ def next_input(msg: str = ''):
 
 def import_nodes(session: Session, context_container, nodes_package: NodesPackage):
     try:
-        nodes = import_nodes_package(package=nodes_package)
-        session.register_nodes(nodes)
-        print('registered nodes:')
-        print('\n\t'.join([n.__name__ for n in nodes]), '\n')
+        nodes, data_types = import_nodes_package(package=nodes_package)
+        session.register_data_types(data_types)
+        session.register_node_types(nodes)
+        print('registered nodes: ', nodes)
     except Exception as e:
         print(e)
 
@@ -165,33 +165,76 @@ def run():
 
     # CLASSES['node base'] = NodeBaseWrapper
     session = Session(gui=False)
-    session.register_nodes(
-        import_nodes_package(
-            NodesPackage(
-                directory=join(dirname(__file__), 'nodes/built_in/')
-            )
-        )
-    )
+    nodes, data_types = import_nodes_package(NodesPackage(
+        directory=join(dirname(__file__), 'nodes/built_in/')
+    ))
+    session.register_data_types(data_types)
+    session.register_node_types(nodes)
 
     c = ContextContainer()
     setattr(c, 'session', session)
 
+    # What happens here and underneath needs to be refactored for clarity
+    load_project_and_nodes(args.project[0], args.nodes, c, session)
+
     #
-    # load project and nodes packages
+    # deploy REPL
     #
 
+    repl(session, c)
+
+
+        while True:
+
+            # process input commands
+
+            cmd = next_input()
+
+            # special commands
+            if cmd == 'import nodes':
+                import_nodes(session, c)
+                continue
+            elif cmd == 'load project':
+                load_project(session, c)
+                continue
+
+            # REPL
+            locals_ = c.__dict__
+
+            try:
+                try:
+                    print(eval(cmd, globals(), locals_))
+
+                except SyntaxError:
+                    out = exec(cmd, globals(), locals_)
+
+                    if out is not None:
+                        print(out)
+            except Exception as e:
+                print(e)
+                continue
+
+            # merge locals
+            for name, val in locals_.items():
+                setattr(c, name, val)
+
+    except:
+        sys.exit('exiting...')
+
+
+def load_project_and_nodes(project_path, nodes, c, session):
+    #
+    # LOAD PROJECT AND NODE PACKAGES -----------------------------------------------------------------------------------
+    #
     # check if project file exists
-    project = find_project(args.project[0])
+    project = find_project(project_path)
     if project is None:
         sys.exit('Could not find specified project.')
-
     # process node packages
-    manual_nodes, _, _ = process_nodes_packages(args.nodes)
-
+    manual_nodes, _, _ = process_nodes_packages(nodes)
     node_packages, nodes_not_found, project_dict = process_nodes_packages(
-        project, requested_nodes=manual_nodes,
+        project, requested_packages=manual_nodes,
     )
-
     if nodes_not_found:
         mul = len(nodes_not_found) > 1  # multiple packages missing ?
         sys.exit(
@@ -203,17 +246,9 @@ def run():
             f'Update the project file or supply the missing package{"s" if mul else ""} '
             f''''{"', '".join([p.name for p in nodes_not_found])}' '''
             f'on the command line with the "-n" switch.')
-
     for np in node_packages:
         import_nodes(session, c, np)
-
     load_project(session, c, project)
-
-    #
-    # deploy REPL
-    #
-
-    repl(session, c)
 
 
 if __name__ == '__main__':

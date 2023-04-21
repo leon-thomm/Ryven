@@ -1,4 +1,4 @@
-from ryven.NENV import *
+from ryven.node_env import *
 # widgets = import_widgets(__file__)
 
 import sys
