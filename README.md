@@ -1,3 +1,5 @@
+> This project is looking for new/additional maintainers, as I will have very limited time available to work on it in the future. I am still reviewing PRs and contributions but won't make significant changes myself.
+
 <p align="center">
   <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
 </p>
@@ -241,121 +243,39 @@ The value provided by an input widget (through `self.update_node_input(val)`) wi
 
 So now we can reconstruct the previous example, but we don't need to connect the `val` node to the `Rand` node anymore. Change the slider and see how many different random values are printed.
 
+
 ***
 
-### Further Features
+This covered the basic setup for developing nodes. For more information, look at the guide, which covers the details necessary to develop more complex node packages.
 
-- **themes**, including light
-- **actions / right-click operations system for nodes**
-- **variables system** with update mechanism for nodes that automatically adapt to change of data
-- **logging support**
-- **rendering flow images**
-- primitive **stylus support** for adding handwritten notes on touch devices
-- **exec flow support** like [UnrealEngine BluePrints](https://docs.unrealengine.com/5.0/en-US/blueprints-visual-scripting-in-unreal-engine/)
+## Features
+
+A (possibly incomplete) list of features:
+
+- **headless mode** to run projects without GUI dependencies at high performance
+- **sophisticated nodes system** allowing for stateful nodes and widgets
+- **cross-platform**; running anywhere where Qt runs (for GUI), or simply Python (headless)
+- **rendering flow images** into PNGs
+- built-in **exec flow support** (like [UE BluePrints](https://docs.unrealengine.com/5.0/en-US/blueprints-visual-scripting-in-unreal-engine/)) unlike most other node editors
 - **custom Qt widgets support**
+- various **themes**, including light
+- **right-click operations system for nodes**
+- **variables add-on** with observer mechanism, to build nodes that automatically adapt to change of data
+- very basic **logging support**
+- primitive, very experimental **stylus support** for adding handwritten notes on touch devices
 
-and some usage examples:
+## License
 
-#### actions / right-click operations system for nodes
-```python
-class MyNode(Node):
-    ...
-    def a_method(self):
-        self.actions['do something'] = {'method': self.do_sth}
+* This repository is licensed under the MIT license (LICENSE-MIT or http://opensource.org/licenses/MIT)
+* The underlying library ryvencore is licensed under LGPL-2.1 (LICENSE-LGPL-2.1 or https://www.gnu.org/licenses/lgpl-2.1.html)
 
-    def do_sth(self):  # with some method
-        ...
-```
-These actions can be edited at any time.
-
-#### custom Qt widgets
-
-see [guide](https://ryven.org/guide)
-
-<!--
-#### Qt widgets (TODO: put this in the guide instead)
-You can add custom Qt widgets for your nodes. Define a `gui.py` file next to your `nodes.py` with similar structure to `nodes.py`, see the guide for detailed instructions.
-
-`gui.py`
-```python
-from ryven.NWENV import *
-from qtpy.QtWidgets import QWidget
-
-class SomeMainWidget(MWB, QWidget):
-    def __init__(self, params):
-        MWB.__init__(self, params)
-        QWidget.__init__(self)
-    ...
-
-class SomeInputWidget(IWB, QWidget):
-    def __init__(self, params):
-        IWB.__init__(self, params)
-        QWidget.__init__(self)
-    ...
-
-export_widgets(
-    SomeMainWidget,
-    SomeInputWidget,
-)
-```
-`nodes.py`
-```python
-...
-widgets = import_widgets(__file__)
-
-class MyNode(Node):
-    ...
-    main_widget_class = widgets.MyNode_MainWidget  # register main (body) widget
-    main_widget_pos = 'below ports'  # alternatively 'between ports'
-    input_widget_classes = {  # register input widgets for that node type
-        'some input widget': widgets.SomeInputWidget,
-    }
-    init_inputs = [  # and you can use input widgets like this:
-        NodeInputBP(add_data={'widget': 'some input widget'}),
-    ]
-```
--->
-
-#### stylus support
-<p align="center">
-  <img src="./docs/img/stylus_dark.png" alt="drawing" width="70%"/>
-</p>
-
-#### logging support
-```python
-import logging
-
-class MyNode(Node):
-    def somewhere(self):
-        self.logger = self.new_logger('nice log')
-    
-    def update_event(self, inp=-1):
-        self.logger.info('updated!')
-```
-
-#### variables system
-
-```python
-class MyNode(Node):
-    def a_method(self):
-        self.register_var_receiver('x', method=self.process)
-        
-        # set the value of x to 0
-        self.set_var_val('x', 0)
-        # causes process to be called
-    
-    def process(self, val_of_x):
-        # processing new value of var 'x'
-        # the value could have been set by another node as well
-        ...
-```
 
 ## Contributions
 
-Contributing guidelines: [here](https://github.com/leon-thomm/Ryven/blob/dev/CONTRIBUTING.md).
+Contributions are welcome. Notice also the *discussions* area in this repo.
 
-Also notice that there's a *discussions* area in this repo.
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you shall be licensed as above, without any additional terms or conditions.
 
-The guide on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), so you can improve it by simply editing the markdown, you can find the [sources on GitHub](https://github.com/leon-thomm/ryven-website-guide) as well.
+The guide on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), you can improve it by simply editing the markdown, you can find the [sources on GitHub](https://github.com/leon-thomm/ryven-website-guide) as well.
 
 Cheers.
