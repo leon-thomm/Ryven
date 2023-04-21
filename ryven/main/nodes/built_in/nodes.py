@@ -1,24 +1,36 @@
-from ryven.NENV import *
-widgets = import_widgets(__file__)
+from ryven.node_env import *
+guis = import_guis(__file__)
+import ryvencore as rc
 
 
 class NodeBase(Node):
-    pass
+    def have_gui(self):
+        return hasattr(self, 'gui')
+
+    def vars_addon(self):
+        return self.get_addon('Variables')
+
+    def get_var_val(self, var_name):
+        return self.vars_addon().var(self.flow, var_name).get()
+
+    def set_var_val(self, var_name, val):
+        return self.vars_addon().var(self.flow, var_name).set(val)
+
 
 
 class GetVar_Node(NodeBase):
     """Gets the value of a script variable"""
 
-    version = 'v0.1'
+    version = 'v0.2'
 
     title = 'get var'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.String(size='m')),
+        NodeInputType(),
     ]
     init_outputs = [
-        NodeOutputBP(label='val')
+        NodeOutputType(label='val')
     ]
-    color = '#c69a15'
+    GUI = guis.GetVarGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -28,22 +40,20 @@ class GetVar_Node(NodeBase):
 
     def place_event(self):
         self.update()
-
-    def view_place_event(self):
         self.var_name = self.input(0)
 
     def update_event(self, input_called=-1):
         if self.input(0) != self.var_name:
 
             if self.var_name != '':  # disconnect old var val update connection
-                self.unregister_var_receiver(self.var_name, self.var_val_changed)
+                self.vars_addon.unsubscribe(self, self.var_name, self.var_val_changed)
 
             self.var_name = self.input(0)
 
             # create new var update connection
-            self.register_var_receiver(self.var_name, self.var_val_changed)
+            self.vars_addon().subscribe(self, self.var_name, self.var_val_changed)
 
-        self.set_output_val(0, self.get_var_val(self.var_name))
+        self.set_output_val(0, self.vars_addon().var(self.flow, self.var_name).get())
 
     def var_val_changed(self, name, val):
         self.set_output_val(0, val)
@@ -52,72 +62,53 @@ class GetVar_Node(NodeBase):
 class Result_Node(NodeBase):
     """Simply shows a value converted to str"""
 
-    version = 'v0.1'
+    version = 'v0.2'
 
     title = 'result'
     init_inputs = [
-        NodeInputBP(type_='data'),
+        NodeInputType(type_='data'),
     ]
-    main_widget_class = widgets.Result_Node_MainWidget
-    main_widget_pos = 'between ports'
-    color = '#c69a15'
+    GUI = guis.ResultGui
 
     def __init__(self, params):
         super().__init__(params)
         self.val = None
 
-    def place_event(self):
+    def rebuilt(self):
         self.update()
-
-    def view_place_event(self):
-        self.main_widget().show_val(self.val)
 
     def update_event(self, input_called=-1):
         self.val = self.input(0)
-        if self.session.gui:
-            self.main_widget().show_val(self.val)
+        if self.have_gui():
+            self.gui.main_widget().show_val(self.val)
 
 
 class Val_Node(NodeBase):
     """Evaluates a string from the input field"""
 
-    version = 'v0.1'
+    version = 'v0.2'
 
     title = 'val'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.Data(size='s')),
+        # NodeInputType(default=Data()),
     ]
     init_outputs = [
-        NodeInputBP(type_='data'),
+        NodeInputType(type_='data'),
     ]
-    style = 'small'
-    color = '#c69a15'
+    GUI = guis.ValGui
 
     def __init__(self, params):
         super().__init__(params)
 
         self.display_title = ''
-        self.actions['edit val via dialog'] = {'method': self.action_edit_via_dialog}
-        self.val = None
+        self.val = Data()
 
 
     def place_event(self):
         self.update()
 
     def update_event(self, input_called=-1):
-        self.val = self.input(0)
         self.set_output_val(0, self.val)
-
-    def action_edit_via_dialog(self):
-        return
-
-        # from ..EditVal_Dialog import EditVal_Dialog
-        #
-        # val_dialog = EditVal_Dialog(parent=None, init_val=self.val)
-        # accepted = val_dialog.exec_()
-        # if accepted:
-        #     self.main_widget().setText(str(val_dialog.get_val()))
-        #     self.update()
 
     def get_current_var_name(self):
         return self.input(0)
@@ -130,17 +121,6 @@ class Val_Node(NodeBase):
     def set_state(self, data, version):
         self.val = data['val']
 
-        if version is None:
-
-            self.display_title = ''
-
-            self.create_input_dt(dtype=dtypes.Data(size='s'))
-
-            # the old version didn't use a dtype
-            self.inputs[0].dtype.val = self.val
-            self.inputs[0].update(self.val)
-
-
 
 class SetVar_Node(NodeBase):
     """Sets the value of a script variable"""
@@ -149,25 +129,26 @@ class SetVar_Node(NodeBase):
 
     title = 'set var'
     init_inputs = [
-        NodeInputBP(type_='exec'),
-        NodeInputBP(dtype=dtypes.String(), label='var'),
-        NodeInputBP(dtype=dtypes.Data(size='s'), label='val'),
+        NodeInputType(type_='exec'),
+        NodeInputType(label='var'),
+        NodeInputType(label='val'),
     ]
     init_outputs = [
-        NodeOutputBP(type_='exec'),
-        NodeOutputBP(type_='data', label='val'),
+        NodeOutputType(type_='exec'),
+        NodeOutputType(type_='data', label='val'),
     ]
-    style = 'normal'
-    color = '#c69a15'
 
     def __init__(self, params):
         super().__init__(params)
 
-        self.actions['make passive'] = {'method': self.action_make_passive}
         self.active = True
 
         self.var_name = ''
         self.num_vars = 1
+
+    def place_event(self):
+        if self.have_gui():
+            self.gui.actions['make passive'] = {'method': self.action_make_passive}
 
     def update_event(self, input_called=-1):
 
@@ -187,15 +168,15 @@ class SetVar_Node(NodeBase):
         self.active = False
         self.delete_input(0)
         self.delete_output(0)
-        del self.actions['make passive']
-        self.actions['make active'] = {'method': self.action_make_active}
+        del self.gui.actions['make passive']
+        self.gui.actions['make active'] = {'method': self.action_make_active}
 
     def action_make_active(self):
         self.active = True
         self.create_input(type_='exec', pos=0)
         self.create_output(type_='exec', pos=0)
-        del self.actions['make active']
-        self.actions['make passive'] = {'method': self.action_make_passive}
+        del self.gui.actions['make active']
+        self.gui.actions['make passive'] = {'method': self.action_make_passive}
 
     def get_state(self):
         return {'active': self.active}
@@ -212,51 +193,50 @@ class SetVarsPassive_Node(NodeBase):
     title = 'set vars passive'
     init_inputs = []
     init_outputs = []
-    style = 'normal'
-    color = '#c69a15'
+    GUI = guis.SetVarsGui
 
     def __init__(self, params):
         super().__init__(params)
 
-        self.actions['add var input'] = {'method': self.add_var_input}
-
         self.num_vars = 0
 
-    def place_event(self):
-        if self.num_vars == 0:
-            self.add_var_input()
-
     def add_var_input(self):
-        self.create_input_dt(label='var', dtype=dtypes.String(size='l'))
-        self.create_input_dt(label='val', dtype=dtypes.Data(size='l'))
+        # self.create_input_dt(label='var', dtype=dtypes.String(size='l'))
+        # self.create_input_dt(label='val', dtype=dtypes.Data(size='l'))
+        self.create_input(label='var')
+        self.create_input(label='val')
+
         self.num_vars += 1
 
-        self.actions[f'remove var {self.num_vars}'] = {
-            'method': self.remove_var_input,
-            'data': self.num_vars
-        }
+        if self.have_gui():
+            self.gui.rebuild_remove_actions()
 
     def remove_var_input(self, number):
         self.delete_input((number-1)*2)
         self.delete_input((number-1)*2)
         self.num_vars -= 1
-        self.rebuild_remove_actions()
+        # self.rebuild_remove_actions()
 
-    def rebuild_remove_actions(self):
+        if self.have_gui():
+            self.gui.rebuild_remove_actions()
 
-        remove_keys = []
-        for k, v in self.actions.items():
-            if k.startswith('remove var'):
-                remove_keys.append(k)
-
-        for k in remove_keys:
-            del self.actions[k]
-
-        for i in range(self.num_vars):
-            self.actions[f'remove var {i+1}'] = {
-                'method': self.remove_var_input,
-                'data': i+1
-            }
+    # def rebuild_remove_actions(self):
+    #     if not self.have_gui():
+    #         return
+    #
+    #     remove_keys = []
+    #     for k, v in self.gui.actions.items():
+    #         if k.startswith('remove var'):
+    #             remove_keys.append(k)
+    #
+    #     for k in remove_keys:
+    #         del self.gui.actions[k]
+    #
+    #     for i in range(self.num_vars):
+    #         self.gui.actions[f'remove var {i+1}'] = {
+    #             'method': self.remove_var_input,
+    #             'data': i+1
+    #         }
 
     def update_event(self, input_called=-1):
 
@@ -273,10 +253,10 @@ class SetVarsPassive_Node(NodeBase):
         self.num_vars = data['num vars']
 
 
-export_nodes(
+export_nodes([
     SetVar_Node,
     GetVar_Node,
     Val_Node,
     Result_Node,
-    SetVarsPassive_Node,
-)
+    SetVarsPassive_Node
+])

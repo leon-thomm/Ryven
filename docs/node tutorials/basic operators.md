@@ -3,23 +3,23 @@ This tutorial shows how to create nodes for some basic operations/relations, in 
 As always, we should first define a parent node class for this scope. It can be completely empty, but it's good practice to always include it as this prevents node identification issues which might occur in complex hierarchies in case you add it later.
 
 ```python
-from ryven.NENV import *
+from ryven.node_env import *
+
 
 class NodeBase(Node):
-
     version = 'v0.1'
-    
+
     # most of our operators are binary, so let's already put this here (we can override that in subclasses for the exceptions)
     init_inputs = [
         NodeInputBP(dtype=dtypes.Data(size='s')),
         NodeInputBP(dtype=dtypes.Data(size='s')),
     ]
     # operators in python can be defined on objects of different classes, so let's just use Data dtype inputs for now. recall that Data inputs will evaluate input expressions (as opposed to just interpreting it as string for example)
-    
+
     init_outputs = [
         NodeOutputBP(),
     ]
-    
+
     style = 'small'
 ```
 

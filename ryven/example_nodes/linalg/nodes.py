@@ -1,5 +1,5 @@
-from ryven.NENV import *
-widgets = import_widgets(__file__)
+from ryven.node_env import *
+widgets = import_guis(__file__)
 
 import numpy as np
 
