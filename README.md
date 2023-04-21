@@ -2,7 +2,7 @@
   <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
 </p>
 
-Ryven is an experimental node editor. In other words, Ryven implements a Qt-based visual interface for flow-based programming in python. It provides a simple system for developing nodes executing any python code, and an editor for building graphs using those nodes. Ryven enables GUI customizations and features a headless mode for running graphs without any GUI. Some relevant GitHub repos:
+Ryven is an experimental node editor. In other words, Ryven implements a Qt-based visual interface for flow-based programming in Python. It provides a simple system for developing nodes executing any Python code, and an editor for building graphs using those nodes. Ryven enables GUI customizations and features a headless mode for running graphs without any GUI. Some relevant GitHub repos:
 
 * [ryvencore](https://github.com/leon-thomm/ryvencore): backend / core framework
 * [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt): Qt frontend library
@@ -10,8 +10,6 @@ Ryven is an experimental node editor. In other words, Ryven implements a Qt-base
   * _not actively maintained_
 * [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven): Ryven nodes for PythonOCC (CAD)
 * [ironflow](https://github.com/pyiron/ironflow): A WIP node interface in jupyter for [pyiron](https://github.com/pyiron) based on ryvencore
-
-The nodes Ryven comes with are just examples, and there's no guarantee that any of them will stay included or compatible in future versions. I'd like to open a repository for maintaining particularly active (frameworks of) nodes once there are more publicly available large node packages.
 
 ## Installation and Configuration
 
@@ -25,7 +23,7 @@ There is also a [conda-forge package](https://anaconda.org/conda-forge/ryven) (`
 
 Ryven itself only comes with some small example nodes! You should use Ryven either to develop nodes, or use a third-party nodes package for your use case if there is one.
 
-Once installed, ryven will create a directory `~/.ryven` with the following structure:
+When installed, ryven will create a directory `~/.ryven` with the following structure:
 
 ```
 ~/.ryven
@@ -43,7 +41,7 @@ Once installed, ryven will create a directory `~/.ryven` with the following stru
 
 The `ryven.cfg` file contains global configurations for Ryven.
 
-Ryven can be launched from the command line with `ryven`. If you have installed Ryven from a Python virtual environment, the environment needs to be activated.
+Ryven can be launched from the command line with `ryven`. If you installed Ryven into a Python virtual environment, the environment needs to be activated first.
 
 Ryven can be configured in four ways:
 1. from the command line, e.g. `ryven --nodes your_nodes_pkg_1 --no-animations`
@@ -139,11 +137,11 @@ class RandNode(Node):
     tags = ['random', 'numbers']  # for better search
     init_inputs = [NodeInputType()]
     init_outputs = [NodeOutputType()]
-    
+
     def update_event(self, inp=-1):
         self.set_output_val(0, 
             # random float between 0 and value at input
-            Data(random() * self.input(0))
+            Data(random() * self.input(0).payload)
         )
 ```
 
@@ -153,7 +151,6 @@ and another one which prints them
 class PrintNode(Node):
     title = 'Print'
     init_inputs = [NodeInputType()]
-    # color = '#A9D5EF'
 
     def update_event(self, inp=-1):
         print(self.input(0))
@@ -186,11 +183,15 @@ from qtpy.QtCore import Qt
 
 
 class RandSliderWidget(NodeInputWidget, QSlider):
+    """a standard Qt slider widget, which updates the node
+    input it is attached to, every time the slider value changes"""
+    
     def __init__(self, params):
         NodeInputWidget.__init__(self, params)
         QSlider.__init__(self)
         
         self.setOrientation(Qt.Horizontal)
+        self.setMinimumWidth(100)
         self.setMinimum(0)
         self.setMaximum(100)
         self.setValue(50)
@@ -198,7 +199,7 @@ class RandSliderWidget(NodeInputWidget, QSlider):
     
     def value_changed(self, val):
         # updates the node input this widget is attached to
-        self.update_node_input(val)
+        self.update_node_input(Data(val))
     
     def get_state(self) -> dict:
         # return the state of the widget
@@ -209,7 +210,7 @@ class RandSliderWidget(NodeInputWidget, QSlider):
         self.setValue(state['value'])
     
 
-class RandNodeGUI(NodeGUI):
+class RandNodeGui(NodeGUI):
     color = '#fcba03'
     
     # register the input widget class
@@ -222,7 +223,7 @@ class RandNodeGUI(NodeGUI):
     }
 
 export_guis([
-    RandNodeGUI,
+    RandNodeGui,
 ])
 ```
 
@@ -233,7 +234,7 @@ guis = import_guis(__file__)
 
 class RandNode(Node):
     ...
-    GUI = guis.RandNodeGUI
+    GUI = guis.RandNodeGui
 ```
 
 The value provided by an input widget (through `self.update_node_input(val)`) will be returned in `Node` by `self.input(0)` only when the corresponding input is _not_ connected. Otherwise the value of the connected output will be returned.
