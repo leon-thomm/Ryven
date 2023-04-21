@@ -78,7 +78,7 @@ class Result_Node(NodeBase):
         self.update()
 
     def update_event(self, input_called=-1):
-        self.val = self.input(0)
+        self.val = self.input(0).payload
         if self.have_gui():
             self.gui.main_widget().show_val(self.val)
 
