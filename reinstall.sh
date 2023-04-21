@@ -1,4 +1,4 @@
 pip uninstall --yes ryven
-rmdir /s /q build
-rmdir /s /q dist
+rm -rf build
+rm -rf dist
 pip install .
