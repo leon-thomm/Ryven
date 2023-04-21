@@ -16,12 +16,11 @@ class BuiltInNodesTestCase(unittest.TestCase):
         os.environ['RYVEN_MODE'] = 'no-gui'
         init_node_env()
         session = rc.Session(gui=False)
-        nodes=import_nodes_package(
-                NodesPackage(
-                    directory=join(dirname(__file__), '../ryven/main/nodes/built_in/')
-                )
-            )
-        session.register_nodes(nodes)
+        nodes, data_types = import_nodes_package(NodesPackage(
+            directory=join(dirname(__file__), '../ryven/main/nodes/built_in/')
+        ))
+        session.register_data_types(data_types)
+        session.register_node_types(nodes)
         print('registered nodes: ', nodes)
 
 
