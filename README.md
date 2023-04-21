@@ -2,11 +2,7 @@
   <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
 </p>
 
-Ryven is an experimental node editor. In other words, Ryven implements a Qt-based visual interface for flow-based programming in python. It provides a simple system for developing nodes executing any python code, and an editor for building graphs using those nodes.
-
-Ryven features configuration options from the command-line, from configuration files, or directly from code so you can easily embed it in other applications. Using RyvenConsole you can also deploy graphs directly on the backend through a tiny command-line interface, with maximum performance
-
-Repositories:
+Ryven is an experimental node editor. In other words, Ryven implements a Qt-based visual interface for flow-based programming in python. It provides a simple system for developing nodes executing any python code, and an editor for building graphs using those nodes. Ryven enables GUI customizations and features a headless mode for running graphs without any GUI. Some relevant GitHub repos:
 
 * [ryvencore](https://github.com/leon-thomm/ryvencore): backend / core framework
 * [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt): Qt frontend library
