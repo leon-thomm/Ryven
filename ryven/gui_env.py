@@ -3,6 +3,7 @@ It should lie in the same location as Ryven.py so it can get imported directly f
 without path modifications which caused issues in the past."""
 
 import inspect
+from typing import Type
 
 from ryvencore_qt import \
     NodeInputWidget, NodeMainWidget, NodeGUI
@@ -23,13 +24,11 @@ class GuiClassesContainer:
     pass
 
 
-def export_guis(*args):
+def export_guis(guis: [Type[NodeGUI]]):
     """
     Exports/exposes the specified node gui classes to the nodes file importing them via import_guis().
     Returns an object with all exported gui classes as attributes for direct access.
     """
-
-    guis = list(args)
 
     gcc = GuiClassesContainer()
     for w in guis:

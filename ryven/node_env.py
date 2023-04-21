@@ -65,31 +65,32 @@ def import_guis(origin_file: str, gui_file_name='gui.py'):
     return gui_classes_container
 
 
-class NodesRegistry:
+class NodesEnvRegistry:
     """
-    Statically stores the nodes exported via export_nodes on import of a nodes package.
-    After running the imported nodes.py module (which causes export_nodes() to run),
-    Ryven can find the exported nodes in exported_nodes.
+    Statically stores custom `ryvencore.Node` and `ryvencore.Data` subclasses
+    exported via export_nodes on import of a nodes package.
+    After running the imported nodes.py module (which needs to call
+    `export_nodes()` to run), Ryven can then retrieve the exported types from
+    this class.
     """
 
     # stores, for each nodes package separately, a list of exported node types
     exported_nodes: [[Type[Node]]] = []
 
+    # stores, for each nodes package separately, a list of exported data types
+    exported_data_types: [[Type[Data]]] = []
 
-def export_nodes(*args):
+
+def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
     """
     Exports/exposes the specified nodes to Ryven for use in flows.
     """
 
-    if not isinstance(args, tuple):
-        if issubclass(args, Node):
-            node_types = tuple(args)
-        else:
-            return
-    else:
-        node_types = list(args)
+    if data_types is None:
+        data_types = []
 
-    NodesRegistry.exported_nodes.append(node_types)
+    NodesEnvRegistry.exported_nodes.append(node_types)
+    NodesEnvRegistry.exported_data_types.append(data_types)
 
     if os.environ['RYVEN_MODE'] == 'gui':
         # store node sources for code inspection

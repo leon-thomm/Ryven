@@ -378,13 +378,14 @@ CONTROLS
             return
 
         try:
-            nodes = import_nodes_package(p)
+            nodes, data_types = import_nodes_package(p)
         except ModuleNotFoundError as e:
             msg_box = QMessageBox(QMessageBox.Warning, 'Missing Python module', str(e), QMessageBox.Ok, self)
             msg_box.exec_()
             sys.exit(e)
 
-        self.core_session.register_nodes(nodes)
+        self.core_session.register_data_types(data_types)
+        self.core_session.register_node_types(nodes)
 
         for n in nodes:
             self.node_packages[n] = p

@@ -42,8 +42,9 @@ def next_input(msg: str = ''):
 
 def import_nodes(session: Session, context_container, nodes_package: NodesPackage):
     try:
-        nodes = import_nodes_package(package=nodes_package)
-        session.register_nodes(nodes)
+        nodes, data_types = import_nodes_package(package=nodes_package)
+        session.register_data_types(data_types)
+        session.register_node_types(nodes)
         print('registered nodes: ', nodes)
     except Exception as e:
         print(e)
@@ -116,13 +117,11 @@ def run():
 
     # CLASSES['node base'] = NodeBaseWrapper
     session = Session(gui=False)
-    session.register_nodes(
-        import_nodes_package(
-            NodesPackage(
-                directory=join(dirname(__file__), 'nodes/built_in/')
-            )
-        )
-    )
+    nodes, data_types = import_nodes_package(NodesPackage(
+        directory=join(dirname(__file__), 'nodes/built_in/')
+    ))
+    session.register_data_types(data_types)
+    session.register_node_types(nodes)
 
     c = ContextContainer()
     setattr(c, 'session', session)

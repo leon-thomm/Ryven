@@ -1,10 +1,11 @@
-import inspect
 import os
-import pathlib
 from os.path import normpath, join, dirname, abspath, basename, expanduser
+import pathlib
 import importlib.util
+from typing import List, Tuple, Type
 
 from ryven.main.nodes_package import NodesPackage
+from ryvencore import Node, Data
 
 
 def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
@@ -29,7 +30,8 @@ def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
     return comps
 
 
-def import_nodes_package(package: NodesPackage = None, directory: str = None) -> list:
+def import_nodes_package(package: NodesPackage = None, directory: str = None) -> \
+        Tuple[List[Type[Node]], List[Type[Data]]]:
     """
     This function is an interface to the node packages system in Ryven.
     It loads nodes from a Ryven nodes package and returns them in a list.
@@ -50,9 +52,10 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
     from ryven import node_env
     load_from_file(package.file_path)
 
-    node_types = node_env.NodesRegistry.exported_nodes[-1]
+    node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
+    data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
 
-    return node_types
+    return node_types, data_types
 
 
 def read_project(project_path):
