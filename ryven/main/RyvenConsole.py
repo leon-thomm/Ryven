@@ -184,44 +184,6 @@ def run():
     repl(session, c)
 
 
-        while True:
-
-            # process input commands
-
-            cmd = next_input()
-
-            # special commands
-            if cmd == 'import nodes':
-                import_nodes(session, c)
-                continue
-            elif cmd == 'load project':
-                load_project(session, c)
-                continue
-
-            # REPL
-            locals_ = c.__dict__
-
-            try:
-                try:
-                    print(eval(cmd, globals(), locals_))
-
-                except SyntaxError:
-                    out = exec(cmd, globals(), locals_)
-
-                    if out is not None:
-                        print(out)
-            except Exception as e:
-                print(e)
-                continue
-
-            # merge locals
-            for name, val in locals_.items():
-                setattr(c, name, val)
-
-    except:
-        sys.exit('exiting...')
-
-
 def load_project_and_nodes(project_path, nodes, c, session):
     #
     # LOAD PROJECT AND NODE PACKAGES -----------------------------------------------------------------------------------
