@@ -15,6 +15,8 @@ Repositories:
 * [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven): Ryven nodes for PythonOCC (CAD)
 * [ironflow](https://github.com/pyiron/ironflow): A WIP node interface in jupyter for [pyiron](https://github.com/pyiron) based on ryvencore
 
+The nodes Ryven comes with are just examples, and there's no guarantee that any of them will stay included or compatible in future versions. I'd like to open a repository for maintaining particularly active (frameworks of) nodes once there are more publicly available large node packages.
+
 ## Installation and Configuration
 
 Once you have Python and pip installed, Ryven is available on PyPI via
