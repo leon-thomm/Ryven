@@ -11,9 +11,9 @@ class GetVarGui(NodeGUI):
     color = '#c69a15'
 
 
-class Result_Node_MainWidget(MWB, QLineEdit):
+class Result_Node_MainWidget(NodeMainWidget, QLineEdit):
     def __init__(self, params):
-        MWB.__init__(self, params)
+        NodeMainWidget.__init__(self, params)
         QLineEdit.__init__(self)
 
         self.setReadOnly(True)
@@ -31,12 +31,12 @@ class ResultGui(NodeGUI):
     color = '#c69a15'
 
 
-class ValNode_MainWidget(MWB, QLineEdit):
+class ValNode_MainWidget(NodeMainWidget, QLineEdit):
 
     value_changed = Signal(object)
 
     def __init__(self, params):
-        MWB.__init__(self, params)
+        NodeMainWidget.__init__(self, params)
         QLineEdit.__init__(self)
 
         # self.setFixedWidth(80)
@@ -134,15 +134,47 @@ class ValGui(NodeGUI):
             self.update()
 
 
+class SetVarsGui(NodeGUI):
+    style = 'normal'
+    color = '#c69a15'
+
+    def initialized(self):
+        self.actions = {
+            'add var input': {'method': self.add_var},
+            'remove var input': {},
+        }
+
+    def add_var(self):
+        self.node.add_var_input()
+        self.rebuild_remove_actions()
+
+    def rebuild_remove_actions(self):
+
+        # remove_keys = []
+        # for k, v in self.actions['remove var input'].items():
+        #     if k.startswith('remove var'):
+        #         remove_keys.append(k)
+        # for k in remove_keys:
+        #     del self.gui.actions['remove var input'][k]
+        self.actions['remove var input'] = {}
+
+        for i in range(self.node.num_vars):
+            self.actions[f'remove var {i+1}'] = {
+                'method': self.remove_var_input,
+                'data': i+1
+            }
+
+
 
 class SetVarGui(NodeGUI):
     style = 'normal'
     color = '#c69a15'
 
 
-export_guis(
+export_guis([
     GetVarGui,
     ResultGui,
     ValGui,
     SetVarGui,
-)
+    SetVarsGui,
+])

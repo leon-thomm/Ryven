@@ -21,7 +21,7 @@ class NodeBase(Node):
 class GetVar_Node(NodeBase):
     """Gets the value of a script variable"""
 
-    version = 'v0.1'
+    version = 'v0.2'
 
     title = 'get var'
     init_inputs = [
@@ -62,7 +62,7 @@ class GetVar_Node(NodeBase):
 class Result_Node(NodeBase):
     """Simply shows a value converted to str"""
 
-    version = 'v0.1'
+    version = 'v0.2'
 
     title = 'result'
     init_inputs = [
@@ -74,10 +74,8 @@ class Result_Node(NodeBase):
         super().__init__(params)
         self.val = None
 
-    def place_event(self):
+    def rebuilt(self):
         self.update()
-        if self.have_gui():
-            self.gui.main_widget().show_val(self.val)
 
     def update_event(self, input_called=-1):
         self.val = self.input(0)
@@ -88,7 +86,7 @@ class Result_Node(NodeBase):
 class Val_Node(NodeBase):
     """Evaluates a string from the input field"""
 
-    version = 'v0.1'
+    version = 'v0.2'
 
     title = 'val'
     init_inputs = [
@@ -110,7 +108,6 @@ class Val_Node(NodeBase):
         self.update()
 
     def update_event(self, input_called=-1):
-        # self.val = self.input(0)
         self.set_output_val(0, self.val)
 
     def get_current_var_name(self):
@@ -123,7 +120,6 @@ class Val_Node(NodeBase):
 
     def set_state(self, data, version):
         self.val = data['val']
-
 
 
 class SetVar_Node(NodeBase):
@@ -197,8 +193,7 @@ class SetVarsPassive_Node(NodeBase):
     title = 'set vars passive'
     init_inputs = []
     init_outputs = []
-    style = 'normal'
-    color = '#c69a15'
+    GUI = guis.SetVarsGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -206,8 +201,6 @@ class SetVarsPassive_Node(NodeBase):
         self.num_vars = 0
 
     def place_event(self):
-        if self.have_gui():
-            self.gui.actions['add var input'] = {'method': self.add_var_input}
         if self.num_vars == 0:
             self.add_var_input()
 
@@ -218,12 +211,6 @@ class SetVarsPassive_Node(NodeBase):
         self.create_input(label='val')
 
         self.num_vars += 1
-
-        if self.have_gui():
-            self.gui.actions[f'remove var {self.num_vars}'] = {
-                'method': self.remove_var_input,
-                'data': self.num_vars
-            }
 
     def remove_var_input(self, number):
         self.delete_input((number-1)*2)
@@ -264,10 +251,10 @@ class SetVarsPassive_Node(NodeBase):
         self.num_vars = data['num vars']
 
 
-export_nodes(
+export_nodes([
     SetVar_Node,
     GetVar_Node,
     Val_Node,
     Result_Node,
-    SetVarsPassive_Node,
-)
+    SetVarsPassive_Node
+])
