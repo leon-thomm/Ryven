@@ -4,6 +4,7 @@ import os.path
 
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
+from ryvencore_qt import NodeGUI
 
 from ryven import __version__
 from ryven.gui.main_console import MainConsole
@@ -13,14 +14,13 @@ from ryven.main.config import Config
 from ryven.main.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
 from ryven.main.utils import import_nodes_package, abs_path_from_package_dir, abs_path_from_ryven_dir
-from ryven.main.nodes.NodeBase import NodeBase
 from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 
 # ryvencore_qt
 import ryvencore_qt as rc
 import ryvencore_qt.src.widgets as rc_GUI
 
-from ryvencore import InfoMsgs
+from ryvencore import InfoMsgs, Node
 
 
 class MainWindow(QMainWindow):
@@ -92,7 +92,10 @@ class MainWindow(QMainWindow):
 
         MainConsole.instance.session = self.session_gui
         MainConsole.instance.reset_interpreter()
-        NodeBase.main_console = MainConsole.instance
+
+        # TODO: store a ref to main console, and a default action
+        #  for adding the node to the console scope to
+        #  ryvencore_qt.NodeGUI
 
         #
         # Setup ryvencore Session
