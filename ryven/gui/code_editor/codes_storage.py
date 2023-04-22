@@ -4,6 +4,7 @@ from typing import Type, Optional
 import inspect
 
 from ryvencore import Node
+from ryven.main.config import instance
 
 
 def register_node_type(n: Type[Node]):
@@ -27,8 +28,7 @@ def register_node_type(n: Type[Node]):
         custom_input_widget_clss=inp_src,
     )
 
-    # TODO if Config.node_edits_enabled:
-    if True:
+    if instance.src_code_edits_enabled:
         # store full module source code
         mod_codes[n] = inspect.getsource(inspect.getmodule(n))
         if has_mw:

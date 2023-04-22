@@ -197,6 +197,17 @@ def parse_sys_args(just_defaults=False) -> Config:
             and prints lots of debug information to the default stderr and stdout
             ''')
 
+    parser.add_argument(
+        '--enable-code-editing',
+        action='store_true',
+        dest='src_code_edits_enabled',
+        help=f'''
+            • Enables a (highly unstable and hacky) feature that allows temporary\\ 
+            editing of the source code of nodes in the source code preview panel\\
+            (useful for debugging)\\
+            • When enabled, Ryven might consume much more memory than usual
+            ''')
+
     # Project configuration
 
     group = parser.add_argument_group('project configuration')

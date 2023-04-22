@@ -25,7 +25,7 @@ class CodePreviewWidget(QWidget):
     def __init__(self, main_window, flow_view):
         super().__init__()
 
-        self.edits_enabled = True  # TODO make this configurable
+        self.edits_enabled = main_window.config.src_code_edits_enabled
         self.current_insp: Optional[Inspectable] = None
 
         # widgets
