@@ -1,5 +1,6 @@
 import os
 import pathlib
+from typing import Optional
 
 from qtpy.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog,
@@ -10,27 +11,15 @@ from qtpy.QtCore import Qt, QSize
 from qtpy.QtGui import QIcon, QPainter
 
 from ryven.main.args_parser import unparse_sys_args
-from ryven.main.nodes_package import NodesPackage
+from ryven.main.config import Config
 from ryven.main.utils import (
     abs_path_from_package_dir, abs_path_from_ryven_dir, ryven_dir_path,
     process_nodes_packages)
 from ryven.gui.styling.window_theme import apply_stylesheet
 
 
-CREATE_PROJECT = '<create new project>'
-
-DEFAULT_FLOW_THEME = '<default>'
-FLOW_THEMES = [
-    DEFAULT_FLOW_THEME,
-    # FIXME: Automatically get flow themes?
-    'toy', 'tron', 'ghost', 'blender', 'simple', 'ueli',
-    'pure dark', 'colorful dark',
-    'pure light', 'colorful light', 'industrial', 'fusion']
-
-DEFAULT_PERF_MODE = 'pretty'
-# PERF_MODES = ['pretty', 'fast']
-
-DEFAULT_ANIMATIONS = True
+LBL_CREATE_PROJECT = '<create new project>'
+LBL_DEFAULT_FLOW_THEME = '<default>'
 
 
 class ElideLabel(QLabel):
@@ -140,13 +129,14 @@ class StartupDialog(QDialog):
     an analogous command and config file and save the configuration in it.
     """
 
-    def __init__(self, args, parent=None):
+    def __init__(self, config: Config, parent=None):
         """Initialize the `StartupDialog` class.
 
         Parameters
         ----------
-        args : argparse.Namespace
-            The arguments from command line or run() function interface.
+        config : Config
+            The global configuration, parsed from command line or run() function
+            interface.
             Notice that this class operates on args directly, so all values
             are either of primitive type (including strings), except paths
             which are pathlib.Path objects. Translation to NodePackage objects,
@@ -162,7 +152,7 @@ class StartupDialog(QDialog):
         """
         super().__init__(parent)
 
-        self.args = args
+        self.conf = config
 
         #
         # Layout the contents of the dialog
@@ -173,18 +163,18 @@ class StartupDialog(QDialog):
         # Top info text edit
         info_text_edit = QTextEdit()
         info_text_edit.setHtml(f'''
-            <center>
-                <h2 style="font-family: Segoe UI; font-size: xx-large; font-weight: 400; color: #a9d5ef;">
-                    Welcome to Ryven
-                </h2>
-            </center>
-            <div style="font-family: Corbel; font-size: x-large;">
+            <div style="font-family: Corbel; font-size: large;">
                 <img style="float:right;" height=120 src="{abs_path_from_package_dir('resources/pics/Ryven_icon_blurred.png')}"
-                >Hey, it's Leon, the creator of Ryven. Keep in mind that this
-                is not a professional piece of software. Don't forget to save!
-                There are always some bugs and issues, but as long as you keep
-                behaving as intended, you shouldn't get into too much trouble.
-                Have fun!
+                >Ryven is not a stable piece of software, it's experimental, and nothing is
+                guaranteed to work as expected. Make sure to save frequently, and to
+                different files. If you spot an issue, please report it on the 
+                <a href="https://github.com/leon-thomm/ryven/issues">GitHub page</a>.
+                <br><br>
+                Ryven doesn't come with batteries (nodes) included. It provides some
+                small examples but nothing more. Development of large node packages
+                is not part of the Ryven editor project itself.
+                See the GitHub for a quickstart guide.
+                Cheers.
             </div>
         ''')
         info_text_edit.setReadOnly(True)
@@ -198,10 +188,10 @@ class StartupDialog(QDialog):
 
         project_layout = QVBoxLayout()
         self.project_name = ElideLabel()
-        if self.args.project:
-            self.project_name.setText(str(args.project))
+        if self.conf.project is not None:
+            self.project_name.setText(str(config.project))
         else:
-            self.project_name.setText(CREATE_PROJECT)
+            self.project_name.setText(LBL_CREATE_PROJECT)
         project_layout.addWidget(self.project_name)
 
         project_buttons_widget = QDialogButtonBox()
@@ -289,38 +279,37 @@ class StartupDialog(QDialog):
         windowtheme_label = QLabel('Window theme:')
         windowtheme_layout = QHBoxLayout()
         windowtheme_button_group = QButtonGroup(windowtheme_layout)
-        self.dark_theme_rb = QRadioButton('dark')
-        self.light_theme_rb = QRadioButton('light')
-        plain_theme_rb = QRadioButton('plain')
-        windowtheme_button_group.addButton(self.dark_theme_rb)
-        windowtheme_button_group.addButton(self.light_theme_rb)
-        windowtheme_button_group.addButton(plain_theme_rb)
-        windowtheme_button_group.buttonToggled.connect(self.on_windowtheme_toggled)
-        windowtheme_layout.addWidget(self.dark_theme_rb)
-        windowtheme_layout.addWidget(self.light_theme_rb)
-        windowtheme_layout.addWidget(plain_theme_rb)
+        self.window_theme_rbs = {
+            theme: QRadioButton(theme)
+            for theme in self.conf.get_available_window_themes()
+        }
+        for rb in self.window_theme_rbs.values():
+            windowtheme_button_group.addButton(rb)
+            windowtheme_layout.addWidget(rb)
+        windowtheme_button_group.buttonToggled.connect(self.on_window_theme_toggled)
         fbox.addRow(windowtheme_label, windowtheme_layout)
 
         # Flow theme
         flowtheme_label = QLabel('Flow theme:')
         flowtheme_widget = QComboBox()
         flowtheme_widget.setToolTip('Select the theme of the flow display\nCan also be changed later …')
-        flowtheme_widget.addItems(FLOW_THEMES)
+        flowtheme_widget.addItems([LBL_DEFAULT_FLOW_THEME] + list(self.conf.get_available_flow_themes()))
         flowtheme_widget.insertSeparator(1)
-        flowtheme_widget.currentTextChanged.connect(self.on_flowtheme_selected)
+        flowtheme_widget.currentTextChanged.connect(self.on_flow_theme_selected)
         fbox.addRow(flowtheme_label, flowtheme_widget)
 
         # Performance mode
         performance_label = QLabel('Performance mode:')
         performance_layout = QHBoxLayout()
         performance_button_group = QButtonGroup(performance_layout)
-        self.pretty_perf_mode_rb = QRadioButton('pretty')
-        self.fast_perf_mode_rb = QRadioButton('fast')
-        performance_button_group.addButton(self.pretty_perf_mode_rb)
-        performance_button_group.addButton(self.fast_perf_mode_rb)
+        self.perf_mode_rbs = {
+            mode: QRadioButton(mode)
+            for mode in self.conf.get_available_performance_modes()
+        }
+        for rb in self.perf_mode_rbs.values():
+            performance_button_group.addButton(rb)
+            performance_layout.addWidget(rb)
         performance_button_group.buttonToggled.connect(self.on_performance_toggled)
-        performance_layout.addWidget(self.pretty_perf_mode_rb)
-        performance_layout.addWidget(self.fast_perf_mode_rb)
         fbox.addRow(performance_label, performance_layout)
 
         # Animations
@@ -338,16 +327,16 @@ class StartupDialog(QDialog):
         # Verbose
         verbose_output_label = QLabel('Verbose:')
         verbose_output_cb = QCheckBox('Enable verbose output')
-        verbose_output_cb.setToolTip('Select if verbose output should be displayed\nCan also be changed later …')
+        verbose_output_cb.setToolTip(
+            f'''Choose whether verbose output should be displayed. 
+            Verbose output prevents stdout and stderr from being
+            displayed in the in-editor console, that usually means
+            all output goes to the terminal from which Ryven was
+            launched. Also, it causes lots of debug info to be 
+            printed.'''
+        )
         verbose_output_cb.toggled.connect(self.on_verbose_toggled)
         fbox.addRow(verbose_output_label, verbose_output_cb)
-
-        # Info messages
-        info_msgs_label = QLabel('Info Messages:')
-        info_msgs_output_cb = QCheckBox('Enable info messages')
-        info_msgs_output_cb.setToolTip('Select if info messages should be displayed\nCan also be changed later …')
-        info_msgs_output_cb.toggled.connect(self.on_info_msgs_toggled)
-        fbox.addRow(info_msgs_label, info_msgs_output_cb)
 
         layout.addLayout(fbox)
 
@@ -370,40 +359,34 @@ class StartupDialog(QDialog):
         #
 
         # Set project
-        self.load_project(self.args.project)
+        self.load_project(self.conf.project)
 
         # Set requested nodes
         self.update_packages_lists()
 
         # Set window theme
-        self.dark_theme_rb.setChecked(self.args.window_theme == 'dark')
-        self.light_theme_rb.setChecked(self.args.window_theme == 'light')
-        plain_theme_rb.setChecked(self.args.window_theme not in ('dark', 'light'))
+        for theme, rb in self.window_theme_rbs.items():
+            rb.setChecked(self.conf.window_theme == theme)
 
         # Set performance mode
-        self.pretty_perf_mode_rb.setChecked(self.args.performance == 'pretty')
-        self.fast_perf_mode_rb.setChecked(self.args.performance == 'fast')
+        for mode, rb in self.perf_mode_rbs.items():
+            rb.setChecked(self.conf.performance_mode == mode)
 
         # Set animations
-        animations_cb.setChecked(self.args.animations)
+        animations_cb.setChecked(self.conf.animations)
 
         # Set title
-        self.title_lineedit.setText(self.args.title)
+        self.title_lineedit.setText(self.conf.window_title)
 
         # Set flow theme
-        if self.args.flow_theme:
-            idx = flowtheme_widget.findText(self.args.flow_theme)
+        if self.conf.flow_theme is not None:
+            idx = flowtheme_widget.findText(self.conf.flow_theme)
         else:
-            idx = -1
-        if idx < 0:
-            idx = flowtheme_widget.findText(DEFAULT_FLOW_THEME)
+            idx = flowtheme_widget.findText(LBL_DEFAULT_FLOW_THEME)
         flowtheme_widget.setCurrentIndex(idx)
 
         # Set verbose output
-        verbose_output_cb.setChecked(self.args.verbose)
-
-        # Set info messages
-        info_msgs_output_cb.setChecked(self.args.info_messages)
+        verbose_output_cb.setChecked(self.conf.verbose)
 
         # Set window title and icon
         self.setWindowTitle('Ryven')
@@ -469,7 +452,7 @@ class StartupDialog(QDialog):
         if file_name:
             file_path = pathlib.Path(file_name)
             if file_path.exists():
-                self.args.nodes.add(file_path.parent)
+                self.conf.nodes.add(file_path.parent)
                 self.update_packages_lists()
 
     def on_remove_packages_clicked(self):
@@ -477,84 +460,76 @@ class StartupDialog(QDialog):
         # Remove packages selected in the manual imported list
         for item in self.manually_list_widget.selectedItems():
             package_name = item.text()
-            for pkg_path in self.args.nodes:
+            for pkg_path in self.conf.nodes:
                 if pkg_path.stem == package_name:
-                    self.args.nodes.remove(pkg_path)
+                    self.conf.nodes.remove(pkg_path)
                     break
 
         self.update_packages_lists()
 
     def on_clear_packages_clicked(self):
-        """Call-back method, whenver the 'Clear' button was clicked."""
+        """Call-back method, for when the 'Clear' button was clicked."""
         # Clear the manual imported list
-        self.args.nodes.clear()
+        self.conf.nodes.clear()
 
         self.update_packages_lists()
 
     # Window theme
 
-    def on_windowtheme_toggled(self):
+    def on_window_theme_toggled(self):
         """Call-back method, whenever a window theme radio button was toggled."""
         # Apply the selected window theme
-        if self.dark_theme_rb.isChecked():
-            self.args.window_theme = 'dark'
-        elif self.light_theme_rb.isChecked():
-            self.args.window_theme = 'light'
-        else:
-            self.args.window_theme = 'plain'
+        for theme, rb in self.window_theme_rbs.items():
+            if rb.isChecked():
+                self.conf.window_theme = theme
+                break
 
         # Set the StartupDialog to the selected theme
-        apply_stylesheet(self.args.window_theme)
+        apply_stylesheet(self.conf.window_theme)
 
     # Flow theme
 
-    def on_flowtheme_selected(self, theme):
+    def on_flow_theme_selected(self, theme):
         """Call-back method, whenever a new flow theme was selected."""
         # "Apply" the selected flow theme
-        if theme == DEFAULT_FLOW_THEME:
-            self.args.flow_theme = None
+        if theme == LBL_DEFAULT_FLOW_THEME:
+            self.conf.flow_theme = Config.flow_theme
         else:
-            self.args.flow_theme = theme
+            self.conf.flow_theme = theme
 
     # Performance mode
 
     def on_performance_toggled(self):
         """Call-back method, whenever a new performance mode was selected"""
-        if self.pretty_perf_mode_rb.isChecked():
-            self.args.performance = 'pretty'
-        else:
-            self.args.performance = 'fast'
+        for mode, rb in self.perf_mode_rbs.items():
+            if rb.isChecked():
+                self.conf.performance_mode = mode
+                break
 
     # Animations
 
     def on_animations_toggled(self, check):
         """Call-back method, whenever animations are enabled/disabled"""
-        self.args.animations = check
+        self.conf.animations = check
 
     # Title
 
     def on_title_changed(self, t):
         """Call-back method, whenever the title was changed"""
-        self.args.title = t
+        self.conf.window_title = t
 
     # Verbose output
 
     def on_verbose_toggled(self, check):
         """Call-back method, whenever the verbose checkbox was toggled."""
         # "Apply" the verbose option
-        self.args.verbose = check
-
-    # Info messages
-
-    def on_info_msgs_toggled(self, check):
-        """Call-back method, whether the info messages checkbox was toggled."""
-        self.args.info_messages = check
+        self.conf.verbose = check
 
     #
     # Helper/Working methods
     #
 
-    def get_project(self, base_dir: str, title='Select project file'):
+    def get_project(self, base_dir: str, title='Select project file') -> Optional[pathlib.Path]:
         """Get a project file from the user.
 
         Parameters
@@ -584,7 +559,7 @@ class StartupDialog(QDialog):
 
         return None
 
-    def load_project(self, project_path: pathlib.Path):
+    def load_project(self, project_path: Optional[pathlib.Path]):
         """Load a project file.
 
         It opens the project file and scans for all required node packages.
@@ -606,12 +581,12 @@ class StartupDialog(QDialog):
         self.missing_list_widget.clear()
 
         if project_path is None:
-            self.args.project = None
-            self.project_name.setText(CREATE_PROJECT)
+            self.conf.project = None
+            self.project_name.setText(LBL_CREATE_PROJECT)
             self.create_project_button.setEnabled(False)
 
         else:
-            self.args.project = project_path
+            self.conf.project = project_path
             self.project_name.setText(project_path)
             self.create_project_button.setEnabled(True)
 
@@ -654,7 +629,7 @@ class StartupDialog(QDialog):
             if path.name in missing_packages:
                 node_path = path.joinpath('nodes.py')
                 if node_path.exists():
-                    self.args.nodes.add(path)
+                    self.conf.nodes.add(path)
 
     def update_packages_lists(self):
         """Update the packages lists and buttons.
@@ -668,7 +643,7 @@ class StartupDialog(QDialog):
         for i in range(self.imported_list_widget.count()):
             node_item = self.imported_list_widget.item(i)
             font = node_item.font()
-            for pkg_path in self.args.nodes:
+            for pkg_path in self.conf.nodes:
                 if node_item.text() == pkg_path.stem:
                     # Required package is overwritten by manually imported package
                     font.setStrikeOut(True)
@@ -682,7 +657,7 @@ class StartupDialog(QDialog):
         for i in range(self.missing_list_widget.count()):
             node_item = self.missing_list_widget.item(i)
             font = node_item.font()
-            for pkg_path in self.args.nodes:
+            for pkg_path in self.conf.nodes:
                 if node_item.text() == pkg_path.stem:
                     # Missing package is provided by manually imported package
                     font.setStrikeOut(True)
@@ -694,7 +669,7 @@ class StartupDialog(QDialog):
 
         # Repopulate the list with manually imported packages
         self.manually_list_widget.clear()
-        for pkg_path in sorted(self.args.nodes):
+        for pkg_path in sorted(self.conf.nodes):
             node_item = QListWidgetItem(pkg_path.stem)
             node_item.setToolTip(str(pkg_path))
             node_item.setFlags(~Qt.ItemIsEditable)
@@ -711,7 +686,7 @@ class StartupDialog(QDialog):
             self.ok_button.setEnabled(True)
             self.ok_button.setToolTip(None)
             self.autodiscover_packages_button.setEnabled(False)
-        self.clear_packages_button.setEnabled(bool(self.args.nodes))
+        self.clear_packages_button.setEnabled(bool(self.conf.nodes))
 
     def gen_config_clicked(self):
         """Generates the command analogous to the specified settings
@@ -721,7 +696,7 @@ class StartupDialog(QDialog):
 
         # Convert configuration dictionary to command line argument and
         # configuration file contents
-        command, config = unparse_sys_args(self.args)
+        command, config = unparse_sys_args(self.conf)
 
         d = ShowCommandDialog(command, config)
         d.exec_()

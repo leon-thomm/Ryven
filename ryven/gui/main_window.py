@@ -9,6 +9,7 @@ from ryven import __version__
 from ryven.gui.main_console import MainConsole
 from ryven.gui.flow_ui import FlowUI
 from ryven.gui.styling.window_theme import WindowTheme
+from ryven.main.config import Config
 from ryven.main.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
 from ryven.main.utils import import_nodes_package, abs_path_from_package_dir, abs_path_from_ryven_dir
@@ -27,27 +28,18 @@ class MainWindow(QMainWindow):
     def __init__(
             self,
 
-            window_title,
-            window_theme: WindowTheme,
-            flow_theme,
-
-            # Notice, the below default values are overwritten by the default values of the cmd
-            # line argument parser, when launching the application with cmd line arguments.
-
-            action: str = "create new project",  # or "open project'
+            config: Config,
             requested_packages: set = (),
             required_packages: set = None,  # only valid when project_content is provided
             project_content: dict = None,
-            info_msgs_enabled: bool = False,
-            performance_mode: str = 'pretty',
-            animations_enabled: bool = True,
 
             parent=None,
     ):
         super().__init__(parent)
 
+        self.config = config
         self.session_gui, self.core_session = None, None
-        self.theme = window_theme
+        self.theme = config.window_theme
         self.node_packages = {}  # {Node: str}
         self.flow_UIs = {}
 
@@ -57,7 +49,7 @@ class MainWindow(QMainWindow):
 
         self.session_gui = rc.SessionGUI(self)
         self.core_session = self.session_gui.core_session
-        if info_msgs_enabled:
+        if self.config.verbose:
             self.core_session._info_messenger().enable(traceback=True)
         else:
             self.core_session._info_messenger().disable()
@@ -68,9 +60,9 @@ class MainWindow(QMainWindow):
 
         self.session_gui.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
 
-        self.session_gui.design.set_flow_theme(name=flow_theme)
-        self.session_gui.design.set_performance_mode(performance_mode)
-        self.session_gui.design.set_animations_enabled(animations_enabled)
+        self.session_gui.design.set_flow_theme(name=self.config.flow_theme)
+        self.session_gui.design.set_performance_mode(self.config.performance_mode)
+        self.session_gui.design.set_animations_enabled(self.config.animations)
 
         #
         # Assemble Window UI
@@ -81,7 +73,7 @@ class MainWindow(QMainWindow):
         self.flow_view_theme_actions = []
         self.setup_menu_actions()
 
-        self.setWindowTitle(window_title)
+        self.setWindowTitle(self.config.window_title)
         self.setWindowIcon(QIcon(abs_path_from_package_dir('resources/pics/Ryven_icon.png')))
         self.ui.flows_tab_widget.removeTab(0)  # remove placeholder tab
 
@@ -111,14 +103,14 @@ class MainWindow(QMainWindow):
         # Requested packages take precedence over other packages
         print('importing requested packages...')
         self.import_packages(requested_packages)
-        if action == 'create project':
-            self.core_session.create_flow(title='hello world')
-        elif action == 'open project':
+        if project_content is not None:
             print('importing required packages...')
             self.import_packages(required_packages)
             print('loading project...')
             self.core_session.load(project_content)
             print('done')
+        else:
+            self.core_session.create_flow(title='hello world')
 
         self.resize(1500, 800)  # FIXME: this renders the --geometry argument useless, no?
         # self.showMaximized()

@@ -6,10 +6,7 @@ from ryven.main.utils import find_config_file
 
 from ryven import __version__
 from ryven.main import utils
-
-# TODO: add flags for 'console'/'no-console' and 'src-code-edits'/'no-src-code-edits';
-#  feature 'src-code-edits' can lead to high memory consumption;
-#  it also requires Python >= 3.9
+from ryven.main.config import Config
 
 
 class CustomHelpFormatter(argparse.HelpFormatter):
@@ -131,8 +128,8 @@ class CustomArgumentParser(argparse.ArgumentParser):
             return [f'--{key}', value]
 
 
-def parse_sys_args(just_defaults=False):
-    """Parse the command line arguments.
+def parse_sys_args(just_defaults=False) -> Config:
+    """Parse the command line arguments into a `Config` instance.
 
     Parameters
     ----------
@@ -181,12 +178,10 @@ def parse_sys_args(just_defaults=False):
 
     parser.add_argument(
         '-s', '--skip-dialog',
-        action='store_true',
-        dest='skip_dialog',
+        action='store_false',
+        dest='show_dialog',
         help='''
-            skip the start-up dialog,
-            where project files, examples, nodes packages can be loaded and
-            some settings can be changed and a configuration file saved
+            skip the start-up dialog
             ''')
 
     parser.add_argument(
@@ -197,8 +192,10 @@ def parse_sys_args(just_defaults=False):
     parser.add_argument(
         '-v', '--verbose',
         action='store_true',
-        dest='verbose',
-        help='display messages on the terminal console')
+        help=f'''
+            prevents redirect of stderr and stdout to the in-editor console\\
+            and prints lots of debug information to the default stderr and stdout
+            ''')
 
     # Project configuration
 
@@ -208,15 +205,15 @@ def parse_sys_args(just_defaults=False):
         '-n', '--nodes',
         action='append',
         # nargs='+', action='extend',
-        default=[],
+        default=Config.nodes,
         dest='nodes',
         metavar='NODES_PKG',
         help='''
             load a nodes package\\
             • If you want to load multiple packages, use the option again.\\
-            • Nodes packages loaded here take precedence over nodes packages
+            • Packages loaded here take precedence over packages
             with the same name specified in the project file!\\
-            • Nodes package names containing spaces must be enclosed in quotes.
+            • Package names containing spaces must be enclosed in quotes.
             ''')
 
     group.add_argument(
@@ -231,8 +228,8 @@ def parse_sys_args(just_defaults=False):
 
     group.add_argument(
         '-w', '--window-theme',
-        choices=['dark', 'light', 'plain'],
-        default='dark',
+        choices=Config.get_available_window_themes(),
+        default=Config.window_theme,
         dest='window_theme',
         help='''
             set the window theme\\
@@ -241,10 +238,7 @@ def parse_sys_args(just_defaults=False):
 
     group.add_argument(
         '-f', '--flow-theme',
-        choices=[
-            'toy', 'tron', 'ghost', 'blender', 'simple', 'ueli',
-            'pure dark', 'colorful dark',
-            'pure light', 'colorful light', 'industrial', 'fusion'],
+        choices=Config.get_available_flow_themes(),
         dest='flow_theme',
         help='''
             set the theme of the flow view\\
@@ -255,67 +249,35 @@ def parse_sys_args(just_defaults=False):
 
     group.add_argument(
         '--performance',
-        choices=['pretty', 'fast'],
-        default='pretty',
-        dest='performance',
+        choices=Config.get_available_performance_modes(),
+        default=Config.performance_mode,
+        dest='performance_mode',
         help='''
             select performance mode\\
             Default: %(default)s
             ''')
 
-    # TODO: Python >= 3.9
-    # group.add_argument(
-    #     '--animations',
-    #     action=argparse.BooleanOptionalAction,
-    #     dest='animations',
-    #     help='en/disable animations '
-    #          '(default: %(default)s)')
     exclusive_group = group.add_mutually_exclusive_group()
     exclusive_group.add_argument(
         '--no-animations',
         action='store_false',
         dest='animations',
-        help='''
+        help=f'''
             do not use animations\\
-            Default: Use animations
+            Default: {'Use' if Config.animations else 'Do not use'} animations
             ''')
     exclusive_group.add_argument(
         '--animations',
         action='store_true',
         dest='animations',
-        help='''
+        help=f'''
             use animations\\
-            Default: Use animations
+            Default: {'Use' if Config.animations else 'Do not use'} animations
             ''')
 
-    # TODO: Python >= 3.9
-    # group.add_argument(
-    #     '--info-messages',
-    #     action=argparse.BooleanOptionalAction,
-    #     dest='info_messages',
-    #     help='en/disable info messages '
-    #          '(default: %(default)s)')
-    exclusive_group = group.add_mutually_exclusive_group()
-    exclusive_group.add_argument(
-        '--info-messages',
-        action='store_true',
-        dest='info_messages',
-        help='''
-            show info messages\\
-            Default: Do not show info messages
-            ''')
-    exclusive_group.add_argument(
-        '--no-info-messages',
-        action='store_false',
-        dest='info_messages',
-        help='''
-            do not show info messages\\
-            Default: Do not show info messages
-            ''')
-
-    group.add_argument(     # Passed to Qt
+    group.add_argument(
         '--geometry',
-        dest='geometry',
+        dest='window_geometry',
         metavar='[WxH][{+,-}X{+,-}Y]',
         help='''
             change the size of the window to WxH and
@@ -324,8 +286,8 @@ def parse_sys_args(just_defaults=False):
 
     group.add_argument(
         '-t', '--title',
-        default='Ryven',
-        dest='title',
+        default=Config.window_title,
+        dest='window_title',
         help='''
             changes the window's title\\
             Default: %(default)s
@@ -333,7 +295,7 @@ def parse_sys_args(just_defaults=False):
 
     group.add_argument(
         '-q', '--qt-api',
-        default='pyside2',
+        default=Config.qt_api,
         dest='qt_api',
         help='''
             the QT API to be used\\
@@ -375,9 +337,9 @@ def parse_sys_args(just_defaults=False):
 
     # Parse the arguments
     if just_defaults:
-        args = parser.parse_args([])
+        args = parser.parse_args([], namespace=Config())
     else:
-        args = parser.parse_args()
+        args = parser.parse_args(namespace=Config())
 
     # Check, if project file exists
     if args.project:
@@ -414,7 +376,7 @@ def quote(s):
         return s
 
 
-def unparse_sys_args(args):
+def unparse_sys_args(args: Config):
     """Generate command line and configuration file.
 
     Reverse parsing the args namespace into two strings:
@@ -453,6 +415,7 @@ def unparse_sys_args(args):
             # A negative switch
             cmd_line.append(f'--no-{key}')
             cfg_file.append(f'no-{key}')
+            # TODO: not all switches have a negative form; e.g. --verbose does not
         else:
             # An argument with a value
 
@@ -486,7 +449,7 @@ def unparse_sys_args(args):
     return ' '.join(cmd_line), '\n'.join(cfg_file)
 
 
-def process_args(use_sysargs, *args_, **kwargs):
+def process_args(use_sysargs, *args_, **kwargs) -> Config:
     """Completely processes all arguments given either through sys args,
     or through function arguments. Performs checks on argument correctness,
     and injects the arguments from the default config file

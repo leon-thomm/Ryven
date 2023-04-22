@@ -2,6 +2,7 @@ import os
 import sys
 
 from ryven.main import utils
+from ryven.main.config import Config
 from ryven.node_env import init_node_env
 from ryven.gui_env import init_node_guis_env
 from ryven.main.args_parser import process_args
@@ -65,14 +66,14 @@ def run(*args_,
     """
 
     # Process command line and method's arguments
-    args = process_args(use_sysargs, *args_, **kwargs)
+    conf: Config = process_args(use_sysargs, *args_, **kwargs)
 
     #
     # Qt application setup
     #
 
     # QtPy API
-    os.environ['QT_API'] = args.qt_api
+    os.environ['QT_API'] = conf.qt_api
 
     # Init environment
     os.environ['RYVEN_MODE'] = 'gui'
@@ -87,9 +88,9 @@ def run(*args_,
     # Init Qt application
     if qt_app is None:
         from qtpy.QtWidgets import QApplication
-        if args.geometry:
+        if conf.window_geometry:
             # Pass '--geometry' argument to Qt
-            qt_args = [sys.argv[0], '-geometry', args.geometry]
+            qt_args = [sys.argv[0], '-geometry', conf.window_geometry]
         else:
             qt_args = [sys.argv[0]]
         app = QApplication(qt_args)
@@ -110,35 +111,47 @@ def run(*args_,
     # Editor configuration
     #
 
-    editor_config = {}
+    # editor_config = {}
 
     # Startup dialog
-    if not args.skip_dialog:
+    if conf.show_dialog:
         from ryven.gui.startup_dialog.StartupDialog import StartupDialog
 
         # Get packages and project file interactively and update arguments accordingly
 
-        sw = StartupDialog(args, parent=gui_parent)
+        sw = StartupDialog(config=conf, parent=gui_parent)
         # Exit if dialog couldn't initialize or is exited
         if sw.exec_() <= 0:
             sys.exit('Start-up screen dismissed')
 
     # Replace node directories with `NodePackage` instances
-    if args.nodes:
-        args.nodes, pkgs_not_found, _ = utils.process_nodes_packages(args.nodes)
+    if conf.nodes:
+        conf.nodes, pkgs_not_found, _ = utils.process_nodes_packages(list(conf.nodes))
         if pkgs_not_found:
             sys.exit(
                 f'Error: Nodes packages not found: {", ".join([str(p) for p in pkgs_not_found])}')
 
-        editor_config['requested packages'] = args.nodes
+        # editor_config['requested packages'] = conf.nodes
 
     # Store WindowTheme object
-    args.window_theme = apply_stylesheet(args.window_theme)
+    conf.window_theme = apply_stylesheet(conf.window_theme)
+
+    # Adjust flow theme if not set
+    if conf.flow_theme is None:
+        if conf.window_theme.name == 'dark':
+            conf.flow_theme = 'pure dark'
+        else:
+            conf.flow_theme = 'pure light'
+
+    # Note:
+    #   At this point, the Config is fully populated with exact types
+    #   (e.g. `conf.nodes` is a list of `NodePackage` instances, and
+    #   not a list of `str` anymore).
 
     # Get packages required by the project
-    if args.project:
+    if conf.project:
         pkgs, pkgs_not_found, project_dict = utils.process_nodes_packages(
-            args.project, requested_packages=args.nodes)
+            conf.project, requested_packages=list(conf.nodes))
 
         if pkgs_not_found:
             str_missing_pkgs = ', '.join([str(p.name) for p in pkgs_not_found])
@@ -150,53 +163,36 @@ def run(*args_,
                 f'Update the project file or supply the missing package{"s" if plural else ""} '
                 f'{str_missing_pkgs} on the command line with the "-n" switch.')
 
-        editor_config['action'] = 'open project'
-        editor_config['requested packages'] = args.nodes
-        editor_config['required packages'] = pkgs
-        editor_config['project content'] = project_dict
+        requested_packages = conf.nodes
+        required_packages = pkgs
+        project_content = project_dict
 
     else:
-        editor_config['action'] = 'create project'
-        editor_config['requested packages'] = args.nodes
-
-    # Adjust flow theme if not set
-    if args.flow_theme is None:
-        if args.window_theme.name == 'dark':
-            args.flow_theme = 'pure dark'
-        else:
-            args.flow_theme = 'pure light'
+        requested_packages = conf.nodes
+        required_packages = None
+        project_content = None
 
     #
     # Launch editor
     #
 
     # Init main console
-    (console_stdout_redirect, console_errout_redirect
-     ) = init_main_console(args.window_theme)
+    (console_stdout_redirect, console_errout_redirect) = \
+        init_main_console(conf.window_theme)
 
     # Init main window
     editor = MainWindow(
-        window_title=args.title,
-        window_theme=args.window_theme,
-        flow_theme=args.flow_theme,
-
-        action=editor_config['action'],
-        requested_packages=editor_config['requested packages'],
-        required_packages=editor_config.get('required packages'),
-        project_content=editor_config.get('project content'),
-        info_msgs_enabled=args.info_messages,
-        performance_mode=args.performance,
-        animations_enabled=args.animations,
-
-        # editor_config,
-        # args.title, args.window_theme, args.flow_theme,
+        config=conf,
+        requested_packages=requested_packages,
+        required_packages=required_packages,
+        project_content=project_content,
         parent=gui_parent
     )
     editor.show()
 
     # Start application
     if qt_app is None:
-        if args.verbose:
+        if conf.verbose:
             # Run application
             editor.print_info()
             sys.exit(app.exec_())
