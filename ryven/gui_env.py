@@ -5,8 +5,12 @@ without path modifications which caused issues in the past."""
 import inspect
 from typing import Type
 
+import ryven.gui.std_input_widgets as inp_widgets
+
 from ryvencore_qt import \
     NodeInputWidget, NodeMainWidget, NodeGUI
+
+from ryvencore import Data, Node
 
 def init_node_guis_env():
     pass
