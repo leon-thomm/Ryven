@@ -6,7 +6,7 @@ import ryvencore_qt.src.widgets as GUI
 from ryvencore.RC import FlowAlg
 
 from ryven.gui.code_editor.CodePreviewWidget import CodePreviewWidget
-from ryven.gui.uic.ui_script import Ui_script_widget
+from ryven.gui.uic.ui_flow import Ui_flow_widget
 
 
 class FlowUI(QWidget):
@@ -24,11 +24,10 @@ class FlowUI(QWidget):
         self.flow_view = flow_view
         
         # UI
-        self.ui = Ui_script_widget()
+        self.ui = Ui_flow_widget()
         self.ui.setupUi(self)
 
         self.flow.algorithm_mode_changed.sub(self.flow_alg_mode_changed)
-        # self.script.flow_view.viewport_update_mode_changed.connect(self.flow_vp_update_mode_changed)
 
         self.flow_alg_mode_dropdown = QComboBox()
         for mode, title in self.flow_alg_mode_display_titles.items():
@@ -38,7 +37,6 @@ class FlowUI(QWidget):
 
         # catch up on flow modes
         self.flow_alg_mode_changed(self.flow.algorithm_mode())
-        # self.flow_vp_update_mode_changed(self.script.flow_view.viewport_update_mode())
 
         # variables list widget
         self.vars_list_widget = GUI.VarsList(self.flow.session.addons.get('Variables'), self.flow) # TODO: how are vars now managed?

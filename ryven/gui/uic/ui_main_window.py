@@ -8,9 +8,9 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from qtpy.QtCore import *
-from qtpy.QtGui import *
-from qtpy.QtWidgets import *
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
 
 
 class Ui_MainWindow(object):
@@ -39,12 +39,12 @@ class Ui_MainWindow(object):
         self.actionSave_Pic_Viewport.setObjectName(u"actionSave_Pic_Viewport")
         self.actionSave_Pic_Whole_Scene_scaled = QAction(MainWindow)
         self.actionSave_Pic_Whole_Scene_scaled.setObjectName(u"actionSave_Pic_Whole_Scene_scaled")
-        self.actionNew_Script = QAction(MainWindow)
-        self.actionNew_Script.setObjectName(u"actionNew_Script")
-        self.actionRename_Script = QAction(MainWindow)
-        self.actionRename_Script.setObjectName(u"actionRename_Script")
-        self.actionDelete_Script = QAction(MainWindow)
-        self.actionDelete_Script.setObjectName(u"actionDelete_Script")
+        self.actionNew_Flow = QAction(MainWindow)
+        self.actionNew_Flow.setObjectName(u"actionNew_Flow")
+        self.actionRename_Flow = QAction(MainWindow)
+        self.actionRename_Flow.setObjectName(u"actionRename_Flow")
+        self.actionDelete_Flow = QAction(MainWindow)
+        self.actionDelete_Flow.setObjectName(u"actionDelete_Flow")
         self.actionImport_Example_Nodes = QAction(MainWindow)
         self.actionImport_Example_Nodes.setObjectName(u"actionImport_Example_Nodes")
         self.centralWidget = QWidget(MainWindow)
@@ -63,7 +63,7 @@ class Ui_MainWindow(object):
         self.splitter.setObjectName(u"splitter")
         self.splitter.setOrientation(Qt.Vertical)
         self.flows_groupBox = QGroupBox(self.splitter)
-        self.flows_groupBox.setObjectName(u"scripts_groupBox")
+        self.flows_groupBox.setObjectName(u"flows_groupBox")
         self.verticalLayout_2 = QVBoxLayout(self.flows_groupBox)
         self.verticalLayout_2.setSpacing(6)
         self.verticalLayout_2.setContentsMargins(11, 11, 11, 11)
@@ -78,7 +78,7 @@ class Ui_MainWindow(object):
         self.splitter.addWidget(self.nodes_groupBox)
         self.main_horizontal_splitter.addWidget(self.splitter)
         self.flows_tab_widget = QTabWidget(self.main_horizontal_splitter)
-        self.flows_tab_widget.setObjectName(u"scripts_tab_widget")
+        self.flows_tab_widget.setObjectName(u"flows_tab_widget")
         sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
@@ -98,7 +98,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QMenuBar(MainWindow)
         self.menuBar.setObjectName(u"menuBar")
-        self.menuBar.setGeometry(QRect(0, 0, 1368, 21))
+        self.menuBar.setGeometry(QRect(0, 0, 1368, 30))
         self.menuFile = QMenu(self.menuBar)
         self.menuFile.setObjectName(u"menuFile")
         self.menuScripts = QMenu(self.menuFile)
@@ -125,9 +125,9 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionImport_Example_Nodes)
         self.menuFile.addAction(self.actionSave_Project)
         self.menuFile.addAction(self.menuScripts.menuAction())
-        self.menuScripts.addAction(self.actionNew_Script)
-        self.menuScripts.addAction(self.actionRename_Script)
-        self.menuScripts.addAction(self.actionDelete_Script)
+        self.menuScripts.addAction(self.actionNew_Flow)
+        self.menuScripts.addAction(self.actionRename_Flow)
+        self.menuScripts.addAction(self.actionDelete_Flow)
         self.menuView.addSeparator()
         self.menuView.addAction(self.menuFlow_Design_Style.menuAction())
         self.menuView.addAction(self.menuSave_Picture.menuAction())
@@ -164,11 +164,11 @@ class Ui_MainWindow(object):
 "The more you zoomed in, the sharper the picture.\n"
 "This will take a few seconds.", None))
 #endif // QT_CONFIG(tooltip)
-        self.actionNew_Script.setText(QCoreApplication.translate("MainWindow", u"New", None))
-        self.actionRename_Script.setText(QCoreApplication.translate("MainWindow", u"Rename", None))
-        self.actionDelete_Script.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
+        self.actionNew_Flow.setText(QCoreApplication.translate("MainWindow", u"New", None))
+        self.actionRename_Flow.setText(QCoreApplication.translate("MainWindow", u"Rename", None))
+        self.actionDelete_Flow.setText(QCoreApplication.translate("MainWindow", u"Delete", None))
         self.actionImport_Example_Nodes.setText(QCoreApplication.translate("MainWindow", u"Import Example Nodes", None))
-        self.flows_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Scripts", None))
+        self.flows_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Flows", None))
         self.nodes_groupBox.setTitle(QCoreApplication.translate("MainWindow", u"Nodes", None))
         self.flows_tab_widget.setTabText(self.flows_tab_widget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Main", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))

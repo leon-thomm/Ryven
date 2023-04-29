@@ -175,9 +175,9 @@ CONTROLS
         self.ui.actionImport_Example_Nodes.triggered.connect(self.on_import_example_nodes_triggered)
         self.ui.actionSave_Project.triggered.connect(self.on_save_project_triggered)
         # TODO: rename occurences of "Script" to "Flow" in the UI
-        self.ui.actionNew_Script.triggered.connect(self.on_new_flow_triggered)
-        self.ui.actionRename_Script.triggered.connect(self.on_rename_flow_triggered)
-        self.ui.actionDelete_Script.triggered.connect(self.on_delete_flow_triggered)
+        self.ui.actionNew_Flow.triggered.connect(self.on_new_flow_triggered)
+        self.ui.actionRename_Flow.triggered.connect(self.on_rename_flow_triggered)
+        self.ui.actionDelete_Flow.triggered.connect(self.on_delete_flow_triggered)
         self.ui.actionEnableInfoMessages.triggered.connect(self.on_enable_info_msgs_triggered)
         self.ui.actionDisableInfoMessages.triggered.connect(self.on_disable_info_msgs_triggered)
         self.ui.actionSave_Pic_Viewport.triggered.connect(self.on_save_scene_pic_viewport_triggered)

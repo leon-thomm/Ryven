@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>script_widget</class>
- <widget class="QWidget" name="script_widget">
+ <class>flow_widget</class>
+ <widget class="QWidget" name="flow_widget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -42,8 +42,8 @@
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>297</width>
-              <height>812</height>
+              <width>544</width>
+              <height>818</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3"/>
@@ -107,8 +107,4 @@
  </widget>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="algorithm_buttonGroup"/>
-  <buttongroup name="viewport_update_mode_buttonGroup"/>
- </buttongroups>
 </ui>

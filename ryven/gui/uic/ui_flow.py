@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'script.ui'
+## Form generated from reading UI file 'flow.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -13,14 +13,14 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 
-class Ui_script_widget(object):
-    def setupUi(self, script_widget):
-        if not script_widget.objectName():
-            script_widget.setObjectName(u"script_widget")
-        script_widget.resize(1223, 876)
-        self.gridLayout_4 = QGridLayout(script_widget)
+class Ui_flow_widget(object):
+    def setupUi(self, flow_widget):
+        if not flow_widget.objectName():
+            flow_widget.setObjectName(u"flow_widget")
+        flow_widget.resize(1223, 876)
+        self.gridLayout_4 = QGridLayout(flow_widget)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.splitter_3 = QSplitter(script_widget)
+        self.splitter_3 = QSplitter(flow_widget)
         self.splitter_3.setObjectName(u"splitter_3")
         self.splitter_3.setOrientation(Qt.Horizontal)
         self.splitter = QSplitter(self.splitter_3)
@@ -38,7 +38,7 @@ class Ui_script_widget(object):
         self.logs_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 297, 812))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 544, 818))
         self.horizontalLayout_3 = QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.logs_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -89,16 +89,16 @@ class Ui_script_widget(object):
         self.gridLayout_4.addWidget(self.splitter_3, 0, 0, 1, 1)
 
 
-        self.retranslateUi(script_widget)
+        self.retranslateUi(flow_widget)
 
-        QMetaObject.connectSlotsByName(script_widget)
+        QMetaObject.connectSlotsByName(flow_widget)
     # setupUi
 
-    def retranslateUi(self, script_widget):
-        script_widget.setWindowTitle(QCoreApplication.translate("script_widget", u"Form", None))
-        self.log_groupBox.setTitle(QCoreApplication.translate("script_widget", u"Log", None))
-        self.source_code_groupBox.setTitle(QCoreApplication.translate("script_widget", u"Source Code", None))
-        self.settings_groupBox.setTitle(QCoreApplication.translate("script_widget", u"Settings", None))
-        self.variables_group_box.setTitle(QCoreApplication.translate("script_widget", u"Variables", None))
+    def retranslateUi(self, flow_widget):
+        flow_widget.setWindowTitle(QCoreApplication.translate("flow_widget", u"Form", None))
+        self.log_groupBox.setTitle(QCoreApplication.translate("flow_widget", u"Log", None))
+        self.source_code_groupBox.setTitle(QCoreApplication.translate("flow_widget", u"Source Code", None))
+        self.settings_groupBox.setTitle(QCoreApplication.translate("flow_widget", u"Settings", None))
+        self.variables_group_box.setTitle(QCoreApplication.translate("flow_widget", u"Variables", None))
     # retranslateUi
 
