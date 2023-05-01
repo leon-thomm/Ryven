@@ -2,12 +2,13 @@
 This module provides some frequently useful convenience input widgets for nodes.
 It replaces what was previously the dtypes system.
 """
+from typing import Tuple
 
 from ryvencore import Data
 
 from ryvencore_qt import NodeInputWidget
 
-from qtpy.QtWidgets import QLineEdit
+from qtpy.QtWidgets import QLineEdit, QSpinBox, QCheckBox
 from qtpy.QtGui import QFont, QFontMetrics
 
 
@@ -17,9 +18,10 @@ class Builder:
     """
 
     @staticmethod
-    def evaled_line_edit(size='m', descr: str = '', resizing: bool = True):
+    def evaled_line_edit(init=None, size='m', descr: str = '', resizing: bool = True, data_type: type[Data] = Data):
         """
         Creates a line edit input widget which evaluates its input.
+        :param init: the initial value shown in the widget
         :param descr: the description of the input
         :param size: 's', 'm' or 'l'
         """
@@ -49,6 +51,9 @@ class Builder:
                 # tooltip
                 self.setToolTip(self.__doc__)
 
+                # initial value
+                self.setText(str(init))
+
                 self.textChanged.connect(self.text_changed)
                 self.editingFinished.connect(self.editing_finished)
 
@@ -70,11 +75,11 @@ class Builder:
                 self.update_node_input(self.val)
 
             @property
-            def val(self) -> Data:
+            def val(self) -> data_type:
                 try:
-                    return Data(eval(self.text()))
+                    return data_type(eval(self.text()))
                 except:
-                    return Data(self.text())
+                    return data_type(self.text())
 
             def val_update_event(self, val: Data):
                 try:
@@ -94,9 +99,10 @@ class Builder:
         return StdInpWidget_EvaledLineEdit
 
     @staticmethod
-    def str_line_edit(size='m', descr: str = '', resizing: bool = True):
+    def str_line_edit(init: str = '', size='m', descr: str = '', resizing: bool = True, data_type: type[Data] = Data):
         """
         Creates a line edit input widget which evaluates its input.
+        :param init: the initial value shown in the widget
         :param descr: the description of the input
         :param size: 's', 'm' or 'l'
         """
@@ -126,6 +132,9 @@ class Builder:
                 # tooltip
                 self.setToolTip(self.__doc__)
 
+                # initial value
+                self.setText(str(init))
+
                 self.textChanged.connect(self.text_changed)
                 self.editingFinished.connect(self.editing_finished)
 
@@ -147,8 +156,8 @@ class Builder:
                 self.update_node_input(self.val)
 
             @property
-            def val(self) -> Data:
-                return Data(self.text())
+            def val(self) -> data_type:
+                return data_type(self.text())
 
             def val_update_event(self, val: Data):
                 try:
@@ -166,3 +175,98 @@ class Builder:
         StdInpWidget_StrLineEdit.__doc__ = descr
 
         return StdInpWidget_StrLineEdit
+
+    @staticmethod
+    def int_spinbox(init: int = 0, range: Tuple[int, int] = (0, 99), descr: str = '', data_type: type[Data] = Data):
+        """
+        Creates a spinbox input widget for integers.
+        :param init: the initial value shown in the widget
+        :param range: the range of the spinbox
+        :param descr: the description of the input
+        """
+
+        class StdInpWidget_IntSpinBox(NodeInputWidget, QSpinBox):
+            def __init__(self, params):
+                NodeInputWidget.__init__(self, params)
+                QSpinBox.__init__(self)
+
+                # tooltip
+                self.setToolTip(self.__doc__)
+
+                # initial value and rage
+                self.setValue(init)
+                self.setRange(*range)
+
+                self.valueChanged.connect(self.value_changed)
+
+            @property
+            def val(self) -> data_type:
+                return data_type(self.value())
+
+            def value_changed(self, _):
+                """Updates the node input."""
+                self.update_node_input(self.val)
+
+            def val_update_event(self, val: Data):
+                if not isinstance(val.payload, int):
+                    # TODO: error handling, show error in widget somehow
+                    return
+
+                self.setValue(val.payload)
+
+            def get_state(self) -> dict:
+                return {'value': self.val}
+
+            def set_state(self, data: dict):
+                # just show value, do not update node input
+                self.val_update_event(data['value'])
+
+        StdInpWidget_IntSpinBox.__doc__ = descr
+
+        return StdInpWidget_IntSpinBox
+
+    @staticmethod
+    def bool_checkbox(init: bool = False, descr: str = '', data_type: type[Data] = Data):
+        """
+        Creates a checkbox input widget for booleans.
+        :param init: the initial value shown in the widget
+        :param descr: the description of the input
+        """
+
+        class StdInpWidget_BoolCheckBox(NodeInputWidget, QCheckBox):
+            def __init__(self, params):
+                NodeInputWidget.__init__(self, params)
+                QCheckBox.__init__(self)
+
+                # tooltip
+                self.setToolTip(self.__doc__)
+
+                # initial value
+                self.setChecked(init)
+
+                self.stateChanged.connect(self.state_changed)
+
+            @property
+            def val(self) -> data_type:
+                return data_type(self.isChecked())
+
+            def state_changed(self, _):
+                """Updates the node input."""
+                self.update_node_input(self.val)
+
+            def val_update_event(self, val: Data):
+                if not isinstance(val.payload, bool):
+                    return
+
+                self.setChecked(val.payload)
+
+            def get_state(self) -> dict:
+                return {'value': self.val}
+
+            def set_state(self, data: dict):
+                # just show value, do not update node input
+                self.val_update_event(data['value'])
+
+        StdInpWidget_BoolCheckBox.__doc__ = descr
+
+        return StdInpWidget_BoolCheckBox
