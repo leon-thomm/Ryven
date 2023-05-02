@@ -7,7 +7,7 @@ from typing import Type
 
 from ryven.main.utils import load_from_file
 
-from ryvencore import Node, NodeInputType, NodeOutputType, Data
+from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
 
 
 def init_node_env():

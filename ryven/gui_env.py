@@ -10,7 +10,7 @@ import ryven.gui.std_input_widgets as inp_widgets
 from ryvencore_qt import \
     NodeInputWidget, NodeMainWidget, NodeGUI
 
-from ryvencore import Data, Node
+from ryvencore import Data, Node, serialize, deserialize
 
 def init_node_guis_env():
     pass
