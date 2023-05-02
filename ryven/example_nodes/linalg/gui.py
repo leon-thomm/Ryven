@@ -1,27 +1,28 @@
 from ryven.gui_env import *
+
 from qtpy.QtWidgets import QTextEdit
 from qtpy.QtGui import QFontMetrics
 
 import numpy as np
 
 
-class MatrixWidget(MWB, QTextEdit):
+class MatrixWidget(NodeMainWidget, QTextEdit):
 
     def __init__(self, params, base_width=50, base_height=50):
-        MWB.__init__(self, params)
+        NodeMainWidget.__init__(self, params)
         QTextEdit.__init__(self)
 
-        c = self.node.color
-        self.setStyleSheet('''
-QTextEdit{
-    color: '''+c+''';
+        c = self.node.gui.color
+        self.setStyleSheet(f'''
+QTextEdit{{
+    color: {c};
     background: transparent;
     border: none;
     border-radius: 4px;
     padding: 0px;
     font-family: Source Code Pro;
     font-size: 10pt;
-}
+}}
         ''')  
         # border: 1px solid '''+c+''';
         
@@ -31,6 +32,10 @@ QTextEdit{
         self.setFixedSize(self.base_width, self.base_height)
         self.setReadOnly(True)
         self.hidden_size = None
+
+    @property
+    def gui(self):
+        return self.node.gui
 
     def update_matrix(self, m):
         if m is None:
@@ -94,23 +99,24 @@ QTextEdit{
         text_height = fm.height()*(len(lines))+15  # vertical buffer for padding etc.
         self.setFixedWidth(text_width if text_width > self.base_width else self.base_width)
         self.setFixedHeight(text_height if text_height > self.base_height else self.base_height)
-        self.node.update_shape()
+        self.gui.update_shape()
 
     def hide(self):
         self.hidden_size = self.size()
         self.setFixedSize(0, 0)
-        self.node.update_shape()
+        self.gui.update_shape()
 
     def show(self):
         self.setFixedSize(self.hidden_size)
-        self.node.update_shape()
+        self.gui.update_shape()
         self.hidden_size = None
 
 
     def get_state(self):
-        data = {'text': self.toPlainText(),
-                'shown': self.hidden_size is None
-                }
+        data = {
+            'text': self.toPlainText(),
+            'shown': self.hidden_size is None
+        }
         return data
 
     def set_state(self, data):
@@ -120,7 +126,7 @@ QTextEdit{
             self.hide()
 
 
-class MatrixNode_MainWidget(MatrixWidget):
+class EditMatrixWidget(MatrixWidget):
     def __init__(self, params):
         super().__init__(params, 100, 80)
 
@@ -136,7 +142,57 @@ class MatrixNode_MainWidget(MatrixWidget):
         QTextEdit.focusOutEvent(self, e)
 
 
-export_widgets(
-    MatrixWidget,
-    MatrixNode_MainWidget,
-)
+class MatrixNodeBaseGui(NodeGUI):
+    main_widget_class = MatrixWidget
+    main_widget_pos = 'below ports'
+    color = '#3344ff'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.main_widget_hidden = False
+
+    def initialized(self):
+        if 'show preview' not in self.actions:  # this happens when loading a project
+            self.actions['hide preview'] = {'method': self.ac_hide_mw}
+
+    def show_matrix(self, mat):
+        self.main_widget().update_matrix(mat)
+
+    def ac_hide_mw(self):
+        self.main_widget().hide()
+        del self.actions['hide preview']
+        self.actions['show preview'] = {'method': self.ac_show_mw}
+        self.main_widget_hidden = True
+        self.update_shape()
+
+    def ac_show_mw(self):
+        self.main_widget().show()
+        del self.actions['show preview']
+        self.actions['hide preview'] = {'method': self.ac_hide_mw}
+        self.main_widget_hidden = False
+        self.update_shape()
+
+    def get_state(self):
+        return {
+            **super().get_state(),
+            'main_widget_hidden': self.main_widget_hidden
+        }
+
+    def set_state(self, data):
+        super().set_state(data)
+        if data['main_widget_hidden']:
+            self.ac_hide_mw()
+        # shown by default
+
+
+class EditMatrixNodeGui(MatrixNodeBaseGui):
+    main_widget_class = EditMatrixWidget
+    main_widget_pos = 'below ports'
+    color = '#3344ff'
+
+
+export_guis([
+    MatrixNodeBaseGui,
+    EditMatrixNodeGui,
+])

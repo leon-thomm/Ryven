@@ -1,163 +1,213 @@
+from typing import Optional, List
+
+import ryvencore.addons.Variables
+
 from ryven.node_env import *
-widgets = import_guis(__file__)
+guis = import_guis(__file__)
 
 import numpy as np
+from itertools import chain
+
+
+class MatrixData(Data):
+    # currently, there should not be any implicit
+    # data sharing between nodes, because their
+    # operations are copying the data anyway
+
+    # notice that numpy arrays are pickle serializable
+
+    pass
 
 
 class MatrixNodeBase(Node):
-    main_widget_class = widgets.MatrixWidget
-    main_widget_pos = 'below ports'
+    version = 'v0.2'
     init_inputs = [
-        NodeInputBP()
+        NodeInputType()
     ]
     init_outputs = [
-        NodeOutputBP()
+        NodeOutputType()
     ]
-    color = '#3344ff'
+    GUI = guis.MatrixNodeBaseGui
 
     def __init__(self, params):
         super().__init__(params)
         self.mat = None
 
-    def show_matrix(self):
-        if self.session.gui and self.main_widget():
-            self.main_widget().update_matrix(self.mat)
-    
+    def get_mat(self):
+        """
+        Returns the processed matrix.
+        Pre: self.inputs_ready() is True.
+        """
+        raise NotImplementedError
+
+    def inputs_ready(self):
+        """Returns True if no input is None."""
+        return all(self.input(i) is not None for i in range(len(self.inputs)))
+
     def update_event(self, inp=-1):
+        if not self.inputs_ready():
+            return
+
         self.mat = self.get_mat()
-        self.show_matrix()
-        self.set_output_val(0, self.mat)
+
+        if self.have_gui():
+            self.gui.show_matrix(self.mat)
+
+        self.set_output_val(0, MatrixData(self.mat))
+
+    def have_gui(self):
+        return hasattr(self, 'gui')
 
 
 class ShowMatrix(MatrixNodeBase):
-    """Displays a matrix"""
-
+    """Simply displays a matrix"""
     title = 'Show Matrix'
 
     def get_mat(self):
-        return self.input(0)
-
-# ------------------------------------------------------------------------------
+        return self.input(0).payload
 
 
-class Matrix_Node(Node):
+class EditMatrixNode(Node):
     """Evaluates a matrix"""
     title = 'Matrix'
+    identifier = 'EditMatrix_Node'
+    legacy_identifiers = ['Matrix_Node']
     init_inputs = []
     init_outputs = [
-        NodeOutputBP()
+        NodeOutputType()
     ]
-    main_widget_class = widgets.MatrixNode_MainWidget
-    main_widget_pos = 'below ports'
-    color = '#3344ff'
+    GUI = guis.EditMatrixNodeGui
 
     def __init__(self, params):
-        super(Matrix_Node, self).__init__(params)
+        super().__init__(params)
 
-        self.actions['hide preview'] = {'method': self.action_hide_mw}
-        self.main_widget_hidden = False
-        self.expression_matrix = None
-        self.evaluated_matrix = None
+        self.expression_matrix: Optional[np.ndarray] = None
+        self.evaluated_matrix: Optional[MatrixData] = None
+
         self.used_variable_names = []
 
-    def place_event(self):
-        self.update()
-
     def update_event(self, inp=-1):
-        self.set_output_val(0, self.evaluated_matrix)
+        if self.expression_matrix is not None:
+            self.set_output_val(0, self.evaluated_matrix)
         
-    def parse_matrix(self, s):
+    def parse_matrix(self, s):  # called from gui
         lines = s.splitlines()
-        # the list(filter(...)) creates an array of strings for every line
+
         try:
-            self.expression_matrix = np.array([[exp for exp in list(filter(lambda s: s != '', l.split(' ')))] for l in lines])
-            self.eval_expression_matrix()
-            self.update()
-        except ValueError:
+            # this throws a ValueError if the matrix is not rectangular
+            exp_mat = np.array([
+                list(filter(lambda s: s != '', l.split(' ')))  # array of expression strings
+                for l in lines
+            ])
+
+            # check if all expressions are valid
+            for exp in self.flatten_2d(exp_mat):
+                if not self.exp_is_var(exp):
+                    eval(exp)
+                elif not self.var_exists(exp):
+                    raise NameError
+        except (ValueError, NameError):
             # something like 2+ (which could become 2+1j) can't get parsed yet
             return
 
-    def eval_expression_matrix(self):
-        if not self.register_vars(self.expression_matrix):
-            return  # return if parsing failed
+        self.expression_matrix = exp_mat
+        self.register_vars_and_eval_matrix()
+        self.update()
 
+    def register_vars_and_eval_matrix(self):
+        if not self.register_vars(self.expression_matrix):
+            return  # abort if vars registration failed
         self.evaluated_matrix = self.eval_matrix(self.expression_matrix)
 
-        if self.evaluated_matrix is None:
-            return  # matrix could not be evaluated
-        # custom_array = [list(map(number_type, list(filter(lambda s: s != '', l.split(' '))))) for l in lines]
+    def register_vars(self, lines: np.ndarray) -> bool:
+        """Updates subscriptions for the variables used in the matrix."""
 
-        try:
-            self.evaluated_matrix = np.array(self.evaluated_matrix)
-        except Exception:
-            return
+        for _ in range(len(self.used_variable_names)):
+            self.unsub_var(self.used_variable_names[0])
 
-    def eval_matrix(self, lines):
-        v = self.get_var_val
-        evaled_exp_array = []
-        for l in lines:
-            evaled_exp_array.append([])
-            for exp in l:
-                evaled_exp_array[-1].append(eval(exp))
-        float_exp_array = [[float(exp) if type(exp) == int else exp for exp in l] for l in evaled_exp_array]
-        return np.array(float_exp_array)
+        var_names = set()
+        for exp in filter(self.exp_is_var, self.flatten_2d(lines)):
+            if self.var_exists(exp):
+                var_names.add(exp)
+            else:
+                return False
 
-    def register_vars(self, lines):
-        try:
-            # clear used variables
-            for name in self.used_variable_names:
-                self.unregister_var_receiver(name, self.var_val_updated)
-            self.used_variable_names.clear()
+        for var_name in var_names:
+            self.sub_var(var_name)
 
-            v = self.register_variable
-            for l in lines:
-                for exp in l:
-                    eval(exp)
-            return True
-        except Exception:
+        return True
+
+    def eval_matrix(self, lines) -> MatrixData:
+        """
+        Evaluates a matrix from string expressions of numerals and variables.
+        """
+
+        # replace old v('name') syntax with new 'name' syntax
+        lines = [
+            [exp.replace('v(', '').replace(')', '') if 'v(' in exp else exp
+             for exp in l]
+            for l in lines
+        ]
+
+        # evaluate expressions
+        evaled_exp_array = [
+            [
+                eval(exp)
+                if not self.exp_is_var(exp) else
+                self.var_val(exp)
+                for exp in l
+            ]
+            for l in lines
+        ]
+
+        # convert ints to floats; leave complex numbers
+        int_to_float = lambda v: float(v) if isinstance(v, int) else v
+        float_exp_array = [
+            list(map(int_to_float, l))
+            for l in evaled_exp_array
+        ]
+
+        # build matrix and wrap in MatrixData
+        return MatrixData(np.array(float_exp_array))
+
+    def var_exists(self, name):
+        return self.get_addon('Variables').var_exists(self.flow, name)
+
+    def sub_var(self, name) -> bool:
+        if not self.var_exists(name):
             return False
 
-    def register_variable(self, name):
-        # connect to variable changes
-        self.register_var_receiver(name, self.var_val_updated)
+        self.get_addon('Variables').subscribe(self, name, self.var_val_updated)
         self.used_variable_names.append(name)
+        return True
 
-    def var_val_updated(self, name, val):
+    def unsub_var(self, name):
+        self.get_addon('Variables').unsubscribe(self, name, self.var_val_updated)
+        self.used_variable_names.remove(name)
+
+    def var_val_updated(self, var: ryvencore.addons.Variables.Variable):
         self.evaluated_matrix = self.eval_matrix(self.expression_matrix)
         self.update()
 
-    def action_hide_mw(self):
-        self.main_widget().hide()
-        del self.actions['hide preview']
-        self.actions['show preview'] = {'method': self.action_show_mw}
-        self.main_widget_hidden = True
-        self.update_shape()
+    def var(self, name) -> ryvencore.addons.Variables.Variable:
+        return self.get_addon('Variables').var(self.flow, name)
 
-    def action_show_mw(self):
-        self.main_widget().show()
-        del self.actions['show preview']
-        self.actions['hide preview'] = {'method': self.action_hide_mw}
-        self.main_widget_hidden = False
-        self.update_shape()
+    def var_val(self, name):
+        return self.var(name).get()
+
+    def exp_is_var(self, s: str):
+        return s.isidentifier()
+
+    def flatten_2d(self, mat: np.ndarray) -> np.ndarray:
+        return np.array(list(chain(*mat)))
 
     def get_state(self):
-        expression_matrix_list = self.expression_matrix
-        if expression_matrix_list is not None:  # ndarrays are not json serializaple
-            expression_matrix_list = expression_matrix_list.tolist()
-
-        data = {'main widget hidden': self.main_widget_hidden,
-                'expression matrix': expression_matrix_list}
+        data = {'expression matrix': serialize(self.expression_matrix)}
         return data
 
     def set_state(self, data, version):
-        if self.session.gui:
-            self.main_widget_hidden = data['main widget hidden']
-            if self.main_widget_hidden:
-                self.action_hide_mw()
-            # shown by default
-        
-        self.expression_matrix = np.array(data['expression matrix'])
-        self.eval_expression_matrix()
+        self.expression_matrix = deserialize(data['expression matrix'])
+        self.register_vars_and_eval_matrix()
 
 
 class Conjugate(MatrixNodeBase):
@@ -165,7 +215,7 @@ class Conjugate(MatrixNodeBase):
     title = 'Conjugate'
 
     def get_mat(self):
-        return np.conjugate(self.input(0))
+        return np.conjugate(self.input(0).payload)
 
 
 class Transpose(MatrixNodeBase):
@@ -173,7 +223,7 @@ class Transpose(MatrixNodeBase):
     title = 'Transpose'
 
     def get_mat(self):
-        return np.transpose(self.input(0))
+        return np.transpose(self.input(0).payload)
 
 
 class DetOfMatrix(MatrixNodeBase):
@@ -181,19 +231,22 @@ class DetOfMatrix(MatrixNodeBase):
     title = 'Determinant'
 
     def get_mat(self):
-        return np.linalg.det(self.input(0))
+        return np.linalg.det(self.input(0).payload)
 
 
 class DotProduct(MatrixNodeBase):
     """Computes the dot product of a matrix."""
     title = 'Dot Product'
     init_inputs = [
-        NodeInputBP(),
-        NodeInputBP(),
+        NodeInputType(),
+        NodeInputType(),
     ]
     
     def get_mat(self):
-        return np.dot(self.input(0), self.input(1))
+        return np.dot(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
 class HermMatrix(MatrixNodeBase):
@@ -201,7 +254,7 @@ class HermMatrix(MatrixNodeBase):
     title = 'Herm'
 
     def get_mat(self):
-        return np.transpose(np.conjugate(self.input(0)))
+        return np.transpose(np.conjugate(self.input(0).payload))
 
 
 class IDMatrix(MatrixNodeBase):
@@ -209,7 +262,7 @@ class IDMatrix(MatrixNodeBase):
     title = 'ID Matrix'
 
     def get_mat(self):
-        return np.identity(self.input(0))
+        return np.identity(self.input(0).payload)
 
 
 class ImagMatrix(MatrixNodeBase):
@@ -217,7 +270,7 @@ class ImagMatrix(MatrixNodeBase):
     title = 'Imag'
 
     def get_mat(self):
-        return np.imag(self.input(0))
+        return np.imag(self.input(0).payload)
 
 
 class RealMatrix(MatrixNodeBase):
@@ -225,31 +278,37 @@ class RealMatrix(MatrixNodeBase):
     title = 'Real'
 
     def get_mat(self):
-        return np.real(self.input(0))
+        return np.real(self.input(0).payload)
 
 
 class InnerProduct(MatrixNodeBase):
     """Computes the inner product of the input matrices."""
     title = 'Inner'
     init_inputs = [
-        NodeInputBP(),
-        NodeInputBP(),
+        NodeInputType(),
+        NodeInputType(),
     ]
     
     def get_mat(self):
-        return np.inner(self.input(0), self.input(1))
+        return np.inner(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
 class OuterProduct(MatrixNodeBase):
     """Creates the outer product of two matrices."""
     title = 'Outer'
     init_inputs = [
-        NodeInputBP(),
-        NodeInputBP(),
+        NodeInputType(),
+        NodeInputType(),
     ]
 
     def get_mat(self):
-        return np.outer(self.input(0), self.input(1))
+        return np.outer(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
 class InverseMatrix(MatrixNodeBase):
@@ -257,7 +316,9 @@ class InverseMatrix(MatrixNodeBase):
     title = 'Inverse'
 
     def get_mat(self):
-        return np.linalg.inv(self.input(0))
+        return np.linalg.inv(
+            self.input(0).payload
+        )
 
 
 class KronMatrix(MatrixNodeBase):
@@ -265,7 +326,10 @@ class KronMatrix(MatrixNodeBase):
     title = 'Kron'
 
     def get_mat(self):
-        return np.kron(self.input(0), self.input(1))
+        return np.kron(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
 class MaskLower(MatrixNodeBase):
@@ -273,7 +337,9 @@ class MaskLower(MatrixNodeBase):
     title = 'Mask Lower'
 
     def get_mat(self):
-        return np.tril(self.input(0))
+        return np.tril(
+            self.input(0).payload
+        )
 
 
 class MaskUpper(MatrixNodeBase):
@@ -281,31 +347,39 @@ class MaskUpper(MatrixNodeBase):
     title = 'Mask Upper'
 
     def get_mat(self):
-        return np.triu(self.input(0))
+        return np.triu(
+            self.input(0).payload
+        )
 
 
 class MatMul(MatrixNodeBase):
     """Performs a matrix multiplication."""
     title = 'Mult'
     init_inputs = [
-        NodeInputBP(),
-        NodeInputBP(),
+        NodeInputType(),
+        NodeInputType(),
     ]
 
     def get_mat(self):
-        return np.matmul(self.input(0), self.input(1))
+        return np.matmul(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
 class MatPower(MatrixNodeBase):
     """Powers a matrix."""
     title = 'Power'
     init_inputs = [
-        NodeInputBP(),
-        NodeInputBP(),
+        NodeInputType(),
+        NodeInputType(),
     ]
 
     def get_mat(self):
-        return np.linalg.matrix_power(self.input(0), self.input(1))
+        return np.linalg.matrix_power(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
 class NullMatrix(MatrixNodeBase):
@@ -313,7 +387,7 @@ class NullMatrix(MatrixNodeBase):
     title = 'Null'
 
     def get_mat(self):
-        return np.zeros(shape=(self.input(0), self.input(1)))
+        return np.zeros(shape=(self.input(0).payload, self.input(1).payload))
 
 
 class OnesMatrix(MatrixNodeBase):
@@ -321,36 +395,41 @@ class OnesMatrix(MatrixNodeBase):
     title = 'Ones'
 
     def get_mat(self):
-        return np.ones(shape=(self.input(0), self.input(1)))
+        return np.ones(shape=(self.input(0).payload, self.input(1).payload))
 
 
 class RandomMatrix(MatrixNodeBase):
     """Creates a matrix with random values between 0 and 1."""
     title = 'Rand'
     init_inputs = [
-        NodeInputBP(),
-        NodeInputBP(),
+        NodeInputType(),
+        NodeInputType(),
     ]
 
     def get_mat(self):
-        m = np.random.rand(self.input(0), self.input(1))
-        return m
+        return np.random.rand(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
 class SolveLEq(MatrixNodeBase):
     """Solves a linear equation system."""
     title = 'Solve'
     init_inputs = [
-        NodeInputBP(),
-        NodeInputBP(),
+        NodeInputType(),
+        NodeInputType(),
     ]
 
     def get_mat(self):
-        return np.linalg.solve(self.input(0), self.input(1))
+        return np.linalg.solve(
+            self.input(0).payload,
+            self.input(1).payload
+        )
 
 
-export_nodes(
-    Matrix_Node,
+export_nodes([
+    EditMatrixNode,
     ShowMatrix,
     Conjugate,
     Transpose,
@@ -372,4 +451,6 @@ export_nodes(
     OnesMatrix,
     RandomMatrix,
     SolveLEq,
+],
+    data_types=[MatrixData]
 )
