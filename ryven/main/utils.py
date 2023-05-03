@@ -2,7 +2,7 @@ import os
 from os.path import normpath, join, dirname, abspath, basename, expanduser
 import pathlib
 import importlib.util
-from typing import List, Tuple, Type
+from typing import List, Tuple, Type, Union, Optional
 
 from ryven.main.nodes_package import NodesPackage
 from ryvencore import Node, Data
@@ -10,7 +10,7 @@ from ryvencore import Node, Data
 
 def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
     """
-    Imports the specified components from a python module with given file path.
+    Imports specified components from a python module with given file path.
     """
     if components_list is None:
         components_list = []
@@ -32,12 +32,14 @@ def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
 
 def import_nodes_package(package: NodesPackage = None, directory: str = None) -> \
         Tuple[List[Type[Node]], List[Type[Data]]]:
-    """
-    This function is an interface to the node packages system in Ryven.
-    It loads nodes from a Ryven nodes package and returns them in a list.
-    It can be used without a running Ryven instance, but you need to specify in which mode nodes should be loaded
+    """Loads nodes from a Ryven nodes package and returns them in a list.
+
+    Can be used without a running Ryven instance, but you need to specify in which mode nodes should be loaded
     by setting the environment variable RYVEN_MODE to either 'gui' (gui imports enabled) or 'no-gui'.
-    You can either pass a NodesPackage object or a path to the directory where the nodes.py file is located.
+
+    :param package: The NodesPackage object.
+    :param directory: The path to the directory where the nodes.py file is located, used if package is None.
+    :return: A tuple containing node types (classes) first, and the data types exported by the package second.
     """
 
     if package is None:
@@ -58,19 +60,11 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
     return node_types, data_types
 
 
-def read_project(project_path):
+def read_project(project_path: Union[str, pathlib.Path]) -> dict:
     """Read the project file and return its dictionary.
 
-    Parameters
-    ----------
-    project_path : str|pathlib.Path
-        The path to the project file.
-
-    Returns
-    -------
-    dict
-        The contents of the project file.
-
+    :param project_path: The path to the project file.
+    :return: The contents of the project file.
     """
     import io
     import json
@@ -87,52 +81,36 @@ def read_project(project_path):
     return project_dict
 
 
-def find_project(project_path):
-    """Find a project.
+def find_project(project_path: Union[str, pathlib.Path]) -> Optional[pathlib.Path]:
+    """Resolves a possibly *~/.ryven/saves/*-relative path to a nodes package to an absolute path.
 
-    The `project_path` is either the path to the project file (with or without
-    the suffix '.json') or a path below `ryven_dir_path()/saves/`.
-
-    Parameters
-    ----------
-    project_path : str|pathlib.Path
-        The path to the project file or the subpath to `ryven_dir_path()/saves`.
-
-    Returns
-    -------
-    pathlib.Path|None
-        The full path to the project file or `None`, if it could not be found.
+    :param project_path: The path to the project file or the subpath to :code:`ryven_dir_path()/saves`.
+        The file extension '.json' can be omitted.
+    :return: The absolute and resolved path to the project file, or `None` if it could not be found.
 
     """
     project_path = pathlib.Path(project_path)
 
     if project_path.exists():
-        return project_path
+        return project_path.resolve()
     elif project_path.with_suffix('.json').exists():
-        return project_path.with_suffix('.json')
+        return project_path.with_suffix('.json').resolve()
     else:
         project_path = pathlib.Path(ryven_dir_path(), 'saves', project_path)
         if project_path.exists():
-            return project_path
+            return project_path.resolve()
         elif project_path.with_suffix('.json').exists():
-            return project_path.with_suffix('.json')
+            return project_path.with_suffix('.json').resolve()
         else:
             return None
 
 
-def find_config_file(cfg_file_path):
-    """Find a config file.
+def find_config_file(cfg_file_path: str) -> Optional[pathlib.Path]:
+    """Resolves a possibly *~/.ryven/*-relative path of a config file to an absolute path.
 
-    Parameters
-    ----------
-    cfg_file_path : str
-        Either an absolute path, or relative to the ~/.ryven/ directory.
+    :param cfg_file_path: Either an absolute path, or relative to the *~/.ryven/* directory.
         The file extension '.cfg' can be omitted.
-
-    Returns
-    -------
-    pathlib.Path|None
-        The full path to the config file or `None`, if it could not be found.
+    :return: The full path to the config file or `None`, if it could not be found.
     """
 
     config_file_path = pathlib.Path(cfg_file_path)
@@ -147,15 +125,19 @@ def find_config_file(cfg_file_path):
             return None
 
 
-def process_nodes_packages(project_or_nodes, requested_packages: list = None):
+def process_nodes_packages(
+    project_or_nodes: Union[
+        Union[str, pathlib.Path],                       # path to Ryven project
+        List[Union[str, pathlib.Path, NodesPackage]]    # list of node packages
+    ],
+    requested_packages: List[NodesPackage] = None
+) -> Tuple[List[NodesPackage], List[pathlib.Path], Optional[dict]]:
     """Takes a project or list of node packages and additionally requested node
     packages and checks whether the node packages are valid.
 
     It also removes duplicates based on the name (and not the contents!).
 
-    Parameters
-    ----------
-    project_or_nodes : str|pathlib.Path|list of (str|pathlib.Path|NodesPackage)
+    :param project_or_nodes:
         Either a path to a Ryven project or a list of node packages.
         If a Ryven project is given, the required nodes packages specified
         in the project file are looked for.
@@ -166,21 +148,16 @@ def process_nodes_packages(project_or_nodes, requested_packages: list = None):
         If 'nodes.py' cannot be found in the path, the package is searched in
         Ryven's example nodes dir, e.g. if "std" is given and not found
         locally, the "std" package included in Ryven is loaded.
-    requested_packages : list of NodesPackage
+    :param requested_packages:
         A list of additional node package, which were requested. These take
         precedence over `nodes`.
         The default is `[]`.
 
-    Returns
-    -------
-    set of NodesPackage
-        Set of available nodes required by the project or from list of nodes.
-    set of NodesPackage
-        Set of nodes required by the project or from list of nodes, which could
-        not be found.
-    dict
-        Dictionary with the contents of the project or `None`.
-
+    :return:
+        A tuple of three elements:
+            - Set of available nodes required by the project or from list of nodes.
+            - Set of nodes required by the project or from list of nodes, which could not be found.
+            - Dictionary with the contents of the project or `None`.
     """
     from ryven.main.nodes_package import NodesPackage
 
