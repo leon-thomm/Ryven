@@ -2,7 +2,7 @@ import os
 from os.path import normpath, join, dirname, abspath, basename, expanduser
 import pathlib
 import importlib.util
-from typing import List, Tuple, Type, Union, Optional
+from typing import List, Tuple, Type, Union, Optional, Set
 
 from ryven.main.nodes_package import NodesPackage
 from ryvencore import Node, Data
@@ -131,7 +131,7 @@ def process_nodes_packages(
         List[Union[str, pathlib.Path, NodesPackage]]    # list of node packages
     ],
     requested_packages: List[NodesPackage] = None
-) -> Tuple[List[NodesPackage], List[pathlib.Path], Optional[dict]]:
+) -> Tuple[Set[NodesPackage], List[pathlib.Path], Optional[dict]]:
     """Takes a project or list of node packages and additionally requested node
     packages and checks whether the node packages are valid.
 
