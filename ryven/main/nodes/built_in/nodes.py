@@ -192,8 +192,8 @@ class SetVar_Node(NodeBase):
 
     def action_make_active(self):
         self.active = True
-        self.create_input(type_='exec', pos=0)
-        self.create_output(type_='exec', pos=0)
+        self.create_input(type_='exec', insert=0)
+        self.create_output(type_='exec', insert=0)
         del self.actions['make active']
         self.actions['make passive'] = {'method': self.action_make_passive}
 
