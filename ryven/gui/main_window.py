@@ -6,14 +6,17 @@ from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
 from ryvencore_qt import NodeGUI
 
-from ryven import __version__
 from ryven.gui.main_console import MainConsole
 from ryven.gui.flow_ui import FlowUI
 from ryven.gui.styling.window_theme import WindowTheme
 from ryven.main.config import Config
 from ryven.main.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
-from ryven.main.utils import import_nodes_package, abs_path_from_package_dir, abs_path_from_ryven_dir
+from ryven.main.utils import \
+    import_nodes_package, \
+    abs_path_from_package_dir, \
+    abs_path_from_ryven_dir, \
+    ryven_version
 from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 
 # ryvencore_qt
@@ -58,7 +61,8 @@ class MainWindow(QMainWindow):
         self.session_gui.flow_renamed.connect(self.flow_renamed)
         self.session_gui.flow_deleted.connect(self.flow_deleted)
 
-        self.session_gui.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
+        # unused; default flow theme etc. are defined by Config
+        # self.session_gui.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
 
         self.session_gui.design.set_flow_theme(name=self.config.flow_theme)
         self.session_gui.design.set_performance_mode(self.config.performance_mode)
@@ -98,7 +102,7 @@ class MainWindow(QMainWindow):
         #  ryvencore_qt.NodeGUI
 
         #
-        # Setup ryvencore Session
+        # Setup ryvencore Session and load project
         #
 
         self.import_nodes(path=abs_path_from_package_dir('main/nodes/built_in/'))
@@ -399,7 +403,7 @@ CONTROLS
             InfoMsgs.write('couldn\'t open file')
             return
 
-        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': __version__}
+        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': ryven_version()}
 
         flows_data = self.core_session.serialize()
 

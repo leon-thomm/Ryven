@@ -4,7 +4,7 @@ import sys
 
 from ryven.main.utils import find_config_file
 
-from ryven import __version__
+from ryven.main.utils import ryven_version
 from ryven.main import utils
 from ryven.main.config import Config
 
@@ -187,7 +187,7 @@ def parse_sys_args(just_defaults=False) -> Config:
     parser.add_argument(
         '-V', '--version',
         action='version',
-        version=f'%(prog)s {__version__}')
+        version=f'%(prog)s {ryven_version()}')
 
     parser.add_argument(
         '-v', '--verbose',

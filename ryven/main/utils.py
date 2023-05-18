@@ -8,6 +8,7 @@ from os.path import normpath, join, dirname, abspath, basename, expanduser
 import pathlib
 import importlib.util
 from typing import List, Tuple, Type, Union, Optional, Set
+from packaging.version import Version
 
 from ryven.main.nodes_package import NodesPackage
 from ryvencore import Node, Data
@@ -82,6 +83,12 @@ def read_project(project_path: Union[str, pathlib.Path]) -> dict:
             # strict=False is needed to allow 'control characters' like '\n'
             # for newline when loading the json
             project_dict = json.load(f, strict=False)
+
+    # backward compatibility: translate old project files to current version
+    if Version(project_dict['ryven_version']) < Version('3.3.0'):
+        print('WARNING: project was created with an older version of Ryven')
+        print('INFO: attempting to translate project to current version...')
+        pass  # TODO: implement project translation
 
     return project_dict
 
@@ -249,3 +256,21 @@ def abs_path_from_ryven_dir(ryven_rel_path: str):
     """
 
     return abspath(join(ryven_dir_path(), ryven_rel_path))
+
+def ryven_version() -> Version:
+    """
+    :return: the version of Ryven
+    """
+
+    # if we are in a development environment, we can't use importlib.metadata
+    if (pathlib.Path(abs_path_from_package_dir('../setup.cfg'))).exists():
+        # read the version from setup.cfg
+        import configparser
+        config = configparser.ConfigParser()
+        config.read(abs_path_from_package_dir('../setup.cfg'))
+        ver = Version(config['metadata']['version'])
+        return ver
+    else:
+        # read the version from importlib.metadata
+        from importlib.metadata import version
+        return Version(version('ryven'))
