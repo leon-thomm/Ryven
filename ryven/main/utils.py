@@ -1,3 +1,8 @@
+"""
+Core utilities for handling Ryven projects and nodes packages, and
+resolving paths. Deos not depend on any Qt modules.
+"""
+
 import os
 from os.path import normpath, join, dirname, abspath, basename, expanduser
 import pathlib
@@ -32,7 +37,7 @@ def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
 
 def import_nodes_package(package: NodesPackage = None, directory: str = None) -> \
         Tuple[List[Type[Node]], List[Type[Data]]]:
-    """Loads nodes from a Ryven nodes package and returns them in a list.
+    """Loads node and data classes from a Ryven nodes package and returns both in separate lists.
 
     Can be used without a running Ryven instance, but you need to specify in which mode nodes should be loaded
     by setting the environment variable RYVEN_MODE to either 'gui' (gui imports enabled) or 'no-gui'.
@@ -116,11 +121,11 @@ def find_config_file(cfg_file_path: str) -> Optional[pathlib.Path]:
     config_file_path = pathlib.Path(cfg_file_path)
 
     if config_file_path.exists():
-        return config_file_path
+        return config_file_path.resolve()
     else:
         config_file_path = pathlib.Path(ryven_dir_path(), cfg_file_path)
         if config_file_path.exists():
-            return config_file_path
+            return config_file_path.resolve()
         else:
             return None
 
@@ -225,24 +230,22 @@ def ryven_dir_path() -> str:
     """
     :return: absolute path the (OS-specific) '~/.ryven/' folder
     """
-    return normpath(join(expanduser('~'), '.ryven/'))
+    return abspath(normpath(join(expanduser('~'), '.ryven/')))
 
 
-def abs_path_from_package_dir(path_rel_to_ryven: str):
-    """Given a path string relative to the ryven package, return the file/folder absolute path
-
-    :param path_rel_to_ryven: path relative to ryven package (e.g. main/node_env.py)
-    :type path_rel_to_ryven: str
+def abs_path_from_package_dir(ryven_rel_path: str):
+    """
+    :param ryven_rel_path: path relative to ryven package folder (e.g. main/node_env.py)
+    :return: absolute path
     """
     ryven_path = dirname(dirname(__file__))
-    return abspath(join(ryven_path, path_rel_to_ryven))
+    return abspath(join(ryven_path, ryven_rel_path))
 
 
-def abs_path_from_ryven_dir(path_rel_to_ryven_dir: str):
-    """Given a path string relative to the ryven dir '~/.ryven/', return the file/folder absolute path
-
-    :param path_rel_to_ryven_dir: path relative to ryven dir (e.g. saves)
-    :return: file/folder absolute path
+def abs_path_from_ryven_dir(ryven_rel_path: str):
+    """
+    :param ryven_rel_path: path relative to '~/.ryven/' dir (e.g. saves)
+    :return: absolute path
     """
 
-    return abspath(join(ryven_dir_path(), path_rel_to_ryven_dir))
+    return abspath(join(ryven_dir_path(), ryven_rel_path))
