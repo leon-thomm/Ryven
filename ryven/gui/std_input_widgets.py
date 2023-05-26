@@ -8,7 +8,7 @@ from ryvencore import Data
 
 from ryvencore_qt import NodeInputWidget
 
-from qtpy.QtWidgets import QLineEdit, QSpinBox, QCheckBox
+from qtpy.QtWidgets import QLineEdit, QSpinBox, QCheckBox, QSlider
 from qtpy.QtGui import QFont, QFontMetrics
 
 
@@ -224,6 +224,54 @@ class Builder:
         StdInpWidget_IntSpinBox.__doc__ = descr
 
         return StdInpWidget_IntSpinBox
+
+    @staticmethod
+    def int_slider(init: int = 0, range: Tuple[int, int] = (0, 10), descr: str = '', data_type: type[Data] = Data):
+        """
+        Creates a slider input widget for ints.
+        :param init: the initial value shown in the widget
+        :param range: the range of the slider
+        :param descr: the description of the input
+        """
+
+        class StdInpWidget_IntSlider(NodeInputWidget, QSlider):
+            def __init__(self, params):
+                NodeInputWidget.__init__(self, params)
+                QSlider.__init__(self)
+
+                # tooltip
+                self.setToolTip(self.__doc__)
+
+                # initial value and rage
+                self.setValue(init)
+                self.setRange(*range)
+
+                self.valueChanged.connect(self.value_changed)
+
+            @property
+            def val(self) -> data_type:
+                return data_type(self.value())
+
+            def value_changed(self, _):
+                """Updates the node input."""
+                self.update_node_input(self.val)
+
+            def val_update_event(self, val: Data):
+                if not isinstance(val.payload, int):
+                    return
+
+                self.setValue(val.payload)
+
+            def get_state(self) -> dict:
+                return {'value': self.val}
+
+            def set_state(self, data: dict):
+                # just show value, do not update node input
+                self.val_update_event(data['value'])
+
+        StdInpWidget_IntSlider.__doc__ = descr
+
+        return StdInpWidget_IntSlider
 
     @staticmethod
     def bool_checkbox(init: bool = False, descr: str = '', data_type: type[Data] = Data):
