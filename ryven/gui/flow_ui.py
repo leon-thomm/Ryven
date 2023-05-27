@@ -58,8 +58,10 @@ class FlowUI(QWidget):
         #self.flow.session.addons.get('Logging').logs_manager.new_logger_created.connect(self.add_logger_widget)
 
         # catch up on logs which might have been loaded from a project already
-        for logger in self.flow.session.addons.get('Logging').loggers:
+        logging = self.flow.session.addons.get('Logging')
+        for logger in logging.loggers:
             self.add_logger_widget(logger)
+        logging.log_created.sub(self.add_logger_widget)
 
 
     def create_loggers_widget(self):
