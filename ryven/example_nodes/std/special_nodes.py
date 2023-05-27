@@ -79,17 +79,6 @@ class Checkpoint_Node(DualNodeBase):
 
         self.active = False
 
-        # # initial actions
-        # self.actions['add output'] = {
-        #     'method': self.add_output
-        # }
-        # self.actions['remove output'] = {
-        #     '0': {'method': self.remove_output, 'data': 0}
-        # }
-        # self.actions['make active'] = {
-        #     'method': self.make_active
-        # }
-
     """
     state transitions
     """
@@ -231,7 +220,8 @@ class Print_Node(DualNodeBase):
         super().__init__(params, active=True)
 
     def update_event(self, inp=-1):
-        print(self.input(1 if self.active else 0).payload)
+        if inp == 0:
+            print(self.input(1 if self.active else 0).payload)
 
 
 import logging
@@ -249,6 +239,7 @@ class Log_Node(DualNodeBase):
     GUI = guis.LogNodeGui
 
     logs = {}   # {int: Logger}
+    in_use = set()  # make sure we don't reuse numbers on copy & paste
 
     def __init__(self, params):
         super().__init__(params, active=True)
@@ -262,16 +253,18 @@ class Log_Node(DualNodeBase):
             # didn't load; initialize
             self.number = len(self.logs)
             self.logs[self.number] = \
-                self.logs_ext().new_logger(self, f'Log Node {self.number}')
+                self.logs_ext().new_logger(self, 'Log Node')
+            self.in_use.add(self.number)
             # self.active_target = self.number
 
     def logs_ext(self) -> LoggingAddon:
         return self.get_addon('Logging')
 
     def update_event(self, inp=-1):
-        msg = self.input(1 if self.active and inp == 0 else 0).payload
-        self.logs[self.number].log(logging.INFO, msg=msg)
-        # TODO: support more than INFO, with a dropdown menu in main widget
+        if inp == 0:
+            msg = self.input(1 if self.active and inp == 0 else 0).payload
+            self.logs[self.number].log(logging.INFO, msg=msg)
+            # TODO: support more than INFO, with a dropdown menu in main widget
 
     def get_state(self) -> dict:
         return {
@@ -285,10 +278,18 @@ class Log_Node(DualNodeBase):
             # ignore old version
             return
         super().set_state(data, version)
-        self.number = data['number']
-        # self.active_target = data['active_target']
+        n = data['number']
+        if n not in self.in_use:
+            self.number = n
+        else:
+            # number already in use; generate a new one
+            # happens on copy & paste
+            self.number = len(self.logs)
+
+        # the logging addon will have re-created the logger
+        # for us already
         self.logs[self.number] = \
-            self.logs_ext().get(self, f'Log Node {self.number}')
+            self.logs_ext().new_logger(self, 'Log Node')
 
         # if self.session.gui and self.main_widget():
         #     self.main_widget().set_target(self.target)

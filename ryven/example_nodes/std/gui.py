@@ -84,8 +84,8 @@ class ForLoopGui(CSNodeBaseGui):
         'RangeTo': inp_widgets.Builder.int_spinbox(10, (0, 1000000)),
     }
     init_input_widgets = {
-        1: {'widget': 'RangeFrom', 'pos': 'besides'},
-        2: {'widget': 'RangeTo', 'pos': 'besides'},
+        1: {'name': 'RangeFrom', 'pos': 'besides'},
+        2: {'name': 'RangeTo', 'pos': 'besides'},
     }
 
     def __init__(self, params):
@@ -120,7 +120,7 @@ class ForEachLoopGui(CSNodeBaseGui):
         'List': inp_widgets.Builder.evaled_line_edit(),
     }
     init_input_widgets = {
-        1: {'widget': 'List', 'pos': 'besides'},
+        1: {'name': 'List', 'pos': 'besides'},
     }
 
 
@@ -216,8 +216,8 @@ class ClockNodeGui(SpecialNodeGuiBase):
         'iter': inp_widgets.Builder.int_spinbox(-1, (-1, 1000)),
     }
     init_input_widgets = {
-        0: {'widget': 'delay', 'pos': 'besides'},
-        1: {'widget': 'iter', 'pos': 'besides'},
+        0: {'name': 'delay', 'pos': 'besides'},
+        1: {'name': 'iter', 'pos': 'besides'},
     }
     color = '#5d95de'
 
@@ -279,8 +279,8 @@ class SliderNodeGui(SpecialNodeGuiBase):
         'round': inp_widgets.Builder.bool_checkbox(True),
     }
     init_input_widgets = {
-        0: {'widget': 'scale', 'pos': 'below'},
-        1: {'widget': 'round', 'pos': 'besides'},
+        0: {'name': 'scale', 'pos': 'below'},
+        1: {'name': 'round', 'pos': 'besides'},
     }
 
     def initialized(self):
