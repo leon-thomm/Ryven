@@ -9,7 +9,51 @@ from ryvencore import Data
 from ryvencore_qt import NodeInputWidget
 
 from qtpy.QtWidgets import QLineEdit, QSpinBox, QCheckBox, QSlider
-from qtpy.QtGui import QFont, QFontMetrics
+from qtpy.QtGui import QFont, QFontMetrics, Qt
+
+
+class StdInputWidgetBase(NodeInputWidget):
+    def __init__(self, params):
+        super().__init__(params)
+
+        self._prevent_update = PreventUpdateCtx(False)
+
+    @property
+    def val(self) -> Data:
+        raise NotImplementedError
+
+    def load_from(self, val: Data):
+        raise NotImplementedError
+
+    def on_widget_val_changed(self, val: Data):
+        """
+        This will update the input's default value, and also update
+        the node unless it is called in a `with self._prevent_update`
+        block.
+        """
+        self.update_node_input(val, silent=self._prevent_update.blocked)
+
+    def get_state(self) -> dict:
+        return {'val': self.val}
+
+    def set_state(self, data: dict):
+        with self._prevent_update:
+            self.load_from(data['val'])
+
+
+class PreventUpdateCtx:
+    def __init__(self, initial: bool):
+        self._blocked: bool = initial
+
+    @property
+    def blocked(self) -> bool:
+        return self._blocked
+
+    def __enter__(self):
+        self._blocked = True
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._blocked = False
 
 
 class Builder:
@@ -34,9 +78,9 @@ class Builder:
             base_width = 150
         max_width = base_width * 3 if resizing else base_width
 
-        class StdInpWidget_EvaledLineEdit(NodeInputWidget, QLineEdit):
+        class StdInpWidget_EvaledLineEdit(StdInputWidgetBase, QLineEdit):
             def __init__(self, params):
-                NodeInputWidget.__init__(self, params)
+                StdInputWidgetBase.__init__(self, params)
                 QLineEdit.__init__(self)
 
                 # set size
@@ -51,28 +95,23 @@ class Builder:
                 # tooltip
                 self.setToolTip(self.__doc__)
 
-                # initial value
-                self.setText(str(init))
-
                 self.textChanged.connect(self.text_changed)
-                self.editingFinished.connect(self.editing_finished)
+
+                # initial value
+                with self._prevent_update:
+                    self.setText(str(init))
 
             def text_changed(self, new_text):
                 """Manages resizing of the widget to content."""
-                if not resizing:
-                    return
-
-                text_width = self.fm.width(new_text)
-                new_width = text_width + 15  # add some buffer
-                self.setFixedWidth(min(
-                    max(new_width, self.base_width),
-                    self.max_width
-                ))
-                self.node_gui.update_shape()
-
-            def editing_finished(self):
-                """Updates the node input."""
-                self.update_node_input(self.val)
+                if resizing:
+                    text_width = self.fm.width(new_text)
+                    new_width = text_width + 15  # add some buffer
+                    self.setFixedWidth(min(
+                        max(new_width, self.base_width),
+                        self.max_width
+                    ))
+                    self.node_gui.update_shape()
+                self.on_widget_val_changed(self.val)
 
             @property
             def val(self) -> data_type:
@@ -81,18 +120,17 @@ class Builder:
                 except:
                     return data_type(self.text())
 
+            def load_from(self, val: data_type):
+                with self._prevent_update:
+                    self.setText(str(val))
+
             def val_update_event(self, val: Data):
+                # represent incoming data
                 try:
-                    self.setText(str(val.payload))
+                    with self._prevent_update:
+                        self.setText(str(val.payload))
                 except:
                     self.setText("<can't stringify>")
-
-            def get_state(self) -> dict:
-                return {'text': self.val}
-
-            def set_state(self, data: dict):
-                # just show value, do not update node input
-                self.val_update_event(data['text'])
 
         StdInpWidget_EvaledLineEdit.__doc__ = descr
 
@@ -132,45 +170,36 @@ class Builder:
                 # tooltip
                 self.setToolTip(self.__doc__)
 
-                # initial value
-                self.setText(str(init))
-
                 self.textChanged.connect(self.text_changed)
-                self.editingFinished.connect(self.editing_finished)
+
+                # initial value
+                with self._prevent_update:
+                    self.setText(str(init))
+
 
             def text_changed(self, new_text):
                 """Manages resizing of the widget to content."""
-                if not resizing:
-                    return
-
-                text_width = self.fm.width(new_text)
-                new_width = text_width + 15  # add some buffer
-                self.setFixedWidth(min(
-                    max(new_width, self.base_width),
-                    self.max_width
-                ))
-                self.node_gui.update_shape()
-
-            def editing_finished(self):
-                """Updates the node input."""
-                self.update_node_input(self.val)
+                if resizing:
+                    text_width = self.fm.width(new_text)
+                    new_width = text_width + 15  # add some buffer
+                    self.setFixedWidth(min(
+                        max(new_width, self.base_width),
+                        self.max_width
+                    ))
+                    self.node_gui.update_shape()
+                self.on_widget_val_changed(self.val)
 
             @property
             def val(self) -> data_type:
                 return data_type(self.text())
 
             def val_update_event(self, val: Data):
+                # represent incoming data
                 try:
-                    self.setText(str(val.payload))
+                    with self._prevent_update:
+                        self.setText(str(val.payload))
                 except:
                     self.setText("<can't stringify>")
-
-            def get_state(self) -> dict:
-                return {'text': self.val}
-
-            def set_state(self, data: dict):
-                # just show value, do not update node input
-                self.val_update_event(data['text'])
 
         StdInpWidget_StrLineEdit.__doc__ = descr
 
@@ -185,41 +214,39 @@ class Builder:
         :param descr: the description of the input
         """
 
-        class StdInpWidget_IntSpinBox(NodeInputWidget, QSpinBox):
+        class StdInpWidget_IntSpinBox(StdInputWidgetBase, QSpinBox):
+
             def __init__(self, params):
-                NodeInputWidget.__init__(self, params)
+                StdInputWidgetBase.__init__(self, params)
                 QSpinBox.__init__(self)
+
+                # there is no 'valueEdited' signal, only a 'valueChanged' signal
+                # so we need to block the signal when a new value is coming from
+                # a connection
+                self._prevent_update = PreventUpdateCtx(False)
 
                 # tooltip
                 self.setToolTip(self.__doc__)
 
-                # initial value and rage
-                self.setValue(init)
-                self.setRange(*range)
-
                 self.valueChanged.connect(self.value_changed)
+
+                # initial value and rage
+                self.setRange(*range)
+                with self._prevent_update:
+                    self.setValue(init)
+
 
             @property
             def val(self) -> data_type:
                 return data_type(self.value())
 
             def value_changed(self, _):
-                """Updates the node input."""
-                self.update_node_input(self.val)
+                self.on_widget_val_changed(self.val)
 
             def val_update_event(self, val: Data):
-                if not isinstance(val.payload, int):
-                    # TODO: error handling, show error in widget somehow
-                    return
-
-                self.setValue(val.payload)
-
-            def get_state(self) -> dict:
-                return {'value': self.val}
-
-            def set_state(self, data: dict):
-                # just show value, do not update node input
-                self.val_update_event(data['value'])
+                if isinstance(val.payload, int):
+                    with self._prevent_update:
+                        self.setValue(val.payload)
 
         StdInpWidget_IntSpinBox.__doc__ = descr
 
@@ -234,40 +261,31 @@ class Builder:
         :param descr: the description of the input
         """
 
-        class StdInpWidget_IntSlider(NodeInputWidget, QSlider):
+        class StdInpWidget_IntSlider(StdInputWidgetBase, QSlider):
             def __init__(self, params):
-                NodeInputWidget.__init__(self, params)
-                QSlider.__init__(self)
+                StdInputWidgetBase.__init__(self, params)
+                QSlider.__init__(self, Qt.Horizontal)
 
                 # tooltip
                 self.setToolTip(self.__doc__)
 
-                # initial value and rage
-                self.setValue(init)
-                self.setRange(*range)
-
                 self.valueChanged.connect(self.value_changed)
+
+                # initial value and rage
+                self.setRange(*range)
+                with self._prevent_update:
+                    self.setValue(init)
 
             @property
             def val(self) -> data_type:
                 return data_type(self.value())
 
             def value_changed(self, _):
-                """Updates the node input."""
-                self.update_node_input(self.val)
+                self.on_widget_val_changed(self.val)
 
             def val_update_event(self, val: Data):
-                if not isinstance(val.payload, int):
-                    return
-
-                self.setValue(val.payload)
-
-            def get_state(self) -> dict:
-                return {'value': self.val}
-
-            def set_state(self, data: dict):
-                # just show value, do not update node input
-                self.val_update_event(data['value'])
+                if isinstance(val.payload, int):
+                    self.setValue(val.payload)
 
         StdInpWidget_IntSlider.__doc__ = descr
 
@@ -281,39 +299,31 @@ class Builder:
         :param descr: the description of the input
         """
 
-        class StdInpWidget_BoolCheckBox(NodeInputWidget, QCheckBox):
+        class StdInpWidget_BoolCheckBox(StdInputWidgetBase, QCheckBox):
             def __init__(self, params):
-                NodeInputWidget.__init__(self, params)
+                StdInputWidgetBase.__init__(self, params)
                 QCheckBox.__init__(self)
 
                 # tooltip
                 self.setToolTip(self.__doc__)
 
-                # initial value
-                self.setChecked(init)
-
                 self.stateChanged.connect(self.state_changed)
+
+                # initial value
+                with self._prevent_update:
+                    self.setChecked(init)
 
             @property
             def val(self) -> data_type:
                 return data_type(self.isChecked())
 
             def state_changed(self, _):
-                """Updates the node input."""
-                self.update_node_input(self.val)
+                self.on_widget_val_changed(self.val)
 
             def val_update_event(self, val: Data):
-                if not isinstance(val.payload, bool):
-                    return
-
-                self.setChecked(val.payload)
-
-            def get_state(self) -> dict:
-                return {'value': self.val}
-
-            def set_state(self, data: dict):
-                # just show value, do not update node input
-                self.val_update_event(data['value'])
+                if isinstance(val.payload, bool):
+                    with self._prevent_update:
+                        self.setChecked(val.payload)
 
         StdInpWidget_BoolCheckBox.__doc__ = descr
 
