@@ -97,9 +97,15 @@ class MainWindow(QMainWindow):
         MainConsole.instance.session = self.session_gui
         MainConsole.instance.reset_interpreter()
 
-        # TODO: store a ref to main console, and a default action
-        #  for adding the node to the console scope to
-        #  ryvencore_qt.NodeGUI
+        # very dirty hack to access nodes from the console
+        def console_ref_monkeypatch(self):
+            MainConsole.instance.add_obj_context(self.node)
+        NodeGUI.console_ref_monkeypatch = console_ref_monkeypatch
+        old_ac_init = NodeGUI._init_default_actions
+        NodeGUI._init_default_actions = lambda self: {
+            **old_ac_init(self),
+            'console ref': {'method': self.console_ref_monkeypatch}
+        }
 
         #
         # Setup ryvencore Session and load project
