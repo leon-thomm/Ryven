@@ -212,7 +212,7 @@ class ClockNodeGui(SpecialNodeGuiBase):
     main_widget_class = ClockNode_MainWidget
     main_widget_pos = 'below ports'
     input_widget_classes = {
-        'delay': inp_widgets.Builder.int_slider(1, (0, 60000)),
+        'delay': inp_widgets.Builder.int_slider(1, (0, 10000)),
         'iter': inp_widgets.Builder.int_spinbox(-1, (-1, 1000)),
     }
     init_input_widgets = {
@@ -264,6 +264,7 @@ class SliderNode_MainWidget(NodeMainWidget, QSlider):
         QSlider.__init__(self, Qt.Horizontal)
 
         self.setRange(0, 1000)
+        self.setValue(self.node.val*1000)
         self.valueChanged.connect(self.value_changed)
 
     def value_changed(self, v):
@@ -279,7 +280,7 @@ class SliderNodeGui(SpecialNodeGuiBase):
         'round': inp_widgets.Builder.bool_checkbox(True),
     }
     init_input_widgets = {
-        0: {'name': 'scale', 'pos': 'below'},
+        0: {'name': 'scale', 'pos': 'besides'},
         1: {'name': 'round', 'pos': 'besides'},
     }
 
