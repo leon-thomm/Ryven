@@ -28,12 +28,111 @@ def read_project(project_path: Union[str, pathlib.Path]) -> dict:
             project_dict = json.load(f, strict=False)
 
     # backward compatibility: translate old project files to current version
-    if Version(project_dict['ryven_version']) < Version('3.3.0'):
-        print('WARNING: project was created with an older version of Ryven')
-        print('INFO: attempting to translate project to current version...')
-        pass  # TODO: implement project translation
+    if 'ryven version' not in project_dict['general info'] or \
+            Version(project_dict['general info']['ryven version']) <= Version('3.2'):
+        print(
+            'WARNING: project was created with an older version of Ryven.',
+            'Attempting to translate project to current version.'
+        )
+        project_dict = translate_project_v3_2_0(project_dict)
 
     return project_dict
+
+
+def translate_project_v3_2_0(p: dict):
+    def max_gid(d: dict) -> int:
+        """Recursively find the maximum GID used in the project.."""
+        n = 0
+        for k, v in d.items():
+            if isinstance(v, dict):
+                n = max(n, max_gid(v))
+            elif isinstance(v, list):
+                for e in v:
+                    if isinstance(e, dict):
+                        n = max(n, max_gid(e))
+            elif k == 'GID':
+                n = max(n, v)
+        return n
+
+    gid_ctr = max_gid(p) + 1
+    def get_gid():
+        nonlocal gid_ctr
+        gid_ctr += 1
+        return gid_ctr
+
+    def replace_item(obj, key, replace_value):
+        # https://stackoverflow.com/questions/45335445/how-to-recursively-replace-dictionary-values-with-a-matching-key
+        for k, v in obj.items():
+            if isinstance(v, dict):
+                obj[k] = replace_item(v, key, replace_value)
+        if key in obj:
+            obj[key] = replace_value
+        return obj
+
+    proj = {
+        'general info': p['general info'],
+        'required packages': p['required packages'],
+        'GID': get_gid(),
+        'version': '0.4.0',
+        'flows': {},
+        'addons': {},
+    }
+
+    variables = {}
+
+    for s in p['scripts']:
+        t = s['title']
+        vars = s['variables']
+        gid = s['flow']['GID']
+        variables[(t, gid)] = vars
+
+        proj['flows'][t] = {
+            'GID': gid,
+            'algorithm mode': s['flow']['algorithm mode'],
+            'nodes': [
+                {
+                    **n_d,
+                    # remove input widget data to prevent loading errors
+                    # because many of the nodes have new input widget
+                    # classes now
+                    'inputs': [
+                        replace_item(i, 'widget data', None)
+                        for i in n_d['inputs']
+                    ]
+                } for n_d in s['flow']['nodes']
+            ],
+            'connections': s['flow']['connections'],
+            'flow view': s['flow']['flow view'],
+            'output data': [{
+                # simply set every output to None
+                'data': {
+                    'GID': get_gid(),
+                    'identifier': 'Data',
+                    'serialized': 'gAROLg==',  # encoded 'None'
+                },
+                'dependent node outputs': [],
+            }]
+        }
+
+    proj['addons']['Variables'] = {
+        'GID': get_gid(),
+        'version': '0.4',
+        'custom state': {
+            flow_id: {
+                v: {
+                    'GID': get_gid(),
+                    'identifier': 'Data',
+                    'serialized': content['serialized'],
+                }
+                for v, content in vars.items()
+            }
+            for (flow_name, flow_id), vars in variables.items()
+        }
+    }
+
+    # ignoring loggers and actions
+
+    return proj
 
 
 def find_project(project_path: Union[str, pathlib.Path]) -> Optional[pathlib.Path]:

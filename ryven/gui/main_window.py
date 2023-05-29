@@ -8,7 +8,6 @@ from ryvencore_qt import NodeGUI
 
 from ryven.gui.main_console import MainConsole
 from ryven.gui.flow_ui import FlowUI
-from ryven.gui.styling.window_theme import WindowTheme
 from ryven.main.config import Config
 from ryven.main.packages.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
@@ -23,7 +22,7 @@ from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 import ryvencore_qt as rc
 import ryvencore_qt.src.widgets as rc_GUI
 
-from ryvencore import InfoMsgs, Node
+from ryvencore import InfoMsgs
 
 
 class MainWindow(QMainWindow):
@@ -111,7 +110,7 @@ class MainWindow(QMainWindow):
         # Setup ryvencore Session and load project
         #
 
-        self.import_nodes(path=abs_path_from_package_dir('main/nodes/built_in/'))
+        self.import_nodes(path=abs_path_from_package_dir('main/packages/built_in/'))
 
         # Requested packages take precedence over other packages
         print('importing requested packages...')
