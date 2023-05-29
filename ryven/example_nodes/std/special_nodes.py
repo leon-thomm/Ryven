@@ -622,7 +622,7 @@ class Storage_Node(NodeBase):
         self.set_output_val(0, Data([]))
 
     def update_event(self, inp=-1):
-        self.storage.append(self.input(0))
+        self.storage.append(self.input(0).payload)
         self.set_output_val(0, Data(self.storage.copy()))
 
     def get_state(self) -> dict:
