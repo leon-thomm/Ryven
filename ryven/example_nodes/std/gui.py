@@ -304,7 +304,7 @@ class DynamicPortsGui(SpecialNodeGuiBase):
 
     def remove_input(self, index: int):
         self.node.remove_input(index)
-        del self.actions['remove input'][index]
+        del self.actions['remove input'][str(index)]
 
     def add_output(self):
         self.node.add_output()
@@ -314,7 +314,7 @@ class DynamicPortsGui(SpecialNodeGuiBase):
 
     def remove_output(self, index: int):
         self.node.remove_output(index)
-        del self.actions['remove output'][index]
+        del self.actions['remove output'][str(index)]
 
 
 class ExecNode_MainWidget(NodeMainWidget, QTextEdit):
@@ -381,12 +381,12 @@ class EvalNodeGui(SpecialNodeGuiBase):
     def add_input(self):
         self.node.add_param_input()
         index = self.node.param_inputs-1
-        self.actions['remove input'][index] = \
+        self.actions['remove input'][str(index)] = \
             {'method': self.remove_input, 'data': index}
 
     def remove_input(self, index: int):
         self.node.remove_param_input(index)
-        del self.actions['remove input'][index]
+        del self.actions['remove input'][str(index)]
 
 
 class InterpreterConsole(NodeMainWidget, QWidget):
@@ -517,14 +517,14 @@ class LinkIN_NodeGui(SpecialNodeGuiBase):
     def add_inp(self):
         self.node.add_input()
         index = self.node.inputs-1
-        self.actions['remove inp'][index] = {
+        self.actions['remove inp'][str(index)] = {
             'method': self.remove_inp,
             'data': index
         }
 
     def remove_inp(self, index: int):
         self.node.remove_input(index)
-        del self.actions['remove inp'][index]
+        del self.actions['remove inp'][str(index)]
 
 
 class LinkOUT_NodeGui(SpecialNodeGuiBase):
