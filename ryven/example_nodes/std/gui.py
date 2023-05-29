@@ -340,7 +340,7 @@ class ExecNode_MainWidget(NodeMainWidget, QTextEdit):
         self.setPlainText(data['text'])
 
 
-class ExecNodeGui(SpecialNodeGuiBase):
+class ExecNodeGui(DynamicPortsGui):
     main_widget_class = ExecNode_MainWidget
     main_widget_pos = 'between ports'
 
