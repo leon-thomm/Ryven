@@ -40,23 +40,24 @@ class GetVar_Node(NodeBase):
 
     def place_event(self):
         self.update()
-        self.var_name = self.input(0)
+        if self.input(0) is not None:
+            self.var_name = self.input(0).payload
 
     def update_event(self, input_called=-1):
-        if self.input(0) != self.var_name:
+        if self.input(0).payload != self.var_name:
 
             if self.var_name != '':  # disconnect old var val update connection
-                self.vars_addon.unsubscribe(self, self.var_name, self.var_val_changed)
+                self.vars_addon().unsubscribe(self, self.var_name, self.var_val_changed)
 
-            self.var_name = self.input(0)
+            self.var_name = self.input(0).payload
 
             # create new var update connection
             self.vars_addon().subscribe(self, self.var_name, self.var_val_changed)
 
-        self.set_output_val(0, self.vars_addon().var(self.flow, self.var_name).get())
+        self.set_output_val(0, Data(self.get_var_val(self.var_name)))
 
-    def var_val_changed(self, name, val):
-        self.set_output_val(0, val)
+    def var_val_changed(self, _):
+        self.set_output_val(0, Data(self.get_var_val(self.var_name)))
 
 
 class Result_Node(NodeBase):
@@ -111,7 +112,7 @@ class Val_Node(NodeBase):
         self.set_output_val(0, self.val)
 
     def get_current_var_name(self):
-        return self.input(0)
+        return self.input(0).payload if self.input(0) is not None else None
 
     def get_state(self):
         return {
@@ -138,6 +139,8 @@ class SetVar_Node(NodeBase):
         NodeOutputType(type_='data', label='val'),
     ]
 
+    GUI = guis.SetVarGui
+
     def __init__(self, params):
         super().__init__(params)
 
@@ -154,15 +157,15 @@ class SetVar_Node(NodeBase):
 
         if self.active and input_called == 0:
 
-            if self.set_var_val(self.input(1), self.input(2)):
+            if self.set_var_val(self.input(1).payload, self.input(2).payload):
                 self.set_output_val(1, self.input(2))
             self.exec_output(0)
 
         elif not self.active:
 
-            self.var_name = self.input(0)
-            if self.set_var_val(self.input(0), self.input(1)):
-                self.set_output_val(0, self.get_var_val(self.var_name))
+            self.var_name = self.input(0).payload
+            if self.set_var_val(self.input(0).payload, self.input(1).payload):
+                self.set_output_val(0, Data(self.get_var_val(self.var_name)))
 
     def action_make_passive(self):
         self.active = False
@@ -183,6 +186,10 @@ class SetVar_Node(NodeBase):
 
     def set_state(self, data, version):
         self.active = data['active']
+
+        # because otherwise he widgets won't work
+        if not self.active:
+            self.action_make_passive()
 
 
 class SetVarsPassive_Node(NodeBase):
@@ -240,8 +247,8 @@ class SetVarsPassive_Node(NodeBase):
 
     def update_event(self, input_called=-1):
 
-        var_names = [self.input(i) for i in range(0, len(self.inputs), 2)]
-        values = [self.input(i) for i in range(1, len(self.inputs), 2)]
+        var_names = [self.input(i).payload for i in range(0, len(self.inputs), 2)]
+        values = [self.input(i).payload for i in range(1, len(self.inputs), 2)]
 
         for i in range(len(var_names)):
             self.set_var_val(var_names[i], values[i])

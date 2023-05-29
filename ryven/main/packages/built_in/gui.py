@@ -7,10 +7,6 @@ from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QLineEdit, QDialog, QDialogButtonBox, QMessageBox, QPlainTextEdit, QShortcut, QVBoxLayout
 
 
-class GetVarGui(NodeGUI):
-    color = '#c69a15'
-
-
 class Result_Node_MainWidget(NodeMainWidget, QLineEdit):
     def __init__(self, params):
         NodeMainWidget.__init__(self, params)
@@ -168,7 +164,31 @@ class SetVarsGui(NodeGUI):
 
 
 class SetVarGui(NodeGUI):
+    input_widget_classes = {
+        'varname': inp_widgets.Builder.str_line_edit(),
+        'val': inp_widgets.Builder.str_line_edit(),
+    }
+    # init_input_widgets = {
+    #     1: {'name': 'varname', 'pos': 'besides'},
+    #     2: {'name': 'val', 'pos': 'besides'}
+    # }
     style = 'normal'
+    color = '#c69a15'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.input_widgets[self.node.inputs[-2]] = {'name': 'varname', 'pos': 'besides'}
+        self.input_widgets[self.node.inputs[-1]] = {'name': 'val', 'pos': 'besides'}
+
+
+class GetVarGui(NodeGUI):
+    input_widget_classes = {
+        'varname': inp_widgets.Builder.str_line_edit(),
+    }
+    init_input_widgets = {
+        0: {'name': 'varname', 'pos': 'besides'}
+    }
     color = '#c69a15'
 
 
