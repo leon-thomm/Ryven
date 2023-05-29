@@ -96,10 +96,14 @@ class Builder:
                 self.setToolTip(self.__doc__)
 
                 self.textChanged.connect(self.text_changed)
+                self.returnPressed.connect(self.return_pressed)
 
                 # initial value
                 with self._prevent_update:
                     self.setText(str(init))
+
+            def return_pressed(self):
+                self.on_widget_val_changed(self.val)
 
             def text_changed(self, new_text):
                 """Manages resizing of the widget to content."""
@@ -120,9 +124,9 @@ class Builder:
                 except:
                     return data_type(self.text())
 
-            def load_from(self, val: data_type):
+            def load_from(self, val: Data):
                 with self._prevent_update:
-                    self.setText(str(val))
+                    self.setText(str(val.payload))
 
             def val_update_event(self, val: Data):
                 # represent incoming data
@@ -153,9 +157,9 @@ class Builder:
             base_width = 150
         max_width = base_width * 3 if resizing else base_width
 
-        class StdInpWidget_StrLineEdit(NodeInputWidget, QLineEdit):
+        class StdInpWidget_StrLineEdit(StdInputWidgetBase, QLineEdit):
             def __init__(self, params):
-                NodeInputWidget.__init__(self, params)
+                StdInputWidgetBase.__init__(self, params)
                 QLineEdit.__init__(self)
 
                 # set size
@@ -171,11 +175,14 @@ class Builder:
                 self.setToolTip(self.__doc__)
 
                 self.textChanged.connect(self.text_changed)
+                self.returnPressed.connect(self.return_pressed)
 
                 # initial value
                 with self._prevent_update:
                     self.setText(str(init))
 
+            def return_pressed(self):
+                self.on_widget_val_changed(self.val)
 
             def text_changed(self, new_text):
                 """Manages resizing of the widget to content."""
@@ -193,9 +200,9 @@ class Builder:
             def val(self) -> data_type:
                 return data_type(self.text())
 
-            def load_from(self, val: data_type):
+            def load_from(self, val: Data):
                 with self._prevent_update:
-                    self.setText(str(val))
+                    self.setText(str(val.payload))
 
             def val_update_event(self, val: Data):
                 # represent incoming data
@@ -244,7 +251,7 @@ class Builder:
             def val(self) -> data_type:
                 return data_type(self.value())
 
-            def load_from(self, val: data_type):
+            def load_from(self, val: Data):
                 with self._prevent_update:
                     self.setValue(val.payload)
 
@@ -288,7 +295,7 @@ class Builder:
             def val(self) -> data_type:
                 return data_type(self.value())
 
-            def load_from(self, val: data_type):
+            def load_from(self, val: Data):
                 with self._prevent_update:
                     self.setValue(val.payload)
 
@@ -329,7 +336,7 @@ class Builder:
             def val(self) -> data_type:
                 return data_type(self.isChecked())
 
-            def load_from(self, val: data_type):
+            def load_from(self, val: Data):
                 with self._prevent_update:
                     self.setChecked(val.payload)
 
