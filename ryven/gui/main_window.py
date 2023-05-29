@@ -10,13 +10,13 @@ from ryven.gui.main_console import MainConsole
 from ryven.gui.flow_ui import FlowUI
 from ryven.gui.styling.window_theme import WindowTheme
 from ryven.main.config import Config
-from ryven.main.nodes_package import NodesPackage
+from ryven.main.packages.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
 from ryven.main.utils import \
-    import_nodes_package, \
     abs_path_from_package_dir, \
     abs_path_from_ryven_dir, \
     ryven_version
+from ryven import import_nodes_package
 from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 
 # ryvencore_qt

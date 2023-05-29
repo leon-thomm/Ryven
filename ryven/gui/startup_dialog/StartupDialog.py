@@ -13,8 +13,8 @@ from qtpy.QtGui import QIcon, QPainter
 from ryven.main.args_parser import unparse_sys_args
 from ryven.main.config import Config
 from ryven.main.utils import (
-    abs_path_from_package_dir, abs_path_from_ryven_dir, ryven_dir_path,
-    process_nodes_packages)
+    abs_path_from_package_dir, abs_path_from_ryven_dir, ryven_dir_path)
+from ryven.main.packages.nodes_package import process_nodes_packages
 from ryven.gui.styling.window_theme import apply_stylesheet
 
 

@@ -1,6 +1,7 @@
 import os
 import sys
 
+import ryven.main.packages.nodes_package
 from ryven.main import utils
 from ryven.main.config import Config
 from ryven.node_env import init_node_env
@@ -126,7 +127,7 @@ def run(*args_,
 
     # Replace node directories with `NodePackage` instances
     if conf.nodes:
-        conf.nodes, pkgs_not_found, _ = utils.process_nodes_packages(list(conf.nodes))
+        conf.nodes, pkgs_not_found, _ = ryven.main.packages.nodes_package.process_nodes_packages(list(conf.nodes))
         if pkgs_not_found:
             sys.exit(
                 f'Error: Nodes packages not found: {", ".join([str(p) for p in pkgs_not_found])}')
@@ -150,7 +151,7 @@ def run(*args_,
 
     # Get packages required by the project
     if conf.project:
-        pkgs, pkgs_not_found, project_dict = utils.process_nodes_packages(
+        pkgs, pkgs_not_found, project_dict = ryven.main.packages.nodes_package.process_nodes_packages(
             conf.project, requested_packages=list(conf.nodes))
 
         if pkgs_not_found:
