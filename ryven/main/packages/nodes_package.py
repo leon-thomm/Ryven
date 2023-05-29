@@ -1,3 +1,8 @@
+"""
+This module, together with the node_env and gui_env defines Ryven's nodes
+package system. It can be used outside of Ryven as well.
+"""
+
 import importlib.util
 import os
 import pathlib

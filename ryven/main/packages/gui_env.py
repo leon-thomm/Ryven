@@ -1,6 +1,6 @@
-"""This module automatically imports all requirements for Gui definitions of a nodes package.
-It should lie in the same location as Ryven.py so it can get imported directly from the custom sources
-without path modifications which caused issues in the past."""
+"""
+This module automatically imports all requirements for Gui definitions of a nodes package.
+"""
 
 import inspect
 from typing import Type

@@ -1,6 +1,6 @@
-"""This module automatically imports all requirements for custom nodes.
-It should lie in the same location as Ryven.py so it can get imported directly from the custom sources
-without path modifications which caused issues in the past."""
+"""
+This module automatically imports all requirements for custom nodes.
+"""
 
 import os
 from typing import Type
