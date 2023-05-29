@@ -1,76 +1,56 @@
-from ryven.NENV import *
+from ryven.node_env import *
 
-# import math
+guis = import_guis(__file__)
 
 
 class OperatorNodeBase(Node):
+    """
+    Base class for nodes implementing a binary operation.
+    """
 
-    version = 'v0.0'
-
+    version = 'v0.2'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.Data(size='s')),
-        NodeInputBP(dtype=dtypes.Data(size='s')),
+        NodeInputType(),
+        NodeInputType(),
     ]
-
     init_outputs = [
-        NodeOutputBP(),
+        NodeOutputType(),
     ]
-
-    style = 'small'
+    GUI = guis.OperatorNodeBaseGui
 
     def __init__(self, params):
         super().__init__(params)
 
         self.num_inputs = 0
-        self.actions['add input'] = {'method': self.add_operand_input}
 
     def place_event(self):
-        for i in range(len(self.inputs)):
-            self.register_new_operand_input(i)
+        self.num_inputs = len(self.inputs)
 
-    def add_operand_input(self):
-        self.create_input_dt(dtype=dtypes.Data(size='s'))
-        self.register_new_operand_input(self.num_inputs)
-        self.update()
-
-    def remove_operand_input(self, index):
-        self.delete_input(index)
-        self.num_inputs -= 1
-        # del self.actions[f'remove input {index}']
-        self.rebuild_remove_actions()
-        self.update()
-
-    def register_new_operand_input(self, index):
-        self.actions[f'remove input {index}'] = {
-            'method': self.remove_operand_input,
-            'data': index
-        }
+    def add_op_inp(self):
+        self.create_input()
         self.num_inputs += 1
 
-    def rebuild_remove_actions(self):
-
-        remove_keys = []
-        for k, v in self.actions.items():
-            if k.startswith('remove input'):
-                remove_keys.append(k)
-
-        for k in remove_keys:
-            del self.actions[k]
-
-        for i in range(self.num_inputs):
-            self.actions[f'remove input {i}'] = {'method': self.remove_operand_input, 'data': i}
+    def remove_op_input(self, index):
+        self.delete_input(index)
+        self.num_inputs -= 1
 
     def update_event(self, inp=-1):
-        self.set_output_val(0, self.apply_op([self.input(i) for i in range(len(self.inputs))]))
+        self.set_output_val(0, Data(self.apply_op([
+            self.input(i).payload
+            for i in range(len(self.inputs))
+        ])))
 
     def apply_op(self, elements: list):
         return None
 
 
-# LOGIC -------------------------------------
+"""
+    logical operators
+"""
+
 
 class LogicNodeBase(OperatorNodeBase):
-    color = '#f58142'
+    GUI = guis.LogicNodeBaseGui
 
 
 class NOT_Node(LogicNodeBase):
@@ -136,13 +116,14 @@ logic_nodes = [
     XNOR_Node,
 ]
 
-# -------------------------------------------
 
+"""
+    arithmetic operators
+"""
 
-# ARITHMETIC --------------------------------
 
 class ArithmeticNodeBase(OperatorNodeBase):
-    color = '#58db53'
+    GUI = guis.ArithNodeBaseGui
 
 
 class Plus_Node(ArithmeticNodeBase):
@@ -186,13 +167,6 @@ class Divide_Node(ArithmeticNodeBase):
         for e in elements[1:]:
             v = v / e
         return v
-        # if len(elements) > 0:
-        #     x = elements[0]
-        #     for e in elements[1:]:
-        #         x /= e
-        #     return x
-        # else:
-        #     return None
 
 
 class Power_Node(ArithmeticNodeBase):
@@ -203,13 +177,6 @@ class Power_Node(ArithmeticNodeBase):
         for e in elements[1:]:
             v = v ** e
         return v
-        # if len(elements) > 0:
-        #     x = elements[0]
-        #     for e in elements[1:]:
-        #         x **= e
-        #     return x
-        # else:
-        #     return None
 
 
 arithmetic_nodes = [
@@ -220,13 +187,14 @@ arithmetic_nodes = [
     Power_Node,
 ]
 
-# -------------------------------------------
 
+"""
+    comparison operators
+"""
 
-# COMPARATORS -------------------------------
 
 class ComparatorNodeBase(OperatorNodeBase):
-    color = '#a1574c'
+    GUI = guis.CompNodeBaseGui
 
     def apply_op(self, elements: list):
         # if len(elements) > 0:
@@ -291,7 +259,10 @@ comparator_nodes = [
     LessEq_Node,
 ]
 
-# -------------------------------------------
+
+"""
+    export
+"""
 
 
 nodes = [

@@ -1,116 +1,223 @@
-import inspect
-import os
-from os.path import normpath, join, dirname, abspath, basename, expanduser
-import importlib.util
+"""
+Core utilities for handling Ryven projects and nodes packages, and
+resolving paths. Deos not depend on any Qt modules.
+"""
 
-from ryven.main.nodes_package import NodesPackage
+from os.path import normpath, join, dirname, abspath, expanduser
+import pathlib
+from typing import Union, Optional
+from packaging.version import Version
 
 
-def load_from_file(file: str = None, components_list: [str] = []) -> tuple:
+def read_project(project_path: Union[str, pathlib.Path]) -> dict:
+    """Read the project file and return its dictionary.
+
+    :param project_path: The path to the project file.
+    :return: The contents of the project file.
     """
-    Imports the specified components from a python module with given file path.
-    """
+    import io
+    import json
 
-    name = basename(file).split('.')[0]
-    spec = importlib.util.spec_from_file_location(name, file)
+    if isinstance(project_path, io.TextIOWrapper):
+        project_dict = json.loads(project_path.read(), strict=False)
+    else:
+        with open(project_path) as f:
+            import json
+            # strict=False is needed to allow 'control characters' like '\n'
+            # for newline when loading the json
+            project_dict = json.load(f, strict=False)
 
-    importlib.util.module_from_spec(spec)
-
-    mod = spec.loader.load_module(name)
-    # using load_module(name) instead of exec_module(mod) here,
-    # because exec_module() somehow then registers it as "built-in"
-    # which is wrong and prevents inspect from parsing the source
-
-    comps = tuple([getattr(mod, c) for c in components_list])
-
-    return comps
-
-
-def import_nodes_package(package: NodesPackage = None, directory: str = None) -> list:
-    """
-    This function is an interface to the node packages system in Ryven.
-    It loads nodes from a Ryven nodes package and returns them in a list.
-    It can be used without a running Ryven instance, but you need to specify in which mode nodes should be loaded
-    by setting the environment variable RYVEN_MODE to either 'gui' (gui imports enabled) or 'no-gui'.
-    You can either pass a NodesPackage object or a path to the directory where the nodes.py file is located.
-    """
-
-    if package is None:
-        package = NodesPackage(directory)
-
-    if 'RYVEN_MODE' not in os.environ:
-        raise Exception(
-            "Please specify the environment variable RYVEN_MODE ('gui' or 'no-gui') before loading any packages. "
-            "For example set os.environ['RYVEN_MODE'] = 'no-gui' for gui-less deployment."
+    # backward compatibility: translate old project files to current version
+    if 'ryven version' not in project_dict['general info'] or \
+            Version(project_dict['general info']['ryven version']) <= Version('3.2'):
+        print(
+            'WARNING: project was created with an older version of Ryven.',
+            'Attempting to translate project to current version.'
         )
+        project_dict = translate_project_v3_2_0(project_dict)
 
-    from ryven import NENV
-    load_from_file(package.file_path)
+    return project_dict
 
-    nodes = NENV.NodesRegistry.exported_nodes[-1]
 
-    if os.environ['RYVEN_MODE'] == 'gui':
+def translate_project_v3_2_0(p: dict):
+    def max_gid(d: dict) -> int:
+        """Recursively find the maximum GID used in the project.."""
+        n = 0
+        for k, v in d.items():
+            if isinstance(v, dict):
+                n = max(n, max_gid(v))
+            elif isinstance(v, list):
+                for e in v:
+                    if isinstance(e, dict):
+                        n = max(n, max_gid(e))
+            elif k == 'GID':
+                n = max(n, v)
+        return n
 
-        # ADD SOURCES
+    gid_ctr = max_gid(p) + 1
+    def get_gid():
+        nonlocal gid_ctr
+        gid_ctr += 1
+        return gid_ctr
 
-        # because all the node package modules are named 'nodes.py' now, we need to retrieve the sources via inspect here
-        # since inspect will be unable to do so once we imported another 'nodes' module.
+    def replace_item(obj, key, replace_value):
+        # https://stackoverflow.com/questions/45335445/how-to-recursively-replace-dictionary-values-with-a-matching-key
+        for k, v in obj.items():
+            if isinstance(v, dict):
+                obj[k] = replace_item(v, key, replace_value)
+        if key in obj:
+            obj[key] = replace_value
+        return obj
 
-        node_cls_sources = NENV.NodesRegistry.exported_node_sources[-1]
-        node_mod_sources = [inspect.getsource(inspect.getmodule(n)) for n in nodes]
+    proj = {
+        'general info': p['general info'],
+        'required packages': p['required packages'],
+        'GID': get_gid(),
+        'version': '0.4.0',
+        'flows': {},
+        'addons': {},
+    }
 
-        for i in range(len(nodes)):
-            n = nodes[i]
+    variables = {}
 
-            mw_cls_src = inspect.getsource(n.main_widget_class) if n.main_widget_class else None
-            mw_mod_src = inspect.getsource(inspect.getmodule(n.main_widget_class)) if n.main_widget_class else None
+    for s in p['scripts']:
+        t = s['title']
+        vars = s['variables']
+        gid = s['flow']['GID']
+        variables[(t, gid)] = vars
 
-            n.__class_codes__ = {
-                'node cls': node_cls_sources[i],
-                'node mod': node_mod_sources[i],
-                'main widget cls': mw_cls_src,
-                'main widget mod': mw_mod_src,
-                'custom input widgets': {
-                    name: {
-                        'cls': inspect.getsource(inp_cls),
-                        'mod': inspect.getsource(inspect.getmodule(inp_cls))
-                    } for name, inp_cls in n.input_widget_classes.items()
+        proj['flows'][t] = {
+            'GID': gid,
+            'algorithm mode': s['flow']['algorithm mode'],
+            'nodes': [
+                {
+                    **n_d,
+                    # remove input widget data to prevent loading errors
+                    # because many of the nodes have new input widget
+                    # classes now
+                    'inputs': [
+                        replace_item(i, 'widget data', None)
+                        for i in n_d['inputs']
+                    ]
+                } for n_d in s['flow']['nodes']
+            ],
+            'connections': s['flow']['connections'],
+            'flow view': s['flow']['flow view'],
+            'output data': [{
+                # simply set every output to None
+                'data': {
+                    'GID': get_gid(),
+                    'identifier': 'Data',
+                    'serialized': 'gAROLg==',  # encoded 'None'
+                },
+                'dependent node outputs': [],
+            }]
+        }
+
+    proj['addons']['Variables'] = {
+        'GID': get_gid(),
+        'version': '0.4',
+        'custom state': {
+            flow_id: {
+                v: {
+                    'GID': get_gid(),
+                    'identifier': 'Data',
+                    'serialized': content['serialized'],
                 }
+                for v, content in vars.items()
             }
+            for (flow_name, flow_id), vars in variables.items()
+        }
+    }
 
-    # -----------
+    # ignoring loggers and actions
 
-    # add package name to identifiers and define custom types
+    return proj
 
-    for n in nodes:
-        n.identifier_prefix = package.name  #  + '.' + (n.identifier if n.identifier else n.__name__)
-        n.type_ = package.name if not n.type_ else package.name+f'[{n.type_}]'
 
-    return nodes
+def find_project(project_path: Union[str, pathlib.Path]) -> Optional[pathlib.Path]:
+    """Resolves a possibly *~/.ryven/saves/*-relative path to a nodes package to an absolute path.
+
+    :param project_path: The path to the project file or the subpath to :code:`ryven_dir_path()/saves`.
+        The file extension '.json' can be omitted.
+    :return: The absolute and resolved path to the project file, or `None` if it could not be found.
+
+    """
+    project_path = pathlib.Path(project_path)
+
+    if project_path.exists():
+        return project_path.resolve()
+    elif project_path.with_suffix('.json').exists():
+        return project_path.with_suffix('.json').resolve()
+    else:
+        project_path = pathlib.Path(ryven_dir_path(), 'saves', project_path)
+        if project_path.exists():
+            return project_path.resolve()
+        elif project_path.with_suffix('.json').exists():
+            return project_path.with_suffix('.json').resolve()
+        else:
+            return None
+
+
+def find_config_file(cfg_file_path: str) -> Optional[pathlib.Path]:
+    """Resolves a possibly *~/.ryven/*-relative path of a config file to an absolute path.
+
+    :param cfg_file_path: Either an absolute path, or relative to the *~/.ryven/* directory.
+        The file extension '.cfg' can be omitted.
+    :return: The full path to the config file or `None`, if it could not be found.
+    """
+
+    config_file_path = pathlib.Path(cfg_file_path)
+
+    if config_file_path.exists():
+        return config_file_path.resolve()
+    else:
+        config_file_path = pathlib.Path(ryven_dir_path(), cfg_file_path)
+        if config_file_path.exists():
+            return config_file_path.resolve()
+        else:
+            return None
 
 
 def ryven_dir_path() -> str:
     """
     :return: absolute path the (OS-specific) '~/.ryven/' folder
     """
-    return normpath(join(expanduser('~'), '.ryven/'))
+    return abspath(normpath(join(expanduser('~'), '.ryven/')))
 
 
-def abs_path_from_package_dir(path_rel_to_ryven: str):
-    """Given a path string relative to the ryven package, return the file/folder absolute path
-
-    :param path_rel_to_ryven: path relative to ryven package (e.g. main/NENV.py)
-    :type path_rel_to_ryven: str
+def abs_path_from_package_dir(ryven_rel_path: str):
+    """
+    :param ryven_rel_path: path relative to ryven package folder (e.g. main/node_env.py)
+    :return: absolute path
     """
     ryven_path = dirname(dirname(__file__))
-    return abspath(join(ryven_path, path_rel_to_ryven))
+    return abspath(join(ryven_path, ryven_rel_path))
 
 
-def abs_path_from_ryven_dir(path_rel_to_ryven_dir: str):
-    """Given a path string relative to the ryven dir '~/.ryven/', return the file/folder absolute path
-
-    :param path_rel_to_ryven_dir: path relative to ryven dir (e.g. saves)
-    :return: file/folder absolute path
+def abs_path_from_ryven_dir(ryven_rel_path: str):
+    """
+    :param ryven_rel_path: path relative to '~/.ryven/' dir (e.g. saves)
+    :return: absolute path
     """
 
-    return abspath(join(ryven_dir_path(), path_rel_to_ryven_dir))
+    return abspath(join(ryven_dir_path(), ryven_rel_path))
+
+
+def ryven_version() -> Version:
+    """
+    :return: the version of Ryven
+    """
+
+    # if we are in a development environment, we can't use importlib.metadata
+    if (pathlib.Path(abs_path_from_package_dir('../setup.cfg'))).exists():
+        # read the version from setup.cfg
+        import configparser
+        config = configparser.ConfigParser()
+        config.read(abs_path_from_package_dir('../setup.cfg'))
+        ver = Version(config['metadata']['version'])
+        return ver
+    else:
+        # read the version from importlib.metadata
+        from importlib.metadata import version
+        return Version(version('ryven'))

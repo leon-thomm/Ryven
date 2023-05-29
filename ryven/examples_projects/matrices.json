@@ -1,602 +1,959 @@
 {
     "general info": {
-        "type": "Ryven project file"
+        "type": "Ryven project file",
+        "ryven version": "3.3.0a1"
     },
     "required packages": [
         {
-            "name": "std",
-            "dir": "C:\\Users\\nutri\\projects\\ryven projects\\Ryven_mmorys\\Ryven\\ryven\\example_nodes\\std"
+            "name": "linalg",
+            "dir": "/home/leon/projects/ryven_projects/Ryven/ryven/example_nodes/linalg"
         },
         {
-            "name": "linalg",
-            "dir": "C:\\Users\\nutri\\projects\\ryven projects\\Ryven_mmorys\\Ryven\\ryven\\example_nodes\\linalg"
+            "name": "std",
+            "dir": "/home/leon/projects/ryven_projects/Ryven/ryven/example_nodes/std"
         }
     ],
-    "scripts": [
-        {
-            "title": "hello world",
-            "variables": {
-                "a": {
-                    "serialized": "gARLSi4="
+    "GID": 2,
+    "version": "0.4.0a12",
+    "flows": {
+        "hello world": {
+            "GID": 5,
+            "algorithm mode": "data",
+            "nodes": [
+                {
+                    "GID": 6,
+                    "identifier": "linalg.EditMatrix_Node",
+                    "version": null,
+                    "state data": "gASVMgEAAAAAAAB9lIwRZXhwcmVzc2lvbiBtYXRyaXiUWBQBAABnQVNWeEFBQUFBQUFBQUNNRlc1MWJYQjVMbU52Y21VdWJYVnNkR2xoY25KaGVaU01ERjl5WldOdmJuTjBjblZqZEpTVGxJd0ZiblZ0Y0htVWpBZHVaR0Z5Y21GNWxKT1VTd0NGbEVNQllwU0hsRktVS0VzQlN3SkxBb2FVYUFPTUJXUjBlWEJsbEpPVWpBSlZOSlNKaUllVVVwUW9Td09NQVR5VVRrNU9TeEJMQkVzSWRKUmlpVU5BTVFBQUFHb0FBQUFBQUFBQUFBQUFBREVBQUFBQUFBQUFBQUFBQUFBQUFBQXdBQUFBTFFBQUFERUFBQUJxQUFBQVlRQUFBQUFBQUFBQUFBQUFBQUFBQUpSMGxHSXWUcy4=",
+                    "additional data": {},
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "GID": 8,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {
+                            "a": "var_val_updated"
+                        }
+                    },
+                    "pos x": 214.009788256565,
+                    "pos y": 283.198189623965,
+                    "main widget data": "gASVKwAAAAAAAAB9lCiMBHRleHSUjBMgIDFqICAgIDEKMC0xaiAgICBhlIwFc2hvd26UiHUu",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "hide preview": {
+                            "method": "ac_hide_mw"
+                        }
+                    },
+                    "display title": "Matrix"
                 },
-                "mat": {
-                    "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAAAgFJAAAAAAAAAAACUdJRiLg=="
-                }
-            },
-            "flow": {
-                "algorithm mode": "data",
-                "nodes": [
-                    {
-                        "identifier": "linalg.Matrix_Node",
-                        "version": null,
-                        "state data": "gASVVAAAAAAAAAB9lCiMEm1haW4gd2lkZ2V0IGhpZGRlbpSJjBFleHByZXNzaW9uIG1hdHJpeJRdlChdlCiMAjFqlIwBMZRlXZQojAQwLTFqlIwGdignYScplGVldS4=",
-                        "additional data": {
-                            "special actions": {
-                                "hide preview": {
-                                    "method": "action_hide_mw"
-                                }
+                {
+                    "GID": 12,
+                    "version": "v0.2",
+                    "identifier": "linalg.ShowMatrix",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 15,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 16,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 469.009788256565,
+                    "pos y": 289.198189623965,
+                    "main widget data": "gASVQwAAAAAAAAB9lCiMBHRleHSUjCsgICAgICAgIDFqICAgICAoMSswaikKICAgICAgIC0xaiAoMC43NzIrMGoplIwFc2hvd26UiHUu",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "hide preview": {
+                            "method": "ac_hide_mw"
+                        }
+                    },
+                    "display title": "Show Matrix"
+                },
+                {
+                    "GID": 17,
+                    "version": "v0.1",
+                    "identifier": "built_in.SetVar_Node",
+                    "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 23,
+                            "type": "data",
+                            "label": "var",
+                            "default": {
+                                "GID": 28,
+                                "identifier": "Data",
+                                "serialized": "gASVBQAAAAAAAACMAWGULg=="
                             },
-                            "display title": "Matrix"
+                            "has widget": true,
+                            "widget name": "varname",
+                            "widget pos": "besides",
+                            "widget data": "gASVbAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVAZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAFhlHVicy4="
                         },
-                        "inputs": [],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 6
-                            }
-                        ],
-                        "GID": 5,
-                        "pos x": 268.009788256565,
-                        "pos y": 113.19818962396498,
-                        "main widget data": "gASVMwAAAAAAAAB9lCiMBHRleHSUjBsgICAgMWogICAgICAxCiAgMC0xaiB2KCdhJymUjAVzaG93bpSIdS4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "linalg.ShowMatrix",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "Show Matrix"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 8,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 9
-                            }
-                        ],
-                        "GID": 7,
-                        "pos x": 523.009788256565,
-                        "pos y": 119.19818962396498,
-                        "main widget data": "gASVNwAAAAAAAAB9lCiMBHRleHSUjB8gICAgIDFqICAoMSswaikKICAgIC0xaiAoNzQrMGoplIwFc2hvd26UiHUu",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "built_in.SetVar_Node",
-                        "version": null,
-                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
-                        "additional data": {
-                            "special actions": {
-                                "make active": {
-                                    "method": "action_make_active"
-                                }
+                        {
+                            "GID": 25,
+                            "type": "data",
+                            "label": "val",
+                            "default": {
+                                "GID": 6431,
+                                "identifier": "Data",
+                                "serialized": "gASVCQAAAAAAAACMBTAuNzcylC4="
                             },
-                            "display title": "set var"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "var",
-                                "GID": 11,
-                                "val": "gAROLg==",
-                                "dtype": "DType.String",
-                                "dtype state": "gASVNwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjAN2YWyUaAKMA2RvY5RoAowGYm91bmRzlE6MBHNpemWUjAFtlHUu",
-                                "has widget": true,
-                                "widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMAWGUcy4="
-                            },
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 12,
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjc0lHMu"
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 13
-                            }
-                        ],
-                        "GID": 10,
-                        "pos x": 549.009788256565,
-                        "pos y": 265.198189623965,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                            "has widget": true,
+                            "widget name": "val",
+                            "widget pos": "besides",
+                            "widget data": "gASVcAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVEZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAUwLjc3MpR1YnMu"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 27,
+                            "type": "data",
+                            "label": "val"
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "identifier": "std.Slider_Node",
-                        "version": null,
-                        "state data": "gASVEwAAAAAAAAB9lIwDdmFslEc/53S8an7523Mu",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "slider"
+                    "pos x": 545.009788256565,
+                    "pos y": 96.19818962396499,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "scl",
-                                "GID": 15,
-                                "val": "gARLMi4=",
-                                "dtype": "DType.Integer",
-                                "dtype state": "gASVLAAAAAAAAAB9lCiMB2RlZmF1bHSUSwGMA3ZhbJRLAIwDZG9jlIwAlIwGYm91bmRzlE51Lg==",
-                                "has widget": true,
-                                "widget data": "gASVDAAAAAAAAAB9lIwDdmFslEsycy4="
-                            },
-                            {
-                                "type": "data",
-                                "label": "round",
-                                "GID": 16,
-                                "val": "gASILg==",
-                                "dtype": "DType.Boolean",
-                                "dtype state": "gASVKgAAAAAAAAB9lCiMB2RlZmF1bHSUiYwDdmFslImMA2RvY5SMAJSMBmJvdW5kc5ROdS4=",
-                                "has widget": true,
-                                "widget data": "gASVDwAAAAAAAAB9lIwHY2hlY2tlZJSIcy4="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 17
-                            }
-                        ],
-                        "GID": 14,
-                        "pos x": 214.009788256565,
-                        "pos y": 264.198189623965,
-                        "main widget data": "gASVDQAAAAAAAAB9lIwDdmFslE3dAnMu",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
                     },
-                    {
-                        "identifier": "std.Multiply_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {
-                                "add input": {
-                                    "method": "add_operand_input"
-                                },
-                                "remove input 0": {
-                                    "method": "remove_operand_input",
-                                    "data": 0
-                                },
-                                "remove input 1": {
-                                    "method": "remove_operand_input",
-                                    "data": 1
-                                }
-                            },
-                            "display title": "*"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 19,
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVEAAAAAAAAAB9lIwEdGV4dJSMAjM3lHMu"
-                            },
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 20,
-                                "val": "gARLAi4=",
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMATKUcy4="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 21
-                            }
-                        ],
-                        "GID": 18,
-                        "pos x": 385.009788256565,
-                        "pos y": 291.198189623965,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "built_in.SetVar_Node",
-                        "version": null,
-                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
-                        "additional data": {
-                            "special actions": {
-                                "make active": {
-                                    "method": "action_make_active"
-                                }
-                            },
-                            "display title": "set var"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "var",
-                                "GID": 23,
-                                "val": "gASVBwAAAAAAAACMA21hdJQu",
-                                "dtype": "DType.String",
-                                "dtype state": "gASVNwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjAN2YWyUaAKMA2RvY5RoAowGYm91bmRzlE6MBHNpemWUjAFtlHUu",
-                                "has widget": true,
-                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA21hdJRzLg=="
-                            },
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 24,
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVNAAAAAAAAAB9lIwEdGV4dJSMJltbIDAuKzEuaiAgMS4rMC5qXQogWyAwLi0xLmogNzQuKzAual1dlHMu"
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 25
-                            }
-                        ],
-                        "GID": 22,
-                        "pos x": 851.7300738632727,
-                        "pos y": 132.0220031444171,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "built_in.GetVar_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "get var"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 27,
-                                "val": "gASVBwAAAAAAAACMA21hdJQu",
-                                "dtype": "DType.String",
-                                "dtype state": "gASVNwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjAN2YWyUaAKMA2RvY5RoAowGYm91bmRzlE6MBHNpemWUjAFtlHUu",
-                                "has widget": true,
-                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA21hdJRzLg=="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 28
-                            }
-                        ],
-                        "GID": 26,
-                        "pos x": 152.06383333061729,
-                        "pos y": 405.2129042004253,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "linalg.InverseMatrix",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "Inverse"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 30,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 31
-                            }
-                        ],
-                        "GID": 29,
-                        "pos x": 175.96624820900752,
-                        "pos y": 548.4374023593136,
-                        "main widget data": "gASVRwAAAAAAAAB9lCiMBHRleHSUjC8gICAtMC45ODY3aiAgICAgMC4wMTMzagooMC4wMTMzKzBqKSAoMC4wMTMzKzBqKZSMBXNob3dulIh1Lg==",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "linalg.DetOfMatrix",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "Determinant"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 33,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 34
-                            }
-                        ],
-                        "GID": 32,
-                        "pos x": 611.0383971650748,
-                        "pos y": 548.1962980663284,
-                        "main widget data": "gASVLgAAAAAAAAB9lCiMBHRleHSUjBYtMC4wMTMzMzMzMzMzMzMzMzMzMzhqlIwFc2hvd26UiHUu",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "linalg.SolveLEq",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "Solve"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 36,
-                                "has widget": false
-                            },
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 37,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 38
-                            }
-                        ],
-                        "GID": 35,
-                        "pos x": 885.1839459089059,
-                        "pos y": 322.570155217133,
-                        "main widget data": "gASVLwAAAAAAAAB9lCiMBHRleHSUjBcgICAtMC45ODY3aiAoMC4wMTMzKzBqKZSMBXNob3dulIh1Lg==",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "linalg.MatMul",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "Mult"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
+                    "display title": "set var"
+                },
+                {
+                    "GID": 30,
+                    "version": "v0.2",
+                    "identifier": "std.Slider_Node",
+                    "state data": "gASVEwAAAAAAAAB9lIwDdmFslEc/6LQ5WBBiTnMu",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 34,
+                            "type": "data",
+                            "label": "scl",
+                            "default": {
                                 "GID": 40,
-                                "has widget": false
+                                "identifier": "Data",
+                                "serialized": "gARLAS4="
                             },
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 41,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 42
-                            }
-                        ],
-                        "GID": 39,
-                        "pos x": 372.26934314274683,
-                        "pos y": 442.4371649448529,
-                        "main widget data": "gASVMwAAAAAAAAB9lCiMBHRleHSUjBsoMSswaikgICAgIDBqCiAgICAwaiAoMSswaimUjAVzaG93bpSIdS4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "std.Eval_Node",
-                        "version": null,
-                        "state data": "gASVPQAAAAAAAAB9lCiMEG51bSBwYXJhbSBpbnB1dHOUSwGMD2V4cHJlc3Npb24gY29kZZSMDihpbnBbMF0pWzBdWzpdlHUu",
-                        "additional data": {
-                            "special actions": {
-                                "add input": {
-                                    "method": "add_param_input"
-                                },
-                                "remove input 0": {
-                                    "method": "remove_param_input",
-                                    "data": 0
-                                }
+                            "has widget": true,
+                            "widget name": "scale",
+                            "widget pos": "besides",
+                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVIZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
+                        },
+                        {
+                            "GID": 36,
+                            "type": "data",
+                            "label": "round",
+                            "default": {
+                                "GID": 42,
+                                "identifier": "Data",
+                                "serialized": "gASJLg=="
                             },
-                            "display title": "eval"
+                            "has widget": true,
+                            "widget name": "round",
+                            "widget pos": "besides",
+                            "widget data": "gASVaQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVMZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUiXVicy4="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 38,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 210.009788256565,
+                    "pos y": 95.19818962396499,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 44,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 45
-                            }
-                        ],
-                        "GID": 43,
-                        "pos x": 598.3422117376416,
-                        "pos y": 418.5614824529824,
-                        "main widget data": "gASVHAAAAAAAAAB9lIwEdGV4dJSMDihpbnBbMF0pWzBdWzpdlHMu",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "built_in.Result_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "result"
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 47,
-                                "has widget": false
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "slider"
+                },
+                {
+                    "GID": 43,
+                    "version": "v0.2",
+                    "identifier": "std.Multiply_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 47,
+                            "type": "data",
+                            "label": "",
+                            "default": {
+                                "GID": 6429,
+                                "identifier": "Data",
+                                "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                            },
+                            "has widget": true,
+                            "widget name": "in",
+                            "widget pos": "besides",
+                            "widget data": "gASVcQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVQZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSURz/otDlYEGJOdWJzLg=="
+                        },
+                        {
+                            "GID": 49,
+                            "type": "data",
+                            "label": "",
+                            "default": {
+                                "GID": 55,
+                                "identifier": "Data",
+                                "serialized": "gARLAS4="
+                            },
+                            "has widget": true,
+                            "widget name": "in",
+                            "widget pos": "besides",
+                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVUZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 51,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 381.009788256565,
+                    "pos y": 122.19818962396499,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "add input": {
+                            "method": "add_operand_input"
+                        },
+                        "remove input": {
+                            "0": {
+                                "method": "remove_operand_input",
+                                "data": 0
+                            },
+                            "1": {
+                                "method": "remove_operand_input",
+                                "data": 1
                             }
-                        ],
-                        "outputs": [],
-                        "GID": 46,
-                        "pos x": 882.6120564064703,
-                        "pos y": 429.0070935431757,
-                        "main widget data": "gAR9lC4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    }
-                ],
-                "connections": [
-                    {
-                        "GID": 48,
-                        "parent node index": 0,
-                        "output port index": 0,
-                        "connected node": 1,
-                        "connected input port index": 0
+                        }
                     },
-                    {
-                        "GID": 49,
-                        "parent node index": 1,
-                        "output port index": 0,
-                        "connected node": 5,
-                        "connected input port index": 1
+                    "display title": "*"
+                },
+                {
+                    "GID": 56,
+                    "version": "v0.1",
+                    "identifier": "built_in.SetVar_Node",
+                    "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 62,
+                            "type": "data",
+                            "label": "var",
+                            "default": {
+                                "GID": 67,
+                                "identifier": "Data",
+                                "serialized": "gASVBwAAAAAAAACMA21hdJQu"
+                            },
+                            "has widget": true,
+                            "widget name": "varname",
+                            "widget pos": "besides",
+                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVYZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANtYXSUdWJzLg=="
+                        },
+                        {
+                            "GID": 64,
+                            "type": "data",
+                            "label": "val",
+                            "default": {
+                                "GID": 6435,
+                                "identifier": "Data",
+                                "serialized": "gASVMgAAAAAAAACMLltbMC4gICArMS5qIDEuICAgKzAual0KIFswLiAgIC0xLmogMC43NzIrMC5qXV2ULg=="
+                            },
+                            "has widget": true,
+                            "widget name": "val",
+                            "widget pos": "besides",
+                            "widget data": "gASVmQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVcZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjC5bWzAuICAgKzEuaiAxLiAgICswLmpdCiBbMC4gICAtMS5qIDAuNzcyKzAual1dlHVicy4="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 66,
+                            "type": "data",
+                            "label": "val"
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "GID": 50,
-                        "parent node index": 1,
-                        "output port index": 0,
-                        "connected node": 9,
-                        "connected input port index": 0
+                    "pos x": 892.7300738632725,
+                    "pos y": 198.0220031444171,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
                     },
-                    {
-                        "GID": 51,
-                        "parent node index": 3,
-                        "output port index": 0,
-                        "connected node": 4,
-                        "connected input port index": 0
+                    "display title": "set var"
+                },
+                {
+                    "GID": 69,
+                    "version": "v0.2",
+                    "identifier": "built_in.GetVar_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 72,
+                            "type": "data",
+                            "label": "",
+                            "default": {
+                                "GID": 76,
+                                "identifier": "Data",
+                                "serialized": "gASVBwAAAAAAAACMA21hdJQu"
+                            },
+                            "has widget": true,
+                            "widget name": "varname",
+                            "widget pos": "besides",
+                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVgZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANtYXSUdWJzLg=="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 74,
+                            "type": "data",
+                            "label": "val"
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {
+                            "mat": "var_val_changed"
+                        }
                     },
-                    {
-                        "GID": 52,
-                        "parent node index": 4,
-                        "output port index": 0,
-                        "connected node": 2,
-                        "connected input port index": 1
+                    "pos x": 152.06383333061729,
+                    "pos y": 405.2129042004253,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
                     },
-                    {
-                        "GID": 53,
-                        "parent node index": 6,
-                        "output port index": 0,
-                        "connected node": 10,
-                        "connected input port index": 0
+                    "display title": "get var"
+                },
+                {
+                    "GID": 77,
+                    "version": "v0.2",
+                    "identifier": "linalg.InverseMatrix",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 80,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 81,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "GID": 54,
-                        "parent node index": 6,
-                        "output port index": 0,
-                        "connected node": 7,
-                        "connected input port index": 0
+                    "pos x": 175.96624820900752,
+                    "pos y": 548.4374023593136,
+                    "main widget data": "gASVRwAAAAAAAAB9lCiMBHRleHSUjC8gICAtMC40MzU3aiAgICAgMC41NjQzagooMC41NjQzKzBqKSAoMC41NjQzKzBqKZSMBXNob3dulIh1Lg==",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "hide preview": {
+                            "method": "ac_hide_mw"
+                        }
                     },
-                    {
-                        "GID": 55,
-                        "parent node index": 7,
-                        "output port index": 0,
-                        "connected node": 8,
-                        "connected input port index": 0
+                    "display title": "Inverse"
+                },
+                {
+                    "GID": 82,
+                    "version": "v0.2",
+                    "identifier": "linalg.DetOfMatrix",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 85,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 86,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "GID": 56,
-                        "parent node index": 7,
-                        "output port index": 0,
-                        "connected node": 10,
-                        "connected input port index": 1
+                    "pos x": 611.0383971650748,
+                    "pos y": 548.1962980663284,
+                    "main widget data": "gASVLAAAAAAAAAB9lCiMBHRleHSUjBQtMC41NjQzMzQwODU3Nzg3ODExapSMBXNob3dulIh1Lg==",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "hide preview": {
+                            "method": "ac_hide_mw"
+                        }
                     },
-                    {
-                        "GID": 57,
-                        "parent node index": 10,
-                        "output port index": 0,
-                        "connected node": 11,
-                        "connected input port index": 0
+                    "display title": "Determinant"
+                },
+                {
+                    "GID": 87,
+                    "version": "v0.2",
+                    "identifier": "linalg.SolveLEq",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 91,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        },
+                        {
+                            "GID": 92,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 93,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "GID": 58,
-                        "parent node index": 11,
-                        "output port index": 0,
-                        "connected node": 9,
-                        "connected input port index": 1
+                    "pos x": 885.1839459089059,
+                    "pos y": 322.570155217133,
+                    "main widget data": "gASVLwAAAAAAAAB9lCiMBHRleHSUjBcgICAtMC40MzU3aiAoMC41NjQzKzBqKZSMBXNob3dulIh1Lg==",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "hide preview": {
+                            "method": "ac_hide_mw"
+                        }
                     },
-                    {
-                        "GID": 59,
-                        "parent node index": 11,
-                        "output port index": 0,
-                        "connected node": 12,
-                        "connected input port index": 0
-                    }
-                ],
-                "GID": 4,
-                "flow view": {
-                    "drawings": [],
-                    "view size": [
-                        6400.0,
-                        4800.0
+                    "display title": "Solve"
+                },
+                {
+                    "GID": 94,
+                    "version": "v0.2",
+                    "identifier": "linalg.MatMul",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 98,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        },
+                        {
+                            "GID": 99,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 100,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 361.26934314274683,
+                    "pos y": 439.43716494485284,
+                    "main widget data": "gASVMwAAAAAAAAB9lCiMBHRleHSUjBsoMSswaikgICAgIDBqCiAgICAwaiAoMSswaimUjAVzaG93bpSIdS4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "hide preview": {
+                            "method": "ac_hide_mw"
+                        }
+                    },
+                    "display title": "Mult"
+                },
+                {
+                    "GID": 101,
+                    "version": "v0.2",
+                    "identifier": "std.Eval_Node",
+                    "state data": "gASVPQAAAAAAAAB9lCiMEG51bSBwYXJhbSBpbnB1dHOUSwGMD2V4cHJlc3Npb24gY29kZZSMDihpbnBbMF0pWzBdWzpdlHUu",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 103,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 104,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 598.3422117376416,
+                    "pos y": 418.5614824529824,
+                    "main widget data": "gASVHAAAAAAAAAB9lIwEdGV4dJSMDihpbnBbMF0pWzBdWzpdlHMu",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "add input": {
+                            "method": "add_input"
+                        },
+                        "remove input": {}
+                    },
+                    "display title": "eval"
+                },
+                {
+                    "GID": 105,
+                    "version": "v0.2",
+                    "identifier": "built_in.Result_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 107,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 882.6120564064703,
+                    "pos y": 429.0070935431757,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "result"
+                }
+            ],
+            "connections": [
+                {
+                    "parent node index": 0,
+                    "output port index": 0,
+                    "connected node": 1,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 1,
+                    "output port index": 0,
+                    "connected node": 5,
+                    "connected input port index": 1
+                },
+                {
+                    "parent node index": 1,
+                    "output port index": 0,
+                    "connected node": 9,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 3,
+                    "output port index": 0,
+                    "connected node": 4,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 4,
+                    "output port index": 0,
+                    "connected node": 2,
+                    "connected input port index": 1
+                },
+                {
+                    "parent node index": 6,
+                    "output port index": 0,
+                    "connected node": 10,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 6,
+                    "output port index": 0,
+                    "connected node": 7,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 7,
+                    "output port index": 0,
+                    "connected node": 8,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 7,
+                    "output port index": 0,
+                    "connected node": 10,
+                    "connected input port index": 1
+                },
+                {
+                    "parent node index": 10,
+                    "output port index": 0,
+                    "connected node": 11,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 11,
+                    "output port index": 0,
+                    "connected node": 9,
+                    "connected input port index": 1
+                },
+                {
+                    "parent node index": 11,
+                    "output port index": 0,
+                    "connected node": 12,
+                    "connected input port index": 0
+                }
+            ],
+            "output data": [
+                {
+                    "data": {
+                        "GID": 6456,
+                        "identifier": "MatrixData",
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                    },
+                    "dependent node outputs": [
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6457,
+                        "identifier": "MatrixData",
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                    },
+                    "dependent node outputs": [
+                        1,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6428,
+                        "identifier": "Data",
+                        "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                    },
+                    "dependent node outputs": [
+                        3,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6430,
+                        "identifier": "Data",
+                        "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                    },
+                    "dependent node outputs": [
+                        4,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6468,
+                        "identifier": "Data",
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                    },
+                    "dependent node outputs": [
+                        6,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6472,
+                        "identifier": "MatrixData",
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAEPljSfPh278AAAAAAAAAAHgDTlsGD+I/eANOWwYP4j8AAAAAAAAAAHgDTlsGD+I/AAAAAAAAAACUdJRiLg=="
+                    },
+                    "dependent node outputs": [
+                        7,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6473,
+                        "identifier": "MatrixData",
+                        "serialized": "gASVcgAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMBnNjYWxhcpSTlIwFbnVtcHmUjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGJDEAAAAAAAAAAAeANOWwYP4r+UhpRSlC4="
+                    },
+                    "dependent node outputs": [
+                        8,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6479,
+                        "identifier": "MatrixData",
+                        "serialized": "gASVqQAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwKFlGgDjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGKJQyAAAAAAAAAAABD5Y0nz4du/eANOWwYP4j8AAAAAAAAAAJR0lGIu"
+                    },
+                    "dependent node outputs": [
+                        9,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6474,
+                        "identifier": "MatrixData",
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAPA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkP6YJq2umDwAAAAAAAAAAAAAAAAAAPA/AAAAAAAAAACUdJRiLg=="
+                    },
+                    "dependent node outputs": [
+                        10,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 6478,
+                        "identifier": "Data",
+                        "serialized": "gASVqQAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwKFlGgDjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGKJQyAAAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJR0lGIu"
+                    },
+                    "dependent node outputs": [
+                        11,
+                        0
                     ]
                 }
-            },
-            "GID": 1
+            ],
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    10000.0,
+                    7000.0
+                ]
+            }
         }
-    ]
+    },
+    "addons": {
+        "Variables": {
+            "GID": 3,
+            "version": "0.4",
+            "custom state": {
+                "5": {
+                    "a": {
+                        "GID": 6432,
+                        "identifier": "Data",
+                        "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                    },
+                    "mat": {
+                        "GID": 6458,
+                        "identifier": "Data",
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                    }
+                }
+            }
+        },
+        "Logging": {
+            "GID": 4,
+            "version": "0.0.1",
+            "custom state": {}
+        }
+    }
 }

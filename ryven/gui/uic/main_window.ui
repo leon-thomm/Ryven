@@ -34,9 +34,9 @@
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <widget class="QGroupBox" name="scripts_groupBox">
+        <widget class="QGroupBox" name="flows_groupBox">
          <property name="title">
-          <string>Scripts</string>
+          <string>Flows</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2"/>
         </widget>
@@ -47,7 +47,7 @@
          <layout class="QVBoxLayout" name="verticalLayout"/>
         </widget>
        </widget>
-       <widget class="QTabWidget" name="scripts_tab_widget">
+       <widget class="QTabWidget" name="flows_tab_widget">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -75,7 +75,7 @@
      <x>0</x>
      <y>0</y>
      <width>1368</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -86,9 +86,9 @@
      <property name="title">
       <string>Scripts</string>
      </property>
-     <addaction name="actionNew_Script"/>
-     <addaction name="actionRename_Script"/>
-     <addaction name="actionDelete_Script"/>
+     <addaction name="actionNew_Flow"/>
+     <addaction name="actionRename_Flow"/>
+     <addaction name="actionDelete_Flow"/>
     </widget>
     <addaction name="actionImport_Nodes"/>
     <addaction name="actionImport_Example_Nodes"/>
@@ -182,17 +182,17 @@ The more you zoomed in, the sharper the picture.
 This will take a few seconds.</string>
    </property>
   </action>
-  <action name="actionNew_Script">
+  <action name="actionNew_Flow">
    <property name="text">
     <string>New</string>
    </property>
   </action>
-  <action name="actionRename_Script">
+  <action name="actionRename_Flow">
    <property name="text">
     <string>Rename</string>
    </property>
   </action>
-  <action name="actionDelete_Script">
+  <action name="actionDelete_Flow">
    <property name="text">
     <string>Delete</string>
    </property>

@@ -1,647 +1,1018 @@
 {
     "general info": {
-        "type": "Ryven project file"
+        "type": "Ryven project file",
+        "ryven version": "3.3.0a1"
     },
     "required packages": [
         {
             "name": "std",
-            "dir": "C:\\Users\\nutri\\projects\\ryven projects\\Ryven_mmorys\\Ryven\\ryven\\example_nodes\\std"
+            "dir": "/home/leon/projects/ryven_projects/Ryven/ryven/example_nodes/std"
         }
     ],
-    "scripts": [
-        {
-            "title": "hello world",
-            "variables": {
-                "a": {
-                    "serialized": "gASVMQEAAAAAAABdlChN2wtN3AtN3QtN3gtN3wtN4AtN4QtN4gtN4wtN5AtN5QtN5gtN5wtN6AtN6QtN6gtN6wtN7AtN7QtN7gtN7wtN8AtN8QtN8gtN8wtN9AtN9QtN9gtN9wtN+AtN+QtN+gtN+wtN/AtN/QtN/gtN/wtNAAxNAQxNAgxNAwxNBAxNBQxNBgxNBwxNCAxNCQxNCgxNCwxNDAxNDQxNDgxNDwxNEAxNEQxNEgxNEwxNFAxNFQxNFgxNFwxNGAxNGQxNGgxNGwxNHAxNHQxNHgxNHwxNIAxNIQxNIgxNIwxNJAxNJQxNJgxNJwxNKAxNKQxNKgxNKwxNLAxNLQxNLgxNLwxNMAxNMQxNMgxNMwxNNAxNNQxNNgxNNwxNOAxNOQxNOgxNOwxNPAxNPQxNPgxlLg=="
+    "GID": 2,
+    "version": "0.4.0a12",
+    "flows": {
+        "hello world": {
+            "GID": 5,
+            "algorithm mode": "data",
+            "nodes": [
+                {
+                    "GID": 6,
+                    "version": "v0.2",
+                    "identifier": "std.Storage_Node",
+                    "state data": "gASVUggAAAAAAAB9lIwEZGF0YZRdlChN2wtN3AtN3QtN3gtN3wtN4AtN4QtN4gtN4wtN5AtN5QtN5gtN5wtN6AtN6QtN6gtN6wtN7AtN7QtN7gtN7wtN8AtN8QtN8gtN8wtN9AtN9QtN9gtN9wtN+AtN+QtN+gtN+wtN/AtN/QtN/gtN/wtNAAxNAQxNAgxNAwxNBAxNBQxNBgxNBwxNCAxNCQxNCgxNCwxNDAxNDQxNDgxNDwxNEAxNEQxNEgxNEwxNFAxNFQxNFgxNFwxNGAxNGQxNGgxNGwxNHAxNHQxNHgxNHwxNIAxNIQxNIgxNIwxNJAxNJQxNJgxNJwxNKAxNKQxNKgxNKwxNLAxNLQxNLgxNLwxNMAxNMQxNMgxNMwxNNAxNNQxNNgxNNwxNOAxNOQxNOgxNOwxNPAxNPQxNPgxNPgxNPwxNQAxNQQxNQgxNQwxNRAxNRQxNRgxNRwxNSAxNSQxNSgxNSwxNTAxNTQxNTgxNTwxNUAxNUQxNUgxNUwxNVAxNVQxNVgxNVwxNWAxNWQxNWgxNWwxNXAxNXQxNXgxNXwxNYAxNYQxNYgxNYwxNZAxNZQxNZgxNZwxNaAxNaQxNagxNawxNbAxNbQxNbgxNbwxNcAxNcQxNcgxNcwxNdAxNdQxNdgxNdwxNeAxNeQxNegxNewxNfAxNfQxNfgxNfwxNgAxNgQxNggxNgwxNhAxNhQxNhgxNhwxNiAxNiQxNigxNiwxNjAxNjQxNjgxNjwxNkAxNkQxNkgxNkwxNlAxNlQxNlgxNlwxNmAxNmQxNmgxNmwxNnAxNnQxNngxNnwxNoAxNoQxNogxNowxNpAxNpQxNpgxNpwxNqAxNqQxNqgxNqwxNrAxNrQxNrgxNrwxNsAxNsQxNsgxNswxNtAxNtQxNtgxNtwxNuAxNuQxNugxNuwxNvAxNvQxNvgxNvwxNwAxNwQxNwgxNwwxNxAxNxQxNxgxNxwxNyAxNyQxNygxNywxNzAxNzQxNzgxNzwxN0AxN0QxN0gxN0wxN1AxN1QxN1gxN1wxN2AxN2QxN2gxN2wxN3AxN3QxN3gxN3wxN4AxN4QxN4gxN4wxN5AxN5QxN5gxN5wxN6AxN6QxN6gxN6wxN7AxN7QxN7gxN7wxN8AxN8QxN8gxN8wxN9AxN9QxN9gxN9wxN+AxN+QxN+gxN+wxN/AxN/QxN/gxN/wxNAA1NAQ1NAg1NAw1NBA1NBQ1NBg1NBw1NCA1NCQ1NCg1NCw1NDA1NDQ1NDg1NDw1NEA1NEQ1NEg1NEw1NFA1NFQ1NFg1NFw1NGA1NGQ1NGg1NGw1NHA1NHQ1NHg1NHw1NIA1NIQ1NIg1NIw1NJA1NJQ1NJg1NJw1NKA1NKQ1NKg1NKw1NLA1NLQ1NLg1NLw1NMA1NMQ1NMg1NMw1NNA1NNQ1NNg1NNw1NOA1NOQ1NOg1NOw1NPA1NPQ1NPg1NPw1NQA1NQQ1NQg1NQw1NRA1NRQ1NRg1NRw1NSA1NSQ1NSg1NSw1NTA1NTQ1NTg1NTw1NUA1NUQ1NUg1NUw1NVA1NVQ1NVg1NVw1NWA1NWQ1NWg1NWw1NXA1NXQ1NXg1NXw1NYA1NYQ1NYg1NYw1NZA1NZQ1NZg1NZw1NaA1NaQ1Nag1Naw1NbA1NbQ1Nbg1Nbw1NcA1NcQ1Ncg1Ncw1NdA1NdQ1Ndg1Ndw1NeA1NeQ1Neg1New1NfA1NfQ1Nfg1Nfw1NgA1NgQ1Ngg1Ngw1NhA1NhQ1Nhg1Nhw1NiA1NiQ1Nig1Niw1NjA1NjQ1Njg1Njw1NkA1NkQ1Nkg1Nkw1NlA1NlQ1Nlg1Nlw1NmA1NmQ1Nmg1Nmw1NnA1NnQ1Nng1Nnw1NoA1NoQ1Nog1Now1NpA1NpQ1Npg1Npw1NqA1NqQ1Nqg1Nqw1NrA1NrQ1Nrg1Nrw1NsA1NsQ1Nsg1Nsw1NtA1NtQ1Ntg1Ntw1NuA1NuQ1Nug1Nuw1NvA1NvQ1Nvg1Nvw1NwA1NwQ1Nwg1Nww1NxA1NxQ1Nxg1Nxw1NyA1NyQ1Nyg1Nyw1NzA1NzQ1Nzg1Nzw1N0A1N0Q1N0g1N0w1N1A1N1Q1N1g1N1w1N2A1N2Q1N2g1N2w1N3A1N3Q1N3g1N3w1N4A1N4Q1N4g1N4w1N5A1N5Q1N5g1N5w1N6A1N6Q1N6g1N6w1N7A1N7Q1N7g1N7w1N8A1N8Q1N8g1N8w1N9A1N9Q1N9g1N9w1N+A1N+Q1N+g1N+w1N/A1N/Q1N/g1N/w1NAA5NAQ5NAg5NAw5NBA5NBQ5NBg5NBw5NCA5NCQ5NCg5NCw5NDA5NDQ5NDg5NDw5NEA5NEQ5NEg5NEw5NFA5NFQ5NFg5NFw5NGA5NGQ5NGg5NGw5NHA5NHQ5NHg5NHw5NIA5NIQ5NIg5NIw5NJA5NJQ5NJg5NJw5NKA5NKQ5NKg5NKw5NLA5NLQ5NLg5NLw5NMA5NMQ5NMg5NMw5NNA5NNQ5NNg5NNw5NOA5NOQ5NOg5NOw5NPA5NPQ5NPg5NPw5NQA5NQQ5NQg5NQw5NRA5NRQ5NRg5NRw5NSA5NSQ5NSg5NSw5NTA5NTQ5NTg5NTw5NUA5NUQ5NUg5NUw5NVA5NVQ5NVg5NVw5NWA5NWQ5NWg5NWw5NXA5NXQ5NXg5NXw5NYA5NYQ5NYg5NYw5NZA5NZQ5NZg5NZw5NaA5NaQ5Nag5Naw5NbA5NbQ5Nbg5Nbw5NcA5NcQ5Ncg5Ncw5NdA5NdQ5Ndg5Ndw5NeA5NeQ5Neg5New5NfA5NfQ5Nfg5Nfw5NgA5NgQ5Ngg5Ngw5NhA5NhQ5Nhg5Nhw5NiA5NiQ5Nig5Niw5NjA5NjQ5Njg5Njw5NkA5NkQ5Nkg5Nkw5NlA5NlQ5Nlg5Nlw5NmA5NmQ5Nmg5lcy4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 9,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 10,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 475.4795814751692,
+                    "pos y": 264.55248052403067,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "clear": {
+                            "method": "clear"
+                        }
+                    },
+                    "display title": "store"
                 },
-                "ctr": {
-                    "serialized": "gASVBAAAAAAAAABNPgwu"
-                }
-            },
-            "flow": {
-                "algorithm mode": "data",
-                "nodes": [
-                    {
-                        "identifier": "std.Storage_Node",
-                        "version": null,
-                        "state data": "gASVOwEAAAAAAAB9lIwEZGF0YZRdlChN2wtN3AtN3QtN3gtN3wtN4AtN4QtN4gtN4wtN5AtN5QtN5gtN5wtN6AtN6QtN6gtN6wtN7AtN7QtN7gtN7wtN8AtN8QtN8gtN8wtN9AtN9QtN9gtN9wtN+AtN+QtN+gtN+wtN/AtN/QtN/gtN/wtNAAxNAQxNAgxNAwxNBAxNBQxNBgxNBwxNCAxNCQxNCgxNCwxNDAxNDQxNDgxNDwxNEAxNEQxNEgxNEwxNFAxNFQxNFgxNFwxNGAxNGQxNGgxNGwxNHAxNHQxNHgxNHwxNIAxNIQxNIgxNIwxNJAxNJQxNJgxNJwxNKAxNKQxNKgxNKwxNLAxNLQxNLgxNLwxNMAxNMQxNMgxNMwxNNAxNNQxNNgxNNwxNOAxNOQxNOgxNOwxNPAxNPQxNPgxlcy4=",
-                        "additional data": {
-                            "special actions": {
-                                "clear": {
-                                    "method": "clear"
-                                }
-                            },
-                            "display title": "store"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 6,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 7
-                            }
-                        ],
-                        "GID": 5,
-                        "pos x": 475.4795814751692,
-                        "pos y": 264.55248052403067,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                {
+                    "GID": 13,
+                    "version": "v0.2",
+                    "identifier": "std.Eval_Node",
+                    "state data": "gASVOQAAAAAAAAB9lCiMEG51bSBwYXJhbSBpbnB1dHOUSwGMD2V4cHJlc3Npb24gY29kZZSMCmlucFswXVstMV2UdS4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 15,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 16,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "identifier": "std.Eval_Node",
-                        "version": null,
-                        "state data": "gASVOQAAAAAAAAB9lCiMEG51bSBwYXJhbSBpbnB1dHOUSwGMD2V4cHJlc3Npb24gY29kZZSMCmlucFswXVstMV2UdS4=",
-                        "additional data": {
-                            "special actions": {
-                                "add input": {
-                                    "method": "add_param_input"
-                                },
-                                "remove input 0": {
-                                    "method": "remove_param_input",
-                                    "data": 0
-                                }
-                            },
-                            "display title": "eval"
+                    "pos x": 462.86363383615935,
+                    "pos y": 370.17323807221123,
+                    "main widget data": "gASVGAAAAAAAAAB9lIwEdGV4dJSMCmlucFswXVstMV2Ucy4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 9,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 10
-                            }
-                        ],
-                        "GID": 8,
-                        "pos x": 462.86363383615935,
-                        "pos y": 370.17323807221123,
-                        "main widget data": "gASVGAAAAAAAAAB9lIwEdGV4dJSMCmlucFswXVstMV2Ucy4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "add input": {
+                            "method": "add_input"
+                        },
+                        "remove input": {}
                     },
-                    {
-                        "identifier": "built_in.Result_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "result"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 12,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [],
-                        "GID": 11,
-                        "pos x": 796.5680046166863,
-                        "pos y": 369.6301042263301,
-                        "main widget data": "gAR9lC4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                    "display title": "eval"
+                },
+                {
+                    "GID": 17,
+                    "version": "v0.2",
+                    "identifier": "built_in.Result_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 19,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "identifier": "std.Slider_Node",
-                        "version": null,
-                        "state data": "gASVEwAAAAAAAAB9lIwDdmFslEc/4Q5WBBiTdXMu",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "slider"
+                    "pos x": 796.5680046166863,
+                    "pos y": 369.6301042263301,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "scl",
-                                "GID": 14,
-                                "val": "gARLAi4=",
-                                "dtype": "DType.Integer",
-                                "dtype state": "gASVLAAAAAAAAAB9lCiMB2RlZmF1bHSUSwGMA3ZhbJRLAIwDZG9jlIwAlIwGYm91bmRzlE51Lg==",
-                                "has widget": true,
-                                "widget data": "gASVDAAAAAAAAAB9lIwDdmFslEsCcy4="
-                            },
-                            {
-                                "type": "data",
-                                "label": "round",
-                                "GID": 15,
-                                "val": "gAROLg==",
-                                "dtype": "DType.Boolean",
-                                "dtype state": "gASVKgAAAAAAAAB9lCiMB2RlZmF1bHSUiYwDdmFslImMA2RvY5SMAJSMBmJvdW5kc5ROdS4=",
-                                "has widget": true,
-                                "widget data": "gASVDwAAAAAAAAB9lIwHY2hlY2tlZJSJcy4="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 16
-                            }
-                        ],
-                        "GID": 13,
-                        "pos x": 273.19774517706185,
-                        "pos y": 503.4372312306748,
-                        "main widget data": "gASVDQAAAAAAAAB9lIwDdmFslE0VAnMu",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
                     },
-                    {
-                        "identifier": "built_in.Result_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "result"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 18,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [],
-                        "GID": 17,
-                        "pos x": 571.2515010942456,
-                        "pos y": 555.0662156323955,
-                        "main widget data": "gAR9lC4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "built_in.SetVar_Node",
-                        "version": null,
-                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
-                        "additional data": {
-                            "special actions": {
-                                "make active": {
-                                    "method": "action_make_active"
-                                }
-                            },
-                            "display title": "set var"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "var",
-                                "GID": 20,
-                                "val": "gASVBQAAAAAAAACMAWGULg==",
-                                "dtype": "DType.String",
-                                "dtype state": "gASVNwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjAN2YWyUaAKMA2RvY5RoAowGYm91bmRzlE6MBHNpemWUjAFtlHUu",
-                                "has widget": true,
-                                "widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMAWGUcy4="
-                            },
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 21,
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVaQIAAAAAAAB9lIwEdGV4dJRYWAIAAFszMDM1LCAzMDM2LCAzMDM3LCAzMDM4LCAzMDM5LCAzMDQwLCAzMDQxLCAzMDQyLCAzMDQzLCAzMDQ0LCAzMDQ1LCAzMDQ2LCAzMDQ3LCAzMDQ4LCAzMDQ5LCAzMDUwLCAzMDUxLCAzMDUyLCAzMDUzLCAzMDU0LCAzMDU1LCAzMDU2LCAzMDU3LCAzMDU4LCAzMDU5LCAzMDYwLCAzMDYxLCAzMDYyLCAzMDYzLCAzMDY0LCAzMDY1LCAzMDY2LCAzMDY3LCAzMDY4LCAzMDY5LCAzMDcwLCAzMDcxLCAzMDcyLCAzMDczLCAzMDc0LCAzMDc1LCAzMDc2LCAzMDc3LCAzMDc4LCAzMDc5LCAzMDgwLCAzMDgxLCAzMDgyLCAzMDgzLCAzMDg0LCAzMDg1LCAzMDg2LCAzMDg3LCAzMDg4LCAzMDg5LCAzMDkwLCAzMDkxLCAzMDkyLCAzMDkzLCAzMDk0LCAzMDk1LCAzMDk2LCAzMDk3LCAzMDk4LCAzMDk5LCAzMTAwLCAzMTAxLCAzMTAyLCAzMTAzLCAzMTA0LCAzMTA1LCAzMTA2LCAzMTA3LCAzMTA4LCAzMTA5LCAzMTEwLCAzMTExLCAzMTEyLCAzMTEzLCAzMTE0LCAzMTE1LCAzMTE2LCAzMTE3LCAzMTE4LCAzMTE5LCAzMTIwLCAzMTIxLCAzMTIyLCAzMTIzLCAzMTI0LCAzMTI1LCAzMTI2LCAzMTI3LCAzMTI4LCAzMTI5LCAzMTMwLCAzMTMxLCAzMTMyLCAzMTMzLCAzMTM0XZRzLg=="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 22
-                            }
-                        ],
-                        "GID": 19,
-                        "pos x": 724.2936205842011,
-                        "pos y": 249.9898748171978,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "built_in.GetVar_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "get var"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 24,
-                                "val": "gASVBQAAAAAAAACMAWGULg==",
-                                "dtype": "DType.String",
-                                "dtype state": "gASVNwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjAN2YWyUaAKMA2RvY5RoAowGYm91bmRzlE6MBHNpemWUjAFtlHUu",
-                                "has widget": true,
-                                "widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMAWGUcy4="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 25
-                            }
-                        ],
-                        "GID": 23,
-                        "pos x": 164.80323966981427,
-                        "pos y": 368.23084671814206,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "std.Clock_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {
-                                "start": {
-                                    "method": "start"
-                                },
-                                "stop": {
-                                    "method": "stop"
-                                }
-                            },
-                            "display title": "clock"
-                        },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "delay",
+                    "display title": "result"
+                },
+                {
+                    "GID": 20,
+                    "version": "v0.2",
+                    "identifier": "std.Slider_Node",
+                    "state data": "gASVEwAAAAAAAAB9lIwDdmFslEc/6FocrAgxJ3Mu",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 24,
+                            "type": "data",
+                            "label": "scl",
+                            "default": {
                                 "GID": 27,
-                                "val": "gASVCgAAAAAAAABHP4R64UeuFHsu",
-                                "dtype": "DType.Float",
-                                "dtype state": "gASVRwAAAAAAAAB9lCiMB2RlZmF1bHSURz+5mZmZmZmajAN2YWyURwAAAAAAAAAAjANkb2OUjACUjAZib3VuZHOUTowIZGVjaW1hbHOUSwp1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVEgAAAAAAAAB9lIwEdGV4dJSMBDAuMDGUcy4="
+                                "identifier": "Data",
+                                "serialized": "gARLAS4="
                             },
-                            {
-                                "type": "data",
-                                "label": "iterations",
-                                "GID": 28,
-                                "val": "gARLZC4=",
-                                "dtype": "DType.Integer",
-                                "dtype state": "gASVOAAAAAAAAAB9lCiMB2RlZmF1bHSUSv////+MA3ZhbJRLAIwDZG9jlIwAlIwGYm91bmRzlEr/////TegDhpR1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVDAAAAAAAAAB9lIwDdmFslEtkcy4="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "exec",
-                                "label": "",
-                                "GID": 29
-                            }
-                        ],
-                        "GID": 26,
-                        "pos x": 231.23622828581165,
-                        "pos y": 114.6139516414438,
-                        "main widget data": "gAR9lC4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "built_in.SetVar_Node",
-                        "version": null,
-                        "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIhzLg==",
-                        "additional data": {
-                            "special actions": {
-                                "make passive": {
-                                    "method": "action_make_passive"
-                                }
-                            },
-                            "display title": "set var"
+                            "has widget": true,
+                            "widget name": "scale",
+                            "widget pos": "besides",
+                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTRsSjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
                         },
-                        "inputs": [
-                            {
-                                "type": "exec",
-                                "label": "",
-                                "GID": 31
+                        {
+                            "GID": 25,
+                            "type": "data",
+                            "label": "round",
+                            "default": {
+                                "GID": 123,
+                                "identifier": "Data",
+                                "serialized": "gASJLg=="
                             },
-                            {
-                                "type": "data",
-                                "label": "var",
-                                "GID": 32,
-                                "val": "gASVBwAAAAAAAACMA2N0cpQu",
-                                "dtype": "DType.String",
-                                "dtype state": "gASVNwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjAN2YWyUaAKMA2RvY5RoAowGYm91bmRzlE6MBHNpemWUjAFtlHUu",
-                                "has widget": true,
-                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA2N0cpRzLg=="
-                            },
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 33,
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVEgAAAAAAAAB9lIwEdGV4dJSMBDMxMzWUcy4="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "exec",
-                                "label": "",
-                                "GID": 34
-                            },
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 35
-                            }
-                        ],
-                        "GID": 30,
-                        "pos x": 846.1910218628586,
-                        "pos y": 133.30644603168525,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                            "has widget": true,
+                            "widget name": "round",
+                            "widget pos": "besides",
+                            "widget data": "gASVaQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTRwSjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUiXVicy4="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 26,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "identifier": "built_in.GetVar_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "get var"
+                    "pos x": 273.19774517706185,
+                    "pos y": 503.4372312306748,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 37,
-                                "val": "gASVBwAAAAAAAACMA2N0cpQu",
-                                "dtype": "DType.String",
-                                "dtype state": "gASVNwAAAAAAAAB9lCiMB2RlZmF1bHSUjACUjAN2YWyUaAKMA2RvY5RoAowGYm91bmRzlE6MBHNpemWUjAFtlHUu",
-                                "has widget": true,
-                                "widget data": "gASVEQAAAAAAAAB9lIwEdGV4dJSMA2N0cpRzLg=="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "val",
-                                "GID": 38
-                            }
-                        ],
-                        "GID": 36,
-                        "pos x": 196.31117068512344,
-                        "pos y": 265.7809649154535,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "std.Plus_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {
-                                "add input": {
-                                    "method": "add_operand_input"
-                                },
-                                "remove input 0": {
-                                    "method": "remove_operand_input",
-                                    "data": 0
-                                },
-                                "remove input 1": {
-                                    "method": "remove_operand_input",
-                                    "data": 1
-                                }
-                            },
-                            "display title": "+"
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 40,
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVEgAAAAAAAAB9lIwEdGV4dJSMBDMxMzSUcy4="
-                            },
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 41,
-                                "val": "gARLAS4=",
-                                "dtype": "DType.Data",
-                                "dtype state": "gASVNQAAAAAAAAB9lCiMB2RlZmF1bHSUTowDdmFslE6MA2RvY5SMAJSMBmJvdW5kc5ROjARzaXpllIwBc5R1Lg==",
-                                "has widget": true,
-                                "widget data": "gASVDwAAAAAAAAB9lIwEdGV4dJSMATGUcy4="
-                            }
-                        ],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 42
-                            }
-                        ],
-                        "GID": 39,
-                        "pos x": 585.6887913914879,
-                        "pos y": 174.51150293252385,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    },
-                    {
-                        "identifier": "std.LinkIN_Node",
-                        "version": null,
-                        "state data": "gASVMAAAAAAAAAB9lIwCSUSUjCRjNWVmZjE5MC0yNzllLTQ3M2MtYTQ3Ny1iNjJmMjg0MGUzOTiUcy4=",
-                        "additional data": {
-                            "special actions": {
-                                "add input": {
-                                    "method": "add_inp"
-                                },
-                                "remove inp": {},
-                                "copy ID": {
-                                    "method": "copy_ID"
-                                }
-                            },
-                            "display title": "link"
+                        "change title": {
+                            "method": "change_title"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 44,
-                                "has widget": false
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "slider"
+                },
+                {
+                    "GID": 29,
+                    "version": "v0.2",
+                    "identifier": "built_in.Result_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 31,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 571.2515010942456,
+                    "pos y": 555.0662156323955,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "result"
+                },
+                {
+                    "GID": 32,
+                    "version": "v0.1",
+                    "identifier": "built_in.SetVar_Node",
+                    "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIlzLg==",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 38,
+                            "type": "data",
+                            "label": "var",
+                            "default": {
+                                "GID": 3801,
+                                "identifier": "Data",
+                                "serialized": "gASVBQAAAAAAAACMAWGULg=="
+                            },
+                            "has widget": true,
+                            "widget name": "varname",
+                            "widget pos": "besides",
+                            "widget data": "gASVbAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTR0SjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAFhlHVicy4="
+                        },
+                        {
+                            "GID": 39,
+                            "type": "data",
+                            "label": "val",
+                            "default": {
+                                "GID": 4628,
+                                "identifier": "Data",
+                                "serialized": "gASVjRAAAAAAAABYhhAAAFszMDM1LCAzMDM2LCAzMDM3LCAzMDM4LCAzMDM5LCAzMDQwLCAzMDQxLCAzMDQyLCAzMDQzLCAzMDQ0LCAzMDQ1LCAzMDQ2LCAzMDQ3LCAzMDQ4LCAzMDQ5LCAzMDUwLCAzMDUxLCAzMDUyLCAzMDUzLCAzMDU0LCAzMDU1LCAzMDU2LCAzMDU3LCAzMDU4LCAzMDU5LCAzMDYwLCAzMDYxLCAzMDYyLCAzMDYzLCAzMDY0LCAzMDY1LCAzMDY2LCAzMDY3LCAzMDY4LCAzMDY5LCAzMDcwLCAzMDcxLCAzMDcyLCAzMDczLCAzMDc0LCAzMDc1LCAzMDc2LCAzMDc3LCAzMDc4LCAzMDc5LCAzMDgwLCAzMDgxLCAzMDgyLCAzMDgzLCAzMDg0LCAzMDg1LCAzMDg2LCAzMDg3LCAzMDg4LCAzMDg5LCAzMDkwLCAzMDkxLCAzMDkyLCAzMDkzLCAzMDk0LCAzMDk1LCAzMDk2LCAzMDk3LCAzMDk4LCAzMDk5LCAzMTAwLCAzMTAxLCAzMTAyLCAzMTAzLCAzMTA0LCAzMTA1LCAzMTA2LCAzMTA3LCAzMTA4LCAzMTA5LCAzMTEwLCAzMTExLCAzMTEyLCAzMTEzLCAzMTE0LCAzMTE1LCAzMTE2LCAzMTE3LCAzMTE4LCAzMTE5LCAzMTIwLCAzMTIxLCAzMTIyLCAzMTIzLCAzMTI0LCAzMTI1LCAzMTI2LCAzMTI3LCAzMTI4LCAzMTI5LCAzMTMwLCAzMTMxLCAzMTMyLCAzMTMzLCAzMTM0LCAzMTM0LCAzMTM1LCAzMTM2LCAzMTM3LCAzMTM4LCAzMTM5LCAzMTQwLCAzMTQxLCAzMTQyLCAzMTQzLCAzMTQ0LCAzMTQ1LCAzMTQ2LCAzMTQ3LCAzMTQ4LCAzMTQ5LCAzMTUwLCAzMTUxLCAzMTUyLCAzMTUzLCAzMTU0LCAzMTU1LCAzMTU2LCAzMTU3LCAzMTU4LCAzMTU5LCAzMTYwLCAzMTYxLCAzMTYyLCAzMTYzLCAzMTY0LCAzMTY1LCAzMTY2LCAzMTY3LCAzMTY4LCAzMTY5LCAzMTcwLCAzMTcxLCAzMTcyLCAzMTczLCAzMTc0LCAzMTc1LCAzMTc2LCAzMTc3LCAzMTc4LCAzMTc5LCAzMTgwLCAzMTgxLCAzMTgyLCAzMTgzLCAzMTg0LCAzMTg1LCAzMTg2LCAzMTg3LCAzMTg4LCAzMTg5LCAzMTkwLCAzMTkxLCAzMTkyLCAzMTkzLCAzMTk0LCAzMTk1LCAzMTk2LCAzMTk3LCAzMTk4LCAzMTk5LCAzMjAwLCAzMjAxLCAzMjAyLCAzMjAzLCAzMjA0LCAzMjA1LCAzMjA2LCAzMjA3LCAzMjA4LCAzMjA5LCAzMjEwLCAzMjExLCAzMjEyLCAzMjEzLCAzMjE0LCAzMjE1LCAzMjE2LCAzMjE3LCAzMjE4LCAzMjE5LCAzMjIwLCAzMjIxLCAzMjIyLCAzMjIzLCAzMjI0LCAzMjI1LCAzMjI2LCAzMjI3LCAzMjI4LCAzMjI5LCAzMjMwLCAzMjMxLCAzMjMyLCAzMjMzLCAzMjM0LCAzMjM1LCAzMjM2LCAzMjM3LCAzMjM4LCAzMjM5LCAzMjQwLCAzMjQxLCAzMjQyLCAzMjQzLCAzMjQ0LCAzMjQ1LCAzMjQ2LCAzMjQ3LCAzMjQ4LCAzMjQ5LCAzMjUwLCAzMjUxLCAzMjUyLCAzMjUzLCAzMjU0LCAzMjU1LCAzMjU2LCAzMjU3LCAzMjU4LCAzMjU5LCAzMjYwLCAzMjYxLCAzMjYyLCAzMjYzLCAzMjY0LCAzMjY1LCAzMjY2LCAzMjY3LCAzMjY4LCAzMjY5LCAzMjcwLCAzMjcxLCAzMjcyLCAzMjczLCAzMjc0LCAzMjc1LCAzMjc2LCAzMjc3LCAzMjc4LCAzMjc5LCAzMjgwLCAzMjgxLCAzMjgyLCAzMjgzLCAzMjg0LCAzMjg1LCAzMjg2LCAzMjg3LCAzMjg4LCAzMjg5LCAzMjkwLCAzMjkxLCAzMjkyLCAzMjkzLCAzMjk0LCAzMjk1LCAzMjk2LCAzMjk3LCAzMjk4LCAzMjk5LCAzMzAwLCAzMzAxLCAzMzAyLCAzMzAzLCAzMzA0LCAzMzA1LCAzMzA2LCAzMzA3LCAzMzA4LCAzMzA5LCAzMzEwLCAzMzExLCAzMzEyLCAzMzEzLCAzMzE0LCAzMzE1LCAzMzE2LCAzMzE3LCAzMzE4LCAzMzE5LCAzMzIwLCAzMzIxLCAzMzIyLCAzMzIzLCAzMzI0LCAzMzI1LCAzMzI2LCAzMzI3LCAzMzI4LCAzMzI5LCAzMzMwLCAzMzMxLCAzMzMyLCAzMzMzLCAzMzM0LCAzMzM1LCAzMzM2LCAzMzM3LCAzMzM4LCAzMzM5LCAzMzQwLCAzMzQxLCAzMzQyLCAzMzQzLCAzMzQ0LCAzMzQ1LCAzMzQ2LCAzMzQ3LCAzMzQ4LCAzMzQ5LCAzMzUwLCAzMzUxLCAzMzUyLCAzMzUzLCAzMzU0LCAzMzU1LCAzMzU2LCAzMzU3LCAzMzU4LCAzMzU5LCAzMzYwLCAzMzYxLCAzMzYyLCAzMzYzLCAzMzY0LCAzMzY1LCAzMzY2LCAzMzY3LCAzMzY4LCAzMzY5LCAzMzcwLCAzMzcxLCAzMzcyLCAzMzczLCAzMzc0LCAzMzc1LCAzMzc2LCAzMzc3LCAzMzc4LCAzMzc5LCAzMzgwLCAzMzgxLCAzMzgyLCAzMzgzLCAzMzg0LCAzMzg1LCAzMzg2LCAzMzg3LCAzMzg4LCAzMzg5LCAzMzkwLCAzMzkxLCAzMzkyLCAzMzkzLCAzMzk0LCAzMzk1LCAzMzk2LCAzMzk3LCAzMzk4LCAzMzk5LCAzNDAwLCAzNDAxLCAzNDAyLCAzNDAzLCAzNDA0LCAzNDA1LCAzNDA2LCAzNDA3LCAzNDA4LCAzNDA5LCAzNDEwLCAzNDExLCAzNDEyLCAzNDEzLCAzNDE0LCAzNDE1LCAzNDE2LCAzNDE3LCAzNDE4LCAzNDE5LCAzNDIwLCAzNDIxLCAzNDIyLCAzNDIzLCAzNDI0LCAzNDI1LCAzNDI2LCAzNDI3LCAzNDI4LCAzNDI5LCAzNDMwLCAzNDMxLCAzNDMyLCAzNDMzLCAzNDM0LCAzNDM1LCAzNDM2LCAzNDM3LCAzNDM4LCAzNDM5LCAzNDQwLCAzNDQxLCAzNDQyLCAzNDQzLCAzNDQ0LCAzNDQ1LCAzNDQ2LCAzNDQ3LCAzNDQ4LCAzNDQ5LCAzNDUwLCAzNDUxLCAzNDUyLCAzNDUzLCAzNDU0LCAzNDU1LCAzNDU2LCAzNDU3LCAzNDU4LCAzNDU5LCAzNDYwLCAzNDYxLCAzNDYyLCAzNDYzLCAzNDY0LCAzNDY1LCAzNDY2LCAzNDY3LCAzNDY4LCAzNDY5LCAzNDcwLCAzNDcxLCAzNDcyLCAzNDczLCAzNDc0LCAzNDc1LCAzNDc2LCAzNDc3LCAzNDc4LCAzNDc5LCAzNDgwLCAzNDgxLCAzNDgyLCAzNDgzLCAzNDg0LCAzNDg1LCAzNDg2LCAzNDg3LCAzNDg4LCAzNDg5LCAzNDkwLCAzNDkxLCAzNDkyLCAzNDkzLCAzNDk0LCAzNDk1LCAzNDk2LCAzNDk3LCAzNDk4LCAzNDk5LCAzNTAwLCAzNTAxLCAzNTAyLCAzNTAzLCAzNTA0LCAzNTA1LCAzNTA2LCAzNTA3LCAzNTA4LCAzNTA5LCAzNTEwLCAzNTExLCAzNTEyLCAzNTEzLCAzNTE0LCAzNTE1LCAzNTE2LCAzNTE3LCAzNTE4LCAzNTE5LCAzNTIwLCAzNTIxLCAzNTIyLCAzNTIzLCAzNTI0LCAzNTI1LCAzNTI2LCAzNTI3LCAzNTI4LCAzNTI5LCAzNTMwLCAzNTMxLCAzNTMyLCAzNTMzLCAzNTM0LCAzNTM1LCAzNTM2LCAzNTM3LCAzNTM4LCAzNTM5LCAzNTQwLCAzNTQxLCAzNTQyLCAzNTQzLCAzNTQ0LCAzNTQ1LCAzNTQ2LCAzNTQ3LCAzNTQ4LCAzNTQ5LCAzNTUwLCAzNTUxLCAzNTUyLCAzNTUzLCAzNTU0LCAzNTU1LCAzNTU2LCAzNTU3LCAzNTU4LCAzNTU5LCAzNTYwLCAzNTYxLCAzNTYyLCAzNTYzLCAzNTY0LCAzNTY1LCAzNTY2LCAzNTY3LCAzNTY4LCAzNTY5LCAzNTcwLCAzNTcxLCAzNTcyLCAzNTczLCAzNTc0LCAzNTc1LCAzNTc2LCAzNTc3LCAzNTc4LCAzNTc5LCAzNTgwLCAzNTgxLCAzNTgyLCAzNTgzLCAzNTg0LCAzNTg1LCAzNTg2LCAzNTg3LCAzNTg4LCAzNTg5LCAzNTkwLCAzNTkxLCAzNTkyLCAzNTkzLCAzNTk0LCAzNTk1LCAzNTk2LCAzNTk3LCAzNTk4LCAzNTk5LCAzNjAwLCAzNjAxLCAzNjAyLCAzNjAzLCAzNjA0LCAzNjA1LCAzNjA2LCAzNjA3LCAzNjA4LCAzNjA5LCAzNjEwLCAzNjExLCAzNjEyLCAzNjEzLCAzNjE0LCAzNjE1LCAzNjE2LCAzNjE3LCAzNjE4LCAzNjE5LCAzNjIwLCAzNjIxLCAzNjIyLCAzNjIzLCAzNjI0LCAzNjI1LCAzNjI2LCAzNjI3LCAzNjI4LCAzNjI5LCAzNjMwLCAzNjMxLCAzNjMyLCAzNjMzLCAzNjM0LCAzNjM1LCAzNjM2LCAzNjM3LCAzNjM4LCAzNjM5LCAzNjQwLCAzNjQxLCAzNjQyLCAzNjQzLCAzNjQ0LCAzNjQ1LCAzNjQ2LCAzNjQ3LCAzNjQ4LCAzNjQ5LCAzNjUwLCAzNjUxLCAzNjUyLCAzNjUzLCAzNjU0LCAzNjU1LCAzNjU2LCAzNjU3LCAzNjU4LCAzNjU5LCAzNjYwLCAzNjYxLCAzNjYyLCAzNjYzLCAzNjY0LCAzNjY1LCAzNjY2LCAzNjY3LCAzNjY4LCAzNjY5LCAzNjcwLCAzNjcxLCAzNjcyLCAzNjczLCAzNjc0LCAzNjc1LCAzNjc2LCAzNjc3LCAzNjc4LCAzNjc5LCAzNjgwLCAzNjgxLCAzNjgyLCAzNjgzLCAzNjg0LCAzNjg1LCAzNjg2LCAzNjg3LCAzNjg4LCAzNjg5LCAzNjkwLCAzNjkxLCAzNjkyLCAzNjkzLCAzNjk0LCAzNjk1LCAzNjk2LCAzNjk3LCAzNjk4LCAzNjk5LCAzNzAwLCAzNzAxLCAzNzAyLCAzNzAzLCAzNzA0LCAzNzA1LCAzNzA2LCAzNzA3LCAzNzA4LCAzNzA5LCAzNzEwLCAzNzExLCAzNzEyLCAzNzEzLCAzNzE0LCAzNzE1LCAzNzE2LCAzNzE3LCAzNzE4LCAzNzE5LCAzNzIwLCAzNzIxLCAzNzIyLCAzNzIzLCAzNzI0LCAzNzI1LCAzNzI2LCAzNzI3LCAzNzI4LCAzNzI5LCAzNzMwLCAzNzMxLCAzNzMyLCAzNzMzLCAzNzM0LCAzNzM1LCAzNzM2LCAzNzM3LCAzNzM4XZQu"
+                            },
+                            "has widget": true,
+                            "widget name": "val",
+                            "widget pos": "besides",
+                            "widget data": "gASV9BAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTR4SjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUWIYQAABbMzAzNSwgMzAzNiwgMzAzNywgMzAzOCwgMzAzOSwgMzA0MCwgMzA0MSwgMzA0MiwgMzA0MywgMzA0NCwgMzA0NSwgMzA0NiwgMzA0NywgMzA0OCwgMzA0OSwgMzA1MCwgMzA1MSwgMzA1MiwgMzA1MywgMzA1NCwgMzA1NSwgMzA1NiwgMzA1NywgMzA1OCwgMzA1OSwgMzA2MCwgMzA2MSwgMzA2MiwgMzA2MywgMzA2NCwgMzA2NSwgMzA2NiwgMzA2NywgMzA2OCwgMzA2OSwgMzA3MCwgMzA3MSwgMzA3MiwgMzA3MywgMzA3NCwgMzA3NSwgMzA3NiwgMzA3NywgMzA3OCwgMzA3OSwgMzA4MCwgMzA4MSwgMzA4MiwgMzA4MywgMzA4NCwgMzA4NSwgMzA4NiwgMzA4NywgMzA4OCwgMzA4OSwgMzA5MCwgMzA5MSwgMzA5MiwgMzA5MywgMzA5NCwgMzA5NSwgMzA5NiwgMzA5NywgMzA5OCwgMzA5OSwgMzEwMCwgMzEwMSwgMzEwMiwgMzEwMywgMzEwNCwgMzEwNSwgMzEwNiwgMzEwNywgMzEwOCwgMzEwOSwgMzExMCwgMzExMSwgMzExMiwgMzExMywgMzExNCwgMzExNSwgMzExNiwgMzExNywgMzExOCwgMzExOSwgMzEyMCwgMzEyMSwgMzEyMiwgMzEyMywgMzEyNCwgMzEyNSwgMzEyNiwgMzEyNywgMzEyOCwgMzEyOSwgMzEzMCwgMzEzMSwgMzEzMiwgMzEzMywgMzEzNCwgMzEzNCwgMzEzNSwgMzEzNiwgMzEzNywgMzEzOCwgMzEzOSwgMzE0MCwgMzE0MSwgMzE0MiwgMzE0MywgMzE0NCwgMzE0NSwgMzE0NiwgMzE0NywgMzE0OCwgMzE0OSwgMzE1MCwgMzE1MSwgMzE1MiwgMzE1MywgMzE1NCwgMzE1NSwgMzE1NiwgMzE1NywgMzE1OCwgMzE1OSwgMzE2MCwgMzE2MSwgMzE2MiwgMzE2MywgMzE2NCwgMzE2NSwgMzE2NiwgMzE2NywgMzE2OCwgMzE2OSwgMzE3MCwgMzE3MSwgMzE3MiwgMzE3MywgMzE3NCwgMzE3NSwgMzE3NiwgMzE3NywgMzE3OCwgMzE3OSwgMzE4MCwgMzE4MSwgMzE4MiwgMzE4MywgMzE4NCwgMzE4NSwgMzE4NiwgMzE4NywgMzE4OCwgMzE4OSwgMzE5MCwgMzE5MSwgMzE5MiwgMzE5MywgMzE5NCwgMzE5NSwgMzE5NiwgMzE5NywgMzE5OCwgMzE5OSwgMzIwMCwgMzIwMSwgMzIwMiwgMzIwMywgMzIwNCwgMzIwNSwgMzIwNiwgMzIwNywgMzIwOCwgMzIwOSwgMzIxMCwgMzIxMSwgMzIxMiwgMzIxMywgMzIxNCwgMzIxNSwgMzIxNiwgMzIxNywgMzIxOCwgMzIxOSwgMzIyMCwgMzIyMSwgMzIyMiwgMzIyMywgMzIyNCwgMzIyNSwgMzIyNiwgMzIyNywgMzIyOCwgMzIyOSwgMzIzMCwgMzIzMSwgMzIzMiwgMzIzMywgMzIzNCwgMzIzNSwgMzIzNiwgMzIzNywgMzIzOCwgMzIzOSwgMzI0MCwgMzI0MSwgMzI0MiwgMzI0MywgMzI0NCwgMzI0NSwgMzI0NiwgMzI0NywgMzI0OCwgMzI0OSwgMzI1MCwgMzI1MSwgMzI1MiwgMzI1MywgMzI1NCwgMzI1NSwgMzI1NiwgMzI1NywgMzI1OCwgMzI1OSwgMzI2MCwgMzI2MSwgMzI2MiwgMzI2MywgMzI2NCwgMzI2NSwgMzI2NiwgMzI2NywgMzI2OCwgMzI2OSwgMzI3MCwgMzI3MSwgMzI3MiwgMzI3MywgMzI3NCwgMzI3NSwgMzI3NiwgMzI3NywgMzI3OCwgMzI3OSwgMzI4MCwgMzI4MSwgMzI4MiwgMzI4MywgMzI4NCwgMzI4NSwgMzI4NiwgMzI4NywgMzI4OCwgMzI4OSwgMzI5MCwgMzI5MSwgMzI5MiwgMzI5MywgMzI5NCwgMzI5NSwgMzI5NiwgMzI5NywgMzI5OCwgMzI5OSwgMzMwMCwgMzMwMSwgMzMwMiwgMzMwMywgMzMwNCwgMzMwNSwgMzMwNiwgMzMwNywgMzMwOCwgMzMwOSwgMzMxMCwgMzMxMSwgMzMxMiwgMzMxMywgMzMxNCwgMzMxNSwgMzMxNiwgMzMxNywgMzMxOCwgMzMxOSwgMzMyMCwgMzMyMSwgMzMyMiwgMzMyMywgMzMyNCwgMzMyNSwgMzMyNiwgMzMyNywgMzMyOCwgMzMyOSwgMzMzMCwgMzMzMSwgMzMzMiwgMzMzMywgMzMzNCwgMzMzNSwgMzMzNiwgMzMzNywgMzMzOCwgMzMzOSwgMzM0MCwgMzM0MSwgMzM0MiwgMzM0MywgMzM0NCwgMzM0NSwgMzM0NiwgMzM0NywgMzM0OCwgMzM0OSwgMzM1MCwgMzM1MSwgMzM1MiwgMzM1MywgMzM1NCwgMzM1NSwgMzM1NiwgMzM1NywgMzM1OCwgMzM1OSwgMzM2MCwgMzM2MSwgMzM2MiwgMzM2MywgMzM2NCwgMzM2NSwgMzM2NiwgMzM2NywgMzM2OCwgMzM2OSwgMzM3MCwgMzM3MSwgMzM3MiwgMzM3MywgMzM3NCwgMzM3NSwgMzM3NiwgMzM3NywgMzM3OCwgMzM3OSwgMzM4MCwgMzM4MSwgMzM4MiwgMzM4MywgMzM4NCwgMzM4NSwgMzM4NiwgMzM4NywgMzM4OCwgMzM4OSwgMzM5MCwgMzM5MSwgMzM5MiwgMzM5MywgMzM5NCwgMzM5NSwgMzM5NiwgMzM5NywgMzM5OCwgMzM5OSwgMzQwMCwgMzQwMSwgMzQwMiwgMzQwMywgMzQwNCwgMzQwNSwgMzQwNiwgMzQwNywgMzQwOCwgMzQwOSwgMzQxMCwgMzQxMSwgMzQxMiwgMzQxMywgMzQxNCwgMzQxNSwgMzQxNiwgMzQxNywgMzQxOCwgMzQxOSwgMzQyMCwgMzQyMSwgMzQyMiwgMzQyMywgMzQyNCwgMzQyNSwgMzQyNiwgMzQyNywgMzQyOCwgMzQyOSwgMzQzMCwgMzQzMSwgMzQzMiwgMzQzMywgMzQzNCwgMzQzNSwgMzQzNiwgMzQzNywgMzQzOCwgMzQzOSwgMzQ0MCwgMzQ0MSwgMzQ0MiwgMzQ0MywgMzQ0NCwgMzQ0NSwgMzQ0NiwgMzQ0NywgMzQ0OCwgMzQ0OSwgMzQ1MCwgMzQ1MSwgMzQ1MiwgMzQ1MywgMzQ1NCwgMzQ1NSwgMzQ1NiwgMzQ1NywgMzQ1OCwgMzQ1OSwgMzQ2MCwgMzQ2MSwgMzQ2MiwgMzQ2MywgMzQ2NCwgMzQ2NSwgMzQ2NiwgMzQ2NywgMzQ2OCwgMzQ2OSwgMzQ3MCwgMzQ3MSwgMzQ3MiwgMzQ3MywgMzQ3NCwgMzQ3NSwgMzQ3NiwgMzQ3NywgMzQ3OCwgMzQ3OSwgMzQ4MCwgMzQ4MSwgMzQ4MiwgMzQ4MywgMzQ4NCwgMzQ4NSwgMzQ4NiwgMzQ4NywgMzQ4OCwgMzQ4OSwgMzQ5MCwgMzQ5MSwgMzQ5MiwgMzQ5MywgMzQ5NCwgMzQ5NSwgMzQ5NiwgMzQ5NywgMzQ5OCwgMzQ5OSwgMzUwMCwgMzUwMSwgMzUwMiwgMzUwMywgMzUwNCwgMzUwNSwgMzUwNiwgMzUwNywgMzUwOCwgMzUwOSwgMzUxMCwgMzUxMSwgMzUxMiwgMzUxMywgMzUxNCwgMzUxNSwgMzUxNiwgMzUxNywgMzUxOCwgMzUxOSwgMzUyMCwgMzUyMSwgMzUyMiwgMzUyMywgMzUyNCwgMzUyNSwgMzUyNiwgMzUyNywgMzUyOCwgMzUyOSwgMzUzMCwgMzUzMSwgMzUzMiwgMzUzMywgMzUzNCwgMzUzNSwgMzUzNiwgMzUzNywgMzUzOCwgMzUzOSwgMzU0MCwgMzU0MSwgMzU0MiwgMzU0MywgMzU0NCwgMzU0NSwgMzU0NiwgMzU0NywgMzU0OCwgMzU0OSwgMzU1MCwgMzU1MSwgMzU1MiwgMzU1MywgMzU1NCwgMzU1NSwgMzU1NiwgMzU1NywgMzU1OCwgMzU1OSwgMzU2MCwgMzU2MSwgMzU2MiwgMzU2MywgMzU2NCwgMzU2NSwgMzU2NiwgMzU2NywgMzU2OCwgMzU2OSwgMzU3MCwgMzU3MSwgMzU3MiwgMzU3MywgMzU3NCwgMzU3NSwgMzU3NiwgMzU3NywgMzU3OCwgMzU3OSwgMzU4MCwgMzU4MSwgMzU4MiwgMzU4MywgMzU4NCwgMzU4NSwgMzU4NiwgMzU4NywgMzU4OCwgMzU4OSwgMzU5MCwgMzU5MSwgMzU5MiwgMzU5MywgMzU5NCwgMzU5NSwgMzU5NiwgMzU5NywgMzU5OCwgMzU5OSwgMzYwMCwgMzYwMSwgMzYwMiwgMzYwMywgMzYwNCwgMzYwNSwgMzYwNiwgMzYwNywgMzYwOCwgMzYwOSwgMzYxMCwgMzYxMSwgMzYxMiwgMzYxMywgMzYxNCwgMzYxNSwgMzYxNiwgMzYxNywgMzYxOCwgMzYxOSwgMzYyMCwgMzYyMSwgMzYyMiwgMzYyMywgMzYyNCwgMzYyNSwgMzYyNiwgMzYyNywgMzYyOCwgMzYyOSwgMzYzMCwgMzYzMSwgMzYzMiwgMzYzMywgMzYzNCwgMzYzNSwgMzYzNiwgMzYzNywgMzYzOCwgMzYzOSwgMzY0MCwgMzY0MSwgMzY0MiwgMzY0MywgMzY0NCwgMzY0NSwgMzY0NiwgMzY0NywgMzY0OCwgMzY0OSwgMzY1MCwgMzY1MSwgMzY1MiwgMzY1MywgMzY1NCwgMzY1NSwgMzY1NiwgMzY1NywgMzY1OCwgMzY1OSwgMzY2MCwgMzY2MSwgMzY2MiwgMzY2MywgMzY2NCwgMzY2NSwgMzY2NiwgMzY2NywgMzY2OCwgMzY2OSwgMzY3MCwgMzY3MSwgMzY3MiwgMzY3MywgMzY3NCwgMzY3NSwgMzY3NiwgMzY3NywgMzY3OCwgMzY3OSwgMzY4MCwgMzY4MSwgMzY4MiwgMzY4MywgMzY4NCwgMzY4NSwgMzY4NiwgMzY4NywgMzY4OCwgMzY4OSwgMzY5MCwgMzY5MSwgMzY5MiwgMzY5MywgMzY5NCwgMzY5NSwgMzY5NiwgMzY5NywgMzY5OCwgMzY5OSwgMzcwMCwgMzcwMSwgMzcwMiwgMzcwMywgMzcwNCwgMzcwNSwgMzcwNiwgMzcwNywgMzcwOCwgMzcwOSwgMzcxMCwgMzcxMSwgMzcxMiwgMzcxMywgMzcxNCwgMzcxNSwgMzcxNiwgMzcxNywgMzcxOCwgMzcxOSwgMzcyMCwgMzcyMSwgMzcyMiwgMzcyMywgMzcyNCwgMzcyNSwgMzcyNiwgMzcyNywgMzcyOCwgMzcyOSwgMzczMCwgMzczMSwgMzczMiwgMzczMywgMzczNCwgMzczNSwgMzczNiwgMzczNywgMzczOF2UdWJzLg=="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 40,
+                            "type": "data",
+                            "label": "val"
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 724.2936205842011,
+                    "pos y": 249.9898748171978,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "set var"
+                },
+                {
+                    "GID": 41,
+                    "version": "v0.2",
+                    "identifier": "built_in.GetVar_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 44,
+                            "type": "data",
+                            "label": "",
+                            "default": {
+                                "GID": 120,
+                                "identifier": "Data",
+                                "serialized": "gASVBQAAAAAAAACMAWGULg=="
+                            },
+                            "has widget": true,
+                            "widget name": "varname",
+                            "widget pos": "besides",
+                            "widget data": "gASVbAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTR8SjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAFhlHVicy4="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 45,
+                            "type": "data",
+                            "label": "val"
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {
+                            "a": "var_val_changed"
+                        }
+                    },
+                    "pos x": 164.80323966981427,
+                    "pos y": 368.23084671814206,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "get var"
+                },
+                {
+                    "GID": 46,
+                    "version": "v0.2",
+                    "identifier": "std.Clock_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 50,
+                            "type": "data",
+                            "label": "delay",
+                            "default": {
+                                "GID": 153,
+                                "identifier": "Data",
+                                "serialized": "gARLAC4="
+                            },
+                            "has widget": true,
+                            "widget name": "delay",
+                            "widget pos": "besides",
+                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTSASjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwB1YnMu"
+                        },
+                        {
+                            "GID": 51,
+                            "type": "data",
+                            "label": "iterations",
+                            "default": {
+                                "GID": 54,
+                                "identifier": "Data",
+                                "serialized": "gASVBgAAAAAAAABK/////y4="
+                            },
+                            "has widget": true,
+                            "widget name": "iter",
+                            "widget pos": "besides",
+                            "widget data": "gASVbQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTSESjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSv////91YnMu"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 52,
+                            "type": "exec",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 230.23622828581165,
+                    "pos y": 115.6139516414438,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "start": {
+                            "method": "start"
+                        },
+                        "stop": {
+                            "method": "stop"
+                        }
+                    },
+                    "display title": "clock"
+                },
+                {
+                    "GID": 55,
+                    "version": "v0.1",
+                    "identifier": "built_in.SetVar_Node",
+                    "state data": "gASVDgAAAAAAAAB9lIwGYWN0aXZllIhzLg==",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 61,
+                            "type": "exec",
+                            "label": ""
+                        },
+                        {
+                            "GID": 62,
+                            "type": "data",
+                            "label": "var",
+                            "default": {
+                                "GID": 109,
+                                "identifier": "Data",
+                                "serialized": "gASVBwAAAAAAAACMA2N0cpQu"
+                            },
+                            "has widget": true,
+                            "widget name": "varname",
+                            "widget pos": "besides",
+                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTSISjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANjdHKUdWJzLg=="
+                        },
+                        {
+                            "GID": 63,
+                            "type": "data",
+                            "label": "val",
+                            "default": {
+                                "GID": 4634,
+                                "identifier": "Data",
+                                "serialized": "gASVCAAAAAAAAACMBDM3MzmULg=="
+                            },
+                            "has widget": true,
+                            "widget name": "val",
+                            "widget pos": "besides",
+                            "widget data": "gASVbwAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTSMSjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAQzNzM5lHVicy4="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 64,
+                            "type": "exec",
+                            "label": ""
+                        },
+                        {
+                            "GID": 65,
+                            "type": "data",
+                            "label": "val"
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 846.1910218628586,
+                    "pos y": 133.30644603168525,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "set var"
+                },
+                {
+                    "GID": 66,
+                    "version": "v0.2",
+                    "identifier": "built_in.GetVar_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 69,
+                            "type": "data",
+                            "label": "",
+                            "default": {
+                                "GID": 113,
+                                "identifier": "Data",
+                                "serialized": "gASVBwAAAAAAAACMA2N0cpQu"
+                            },
+                            "has widget": true,
+                            "widget name": "varname",
+                            "widget pos": "besides",
+                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTSQSjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANjdHKUdWJzLg=="
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 70,
+                            "type": "data",
+                            "label": "val"
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {
+                            "ctr": "var_val_changed"
+                        }
+                    },
+                    "pos x": 196.31117068512344,
+                    "pos y": 265.7809649154535,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "get var"
+                },
+                {
+                    "GID": 71,
+                    "version": "v0.2",
+                    "identifier": "std.Plus_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 75,
+                            "type": "data",
+                            "label": "",
+                            "default": {
+                                "GID": 4632,
+                                "identifier": "Data",
+                                "serialized": "gASVBAAAAAAAAABNmg4u"
+                            },
+                            "has widget": true,
+                            "widget name": "in",
+                            "widget pos": "besides",
+                            "widget data": "gASVawAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTSUSjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUTZoOdWJzLg=="
+                        },
+                        {
+                            "GID": 76,
+                            "type": "data",
+                            "label": "",
+                            "default": {
+                                "GID": 110,
+                                "identifier": "Data",
+                                "serialized": "gARLAS4="
+                            },
+                            "has widget": true,
+                            "widget name": "in",
+                            "widget pos": "besides",
+                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTSYSjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "GID": 77,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
+                    },
+                    "pos x": 478.68879139148794,
+                    "pos y": 168.51150293252385,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "add input": {
+                            "method": "add_operand_input"
+                        },
+                        "remove input": {
+                            "0": {
+                                "method": "remove_operand_input",
+                                "data": 0
+                            },
+                            "1": {
+                                "method": "remove_operand_input",
+                                "data": 1
                             }
-                        ],
-                        "outputs": [],
-                        "GID": 43,
-                        "pos x": 566.7044488232787,
-                        "pos y": 478.94789784811906,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    }
-                ],
-                "connections": [
-                    {
-                        "GID": 45,
-                        "parent node index": 0,
-                        "output port index": 0,
-                        "connected node": 5,
-                        "connected input port index": 1
+                        }
                     },
-                    {
-                        "GID": 46,
-                        "parent node index": 1,
-                        "output port index": 0,
-                        "connected node": 2,
-                        "connected input port index": 0
+                    "display title": "+"
+                },
+                {
+                    "GID": 80,
+                    "version": "v0.2",
+                    "identifier": "std.LinkIN_Node",
+                    "state data": "gASVMAAAAAAAAAB9lIwCSUSUjCRjNWVmZjE5MC0yNzllLTQ3M2MtYTQ3Ny1iNjJmMjg0MGUzOTiUcy4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 82,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "GID": 47,
-                        "parent node index": 3,
-                        "output port index": 0,
-                        "connected node": 4,
-                        "connected input port index": 0
+                    "pos x": 566.7044488232787,
+                    "pos y": 478.94789784811906,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "add input": {
+                            "method": "add_inp"
+                        },
+                        "remove inp": {},
+                        "copy ID": {
+                            "method": "copy_ID"
+                        }
                     },
-                    {
-                        "GID": 48,
-                        "parent node index": 3,
-                        "output port index": 0,
-                        "connected node": 11,
-                        "connected input port index": 0
+                    "display title": "link IN"
+                },
+                {
+                    "GID": 103,
+                    "version": "v0.2",
+                    "identifier": "std.Button_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "GID": 104,
+                            "type": "exec",
+                            "label": ""
+                        }
+                    ],
+                    "Variables": {
+                        "subscriptions": {}
                     },
-                    {
-                        "GID": 49,
-                        "parent node index": 6,
-                        "output port index": 0,
-                        "connected node": 1,
-                        "connected input port index": 0
+                    "pos x": 473.0,
+                    "pos y": 51.0,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
+                        },
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
                     },
-                    {
-                        "GID": 50,
-                        "parent node index": 7,
-                        "output port index": 0,
-                        "connected node": 8,
-                        "connected input port index": 0
+                    "display title": "Button"
+                }
+            ],
+            "connections": [
+                {
+                    "parent node index": 0,
+                    "output port index": 0,
+                    "connected node": 5,
+                    "connected input port index": 1
+                },
+                {
+                    "parent node index": 1,
+                    "output port index": 0,
+                    "connected node": 2,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 3,
+                    "output port index": 0,
+                    "connected node": 4,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 3,
+                    "output port index": 0,
+                    "connected node": 11,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 6,
+                    "output port index": 0,
+                    "connected node": 1,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 7,
+                    "output port index": 0,
+                    "connected node": 8,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 9,
+                    "output port index": 0,
+                    "connected node": 0,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 9,
+                    "output port index": 0,
+                    "connected node": 10,
+                    "connected input port index": 0
+                },
+                {
+                    "parent node index": 10,
+                    "output port index": 0,
+                    "connected node": 8,
+                    "connected input port index": 2
+                },
+                {
+                    "parent node index": 12,
+                    "output port index": 0,
+                    "connected node": 8,
+                    "connected input port index": 0
+                }
+            ],
+            "output data": [
+                {
+                    "data": {
+                        "GID": 4627,
+                        "identifier": "Data",
+                        "serialized": "gASVSAgAAAAAAABdlChN2wtN3AtN3QtN3gtN3wtN4AtN4QtN4gtN4wtN5AtN5QtN5gtN5wtN6AtN6QtN6gtN6wtN7AtN7QtN7gtN7wtN8AtN8QtN8gtN8wtN9AtN9QtN9gtN9wtN+AtN+QtN+gtN+wtN/AtN/QtN/gtN/wtNAAxNAQxNAgxNAwxNBAxNBQxNBgxNBwxNCAxNCQxNCgxNCwxNDAxNDQxNDgxNDwxNEAxNEQxNEgxNEwxNFAxNFQxNFgxNFwxNGAxNGQxNGgxNGwxNHAxNHQxNHgxNHwxNIAxNIQxNIgxNIwxNJAxNJQxNJgxNJwxNKAxNKQxNKgxNKwxNLAxNLQxNLgxNLwxNMAxNMQxNMgxNMwxNNAxNNQxNNgxNNwxNOAxNOQxNOgxNOwxNPAxNPQxNPgxNPgxNPwxNQAxNQQxNQgxNQwxNRAxNRQxNRgxNRwxNSAxNSQxNSgxNSwxNTAxNTQxNTgxNTwxNUAxNUQxNUgxNUwxNVAxNVQxNVgxNVwxNWAxNWQxNWgxNWwxNXAxNXQxNXgxNXwxNYAxNYQxNYgxNYwxNZAxNZQxNZgxNZwxNaAxNaQxNagxNawxNbAxNbQxNbgxNbwxNcAxNcQxNcgxNcwxNdAxNdQxNdgxNdwxNeAxNeQxNegxNewxNfAxNfQxNfgxNfwxNgAxNgQxNggxNgwxNhAxNhQxNhgxNhwxNiAxNiQxNigxNiwxNjAxNjQxNjgxNjwxNkAxNkQxNkgxNkwxNlAxNlQxNlgxNlwxNmAxNmQxNmgxNmwxNnAxNnQxNngxNnwxNoAxNoQxNogxNowxNpAxNpQxNpgxNpwxNqAxNqQxNqgxNqwxNrAxNrQxNrgxNrwxNsAxNsQxNsgxNswxNtAxNtQxNtgxNtwxNuAxNuQxNugxNuwxNvAxNvQxNvgxNvwxNwAxNwQxNwgxNwwxNxAxNxQxNxgxNxwxNyAxNyQxNygxNywxNzAxNzQxNzgxNzwxN0AxN0QxN0gxN0wxN1AxN1QxN1gxN1wxN2AxN2QxN2gxN2wxN3AxN3QxN3gxN3wxN4AxN4QxN4gxN4wxN5AxN5QxN5gxN5wxN6AxN6QxN6gxN6wxN7AxN7QxN7gxN7wxN8AxN8QxN8gxN8wxN9AxN9QxN9gxN9wxN+AxN+QxN+gxN+wxN/AxN/QxN/gxN/wxNAA1NAQ1NAg1NAw1NBA1NBQ1NBg1NBw1NCA1NCQ1NCg1NCw1NDA1NDQ1NDg1NDw1NEA1NEQ1NEg1NEw1NFA1NFQ1NFg1NFw1NGA1NGQ1NGg1NGw1NHA1NHQ1NHg1NHw1NIA1NIQ1NIg1NIw1NJA1NJQ1NJg1NJw1NKA1NKQ1NKg1NKw1NLA1NLQ1NLg1NLw1NMA1NMQ1NMg1NMw1NNA1NNQ1NNg1NNw1NOA1NOQ1NOg1NOw1NPA1NPQ1NPg1NPw1NQA1NQQ1NQg1NQw1NRA1NRQ1NRg1NRw1NSA1NSQ1NSg1NSw1NTA1NTQ1NTg1NTw1NUA1NUQ1NUg1NUw1NVA1NVQ1NVg1NVw1NWA1NWQ1NWg1NWw1NXA1NXQ1NXg1NXw1NYA1NYQ1NYg1NYw1NZA1NZQ1NZg1NZw1NaA1NaQ1Nag1Naw1NbA1NbQ1Nbg1Nbw1NcA1NcQ1Ncg1Ncw1NdA1NdQ1Ndg1Ndw1NeA1NeQ1Neg1New1NfA1NfQ1Nfg1Nfw1NgA1NgQ1Ngg1Ngw1NhA1NhQ1Nhg1Nhw1NiA1NiQ1Nig1Niw1NjA1NjQ1Njg1Njw1NkA1NkQ1Nkg1Nkw1NlA1NlQ1Nlg1Nlw1NmA1NmQ1Nmg1Nmw1NnA1NnQ1Nng1Nnw1NoA1NoQ1Nog1Now1NpA1NpQ1Npg1Npw1NqA1NqQ1Nqg1Nqw1NrA1NrQ1Nrg1Nrw1NsA1NsQ1Nsg1Nsw1NtA1NtQ1Ntg1Ntw1NuA1NuQ1Nug1Nuw1NvA1NvQ1Nvg1Nvw1NwA1NwQ1Nwg1Nww1NxA1NxQ1Nxg1Nxw1NyA1NyQ1Nyg1Nyw1NzA1NzQ1Nzg1Nzw1N0A1N0Q1N0g1N0w1N1A1N1Q1N1g1N1w1N2A1N2Q1N2g1N2w1N3A1N3Q1N3g1N3w1N4A1N4Q1N4g1N4w1N5A1N5Q1N5g1N5w1N6A1N6Q1N6g1N6w1N7A1N7Q1N7g1N7w1N8A1N8Q1N8g1N8w1N9A1N9Q1N9g1N9w1N+A1N+Q1N+g1N+w1N/A1N/Q1N/g1N/w1NAA5NAQ5NAg5NAw5NBA5NBQ5NBg5NBw5NCA5NCQ5NCg5NCw5NDA5NDQ5NDg5NDw5NEA5NEQ5NEg5NEw5NFA5NFQ5NFg5NFw5NGA5NGQ5NGg5NGw5NHA5NHQ5NHg5NHw5NIA5NIQ5NIg5NIw5NJA5NJQ5NJg5NJw5NKA5NKQ5NKg5NKw5NLA5NLQ5NLg5NLw5NMA5NMQ5NMg5NMw5NNA5NNQ5NNg5NNw5NOA5NOQ5NOg5NOw5NPA5NPQ5NPg5NPw5NQA5NQQ5NQg5NQw5NRA5NRQ5NRg5NRw5NSA5NSQ5NSg5NSw5NTA5NTQ5NTg5NTw5NUA5NUQ5NUg5NUw5NVA5NVQ5NVg5NVw5NWA5NWQ5NWg5NWw5NXA5NXQ5NXg5NXw5NYA5NYQ5NYg5NYw5NZA5NZQ5NZg5NZw5NaA5NaQ5Nag5Naw5NbA5NbQ5Nbg5Nbw5NcA5NcQ5Ncg5Ncw5NdA5NdQ5Ndg5Ndw5NeA5NeQ5Neg5New5NfA5NfQ5Nfg5Nfw5NgA5NgQ5Ngg5Ngw5NhA5NhQ5Nhg5Nhw5NiA5NiQ5Nig5Niw5NjA5NjQ5Njg5Njw5NkA5NkQ5Nkg5Nkw5NlA5NlQ5Nlg5Nlw5NmA5NmQ5Nmg5lLg=="
                     },
-                    {
-                        "GID": 51,
-                        "parent node index": 9,
-                        "output port index": 0,
-                        "connected node": 0,
-                        "connected input port index": 0
+                    "dependent node outputs": [
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 4631,
+                        "identifier": "Data",
+                        "serialized": "gASVBAAAAAAAAABNmg4u"
                     },
-                    {
-                        "GID": 52,
-                        "parent node index": 9,
-                        "output port index": 0,
-                        "connected node": 10,
-                        "connected input port index": 0
+                    "dependent node outputs": [
+                        1,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 151,
+                        "identifier": "Data",
+                        "serialized": "gASVCgAAAAAAAABHP+haHKwIMScu"
                     },
-                    {
-                        "GID": 53,
-                        "parent node index": 10,
-                        "output port index": 0,
-                        "connected node": 8,
-                        "connected input port index": 2
-                    }
-                ],
-                "GID": 4,
-                "flow view": {
-                    "drawings": [],
-                    "view size": [
-                        6400.0,
-                        4800.0
+                    "dependent node outputs": [
+                        3,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 4630,
+                        "identifier": "Data",
+                        "serialized": "gASVSAgAAAAAAABdlChN2wtN3AtN3QtN3gtN3wtN4AtN4QtN4gtN4wtN5AtN5QtN5gtN5wtN6AtN6QtN6gtN6wtN7AtN7QtN7gtN7wtN8AtN8QtN8gtN8wtN9AtN9QtN9gtN9wtN+AtN+QtN+gtN+wtN/AtN/QtN/gtN/wtNAAxNAQxNAgxNAwxNBAxNBQxNBgxNBwxNCAxNCQxNCgxNCwxNDAxNDQxNDgxNDwxNEAxNEQxNEgxNEwxNFAxNFQxNFgxNFwxNGAxNGQxNGgxNGwxNHAxNHQxNHgxNHwxNIAxNIQxNIgxNIwxNJAxNJQxNJgxNJwxNKAxNKQxNKgxNKwxNLAxNLQxNLgxNLwxNMAxNMQxNMgxNMwxNNAxNNQxNNgxNNwxNOAxNOQxNOgxNOwxNPAxNPQxNPgxNPgxNPwxNQAxNQQxNQgxNQwxNRAxNRQxNRgxNRwxNSAxNSQxNSgxNSwxNTAxNTQxNTgxNTwxNUAxNUQxNUgxNUwxNVAxNVQxNVgxNVwxNWAxNWQxNWgxNWwxNXAxNXQxNXgxNXwxNYAxNYQxNYgxNYwxNZAxNZQxNZgxNZwxNaAxNaQxNagxNawxNbAxNbQxNbgxNbwxNcAxNcQxNcgxNcwxNdAxNdQxNdgxNdwxNeAxNeQxNegxNewxNfAxNfQxNfgxNfwxNgAxNgQxNggxNgwxNhAxNhQxNhgxNhwxNiAxNiQxNigxNiwxNjAxNjQxNjgxNjwxNkAxNkQxNkgxNkwxNlAxNlQxNlgxNlwxNmAxNmQxNmgxNmwxNnAxNnQxNngxNnwxNoAxNoQxNogxNowxNpAxNpQxNpgxNpwxNqAxNqQxNqgxNqwxNrAxNrQxNrgxNrwxNsAxNsQxNsgxNswxNtAxNtQxNtgxNtwxNuAxNuQxNugxNuwxNvAxNvQxNvgxNvwxNwAxNwQxNwgxNwwxNxAxNxQxNxgxNxwxNyAxNyQxNygxNywxNzAxNzQxNzgxNzwxN0AxN0QxN0gxN0wxN1AxN1QxN1gxN1wxN2AxN2QxN2gxN2wxN3AxN3QxN3gxN3wxN4AxN4QxN4gxN4wxN5AxN5QxN5gxN5wxN6AxN6QxN6gxN6wxN7AxN7QxN7gxN7wxN8AxN8QxN8gxN8wxN9AxN9QxN9gxN9wxN+AxN+QxN+gxN+wxN/AxN/QxN/gxN/wxNAA1NAQ1NAg1NAw1NBA1NBQ1NBg1NBw1NCA1NCQ1NCg1NCw1NDA1NDQ1NDg1NDw1NEA1NEQ1NEg1NEw1NFA1NFQ1NFg1NFw1NGA1NGQ1NGg1NGw1NHA1NHQ1NHg1NHw1NIA1NIQ1NIg1NIw1NJA1NJQ1NJg1NJw1NKA1NKQ1NKg1NKw1NLA1NLQ1NLg1NLw1NMA1NMQ1NMg1NMw1NNA1NNQ1NNg1NNw1NOA1NOQ1NOg1NOw1NPA1NPQ1NPg1NPw1NQA1NQQ1NQg1NQw1NRA1NRQ1NRg1NRw1NSA1NSQ1NSg1NSw1NTA1NTQ1NTg1NTw1NUA1NUQ1NUg1NUw1NVA1NVQ1NVg1NVw1NWA1NWQ1NWg1NWw1NXA1NXQ1NXg1NXw1NYA1NYQ1NYg1NYw1NZA1NZQ1NZg1NZw1NaA1NaQ1Nag1Naw1NbA1NbQ1Nbg1Nbw1NcA1NcQ1Ncg1Ncw1NdA1NdQ1Ndg1Ndw1NeA1NeQ1Neg1New1NfA1NfQ1Nfg1Nfw1NgA1NgQ1Ngg1Ngw1NhA1NhQ1Nhg1Nhw1NiA1NiQ1Nig1Niw1NjA1NjQ1Njg1Njw1NkA1NkQ1Nkg1Nkw1NlA1NlQ1Nlg1Nlw1NmA1NmQ1Nmg1Nmw1NnA1NnQ1Nng1Nnw1NoA1NoQ1Nog1Now1NpA1NpQ1Npg1Npw1NqA1NqQ1Nqg1Nqw1NrA1NrQ1Nrg1Nrw1NsA1NsQ1Nsg1Nsw1NtA1NtQ1Ntg1Ntw1NuA1NuQ1Nug1Nuw1NvA1NvQ1Nvg1Nvw1NwA1NwQ1Nwg1Nww1NxA1NxQ1Nxg1Nxw1NyA1NyQ1Nyg1Nyw1NzA1NzQ1Nzg1Nzw1N0A1N0Q1N0g1N0w1N1A1N1Q1N1g1N1w1N2A1N2Q1N2g1N2w1N3A1N3Q1N3g1N3w1N4A1N4Q1N4g1N4w1N5A1N5Q1N5g1N5w1N6A1N6Q1N6g1N6w1N7A1N7Q1N7g1N7w1N8A1N8Q1N8g1N8w1N9A1N9Q1N9g1N9w1N+A1N+Q1N+g1N+w1N/A1N/Q1N/g1N/w1NAA5NAQ5NAg5NAw5NBA5NBQ5NBg5NBw5NCA5NCQ5NCg5NCw5NDA5NDQ5NDg5NDw5NEA5NEQ5NEg5NEw5NFA5NFQ5NFg5NFw5NGA5NGQ5NGg5NGw5NHA5NHQ5NHg5NHw5NIA5NIQ5NIg5NIw5NJA5NJQ5NJg5NJw5NKA5NKQ5NKg5NKw5NLA5NLQ5NLg5NLw5NMA5NMQ5NMg5NMw5NNA5NNQ5NNg5NNw5NOA5NOQ5NOg5NOw5NPA5NPQ5NPg5NPw5NQA5NQQ5NQg5NQw5NRA5NRQ5NRg5NRw5NSA5NSQ5NSg5NSw5NTA5NTQ5NTg5NTw5NUA5NUQ5NUg5NUw5NVA5NVQ5NVg5NVw5NWA5NWQ5NWg5NWw5NXA5NXQ5NXg5NXw5NYA5NYQ5NYg5NYw5NZA5NZQ5NZg5NZw5NaA5NaQ5Nag5Naw5NbA5NbQ5Nbg5Nbw5NcA5NcQ5Ncg5Ncw5NdA5NdQ5Ndg5Ndw5NeA5NeQ5Neg5New5NfA5NfQ5Nfg5Nfw5NgA5NgQ5Ngg5Ngw5NhA5NhQ5Nhg5Nhw5NiA5NiQ5Nig5Niw5NjA5NjQ5Njg5Njw5NkA5NkQ5Nkg5Nkw5NlA5NlQ5Nlg5Nlw5NmA5NmQ5Nmg5lLg=="
+                    },
+                    "dependent node outputs": [
+                        6,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 4626,
+                        "identifier": "Data",
+                        "serialized": "gASVBAAAAAAAAABNmg4u"
+                    },
+                    "dependent node outputs": [
+                        9,
+                        0
+                    ]
+                },
+                {
+                    "data": {
+                        "GID": 4633,
+                        "identifier": "Data",
+                        "serialized": "gASVBAAAAAAAAABNmw4u"
+                    },
+                    "dependent node outputs": [
+                        10,
+                        0
                     ]
                 }
-            },
-            "GID": 1
+            ],
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    10000.0,
+                    7000.0
+                ]
+            }
         },
-        {
-            "title": "script 2",
-            "variables": {},
-            "flow": {
-                "algorithm mode": "data",
-                "nodes": [
-                    {
-                        "identifier": "std.LinkOUT_Node",
-                        "version": null,
-                        "state data": "gASVNwAAAAAAAAB9lIwJbGlua2VkIElElIwkYzVlZmYxOTAtMjc5ZS00NzNjLWE0NzctYjYyZjI4NDBlMzk4lHMu",
-                        "additional data": {
-                            "special actions": {
-                                "link to ID": {
-                                    "method": "choose_link_ID"
-                                }
-                            },
-                            "display title": "link"
+        "script 2": {
+            "GID": 83,
+            "algorithm mode": "data",
+            "nodes": [
+                {
+                    "GID": 84,
+                    "version": "v0.2",
+                    "identifier": "std.LinkOUT_Node",
+                    "state data": "gASVNwAAAAAAAAB9lIwJbGlua2VkIElElIwkYzVlZmYxOTAtMjc5ZS00NzNjLWE0NzctYjYyZjI4NDBlMzk4lHMu",
+                    "additional data": {},
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "GID": 85,
+                            "type": "data",
+                            "label": ""
+                        }
+                    ],
+                    "pos x": 384.5648465384588,
+                    "pos y": 259.39811467640766,
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
                         },
-                        "inputs": [],
-                        "outputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 59
-                            }
-                        ],
-                        "GID": 58,
-                        "pos x": 384.5648465384588,
-                        "pos y": 259.39811467640766,
-                        "unconnected ports hidden": false,
-                        "collapsed": false
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        },
+                        "link to ID": {
+                            "method": "link_to_ID"
+                        }
                     },
-                    {
-                        "identifier": "built_in.Result_Node",
-                        "version": null,
-                        "state data": "gAR9lC4=",
-                        "additional data": {
-                            "special actions": {},
-                            "display title": "result"
+                    "display title": "link OUT"
+                },
+                {
+                    "GID": 86,
+                    "version": "v0.2",
+                    "identifier": "built_in.Result_Node",
+                    "state data": "gAR9lC4=",
+                    "additional data": {},
+                    "inputs": [
+                        {
+                            "GID": 88,
+                            "type": "data",
+                            "label": "",
+                            "has widget": false
+                        }
+                    ],
+                    "outputs": [],
+                    "pos x": 642.5648465384588,
+                    "pos y": 259.39811467640766,
+                    "main widget data": "gAR9lC4=",
+                    "unconnected ports hidden": false,
+                    "collapsed": false,
+                    "actions": {
+                        "update shape": {
+                            "method": "update_shape"
                         },
-                        "inputs": [
-                            {
-                                "type": "data",
-                                "label": "",
-                                "GID": 61,
-                                "has widget": false
-                            }
-                        ],
-                        "outputs": [],
-                        "GID": 60,
-                        "pos x": 642.5648465384588,
-                        "pos y": 259.39811467640766,
-                        "main widget data": "gAR9lC4=",
-                        "unconnected ports hidden": false,
-                        "collapsed": false
-                    }
-                ],
-                "connections": [
-                    {
-                        "GID": 62,
-                        "parent node index": 0,
-                        "output port index": 0,
-                        "connected node": 1,
-                        "connected input port index": 0
-                    }
-                ],
-                "GID": 57,
-                "flow view": {
-                    "drawings": [],
-                    "view size": [
-                        6400.0,
-                        4800.0
+                        "hide unconnected ports": {
+                            "method": "hide_unconnected_ports"
+                        },
+                        "change title": {
+                            "method": "change_title"
+                        },
+                        "console ref": {
+                            "method": "console_ref_monkeypatch"
+                        }
+                    },
+                    "display title": "result"
+                }
+            ],
+            "connections": [
+                {
+                    "parent node index": 0,
+                    "output port index": 0,
+                    "connected node": 1,
+                    "connected input port index": 0
+                }
+            ],
+            "output data": [
+                {
+                    "data": {
+                        "GID": 151,
+                        "identifier": "Data",
+                        "serialized": "gASVCgAAAAAAAABHP+haHKwIMScu"
+                    },
+                    "dependent node outputs": [
+                        0,
+                        0
                     ]
                 }
-            },
-            "GID": 54
+            ],
+            "flow view": {
+                "drawings": [],
+                "view size": [
+                    10000.0,
+                    7000.0
+                ]
+            }
         }
-    ]
+    },
+    "addons": {
+        "Variables": {
+            "GID": 3,
+            "version": "0.4",
+            "custom state": {
+                "5": {
+                    "a": {
+                        "GID": 4629,
+                        "identifier": "Data",
+                        "serialized": "gASVSAgAAAAAAABdlChN2wtN3AtN3QtN3gtN3wtN4AtN4QtN4gtN4wtN5AtN5QtN5gtN5wtN6AtN6QtN6gtN6wtN7AtN7QtN7gtN7wtN8AtN8QtN8gtN8wtN9AtN9QtN9gtN9wtN+AtN+QtN+gtN+wtN/AtN/QtN/gtN/wtNAAxNAQxNAgxNAwxNBAxNBQxNBgxNBwxNCAxNCQxNCgxNCwxNDAxNDQxNDgxNDwxNEAxNEQxNEgxNEwxNFAxNFQxNFgxNFwxNGAxNGQxNGgxNGwxNHAxNHQxNHgxNHwxNIAxNIQxNIgxNIwxNJAxNJQxNJgxNJwxNKAxNKQxNKgxNKwxNLAxNLQxNLgxNLwxNMAxNMQxNMgxNMwxNNAxNNQxNNgxNNwxNOAxNOQxNOgxNOwxNPAxNPQxNPgxNPgxNPwxNQAxNQQxNQgxNQwxNRAxNRQxNRgxNRwxNSAxNSQxNSgxNSwxNTAxNTQxNTgxNTwxNUAxNUQxNUgxNUwxNVAxNVQxNVgxNVwxNWAxNWQxNWgxNWwxNXAxNXQxNXgxNXwxNYAxNYQxNYgxNYwxNZAxNZQxNZgxNZwxNaAxNaQxNagxNawxNbAxNbQxNbgxNbwxNcAxNcQxNcgxNcwxNdAxNdQxNdgxNdwxNeAxNeQxNegxNewxNfAxNfQxNfgxNfwxNgAxNgQxNggxNgwxNhAxNhQxNhgxNhwxNiAxNiQxNigxNiwxNjAxNjQxNjgxNjwxNkAxNkQxNkgxNkwxNlAxNlQxNlgxNlwxNmAxNmQxNmgxNmwxNnAxNnQxNngxNnwxNoAxNoQxNogxNowxNpAxNpQxNpgxNpwxNqAxNqQxNqgxNqwxNrAxNrQxNrgxNrwxNsAxNsQxNsgxNswxNtAxNtQxNtgxNtwxNuAxNuQxNugxNuwxNvAxNvQxNvgxNvwxNwAxNwQxNwgxNwwxNxAxNxQxNxgxNxwxNyAxNyQxNygxNywxNzAxNzQxNzgxNzwxN0AxN0QxN0gxN0wxN1AxN1QxN1gxN1wxN2AxN2QxN2gxN2wxN3AxN3QxN3gxN3wxN4AxN4QxN4gxN4wxN5AxN5QxN5gxN5wxN6AxN6QxN6gxN6wxN7AxN7QxN7gxN7wxN8AxN8QxN8gxN8wxN9AxN9QxN9gxN9wxN+AxN+QxN+gxN+wxN/AxN/QxN/gxN/wxNAA1NAQ1NAg1NAw1NBA1NBQ1NBg1NBw1NCA1NCQ1NCg1NCw1NDA1NDQ1NDg1NDw1NEA1NEQ1NEg1NEw1NFA1NFQ1NFg1NFw1NGA1NGQ1NGg1NGw1NHA1NHQ1NHg1NHw1NIA1NIQ1NIg1NIw1NJA1NJQ1NJg1NJw1NKA1NKQ1NKg1NKw1NLA1NLQ1NLg1NLw1NMA1NMQ1NMg1NMw1NNA1NNQ1NNg1NNw1NOA1NOQ1NOg1NOw1NPA1NPQ1NPg1NPw1NQA1NQQ1NQg1NQw1NRA1NRQ1NRg1NRw1NSA1NSQ1NSg1NSw1NTA1NTQ1NTg1NTw1NUA1NUQ1NUg1NUw1NVA1NVQ1NVg1NVw1NWA1NWQ1NWg1NWw1NXA1NXQ1NXg1NXw1NYA1NYQ1NYg1NYw1NZA1NZQ1NZg1NZw1NaA1NaQ1Nag1Naw1NbA1NbQ1Nbg1Nbw1NcA1NcQ1Ncg1Ncw1NdA1NdQ1Ndg1Ndw1NeA1NeQ1Neg1New1NfA1NfQ1Nfg1Nfw1NgA1NgQ1Ngg1Ngw1NhA1NhQ1Nhg1Nhw1NiA1NiQ1Nig1Niw1NjA1NjQ1Njg1Njw1NkA1NkQ1Nkg1Nkw1NlA1NlQ1Nlg1Nlw1NmA1NmQ1Nmg1Nmw1NnA1NnQ1Nng1Nnw1NoA1NoQ1Nog1Now1NpA1NpQ1Npg1Npw1NqA1NqQ1Nqg1Nqw1NrA1NrQ1Nrg1Nrw1NsA1NsQ1Nsg1Nsw1NtA1NtQ1Ntg1Ntw1NuA1NuQ1Nug1Nuw1NvA1NvQ1Nvg1Nvw1NwA1NwQ1Nwg1Nww1NxA1NxQ1Nxg1Nxw1NyA1NyQ1Nyg1Nyw1NzA1NzQ1Nzg1Nzw1N0A1N0Q1N0g1N0w1N1A1N1Q1N1g1N1w1N2A1N2Q1N2g1N2w1N3A1N3Q1N3g1N3w1N4A1N4Q1N4g1N4w1N5A1N5Q1N5g1N5w1N6A1N6Q1N6g1N6w1N7A1N7Q1N7g1N7w1N8A1N8Q1N8g1N8w1N9A1N9Q1N9g1N9w1N+A1N+Q1N+g1N+w1N/A1N/Q1N/g1N/w1NAA5NAQ5NAg5NAw5NBA5NBQ5NBg5NBw5NCA5NCQ5NCg5NCw5NDA5NDQ5NDg5NDw5NEA5NEQ5NEg5NEw5NFA5NFQ5NFg5NFw5NGA5NGQ5NGg5NGw5NHA5NHQ5NHg5NHw5NIA5NIQ5NIg5NIw5NJA5NJQ5NJg5NJw5NKA5NKQ5NKg5NKw5NLA5NLQ5NLg5NLw5NMA5NMQ5NMg5NMw5NNA5NNQ5NNg5NNw5NOA5NOQ5NOg5NOw5NPA5NPQ5NPg5NPw5NQA5NQQ5NQg5NQw5NRA5NRQ5NRg5NRw5NSA5NSQ5NSg5NSw5NTA5NTQ5NTg5NTw5NUA5NUQ5NUg5NUw5NVA5NVQ5NVg5NVw5NWA5NWQ5NWg5NWw5NXA5NXQ5NXg5NXw5NYA5NYQ5NYg5NYw5NZA5NZQ5NZg5NZw5NaA5NaQ5Nag5Naw5NbA5NbQ5Nbg5Nbw5NcA5NcQ5Ncg5Ncw5NdA5NdQ5Ndg5Ndw5NeA5NeQ5Neg5New5NfA5NfQ5Nfg5Nfw5NgA5NgQ5Ngg5Ngw5NhA5NhQ5Nhg5Nhw5NiA5NiQ5Nig5Niw5NjA5NjQ5Njg5Njw5NkA5NkQ5Nkg5Nkw5NlA5NlQ5Nlg5Nlw5NmA5NmQ5Nmg5lLg=="
+                    },
+                    "ctr": {
+                        "GID": 4625,
+                        "identifier": "Data",
+                        "serialized": "gASVBAAAAAAAAABNmg4u"
+                    }
+                },
+                "83": {}
+            }
+        },
+        "Logging": {
+            "GID": 4,
+            "version": "0.0.1",
+            "custom state": {}
+        }
+    }
 }

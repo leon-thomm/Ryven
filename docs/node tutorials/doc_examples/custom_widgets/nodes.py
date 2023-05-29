@@ -1,5 +1,5 @@
-from ryven.NENV import *
-widgets = import_widgets(__file__)  # this loads all exported widgets from widgets.py into the object
+from ryven.node_env import *
+widgets = import_guis(__file__)  # this loads all exported widgets from gui.py into the object
 
 
 class MyNode(Node):

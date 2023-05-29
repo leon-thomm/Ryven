@@ -1,46 +1,40 @@
 import code
 from contextlib import redirect_stdout, redirect_stderr
+from packaging.version import Version
 
-from ryven.NENV import *
-widgets = import_widgets(__file__)
+from ryvencore.addons.Logging import LoggingAddon
+from ryven.node_env import *
+
+guis = import_guis(__file__)
 
 
 class NodeBase(Node):
-    version = 'v0.1'
-    color = '#FFCA00'
+    version = 'v0.2'
+    GUI = guis.SpecialNodeGuiBase
+
+    def have_gui(self):
+        return hasattr(self, 'gui')
 
 
 class DualNodeBase(NodeBase):
     """For nodes that can be active and passive"""
 
-    version = 'v0.1'
+    GUI = guis.DualNodeBaseGui
 
     def __init__(self, params, active=True):
         super().__init__(params)
 
         self.active = active
-        if active:
-            self.actions['make passive'] = {'method': self.make_passive}
-        else:
-            self.actions['make active'] = {'method': self.make_active}
 
     def make_passive(self):
-        del self.actions['make passive']
-
         self.delete_input(0)
         self.delete_output(0)
         self.active = False
 
-        self.actions['make active'] = {'method': self.make_active}
-
     def make_active(self):
-        del self.actions['make active']
-
         self.create_input(type_='exec', insert=0)
         self.create_output(type_='exec', insert=0)
         self.active = True
-
-        self.actions['make passive'] = {'method': self.make_passive}
 
     def get_state(self) -> dict:
         return {
@@ -51,41 +45,26 @@ class DualNodeBase(NodeBase):
         self.active = data['active']
 
 
-# -------------------------------------------
-
-
-class Checkpoint_Node(NodeBase):
+class Checkpoint_Node(DualNodeBase):
     """Provides a simple checkpoint to reroute your connections"""
 
     title = 'checkpoint'
-    version = 'v0.1'
     init_inputs = [
-        NodeInputBP(type_='data'),
+        NodeInputType(type_='data'),
     ]
     init_outputs = [
-        NodeOutputBP(type_='data'),
+        NodeOutputType(type_='data'),
     ]
-    style = 'small'
+    GUI = guis.CheckpointNodeGui
 
     def __init__(self, params):
         super().__init__(params)
 
-        self.display_title = ''
-
         self.active = False
 
-        # initial actions
-        self.actions['add output'] = {
-            'method': self.add_output
-        }
-        self.actions['remove output'] = {
-            '0': {'method': self.remove_output, 'data': 0}
-        }
-        self.actions['make active'] = {
-            'method': self.make_active
-        }
-
-    """State transitions"""
+    """
+    state transitions
+    """
 
     def clear_ports(self):
         # remove all outputs
@@ -97,60 +76,29 @@ class Checkpoint_Node(NodeBase):
             self.delete_input(0)
 
     def make_active(self):
-        self.active = True
-
-        # rebuild inputs and outputs
+        num_outputs = len(self.outputs)
         self.clear_ports()
-        self.create_input(type_='exec')
-        self.create_output(type_='exec')
+        super().make_active()
+        for i in range(1, num_outputs):
+            self.add_output()
 
-        # update actions
-        del self.actions['make active']
-        self.actions['make passive'] = {
-            'method': self.make_passive
-        }
-        self.actions['remove output'] = {
-            '0': {'method': self.remove_output, 'data': 0}
-        }
 
     def make_passive(self):
-        self.active = False
-
-        # rebuild inputs and outputs
+        num_outputs = len(self.outputs)
+        super().make_passive()
         self.clear_ports()
-        self.create_input(type_='data')
-        self.create_output(type_='data')
-
-        # update actions
-        del self.actions['make passive']
-        self.actions['make active'] = {
-            'method': self.make_active
-        }
-        self.actions['remove output'] = {
-            '0': {'method': self.remove_output, 'data': 0}
-        }
-
-    """Actions"""
+        for i in range(num_outputs):
+            self.add_output()
 
     def add_output(self):
-        index = len(self.outputs)
-
-        if self.active:
-            self.create_output(type_='exec')
-        else:
-            self.create_output(type_='data')
-
-        self.actions['remove output'][str(index)] = {
-            'method': self.remove_output,
-            'data': index,
-        }
+        self.create_output(type_='exec' if self.active else 'data')
 
     def remove_output(self, index):
         self.delete_output(index)
 
-        del self.actions['remove output'][str(len(self.outputs))]
-
-    """Behavior"""
+    """
+    update
+    """
 
     def update_event(self, inp=-1):
         if self.active and inp == 0:
@@ -162,36 +110,14 @@ class Checkpoint_Node(NodeBase):
             for i in range(len(self.outputs)):
                 self.set_output_val(i, data)
 
-    """State Reload"""
-
-    def get_state(self) -> dict:
-        return {
-            'active': self.active,
-            'num outputs': len(self.outputs),
-        }
-
-    def set_state(self, data: dict, version):
-        self.actions['remove output'] = {
-            {'method': self.remove_output, 'data': i}
-            for i in range(data['num outputs'])
-        }
-
-        if data['active']:
-            self.make_active()
-
 
 class Button_Node(NodeBase):
     title = 'Button'
-    version = 'v0.1'
-    main_widget_class = widgets.ButtonNode_MainWidget
-    main_widget_pos = 'between ports'
-    init_inputs = [
-
-    ]
+    init_inputs = []
     init_outputs = [
-        NodeOutputBP(type_='exec')
+        NodeOutputType(type_='exec')
     ]
-    color = '#99dd55'
+    GUI = guis.ButtonNodeGui
 
     def update_event(self, inp=-1):
         self.exec_output(0)
@@ -199,24 +125,20 @@ class Button_Node(NodeBase):
 
 class Print_Node(DualNodeBase):
     title = 'Print'
-    version = 'v0.1'
     init_inputs = [
-        NodeInputBP(type_='exec'),
-        NodeInputBP(dtype=dtypes.Data(size='m')),
+        NodeInputType(type_='exec'),
+        NodeInputType(),
     ]
     init_outputs = [
-        NodeOutputBP(type_='exec'),
+        NodeOutputType(type_='exec'),
     ]
-    color = '#5d95de'
 
     def __init__(self, params):
         super().__init__(params, active=True)
 
     def update_event(self, inp=-1):
-        if self.active and inp == 0:
-            print(self.input(1))
-        elif not self.active:
-            print(self.input(0))
+        if inp == 0:
+            print(self.input(1 if self.active else 0).payload)
 
 
 import logging
@@ -224,131 +146,143 @@ import logging
 
 class Log_Node(DualNodeBase):
     title = 'Log'
-    version = 'v0.1'
     init_inputs = [
-        NodeInputBP(type_='exec'),
-        NodeInputBP('msg', type_='data'),
+        NodeInputType(type_='exec'),
+        NodeInputType('msg', type_='data'),
     ]
     init_outputs = [
-        NodeOutputBP(type_='exec'),
+        NodeOutputType(type_='exec'),
     ]
-    main_widget_class = widgets.LogNode_MainWidget
-    main_widget_pos = 'below ports'
-    color = '#5d95de'
+    GUI = guis.LogNodeGui
+
+    logs = {}   # {int: Logger}
+    in_use = set()  # make sure we don't reuse numbers on copy & paste
 
     def __init__(self, params):
         super().__init__(params, active=True)
 
-        self.logger = self.new_logger('Log Node')
+        self.number: int = None
+        self.logger: logging.Logger = None
 
-        self.targets = {
-            **self.script.logs_manager.default_loggers,
-            'own': self.logger,
-        }
-        self.target = 'global'
+    def place_event(self):
+        if self.number is None:
+            # didn't load; initialize
+            self.number = len(self.logs)
+            self.logs[self.number] = \
+                self.logs_ext().new_logger(self, 'Log Node')
+            self.in_use.add(self.number)
+
+    def logs_ext(self) -> LoggingAddon:
+        return self.get_addon('Logging')
 
     def update_event(self, inp=-1):
-        if self.active and inp == 0:
-            i = 1
-        elif not self.active:
-            i = 0
-        else:
-            return
-
-        msg = self.input(i)
-
-        self.targets[self.target].log(logging.INFO, msg=msg)
+        if inp == 0:
+            msg = self.input(1 if self.active and inp == 0 else 0).payload
+            self.logs[self.number].log(logging.INFO, msg=msg)
+            # TODO: support more than INFO, with a dropdown menu in main widget
 
     def get_state(self) -> dict:
         return {
             **super().get_state(),
-            'target': self.target,
+            'number': self.number,
         }
 
     def set_state(self, data: dict, version):
+        if Version(version) < Version('0.2'):
+            # ignore old version
+            return
         super().set_state(data, version)
-        self.target = data['target']
-        if self.session.gui and self.main_widget():
-            self.main_widget().set_target(self.target)
+        n = data['number']
+        if n not in self.in_use:
+            self.number = n
+        else:
+            # number already in use; generate a new one
+            # happens on copy & paste
+            self.number = len(self.logs)
+
+        # the logging addon will have re-created the logger
+        # for us already
+        self.logs[self.number] = \
+            self.logs_ext().new_logger(self, 'Log Node')
 
 
 class Clock_Node(NodeBase):
     title = 'clock'
-    version = 'v0.1'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.Float(default=0.1), label='delay'),
-        NodeInputBP(dtype=dtypes.Integer(default=-1, bounds=(-1, 1000)), label='iterations'),
+        NodeInputType('delay'),
+        NodeInputType('iterations'),
     ]
     init_outputs = [
-        NodeOutputBP(type_='exec')
+        NodeOutputType(type_='exec')
     ]
-    color = '#5d95de'
-    main_widget_class = widgets.ClockNode_MainWidget
-    main_widget_pos = 'below ports'
+    GUI = guis.ClockNodeGui
+
+    # When running with GUI, this node uses QTime which doesn't
+    # block the GUI. When running without GUI, it uses time.sleep()
 
     def __init__(self, params):
         super().__init__(params)
 
-        self.actions['start'] = {'method': self.start}
-        self.actions['stop'] = {'method': self.stop}
+        self.running_with_qt = False
 
-        if self.session.gui:
+    def place_event(self):
+        self.running_with_qt = self.GUI is not None
 
+        if self.running_with_qt:
             from qtpy.QtCore import QTimer
-            self.timer = QTimer(self)
+            self.timer = QTimer()
             self.timer.timeout.connect(self.timeouted)
             self.iteration = 0
-
 
     def timeouted(self):
         self.exec_output(0)
         self.iteration += 1
-        if -1 < self.input(1) <= self.iteration:
+        if -1 < self.input(1).payload <= self.iteration:
             self.stop()
 
     def start(self):
-        if self.session.gui:
-            self.timer.setInterval(self.input(0)*1000)
+        if self.running_with_qt:
+            self.timer.setInterval(self.input(0).payload)
             self.timer.start()
         else:
             import time
-            for i in range(self.input(1)):
+            for i in range(self.input(1).payload):
                 self.exec_output(0)
-                time.sleep(self.input(0))
+                time.sleep(self.input(0).payload/1000)
 
     def stop(self):
+        assert self.running_with_qt
+        self.timer.stop()
         self.iteration = 0
-        if self.session.gui:
-            self.timer.stop()
 
     def toggle(self):
         # triggered from main widget
-        if self.session.gui:
+        if self.running_with_qt:
             if self.timer.isActive():
                 self.stop()
             else:
                 self.start()
+        # toggling is impossible when using time.sleep()
 
     def update_event(self, inp=-1):
-        if self.session.gui:
-            self.timer.setInterval(self.input(0)*1000)
+        if self.running_with_qt:
+            self.timer.setInterval(self.input(0).payload)
 
     def remove_event(self):
-        self.stop()
+        if self.running_with_qt:
+            self.stop()
 
 
 class Slider_Node(NodeBase):
     title = 'slider'
-    version = 'v0.1'
     init_inputs = [
-        NodeInputBP(dtype=dtypes.Integer(default=1), label='scl'),
-        NodeInputBP(dtype=dtypes.Boolean(default=False), label='round'),
+        NodeInputType('scl'),
+        NodeInputType('round'),
     ]
     init_outputs = [
-        NodeOutputBP(),
+        NodeOutputType(),
     ]
-    main_widget_class = widgets.SliderNode_MainWidget
-    main_widget_pos = 'below ports'
+    GUI = guis.SliderNodeGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -358,97 +292,45 @@ class Slider_Node(NodeBase):
     def place_event(self):
         self.update()
 
-    def view_place_event(self):
-        # when running in gui mode, the value might come from the input widget
-        self.update()
-
     def update_event(self, inp=-1):
-
-        v = self.input(0) * self.val
-        if self.input(1):
+        v = self.input(0).payload * self.val
+        if self.input(1).payload:
             v = round(v)
-
-        self.set_output_val(0, v)
+        self.set_output_val(0, Data(v))
 
     def get_state(self) -> dict:
-        return {
-            'val': self.val,
-        }
+        return {'val': self.val}
 
     def set_state(self, data: dict, version):
         self.val = data['val']
 
 
 class _DynamicPorts_Node(NodeBase):
-    version = 'v0.1'
     init_inputs = []
     init_outputs = []
+    GUI = guis.DynamicPortsGui
 
-    def __init__(self, params):
-        super().__init__(params)
-
-        self.actions['add input'] = {'method': self.add_inp}
-        self.actions['add output'] = {'method': self.add_out}
-
-        self.num_inputs = 0
-        self.num_outputs = 0
-
-    def add_inp(self):
+    def add_input(self):
         self.create_input()
 
-        index = self.num_inputs
-        self.actions[f'remove input {index}'] = {
-            'method': self.remove_inp,
-            'data': index
-        }
-
-        self.num_inputs += 1
-
-    def remove_inp(self, index):
+    def remove_input(self, index):
         self.delete_input(index)
-        self.num_inputs -= 1
-        del self.actions[f'remove input {self.num_inputs}']
 
-    def add_out(self):
+    def add_output(self):
         self.create_output()
 
-        index = self.num_outputs
-        self.actions[f'remove output {index}'] = {
-            'method': self.remove_out,
-            'data': index
-        }
-
-        self.num_outputs += 1
-
-    def remove_out(self, index):
+    def remove_output(self, index):
         self.delete_output(index)
-        self.num_outputs -= 1
-        del self.actions[f'remove output {self.num_outputs}']
-
-    def get_state(self) -> dict:
-        return {
-            'num inputs': self.num_inputs,
-            'num outputs': self.num_outputs,
-        }
-
-    def set_state(self, data: dict):
-        self.num_inputs = data['num inputs']
-        self.num_outputs = data['num outputs']
 
 
 class Exec_Node(_DynamicPorts_Node):
     title = 'exec'
-    version = 'v0.1'
-    main_widget_class = widgets.CodeNode_MainWidget
-    main_widget_pos = 'between ports'
+    GUI = guis.ExecNodeGui
 
     def __init__(self, params):
         super().__init__(params)
 
         self.code = None
-
-    def place_event(self):
-        pass
 
     def update_event(self, inp=-1):
         exec(self.code)
@@ -466,20 +348,16 @@ class Exec_Node(_DynamicPorts_Node):
 
 class Eval_Node(NodeBase):
     title = 'eval'
-    version = 'v0.1'
     init_inputs = [
-        # NodeInputBP(),
+        # NodeInputType(),
     ]
     init_outputs = [
-        NodeOutputBP(),
+        NodeOutputType(),
     ]
-    main_widget_class = widgets.EvalNode_MainWidget
-    main_widget_pos = 'between ports'
+    GUI = guis.EvalNodeGui
 
     def __init__(self, params):
         super().__init__(params)
-
-        self.actions['add input'] = {'method': self.add_param_input}
 
         self.number_param_inputs = 0
         self.expression_code = None
@@ -491,22 +369,18 @@ class Eval_Node(NodeBase):
     def add_param_input(self):
         self.create_input()
 
-        index = self.number_param_inputs
-        self.actions[f'remove input {index}'] = {
-            'method': self.remove_param_input,
-            'data': index
-        }
-
         self.number_param_inputs += 1
 
     def remove_param_input(self, index):
         self.delete_input(index)
         self.number_param_inputs -= 1
-        del self.actions[f'remove input {self.number_param_inputs}']
 
     def update_event(self, inp=-1):
-        inp = [self.input(i) for i in range(self.number_param_inputs)]
-        self.set_output_val(0, eval(self.expression_code))
+        inp = [
+            self.input(i).payload if self.input(i) is not None else None
+            for i in range(self.number_param_inputs)
+        ]
+        self.set_output_val(0, Data(eval(self.expression_code)))
 
     def get_state(self) -> dict:
         return {
@@ -520,15 +394,18 @@ class Eval_Node(NodeBase):
 
 
 class Interpreter_Node(NodeBase):
-    """Provides a python interpreter via a basic console with access to the
-    node's properties."""
+    """
+    Provides a python interpreter via a basic console with access to the
+    node's properties.
+    """
     title = 'interpreter'
-    version = 'v0.1'
     init_inputs = []
     init_outputs = []
-    main_widget_class = widgets.InterpreterConsole
+    GUI = guis.InterpreterConsoleGui
 
-    # DEFAULT COMMANDS
+    """
+    commands
+    """
 
     def clear(self):
         self.hist.clear()
@@ -542,6 +419,10 @@ class Interpreter_Node(NodeBase):
         'reset': reset,
     }
 
+    """
+    behaviour
+    """
+
     def __init__(self, params):
         super().__init__(params)
 
@@ -552,8 +433,8 @@ class Interpreter_Node(NodeBase):
         self.reset()
 
     def _hist_updated(self):
-        if self.session.gui:
-            self.main_widget().interp_updated()
+        if self.have_gui():
+            self.gui.main_widget().interp_updated()
 
     def process_input(self, cmds: str):
         m = self.COMMANDS.get(cmds)
@@ -582,33 +463,32 @@ class Interpreter_Node(NodeBase):
 
 
 class Storage_Node(NodeBase):
-    """Sequentially stores all the data provided at the input in an array.
-    A COPY of the storage array is provided at the output"""
+    """
+    Sequentially stores all the data provided at the input in an array.
+    A shallow copy of the storage array is provided at the output
+    """
 
     title = 'store'
-    version = 'v0.1'
     init_inputs = [
-        NodeInputBP(),
+        NodeInputType(),
     ]
     init_outputs = [
-        NodeOutputBP(),
+        NodeOutputType(),
     ]
-    color = '#aadd55'
+    GUI = guis.StorageNodeGui
 
     def __init__(self, params):
         super().__init__(params)
 
         self.storage = []
 
-        self.actions['clear'] = {'method': self.clear}
-
     def clear(self):
         self.storage.clear()
-        self.set_output_val(0, [])
+        self.set_output_val(0, Data([]))
 
     def update_event(self, inp=-1):
-        self.storage.append(self.input(0))
-        self.set_output_val(0, self.storage.copy())
+        self.storage.append(self.input(0).payload)
+        self.set_output_val(0, Data(self.storage.copy()))
 
     def get_state(self) -> dict:
         return {
@@ -623,60 +503,42 @@ import uuid
 
 
 class LinkIN_Node(NodeBase):
-    """You can use link OUT nodes to link them up to this node.
+    """
     Whenever a link IN node receives data (or an execution signal),
-    if there is a linked OUT node, it will receive the data
-    and propagate it further."""
+    if there is a linked LinkOUT node, it will receive the data
+    and propagate it further.
+    Notice that this breaks the data flow, which can have substantial
+    performance implications and is generally not recommended.
+    """
 
     title = 'link IN'
-    version = 'v0.1'
     init_inputs = [
-        NodeInputBP(),
+        NodeInputType(),
     ]
     init_outputs = []  # no outputs
+    GUI = guis.LinkIN_NodeGui
 
     # instances registration
     INSTANCES = {}  # {UUID: node}
 
     def __init__(self, params):
         super().__init__(params)
-        self.display_title = 'link'
 
         # register
         self.ID: uuid.UUID = uuid.uuid4()
         self.INSTANCES[str(self.ID)] = self
 
-        self.actions['add input'] = {
-            'method': self.add_inp
-        }
-        self.actions['remove inp'] = {}
-        self.actions['copy ID'] = {
-            'method': self.copy_ID
-        }
-
         self.linked_node: LinkOUT_Node = None
 
-    def copy_ID(self):
-        from qtpy.QtWidgets import QApplication
-        QApplication.clipboard().setText(str(self.ID))
-
-    def add_inp(self):
-        index = len(self.inputs)
-
+    def add_input(self):
         self.create_input()
-
-        self.actions['remove inp'][str(index)] = {
-            'method': self.rem_inp,
-            'data': index,
-        }
         if self.linked_node is not None:
-            self.linked_node.add_out()
+            self.linked_node.add_output()
 
-    def rem_inp(self, index):
+    def remove_input(self, index):
         self.delete_input(index)
-        del self.actions['remove inp'][str(len(self.inputs))]
         if self.linked_node is not None:
-            self.linked_node.rem_out(index)
+            self.linked_node.remove_output(index)
 
     def update_event(self, inp=-1):
         if self.linked_node is not None:
@@ -713,9 +575,9 @@ class LinkOUT_Node(NodeBase):
     """The complement to the link IN node"""
 
     title = 'link OUT'
-    version = 'v0.1'
     init_inputs = []  # no inputs
     init_outputs = []  # will be synchronized with linked IN node
+    GUI = guis.LinkOUT_NodeGui
 
     INSTANCES = []
     PENDING_LINK_BUILDS = {}
@@ -731,42 +593,9 @@ class LinkOUT_Node(NodeBase):
 
     def __init__(self, params):
         super().__init__(params)
-        self.display_title = 'link'
 
         self.INSTANCES.append(self)
         self.linked_node: LinkIN_Node = None
-
-        self.actions['link to ID'] = {
-            'method': self.choose_link_ID
-        }
-
-    def choose_link_ID(self):
-        """opens a small input dialog for providing a copied link IN ID"""
-
-        from qtpy.QtWidgets import QDialog, QMessageBox, QVBoxLayout, QLineEdit
-
-        class IDInpDialog(QDialog):
-            def __init__(self):
-                super().__init__()
-                self.id_str = None
-                self.setLayout(QVBoxLayout())
-                self.line_edit = QLineEdit()
-                self.layout().addWidget(self.line_edit)
-                self.line_edit.returnPressed.connect(self.return_pressed)
-
-            def return_pressed(self):
-                self.id_str = self.line_edit.text()
-                self.accept()
-
-        d = IDInpDialog()
-        d.exec_()
-
-        if d.id_str is not None:
-            n = LinkIN_Node.INSTANCES.get(d.id_str)
-            if n is None:
-                QMessageBox.warning(title='link failed', text='couldn\'t find a valid link in node')
-            else:
-                self.link_to(n)
 
     def link_to(self, n: LinkIN_Node):
         self.linked_node = n
@@ -785,11 +614,11 @@ class LinkOUT_Node(NodeBase):
 
         self.update()
 
-    def add_out(self):
+    def add_output(self):
         # triggered by linked_node
         self.create_output()
 
-    def rem_out(self, index):
+    def remove_output(self, index):
         # triggered by linked_node
         self.delete_output(index)
 
@@ -825,9 +654,6 @@ class LinkOUT_Node(NodeBase):
         if self.linked_node:
             self.linked_node.linked_node = None
             self.linked_node = None
-
-
-# -------------------------------------------
 
 
 nodes = [

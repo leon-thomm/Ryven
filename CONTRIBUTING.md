@@ -11,14 +11,15 @@ There are many ways you can contribute to the Ryven project. Particularly effect
 - docstrings
 - online documentation
 - example content: nodes and projects
-- tutorials
-
-Also check out the other repositories.
+- modularity improvements
 
 # Creating Good Issues :mega:
 
-- you might want to check the [information on the website](https://ryven.org/guide)
-- be precise and include a minimal procedure to reproduce the problem
-- notice there's a *discussions* section which can be used for all kinds of questions or suggestions
+- you might want to check
+  - the [information on the website](https://ryven.org/)
+  - the [wiki](https://github.com/leon-thomm/Ryven/wiki)
+  - the [ryvencore documentation](https://leon-thomm.github.io/ryvencore/)
+- be precise and **include a minimal procedure to reproduce the problem**
+- notice there's also a [discussions section](https://github.com/leon-thomm/ryven/discussions), but you can also use the issue tracker for questions
 
 Thanks for hanging around and have a nice day!

@@ -1,85 +1,63 @@
 import types
-import traceback
+from typing import Union
 
 
 def get_method_funcs(cls_def_str: str, obj):
     """
-    Returns a dict with functions under their names parsed from the methods in the class definition string using ast.
+    Parses the class definition string and returns a dict with python functions under their names,
+    parsed from the methods in the class definition string using the ast module.
     """
 
-    # requires Python >= 3.9
+    import sys
+    if sys.version_info < (3, 9):
+        raise Exception('src code modifications are only supported on Python >=3.9')
+
+    # requires Python >= 3.9 for ast.unparse()
     import ast
 
-    # extracting the functions
-    ast_funcs: [ast.FunctionDef] = [f for f in ast.parse(cls_def_str).body[0].body if type(f) == ast.FunctionDef]
+    # extract functions
+    ast_funcs: [ast.FunctionDef] = [
+        f
+        for f in ast.parse(cls_def_str).body[0].body
+        if type(f) == ast.FunctionDef
+    ]
 
     funcs = {}
     for astf in ast_funcs:
         d = __builtins__.copy()  # important: provide builtins when parsing the function
-
-        try:
-            exec(ast.unparse(astf), d)  # parse
-        except AttributeError as e:     # ast.unparse() was introduced in Python 3.9
-            print(traceback.format_exc())
-            print('\n\nNOTICE: src code override only works on Python version 3.9+, '
-                  'so you may have to update to 3.9 to use it')
-            return None
-
+        exec(ast.unparse(astf), d)
         f = d[astf.name]
-
         # # add locals scope of the object to the function
         # f.__dict__ = obj.
 
-        # add new function to the list, identified by its name
-        funcs = {
-            **funcs,
-            astf.name: f  # d[astf.name]
-        }
+        funcs[astf.name] = f
 
     return funcs
 
 
 class SrcCodeUpdater:
     """
-    Provides functionality to override method implementations of an object
+    Provides functionality to override method implementations of an inspectable object.
     """
 
     @staticmethod
-    def override_code(obj: object, new_class_src):
-
-        funcs = get_method_funcs(new_class_src, obj)
-
-        if funcs is None:
-            return
-
-        for name, f in funcs.items():  # override all methods
-            setattr(obj, name, types.MethodType(f, obj))
-            # types.MethodType() creates a bound method, bound to obj, from the function f
-
-    # -----------------------------------------------------------------------
+    def override_code(obj: object, new_class_src) -> Union[None, Exception]:
+        try:
+            funcs = get_method_funcs(new_class_src, obj)
+            for name, f in funcs.items():  # override all methods
+                setattr(obj, name, types.MethodType(f, obj))
+                # types.MethodType() creates a method bound to obj, from the function f
+        except Exception as e:
+            return e
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #
+    # below is the old implementation, for documentation purposes only; see discussion below
+    #
 
 
     @staticmethod
     def override_code_OLD(obj: object, orig_class_src, orig_mod_src, new_class_src):
-        """
-        ONLY FOR DOCUMENTATION: THIS IS THE OLD IMPLEMENTATION, SEE DISCUSSION BELOW
-        """
 
         import inspect
 
