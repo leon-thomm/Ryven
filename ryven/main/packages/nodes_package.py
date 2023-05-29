@@ -87,6 +87,7 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
         )
 
     from ryven import node_env
+    node_env.NodesEnvRegistry.current_package = package
     load_from_file(package.file_path)
 
     node_types = node_env.NodesEnvRegistry.exported_nodes[-1]

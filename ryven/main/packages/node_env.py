@@ -5,7 +5,7 @@ without path modifications which caused issues in the past."""
 import os
 from typing import Type
 
-from ryven.main.packages.nodes_package import load_from_file
+from ryven.main.packages.nodes_package import load_from_file, NodesPackage
 
 from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
 
@@ -80,6 +80,11 @@ class NodesEnvRegistry:
     # stores, for each nodes package separately, a list of exported data types
     exported_data_types: [[Type[Data]]] = []
 
+    # stores the package that is currently being imported; set by the nodes package
+    # loader ryven.main.packages.nodes_package.import_nodes_package;
+    # needed for extending the identifiers of node types to include the package name
+    current_package: NodesPackage = None
+
 
 def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
     """
@@ -88,6 +93,18 @@ def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
 
     if data_types is None:
         data_types = []
+
+    # extend identifiers of node types to include the package name
+    for node_type in node_types:
+        # store the package name as identifier prefix, which will be added
+        # by ryvencore when registering the node type
+        node_type.identifier_prefix = NodesEnvRegistry.current_package.name
+
+        # also add the identifier without the prefix as fallback for older versions
+        node_type.legacy_identifiers = [
+            *node_type.legacy_identifiers,
+            node_type.identifier if node_type.identifier else node_type.__name__
+        ]
 
     NodesEnvRegistry.exported_nodes.append(node_types)
     NodesEnvRegistry.exported_data_types.append(data_types)
