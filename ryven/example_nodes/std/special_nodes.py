@@ -315,11 +315,11 @@ class Clock_Node(NodeBase):
         self.running_with_qt = False
 
     def place_event(self):
-        self.running_with_qt = self.have_gui()
+        self.running_with_qt = self.GUI is not None
 
         if self.running_with_qt:
             from qtpy.QtCore import QTimer
-            self.timer = QTimer(self)
+            self.timer = QTimer()
             self.timer.timeout.connect(self.timeouted)
             self.iteration = 0
 
