@@ -1,17 +1,17 @@
-> This project is looking for new/additional maintainers, as I will have very limited time available to work on it in the future. I am still reviewing PRs and contributions but won't make significant changes myself.
+> This project is not very actively maintained. With the latest release - which I'm currently working on to get mostly stable - the project became quite accurately what I wanted it to be, and I will have very limited time available to work on it in the future. If you are a contributor and interested in maintaining, please [contact me](mailto:lthomm@ethz.ch).
 
 <p align="center">
   <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
 </p>
 
-Ryven is an experimental node editor. In other words, Ryven implements a Qt-based visual interface for flow-based programming in Python. It provides a simple system for developing nodes executing any Python code, and an editor for building graphs using those nodes. Ryven enables GUI customizations and features a headless mode for running graphs without any GUI. Some relevant GitHub repos:
+Ryven is an experimental node editor written in Python, it implements a Qt-based visual interface for flow-based programming in Python. It provides a powerful system for developing nodes executing any Python code, and an editor for building graphs using those nodes. Ryven features a bunch of configuration options and a headless mode for running graphs without any GUI. Some relevant GitHub repos:
 
 * [ryvencore](https://github.com/leon-thomm/ryvencore): backend / core framework
-* [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt): Qt frontend library
+* [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt): Qt frontend classes for ryvencore
 * [ryven-blender](https://github.com/leon-thomm/ryven-blender), [ryven-unreal](https://github.com/leon-thomm/ryven-unreal): Ryven plugins for Blender and UE4
   * _not actively maintained_
-* [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven): Ryven nodes for PythonOCC (CAD)
-* [ironflow](https://github.com/pyiron/ironflow): A WIP node interface in jupyter for [pyiron](https://github.com/pyiron) based on ryvencore
+* [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven): WIP Ryven nodes for PythonOCC (3D CAD)
+* [ironflow](https://github.com/pyiron/ironflow): WIP node interface in jupyter for [pyiron](https://github.com/pyiron) based on ryvencore
 
 ## Installation and Configuration
 
@@ -23,14 +23,15 @@ pip install ryven
 
 There is also a [conda-forge package](https://anaconda.org/conda-forge/ryven) (`conda install -c conda-forge ryven`).
 
-Ryven itself only comes with some small example nodes! You should use Ryven either to develop nodes, or use a third-party nodes package for your use case if there is one.
+Ryven can be launched from the command line with `ryven`. If you installed Ryven into a Python virtual environment, the environment needs to be activated first.
 
-When installed, ryven will create a directory `~/.ryven` with the following structure:
+Ryven itself only comes with some small example nodes. You should use Ryven either to develop nodes, or use a third-party nodes package for your use case if there is one. The example nodes are - indeed - just examples, and not stable in any way, so you should not depend on them.
+
+When installed, ryven will create a directory `.ryven` in your user home with the following structure:
 
 ```
 ~/.ryven
 ├── nodes
-│   ├── examples
 │   ├── your_nodes_pkg_1
 │       ├── nodes.py
 │       └── gui.py
@@ -42,8 +43,6 @@ When installed, ryven will create a directory `~/.ryven` with the following stru
 ```
 
 The `ryven.cfg` file contains global configurations for Ryven.
-
-Ryven can be launched from the command line with `ryven`. If you installed Ryven into a Python virtual environment, the environment needs to be activated first.
 
 Ryven can be configured in four ways:
 1. from the command line, e.g. `ryven --nodes your_nodes_pkg_1 --no-animations`
@@ -62,6 +61,29 @@ Ryven can be configured in four ways:
 
 See `ryven --help` for a list of available options.
 
+To deploy a Ryven project headless, without any GUI, use the `ryven-console` command.
+
+<details>
+<summary>Example: headless deployment with REPL access</summary>
+
+```bash
+> ryven-console /home/leon/.ryven/saves/basics.json
+Welcome to the Ryven Console! Your project has been loaded.
+You can access the ryvencore session by typing `session`.
+For more information, visit https://leon-thomm.github.io/ryvencore/
+
+>>> f = session.flows[0]
+>>> ctr_var_result_node = f.nodes[2]
+>>> ctr_set_var_node = f.nodes[8]
+>>> ctr_var_result_node.val
+3738
+>>> ctr_set_var_node.update(0)
+>>> ctr_var_result_node.val
+3739
+```
+
+</details>
+
 ## Editor Usage
 
 Quickstart guide:
@@ -70,7 +92,7 @@ Quickstart guide:
 * you should see the startup dialog
 * create a new project
 * import some example nodes
-  * `File -> Import Example Nodes` and select `~/.ryven/nodes/examples/std/nodes.py`
+  * `File -> Import Example Nodes` and select `<installation_dir>/example_nodes/std/nodes.py`
 * you should now see a list of nodes on the left
 * drag and drop them into the scene and connect them with your mouse
 * everything is being executed at runtime; try this:
@@ -84,12 +106,8 @@ Quickstart guide:
 
 ## Developing Nodes
 
-Resources to get started on developing nodes:
-1. the quick start guide below
-2. some tutorials in the `docs/node_tutorials` directory
-   * _TODO: outdated_
-3. a more detailed [guide on the website](https://ryven.org/guide#/)
-   * _TODO: outdated_
+<details>
+<summary>quick start into to developing node packages</summary>
 
 Navigate to `~/.ryven/nodes/` and create a sub-directory of the following structure
 
@@ -133,16 +151,14 @@ from random import random
 
 class RandNode(Node):
     """Generates scaled random float values"""
-    # the docstring will appear as tooltip
 
-    title = 'Rand'  # the display_title is title by default
-    tags = ['random', 'numbers']  # for better search
+    title = 'Rand'
+    tags = ['random', 'numbers']
     init_inputs = [NodeInputType()]
     init_outputs = [NodeOutputType()]
 
     def update_event(self, inp=-1):
         self.set_output_val(0, 
-            # random float between 0 and value at input
             Data(random() * self.input(0).payload)
         )
 ```
@@ -243,10 +259,9 @@ The value provided by an input widget (through `self.update_node_input(val)`) wi
 
 So now we can reconstruct the previous example, but we don't need to connect the `val` node to the `Rand` node anymore. Change the slider and see how many different random values are printed.
 
+</details>
 
-***
-
-This covered the basic setup for developing nodes. For more information, look at the guide, which covers the details necessary to develop more complex node packages.
+Please find further resources on the GitHub wiki page in this repository.
 
 ## Features
 
@@ -264,18 +279,84 @@ A (possibly incomplete) list of features:
 - very basic **logging support**
 - primitive, very experimental **stylus support** for adding handwritten notes on touch devices
 
+<!--
+
+### Nodes API in action
+
+<table>
+<tr>
+<th>stateful nodes</th>
+<th>exec nodes</th>
+<th>custom Qt widgets</th>
+<th>variables</th>
+<th>logging</th>
+</tr>
+<tr>
+
+<td>
+<sub>
+
+is this text small, yes it is :>>>
+
+```python
+this is a test
+```
+
+</sub>
+</td>
+
+<td>
+<sub>
+
+```python
+asdf
+```
+
+</sub>
+</td>
+
+<td>
+<sub>
+
+```python
+qewr
+```
+
+</sub>
+</td>
+
+<td>
+<sub>
+
+```python
+this is a test
+```
+
+</sub>
+</td>
+
+<td>
+<sub>
+
+```python
+this is a test
+```
+
+</sub>
+</td>
+
+</tr>
+</table>
+
+-->
+
 ## License
 
 * This repository is licensed under the MIT license (LICENSE-MIT or http://opensource.org/licenses/MIT)
 * The underlying library ryvencore is licensed under LGPL-2.1 (LICENSE-LGPL-2.1 or https://www.gnu.org/licenses/lgpl-2.1.html)
 
-
-## Contributions
-
-Contributions are welcome. Notice also the *discussions* area in this repo.
-
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you shall be licensed as above, without any additional terms or conditions.
 
-The guide on the website is made with [Docsify](https://github.com/docsifyjs/docsify/), you can improve it by simply editing the markdown, you can find the [sources on GitHub](https://github.com/leon-thomm/ryven-website-guide) as well.
+## Credits
 
-Cheers.
+A huge thanks to the contributors. This project does not exist without the open-source community. I personally want to particularly thank the people listed in the CREDITS.md file, which have strongly impacted the project.
