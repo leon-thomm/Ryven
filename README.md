@@ -1,4 +1,4 @@
-> This project is not very actively maintained. With the latest release - which I'm currently working on to get mostly stable - the project became quite accurately what I wanted it to be, and I will have very limited time available to work on it in the future. If you are a contributor and interested in maintaining, please [contact me](mailto:lthomm@ethz.ch).
+> This project is not very actively maintained. With the latest release - which I'm currently working on getting mostly stable - the project became quite accurately what I wanted it to be, and I'll have limited time for it in the future. If you are a contributor and interested in maintaining, please [contact me](mailto:l.thomm@mailbox.org).
 
 <p align="center">
   <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
