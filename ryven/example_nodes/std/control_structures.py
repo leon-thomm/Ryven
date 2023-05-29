@@ -11,7 +11,7 @@ class If_Node(CSNodeBase):
     title = 'branch'
     init_inputs = [
         NodeInputType(type_='exec'),
-        NodeInputType(label='cond'),  # dtype=dtypes.Boolean()
+        NodeInputType(label='cond'),
     ]
     init_outputs = [
         NodeOutputType('true', type_='exec', ),
@@ -32,8 +32,8 @@ class ForLoop_Node(CSNodeBase):
     title = 'for'
     init_inputs = [
         NodeInputType(type_='exec'),
-        NodeInputType(label='from'),  # dtype=dtypes.Integer()
-        NodeInputType(label='to'),  # dtype=dtypes.Integer()
+        NodeInputType(label='from'),
+        NodeInputType(label='to'),
     ]
     init_outputs = [
         NodeOutputType('loop', type_='exec'),
@@ -44,8 +44,6 @@ class ForLoop_Node(CSNodeBase):
 
     def __init__(self, params):
         super().__init__(params)
-
-        # self.actions['add dimension'] = {'method': self.add_dimension}
 
         self.dims = 1
 
@@ -65,21 +63,6 @@ class ForLoop_Node(CSNodeBase):
         self.delete_output(out_index)
         self.delete_output(out_index)
         self.dims -= 1
-        # # del self.actions[f'remove dimension {dim}']
-        # self.rebuild_remove_actions()
-    #
-    # def rebuild_remove_actions(self):
-    #
-    #     remove_keys = []
-    #     for k, v in self.actions.items():
-    #         if k.startswith('remove dimension'):
-    #             remove_keys.append(k)
-    #
-    #     for k in remove_keys:
-    #         del self.actions[k]
-    #
-    #     for i in range(1, self.dims):
-    #         self.actions[f'remove dimension {i+1}'] = {'method': self.remove_dimension, 'data': i+1}
 
     def input_from_dim(self, dim):
         return 1 + 2*(dim-1)

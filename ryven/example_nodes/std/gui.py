@@ -25,6 +25,13 @@ class GuiBase(NodeGUI):
 
 
 class OperatorNodeBaseGui(GuiBase):
+    input_widget_classes = {
+        'in': inp_widgets.Builder.evaled_line_edit(size='s', resizing=True),
+    }
+    # init_input_widgets = {
+    #     0: {'name': 'in', 'pos': 'besides'},
+    #     1: {'name': 'in', 'pos': 'besides'},
+    # }
     style = 'small'
 
     def __init__(self, params):
@@ -32,6 +39,9 @@ class OperatorNodeBaseGui(GuiBase):
 
         self.actions['add input'] = {'method': self.add_operand_input}
         self.actions['remove input'] = {}
+
+        for inp in self.node.inputs:
+            self.input_widgets[inp] = {'name': 'in', 'pos': 'besides'}
 
     def initialized(self):
         super().initialized()
@@ -129,6 +139,7 @@ class ForEachLoopGui(CSNodeBaseGui):
 """
     special nodes
 """
+
 
 class SpecialNodeGuiBase(GuiBase):
     color = '#FFCA00'
@@ -236,27 +247,7 @@ class ClockNodeGui(SpecialNodeGuiBase):
         self.node.stop()
 
 
-# class LogNode_MainWidget(NodeMainWidget, QComboBox):
-#     def __init__(self, params):
-#         NodeMainWidget.__init__(self, params)
-#         QComboBox.__init__(self)
-#
-#         self.addItems(list(self.node.logs.keys()))
-#
-#         self.currentTextChanged.connect(self.text_changed)
-#         self.set_target(self.node.target)
-#
-#     def text_changed(self, t):
-#         i = int(t.split(' ')[-1])
-#         self.node.active_target = i
-#
-#     def set_target(self, t):
-#         self.setCurrentText(t)
-
-
 class LogNodeGui(SpecialNodeGuiBase):
-    # main_widget_class = LogNode_MainWidget
-    # main_widget_pos = 'below ports'
     color = '#5d95de'
 
 

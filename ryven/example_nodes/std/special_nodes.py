@@ -1,10 +1,10 @@
 import code
 from contextlib import redirect_stdout, redirect_stderr
-
 from packaging.version import Version
-from ryvencore.addons.Logging import LoggingAddon
 
+from ryvencore.addons.Logging import LoggingAddon
 from ryven.node_env import *
+
 guis = import_guis(__file__)
 
 
@@ -25,28 +25,16 @@ class DualNodeBase(NodeBase):
         super().__init__(params)
 
         self.active = active
-        # if active:
-        #     self.actions['make passive'] = {'method': self.make_passive}
-        # else:
-        #     self.actions['make active'] = {'method': self.make_active}
 
     def make_passive(self):
-        # del self.actions['make passive']
-
         self.delete_input(0)
         self.delete_output(0)
         self.active = False
 
-        # self.actions['make active'] = {'method': self.make_active}
-
     def make_active(self):
-        # del self.actions['make active']
-
         self.create_input(type_='exec', insert=0)
         self.create_output(type_='exec', insert=0)
         self.active = True
-
-        # self.actions['make passive'] = {'method': self.make_passive}
 
     def get_state(self) -> dict:
         return {
@@ -55,9 +43,6 @@ class DualNodeBase(NodeBase):
 
     def set_state(self, data: dict, version):
         self.active = data['active']
-
-
-# -------------------------------------------
 
 
 class Checkpoint_Node(DualNodeBase):
@@ -75,8 +60,6 @@ class Checkpoint_Node(DualNodeBase):
     def __init__(self, params):
         super().__init__(params)
 
-        self.display_title = ''
-
         self.active = False
 
     """
@@ -93,22 +76,6 @@ class Checkpoint_Node(DualNodeBase):
             self.delete_input(0)
 
     def make_active(self):
-        # self.active = True
-        #
-        # # rebuild inputs and outputs
-        # self.clear_ports()
-        # self.create_input(type_='exec')
-        # self.create_output(type_='exec')
-        #
-        # # update actions
-        # del self.actions['make active']
-        # self.actions['make passive'] = {
-        #     'method': self.make_passive
-        # }
-        # self.actions['remove output'] = {
-        #     '0': {'method': self.remove_output, 'data': 0}
-        # }
-
         num_outputs = len(self.outputs)
         self.clear_ports()
         super().make_active()
@@ -117,47 +84,17 @@ class Checkpoint_Node(DualNodeBase):
 
 
     def make_passive(self):
-        # self.active = False
-        #
-        # # rebuild inputs and outputs
-        # self.clear_ports()
-        # self.create_input(type_='data')
-        # self.create_output(type_='data')
-        #
-        # # update actions
-        # del self.actions['make passive']
-        # self.actions['make active'] = {
-        #     'method': self.make_active
-        # }
-        # self.actions['remove output'] = {
-        #     '0': {'method': self.remove_output, 'data': 0}
-        # }
-
         num_outputs = len(self.outputs)
         super().make_passive()
         self.clear_ports()
         for i in range(num_outputs):
             self.add_output()
 
-    # """Actions"""
-
     def add_output(self):
-        index = len(self.outputs)
-
-        if self.active:
-            self.create_output(type_='exec')
-        else:
-            self.create_output(type_='data')
-
-        # self.actions['remove output'][str(index)] = {
-        #     'method': self.remove_output,
-        #     'data': index,
-        # }
+        self.create_output(type_='exec' if self.active else 'data')
 
     def remove_output(self, index):
         self.delete_output(index)
-
-        # del self.actions['remove output'][str(len(self.outputs))]
 
     """
     update
@@ -172,25 +109,6 @@ class Checkpoint_Node(DualNodeBase):
             data = self.input(0)
             for i in range(len(self.outputs)):
                 self.set_output_val(i, data)
-
-    """
-    state reload
-    """
-
-    # def get_state(self) -> dict:
-    #     return {
-    #         **super().get_state(),
-    #         'num outputs': len(self.outputs),
-    #     }
-    #
-    # def set_state(self, data: dict, version):
-    #     self.actions['remove output'] = {
-    #         {'method': self.remove_output, 'data': i}
-    #         for i in range(data['num outputs'])
-    #     }
-    #
-    #     if data['active']:
-    #         self.make_active()
 
 
 class Button_Node(NodeBase):
@@ -209,12 +127,11 @@ class Print_Node(DualNodeBase):
     title = 'Print'
     init_inputs = [
         NodeInputType(type_='exec'),
-        NodeInputType(),  # dtype=dtypes.Data(size='m')
+        NodeInputType(),
     ]
     init_outputs = [
         NodeOutputType(type_='exec'),
     ]
-    # color = '#5d95de'
 
     def __init__(self, params):
         super().__init__(params, active=True)
@@ -246,7 +163,6 @@ class Log_Node(DualNodeBase):
 
         self.number: int = None
         self.logger: logging.Logger = None
-        # self.active_target: int = None
 
     def place_event(self):
         if self.number is None:
@@ -255,7 +171,6 @@ class Log_Node(DualNodeBase):
             self.logs[self.number] = \
                 self.logs_ext().new_logger(self, 'Log Node')
             self.in_use.add(self.number)
-            # self.active_target = self.number
 
     def logs_ext(self) -> LoggingAddon:
         return self.get_addon('Logging')
@@ -270,7 +185,6 @@ class Log_Node(DualNodeBase):
         return {
             **super().get_state(),
             'number': self.number,
-            # 'active_target': self.active_target,
         }
 
     def set_state(self, data: dict, version):
@@ -290,9 +204,6 @@ class Log_Node(DualNodeBase):
         # for us already
         self.logs[self.number] = \
             self.logs_ext().new_logger(self, 'Log Node')
-
-        # if self.session.gui and self.main_widget():
-        #     self.main_widget().set_target(self.target)
 
 
 class Clock_Node(NodeBase):
@@ -399,56 +310,17 @@ class _DynamicPorts_Node(NodeBase):
     init_outputs = []
     GUI = guis.DynamicPortsGui
 
-    # def __init__(self, params):
-    #     super().__init__(params)
-    #
-    #     self.actions['add input'] = {'method': self.add_inp}
-    #     self.actions['add output'] = {'method': self.add_out}
-    #
-    #     self.num_inputs = 0
-    #     self.num_outputs = 0
-
     def add_input(self):
         self.create_input()
 
-        # index = self.num_inputs
-        # self.actions[f'remove input {index}'] = {
-        #     'method': self.remove_inp,
-        #     'data': index
-        # }
-        #
-        # self.num_inputs += 1
-
     def remove_input(self, index):
         self.delete_input(index)
-        # self.num_inputs -= 1
-        # del self.actions[f'remove input {self.num_inputs}']
 
     def add_output(self):
         self.create_output()
 
-        # index = self.num_outputs
-        # self.actions[f'remove output {index}'] = {
-        #     'method': self.remove_out,
-        #     'data': index
-        # }
-        #
-        # self.num_outputs += 1
-
     def remove_output(self, index):
         self.delete_output(index)
-        # self.num_outputs -= 1
-        # del self.actions[f'remove output {self.num_outputs}']
-
-    # def get_state(self) -> dict:
-    #     return {
-    #         'num inputs': self.num_inputs,
-    #         'num outputs': self.num_outputs,
-    #     }
-
-    # def set_state(self, data: dict):
-    #     self.num_inputs = data['num inputs']
-    #     self.num_outputs = data['num outputs']
 
 
 class Exec_Node(_DynamicPorts_Node):
@@ -459,9 +331,6 @@ class Exec_Node(_DynamicPorts_Node):
         super().__init__(params)
 
         self.code = None
-
-    # def place_event(self):
-    #     pass
 
     def update_event(self, inp=-1):
         exec(self.code)
@@ -490,8 +359,6 @@ class Eval_Node(NodeBase):
     def __init__(self, params):
         super().__init__(params)
 
-        # self.actions['add input'] = {'method': self.add_param_input}
-
         self.number_param_inputs = 0
         self.expression_code = None
 
@@ -502,22 +369,18 @@ class Eval_Node(NodeBase):
     def add_param_input(self):
         self.create_input()
 
-        # index = self.number_param_inputs
-        # self.actions[f'remove input {index}'] = {
-        #     'method': self.remove_param_input,
-        #     'data': index
-        # }
-
         self.number_param_inputs += 1
 
     def remove_param_input(self, index):
         self.delete_input(index)
         self.number_param_inputs -= 1
-        # del self.actions[f'remove input {self.number_param_inputs}']
 
     def update_event(self, inp=-1):
-        inp = [self.input(i) for i in range(self.number_param_inputs)]
-        self.set_output_val(0, eval(self.expression_code))
+        inp = [
+            self.input(i).payload if self.input(i) is not None else None
+            for i in range(self.number_param_inputs)
+        ]
+        self.set_output_val(0, Data(eval(self.expression_code)))
 
     def get_state(self) -> dict:
         return {
@@ -531,8 +394,10 @@ class Eval_Node(NodeBase):
 
 
 class Interpreter_Node(NodeBase):
-    """Provides a python interpreter via a basic console with access to the
-    node's properties."""
+    """
+    Provides a python interpreter via a basic console with access to the
+    node's properties.
+    """
     title = 'interpreter'
     init_inputs = []
     init_outputs = []
@@ -598,8 +463,10 @@ class Interpreter_Node(NodeBase):
 
 
 class Storage_Node(NodeBase):
-    """Sequentially stores all the data provided at the input in an array.
-    A COPY of the storage array is provided at the output"""
+    """
+    Sequentially stores all the data provided at the input in an array.
+    A shallow copy of the storage array is provided at the output
+    """
 
     title = 'store'
     init_inputs = [
@@ -614,8 +481,6 @@ class Storage_Node(NodeBase):
         super().__init__(params)
 
         self.storage = []
-
-        # self.actions['clear'] = {'method': self.clear}
 
     def clear(self):
         self.storage.clear()
@@ -658,37 +523,20 @@ class LinkIN_Node(NodeBase):
 
     def __init__(self, params):
         super().__init__(params)
-        self.display_title = 'link'
 
         # register
         self.ID: uuid.UUID = uuid.uuid4()
         self.INSTANCES[str(self.ID)] = self
 
-        # self.actions['add input'] = {
-        #     'method': self.add_inp
-        # }
-        # self.actions['remove inp'] = {}
-        # self.actions['copy ID'] = {
-        #     'method': self.copy_ID
-        # }
-
         self.linked_node: LinkOUT_Node = None
 
     def add_input(self):
-        # index = len(self.inputs)
-
         self.create_input()
-
-        # self.actions['remove inp'][str(index)] = {
-        #     'method': self.rem_inp,
-        #     'data': index,
-        # }
         if self.linked_node is not None:
             self.linked_node.add_output()
 
     def remove_input(self, index):
         self.delete_input(index)
-        # del self.actions['remove inp'][str(len(self.inputs))]
         if self.linked_node is not None:
             self.linked_node.remove_output(index)
 
@@ -745,42 +593,9 @@ class LinkOUT_Node(NodeBase):
 
     def __init__(self, params):
         super().__init__(params)
-        self.display_title = 'link'
 
         self.INSTANCES.append(self)
         self.linked_node: LinkIN_Node = None
-
-        # self.actions['link to ID'] = {
-        #     'method': self.choose_link_ID
-        # }
-
-    # def choose_link_ID(self):
-    #     """opens a small input dialog for providing a copied link IN ID"""
-    #
-    #     from qtpy.QtWidgets import QDialog, QMessageBox, QVBoxLayout, QLineEdit
-    #
-    #     class IDInpDialog(QDialog):
-    #         def __init__(self):
-    #             super().__init__()
-    #             self.id_str = None
-    #             self.setLayout(QVBoxLayout())
-    #             self.line_edit = QLineEdit()
-    #             self.layout().addWidget(self.line_edit)
-    #             self.line_edit.returnPressed.connect(self.return_pressed)
-    #
-    #         def return_pressed(self):
-    #             self.id_str = self.line_edit.text()
-    #             self.accept()
-    #
-    #     d = IDInpDialog()
-    #     d.exec_()
-    #
-    #     if d.id_str is not None:
-    #         n = LinkIN_Node.INSTANCES.get(d.id_str)
-    #         if n is None:
-    #             QMessageBox.warning(title='link failed', text='couldn\'t find a valid link in node')
-    #         else:
-    #             self.link_to(n)
 
     def link_to(self, n: LinkIN_Node):
         self.linked_node = n
@@ -839,9 +654,6 @@ class LinkOUT_Node(NodeBase):
         if self.linked_node:
             self.linked_node.linked_node = None
             self.linked_node = None
-
-
-# -------------------------------------------
 
 
 nodes = [
