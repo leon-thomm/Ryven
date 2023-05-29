@@ -2,6 +2,8 @@ import re
 
 from ryven.gui_env import *
 
+from special_nodes import *
+
 from qtpy.QtGui import QFont
 from qtpy.QtCore import Qt, Signal, QEvent
 from qtpy.QtWidgets import QPushButton, QComboBox, QSlider, QTextEdit, QPlainTextEdit, QWidget, QVBoxLayout, QLineEdit, \
@@ -515,6 +517,10 @@ class LinkIN_NodeGui(SpecialNodeGuiBase):
         self.actions['remove inp'] = {}
         self.actions['copy ID'] = {'method': self.copy_ID}
 
+    def copy_ID(self):
+        from qtpy.QtWidgets import QApplication
+        QApplication.clipboard().setText(str(self.node.ID))
+
     def add_inp(self):
         self.node.add_input()
         index = self.node.inputs-1
@@ -553,7 +559,7 @@ class LinkOUT_NodeGui(SpecialNodeGuiBase):
         d.exec_()
 
         if d.id_str is not None:
-            n = self.node.INSTANCES.get(d.id_str)
+            n = LinkIN_Node.INSTANCES.get(d.id_str)
             if n is not None:
                 self.node.link_to(n)
             else:

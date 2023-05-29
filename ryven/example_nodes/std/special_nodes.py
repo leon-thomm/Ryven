@@ -674,10 +674,6 @@ class LinkIN_Node(NodeBase):
 
         self.linked_node: LinkOUT_Node = None
 
-    def copy_ID(self):
-        from qtpy.QtWidgets import QApplication
-        QApplication.clipboard().setText(str(self.ID))
-
     def add_input(self):
         # index = len(self.inputs)
 
