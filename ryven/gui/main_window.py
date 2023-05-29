@@ -403,7 +403,7 @@ CONTROLS
             InfoMsgs.write('couldn\'t open file')
             return
 
-        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': ryven_version()}
+        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': str(ryven_version())}
 
         flows_data = self.core_session.serialize()
 
