@@ -193,6 +193,10 @@ class Builder:
             def val(self) -> data_type:
                 return data_type(self.text())
 
+            def load_from(self, val: data_type):
+                with self._prevent_update:
+                    self.setText(str(val))
+
             def val_update_event(self, val: Data):
                 # represent incoming data
                 try:
@@ -231,14 +235,18 @@ class Builder:
                 self.valueChanged.connect(self.value_changed)
 
                 # initial value and rage
-                self.setRange(*range)
                 with self._prevent_update:
+                    self.setRange(*range)
                     self.setValue(init)
 
 
             @property
             def val(self) -> data_type:
                 return data_type(self.value())
+
+            def load_from(self, val: data_type):
+                with self._prevent_update:
+                    self.setValue(val.payload)
 
             def value_changed(self, _):
                 self.on_widget_val_changed(self.val)
@@ -272,13 +280,17 @@ class Builder:
                 self.valueChanged.connect(self.value_changed)
 
                 # initial value and rage
-                self.setRange(*range)
                 with self._prevent_update:
+                    self.setRange(*range)
                     self.setValue(init)
 
             @property
             def val(self) -> data_type:
                 return data_type(self.value())
+
+            def load_from(self, val: data_type):
+                with self._prevent_update:
+                    self.setValue(val.payload)
 
             def value_changed(self, _):
                 self.on_widget_val_changed(self.val)
@@ -316,6 +328,10 @@ class Builder:
             @property
             def val(self) -> data_type:
                 return data_type(self.isChecked())
+
+            def load_from(self, val: data_type):
+                with self._prevent_update:
+                    self.setChecked(val.payload)
 
             def state_changed(self, _):
                 self.on_widget_val_changed(self.val)
