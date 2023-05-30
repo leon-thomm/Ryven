@@ -1,4 +1,3 @@
-from qtpy.QtWidgets import QApplication
 from ryven.main.utils import abs_path_from_package_dir
 
 
@@ -83,6 +82,7 @@ class WindowTheme_Plain(WindowTheme):
 
 
 def apply_stylesheet(style: str):
+    from qtpy.QtWidgets import QApplication
 
     # set to None if not used
     icons_dir = abs_path_from_package_dir('resources/stylesheets/icons')
