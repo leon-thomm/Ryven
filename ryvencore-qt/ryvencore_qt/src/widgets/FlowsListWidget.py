@@ -60,13 +60,14 @@ class FlowsListWidget(QWidget):
         # remove flow widgets
         for i in reversed(range(self.list_layout.count())):
             self.list_layout.itemAt(i).widget().setParent(None)
-
         self.list_widgets.clear()
 
+        # re-create flow widgets
         for s in self.session_gui.core_session.flows:
             new_widget = FlowsList_FlowWidget(self, self.session_gui, s)
             self.list_widgets.append(new_widget)
 
+        # add flow widgets to layout
         for w in self.list_widgets:
             self.list_layout.addWidget(w)
 

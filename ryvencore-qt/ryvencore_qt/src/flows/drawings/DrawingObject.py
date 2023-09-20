@@ -196,19 +196,8 @@ class DrawingObject(QGraphicsItem):
         return drawing_dict
 
 
-
-
-
-
-
-
-
-
-
-
-
-# ALTERNATIVE QGRAPHICSPATHITEM-BASED IMPLEMENTATION:
-
+# alternative QGraphcsItem-based implementation:
+# 
 #   ...
 #     def paint(self, painter, option, widget=None):
 #
@@ -241,5 +230,5 @@ class DrawingObject(QGraphicsItem):
 #
 #         self.finished = True
 #         self.update()
-
+# 
 # it is a bit worse in appearance but might be a lot faster

@@ -14,9 +14,9 @@ from ...utils import get_longest_line, shorten
 
 from ..FlowViewProxyWidget import FlowViewProxyWidget
 
-#
-# Utils
-#
+
+# utils
+
 
 def is_connected(port):
     if isinstance(port, NodeOutput):
@@ -45,9 +45,9 @@ def connections(port):
         else:
             return []
 
-#
-# Classes
-#
+
+# main classes
+
 
 class PortItem(GUIBase, QGraphicsWidget):
     """The GUI representative for ports of nodes, also handling mouse events for connections."""
@@ -75,7 +75,7 @@ class PortItem(GUIBase, QGraphicsWidget):
         self._layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self._layout)
 
-    # --------------------------------------------
+    # >>> interaction boilerplate >>>
     def boundingRect(self):
         return QRectF(QPointF(0, 0), self.geometry().size())
 
@@ -83,7 +83,7 @@ class PortItem(GUIBase, QGraphicsWidget):
         self.prepareGeometryChange()
         QGraphicsLayoutItem.setGeometry(self, rect)
         self.setPos(rect.topLeft())
-    # --------------------------------------------
+    # <<< interaction boilerplate <<<
 
     def setup_ui(self):
         pass
@@ -203,7 +203,7 @@ class OutputPortItem(PortItem):
         l.setAlignment(self.pin, Qt.AlignVCenter | Qt.AlignRight)
 
 
-# CONTENTS -------------------------------------------------------------------------------------------------------------
+# contents
 
 
 class PortItemPin(QGraphicsWidget):

@@ -42,8 +42,6 @@ class VariablesListWidget(QWidget):
 
         main_layout.addWidget(self.list_scroll_area)
 
-        # ------------------
-
         # controls
 
         self.new_var_name_lineedit = QLineEdit()
@@ -51,8 +49,6 @@ class VariablesListWidget(QWidget):
         self.new_var_name_lineedit.returnPressed.connect(self.new_var_LE_return_pressed)
 
         main_layout.addWidget(self.new_var_name_lineedit)
-
-        # ------------------
 
         self.setContentsMargins(0, 0, 0, 0)
         self.setLayout(main_layout)
@@ -69,8 +65,7 @@ class VariablesListWidget(QWidget):
 
 
     def on_var_deleted(self, flow, name):
-        # because Qt is weird, I cannot remove widgets the same way
-        # I add them, so I have to do this
+        # apparently, I cannot remove widgets the same way I add them
         self.recreate_list()
 
 

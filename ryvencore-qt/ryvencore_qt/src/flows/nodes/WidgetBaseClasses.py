@@ -8,7 +8,6 @@ class NodeMainWidget:
     def __init__(self, params):
         self.node, self.node_item, self.node_gui = params
 
-    # OVERRIDE
     def get_state(self) -> dict:
         """
         *VIRTUAL*
@@ -26,14 +25,6 @@ class NodeMainWidget:
         returned by get_state().
         """
         pass
-
-    # def remove_event(self):
-    #     """
-    #     *VIRTUAL*
-    #
-    #     Called when the input is removed.
-    #     """
-    #     pass
 
     def update_node(self):
         self.node.update()
@@ -58,7 +49,6 @@ class NodeInputWidget:
         data = {}
         return data
 
-    # OVERRIDE
     def set_state(self, data: dict):
         """
         *VIRTUAL*
@@ -67,10 +57,6 @@ class NodeInputWidget:
         returned by get_state().
         """
         pass
-
-    # OVERRIDE
-    # def remove_event(self):
-    #     pass
 
     def val_update_event(self, val: Data):
         """
@@ -82,11 +68,7 @@ class NodeInputWidget:
         """
         pass
 
-    """
-    
-    API methods
-    
-    """
+    # API methods
 
     def update_node_input(self, val: Data, silent=False):
         """

@@ -1,1 +1,0 @@
-"""Namespace for the frontend"""

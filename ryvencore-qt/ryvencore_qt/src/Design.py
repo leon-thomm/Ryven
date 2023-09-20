@@ -112,10 +112,3 @@ class Design(QObject):
 
     def set_node_item_shadows(self, b: bool):
         self.node_item_shadows_enabled = b
-
-
-
-
-
-# default_node_selection_stylesheet = '''
-# '''

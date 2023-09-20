@@ -22,8 +22,6 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
     the same for every node."""
 
     def __init__(self, node, node_gui, flow_view, design):
-        # QGraphicsItem.__init__(self)
-        # QObject.__init__(self)
         GUIBase.__init__(self, representing_component=node)
         QGraphicsObject.__init__(self)
 
@@ -135,8 +133,7 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
 
         self.update()  # ... not sure if I need that
 
-    # --------------------------------------------------------------------------------------
-    # UI STUFF -------------------------#---------------
+    # UI STUFF
 
     def node_updating(self):
         if self.session_design.animations_enabled:
@@ -347,13 +344,12 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         """All painting is done by NodeItemPainter"""
 
         # in order to access a meaningful geometry of GraphicsWidget contents in update_shape(), the paint event
-        # has to be called once. See here:
+        # has to be called once.
         # https://forum.qt.io/topic/117179/force-qgraphicsitem-to-update-immediately-wait-for-update-event/4
         if not self.painted_once:
-            # ok, quick notice. Since I am using a NodeItemWidget, calling self.update_design() here (again)
-            # leads to a QT crash without error, which is really strange. Calling update_design multiple times
-            # principally isn't a problem, but, for some reason, here it leads to a crash in QT. It's not necessary
-            # anymore, so I removed it.
+            # Since I am using a NodeItemWidget, calling self.update_design() here (again)
+            # leads to a QT crash without error, which is strange. In pronciple, calling update_design multiple times
+            # shouldn't be a problem. It's not necessary anymore, so I removed it.
             # self.update_design()
 
             self.update_shape()
