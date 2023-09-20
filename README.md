@@ -21,6 +21,8 @@ Once you have Python and pip installed, Ryven is available on PyPI via
 pip install ryven
 ```
 
+*The current default version on PyPI is significantly outdated, you may currently instead `pip install ryven --pre`*.
+
 There is also a [conda-forge package](https://anaconda.org/conda-forge/ryven) (`conda install -c conda-forge ryven`).
 
 Ryven can be launched from the command line with `ryven`. If you installed Ryven into a Python virtual environment, the environment needs to be activated first.
