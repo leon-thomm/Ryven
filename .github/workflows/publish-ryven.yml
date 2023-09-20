@@ -23,9 +23,9 @@ jobs:
         with:
           password: ${{ secrets.TEST_PYPI_API_TOKEN }}
           repository-url: https://test.pypi.org/legacy/
-          working-directory: ./ryven-editor
+          packages-dir: ryven-editor/dist/
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-          working-directory: ./ryven-editor
+          packages-dir: ryven-editor/dist/
