@@ -3,8 +3,7 @@ on:
   create:
     tags:
       - '*'
-  workflow_dispatch:
-    - '*'
+  workflow_dispatch: []
 jobs:
   Build-and-Publish:
     runs-on: ubuntu-latest
