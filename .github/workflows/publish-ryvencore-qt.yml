@@ -1,4 +1,4 @@
-name: Publish package distribution to TestPyPi and PyPi
+name: Publish ryvencore-qt wheel to TestPyPi and PyPi
 on:
   create:
     tags:
@@ -12,6 +12,8 @@ jobs:
         with:
           python-version: 3.x
           architecture: x64
+      - name: Change directory to ryvencore-qt
+        run: cd ryvencore-qt
       - name: Install pypa/build
         run: python -m pip install build --user
       - name: Build binary wheel and source tarball
