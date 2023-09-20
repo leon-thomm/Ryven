@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="20.107mm"
+   height="16.165001mm"
+   viewBox="0 0 20.107 16.165001"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (76b9e6a115, 2022-02-25)"
+   sodipodi:docname="warning.svg"
+   inkscape:export-filename="/home/leon/projects/ryven_projects/ryvencore-qt/ryvencore_qt/resources/pics/warning.png"
+   inkscape:export-xdpi="619.08533"
+   inkscape:export-ydpi="619.08533"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="false"
+     inkscape:zoom="8.7679434"
+     inkscape:cx="28.34188"
+     inkscape:cy="28.455932"
+     inkscape:window-width="1920"
+     inkscape:window-height="1026"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     width="20.107mm" />
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter10145"
+       x="-0.037085046"
+       y="-0.046829941"
+       width="1.0741701"
+       height="1.0936633">
+      <feGaussianBlur
+         stdDeviation="0.05 0.05"
+         result="blur"
+         id="feGaussianBlur10143" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter10149"
+       x="-0.42208318"
+       y="-0.10964406"
+       width="1.844166"
+       height="1.2192303">
+      <feGaussianBlur
+         stdDeviation="0.05 0.05"
+         result="blur"
+         id="feGaussianBlur10147" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Blur"
+       id="filter10153"
+       x="-0.32602975"
+       y="-0.33282494"
+       width="1.6520263"
+       height="1.6656443">
+      <feGaussianBlur
+         stdDeviation="0.05 0.05"
+         result="blur"
+         id="feGaussianBlur10151" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#172ec1;stroke:#448aff;stroke-width:1.165;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter10145);fill-opacity:0.43838"
+       d="M 0.5944035,15.594628 H 19.53607 L 10.065237,0.59462737 Z"
+       id="path857"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/leon/projects/ryven_projects/ryvencore-qt/ryvencore_qt/resources/pics/warning.png"
+       inkscape:export-xdpi="619.08533"
+       inkscape:export-ydpi="619.08533" />
+    <path
+       style="fill:#448aff;fill-opacity:0.97647059;stroke:#448aff;stroke-width:0.865;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter10149)"
+       d="m 9.4346169,5.6529604 0.6306201,5.0390326 0.67835,-5.0390326 z"
+       id="path1735"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="opacity:1;fill:#448aff;fill-opacity:0.976471;stroke:#448aff;stroke-width:0.403;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter10153)"
+       id="path9573"
+       sodipodi:type="arc"
+       sodipodi:cx="10.069466"
+       sodipodi:cy="12.862857"
+       sodipodi:rx="0.49021924"
+       sodipodi:ry="0.4821817"
+       sodipodi:start="2.4387311"
+       sodipodi:end="2.3927417"
+       sodipodi:open="true"
+       sodipodi:arc-type="arc"
+       d="m 9.6954305,13.174541 a 0.49021924,0.4821817 0 0 1 0.052876,-0.675979 0.49021924,0.4821817 0 0 1 0.6878093,0.04423 0.49021924,0.4821817 0 0 1 -0.03706,0.676996 0.49021924,0.4821817 0 0 1 -0.688661,-0.02867" />
+  </g>
+</svg>

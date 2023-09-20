@@ -1,17 +1,17 @@
-> This project is not very actively maintained. With the latest release - which I'm currently working on getting mostly stable - the project became quite accurately what I wanted it to be, and I'll have limited time for it in the future. If you are a contributor and interested in maintaining, please [contact me](mailto:l.thomm@mailbox.org).
+> This project is not receiving substantial updates, and I'll have limited time for it in the future. With the latest release the project became quite accurately what I want it to be: an easy and flexible editor and framework to explore use cases of flow-based visual scripting in Python. If you have questions or further ideas feel free to open issues or fork the project and try it yourself.
 
 <p align="center">
   <img src="./docs/img/logo.png" alt="drawing" width="70%"/>
 </p>
 
-Ryven is an experimental node editor written in Python, it implements a Qt-based visual interface for flow-based programming in Python. It provides a powerful system for developing nodes executing any Python code, and an editor for building graphs using those nodes. Ryven features a bunch of configuration options and a headless mode for running graphs without any GUI. Some relevant GitHub repos:
+Ryven is an experimental node editor written in Python. It implements a Qt-based visual interface for flow-based visual scripting in Python. It provides a powerful system for developing nodes executing any Python code, and an editor for building graphs using those nodes. Ryven features a bunch of configuration options and a headless mode for running graphs without any GUI. Some relevant GitHub repos:
 
-* [ryvencore](https://github.com/leon-thomm/ryvencore): backend / core framework
-* [ryvencore-qt](https://github.com/leon-thomm/ryvencore-qt): Qt frontend classes for ryvencore
-* [ryven-blender](https://github.com/leon-thomm/ryven-blender), [ryven-unreal](https://github.com/leon-thomm/ryven-unreal): Ryven plugins for Blender and UE4
-  * _not actively maintained_
-* [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven): WIP Ryven nodes for PythonOCC (3D CAD)
+* [ryvencore](https://github.com/leon-thomm/ryvencore): backend / core library
+* [ryven-blender](https://github.com/leon-thomm/ryven-blender), [ryven-unreal](https://github.com/leon-thomm/ryven-unreal): Ryven plugins for Blender and UE4 (_deprecated_)
+* [PythonOCC nodes for Ryven](https://github.com/Tanneguydv/Pythonocc-nodes-for-Ryven): WIP Ryven nodes for PythonOCC (3D CAD) (_deprecated_)
 * [ironflow](https://github.com/pyiron/ironflow): WIP node interface in jupyter for [pyiron](https://github.com/pyiron) based on ryvencore
+
+The `ryvencore-qt` library adds Qt-based GUI classes for ryvencore (`./ryvencore-qt/`), and the Ryven editor assembles them into a fully-featured cross-platform application (`./ryven-editor/`).
 
 ## Installation and Configuration
 
@@ -21,15 +21,13 @@ Once you have Python and pip installed, Ryven is available on PyPI via
 pip install ryven
 ```
 
-*The current default version on PyPI is significantly outdated, you may currently instead `pip install ryven --pre`*.
-
 There is also a [conda-forge package](https://anaconda.org/conda-forge/ryven) (`conda install -c conda-forge ryven`).
 
-Ryven can be launched from the command line with `ryven`. If you installed Ryven into a Python virtual environment, the environment needs to be activated first.
+Ryven can be launched from the command line by typing `ryven`. If you installed Ryven into a Python virtual environment (or a conda environment), the environment needs to be activated first.
 
 Ryven itself only comes with some small example nodes. You should use Ryven either to develop nodes, or use a third-party nodes package for your use case if there is one. The example nodes are - indeed - just examples, and not stable in any way, so you should not depend on them.
 
-When installed, ryven will create a directory `.ryven` in your user home with the following structure:
+When installed, ryven will create a directory `~/.ryven/` in your user home with the following structure:
 
 ```
 ~/.ryven
@@ -61,9 +59,9 @@ Ryven can be configured in four ways:
 4. using a GUI in the startup dialog
    * you can also convert the manual configuration to cmd line args (or a config file) in the dialog
 
-See `ryven --help` for a list of available options.
+Type `ryven --help` for a list of available options.
 
-To deploy a Ryven project headless, without any GUI, use the `ryven-console` command.
+To deploy a Ryven project headless (without any GUI) use the `ryven-console` command.
 
 <details>
 <summary>Example: headless deployment with REPL access</summary>
@@ -87,8 +85,8 @@ For more information, visit https://leon-thomm.github.io/ryvencore/
 </details>
 
 ## Editor Usage
-
-Quickstart guide:
+<details>
+<summary>quick start guide</summary>
 
 * open Ryven by running `ryven` from the command line
 * you should see the startup dialog
@@ -105,6 +103,8 @@ Quickstart guide:
 * by right-clicking, you can also get an interactive nodes list preview inside the scene
 * you can pan around also with the right mouse button (hold and drag)
 * and zoom via `ctrl + scroll`
+
+</details>
 
 ## Developing Nodes
 
@@ -267,8 +267,6 @@ Please find further resources on the GitHub wiki page in this repository.
 
 ## Features
 
-A (possibly incomplete) list of features:
-
 - **headless mode** to run projects without GUI dependencies at high performance
 - **sophisticated nodes system** allowing for stateful nodes and widgets
 - **cross-platform**; running anywhere where Qt runs (for GUI), or simply Python (headless)
@@ -277,80 +275,9 @@ A (possibly incomplete) list of features:
 - **custom Qt widgets support**
 - various **themes**, including light
 - **right-click operations system for nodes**
-- **variables add-on** with observer mechanism, to build nodes that automatically adapt to change of data
-- very basic **logging support**
-- primitive, very experimental **stylus support** for adding handwritten notes on touch devices
-
-<!--
-
-### Nodes API in action
-
-<table>
-<tr>
-<th>stateful nodes</th>
-<th>exec nodes</th>
-<th>custom Qt widgets</th>
-<th>variables</th>
-<th>logging</th>
-</tr>
-<tr>
-
-<td>
-<sub>
-
-is this text small, yes it is :>>>
-
-```python
-this is a test
-```
-
-</sub>
-</td>
-
-<td>
-<sub>
-
-```python
-asdf
-```
-
-</sub>
-</td>
-
-<td>
-<sub>
-
-```python
-qewr
-```
-
-</sub>
-</td>
-
-<td>
-<sub>
-
-```python
-this is a test
-```
-
-</sub>
-</td>
-
-<td>
-<sub>
-
-```python
-this is a test
-```
-
-</sub>
-</td>
-
-</tr>
-</table>
-
--->
+- **variables system** with observer mechanism, to build nodes that automatically adapt to change of data
+- basic Python **logging support**
+<!-- - primitive, very experimental **stylus support** for adding handwritten notes on touch devices -->
 
 ## License
 
@@ -361,4 +288,4 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 
 ## Credits
 
-A huge thanks to the contributors. This project does not exist without the open-source community. I personally want to particularly thank the people listed in the CREDITS.md file, which have strongly impacted the project.
+Contributions are highly appreciated. This project does not exist without the open-source community. I want to particularly thank the people listed in the `CREDITS.md` file.
