@@ -45,10 +45,8 @@ class MainWindow(QMainWindow):
         self.node_packages = {}  # {Node: str}
         self.flow_UIs = {}
 
-        #
         # Init Session GUI
-        #
-
+        
         self.session_gui = rc.SessionGUI(self)
         self.core_session = self.session_gui.core_session
         if self.config.verbose:
@@ -67,10 +65,8 @@ class MainWindow(QMainWindow):
         self.session_gui.design.set_performance_mode(self.config.performance_mode)
         self.session_gui.design.set_animations_enabled(self.config.animations)
 
-        #
         # Assemble Window UI
-        #
-
+        
         self.setup_ui()
 
         self.flow_view_theme_actions = []
@@ -80,18 +76,14 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(abs_path_from_package_dir('resources/pics/Ryven_icon.png')))
         self.ui.flows_tab_widget.removeTab(0)  # remove placeholder tab
 
-        #
         # Configure window-wide Shortcuts
-        #
-
+        
         save_shortcut = QShortcut(QKeySequence.Save, self)
         save_shortcut.activated.connect(self.on_save_project_triggered)
         import_nodes_shortcut = QShortcut(QKeySequence('Ctrl+i'), self)
         import_nodes_shortcut.activated.connect(self.on_import_nodes_triggered)
 
-        #
         # Setup Main Console
-        #
 
         MainConsole.instance.session = self.session_gui
         MainConsole.instance.reset_interpreter()
@@ -106,9 +98,7 @@ class MainWindow(QMainWindow):
             'console ref': {'method': self.console_ref_monkeypatch}
         }
 
-        #
         # Setup ryvencore Session and load project
-        #
 
         self.import_nodes(path=abs_path_from_package_dir('main/packages/built_in/'))
 
@@ -246,7 +236,7 @@ CONTROLS
             self.session_gui.set_stylesheet(ss_content)
             self.setStyleSheet(ss_content)
 
-    # SLOTS
+    # slots
 
     def on_import_nodes_triggered(self):
         file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('nodes'), 'Python File (*.py)')[0]
@@ -340,7 +330,7 @@ CONTROLS
 
         self.core_session.delete_flow(flow)
 
-    # SESSION
+    # session
 
     def flow_created(self, flow, flow_view):
         flow_widget = FlowUI(self, flow, flow_view)

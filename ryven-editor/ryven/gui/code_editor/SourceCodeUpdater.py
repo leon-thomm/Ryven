@@ -51,9 +51,7 @@ class SrcCodeUpdater:
             return e
 
 
-    #
     # below is the old implementation, for documentation purposes only; see discussion below
-    #
 
 
     @staticmethod
