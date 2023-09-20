@@ -345,7 +345,7 @@ class StartupDialog(QDialog):
         gen_config_button = QPushButton('generate / save config')
         gen_config_button.clicked.connect(self.gen_config_clicked)
         buttons_layout.addWidget(gen_config_button)
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)   # this crashes with Python 3.11
         self.ok_button = buttons.button(QDialogButtonBox.Ok)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
