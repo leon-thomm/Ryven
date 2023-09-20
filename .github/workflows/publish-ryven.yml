@@ -4,7 +4,6 @@ on:
     tags:
       - '*'
   workflow_dispatch:
-    inputs: []
 jobs:
   Build-and-Publish:
     runs-on: ubuntu-latest
