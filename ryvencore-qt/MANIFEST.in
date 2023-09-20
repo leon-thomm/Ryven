@@ -1,0 +1,10 @@
+recursive-include **/resources *
+recursive-include ryvencore-qt *
+recursive-include docs *
+include LICENSE
+include MANIFEST.in
+include pyproject.toml
+include README.md
+include setup.cfg
+global-exclude *.py[co]
+global-exclude __pycache__
