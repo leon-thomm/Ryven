@@ -1,4 +1,5 @@
 import pathlib
+import os
 from typing import Optional, Literal, List, Dict, Set, Union
 
 from ryven import NodesPackage
@@ -37,6 +38,7 @@ class Config:
     window_geometry: Optional[str] = None
     window_title: str = 'Ryven'
     qt_api: str = 'pyside2'
+    os.environ['QT_API'] = self.qt_api
     src_code_edits_enabled: bool = False
 
     @staticmethod
