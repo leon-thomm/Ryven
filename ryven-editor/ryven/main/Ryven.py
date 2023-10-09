@@ -64,9 +64,6 @@ def run(*args_,
     None|Main Window
     """
 
-    from ryven.node_env import init_node_env
-    from ryven.gui_env import init_node_guis_env    # Qt dependency
-
     # Process command line and method's arguments
     conf: Config = process_args(use_sysargs, *args_, **kwargs)
 
@@ -79,6 +76,10 @@ def run(*args_,
 
     # Init environment
     os.environ['RYVEN_MODE'] = 'gui'
+                
+    from ryven.node_env import init_node_env
+    from ryven.gui_env import init_node_guis_env    # Qt dependency
+                
     init_node_env()
     init_node_guis_env()
 
