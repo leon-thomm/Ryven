@@ -38,7 +38,6 @@ class Config:
     window_geometry: Optional[str] = None
     window_title: str = 'Ryven'
     qt_api: str = 'pyside2'
-    os.environ['QT_API'] = self.qt_api
     src_code_edits_enabled: bool = False
 
     @staticmethod
@@ -47,9 +46,12 @@ class Config:
 
     @staticmethod
     def get_available_flow_themes() -> Set[str]:
-        # FIXME: this is not stable api; expose it properly in ryvencore-qt
-        from ryvencore_qt.src.Design import Design
-        return {t.name for t in Design().flow_themes}
+        # TODO: expose this in ryvencore_qt without requiring Qt import, since QT_API is not set yet
+        return {
+            "Toy", "Tron", "Ghost", "Blender", "Simple",
+            "Ueli", "pure dark", "colorful dark", "pure light",
+            "colorful light", "Industrial", "Fusion"
+        }
 
     @staticmethod
     def get_available_performance_modes() -> Set[str]:

@@ -236,7 +236,7 @@ def parse_sys_args(just_defaults=False) -> Config:
     # Display
 
     group = parser.add_argument_group('display')
-
+    
     group.add_argument(
         '-w', '--window-theme',
         choices=Config.get_available_window_themes(),

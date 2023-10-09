@@ -65,22 +65,17 @@ def run(*args_,
     """
                 
     # Process command line and method's arguments
-    # QT_API environment is set in config.py now. If other qt Backends are installed "from ryven.gui_env import init_node_guis_env" and the static method get_available_flow_themes() from config.py can throw errors if the environment is not set before!
     conf: Config = process_args(use_sysargs, *args_, **kwargs)
-                
-    from ryven.node_env import init_node_env
-    from ryven.gui_env import init_node_guis_env    # Qt dependency
-                
+
     #
     # Qt application setup
     #
 
-    # QtPy API 
-    # !!! Temporarily moved into config.py !!!
-    # os.environ['QT_API'] = conf.qt_api
-
     # Init environment
     os.environ['RYVEN_MODE'] = 'gui'
+    os.environ['QT_API'] = conf.qt_api
+    from ryven.node_env import init_node_env
+    from ryven.gui_env import init_node_guis_env  # Qt dependency
     init_node_env()
     init_node_guis_env()
 
