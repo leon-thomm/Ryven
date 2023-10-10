@@ -1,4 +1,5 @@
 import pathlib
+import os
 from typing import Optional, Literal, List, Dict, Set, Union
 
 from ryven import NodesPackage
@@ -45,9 +46,12 @@ class Config:
 
     @staticmethod
     def get_available_flow_themes() -> Set[str]:
-        # FIXME: this is not stable api; expose it properly in ryvencore-qt
-        from ryvencore_qt.src.Design import Design
-        return {t.name for t in Design().flow_themes}
+        # TODO: expose this in ryvencore_qt without requiring Qt import, since QT_API is not set yet
+        return {
+            "Toy", "Tron", "Ghost", "Blender", "Simple",
+            "Ueli", "pure dark", "colorful dark", "pure light",
+            "colorful light", "Industrial", "Fusion"
+        }
 
     @staticmethod
     def get_available_performance_modes() -> Set[str]:
