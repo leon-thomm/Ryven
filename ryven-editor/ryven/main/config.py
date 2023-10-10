@@ -38,7 +38,7 @@ class Config:
     window_geometry: Optional[str] = None
     window_title: str = 'Ryven'
     qt_api: str = 'pyside2'
-    os.environ['QT_API'] = self.qt_api
+    os.environ['QT_API'] = qt_api
     src_code_edits_enabled: bool = False
 
     @staticmethod
