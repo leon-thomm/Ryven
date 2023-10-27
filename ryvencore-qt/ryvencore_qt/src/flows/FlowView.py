@@ -884,6 +884,12 @@ class FlowView(GUIBase, QGraphicsView):
             if out.io_pos == PortObjPos.INPUT:
                 out, inp = inp, out
 
+            if self.flow.graph_adj_rev[inp] not in (None, out): # out connected to something else
+                # remove existing connection
+                self._push_undo(
+                    ConnectPorts_Command(self, out=self.flow.graph_adj_rev[inp], inp=inp)
+                )
+
             if self.flow.connected_output(inp) == out:
                 # if the exact connection exists, we want to remove it by command
                 self._push_undo(
