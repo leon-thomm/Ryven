@@ -83,8 +83,8 @@ class NodeListWidget(QWidget):
         self.search_line_edit.setFocus()
 
     def make_pack_hier(self, node_to_package:dict[type[Node], object]):
-        """Makes a package appear to have submodules, if its name is divided by a ., i.e. root_child
-            and root_child2. This is a very naive implementation, but due to the current structure
+        """Makes a package appear to have submodules, if its name is divided by a ., i.e. std.basic
+            and std.advanced This is a very naive implementation, but due to the current structure
             of Ryven packages, this is a quick fix for a lot of added value. I believe this should be
             a feature of ryvencore.
         """
