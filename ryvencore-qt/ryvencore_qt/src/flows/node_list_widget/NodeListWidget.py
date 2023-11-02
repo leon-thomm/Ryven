@@ -116,14 +116,14 @@ class NodeListWidget(QWidget):
             if pLen > 2:
                 continue
             
-            current_root = root_item
             first = p_split[0]
             item:QStandardItem = None
             
-            if h_dict.get(first) == None:
+            current_root = h_dict.get(first)
+            if current_root == None:
                 item = QStandardItem(first)
                 h_dict[first] = item
-                current_root.appendRow(item)
+                root_item.appendRow(item)
                 current_root = item
                 item.setEditable(False)
             
