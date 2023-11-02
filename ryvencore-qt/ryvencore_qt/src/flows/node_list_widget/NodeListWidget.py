@@ -1,5 +1,6 @@
-from qtpy.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QScrollArea
-from qtpy.QtCore import Qt, Signal
+from qtpy.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QScrollArea, QTreeView
+from qtpy.QtCore import Qt, Signal, QModelIndex
+from qtpy.QtGui import QStandardItemModel, QStandardItem
 
 from ryvencore import Node
 from .utils import search, sort_nodes, inc, dec
@@ -7,6 +8,7 @@ from ..node_list_widget.NodeWidget import NodeWidget
 
 from statistics import median
 
+#from ryven import NodesPackage
 
 class NodeListWidget(QWidget):
 
@@ -14,18 +16,20 @@ class NodeListWidget(QWidget):
     escaped = Signal()
     node_chosen = Signal(object)
 
-    def __init__(self, session):
+    def __init__(self, session, show_packages:bool = False):
         super().__init__()
 
         self.session = session
         self.nodes: list[type[Node]] = []
+        self.package_nodes:list[type[Node]] = []
 
         self.current_nodes = []             # currently selectable nodes
         self.active_node_widget_index = -1  # index of focused node widget
         self.active_node_widget = None      # focused node widget
         self.node_widgets = {}              # Node-NodeWidget assignments
         self._node_widget_index_counter = 0
-
+        
+        self.show_packages:bool = show_packages
         self._setup_UI()
 
 
@@ -35,6 +39,19 @@ class NodeListWidget(QWidget):
         self.main_layout.setAlignment(Qt.AlignTop)
         self.setLayout(self.main_layout)
 
+        #Addition for tree view
+        self.pack_tree = QTreeView()
+        def on_select(index:QModelIndex):
+            item:QStandardItem = index.model().itemFromIndex(index)
+            func = item.data(Qt.UserRole + 1)
+            if (func != None):
+                func()
+        
+        self.pack_tree.clicked.connect(on_select)
+        
+        if (self.show_packages):
+            self.layout().addWidget(self.pack_tree)
+        
         # adding all stuff to the layout
         self.search_line_edit = QLineEdit(self)
         self.search_line_edit.setPlaceholderText('search for node...')
@@ -65,7 +82,70 @@ class NodeListWidget(QWidget):
 
         self.search_line_edit.setFocus()
 
-
+    def make_pack_hier(self, node_to_package:dict[type[Node], object]):
+        """Makes a package appear to have submodules, if its name is divided by a ., i.e. root_child
+            and root_child2. This is a very naive implementation, but due to the current structure
+            of Ryven packages, this is a quick fix for a lot of added value. I believe this should be
+            a feature of ryvencore.
+        """
+        
+        model = QStandardItemModel()
+        model.setHorizontalHeaderLabels(["Packages"])
+        root_item = model.invisibleRootItem()
+        
+        h_dict:dict[str, QStandardItem] = {"root_item":root_item}
+        pack_to_nodes:dict[object, list[type[Node]]] = {}
+        #Only up to two levels allowed for easier implementation
+        for n in self.nodes:
+            package = node_to_package.get(n)
+            if package == None:
+                continue
+            
+            pack_nodes:list[type[Node]] = pack_to_nodes.get(package)
+            if (pack_nodes != None):
+                pack_nodes.append(n)
+                continue
+            
+            pack_nodes = []
+            pack_to_nodes[package] = pack_nodes
+            pack_nodes.append(n) 
+            
+            pName = package.name
+            p_split = pName.split(".")
+            pLen = len(p_split)
+            if pLen > 2:
+                continue
+            
+            current_root = root_item
+            first = p_split[0]
+            item:QStandardItem = None
+            
+            if h_dict.get(first) == None:
+                item = QStandardItem(first)
+                h_dict[first] = item
+                current_root.appendRow(item)
+                current_root = item
+                item.setEditable(False)
+            
+            def make_nodes_current(pack_nodes):
+                def create_func():
+                    if self.package_nodes == pack_nodes:
+                        return
+                    self.package_nodes = pack_nodes
+                    self._update_view()
+                return create_func
+            
+            if pLen < 2:
+                item.setData(make_nodes_current(pack_nodes), Qt.UserRole + 1)
+                continue
+            
+            item = QStandardItem(p_split[1])
+            item.setData(make_nodes_current(pack_nodes), Qt.UserRole + 1)
+            item.setEditable(False)
+            current_root.appendRow(item)
+        
+        self.pack_tree.setModel(model)
+        
     def mousePressEvent(self, event):
         # need to accept the event, so the scene doesn't process it further
         QWidget.mousePressEvent(self, event)
@@ -115,7 +195,12 @@ class NodeListWidget(QWidget):
 
 
     def _update_view(self, search_text=''):
-        if len(self.nodes) == 0:
+        
+        nodes = self.package_nodes
+        if (nodes == None or len(nodes) == 0):
+            nodes = self.nodes
+            
+        if len(nodes) == 0:
             return
 
         search_text = search_text.lower()
@@ -133,7 +218,7 @@ class NodeListWidget(QWidget):
         sorted_distances = search(
             items={
                 n: [n.title.lower()] + n.tags
-                for n in self.nodes
+                for n in nodes
             },
             text=search_text
         )

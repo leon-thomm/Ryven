@@ -149,7 +149,7 @@ CONTROLS
         self.flows_list_widget = rc_GUI.FlowsList(self.session_gui)
         self.ui.flows_groupBox.layout().addWidget(self.flows_list_widget)
 
-        self.nodes_list_widget = rc_GUI.NodeListWidget(self.session_gui)
+        self.nodes_list_widget = rc_GUI.NodeListWidget(self.session_gui, True)
         self.ui.nodes_groupBox.layout().addWidget(self.nodes_list_widget)
 
         self.ui.main_horizontal_splitter.setSizes([120, 800-120])
@@ -385,6 +385,7 @@ CONTROLS
             self.node_packages[n] = p
 
         self.nodes_list_widget.update_list(self.core_session.nodes)
+        self.nodes_list_widget.make_pack_hier(self.node_packages)
 
     def save_project(self, file_name):
         import json
