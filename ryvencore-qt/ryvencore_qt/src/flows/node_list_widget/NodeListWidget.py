@@ -82,11 +82,9 @@ class NodeListWidget(QWidget):
 
         self.search_line_edit.setFocus()
 
-    def make_pack_hier(self, node_to_package:dict[type[Node], object]):
-        """Makes a package appear to have submodules, if its name is divided by a ., i.e. std.basic
-            and std.advanced This is a very naive implementation, but due to the current structure
-            of Ryven packages, this is a quick fix for a lot of added value. I believe this should be
-            a feature of ryvencore.
+    def make_pack_hier(self):
+        """
+        Creates a hierarchical view of the packages based on the nodes' identifier prefix.
         """
         
         model = QStandardItemModel()
@@ -94,23 +92,22 @@ class NodeListWidget(QWidget):
         root_item = model.invisibleRootItem()
         
         h_dict:dict[str, QStandardItem] = {"root_item":root_item}
-        pack_to_nodes:dict[object, list[type[Node]]] = {}
+        pack_to_nodes:dict[str, list[type[Node]]] = {}
         #Only up to two levels allowed for easier implementation
         for n in self.nodes:
-            package = node_to_package.get(n)
-            if package == None:
+            pName = n.identifier_prefix
+            if pName == None:
                 continue
-            
-            pack_nodes:list[type[Node]] = pack_to_nodes.get(package)
+            #print(pName)
+            pack_nodes:list[type[Node]] = pack_to_nodes.get(pName)
             if (pack_nodes != None):
                 pack_nodes.append(n)
                 continue
             
             pack_nodes = []
-            pack_to_nodes[package] = pack_nodes
+            pack_to_nodes[pName] = pack_nodes
             pack_nodes.append(n) 
             
-            pName = package.name
             p_split = pName.split(".")
             pLen = len(p_split)
             if pLen > 2:

@@ -4,7 +4,7 @@ package system. It can be used outside of Ryven as well.
 """
 
 import importlib.util
-import os
+import os, sys
 import pathlib
 from os.path import basename, dirname, splitext, normpath, join
 from typing import Tuple, List, Type, Union, Set, Optional
@@ -56,6 +56,7 @@ def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
         components_list = []
 
     name = basename(file).split('.')[0]
+    sys.path.append(os.path.dirname(file))
     spec = importlib.util.spec_from_file_location(name, file)
 
     importlib.util.module_from_spec(spec)
@@ -71,7 +72,7 @@ def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
 
 
 def import_nodes_package(package: NodesPackage = None, directory: str = None) -> \
-        Tuple[List[Type[Node]], List[Type[Data]]]:
+        Tuple[list[Type[Node]], list[Type[Data]]]:
     """Loads node and data classes from a Ryven nodes package and returns both in separate lists.
 
     Can be used without a running Ryven instance, but you need to specify in which mode nodes should be loaded
@@ -95,10 +96,10 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
     node_env.NodesEnvRegistry.current_package = package
     load_from_file(package.file_path)
 
-    node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
-    data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
+    #obsolete node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
+    #obsolote data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
 
-    return node_types, data_types
+    return node_env.NodesEnvRegistry.consume_last_exported_package()
 
 
 def process_nodes_packages(

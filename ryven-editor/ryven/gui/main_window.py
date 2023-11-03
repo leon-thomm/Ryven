@@ -385,7 +385,7 @@ CONTROLS
             self.node_packages[n] = p
 
         self.nodes_list_widget.update_list(self.core_session.nodes)
-        self.nodes_list_widget.make_pack_hier(self.node_packages)
+        self.nodes_list_widget.make_pack_hier()
 
     def save_project(self, file_name):
         import json

@@ -3,12 +3,14 @@ This module automatically imports all requirements for custom nodes.
 """
 
 import os
+from os.path import basename, normpath
 from typing import Type
 
 from ryven.main.packages.nodes_package import load_from_file, NodesPackage
 
 from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
 
+import inspect
 
 def init_node_env():
 
@@ -73,44 +75,95 @@ class NodesEnvRegistry:
     `export_nodes()` to run), Ryven can then retrieve the exported types from
     this class.
     """
-
+    # stores, for each nodes package or subpackage a tuple of exported node types and data
+    exported_package_metadata: dict[str, tuple[list[Type[Node]], list[Type[Node]]]] = {}
+    last_exported_package: list[tuple[list[Type[Node]], list[Type[Node]]]] = []
+    
     # stores, for each nodes package separately, a list of exported node types
-    exported_nodes: [[Type[Node]]] = []
+    exported_nodes_legacy: [[Type[Node]]] = []
 
     # stores, for each nodes package separately, a list of exported data types
-    exported_data_types: [[Type[Data]]] = []
+    exported_data_types_legacy: [[Type[Data]]] = []
 
     # stores the package that is currently being imported; set by the nodes package
     # loader ryven.main.packages.nodes_package.import_nodes_package;
     # needed for extending the identifiers of node types to include the package name
     current_package: NodesPackage = None
-
+    
+    #set by export_sub_package, used in export_nodes
+    current_sub_package:str = None
+    
+    @classmethod
+    def current_package_id(cls):
+        if cls.current_package is None:
+            return
+        return cls.current_package.name if cls.current_sub_package is None else f"{cls.current_package.name}.{cls.current_sub_package}"
+    
+    @classmethod
+    def consume_last_exported_package(cls) -> tuple[list[Type[Node]], list[Type[Node]]]:
+        result:tuple[list[Type[Node]], list[Type[Node]]] = ([], [])
+        r_nodes, d_nodes = result
+        for nodes, data in cls.last_exported_package:
+            for n in nodes:
+                r_nodes.append(n)
+            for d in data:
+                d_nodes.append(d)
+        cls.last_exported_package.clear()
+        return result
 
 def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
     """
-    Exports/exposes the specified nodes to Ryven for use in flows.
+    Exports/exposes the specified nodes to Ryven for use in flows. Nodes will have the same identifier, since they come as a package.
+    This function will fail if the NodesEnvRegistry package is not set.
     """
 
     if data_types is None:
         data_types = []
 
+    pkg_name = NodesEnvRegistry.current_package_id()
     # extend identifiers of node types to include the package name
     for node_type in node_types:
-        # store the package name as identifier prefix, which will be added
+        # store the package id as identifier prefix, which will be added
         # by ryvencore when registering the node type
-        node_type.identifier_prefix = NodesEnvRegistry.current_package.name
-
+        node_type.identifier_prefix = pkg_name
+        
         # also add the identifier without the prefix as fallback for older versions
         node_type.legacy_identifiers = [
             *node_type.legacy_identifiers,
             node_type.identifier if node_type.identifier else node_type.__name__
         ]
 
-    NodesEnvRegistry.exported_nodes.append(node_types)
-    NodesEnvRegistry.exported_data_types.append(data_types)
+    NodesEnvRegistry.exported_nodes_legacy.append(node_types)
+    NodesEnvRegistry.exported_data_types_legacy.append(data_types)
+    
+    metadata = NodesEnvRegistry.exported_package_metadata
+    nodes_datas = (node_types, data_types)
+    metadata[pkg_name] = nodes_datas
+    NodesEnvRegistry.last_exported_package.append(nodes_datas)
 
     if os.environ['RYVEN_MODE'] == 'gui':
         # store node sources for code inspection
         from ryven.gui.code_editor.codes_storage import register_node_type
         for node_type in node_types:
             register_node_type(node_type)
+
+def export_sub_package(node_types: [Type[Node]], data_types: [Type[Data]] = None, sub_pkg_name:str = None):
+    """
+    Exports / exposes nodes to Ryven as a subpackage for use in flows. Called from inside a subpackage
+    which is imported in nodes.py
+    """
+    
+    #Fetch the module name
+    if sub_pkg_name == None:
+        filename = inspect.stack()[1].filename
+        head, tail = os.path.split(filename)
+        if tail != "nodes.py":
+            sub_pkg_name = tail.removeprefix(".py")
+        else:
+            sub_pkg_name = os.path.split(head)[1]
+    
+    print(sub_pkg_name)
+    #Apply the subpackage name
+    NodesEnvRegistry.current_sub_package = sub_pkg_name
+    export_nodes(node_types, data_types)
+    NodesEnvRegistry.current_sub_package = None
