@@ -438,8 +438,8 @@ class EditMatrixNode(Node):
         self.register_vars_and_eval_matrix()
 
 
-export_sub_package([
-    EditMatrixNode,
+export_sub_nodes(__file__,
+    [EditMatrixNode,
     ShowMatrix,
     Conjugate,
     Transpose,

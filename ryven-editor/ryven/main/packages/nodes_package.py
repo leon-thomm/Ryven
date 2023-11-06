@@ -8,6 +8,7 @@ import os, sys
 import pathlib
 from os.path import basename, dirname, splitext, normpath, join
 from typing import Tuple, List, Type, Union, Set, Optional
+import pkgutil
 
 from ryvencore import Node, Data
 
@@ -47,7 +48,6 @@ class NodesPackage:
             'dir': self.directory,
         }
 
-
 def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
     """
     Imports specified components from a python module with given file path.
@@ -55,19 +55,20 @@ def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
     if components_list is None:
         components_list = []
 
-    name = basename(file).split('.')[0]
-    sys.path.append(os.path.dirname(file))
-    spec = importlib.util.spec_from_file_location(name, file)
+    dirpath, filename = os.path.split(file)
+    parent_dirpath, pkg_name = os.path.split(dirpath)
+    mod_name = filename.split('.')[0]
+    name = f"{pkg_name}.{mod_name}" # e.g. built_in.nodes
 
-    importlib.util.module_from_spec(spec)
-
-    mod = spec.loader.load_module(name)
-    # using load_module(name) instead of exec_module(mod) here,
-    # because exec_module() somehow then registers it as "built-in"
-    # which is wrong and prevents inspect from parsing the source
-
+    if parent_dirpath not in sys.path:
+        sys.path.append(parent_dirpath)
+    
+    #execute the main pkg mod
+    #main_package_mod = importlib.import_module(pkg_name, pkg_name)
+    #print(main_package_mod)
+    #execute the nodes pkg
+    mod = importlib.import_module(name, pkg_name)
     comps = tuple([getattr(mod, c) for c in components_list])
-
     return comps
 
 

@@ -1,4 +1,4 @@
-from qtpy.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QScrollArea, QTreeView
+from qtpy.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QScrollArea, QTreeView, QSplitter
 from qtpy.QtCore import Qt, Signal, QModelIndex
 from qtpy.QtGui import QStandardItemModel, QStandardItem
 
@@ -39,6 +39,10 @@ class NodeListWidget(QWidget):
         self.main_layout.setAlignment(Qt.AlignTop)
         self.setLayout(self.main_layout)
 
+        #splitter between packages and nodes
+        splitter = QSplitter(Qt.Vertical)
+        self.layout().addWidget(splitter)
+        
         #Addition for tree view
         self.pack_tree = QTreeView()
         def on_select(index:QModelIndex):
@@ -50,13 +54,18 @@ class NodeListWidget(QWidget):
         self.pack_tree.clicked.connect(on_select)
         
         if (self.show_packages):
-            self.layout().addWidget(self.pack_tree)
+            splitter.addWidget(self.pack_tree)
+        splitter.setSizes([30,])    
+        
+        nodes_widget = QWidget()
+        nodes_widget.setLayout(QVBoxLayout())
+        splitter.addWidget(nodes_widget)
         
         # adding all stuff to the layout
         self.search_line_edit = QLineEdit(self)
         self.search_line_edit.setPlaceholderText('search for node...')
         self.search_line_edit.textChanged.connect(self._update_view)
-        self.layout().addWidget(self.search_line_edit)
+        nodes_widget.layout().addWidget(self.search_line_edit)
 
 
         self.list_scroll_area = QScrollArea(self)
@@ -66,7 +75,7 @@ class NodeListWidget(QWidget):
         self.list_scroll_area.setContentsMargins(0, 0, 0, 0)
 
         self.list_scroll_area_widget = QWidget()
-        self.list_scroll_area_widget.setContentsMargins(0, 0, 0, 0)
+        self.list_scroll_area_widget.setContentsMargins(15, 0, 15, 0)
         self.list_scroll_area.setWidget(self.list_scroll_area_widget)
 
         self.list_layout = QVBoxLayout()
@@ -74,7 +83,7 @@ class NodeListWidget(QWidget):
         self.list_layout.setAlignment(Qt.AlignTop)
         self.list_scroll_area_widget.setLayout(self.list_layout)
 
-        self.layout().addWidget(self.list_scroll_area)
+        nodes_widget.layout().addWidget(self.list_scroll_area)
 
         self._update_view('')
 
@@ -98,7 +107,6 @@ class NodeListWidget(QWidget):
             pName = n.identifier_prefix
             if pName == None:
                 continue
-            #print(pName)
             pack_nodes:list[type[Node]] = pack_to_nodes.get(pName)
             if (pack_nodes != None):
                 pack_nodes.append(n)
@@ -193,8 +201,9 @@ class NodeListWidget(QWidget):
 
     def _update_view(self, search_text=''):
         
-        nodes = self.package_nodes
-        if (nodes == None or len(nodes) == 0):
+        nodes = self.nodes if search_text is not None and search_text != '' else self.package_nodes
+        
+        if nodes == None or len(nodes) == 0:
             nodes = self.nodes
             
         if len(nodes) == 0:

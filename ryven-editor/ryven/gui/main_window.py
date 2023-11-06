@@ -3,8 +3,9 @@ import os
 import os.path
 
 from qtpy.QtGui import QIcon, QKeySequence
-from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox
+from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox, QTabWidget
 from ryvencore_qt import NodeGUI
+from qtpy.QtCore import Qt
 
 from ryven.gui.main_console import MainConsole
 from ryven.gui.flow_ui import FlowUI
@@ -136,9 +137,12 @@ CONTROLS
         self.ui.setupUi(self)
         self.ui.statusBar.hide()
 
+        #set tabs to be on top
+        self.setTabPosition(Qt.AllDockWidgetAreas, QTabWidget.North)
+        
         # main console
         if MainConsole.instance is not None:
-            self.ui.main_vertical_splitter.addWidget(MainConsole.instance)
+            self.ui.consoleDock.setWidget(MainConsole.instance)
             self.ui.console_placeholder_widget.setParent(None)
         # self.ui.right_vertical_splitter.setSizes([600, 0])
 
@@ -147,11 +151,11 @@ CONTROLS
         self.ui.main_vertical_splitter.setSizes([700, 0])
 
         self.flows_list_widget = rc_GUI.FlowsList(self.session_gui)
-        self.ui.flows_groupBox.layout().addWidget(self.flows_list_widget)
-
+        self.ui.flows_dock.setWidget(self.flows_list_widget)
+        
         self.nodes_list_widget = rc_GUI.NodeListWidget(self.session_gui, True)
-        self.ui.nodes_groupBox.layout().addWidget(self.nodes_list_widget)
-
+        self.ui.nodes_dock.setWidget(self.nodes_list_widget)
+        
         self.ui.main_horizontal_splitter.setSizes([120, 800-120])
 
     def setup_menu_actions(self):

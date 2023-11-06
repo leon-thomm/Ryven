@@ -77,6 +77,7 @@ class NodesEnvRegistry:
     """
     # stores, for each nodes package or subpackage a tuple of exported node types and data
     exported_package_metadata: dict[str, tuple[list[Type[Node]], list[Type[Node]]]] = {}
+    # the last exported package to be consumed for loading
     last_exported_package: list[tuple[list[Type[Node]], list[Type[Node]]]] = []
     
     # stores, for each nodes package separately, a list of exported node types
@@ -147,22 +148,20 @@ def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
         for node_type in node_types:
             register_node_type(node_type)
 
-def export_sub_package(node_types: [Type[Node]], data_types: [Type[Data]] = None, sub_pkg_name:str = None):
+def export_sub_nodes(origin_file:str, node_types: [Type[Node]], data_types: [Type[Data]] = None, sub_pkg_name:str = None):
     """
-    Exports / exposes nodes to Ryven as a subpackage for use in flows. Called from inside a subpackage
-    which is imported in nodes.py
+    Exports / exposes nodes to Ryven as a subpackage of the currently loaded package for use in flows.
+    Do not call this function in a node package's nodes.py file, call export_nodes instead.
     """
     
     #Fetch the module name
     if sub_pkg_name == None:
-        filename = inspect.stack()[1].filename
-        head, tail = os.path.split(filename)
+        head, tail = os.path.split(origin_file)
         if tail != "nodes.py":
             sub_pkg_name = tail.removeprefix(".py")
         else:
             sub_pkg_name = os.path.split(head)[1]
     
-    print(sub_pkg_name)
     #Apply the subpackage name
     NodesEnvRegistry.current_sub_package = sub_pkg_name
     export_nodes(node_types, data_types)
