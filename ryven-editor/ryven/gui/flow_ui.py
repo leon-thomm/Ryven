@@ -28,6 +28,8 @@ class FlowUI(QMainWindow):
         # UI
         self.ui = Ui_FlowWindow()
         self.ui.setupUi(self)
+        #this is needed because it seems that qt compiler doesn't work well
+        self.ui.logger_dock.setWidget(self.ui.logs_scrollArea)
         central_layout = QHBoxLayout()
         self.ui.centralwidget.setLayout(central_layout)
         self.setLayout(central_layout)
