@@ -10,7 +10,8 @@ from .drawings.DrawingObject import DrawingObject
 from .nodes.NodeItem import NodeItem
 from typing import Tuple
 from ryvencore.NodePort import NodePort, NodeInput, NodeOutput
-
+from ryvencore.Flow import Flow
+from .connections.ConnectionItem import ConnectionItem
 
 class FlowUndoCommand(QObject, QUndoCommand):
     """
@@ -23,7 +24,7 @@ class FlowUndoCommand(QObject, QUndoCommand):
     def __init__(self, flow_view):
 
         self.flow_view = flow_view
-        self.flow = flow_view.flow
+        self.flow:Flow = flow_view.flow
         self._activated = False
 
         QObject.__init__(self)
@@ -125,7 +126,7 @@ class RemoveComponents_Command(FlowUndoCommand):
         super().__init__(flow_view)
 
         self.items = items
-        self.broken_connections = []  # the connections that go beyond the removed nodes and need to be restored in undo
+        self.broken_connections = set()  # the connections that go beyond the removed nodes and need to be restored in undo
         self.internal_connections = set()
 
         self.node_items = []
@@ -137,6 +138,16 @@ class RemoveComponents_Command(FlowUndoCommand):
                 self.nodes.append(i.node)
             elif isinstance(i, DrawingObject):
                 self.drawings.append(i)
+                
+        #for outputs
+        for i in self.items:
+            if not isinstance(i, ConnectionItem):
+                continue
+            out_port, in_port = i.connection
+            if out_port.node not in self.nodes:
+                self.broken_connections.add(i.connection)
+            else:
+                self.internal_connections.add(i.connection)
 
         for n in self.nodes:
             for i in n.inputs:
@@ -144,14 +155,14 @@ class RemoveComponents_Command(FlowUndoCommand):
                 if cp is not None:
                     cn = cp.node
                     if cn not in self.nodes:
-                        self.broken_connections.append((cp, i))
+                        self.broken_connections.add((cp, i))
                     else:
                         self.internal_connections.add((cp, i))
             for o in n.outputs:
                 for cp in n.flow.connected_inputs(o):
                     cn = cp.node
                     if cn not in self.nodes:
-                        self.broken_connections.append((o, cp))
+                        self.broken_connections.add((o, cp))
                     else:
                         self.internal_connections.add((o, cp))
 

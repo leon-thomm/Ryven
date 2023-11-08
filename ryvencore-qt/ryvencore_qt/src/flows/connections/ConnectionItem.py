@@ -1,4 +1,5 @@
 # import math
+import typing
 from qtpy.QtCore import QMarginsF
 from qtpy.QtCore import QRectF, QPointF, Qt
 from qtpy.QtGui import QPainter, QColor, QRadialGradient, QPainterPath, QPen
@@ -33,9 +34,14 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
         # for rendering flow pictures
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
-
+        self.setFlag(QGraphicsItem.ItemIsSelectable)
         self.recompute()
 
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget):
+        painter.setBrush(self.brush())
+        painter.setPen(self.pen())
+        painter.drawPath(self.path())
+        #return super().paint(painter, option, widget)
     def recompute(self):
         """Updates scene position and recomputes path, pen and gradient"""
 
@@ -107,11 +113,16 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
         return self.inp_item.pin.get_scene_center_pos()
 
+    def itemChange(self, change, value):
+        if change == QGraphicsItem.ItemSelectedHasChanged:
+            self.set_highlighted(self.isSelected())
+        return QGraphicsItem.itemChange(self, change, value)
+    
     def set_highlighted(self, b: bool):
         pen: QPen = self.pen()
 
         if b:
-            pen.setWidthF(self.pen_width() * 2)
+            pen.setWidthF(self.pen_width() * 2.5)
         else:
             pen.setWidthF(self.pen_width())
             self.recompute()
@@ -132,7 +143,8 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         super().hoverEnterEvent(event)
 
     def hoverLeaveEvent(self, event):
-        self.set_highlighted(False)
+        if not self.isSelected():
+            self.set_highlighted(False)
         super().hoverLeaveEvent(event)
 
     @staticmethod

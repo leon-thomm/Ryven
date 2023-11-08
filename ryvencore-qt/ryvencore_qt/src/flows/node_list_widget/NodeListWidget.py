@@ -75,7 +75,7 @@ class NodeListWidget(QWidget):
         self.list_scroll_area.setContentsMargins(0, 0, 0, 0)
 
         self.list_scroll_area_widget = QWidget()
-        self.list_scroll_area_widget.setContentsMargins(15, 0, 15, 0)
+        self.list_scroll_area_widget.setContentsMargins(15, 10, 15, 10)
         self.list_scroll_area.setWidget(self.list_scroll_area_widget)
 
         self.list_layout = QVBoxLayout()
