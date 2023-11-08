@@ -5,7 +5,7 @@ import os.path
 from qtpy.QtGui import QIcon, QKeySequence
 from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox, QTabWidget, QDockWidget
 from ryvencore_qt import NodeGUI
-from qtpy.QtCore import Qt
+from qtpy.QtCore import Qt, QByteArray
 
 from ryven.gui.main_console import MainConsole
 from ryven.gui.flow_ui import FlowUI
@@ -45,6 +45,7 @@ class MainWindow(QMainWindow):
         self.theme = config.window_theme
         self.node_packages = {}  # {Node: str}
         self.flow_UIs:dict[Flow, FlowUI] = {}
+        self.flow_ui_template:dict[str, QByteArray] = None
         self._project_content = None
 
         # Init Session GUI
@@ -113,6 +114,8 @@ class MainWindow(QMainWindow):
             self.import_packages(required_packages)
             print('loading project...')
             self.core_session.load(project_content)
+            #load the flow_ui_template if it exists
+            self.set_flow_ui_template(project_content.get('flow_ui_template'))
             #After everything has loaded, lets load the UIs 
             self.load_qt_window(project_content)
             for flow_ui in self.flow_UIs.values():
@@ -143,6 +146,31 @@ CONTROLS
         self.ui.setupUi(self)
         self.ui.statusBar.hide()
 
+        #actions for setting / unsetting a flow ui template
+        self.focused_flow:FlowUI = None
+        def unset_flow_template():
+            self.set_flow_ui_template(None)
+        def set_flow_template():
+            flow_ui = self.flow_UIs.get(self.get_current_flow())
+            if not flow_ui:
+                return
+            template = {
+                'geometry':flow_ui.saveGeometry().toHex().data().decode(),
+                'state' : flow_ui.saveState().toHex().data().decode()
+            }
+            self.set_flow_ui_template(template)
+        
+        self.flow_ui_template_menu = QMenu()
+        self.flow_ui_template_menu.setTitle('Flow Template')
+        
+        restore_default = QAction('Restore Default', self)
+        restore_default.triggered.connect(unset_flow_template)
+        save_current = QAction('Save Current', self)
+        save_current.triggered.connect(set_flow_template)
+        
+        self.flow_ui_template_menu.addAction(save_current)
+        self.flow_ui_template_menu.addAction(restore_default)
+        
         #set tabs to be on top
         self.setTabPosition(Qt.AllDockWidgetAreas, QTabWidget.North)
         
@@ -354,6 +382,9 @@ CONTROLS
         flow_widget = FlowUI(self, flow, flow_view)
         self.flow_UIs[flow] = flow_widget
         self.ui.flows_tab_widget.addTab(flow_widget, flow.title)
+        flow_view.menu().addMenu(self.flow_ui_template_menu)
+        if self.flow_ui_template:
+            flow_widget.load_directly(self.flow_ui_template) 
         self.focus_on_flow(flow)
 
     def flow_renamed(self, flow):
@@ -405,6 +436,15 @@ CONTROLS
         self.nodes_list_widget.update_list(self.core_session.nodes)
         self.nodes_list_widget.make_pack_hier()
 
+    def set_flow_ui_template(self, template:dict[str, str] | dict[str, QByteArray] | None):
+        if template is None:
+            self.flow_ui_template = None
+            return
+        save = lambda key : template[key] if type(template[key]) is QByteArray else bytes.fromhex(template[key])
+        self.flow_ui_template = {
+            'geometry': save('geometry'),
+            'state' : save('state')    
+        }
     def load_qt_window(self, project_dict):
         self.restoreGeometry(bytes.fromhex(project_dict["geometry"]))
         self.restoreState(bytes.fromhex(project_dict["state"]))
@@ -417,7 +457,6 @@ CONTROLS
         except Exception as e:
             print(e)
             pass
-        
         
     def save_project(self, file_name):
         import json
@@ -460,6 +499,13 @@ CONTROLS
                               'geometry': geometry,
                               'state':state,
                               'flow_uis': flow_uis_ser}
+        
+        #flow ui template
+        if self.flow_ui_template:
+            whole_project_dict['flow_ui_template'] = {
+                'geometry': QByteArray(self.flow_ui_template['geometry']).toHex().data().decode(),
+                'state': QByteArray(self.flow_ui_template['state']).toHex().data().decode()
+            }
 
         data = json.dumps(whole_project_dict, indent=4)
         InfoMsgs.write(data)

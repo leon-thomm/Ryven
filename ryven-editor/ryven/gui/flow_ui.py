@@ -1,7 +1,7 @@
 """A UI for flows. Will be displayed in the tab widget in MainWindow."""
 
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QComboBox, QMainWindow,QHBoxLayout, QTabWidget,QDockWidget
-from qtpy.QtCore import Qt
+from qtpy.QtCore import Qt, QByteArray
 
 import ryvencore_qt.src.widgets as GUI
 from ryvencore.RC import FlowAlg
@@ -117,8 +117,9 @@ class FlowUI(QMainWindow):
         flow_dir = flow_uis_dir[str(self.flow.prev_global_id)]
         self.load_directly(flow_dir)
     #Loads directly from a dictionary that contains a geometry and a state dict
-    def load_directly(self, flow_dict:dict[str, str]):
-        self.restoreGeometry(bytes.fromhex(flow_dict["geometry"]))
-        self.restoreState(bytes.fromhex(flow_dict["state"]))
+    def load_directly(self, flow_dict: dict[str, str] | dict[str, QByteArray]):
+        load = lambda key: flow_dict[key] if type(flow_dict[key]) is QByteArray or type(flow_dict[key]) is bytes else bytes.fromhex(flow_dict[key])
+        self.restoreGeometry(load("geometry"))
+        self.restoreState(load("state"))
         
         
