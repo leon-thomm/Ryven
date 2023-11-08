@@ -3,7 +3,7 @@ import os
 import os.path
 
 from qtpy.QtGui import QIcon, QKeySequence
-from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox, QTabWidget
+from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox, QTabWidget, QDockWidget
 from ryvencore_qt import NodeGUI
 from qtpy.QtCore import Qt
 
@@ -23,7 +23,7 @@ from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 import ryvencore_qt as rc
 import ryvencore_qt.src.widgets as rc_GUI
 
-from ryvencore import InfoMsgs
+from ryvencore import InfoMsgs, Flow
 
 
 class MainWindow(QMainWindow):
@@ -44,7 +44,8 @@ class MainWindow(QMainWindow):
         self.session_gui, self.core_session = None, None
         self.theme = config.window_theme
         self.node_packages = {}  # {Node: str}
-        self.flow_UIs = {}
+        self.flow_UIs:dict[Flow, FlowUI] = {}
+        self._project_content = None
 
         # Init Session GUI
         
@@ -107,10 +108,15 @@ class MainWindow(QMainWindow):
         print('importing requested packages...')
         self.import_packages(requested_packages)
         if project_content is not None:
+            self._project_content = project_content
             print('importing required packages...')
             self.import_packages(required_packages)
             print('loading project...')
             self.core_session.load(project_content)
+            #After everything has loaded, lets load the UIs 
+            self.load_qt_window(project_content)
+            for flow_ui in self.flow_UIs.values():
+                self.load_flow_ui(flow_ui)
             print('done')
         else:
             self.core_session.create_flow(title='hello world')
@@ -157,7 +163,15 @@ CONTROLS
         self.ui.nodes_dock.setWidget(self.nodes_list_widget)
         
         self.ui.main_horizontal_splitter.setSizes([120, 800-120])
-
+        
+        #add widget actions to menu
+        all_dock_widgets:list[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
+        self.ui.menuDocks.addActions([w.toggleViewAction() for w in all_dock_widgets])
+        #tabify all left tabs at a fresh project
+        left_widgets = [d for d in all_dock_widgets if self.dockWidgetArea(d) == Qt.LeftDockWidgetArea]
+        for i in range(1, len(left_widgets)):
+            self.tabifyDockWidget(left_widgets[i-1], left_widgets[i])
+        
     def setup_menu_actions(self):
 
         # flow designs
@@ -336,7 +350,7 @@ CONTROLS
 
     # session
 
-    def flow_created(self, flow, flow_view):
+    def flow_created(self, flow:Flow, flow_view):
         flow_widget = FlowUI(self, flow, flow_view)
         self.flow_UIs[flow] = flow_widget
         self.ui.flows_tab_widget.addTab(flow_widget, flow.title)
@@ -391,6 +405,20 @@ CONTROLS
         self.nodes_list_widget.update_list(self.core_session.nodes)
         self.nodes_list_widget.make_pack_hier()
 
+    def load_qt_window(self, project_dict):
+        self.restoreGeometry(bytes.fromhex(project_dict["geometry"]))
+        self.restoreState(bytes.fromhex(project_dict["state"]))
+    
+    def load_flow_ui(self, flow_ui:FlowUI):
+        if self._project_content is None:
+            return
+        try:
+            flow_ui.load(self._project_content['flow_uis'])    
+        except Exception as e:
+            print(e)
+            pass
+        
+        
     def save_project(self, file_name):
         import json
 
@@ -417,9 +445,21 @@ CONTROLS
                 self.node_packages[node.__class__]
             )
 
+        #Serialization of the main window
+        geometry = self.saveGeometry().toHex().data().decode()
+        state = self.saveState().toHex().data().decode()
+        
+        #Serialization of the flow views
+        flow_uis_ser:dict[str, dict[str, str]] = {}
+        for flow, flow_ui in self.flow_UIs.items():
+            flow_uis_ser[str(flow.global_id)] = flow_ui.save()
+        
         whole_project_dict = {'general info': general_project_info_dict,
                               'required packages': [p.config_data() for p in required_packages],
-                              **flows_data}
+                              **flows_data,
+                              'geometry': geometry,
+                              'state':state,
+                              'flow_uis': flow_uis_ser}
 
         data = json.dumps(whole_project_dict, indent=4)
         InfoMsgs.write(data)

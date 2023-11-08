@@ -4,7 +4,7 @@ from typing import Tuple
 
 from qtpy.QtCore import Qt, QPointF, QPoint, QRectF, QSizeF, Signal, QTimer, QTimeLine, QEvent
 from qtpy.QtGui import QPainter, QPen, QColor, QKeySequence, QTabletEvent, QImage, QGuiApplication, QFont, QTouchEvent
-from qtpy.QtWidgets import QGraphicsView, QGraphicsScene, QShortcut, QMenu, QGraphicsItem, QUndoStack
+from qtpy.QtWidgets import QGraphicsView, QGraphicsScene, QShortcut, QMenu, QGraphicsItem, QUndoStack, QPushButton, QHBoxLayout, QWidget
 
 from ryvencore.Flow import Flow
 from ryvencore.Node import Node
@@ -18,7 +18,7 @@ from ..GUIBase import GUIBase
 from ..utils import *
 from .FlowCommands import MoveComponents_Command, PlaceNode_Command, \
     PlaceDrawing_Command, RemoveComponents_Command, ConnectPorts_Command, Paste_Command, FlowUndoCommand
-from .FlowViewProxyWidget import FlowViewProxyWidget
+from .FlowViewProxyWidget import *
 from .FlowViewStylusModesWidget import FlowViewStylusModesWidget
 from .node_list_widget.NodeListWidget import NodeListWidget
 from .nodes.NodeGUI import NodeGUI
@@ -152,20 +152,45 @@ class FlowView(GUIBase, QGraphicsView):
         # self.scene().addItem(self._zoom_proxy)
         # self.set_zoom_proxy_pos()
 
+        def init_proxy_widget(widget: QWidget, proxy:FlowViewProxyWidget):
+            proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
+            proxy.setZValue(1001)
+            proxy.setWidget(widget)
+            self.scene().addItem(proxy)
+            return proxy
+
         # STYLUS
         self.stylus_mode = ''
         self._current_drawing = None
         self._drawing = False
         self.drawings = []
-        self._stylus_modes_proxy = FlowViewProxyWidget(self)
-        self._stylus_modes_proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
-        self._stylus_modes_proxy.setZValue(1001)
         self._stylus_modes_widget = FlowViewStylusModesWidget(self)
-        self._stylus_modes_proxy.setWidget(self._stylus_modes_widget)
-        self.scene().addItem(self._stylus_modes_proxy)
+        self._stylus_modes_proxy = init_proxy_widget(self._stylus_modes_widget, FlowViewProxyWidget(self))
         self.set_stylus_proxy_pos()
         self.setAttribute(Qt.WA_TabletTracking)
 
+        #MENU
+        menu = QMenu()
+        self._menu = menu
+        self._menu_proxy:FlowViewProxyHoverWidget = init_proxy_widget(menu, FlowViewProxyHoverWidget(self))
+        self._menu_proxy.hide()
+        
+        #just to add some space for the button
+        menu_layout_widget = self._create_no_background_widget("FlowMenu")
+        #just to add some space for the button
+        menu_layout_widget.setLayout(QHBoxLayout())
+        menu_button = QPushButton("Menu")
+        self._menu_button = menu_button
+        menu_layout_widget.layout().addWidget(menu_button)
+        def menu_button_clicked():
+            self._menu_proxy.setVisible(not self._menu_proxy.isVisible())
+        menu_button.clicked.connect(menu_button_clicked)
+            
+        menu_layout_proxy = init_proxy_widget(menu_layout_widget, FlowViewProxyWidget(self))
+        self._menu_widget = menu_button
+        self._menu_layout_proxy = menu_layout_proxy
+        self.set_menu_proxy_pos()
+        
         # # TOUCH GESTURES
         # recognizer = PanGestureRecognizer()
         # pan_gesture_id = QGestureRecognizer.registerRecognizer(recognizer) <--- CRASH HERE
@@ -194,6 +219,18 @@ class FlowView(GUIBase, QGraphicsView):
         for c in [(o, i) for o, conns in self.flow.graph_adj.items() for i in conns]:
             self.add_connection(c)
 
+    def menu(self)->QMenu:
+        return self._menu
+    def _create_no_background_widget(self, name:str):
+        result = QWidget()
+        result.setObjectName(name)
+        result.setStyleSheet(f'''
+        QWidget#{name} {{
+            background: transparent; 
+        }}
+                ''')
+        return result
+    
     def _init_shortcuts(self):
         place_new_node_shortcut = QShortcut(QKeySequence('Shift+P'), self)
         place_new_node_shortcut.activated.connect(self._place_new_node_by_shortcut)
@@ -278,7 +315,7 @@ class FlowView(GUIBase, QGraphicsView):
             return
 
         QGraphicsView.mousePressEvent(self, event)
-
+        
         # don't process the event if it has been processed by a specific component in the scene
         # this includes node items, node port pins, proxy widgets etc.
         if self.mouse_event_taken:
@@ -286,10 +323,13 @@ class FlowView(GUIBase, QGraphicsView):
             return
 
         if event.button() == Qt.LeftButton:
+            if not self._menu_proxy.is_hovered():
+                self._menu_proxy.hide()
             if self._node_list_widget_proxy.isVisible():
                 self.hide_node_list_widget()
 
         elif event.button() == Qt.RightButton:
+            self._menu_proxy.hide()
             self._right_mouse_pressed_in_flow = True
             event.accept()
 
@@ -576,7 +616,9 @@ class FlowView(GUIBase, QGraphicsView):
                         for y in range(diff_y, self.sceneRect().toRect().height(), diff_y):
                             painter.drawPoint(x, y)
 
-        self.set_stylus_proxy_pos()  # has to be called here instead of in drawForeground to prevent lagging
+        # has to be called here instead of in drawForeground to prevent lagging
+        self.set_stylus_proxy_pos()  
+        self.set_menu_proxy_pos()
         # self.set_zoom_proxy_pos()
 
     def drawForeground(self, painter, rect):
@@ -672,18 +714,26 @@ class FlowView(GUIBase, QGraphicsView):
 
     # def set_zoom_proxy_pos(self):
     #     self._zoom_proxy.setPos(self.mapToScene(self.viewport().width() - self._zoom_widget.width(), 0))
-
+    
     def set_stylus_proxy_pos(self):
         self._stylus_modes_proxy.setPos(
             self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width(), 0))
             # self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width() - self._zoom_widget.width(), 0))
-
+    def set_menu_proxy_pos(self):
+        self._menu_layout_proxy.setPos(
+            self.mapToScene(0, 0))
+        #Can't tell why the -8 is needed
+        menu_proxy_pos = self.mapToScene(self._menu_layout_proxy.widget().width(), self._menu_button.contentsRect().center().y() - 8)
+        self._menu_proxy.setPos(menu_proxy_pos)
+    
     def hide_proxies(self):
         self._stylus_modes_proxy.hide()
+        self._menu_layout_proxy.hide()
         # self._zoom_proxy.hide()
 
     def show_proxies(self):
         self._stylus_modes_proxy.show()
+        self._menu_layout_proxy.show()
         # self._zoom_proxy.show()
 
     # PLACE NODE WIDGET
