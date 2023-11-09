@@ -250,7 +250,7 @@ class PortItemPin(QGraphicsWidget):
             node_color=self.node_gui.color,
             type_=self.port.type_,
             connected=is_connected(self.port),
-            rect=QRectF(self.padding, self.padding, self.width-2*self.padding, self.height-2*self.padding)
+            rect=QRectF(self.padding, self.padding, self.get_no_padding_width(), self.get_no_padding_height())
         )
 
     def mousePressEvent(self, event):
@@ -299,7 +299,11 @@ class PortItemPin(QGraphicsWidget):
         self.hovered = False
 
         QGraphicsWidget.hoverLeaveEvent(self, event)
-
+    
+    def get_no_padding_width(self):
+        return self.width-2*self.padding
+    def get_no_padding_height(self):
+        return self.height-2*self.padding
     def get_scene_center_pos(self):
         if not self.node_item.collapsed:
             return QPointF(self.scenePos().x() + self.boundingRect().width()/2,

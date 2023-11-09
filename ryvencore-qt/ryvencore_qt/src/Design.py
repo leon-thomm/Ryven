@@ -99,12 +99,14 @@ class Design(QObject):
 
 
     def set_performance_mode(self, new_mode: str):
-        self.performance_mode = new_mode
+        if self.performance_mode == new_mode:
+            return
+        
         if new_mode == 'fast':
             self.node_item_shadows_enabled = False
         else:
             self.node_item_shadows_enabled = True
-
+        self.performance_mode = new_mode
         self.performance_mode_changed.emit(self.performance_mode)
 
     def set_animations_enabled(self, b: bool):

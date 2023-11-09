@@ -65,7 +65,6 @@ class MainWindow(QMainWindow):
         # self.session_gui.design.load_from_config(abs_path_from_package_dir('gui/styling/design_config.json'))
 
         self.session_gui.design.set_flow_theme(name=self.config.flow_theme)
-        self.session_gui.design.set_performance_mode(self.config.performance_mode)
         self.session_gui.design.set_animations_enabled(self.config.animations)
 
         # Assemble Window UI
@@ -100,6 +99,13 @@ class MainWindow(QMainWindow):
             **old_ac_init(self),
             'console ref': {'method': self.console_ref_monkeypatch}
         }
+        
+        if config.verbose and MainConsole.instance:
+            MainConsole.instance.writeoutput(
+'''Editor is in Verbose mode. 
+All output will be printed in the terminal, not the editor console.
+The editor console can still be used for commands.
+              ''')
 
         # Setup ryvencore Session and load project
 
@@ -138,7 +144,6 @@ CONTROLS
     save: ctrl+s
     import: ctrl+i
         ''')
-
     # UI
 
     def setup_ui(self):
@@ -229,6 +234,8 @@ CONTROLS
         self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
 
         # performance mode
+        self.session_gui.design.performance_mode_changed.connect(self.on_performance_mode_value_changed)
+        
         self.ac_perf_mode_fast = QAction('Fast', self)
         self.ac_perf_mode_fast.setCheckable(True)
 
@@ -239,8 +246,8 @@ CONTROLS
         perf_mode_ag.addAction(self.ac_perf_mode_fast)
         perf_mode_ag.addAction(self.ac_perf_mode_pretty)
 
-        self.ac_perf_mode_fast.setChecked(self.session_gui.design.performance_mode == 'fast')
-        self.ac_perf_mode_pretty.setChecked(self.session_gui.design.performance_mode == 'pretty')
+        self.ac_perf_mode_fast.setChecked(self.config.performance_mode == 'fast')
+        self.ac_perf_mode_pretty.setChecked(self.config.performance_mode == 'pretty')
 
         perf_mode_ag.triggered.connect(self.on_performance_mode_changed)
 
@@ -249,6 +256,8 @@ CONTROLS
         perf_menu.addAction(self.ac_perf_mode_pretty)
 
         self.ui.menuView.addMenu(perf_menu)
+        self.session_gui.design.set_performance_mode(self.config.performance_mode)
+        
 
         # animations
         self.ac_anims_active = QAction('Enabled', self)
@@ -282,6 +291,12 @@ CONTROLS
             self.session_gui.set_stylesheet(ss_content)
             self.setStyleSheet(ss_content)
 
+    #events
+    def on_performance_mode_value_changed(self, mode:str):
+        if mode == 'fast':
+            self.setDockOptions(self.dockOptions() & ~QMainWindow.AnimatedDocks)
+        else:
+            self.setDockOptions(self.dockOptions() | QMainWindow.AnimatedDocks)
     # slots
 
     def on_import_nodes_triggered(self):
@@ -384,7 +399,8 @@ CONTROLS
         self.ui.flows_tab_widget.addTab(flow_widget, flow.title)
         flow_view.menu().addMenu(self.flow_ui_template_menu)
         if self.flow_ui_template:
-            flow_widget.load_directly(self.flow_ui_template) 
+            flow_widget.load_directly(self.flow_ui_template)
+
         self.focus_on_flow(flow)
 
     def flow_renamed(self, flow):
@@ -395,6 +411,7 @@ CONTROLS
 
     def flow_deleted(self, flow):
         self.ui.flows_tab_widget.removeTab(self.ui.flows_tab_widget.indexOf(self.flow_UIs[flow]))
+        self.flow_UIs[flow].unload()
         del self.flow_UIs[flow]
 
     def get_current_flow(self):

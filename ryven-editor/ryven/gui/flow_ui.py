@@ -64,7 +64,9 @@ class FlowUI(QMainWindow):
 
         # flow
         self.ui.centralwidget.layout().addWidget(self.flow_view)
-
+        self.flow_view.design.performance_mode_changed.connect(self.set_performance_mode)
+        self.set_performance_mode(self.flow_view.design.performance_mode)
+        
         # code preview
         self.code_preview_widget = CodePreviewWidget(main_window, self.flow_view)
         self.ui.source_dock.setWidget(self.code_preview_widget)
@@ -80,7 +82,16 @@ class FlowUI(QMainWindow):
             self.add_logger_widget(logger)
         logging.log_created.sub(self.add_logger_widget)
 
-
+    #avoiding __del__ 
+    def unload(self):
+        self.flow_view.design.performance_mode_changed.disconnect(self.set_performance_mode)
+        
+    def set_performance_mode(self, mode:str):
+        if mode == 'fast':
+            self.setDockOptions(self.dockOptions() & ~QMainWindow.AnimatedDocks)
+        else:
+            self.setDockOptions(self.dockOptions() | QMainWindow.AnimatedDocks)
+                
     def create_loggers_widget(self):
         w = QWidget()
         w.setLayout(QHBoxLayout())

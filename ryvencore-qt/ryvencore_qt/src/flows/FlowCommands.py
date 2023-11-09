@@ -139,15 +139,13 @@ class RemoveComponents_Command(FlowUndoCommand):
             elif isinstance(i, DrawingObject):
                 self.drawings.append(i)
                 
-        #for outputs
+        #for connections
         for i in self.items:
             if not isinstance(i, ConnectionItem):
                 continue
-            out_port, in_port = i.connection
+            out_port, _ = i.connection
             if out_port.node not in self.nodes:
                 self.broken_connections.add(i.connection)
-            else:
-                self.internal_connections.add(i.connection)
 
         for n in self.nodes:
             for i in n.inputs:

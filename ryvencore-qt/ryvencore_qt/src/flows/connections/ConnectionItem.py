@@ -9,6 +9,8 @@ from ...GUIBase import GUIBase
 from ...utils import sqrt
 from ...utils import pythagoras
 
+from ...flows.nodes.PortItem import PortItem
+
 
 class ConnectionItem(GUIBase, QGraphicsPathItem):
     """The GUI representative for a connection. The classes ExecConnectionItem and DataConnectionItem will be ready
@@ -25,8 +27,8 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
         out_port_index = out.node.outputs.index(out)
         inp_port_index = inp.node.inputs.index(inp)
-        self.out_item = out.node.gui.item.outputs[out_port_index]
-        self.inp_item = inp.node.gui.item.inputs[inp_port_index]
+        self.out_item:PortItem = out.node.gui.item.outputs[out_port_index]
+        self.inp_item:PortItem = inp.node.gui.item.inputs[inp_port_index]
 
         self.session_design = session_design
         self.session_design.flow_theme_changed.connect(self.recompute)
@@ -49,10 +51,11 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         self.setPos(self.out_pos())
 
         # path
+        
         self.setPath(
             self.connection_path(
-                QPointF(0, 0),
-                self.inp_pos()-self.scenePos()
+                QPointF(self.out_item.pin.get_no_padding_width() * 0.5, 0),
+                self.inp_pos()-self.scenePos() - QPointF(self.inp_item.pin.get_no_padding_width() * 0.5, 0)
             )
         )
 
@@ -112,7 +115,7 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         """The current global scene position of the pin of the input port"""
 
         return self.inp_item.pin.get_scene_center_pos()
-
+    
     def itemChange(self, change, value):
         if change == QGraphicsItem.ItemSelectedHasChanged:
             self.set_highlighted(self.isSelected())

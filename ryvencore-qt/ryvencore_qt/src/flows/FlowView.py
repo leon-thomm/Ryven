@@ -28,6 +28,7 @@ from .connections.ConnectionItem import default_cubic_connection_path, Connectio
     ExecConnectionItem
 from .drawings.DrawingObject import DrawingObject
 
+from ..Design import Design
 
 class FlowView(GUIBase, QGraphicsView):
     """Manages the GUI of flows"""
@@ -63,7 +64,8 @@ class FlowView(GUIBase, QGraphicsView):
 
         # GENERAL ATTRIBUTES
         self.session_gui = session_gui
-
+        self.design:Design = session_gui.design # type hinting and quicker access
+        
         self.flow: Flow = flow
         self.node_items: dict = {}  # {Node: NodeItem}
         self.node_items__cache: dict = {}
