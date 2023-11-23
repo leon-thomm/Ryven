@@ -149,10 +149,8 @@ class FlowUI(QMainWindow):
     # should be dict[str, str] in 3.9+
     def load_directly(self, flow_dict: dict):
         """
-        Directly loads from a dictionar that contains a geometry and state values. Does not fail
+        Directly loads from a dictionary that contains a geometry and state values. Does not fail
         if the values are not found. Values can be either str, QByteArray or bytes.
-        Args:
-            flow_dict (dict): _description_
         """
         load = (
             lambda key: flow_dict[key]
