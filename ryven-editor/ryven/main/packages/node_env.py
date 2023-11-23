@@ -4,7 +4,7 @@ This module automatically imports all requirements for custom nodes.
 
 import os
 from os.path import basename, normpath
-from typing import Type
+from typing import Type, Tuple, List
 
 from ryven.main.packages.nodes_package import load_from_file, NodesPackage
 
@@ -78,10 +78,10 @@ class NodesEnvRegistry:
     """
 
     # stores, for each nodes package or subpackage a tuple of exported node types and data
-    # should be dict[str, tuple[list[Type[Node]], list[Type[Node]]]] in future versions
+    # should be dict[str, tuple[list[type[Node]], list[type[Data]]]] in future versions
     exported_package_metadata: dict = {}
     # the last exported package to be consumed for loading
-    # should be list[tuple[list[Type[Node]], list[Type[Node]]]]
+    # should be list[tuple[list[type[Node]], list[type[Data]]]]
     last_exported_package: list = []
 
     # stores, for each nodes package separately, a list of exported node types
@@ -109,10 +109,10 @@ class NodesEnvRegistry:
         )
 
     @classmethod
-    # should be -> tuple[list[type[Node]], list[type[Node]] in 3.9+
-    # should be result: tuple[list[type[Node]], list[type[Node]]] in 3.9+
-    def consume_last_exported_package(cls) -> tuple[list[Type[Node]], list[Type[Node]]]:
-        result: tuple[list[Type[Node]], list[Type[Node]]] = ([], [])
+    # should be -> tuple[list[type[Node]], list[type[Data]] in 3.9+
+    # should be result: tuple[list[type[Node]], list[type[Data]]] in 3.9+
+    def consume_last_exported_package(cls) -> Tuple[List[Type[Node]], List[Type[Node]]]:
+        result: Tuple[List[Type[Node]], List[Type[Node]]] = ([], [])
         """Consumes the last exported package"""
         r_nodes, d_nodes = result
         for nodes, data in cls.last_exported_package:
