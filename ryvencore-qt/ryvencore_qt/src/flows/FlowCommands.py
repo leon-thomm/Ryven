@@ -13,6 +13,7 @@ from ryvencore.NodePort import NodePort, NodeInput, NodeOutput
 from ryvencore.Flow import Flow
 from .connections.ConnectionItem import ConnectionItem
 
+
 class FlowUndoCommand(QObject, QUndoCommand):
     """
     The main difference to normal QUndoCommands is the activate feature. This allows the flow widget to add the
@@ -22,9 +23,8 @@ class FlowUndoCommand(QObject, QUndoCommand):
     """
 
     def __init__(self, flow_view):
-
         self.flow_view = flow_view
-        self.flow:Flow = flow_view.flow
+        self.flow: Flow = flow_view.flow
         self._activated = False
 
         QObject.__init__(self)
@@ -72,7 +72,6 @@ class MoveComponents_Command(FlowUndoCommand):
         items_group.setPos(self.p_to - self.last_item_group_pos)
         self.destroy_items_group(items_group)
 
-
     def items_group(self):
         return self.flow_view.scene().createItemGroup(self.items_list)
 
@@ -81,7 +80,6 @@ class MoveComponents_Command(FlowUndoCommand):
 
 
 class PlaceNode_Command(FlowUndoCommand):
-
     def __init__(self, flow_view, node_class, pos):
         super().__init__(flow_view)
 
@@ -121,12 +119,13 @@ class PlaceDrawing_Command(FlowUndoCommand):
 
 
 class RemoveComponents_Command(FlowUndoCommand):
-
     def __init__(self, flow_view, items):
         super().__init__(flow_view)
 
         self.items = items
-        self.broken_connections = set()  # the connections that go beyond the removed nodes and need to be restored in undo
+        self.broken_connections = (
+            set()
+        )  # the connections that go beyond the removed nodes and need to be restored in undo
         self.internal_connections = set()
 
         self.node_items = []
@@ -138,8 +137,8 @@ class RemoveComponents_Command(FlowUndoCommand):
                 self.nodes.append(i.node)
             elif isinstance(i, DrawingObject):
                 self.drawings.append(i)
-                
-        #for connections
+
+        # for connections
         for i in self.items:
             if not isinstance(i, ConnectionItem):
                 continue
@@ -165,7 +164,6 @@ class RemoveComponents_Command(FlowUndoCommand):
                         self.internal_connections.add((o, cp))
 
     def undo_(self):
-
         # add nodes
         for n in self.nodes:
             self.flow.add_node(n)
@@ -179,7 +177,6 @@ class RemoveComponents_Command(FlowUndoCommand):
         self.restore_internal_connections()
 
     def redo_(self):
-
         # remove connections
         self.remove_broken_connections()
         self.remove_internal_connections()
@@ -210,7 +207,6 @@ class RemoveComponents_Command(FlowUndoCommand):
 
 
 class ConnectPorts_Command(FlowUndoCommand):
-
     def __init__(self, flow_view, out, inp):
         super().__init__(flow_view)
 
@@ -225,7 +221,6 @@ class ConnectPorts_Command(FlowUndoCommand):
             if i == self.inp:
                 self.connection = (out, i)
                 self.connecting = False
-
 
     def undo_(self):
         if self.connecting:
@@ -247,17 +242,13 @@ class ConnectPorts_Command(FlowUndoCommand):
             self.flow.remove_connection(self.connection)
 
 
-
-
 class Paste_Command(FlowUndoCommand):
-
     def __init__(self, flow_view, data, offset_for_middle_pos):
         super().__init__(flow_view)
 
         self.data = data
         self.modify_data_positions(offset_for_middle_pos)
         self.pasted_components = None
-
 
     def modify_data_positions(self, offset):
         """adds the offset to the components' positions in data"""
@@ -276,12 +267,14 @@ class Paste_Command(FlowUndoCommand):
             # create components
             self.create_drawings()
 
-            self.pasted_components['nodes'], self.pasted_components['connections'] = \
-                self.flow.load_components(
-                    nodes_data=self.data['nodes'],
-                    conns_data=self.data['connections'],
-                    output_data=self.data['output data'],
-                )
+            (
+                self.pasted_components['nodes'],
+                self.pasted_components['connections'],
+            ) = self.flow.load_components(
+                nodes_data=self.data['nodes'],
+                conns_data=self.data['connections'],
+                output_data=self.data['output data'],
+            )
 
             self.select_new_components_in_view()
         else:
@@ -321,6 +314,8 @@ class Paste_Command(FlowUndoCommand):
         drawings = []
         for d in self.data['drawings']:
             new_drawing = self.flow_view.create_drawing(d)
-            self.flow_view.add_drawing(new_drawing, posF=QPointF(d['pos x'], d['pos y']))
+            self.flow_view.add_drawing(
+                new_drawing, posF=QPointF(d['pos x'], d['pos y'])
+            )
             drawings.append(new_drawing)
         self.pasted_components['drawings'] = drawings

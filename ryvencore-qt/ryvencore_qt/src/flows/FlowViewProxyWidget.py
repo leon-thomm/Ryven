@@ -9,7 +9,6 @@ class FlowViewProxyWidget(QGraphicsProxyWidget):
 
         self.flow_view = flow_view
 
-
     def mousePressEvent(self, arg__1):
         QGraphicsProxyWidget.mousePressEvent(self, arg__1)
         if arg__1.isAccepted():
@@ -27,18 +26,21 @@ class FlowViewProxyWidget(QGraphicsProxyWidget):
         if arg__1.isAccepted():
             self.flow_view.ignore_key_event = True
 
+
 class FlowViewProxyHoverWidget(FlowViewProxyWidget):
     """Additional hover controls for QProxyWidgets in the flow."""
-    def __init__(self, flow_view, parent = None):
+
+    def __init__(self, flow_view, parent=None):
         super(FlowViewProxyHoverWidget, self).__init__(flow_view, parent)
         self._is_hovered = False
-        
+
     def hoverEnterEvent(self, event: QGraphicsSceneHoverEvent):
         super().hoverEnterEvent(event)
         self._is_hovered = True
+
     def hoverLeaveEvent(self, event: QGraphicsSceneHoverEvent):
         super().hoverLeaveEvent(event)
         self._is_hovered = False
-    
+
     def is_hovered(self) -> bool:
         return self._is_hovered

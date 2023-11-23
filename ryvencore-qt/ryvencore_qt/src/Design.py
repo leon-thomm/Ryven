@@ -9,7 +9,8 @@ from .GlobalAttributes import Location
 
 class Design(QObject):
     """Design serves as a container for the stylesheet and flow themes, and sends signals to notify GUI elements
-    on change of the flow theme. A configuration for the flow themes can be loaded from a json file."""
+    on change of the flow theme. A configuration for the flow themes can be loaded from a json file.
+    """
 
     global_stylesheet = ''
 
@@ -37,15 +38,11 @@ class Design(QObject):
     @staticmethod
     def register_fonts():
         db = QFontDatabase()
-        db.addApplicationFont(
-            Location.PACKAGE_PATH + '/resources/fonts/poppins/Poppins-Medium.ttf'
-        )
+        db.addApplicationFont(Location.PACKAGE_PATH + '/resources/fonts/poppins/Poppins-Medium.ttf')
         db.addApplicationFont(
             Location.PACKAGE_PATH + '/resources/fonts/source_code_pro/SourceCodePro-Regular.ttf'
         )
-        db.addApplicationFont(
-            Location.PACKAGE_PATH + '/resources/fonts/asap/Asap-Regular.ttf'
-        )
+        db.addApplicationFont(Location.PACKAGE_PATH + '/resources/fonts/asap/Asap-Regular.ttf')
 
     def load_from_config(self, filepath: str):
         """Loads design configs from a config json file"""
@@ -97,11 +94,10 @@ class Design(QObject):
 
         self.flow_theme_changed.emit(self.flow_theme.name)
 
-
     def set_performance_mode(self, new_mode: str):
         if self.performance_mode == new_mode:
             return
-        
+
         if new_mode == 'fast':
             self.node_item_shadows_enabled = False
         else:

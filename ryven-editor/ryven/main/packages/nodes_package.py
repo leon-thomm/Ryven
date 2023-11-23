@@ -21,7 +21,6 @@ class NodesPackage:
     """
 
     def __init__(self, directory: str):
-
         self.name = basename(normpath(directory))
         self.directory = directory
 
@@ -48,7 +47,8 @@ class NodesPackage:
             'dir': self.directory,
         }
 
-def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
+
+def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
     """
     Imports specified components from a python module with given file path.
     """
@@ -58,22 +58,24 @@ def load_from_file(file: str = None, components_list: [str] = None) -> tuple:
     dirpath, filename = os.path.split(file)
     parent_dirpath, pkg_name = os.path.split(dirpath)
     mod_name = filename.split('.')[0]
-    name = f"{pkg_name}.{mod_name}" # e.g. built_in.nodes
+    name = f"{pkg_name}.{mod_name}"  # e.g. built_in.nodes
 
     if parent_dirpath not in sys.path:
         sys.path.append(parent_dirpath)
-    
-    #execute the main pkg mod
-    #main_package_mod = importlib.import_module(pkg_name, pkg_name)
-    #print(main_package_mod)
-    #execute the nodes pkg
+
+    # execute the main pkg mod
+    # main_package_mod = importlib.import_module(pkg_name, pkg_name)
+    # print(main_package_mod)
+    # execute the nodes pkg
     mod = importlib.import_module(name, pkg_name)
     comps = tuple([getattr(mod, c) for c in components_list])
     return comps
 
 
-def import_nodes_package(package: NodesPackage = None, directory: str = None) -> \
-        Tuple[list[Type[Node]], list[Type[Data]]]:
+# should be Tuple[list[Type[Node]], list[Type[Data]] in 3.9+
+def import_nodes_package(
+    package: NodesPackage = None, directory: str = None
+) -> Tuple[List[Type[Node]], List[Type[Data]]]:
     """Loads node and data classes from a Ryven nodes package and returns both in separate lists.
 
     Can be used without a running Ryven instance, but you need to specify in which mode nodes should be loaded
@@ -94,21 +96,22 @@ def import_nodes_package(package: NodesPackage = None, directory: str = None) ->
         )
 
     from ryven import node_env
+
     node_env.NodesEnvRegistry.current_package = package
     load_from_file(package.file_path)
 
-    #obsolete node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
-    #obsolote data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
+    # obsolete node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
+    # obsolote data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
 
     return node_env.NodesEnvRegistry.consume_last_exported_package()
 
 
 def process_nodes_packages(
     project_or_nodes: Union[
-        Union[str, pathlib.Path],                       # path to Ryven project
-        List[Union[str, pathlib.Path, NodesPackage]]    # list of node packages
+        Union[str, pathlib.Path],  # path to Ryven project
+        List[Union[str, pathlib.Path, NodesPackage]],  # list of node packages
     ],
-    requested_packages: List[NodesPackage] = None
+    requested_packages: List[NodesPackage] = None,
 ) -> Tuple[Set[NodesPackage], List[pathlib.Path], Optional[dict]]:
     """Takes a project or list of node packages and additionally requested node
     packages and checks whether the node packages are valid.
@@ -192,8 +195,7 @@ def process_nodes_packages(
     # This check is done by comparing the path name to the nodes' names
     args_pkgs_names = [pkg.name for pkg in requested_packages]
     pkgs_not_found = [
-        pkg_path
-        for pkg_path in pkgs_not_found
-        if pkg_path.name not in args_pkgs_names]
+        pkg_path for pkg_path in pkgs_not_found if pkg_path.name not in args_pkgs_names
+    ]
 
     return pkgs, pkgs_not_found, project_dict

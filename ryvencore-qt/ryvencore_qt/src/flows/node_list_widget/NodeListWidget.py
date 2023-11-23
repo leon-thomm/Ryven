@@ -8,65 +8,63 @@ from ..node_list_widget.NodeWidget import NodeWidget
 
 from statistics import median
 
-#from ryven import NodesPackage
+# from ryven import NodesPackage
+
 
 class NodeListWidget(QWidget):
-
     # SIGNALS
     escaped = Signal()
     node_chosen = Signal(object)
 
-    def __init__(self, session, show_packages:bool = False):
+    def __init__(self, session, show_packages: bool = False):
         super().__init__()
 
         self.session = session
-        self.nodes: list[type[Node]] = []
-        self.package_nodes:list[type[Node]] = []
+        self.nodes: list = []  # should be list[type[Node]] in 3.9+
+        self.package_nodes: list = []  # should be list[type[Node]] in 3.9+
 
-        self.current_nodes = []             # currently selectable nodes
+        self.current_nodes = []  # currently selectable nodes
         self.active_node_widget_index = -1  # index of focused node widget
-        self.active_node_widget = None      # focused node widget
-        self.node_widgets = {}              # Node-NodeWidget assignments
+        self.active_node_widget = None  # focused node widget
+        self.node_widgets = {}  # Node-NodeWidget assignments
         self._node_widget_index_counter = 0
-        
-        self.show_packages:bool = show_packages
+
+        self.show_packages: bool = show_packages
         self._setup_UI()
 
-
     def _setup_UI(self):
-
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setAlignment(Qt.AlignTop)
         self.setLayout(self.main_layout)
 
-        #splitter between packages and nodes
+        # splitter between packages and nodes
         splitter = QSplitter(Qt.Vertical)
         self.layout().addWidget(splitter)
-        
-        #Addition for tree view
+
+        # Addition for tree view
         self.pack_tree = QTreeView()
-        def on_select(index:QModelIndex):
-            item:QStandardItem = index.model().itemFromIndex(index)
+
+        def on_select(index: QModelIndex):
+            item: QStandardItem = index.model().itemFromIndex(index)
             func = item.data(Qt.UserRole + 1)
-            if (func != None):
+            if func != None:
                 func()
-        
+
         self.pack_tree.clicked.connect(on_select)
-        
-        if (self.show_packages):
+
+        if self.show_packages:
             splitter.addWidget(self.pack_tree)
-        splitter.setSizes([30,])    
-        
+        splitter.setSizes([30])
+
         nodes_widget = QWidget()
         nodes_widget.setLayout(QVBoxLayout())
         splitter.addWidget(nodes_widget)
-        
+
         # adding all stuff to the layout
         self.search_line_edit = QLineEdit(self)
         self.search_line_edit.setPlaceholderText('search for node...')
         self.search_line_edit.textChanged.connect(self._update_view)
         nodes_widget.layout().addWidget(self.search_line_edit)
-
 
         self.list_scroll_area = QScrollArea(self)
         self.list_scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
@@ -95,35 +93,38 @@ class NodeListWidget(QWidget):
         """
         Creates a hierarchical view of the packages based on the nodes' identifier prefix.
         """
-        
+
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels(["Packages"])
         root_item = model.invisibleRootItem()
-        
-        h_dict:dict[str, QStandardItem] = {"root_item":root_item}
-        pack_to_nodes:dict[str, list[type[Node]]] = {}
-        #Only up to two levels allowed for easier implementation
+
+        # should be dict[str, QStandardItem] in 3.9+
+        h_dict: dict = {"root_item": root_item}
+        # should be dict[str, list[type[Node]]] in 3.9+
+        pack_to_nodes: dict = {}
+        # Only up to two levels allowed for easier implementation
         for n in self.nodes:
             pName = n.identifier_prefix
             if pName == None:
                 continue
-            pack_nodes:list[type[Node]] = pack_to_nodes.get(pName)
-            if (pack_nodes != None):
+            # should be list[type[Node]] in 3.9+
+            pack_nodes: list = pack_to_nodes.get(pName)
+            if pack_nodes != None:
                 pack_nodes.append(n)
                 continue
-            
+
             pack_nodes = []
             pack_to_nodes[pName] = pack_nodes
-            pack_nodes.append(n) 
-            
+            pack_nodes.append(n)
+
             p_split = pName.split(".")
             pLen = len(p_split)
             if pLen > 2:
                 continue
-            
+
             first = p_split[0]
-            item:QStandardItem = None
-            
+            item: QStandardItem = None
+
             current_root = h_dict.get(first)
             if current_root == None:
                 item = QStandardItem(first)
@@ -131,31 +132,31 @@ class NodeListWidget(QWidget):
                 root_item.appendRow(item)
                 current_root = item
                 item.setEditable(False)
-            
+
             def make_nodes_current(pack_nodes):
                 def create_func():
                     if self.package_nodes == pack_nodes:
                         return
                     self.package_nodes = pack_nodes
                     self._update_view()
+
                 return create_func
-            
+
             if pLen < 2:
                 item.setData(make_nodes_current(pack_nodes), Qt.UserRole + 1)
                 continue
-            
+
             item = QStandardItem(p_split[1])
             item.setData(make_nodes_current(pack_nodes), Qt.UserRole + 1)
             item.setEditable(False)
             current_root.appendRow(item)
-        
+
         self.pack_tree.setModel(model)
-        
+
     def mousePressEvent(self, event):
         # need to accept the event, so the scene doesn't process it further
         QWidget.mousePressEvent(self, event)
         event.accept()
-
 
     def keyPressEvent(self, event):
         """key controls"""
@@ -166,13 +167,9 @@ class NodeListWidget(QWidget):
             self.escaped.emit()
 
         elif event.key() == Qt.Key_Down:
-            self._set_active_node_widget_index(
-                inc(self.active_node_widget_index, length=num_items)
-            )
+            self._set_active_node_widget_index(inc(self.active_node_widget_index, length=num_items))
         elif event.key() == Qt.Key_Up:
-            self._set_active_node_widget_index(
-                dec(self.active_node_widget_index, num_items)
-            )
+            self._set_active_node_widget_index(dec(self.active_node_widget_index, num_items))
 
         elif event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
             if len(self.current_nodes) > 0:
@@ -180,32 +177,27 @@ class NodeListWidget(QWidget):
         else:
             event.setAccepted(False)
 
-
     def wheelEvent(self, event):
         # need to accept the event, so the scene doesn't process it further
         QWidget.wheelEvent(self, event)
         event.accept()
-
 
     def refocus(self):
         """focuses the search line edit and selects the text"""
         self.search_line_edit.setFocus()
         self.search_line_edit.selectAll()
 
-
     def update_list(self, nodes):
         """update the list of available nodes"""
         self.nodes = sort_nodes(nodes)
         self._update_view('')
 
-
     def _update_view(self, search_text=''):
-        
         nodes = self.nodes if search_text is not None and search_text != '' else self.package_nodes
-        
+
         if nodes == None or len(nodes) == 0:
             nodes = self.nodes
-            
+
         if len(nodes) == 0:
             return
 
@@ -222,11 +214,7 @@ class NodeListWidget(QWidget):
 
         # search
         sorted_distances = search(
-            items={
-                n: [n.title.lower()] + n.tags
-                for n in nodes
-            },
-            text=search_text
+            items={n: [n.title.lower()] + n.tags for n in nodes}, text=search_text
         )
 
         # create node widgets
@@ -245,7 +233,6 @@ class NodeListWidget(QWidget):
         # focus on first result
         if len(self.current_nodes) > 0:
             self._set_active_node_widget_index(0)
-
 
     def _create_node_widget(self, node):
         node_widget = NodeWidget(self, node)
@@ -271,11 +258,9 @@ class NodeListWidget(QWidget):
         self.active_node_widget = node_widget
         self.list_scroll_area.ensureWidgetVisible(self.active_node_widget)
 
-
     def _node_widget_chosen(self):
-        index = int(self.sender().objectName()[self.sender().objectName().rindex('_')+1:])
+        index = int(self.sender().objectName()[self.sender().objectName().rindex('_') + 1 :])
         self._place_node(index)
-
 
     def _place_node(self, index):
         node_index = index

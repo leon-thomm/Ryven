@@ -3,7 +3,17 @@ import os
 import os.path
 
 from qtpy.QtGui import QIcon, QKeySequence
-from qtpy.QtWidgets import QMainWindow, QFileDialog, QShortcut, QAction, QActionGroup, QMenu, QMessageBox, QTabWidget, QDockWidget
+from qtpy.QtWidgets import (
+    QMainWindow,
+    QFileDialog,
+    QShortcut,
+    QAction,
+    QActionGroup,
+    QMenu,
+    QMessageBox,
+    QTabWidget,
+    QDockWidget,
+)
 from ryvencore_qt import NodeGUI
 from qtpy.QtCore import Qt, QByteArray
 
@@ -12,10 +22,11 @@ from ryven.gui.flow_ui import FlowUI
 from ryven.main.config import Config
 from ryven.main.packages.nodes_package import NodesPackage
 from ryven.gui.uic.ui_main_window import Ui_MainWindow
-from ryven.main.utils import \
-    abs_path_from_package_dir, \
-    abs_path_from_ryven_dir, \
-    ryven_version
+from ryven.main.utils import (
+    abs_path_from_package_dir,
+    abs_path_from_ryven_dir,
+    ryven_version,
+)
 from ryven import import_nodes_package
 from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 
@@ -27,16 +38,13 @@ from ryvencore import InfoMsgs, Flow
 
 
 class MainWindow(QMainWindow):
-
     def __init__(
-            self,
-
-            config: Config,
-            requested_packages: set = (),
-            required_packages: set = None,  # only valid when project_content is provided
-            project_content: dict = None,
-
-            parent=None,
+        self,
+        config: Config,
+        requested_packages: set = (),
+        required_packages: set = None,  # only valid when project_content is provided
+        project_content: dict = None,
+        parent=None,
     ):
         super().__init__(parent)
 
@@ -44,12 +52,12 @@ class MainWindow(QMainWindow):
         self.session_gui, self.core_session = None, None
         self.theme = config.window_theme
         self.node_packages = {}  # {Node: str}
-        self.flow_UIs:dict[Flow, FlowUI] = {}
-        self.flow_ui_template:dict[str, QByteArray] = None
+        self.flow_UIs: dict[Flow, FlowUI] = {}
+        self.flow_ui_template: dict[str, QByteArray] = None
         self._project_content = None
 
         # Init Session GUI
-        
+
         self.session_gui = rc.SessionGUI(self)
         self.core_session = self.session_gui.core_session
         if self.config.verbose:
@@ -68,7 +76,7 @@ class MainWindow(QMainWindow):
         self.session_gui.design.set_animations_enabled(self.config.animations)
 
         # Assemble Window UI
-        
+
         self.setup_ui()
 
         self.flow_view_theme_actions = []
@@ -79,7 +87,7 @@ class MainWindow(QMainWindow):
         self.ui.flows_tab_widget.removeTab(0)  # remove placeholder tab
 
         # Configure window-wide Shortcuts
-        
+
         save_shortcut = QShortcut(QKeySequence.Save, self)
         save_shortcut.activated.connect(self.on_save_project_triggered)
         import_nodes_shortcut = QShortcut(QKeySequence('Ctrl+i'), self)
@@ -93,19 +101,21 @@ class MainWindow(QMainWindow):
         # very dirty hack to access nodes from the console
         def console_ref_monkeypatch(self):
             MainConsole.instance.add_obj_context(self.node)
+
         NodeGUI.console_ref_monkeypatch = console_ref_monkeypatch
         old_ac_init = NodeGUI._init_default_actions
         NodeGUI._init_default_actions = lambda self: {
             **old_ac_init(self),
-            'console ref': {'method': self.console_ref_monkeypatch}
+            'console ref': {'method': self.console_ref_monkeypatch},
         }
-        
+
         if config.verbose and MainConsole.instance:
             MainConsole.instance.writeoutput(
-'''Editor is in Verbose mode. 
+                '''Editor is in Verbose mode. 
 All output will be printed in the terminal, not the editor console.
 The editor console can still be used for commands.
-              ''')
+              '''
+            )
 
         # Setup ryvencore Session and load project
 
@@ -120,9 +130,9 @@ The editor console can still be used for commands.
             self.import_packages(required_packages)
             print('loading project...')
             self.core_session.load(project_content)
-            #load the flow_ui_template if it exists
+            # load the flow_ui_template if it exists
             self.set_flow_ui_template(project_content.get('flow_ui_template'))
-            #After everything has loaded, lets load the UIs 
+            # After everything has loaded, load previous UI geometry and state
             self.load_qt_window(project_content)
             for flow_ui in self.flow_UIs.values():
                 self.load_flow_ui(flow_ui)
@@ -134,7 +144,8 @@ The editor console can still be used for commands.
         # self.showMaximized()
 
     def print_info(self):
-        print('''
+        print(
+            '''
 CONTROLS
     nodes dialog: right mouse in scene
     place nodes: drag and drop from left
@@ -143,7 +154,9 @@ CONTROLS
     pan / navigating scene: right mouse
     save: ctrl+s
     import: ctrl+i
-        ''')
+        '''
+        )
+
     # UI
 
     def setup_ui(self):
@@ -151,34 +164,36 @@ CONTROLS
         self.ui.setupUi(self)
         self.ui.statusBar.hide()
 
-        #actions for setting / unsetting a flow ui template
-        self.focused_flow:FlowUI = None
+        # actions for setting / unsetting a flow ui template
+        self.focused_flow: FlowUI = None
+
         def unset_flow_template():
             self.set_flow_ui_template(None)
+
         def set_flow_template():
             flow_ui = self.flow_UIs.get(self.get_current_flow())
             if not flow_ui:
                 return
             template = {
-                'geometry':flow_ui.saveGeometry().toHex().data().decode(),
-                'state' : flow_ui.saveState().toHex().data().decode()
+                'geometry': flow_ui.saveGeometry().toHex().data().decode(),
+                'state': flow_ui.saveState().toHex().data().decode(),
             }
             self.set_flow_ui_template(template)
-        
+
         self.flow_ui_template_menu = QMenu()
         self.flow_ui_template_menu.setTitle('Flow Template')
-        
+
         restore_default = QAction('Restore Default', self)
         restore_default.triggered.connect(unset_flow_template)
         save_current = QAction('Save Current', self)
         save_current.triggered.connect(set_flow_template)
-        
+
         self.flow_ui_template_menu.addAction(save_current)
         self.flow_ui_template_menu.addAction(restore_default)
-        
-        #set tabs to be on top
+
+        # set tabs to be on top
         self.setTabPosition(Qt.AllDockWidgetAreas, QTabWidget.North)
-        
+
         # main console
         if MainConsole.instance is not None:
             self.ui.consoleDock.setWidget(MainConsole.instance)
@@ -191,22 +206,23 @@ CONTROLS
 
         self.flows_list_widget = rc_GUI.FlowsList(self.session_gui)
         self.ui.flows_dock.setWidget(self.flows_list_widget)
-        
+
         self.nodes_list_widget = rc_GUI.NodeListWidget(self.session_gui, True)
         self.ui.nodes_dock.setWidget(self.nodes_list_widget)
-        
-        self.ui.main_horizontal_splitter.setSizes([120, 800-120])
-        
-        #add widget actions to menu
-        all_dock_widgets:list[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
-        self.ui.menuDocks.addActions([w.toggleViewAction() for w in all_dock_widgets])
-        #tabify all left tabs at a fresh project
-        left_widgets = [d for d in all_dock_widgets if self.dockWidgetArea(d) == Qt.LeftDockWidgetArea]
-        for i in range(1, len(left_widgets)):
-            self.tabifyDockWidget(left_widgets[i-1], left_widgets[i])
-        
-    def setup_menu_actions(self):
 
+        self.ui.main_horizontal_splitter.setSizes([120, 800 - 120])
+
+        # add widget actions to menu
+        all_dock_widgets: list[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
+        self.ui.menuDocks.addActions([w.toggleViewAction() for w in all_dock_widgets])
+        # tabify all left tabs at a fresh project
+        left_widgets = [
+            d for d in all_dock_widgets if self.dockWidgetArea(d) == Qt.LeftDockWidgetArea
+        ]
+        for i in range(1, len(left_widgets)):
+            self.tabifyDockWidget(left_widgets[i - 1], left_widgets[i])
+
+    def setup_menu_actions(self):
         # flow designs
         light_themes_menu = QMenu('light')
         for d in self.session_gui.design.flow_themes:
@@ -231,11 +247,15 @@ CONTROLS
         self.ui.actionEnableInfoMessages.triggered.connect(self.on_enable_info_msgs_triggered)
         self.ui.actionDisableInfoMessages.triggered.connect(self.on_disable_info_msgs_triggered)
         self.ui.actionSave_Pic_Viewport.triggered.connect(self.on_save_scene_pic_viewport_triggered)
-        self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(self.on_save_scene_pic_whole_triggered)
+        self.ui.actionSave_Pic_Whole_Scene_scaled.triggered.connect(
+            self.on_save_scene_pic_whole_triggered
+        )
 
         # performance mode
-        self.session_gui.design.performance_mode_changed.connect(self.on_performance_mode_value_changed)
-        
+        self.session_gui.design.performance_mode_changed.connect(
+            self.on_performance_mode_value_changed
+        )
+
         self.ac_perf_mode_fast = QAction('Fast', self)
         self.ac_perf_mode_fast.setCheckable(True)
 
@@ -257,7 +277,6 @@ CONTROLS
 
         self.ui.menuView.addMenu(perf_menu)
         self.session_gui.design.set_performance_mode(self.config.performance_mode)
-        
 
         # animations
         self.ac_anims_active = QAction('Enabled', self)
@@ -291,21 +310,32 @@ CONTROLS
             self.session_gui.set_stylesheet(ss_content)
             self.setStyleSheet(ss_content)
 
-    #events
-    def on_performance_mode_value_changed(self, mode:str):
+    # events
+    def on_performance_mode_value_changed(self, mode: str):
         if mode == 'fast':
             self.setDockOptions(self.dockOptions() & ~QMainWindow.AnimatedDocks)
         else:
             self.setDockOptions(self.dockOptions() | QMainWindow.AnimatedDocks)
+
     # slots
 
     def on_import_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_ryven_dir('nodes'), 'Python File (*.py)')[0]
+        file_path = QFileDialog.getOpenFileName(
+            self,
+            'select nodes file',
+            abs_path_from_ryven_dir('nodes'),
+            'Python File (*.py)',
+        )[0]
         if file_path != '':
             self.import_nodes(path=os.path.dirname(file_path))
 
     def on_import_example_nodes_triggered(self):
-        file_path = QFileDialog.getOpenFileName(self, 'select nodes file', abs_path_from_package_dir('example_nodes'), 'Python File (*.py)')[0]
+        file_path = QFileDialog.getOpenFileName(
+            self,
+            'select nodes file',
+            abs_path_from_package_dir('example_nodes'),
+            'Python File (*.py)',
+        )[0]
         if file_path != '':
             self.import_nodes(path=os.path.dirname(file_path))
 
@@ -354,8 +384,12 @@ CONTROLS
         img.save(file_path)
 
     def on_save_project_triggered(self):
-        file_name = QFileDialog.getSaveFileName(self, 'select location and give file name',
-                                                abs_path_from_ryven_dir('saves'), 'JSON(*.json)')[0]
+        file_name = QFileDialog.getSaveFileName(
+            self,
+            'select location and give file name',
+            abs_path_from_ryven_dir('saves'),
+            'JSON(*.json)',
+        )[0]
         if not file_name.endswith('.json'):
             file_name += '.json'
 
@@ -381,9 +415,14 @@ CONTROLS
     def on_delete_flow_triggered(self):
         flow = ChooseFlowDialog('choose flow', self.core_session.flows, self).get_flow()
 
-        msg_box = QMessageBox(QMessageBox.Warning, 'sure about deleting flow?',
-                              'You are about to delete a flow. This cannot be undone, all content will be gone. '
-                              'Do you want to continue?', QMessageBox.Cancel | QMessageBox.Yes, self)
+        msg_box = QMessageBox(
+            QMessageBox.Warning,
+            'sure about deleting flow?',
+            'You are about to delete a flow. This cannot be undone, all content will be gone. '
+            'Do you want to continue?',
+            QMessageBox.Cancel | QMessageBox.Yes,
+            self,
+        )
         msg_box.setDefaultButton(QMessageBox.Cancel)
         ret = msg_box.exec_()
         if ret != QMessageBox.Yes:
@@ -393,7 +432,7 @@ CONTROLS
 
     # session
 
-    def flow_created(self, flow:Flow, flow_view):
+    def flow_created(self, flow: Flow, flow_view):
         flow_widget = FlowUI(self, flow, flow_view)
         self.flow_UIs[flow] = flow_widget
         self.ui.flows_tab_widget.addTab(flow_widget, flow.title)
@@ -405,8 +444,7 @@ CONTROLS
 
     def flow_renamed(self, flow):
         self.ui.flows_tab_widget.setTabText(
-            self.session_gui.core_session.flows.index(flow),
-            flow.title
+            self.session_gui.core_session.flows.index(flow), flow.title
         )
 
     def flow_deleted(self, flow):
@@ -425,7 +463,6 @@ CONTROLS
             self.import_nodes(p)
 
     def import_nodes(self, package: NodesPackage = None, path: str = None):
-
         if package is not None:
             p = package
         else:
@@ -440,7 +477,13 @@ CONTROLS
         try:
             nodes, data_types = import_nodes_package(p)
         except ModuleNotFoundError as e:
-            msg_box = QMessageBox(QMessageBox.Warning, 'Missing Python module', str(e), QMessageBox.Ok, self)
+            msg_box = QMessageBox(
+                QMessageBox.Warning,
+                'Missing Python module',
+                str(e),
+                QMessageBox.Ok,
+                self,
+            )
             msg_box.exec_()
             sys.exit(e)
 
@@ -453,28 +496,39 @@ CONTROLS
         self.nodes_list_widget.update_list(self.core_session.nodes)
         self.nodes_list_widget.make_pack_hier()
 
-    def set_flow_ui_template(self, template:dict[str, str] | dict[str, QByteArray] | None):
+    # should be dict[str, str] | dict[str, QByteArray] | None in 3.9+
+    def set_flow_ui_template(self, template):
         if template is None:
             self.flow_ui_template = None
             return
-        save = lambda key : template[key] if type(template[key]) is QByteArray else bytes.fromhex(template[key])
-        self.flow_ui_template = {
-            'geometry': save('geometry'),
-            'state' : save('state')    
-        }
+        save = (
+            lambda key: template[key]
+            if type(template[key]) is QByteArray
+            else bytes.fromhex(template[key])
+        )
+        self.flow_ui_template = {'geometry': save('geometry'), 'state': save('state')}
+
     def load_qt_window(self, project_dict):
-        self.restoreGeometry(bytes.fromhex(project_dict["geometry"]))
-        self.restoreState(bytes.fromhex(project_dict["state"]))
-    
-    def load_flow_ui(self, flow_ui:FlowUI):
+        """
+        Loads the main windows previous geometry and state, if they were saved.
+        """
+        if 'geometry' in project_dict:
+            self.restoreGeometry(bytes.fromhex(project_dict['geometry']))
+        if 'state' in project_dict:
+            self.restoreState(bytes.fromhex(project_dict['state']))
+
+    def load_flow_ui(self, flow_ui: FlowUI):
+        """
+        Loads a flows previous geometry and state based on the previous flow id.
+        """
         if self._project_content is None:
             return
         try:
-            flow_ui.load(self._project_content['flow_uis'])    
+            flow_ui.load(self._project_content['flow_uis'])
         except Exception as e:
-            print(e)
+            # print(f'Could not load previous UI state for flow with previous id: {flow_ui.flow.prev_global_id}')
             pass
-        
+
     def save_project(self, file_name):
         import json
 
@@ -487,41 +541,47 @@ CONTROLS
             InfoMsgs.write('couldn\'t open file')
             return
 
-        general_project_info_dict = {'type': 'Ryven project file', 'ryven version': str(ryven_version())}
+        general_project_info_dict = {
+            'type': 'Ryven project file',
+            'ryven version': str(ryven_version()),
+        }
 
         flows_data = self.core_session.serialize()
 
         required_packages = set()
         for node in self.core_session.all_node_objects():
-            if node.__class__ not in self.node_packages.keys() or \
-                    self.node_packages[node.__class__] is None or \
-                    self.node_packages[node.__class__].name == 'built_in':
+            if (
+                node.__class__ not in self.node_packages.keys()
+                or self.node_packages[node.__class__] is None
+                or self.node_packages[node.__class__].name == 'built_in'
+            ):
                 continue
-            required_packages.add(
-                self.node_packages[node.__class__]
-            )
+            required_packages.add(self.node_packages[node.__class__])
 
-        #Serialization of the main window
+        # Serialization of the main window
         geometry = self.saveGeometry().toHex().data().decode()
         state = self.saveState().toHex().data().decode()
-        
-        #Serialization of the flow views
-        flow_uis_ser:dict[str, dict[str, str]] = {}
+
+        # Serialization of the flow views
+        # should be dict[str, dict[str, str]] in 3.9+
+        flow_uis_ser: dict = {}
         for flow, flow_ui in self.flow_UIs.items():
             flow_uis_ser[str(flow.global_id)] = flow_ui.save()
-        
-        whole_project_dict = {'general info': general_project_info_dict,
-                              'required packages': [p.config_data() for p in required_packages],
-                              **flows_data,
-                              'geometry': geometry,
-                              'state':state,
-                              'flow_uis': flow_uis_ser}
-        
-        #flow ui template
+
+        whole_project_dict = {
+            'general info': general_project_info_dict,
+            'required packages': [p.config_data() for p in required_packages],
+            **flows_data,
+            'geometry': geometry,
+            'state': state,
+            'flow_uis': flow_uis_ser,
+        }
+
+        # flow ui template
         if self.flow_ui_template:
             whole_project_dict['flow_ui_template'] = {
                 'geometry': QByteArray(self.flow_ui_template['geometry']).toHex().data().decode(),
-                'state': QByteArray(self.flow_ui_template['state']).toHex().data().decode()
+                'state': QByteArray(self.flow_ui_template['state']).toHex().data().decode(),
             }
 
         data = json.dumps(whole_project_dict, indent=4)
