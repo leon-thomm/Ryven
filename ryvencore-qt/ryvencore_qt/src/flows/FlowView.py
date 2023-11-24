@@ -2,31 +2,75 @@ import json
 
 from typing import Tuple
 
-from qtpy.QtCore import Qt, QPointF, QPoint, QRectF, QSizeF, Signal, QTimer, QTimeLine, QEvent
-from qtpy.QtGui import QPainter, QPen, QColor, QKeySequence, QTabletEvent, QImage, QGuiApplication, QFont, QTouchEvent
-from qtpy.QtWidgets import QGraphicsView, QGraphicsScene, QShortcut, QMenu, QGraphicsItem, QUndoStack
+from qtpy.QtCore import (
+    Qt,
+    QPointF,
+    QPoint,
+    QRectF,
+    QSizeF,
+    Signal,
+    QTimer,
+    QTimeLine,
+    QEvent,
+)
+from qtpy.QtGui import (
+    QPainter,
+    QPen,
+    QColor,
+    QKeySequence,
+    QTabletEvent,
+    QImage,
+    QGuiApplication,
+    QFont,
+    QTouchEvent,
+)
+from qtpy.QtWidgets import (
+    QGraphicsView,
+    QGraphicsScene,
+    QShortcut,
+    QMenu,
+    QGraphicsItem,
+    QUndoStack,
+    QPushButton,
+    QHBoxLayout,
+    QWidget,
+)
 
 from ryvencore.Flow import Flow
 from ryvencore.Node import Node
 from ryvencore.NodePort import NodePort, NodeInput, NodeOutput
-#from ryvencore.Connection import Connection, DataConnection
+
+# from ryvencore.Connection import Connection, DataConnection
 from ryvencore.InfoMsgs import InfoMsgs
 from ryvencore.RC import PortObjPos
 from ryvencore.utils import node_from_identifier
 
 from ..GUIBase import GUIBase
 from ..utils import *
-from .FlowCommands import MoveComponents_Command, PlaceNode_Command, \
-    PlaceDrawing_Command, RemoveComponents_Command, ConnectPorts_Command, Paste_Command, FlowUndoCommand
-from .FlowViewProxyWidget import FlowViewProxyWidget
+from .FlowCommands import (
+    MoveComponents_Command,
+    PlaceNode_Command,
+    PlaceDrawing_Command,
+    RemoveComponents_Command,
+    ConnectPorts_Command,
+    Paste_Command,
+    FlowUndoCommand,
+)
+from .FlowViewProxyWidget import *
 from .FlowViewStylusModesWidget import FlowViewStylusModesWidget
 from .node_list_widget.NodeListWidget import NodeListWidget
 from .nodes.NodeGUI import NodeGUI
 from .nodes.NodeItem import NodeItem
 from .nodes.PortItem import PortItemPin, PortItem
-from .connections.ConnectionItem import default_cubic_connection_path, ConnectionItem, DataConnectionItem, \
-    ExecConnectionItem
+from .connections.ConnectionItem import (
+    default_cubic_connection_path,
+    ConnectionItem,
+    DataConnectionItem,
+    ExecConnectionItem,
+)
 from .drawings.DrawingObject import DrawingObject
+
+from ..Design import Design
 
 
 class FlowView(GUIBase, QGraphicsView):
@@ -41,8 +85,8 @@ class FlowView(GUIBase, QGraphicsView):
     check_connection_validity_request = Signal((NodeOutput, NodeInput), bool)
     connect_request = Signal(NodePort, NodePort)
 
-    #get_nodes_data_request = Signal(list)
-    #get_connections_data_request = Signal(list)
+    # get_nodes_data_request = Signal(list)
+    # get_connections_data_request = Signal(list)
     get_flow_data_request = Signal()
 
     viewport_update_mode_changed = Signal(str)
@@ -63,6 +107,7 @@ class FlowView(GUIBase, QGraphicsView):
 
         # GENERAL ATTRIBUTES
         self.session_gui = session_gui
+        self.design: Design = session_gui.design  # type hinting and quicker access
 
         self.flow: Flow = flow
         self.node_items: dict = {}  # {Node: NodeItem}
@@ -82,7 +127,9 @@ class FlowView(GUIBase, QGraphicsView):
         self._left_mouse_pressed_in_flow = False
         self._right_mouse_pressed_in_flow = False
         self._mouse_press_pos: QPointF = None
-        self._auto_connection_pin = None  # stores the gate that we may try to auto connect to a newly placed NI
+        self._auto_connection_pin = (
+            None  # stores the gate that we may try to auto connect to a newly placed NI
+        )
         self._panning = False
         self._pan_last_x = None
         self._pan_last_y = None
@@ -99,8 +146,8 @@ class FlowView(GUIBase, QGraphicsView):
         self.remove_node_request.connect(self.flow.remove_node)
         self.check_connection_validity_request.connect(self.flow.check_connection_validity)
         # TODO: need to check if the 2 lines below are used
-        #self.get_nodes_data_request.connect(self.flow.gen_nodes_data)
-        #self.get_connections_data_request.connect(self.flow.gen_conns_data)
+        # self.get_nodes_data_request.connect(self.flow.gen_nodes_data)
+        # self.get_connections_data_request.connect(self.flow.gen_conns_data)
         self.get_flow_data_request.connect(self.flow.data)
 
         # CONNECTIONS FROM FLOW
@@ -152,19 +199,50 @@ class FlowView(GUIBase, QGraphicsView):
         # self.scene().addItem(self._zoom_proxy)
         # self.set_zoom_proxy_pos()
 
+        def init_proxy_widget(widget: QWidget, proxy: FlowViewProxyWidget):
+            proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
+            proxy.setZValue(1001)
+            proxy.setWidget(widget)
+            self.scene().addItem(proxy)
+            return proxy
+
         # STYLUS
         self.stylus_mode = ''
         self._current_drawing = None
         self._drawing = False
         self.drawings = []
-        self._stylus_modes_proxy = FlowViewProxyWidget(self)
-        self._stylus_modes_proxy.setFlag(QGraphicsItem.ItemIgnoresTransformations, True)
-        self._stylus_modes_proxy.setZValue(1001)
         self._stylus_modes_widget = FlowViewStylusModesWidget(self)
-        self._stylus_modes_proxy.setWidget(self._stylus_modes_widget)
-        self.scene().addItem(self._stylus_modes_proxy)
+        self._stylus_modes_proxy = init_proxy_widget(
+            self._stylus_modes_widget, FlowViewProxyWidget(self)
+        )
         self.set_stylus_proxy_pos()
         self.setAttribute(Qt.WA_TabletTracking)
+
+        # MENU
+        menu = QMenu()
+        self._menu = menu
+        self._menu_proxy: FlowViewProxyHoverWidget = init_proxy_widget(
+            menu, FlowViewProxyHoverWidget(self)
+        )
+        self._menu_proxy.hide()
+
+        # just to add some space for the button
+        menu_layout_widget = self._create_no_background_widget("FlowMenu")
+        # just to add some space for the button
+        menu_layout_widget.setLayout(QHBoxLayout())
+        menu_button = QPushButton("Menu")
+        self._menu_button = menu_button
+        menu_layout_widget.layout().addWidget(menu_button)
+
+        def menu_button_clicked():
+            self._menu_proxy.setVisible(not self._menu_proxy.isVisible())
+
+        menu_button.clicked.connect(menu_button_clicked)
+
+        menu_layout_proxy = init_proxy_widget(menu_layout_widget, FlowViewProxyWidget(self))
+        self._menu_widget = menu_button
+        self._menu_layout_proxy = menu_layout_proxy
+        self.set_menu_proxy_pos()
 
         # # TOUCH GESTURES
         # recognizer = PanGestureRecognizer()
@@ -193,6 +271,22 @@ class FlowView(GUIBase, QGraphicsView):
             self.add_node(node)
         for c in [(o, i) for o, conns in self.flow.graph_adj.items() for i in conns]:
             self.add_connection(c)
+
+    def menu(self) -> QMenu:
+        """The menu for this flow view"""
+        return self._menu
+
+    def _create_no_background_widget(self, name: str):
+        result = QWidget()
+        result.setObjectName(name)
+        result.setStyleSheet(
+            f'''
+        QWidget#{name} {{
+            background: transparent; 
+        }}
+                '''
+        )
+        return result
 
     def _init_shortcuts(self):
         place_new_node_shortcut = QShortcut(QKeySequence('Shift+P'), self)
@@ -229,12 +323,11 @@ class FlowView(GUIBase, QGraphicsView):
         self.scene().update(self.sceneRect())
 
     def _perf_mode_changed(self, mode):
-
         # set widget value update rule for port inputs, because this takes up quite a bit of performance
-        update_widget_value = (mode == 'pretty')
+        update_widget_value = mode == 'pretty'
         for n, ni in self.node_items.items():
             for inp in ni.inputs:
-                inp.update_widget_value = (update_widget_value and inp.widget)
+                inp.update_widget_value = update_widget_value and inp.widget
 
         self.viewport().update()
         self.scene().update(self.sceneRect())
@@ -286,21 +379,22 @@ class FlowView(GUIBase, QGraphicsView):
             return
 
         if event.button() == Qt.LeftButton:
+            if not self._menu_proxy.is_hovered():
+                self._menu_proxy.hide()
             if self._node_list_widget_proxy.isVisible():
                 self.hide_node_list_widget()
 
         elif event.button() == Qt.RightButton:
+            self._menu_proxy.hide()
             self._right_mouse_pressed_in_flow = True
             event.accept()
 
         self._mouse_press_pos = self.mapToScene(event.pos())
 
     def mouseMoveEvent(self, event):
-
         QGraphicsView.mouseMoveEvent(self, event)
 
         if self._right_mouse_pressed_in_flow:  # PAN
-
             if not self._panning:
                 self._panning = True
                 self._pan_last_x = event.x()
@@ -338,18 +432,14 @@ class FlowView(GUIBase, QGraphicsView):
                 return
 
         if self._dragging_connection:
-
             # connection dropped over port item
             port_items = {i: isinstance(i, PortItem) for i in self.items(event.pos())}
             if any(port_items.values()):
-
-                p_i = list(port_items.keys())[list(port_items.values()).index(True)]  # gets the first PortItem
+                # gets the first PortItem
+                p_i = list(port_items.keys())[list(port_items.values()).index(True)]
 
                 # the validity of the connection is checked in connect_node_ports__cmd
-                self.connect_node_ports__cmd(
-                    self._selected_pin.port,
-                    p_i.port
-                )
+                self.connect_node_ports__cmd(self._selected_pin.port, p_i.port)
 
             # connection dropped above NodeItem -> auto connect
             elif node_item_at_event_pos:
@@ -391,7 +481,6 @@ class FlowView(GUIBase, QGraphicsView):
             self.remove_selected_components__cmd()
 
     def wheelEvent(self, event):
-
         if event.modifiers() & Qt.ControlModifier:
             event.accept()
 
@@ -425,10 +514,10 @@ class FlowView(GUIBase, QGraphicsView):
         if event.type() == QEvent.TouchBegin:
             self.setDragMode(QGraphicsView.NoDrag)
             return True
+        
         elif event.type() == QEvent.TouchUpdate:
             event: QTouchEvent
             if len(event.touchPoints()) == 2:
-
                 tp0, tp1 = event.touchPoints()[0], event.touchPoints()[1]
 
                 p0, p1 = tp0.pos(), tp1.pos()
@@ -443,7 +532,7 @@ class FlowView(GUIBase, QGraphicsView):
                 self.zoom(
                     p_abs=center,
                     p_mapped=self.mapToScene(center.toPoint()),
-                    angle=((pinch_points_dist / self.last_pinch_points_dist)**10 - 1) * 100,
+                    angle=((pinch_points_dist / self.last_pinch_points_dist) ** 10 - 1) * 100,
                 )
 
                 self.last_pinch_points_dist = pinch_points_dist
@@ -464,8 +553,11 @@ class FlowView(GUIBase, QGraphicsView):
         RightButton: upper button pressed"""
 
         # if in edit mode and not panning or starting a pan, pass on to std mouseEvent handlers above
-        if self.stylus_mode == 'edit' and not self._panning and not \
-                (event.type() == QTabletEvent.TabletPress and event.button() == Qt.RightButton):
+        if (
+            self.stylus_mode == 'edit'
+            and not self._panning
+            and not (event.type() == QTabletEvent.TabletPress and event.button() == Qt.RightButton)
+        ):
             return  # let the mousePress/Move/Release-Events handle it
 
         scaled_event_pos: QPointF = event.posF() / self._current_scale
@@ -478,7 +570,10 @@ class FlowView(GUIBase, QGraphicsView):
                     view_pos = self.mapToScene(self.viewport().pos())
                     new_drawing = self._create_and_place_drawing__cmd(
                         view_pos + scaled_event_pos,
-                        data={**self._stylus_modes_widget.get_pen_settings(), 'viewport pos': view_pos}
+                        data={
+                            **self._stylus_modes_widget.get_pen_settings(),
+                            'viewport pos': view_pos,
+                        },
                     )
                     self._current_drawing = new_drawing
                     self._drawing = True
@@ -500,7 +595,9 @@ class FlowView(GUIBase, QGraphicsView):
                             break
             elif self.stylus_mode == 'comment' and self._drawing:
                 if self._current_drawing.append_point(scaled_event_pos):
-                    self._current_drawing.stroke_weights.append(event.pressure()*self._stylus_modes_widget.pen_width())
+                    self._current_drawing.stroke_weights.append(
+                        event.pressure() * self._stylus_modes_widget.pen_width()
+                    )
                 self._current_drawing.update()
                 self.viewport().update()
 
@@ -538,7 +635,6 @@ class FlowView(GUIBase, QGraphicsView):
             event.acceptProposedAction()
 
     def dropEvent(self, event):
-
         try:
             text = str(event.mimeData().data('application/json'), 'utf-8')
             data: dict = json.loads(text)
@@ -546,14 +642,15 @@ class FlowView(GUIBase, QGraphicsView):
             if data['type'] == 'node':
                 self._node_place_pos = self.mapToScene(event.pos())
                 self.create_node__cmd(
-                    node_from_identifier(data['node identifier'], self.session_gui.core_session.nodes)
+                    node_from_identifier(
+                        data['node identifier'], self.session_gui.core_session.nodes
+                    )
                 )
         except Exception:
             pass
 
     # PAINTING
     def drawBackground(self, painter, rect):
-
         painter.setBrush(self.session_gui.design.flow_theme.flow_background_brush)
         painter.drawRect(rect.intersected(self.sceneRect()))
         painter.setPen(Qt.NoPen)
@@ -576,11 +673,12 @@ class FlowView(GUIBase, QGraphicsView):
                         for y in range(diff_y, self.sceneRect().toRect().height(), diff_y):
                             painter.drawPoint(x, y)
 
-        self.set_stylus_proxy_pos()  # has to be called here instead of in drawForeground to prevent lagging
+        # has to be called here instead of in drawForeground to prevent lagging
+        self.set_stylus_proxy_pos()
+        self.set_menu_proxy_pos()
         # self.set_zoom_proxy_pos()
 
     def drawForeground(self, painter, rect):
-
         # DRAW CURRENTLY DRAGGED CONNECTION
         if self._dragging_connection:
             pen = QPen(QColor('#101520'))
@@ -595,9 +693,7 @@ class FlowView(GUIBase, QGraphicsView):
             pos1 = pin_pos if spp.io_pos == PortObjPos.OUTPUT else cursor_pos
             pos2 = pin_pos if spp.io_pos == PortObjPos.INPUT else cursor_pos
 
-            painter.drawPath(
-                default_cubic_connection_path(pos1, pos2)
-            )
+            painter.drawPath(default_cubic_connection_path(pos1, pos2))
 
         # # DRAW SELECTED NIs BORDER
         # for ni in self.selected_node_items():
@@ -635,7 +731,7 @@ class FlowView(GUIBase, QGraphicsView):
         img = QImage(
             self.viewport().rect().width(),
             self.viewport().height(),
-            QImage.Format_ARGB32
+            QImage.Format_ARGB32,
         )
         img.fill(Qt.transparent)
 
@@ -651,9 +747,11 @@ class FlowView(GUIBase, QGraphicsView):
         the top left corner in order to get the full scene"""
 
         self.hide_proxies()
-        img = QImage(self.sceneRect().width() / self._total_scale_div,
-                     self.sceneRect().height() / self._total_scale_div,
-                     QImage.Format_RGB32)
+        img = QImage(
+            self.sceneRect().width() / self._total_scale_div,
+            self.sceneRect().height() / self._total_scale_div,
+            QImage.Format_RGB32,
+        )
         img.fill(Qt.transparent)
 
         painter = QPainter(img)
@@ -675,15 +773,27 @@ class FlowView(GUIBase, QGraphicsView):
 
     def set_stylus_proxy_pos(self):
         self._stylus_modes_proxy.setPos(
-            self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width(), 0))
-            # self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width() - self._zoom_widget.width(), 0))
+            self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width(), 0)
+        )
+        # self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width() - self._zoom_widget.width(), 0))
+
+    def set_menu_proxy_pos(self):
+        self._menu_layout_proxy.setPos(self.mapToScene(0, 0))
+        # Can't tell why the -8 is needed
+        menu_proxy_pos = self.mapToScene(
+            self._menu_layout_proxy.widget().width(),
+            self._menu_button.contentsRect().center().y() - 8,
+        )
+        self._menu_proxy.setPos(menu_proxy_pos)
 
     def hide_proxies(self):
         self._stylus_modes_proxy.hide()
+        self._menu_layout_proxy.hide()
         # self._zoom_proxy.hide()
 
     def show_proxies(self):
         self._stylus_modes_proxy.show()
+        self._menu_layout_proxy.show()
         # self._zoom_proxy.show()
 
     # PLACE NODE WIDGET
@@ -695,12 +805,30 @@ class FlowView(GUIBase, QGraphicsView):
         dialog_pos = QPoint(pos.x() + 1, pos.y() + 1)
 
         # ensure that the node_list_widget stays in the viewport
-        if dialog_pos.x() + self._node_list_widget.width() / self._total_scale_div > self.viewport().width():
-            dialog_pos.setX(dialog_pos.x() - (
-                    dialog_pos.x() + self._node_list_widget.width() / self._total_scale_div - self.viewport().width()))
-        if dialog_pos.y() + self._node_list_widget.height() / self._total_scale_div > self.viewport().height():
-            dialog_pos.setY(dialog_pos.y() - (
-                    dialog_pos.y() + self._node_list_widget.height() / self._total_scale_div - self.viewport().height()))
+        if (
+            dialog_pos.x() + self._node_list_widget.width() / self._total_scale_div
+            > self.viewport().width()
+        ):
+            dialog_pos.setX(
+                dialog_pos.x()
+                - (
+                    dialog_pos.x()
+                    + self._node_list_widget.width() / self._total_scale_div
+                    - self.viewport().width()
+                )
+            )
+        if (
+            dialog_pos.y() + self._node_list_widget.height() / self._total_scale_div
+            > self.viewport().height()
+        ):
+            dialog_pos.setY(
+                dialog_pos.y()
+                - (
+                    dialog_pos.y()
+                    + self._node_list_widget.height() / self._total_scale_div
+                    - self.viewport().height()
+                )
+            )
         dialog_pos = self.mapToScene(dialog_pos)
 
         # open nodes dialog
@@ -735,8 +863,12 @@ class FlowView(GUIBase, QGraphicsView):
 
     # PAN
     def pan(self, new_pos):
-        self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() - (new_pos.x() - self._pan_last_x))
-        self.verticalScrollBar().setValue(self.verticalScrollBar().value() - (new_pos.y() - self._pan_last_y))
+        self.horizontalScrollBar().setValue(
+            self.horizontalScrollBar().value() - (new_pos.x() - self._pan_last_x)
+        )
+        self.verticalScrollBar().setValue(
+            self.verticalScrollBar().value() - (new_pos.y() - self._pan_last_y)
+        )
         self._pan_last_x = new_pos.x()
         self._pan_last_y = new_pos.y()
 
@@ -759,18 +891,21 @@ class FlowView(GUIBase, QGraphicsView):
         if self._current_scale < 1:
             velocity *= self._current_scale
 
-        zoom_dir_IN = angle>0
+        zoom_dir_IN = angle > 0
         if zoom_dir_IN:
-            by = 1 + (angle / 4000)*velocity
+            by = 1 + (angle / 4000) * velocity
         else:
-            by = 1 - (-angle / 4000)*velocity
+            by = 1 - (-angle / 4000) * velocity
 
         if zoom_dir_IN:
             if self._current_scale * by < 3:
                 self.scale(by, by)
                 self._current_scale *= by
         else:
-            if self.scene_rect_width * by >= self.viewport().size().width() and self.scene_rect_height * by >= self.viewport().size().height():
+            if (
+                self.scene_rect_width * by >= self.viewport().size().width()
+                and self.scene_rect_height * by >= self.viewport().size().height()
+            ):
                 self.scale(by, by)
                 self._current_scale *= by
 
@@ -783,20 +918,16 @@ class FlowView(GUIBase, QGraphicsView):
 
         self.ensureVisible(lf, tf, wf, hf, 0, 0)
 
-        target_rect = QRectF(QPointF(lf, tf),
-                             QSizeF(wf, hf))
+        target_rect = QRectF(QPointF(lf, tf), QSizeF(wf, hf))
         self._total_scale_div = target_rect.width() / self.viewport().width()
 
         self.ensureVisible(target_rect, 0, 0)
 
     # NODES
     def create_node__cmd(self, node_class):
-        self._push_undo(
-            PlaceNode_Command(self, node_class, self._node_place_pos)
-        )
+        self._push_undo(PlaceNode_Command(self, node_class, self._node_place_pos))
 
     def add_node(self, node):
-
         # create item
         item: NodeItem = None
 
@@ -808,9 +939,11 @@ class FlowView(GUIBase, QGraphicsView):
         else:  # create new item
             item = NodeItem(
                 node=node,
-                node_gui=
-                    (node.GUI if hasattr(node, 'GUI') else NodeGUI)     # use custom GUI class if available
-                    ((node, self.session_gui)),                         # calls __init__ of NodeGUI class with tuple arg
+                node_gui=(
+                    node.GUI if hasattr(node, 'GUI') else NodeGUI
+                )(  # use custom GUI class if available
+                    (node, self.session_gui)
+                ),  # calls __init__ of NodeGUI class with tuple arg
                 flow_view=self,
                 design=self.session_gui.design,
             )
@@ -828,8 +961,7 @@ class FlowView(GUIBase, QGraphicsView):
 
         # auto connect
         if self._auto_connection_pin:
-            self.auto_connect(self._auto_connection_pin.port,
-                              node)
+            self.auto_connect(self._auto_connection_pin.port, node)
 
     def _add_node_item(self, item: NodeItem, pos=None):
         self.node_items[item.node] = item
@@ -884,7 +1016,10 @@ class FlowView(GUIBase, QGraphicsView):
             if out.io_pos == PortObjPos.INPUT:
                 out, inp = inp, out
 
-            if self.flow.graph_adj_rev[inp] not in (None, out): # out connected to something else
+            if self.flow.graph_adj_rev[inp] not in (
+                None,
+                out,
+            ):  # out connected to something else
                 # remove existing connection
                 self._push_undo(
                     ConnectPorts_Command(self, out=self.flow.graph_adj_rev[inp], inp=inp)
@@ -896,14 +1031,12 @@ class FlowView(GUIBase, QGraphicsView):
                     ConnectPorts_Command(self, out=self.flow.connected_output(inp), inp=inp)
                 )
             else:
-                self._push_undo(
-                    ConnectPorts_Command(self, out=out, inp=inp)
-                )
+                self._push_undo(ConnectPorts_Command(self, out=out, inp=inp))
 
     def add_connection(self, c: Tuple[NodeOutput, NodeInput]):
         out, inp = c
 
-        #TODO: need to verify that connection_items_cache still works fine with new connection object
+        # TODO: need to verify that connection_items_cache still works fine with new connection object
         item: ConnectionItem = None
         if c in self.connection_items__cache.keys():
             item = self.connection_items__cache[c]
@@ -1028,9 +1161,7 @@ class FlowView(GUIBase, QGraphicsView):
             self.remove_drawing(e)
 
     def remove_selected_components__cmd(self):
-        self._push_undo(
-            RemoveComponents_Command(self, self.scene().selectedItems())
-        )
+        self._push_undo(RemoveComponents_Command(self, self.scene().selectedItems()))
 
         self.viewport().update()
 
@@ -1044,10 +1175,12 @@ class FlowView(GUIBase, QGraphicsView):
             new_pos = i.pos() + new_rel_pos
             w = i.boundingRect().width()
             h = i.boundingRect().height()
-            if new_pos.x() - w / 2 < 0 or \
-                    new_pos.x() + w / 2 > self.scene().width() or \
-                    new_pos.y() - h / 2 < 0 or \
-                    new_pos.y() + h / 2 > self.scene().height():
+            if (
+                new_pos.x() - w / 2 < 0
+                or new_pos.x() + w / 2 > self.scene().width()
+                or new_pos.y() - h / 2 < 0
+                or new_pos.y() + h / 2 > self.scene().height()
+            ):
                 left = True
                 break
 
@@ -1059,7 +1192,12 @@ class FlowView(GUIBase, QGraphicsView):
 
             # saving the command
             self._push_undo(
-                MoveComponents_Command(self, self.scene().selectedItems(), p_from=-new_rel_pos, p_to=QPointF(0, 0))
+                MoveComponents_Command(
+                    self,
+                    self.scene().selectedItems(),
+                    p_from=-new_rel_pos,
+                    p_to=QPointF(0, 0),
+                )
             )
 
         self.viewport().repaint()
@@ -1125,7 +1263,7 @@ class FlowView(GUIBase, QGraphicsView):
             'nodes': self._get_nodes_data(self.selected_nodes()),
             'connections': self._get_connections_data(self.selected_nodes()),
             'output data': self._get_output_data(self.selected_nodes()),
-            'drawings': self._get_drawings_data(self.selected_drawings())
+            'drawings': self._get_drawings_data(self.selected_drawings()),
         }
         QGuiApplication.clipboard().setText(json.dumps(data))
 
@@ -1133,7 +1271,7 @@ class FlowView(GUIBase, QGraphicsView):
         data = {
             'nodes': self._get_nodes_data(self.selected_nodes()),
             'connections': self._get_connections_data(self.selected_nodes()),
-            'drawings': self._get_drawings_data(self.selected_drawings())
+            'drawings': self._get_drawings_data(self.selected_drawings()),
         }
         QGuiApplication.clipboard().setText(json.dumps(data))
         self.remove_selected_components__cmd()
@@ -1150,11 +1288,9 @@ class FlowView(GUIBase, QGraphicsView):
         # calculate offset
         positions = []
         for d in data['drawings']:
-            positions.append({'x': d['pos x'],
-                              'y': d['pos y']})
+            positions.append({'x': d['pos x'], 'y': d['pos y']})
         for n in data['nodes']:
-            positions.append({'x': n['pos x'],
-                              'y': n['pos y']})
+            positions.append({'x': n['pos x'], 'y': n['pos y']})
 
         offset_for_middle_pos = QPointF(0, 0)
         if len(positions) > 0:
@@ -1173,16 +1309,16 @@ class FlowView(GUIBase, QGraphicsView):
 
             offset_for_middle_pos = self._last_mouse_move_pos - rect.center()
 
-        self._push_undo(
-            Paste_Command(self, data, offset_for_middle_pos)
-        )
+        self._push_undo(Paste_Command(self, data, offset_for_middle_pos))
 
     # DATA
     def complete_data(self, data: dict):
-
         data['flow view'] = {
             'drawings': self._get_drawings_data(self.drawings),
-            'view size': [self.sceneRect().size().width(), self.sceneRect().size().height()]
+            'view size': [
+                self.sceneRect().size().width(),
+                self.sceneRect().size().height(),
+            ],
         }
 
         return data

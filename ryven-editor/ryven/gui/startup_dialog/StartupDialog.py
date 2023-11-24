@@ -3,17 +3,36 @@ import pathlib
 from typing import Optional
 
 from qtpy.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QTextEdit, QFileDialog,
-    QRadioButton, QButtonGroup, QLabel, QFormLayout, QComboBox, QDialogButtonBox,
-    QCheckBox, QListWidget, QListWidgetItem, QMessageBox,
-    QStyleOptionFrame, QStyle, QLineEdit)
+    QDialog,
+    QVBoxLayout,
+    QHBoxLayout,
+    QPushButton,
+    QTextEdit,
+    QFileDialog,
+    QRadioButton,
+    QButtonGroup,
+    QLabel,
+    QFormLayout,
+    QComboBox,
+    QDialogButtonBox,
+    QCheckBox,
+    QListWidget,
+    QListWidgetItem,
+    QMessageBox,
+    QStyleOptionFrame,
+    QStyle,
+    QLineEdit,
+)
 from qtpy.QtCore import Qt, QSize
 from qtpy.QtGui import QIcon, QPainter
 
 from ryven.main.args_parser import unparse_sys_args
 from ryven.main.config import Config
 from ryven.main.utils import (
-    abs_path_from_package_dir, abs_path_from_ryven_dir, ryven_dir_path)
+    abs_path_from_package_dir,
+    abs_path_from_ryven_dir,
+    ryven_dir_path,
+)
 from ryven.main.packages.nodes_package import process_nodes_packages
 from ryven.gui.styling.window_theme import apply_stylesheet
 
@@ -30,6 +49,7 @@ class ElideLabel(QLabel):
 
     Copyright (C) 2021  https://github.com/MaurizioB/
     """
+
     _elideMode = Qt.ElideMiddle
 
     def setText(self, label, *args, **kwargs):
@@ -55,15 +75,14 @@ class ElideLabel(QLabel):
         margin = self.margin() * 2
         return QSize(
             min(100, hint.width()) + l + r + margin,
-            min(self.fontMetrics().height(), hint.height()) + t + b + margin
+            min(self.fontMetrics().height(), hint.height()) + t + b + margin,
         )
 
     def paintEvent(self, event):
         qp = QPainter(self)
         opt = QStyleOptionFrame()
         self.initStyleOption(opt)
-        self.style().drawControl(
-            QStyle.CE_ShapedFrame, opt, qp, self)
+        self.style().drawControl(QStyle.CE_ShapedFrame, opt, qp, self)
         l, t, r, b = self.getContentsMargins()
         margin = self.margin()
         try:
@@ -71,11 +90,12 @@ class ElideLabel(QLabel):
             m = self.fontMetrics().horizontalAdvance('x') / 2 - margin
         except:
             m = self.fontMetrics().width('x') / 2 - margin
-        r = self.contentsRect().adjusted(
-            margin + m,  margin, -(margin + m), -margin)
-        qp.drawText(r, self.alignment(),
-            self.fontMetrics().elidedText(
-                self.text(), self.elideMode(), r.width()))
+        r = self.contentsRect().adjusted(margin + m, margin, -(margin + m), -margin)
+        qp.drawText(
+            r,
+            self.alignment(),
+            self.fontMetrics().elidedText(self.text(), self.elideMode(), r.width()),
+        )
 
 
 class ShowCommandDialog(QDialog):
@@ -162,7 +182,8 @@ class StartupDialog(QDialog):
 
         # Top info text edit
         info_text_edit = QTextEdit()
-        info_text_edit.setHtml(f'''
+        info_text_edit.setHtml(
+            f'''
             <div style="font-family: Corbel; font-size: large;">
                 <img style="float:right;" height=120 src="{abs_path_from_package_dir('resources/pics/Ryven_icon_blurred.png')}"
                 >Ryven is not a stable piece of software, it's experimental, and nothing is
@@ -176,7 +197,8 @@ class StartupDialog(QDialog):
                 See the GitHub for a quickstart guide.
                 Cheers.
             </div>
-        ''')
+        '''
+        )
         info_text_edit.setReadOnly(True)
         layout.addWidget(info_text_edit)
 
@@ -198,16 +220,26 @@ class StartupDialog(QDialog):
         self.create_project_button = QPushButton('New')
         self.create_project_button.setToolTip('Create a new project')
         self.create_project_button.setDefault(True)
-        self.create_project_button.clicked.connect(self.on_create_project_button_clicked)
-        project_buttons_widget.addButton(self.create_project_button, QDialogButtonBox.ActionRole)
+        self.create_project_button.clicked.connect(
+            self.on_create_project_button_clicked
+        )
+        project_buttons_widget.addButton(
+            self.create_project_button, QDialogButtonBox.ActionRole
+        )
         load_project_button = QPushButton('Load')
         load_project_button.setToolTip('Load an existing project')
         load_project_button.clicked.connect(self.on_load_project_button_clicked)
-        project_buttons_widget.addButton(load_project_button, QDialogButtonBox.ActionRole)
+        project_buttons_widget.addButton(
+            load_project_button, QDialogButtonBox.ActionRole
+        )
         load_example_project_button = QPushButton('Example')
         load_example_project_button.setToolTip('Load a Ryven example')
-        load_example_project_button.clicked.connect(self.on_load_example_project_button_clicked)
-        project_buttons_widget.addButton(load_example_project_button, QDialogButtonBox.ActionRole)
+        load_example_project_button.clicked.connect(
+            self.on_load_example_project_button_clicked
+        )
+        project_buttons_widget.addButton(
+            load_example_project_button, QDialogButtonBox.ActionRole
+        )
         project_layout.addWidget(project_buttons_widget)
 
         fbox.addRow(project_label, project_layout)
@@ -222,7 +254,9 @@ class StartupDialog(QDialog):
         # ???: How is that achieved?
         packages_imported_layout = QVBoxLayout()
         label_imported = QLabel('Imported:')
-        label_imported.setToolTip('Nodes packages which are required by the project and are found')
+        label_imported.setToolTip(
+            'Nodes packages which are required by the project and are found'
+        )
         label_imported.setAlignment(Qt.AlignCenter)
         packages_imported_layout.addWidget(label_imported)
         self.imported_list_widget = QListWidget()
@@ -231,7 +265,9 @@ class StartupDialog(QDialog):
 
         packages_missing_layout = QVBoxLayout()
         label_missing = QLabel('Missing:')
-        label_missing.setToolTip('Nodes packages which are required by the project but could not be found')
+        label_missing.setToolTip(
+            'Nodes packages which are required by the project but could not be found'
+        )
         label_missing.setAlignment(Qt.AlignCenter)
         packages_missing_layout.addWidget(label_missing)
         self.missing_list_widget = QListWidget()
@@ -240,12 +276,16 @@ class StartupDialog(QDialog):
 
         packages_manually_layout = QVBoxLayout()
         label_manually = QLabel('Manually imported:')
-        label_manually.setToolTip('Nodes packages which are manually imported\nThey will override the packages required by the project\nAdditional packages can be imported later …')
+        label_manually.setToolTip(
+            'Nodes packages which are manually imported\nThey will override the packages required by the project\nAdditional packages can be imported later …'
+        )
         label_manually.setAlignment(Qt.AlignCenter)
         packages_manually_layout.addWidget(label_manually)
         self.manually_list_widget = QListWidget()
         self.manually_list_widget.setSelectionMode(QListWidget.MultiSelection)
-        self.manually_list_widget.itemSelectionChanged.connect(self.on_packages_manually_selection)
+        self.manually_list_widget.itemSelectionChanged.connect(
+            self.on_packages_manually_selection
+        )
         packages_manually_layout.addWidget(self.manually_list_widget)
         packages_sublayout.addLayout(packages_manually_layout)
 
@@ -253,24 +293,40 @@ class StartupDialog(QDialog):
 
         packages_buttons_widget = QDialogButtonBox()
         self.autodiscover_packages_button = QPushButton('Find')
-        self.autodiscover_packages_button.setToolTip('Automatically find and import missing packages')
-        self.autodiscover_packages_button.clicked.connect(self.on_autodiscover_package_clicked)
-        packages_buttons_widget.addButton(self.autodiscover_packages_button, QDialogButtonBox.ActionRole)
+        self.autodiscover_packages_button.setToolTip(
+            'Automatically find and import missing packages'
+        )
+        self.autodiscover_packages_button.clicked.connect(
+            self.on_autodiscover_package_clicked
+        )
+        packages_buttons_widget.addButton(
+            self.autodiscover_packages_button, QDialogButtonBox.ActionRole
+        )
         self.autodiscover_packages_button.setEnabled(False)
         import_package_button = QPushButton('Import')
         import_package_button.setToolTip('Manually load a nodes package')
         import_package_button.clicked.connect(self.on_import_package_clicked)
-        packages_buttons_widget.addButton(import_package_button, QDialogButtonBox.ActionRole)
+        packages_buttons_widget.addButton(
+            import_package_button, QDialogButtonBox.ActionRole
+        )
         self.remove_packages_button = QPushButton('Remove')
-        self.remove_packages_button.setToolTip('Remove manually imported nodes packages')
+        self.remove_packages_button.setToolTip(
+            'Remove manually imported nodes packages'
+        )
         self.remove_packages_button.clicked.connect(self.on_remove_packages_clicked)
         self.remove_packages_button.setEnabled(False)
-        packages_buttons_widget.addButton(self.remove_packages_button, QDialogButtonBox.ActionRole)
+        packages_buttons_widget.addButton(
+            self.remove_packages_button, QDialogButtonBox.ActionRole
+        )
         self.clear_packages_button = QPushButton('Clear')
-        self.clear_packages_button.setToolTip('Clear the list of manually imported nodes packages ')
+        self.clear_packages_button.setToolTip(
+            'Clear the list of manually imported nodes packages '
+        )
         self.clear_packages_button.clicked.connect(self.on_clear_packages_clicked)
         self.clear_packages_button.setEnabled(False)
-        packages_buttons_widget.addButton(self.clear_packages_button, QDialogButtonBox.ActionRole)
+        packages_buttons_widget.addButton(
+            self.clear_packages_button, QDialogButtonBox.ActionRole
+        )
         packages_layout.addWidget(packages_buttons_widget)
 
         fbox.addRow(packages_label, packages_layout)
@@ -292,8 +348,12 @@ class StartupDialog(QDialog):
         # Flow theme
         flowtheme_label = QLabel('Flow theme:')
         flowtheme_widget = QComboBox()
-        flowtheme_widget.setToolTip('Select the theme of the flow display\nCan also be changed later …')
-        flowtheme_widget.addItems([LBL_DEFAULT_FLOW_THEME] + list(self.conf.get_available_flow_themes()))
+        flowtheme_widget.setToolTip(
+            'Select the theme of the flow display\nCan also be changed later …'
+        )
+        flowtheme_widget.addItems(
+            [LBL_DEFAULT_FLOW_THEME] + list(self.conf.get_available_flow_themes())
+        )
         flowtheme_widget.insertSeparator(1)
         flowtheme_widget.currentTextChanged.connect(self.on_flow_theme_selected)
         fbox.addRow(flowtheme_label, flowtheme_widget)
@@ -345,7 +405,9 @@ class StartupDialog(QDialog):
         gen_config_button = QPushButton('generate / save config')
         gen_config_button.clicked.connect(self.gen_config_clicked)
         buttons_layout.addWidget(gen_config_button)
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)   # this crashes with Python 3.11
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        )  # this crashes with Python 3.11
         self.ok_button = buttons.button(QDialogButtonBox.Ok)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
@@ -390,7 +452,9 @@ class StartupDialog(QDialog):
 
         # Set window title and icon
         self.setWindowTitle('Ryven')
-        self.setWindowIcon(QIcon(abs_path_from_package_dir('resources/pics/Ryven_icon.png')))
+        self.setWindowIcon(
+            QIcon(abs_path_from_package_dir('resources/pics/Ryven_icon.png'))
+        )
 
     #
     # Call-back methods
@@ -415,8 +479,8 @@ class StartupDialog(QDialog):
         """Call-back method, whenever the 'Example' button was clicked."""
         # Load an example project, starting in the ryven's example directory
         project_path = self.get_project(
-            abs_path_from_package_dir('examples_projects'),
-            title='Select Ryven example')
+            abs_path_from_package_dir('examples_projects'), title='Select Ryven example'
+        )
 
         if project_path is not None:
             self.load_project(project_path)
@@ -445,9 +509,11 @@ class StartupDialog(QDialog):
         """Call-back method, whenever the 'Import' button was clicked."""
         # Import a nodes package, starting in the user's ryven directory
         file_name = QFileDialog.getOpenFileName(
-            self, 'Select',
+            self,
+            'Select',
             abs_path_from_ryven_dir('packages'),
-            'ryven nodes package (nodes.py)')[0]
+            'ryven nodes package (nodes.py)',
+        )[0]
 
         if file_name:
             file_path = pathlib.Path(file_name)
@@ -529,7 +595,9 @@ class StartupDialog(QDialog):
     # Helper/Working methods
     #
 
-    def get_project(self, base_dir: str, title='Select project file') -> Optional[pathlib.Path]:
+    def get_project(
+        self, base_dir: str, title='Select project file'
+    ) -> Optional[pathlib.Path]:
         """Get a project file from the user.
 
         Parameters
@@ -548,9 +616,8 @@ class StartupDialog(QDialog):
         """
         # Get the file from the user
         file_name = QFileDialog.getOpenFileName(
-            self, title,
-            str(base_dir), 'JSON (*.json)'
-            )[0]
+            self, title, str(base_dir), 'JSON (*.json)'
+        )[0]
 
         if file_name:
             file_path = pathlib.Path(file_name)
@@ -621,11 +688,12 @@ class StartupDialog(QDialog):
         # List of packages which are missing
         missing_packages = [
             self.missing_list_widget.item(i).text()
-            for i in range(self.missing_list_widget.count())]
+            for i in range(self.missing_list_widget.count())
+        ]
 
         # Search for missing packages under `package_dir`
-        for top, dirs, files in os.walk(packages_dir):
-            path = pathlib.Path(top)
+        for entry in filter(lambda e: e.is_dir(), os.scandir(packages_dir)):
+            path = pathlib.Path(entry.path)
             if path.name in missing_packages:
                 node_path = path.joinpath('nodes.py')
                 if node_path.exists():
@@ -653,7 +721,7 @@ class StartupDialog(QDialog):
             node_item.setFont(font)
 
         # Mark all missing packages, if they were manually imported
-        missing_packages = False         # Track, if we have to enable the 'Find' button
+        missing_packages = False  # Track, if we have to enable the 'Find' button
         for i in range(self.missing_list_widget.count()):
             node_item = self.missing_list_widget.item(i)
             font = node_item.font()

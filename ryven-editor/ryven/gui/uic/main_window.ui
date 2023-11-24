@@ -19,6 +19,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -30,23 +33,6 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <widget class="QSplitter" name="splitter">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <widget class="QGroupBox" name="flows_groupBox">
-         <property name="title">
-          <string>Flows</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2"/>
-        </widget>
-        <widget class="QGroupBox" name="nodes_groupBox">
-         <property name="title">
-          <string>Nodes</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout"/>
-        </widget>
-       </widget>
        <widget class="QTabWidget" name="flows_tab_widget">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -64,7 +50,6 @@
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="console_placeholder_widget" native="true"/>
      </widget>
     </item>
    </layout>
@@ -75,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>1368</width>
-     <height>30</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -111,7 +96,13 @@
      <addaction name="actionSave_Pic_Viewport"/>
      <addaction name="actionSave_Pic_Whole_Scene_scaled"/>
     </widget>
+    <widget class="QMenu" name="menuDocks">
+     <property name="title">
+      <string>Windows</string>
+     </property>
+    </widget>
     <addaction name="separator"/>
+    <addaction name="menuDocks"/>
     <addaction name="menuFlow_Design_Style"/>
     <addaction name="menuSave_Picture"/>
    </widget>
@@ -133,6 +124,70 @@
    <addaction name="menuDebugging"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="flows_dock">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="windowTitle">
+    <string>Flows</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="flowsWidgetContents">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="nodes_dock">
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="windowTitle">
+    <string>Nodes</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="nodesWidgetContents">
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="consoleDock">
+   <property name="features">
+    <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>CONSOLE</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="consoleDockContents">
+    <widget class="QWidget" name="console_placeholder_widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>976</width>
+       <height>407</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+  </widget>
   <action name="actionImport_Nodes">
    <property name="text">
     <string>Import Nodes</string>
@@ -200,6 +255,11 @@ This will take a few seconds.</string>
   <action name="actionImport_Example_Nodes">
    <property name="text">
     <string>Import Example Nodes</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>sd</string>
    </property>
   </action>
  </widget>

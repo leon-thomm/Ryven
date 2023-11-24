@@ -5,8 +5,18 @@ from qtpy.QtCore import Qt, QRectF, QPointF, QSizeF
 from qtpy.QtGui import QFontMetricsF, QFont
 
 from ...GUIBase import GUIBase
-from .PortItemInputWidgets import Data_IW_S, Data_IW_M, Data_IW_L, Float_IW, Integer_IW, \
-    Choice_IW, Boolean_IW, String_IW_S, String_IW_M, String_IW_L
+from .PortItemInputWidgets import (
+    Data_IW_S,
+    Data_IW_M,
+    Data_IW_L,
+    Float_IW,
+    Integer_IW,
+    Choice_IW,
+    Boolean_IW,
+    String_IW_S,
+    String_IW_M,
+    String_IW_L,
+)
 from ryvencore import serialize, Data
 from ryvencore.NodePort import NodeOutput, NodeInput, NodePort
 from ryvencore.utils import deserialize
@@ -25,6 +35,7 @@ def is_connected(port):
         is_connected = port.node.flow.connected_output(port) is not None
     return is_connected
 
+
 def val(port):
     if isinstance(port, NodeOutput):
         return port.val.payload if isinstance(port.val, Data) else None
@@ -34,6 +45,7 @@ def val(port):
             return conn_out.val.payload if conn_out.val is not None else None
         else:
             return None
+
 
 def connections(port):
     if isinstance(port, NodeOutput):
@@ -83,6 +95,7 @@ class PortItem(GUIBase, QGraphicsWidget):
         self.prepareGeometryChange()
         QGraphicsLayoutItem.setGeometry(self, rect)
         self.setPos(rect.topLeft())
+
     # <<< interaction boilerplate <<<
 
     def setup_ui(self):
@@ -99,18 +112,24 @@ class InputPortItem(PortItem):
     def __init__(self, node_gui, node_item, port, input_widget: Tuple[type, str] = None):
         super().__init__(node_gui, node_item, port, node_gui.flow_view())
 
-        self.proxy = None   # widget proxy
+        self.proxy = None  # widget proxy
         self.widget = None  # widget
         if input_widget is not None:
             self.create_widget(input_widget[0], input_widget[1])
 
-        self.update_widget_value = self.widget is not None  # modified by FlowView when performance mode changes
+        self.update_widget_value = (
+            self.widget is not None
+        )  # modified by FlowView when performance mode changes
 
         # catch up to missed connections
         if self.port.node.flow.connected_output(self.port) is not None:
             self.port_connected()
 
-        if self.port.type_ == 'data' and self.port.load_data is not None and self.port.load_data['has widget']:
+        if (
+            self.port.type_ == 'data'
+            and self.port.load_data is not None
+            and self.port.load_data['has widget']
+        ):
             c_d = self.port.load_data['widget data']
             if c_d is not None:
                 self.widget.set_state(deserialize(c_d))
@@ -141,7 +160,6 @@ class InputPortItem(PortItem):
             l.setAlignment(self.proxy, Qt.AlignCenter)
 
     def create_widget(self, widget_class, widget_pos):
-
         if widget_class is None:
             return
 
@@ -250,7 +268,9 @@ class PortItemPin(QGraphicsWidget):
             node_color=self.node_gui.color,
             type_=self.port.type_,
             connected=is_connected(self.port),
-            rect=QRectF(self.padding, self.padding, self.width-2*self.padding, self.height-2*self.padding)
+            rect=QRectF(
+                self.padding, self.padding, self.width_no_padding(), self.height_no_padding()
+            ),
         )
 
     def mousePressEvent(self, event):
@@ -262,7 +282,6 @@ class PortItemPin(QGraphicsWidget):
         else:
             return QGraphicsWidget.mousePressEvent(self, event)
 
-
     def moveEvent(self, event):
         super().moveEvent(event)
 
@@ -272,9 +291,10 @@ class PortItemPin(QGraphicsWidget):
             i = conn_items[c]
 
             # if the items are grouped (which means they move together), don't recompute
-            if i.out.group() is None or i.out.group() != i.inp.group():  # not entirely sure if this is working
+            if (
+                i.out.group() is None or i.out.group() != i.inp.group()
+            ):  # not entirely sure if this is working
                 i.recompute()
-
 
     def hoverEnterEvent(self, event):
         if self.port.type_ == 'data':  # and self.parent_port_instance.io_pos == PortPos.OUTPUT:
@@ -290,7 +310,6 @@ class PortItemPin(QGraphicsWidget):
         QGraphicsWidget.hoverEnterEvent(self, event)
 
     def hoverLeaveEvent(self, event):
-
         # un-highlight connections
         items = self.flow_view.connection_items
         for c in connections(self.port):
@@ -300,10 +319,20 @@ class PortItemPin(QGraphicsWidget):
 
         QGraphicsWidget.hoverLeaveEvent(self, event)
 
+    def width_no_padding(self):
+        """The width without the padding"""
+        return self.width - 2 * self.padding
+
+    def height_no_padding(self):
+        """The height without the padding"""
+        return self.height - 2 * self.padding
+
     def get_scene_center_pos(self):
         if not self.node_item.collapsed:
-            return QPointF(self.scenePos().x() + self.boundingRect().width()/2,
-                           self.scenePos().y() + self.boundingRect().height()/2)
+            return QPointF(
+                self.scenePos().x() + self.boundingRect().width() / 2,
+                self.scenePos().y() + self.boundingRect().height() / 2,
+            )
         else:
             if isinstance(self.port_item, InputPortItem):
                 return self.node_item.get_left_body_header_vertex_scene_pos()
@@ -322,7 +351,9 @@ class PortItemLabel(QGraphicsWidget):
         self.node_item = node_item
 
         self.font = QFont("Source Code Pro", 10, QFont.Bold)
-        font_metrics = QFontMetricsF(self.font)  # approximately! the designs can use different fonts
+        font_metrics = QFontMetricsF(
+            self.font
+        )  # approximately! the designs can use different fonts
         self.width = font_metrics.width(get_longest_line(self.port.label_str))
         self.height = font_metrics.height() * (self.port.label_str.count('\n') + 1)
         self.port_local_pos = None
@@ -341,10 +372,11 @@ class PortItemLabel(QGraphicsWidget):
     def paint(self, painter, option, widget=None):
         self.node_item.session_design.flow_theme.paint_PI_label(
             self.node_gui,
-            painter, option,
+            painter,
+            option,
             self.port.type_,
             is_connected(self.port),
             self.port.label_str,
             self.node_gui.color,
-            self.boundingRect()
+            self.boundingRect(),
         )

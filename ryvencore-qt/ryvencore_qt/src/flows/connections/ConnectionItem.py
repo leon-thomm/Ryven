@@ -1,4 +1,5 @@
 # import math
+import typing
 from qtpy.QtCore import QMarginsF
 from qtpy.QtCore import QRectF, QPointF, Qt
 from qtpy.QtGui import QPainter, QColor, QRadialGradient, QPainterPath, QPen
@@ -7,6 +8,8 @@ from qtpy.QtWidgets import QGraphicsPathItem, QGraphicsItem, QStyleOptionGraphic
 from ...GUIBase import GUIBase
 from ...utils import sqrt
 from ...utils import pythagoras
+
+from ...flows.nodes.PortItem import PortItem
 
 
 class ConnectionItem(GUIBase, QGraphicsPathItem):
@@ -24,8 +27,8 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
         out_port_index = out.node.outputs.index(out)
         inp_port_index = inp.node.inputs.index(inp)
-        self.out_item = out.node.gui.item.outputs[out_port_index]
-        self.inp_item = inp.node.gui.item.inputs[inp_port_index]
+        self.out_item: PortItem = out.node.gui.item.outputs[out_port_index]
+        self.inp_item: PortItem = inp.node.gui.item.inputs[inp_port_index]
 
         self.session_design = session_design
         self.session_design.flow_theme_changed.connect(self.recompute)
@@ -33,8 +36,14 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
         # for rendering flow pictures
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
-
+        self.setFlag(QGraphicsItem.ItemIsSelectable)
         self.recompute()
+
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget):
+        painter.setBrush(self.brush())
+        painter.setPen(self.pen())
+        painter.drawPath(self.path())
+        # return super().paint(painter, option, widget)
 
     def recompute(self):
         """Updates scene position and recomputes path, pen and gradient"""
@@ -43,12 +52,10 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         self.setPos(self.out_pos())
 
         # path
-        self.setPath(
-            self.connection_path(
-                QPointF(0, 0),
-                self.inp_pos()-self.scenePos()
-            )
-        )
+        p1 = QPointF(self.out_item.pin.width_no_padding() * 0.5, 0)
+        p2 = self.inp_pos() - self.scenePos() - QPointF(self.inp_item.pin.width_no_padding() * 0.5, 0)
+        
+        self.setPath(self.connection_path(p1, p2))
 
         # pen
         pen = self.get_pen()
@@ -61,10 +68,7 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
             c = pen.color()
             w = self.path().boundingRect().width()
             h = self.path().boundingRect().height()
-            gradient = QRadialGradient(
-                self.boundingRect().center(),
-                pythagoras(w, h) / 2
-            )
+            gradient = QRadialGradient(self.boundingRect().center(), pythagoras(w, h) / 2)
 
             c_r = c.red()
             c_g = c.green()
@@ -72,21 +76,12 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
             # this offset will be 1 if inp.x >> out.x and 0 if inp.x < out.x
             # hence, no fade for the gradient if the connection goes backwards
-            offset_mult: float = max(
-                0,
-                min(
-                    (self.inp_pos().x() - self.out_pos().x()) / 200,
-                    1
-                )
-            )
+            offset_mult: float = max(0, min((self.inp_pos().x() - self.out_pos().x()) / 200, 1))
 
             # and if the input is very far away from the output, decrease the gradient fade so the connection
             # doesn't fully disappear at the ends and stays visible
             if self.inp_pos().x() > self.out_pos().x():
-                offset_mult = min(
-                    offset_mult,
-                    2000 / (self.dist(self.inp_pos(), self.out_pos()))
-                )
+                offset_mult = min(offset_mult, 2000 / (self.dist(self.inp_pos(), self.out_pos())))
                 # zucker.
 
             gradient.setColorAt(0.0, QColor(c_r, c_g, c_b, 255))
@@ -96,22 +91,27 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
             pen.setBrush(gradient)
 
         self.setPen(pen)
-    
+
     def out_pos(self) -> QPointF:
         """The current global scene position of the pin of the output port"""
 
         return self.out_item.pin.get_scene_center_pos()
-    
+
     def inp_pos(self) -> QPointF:
         """The current global scene position of the pin of the input port"""
 
         return self.inp_item.pin.get_scene_center_pos()
 
+    def itemChange(self, change, value):
+        if change == QGraphicsItem.ItemSelectedHasChanged:
+            self.set_highlighted(self.isSelected())
+        return QGraphicsItem.itemChange(self, change, value)
+
     def set_highlighted(self, b: bool):
         pen: QPen = self.pen()
 
         if b:
-            pen.setWidthF(self.pen_width() * 2)
+            pen.setWidthF(self.pen_width() * 2.5)
         else:
             pen.setWidthF(self.pen_width())
             self.recompute()
@@ -132,17 +132,17 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         super().hoverEnterEvent(event)
 
     def hoverLeaveEvent(self, event):
-        self.set_highlighted(False)
+        if not self.isSelected():
+            self.set_highlighted(False)
         super().hoverLeaveEvent(event)
 
     @staticmethod
     def dist(p1: QPointF, p2: QPointF) -> float:
         """Returns the diagonal distance between the points using pythagoras"""
 
-        dx = p2.x()-p1.x()
-        dy = p2.y()-p1.y()
+        dx = p2.x() - p1.x()
+        dy = p2.y() - p1.y()
         return sqrt((dx**2) + (dy**2))
-
 
     @staticmethod
     def connection_path(p1: QPointF, p2: QPointF) -> QPainterPath:
@@ -152,7 +152,6 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
 
 class ExecConnectionItem(ConnectionItem):
-
     def pen_width(self):
         return self.flow_theme().exec_conn_width
 
@@ -165,7 +164,6 @@ class ExecConnectionItem(ConnectionItem):
 
 
 class DataConnectionItem(ConnectionItem):
-
     def pen_width(self):
         return self.flow_theme().data_conn_width
 
@@ -188,27 +186,28 @@ def default_cubic_connection_path(p1: QPointF, p2: QPointF):
     adx = abs(dx)
     dy = p2.y() - p1.y()
     ady = abs(dy)
-    distance = sqrt((dx ** 2) + (dy ** 2))
+    distance = sqrt((dx**2) + (dy**2))
     x1, y1 = p1.x(), p1.y()
     x2, y2 = p2.x(), p2.y()
 
     if ((x1 < x2 - 30) or distance < 100) and (x1 < x2):
         # STANDARD FORWARD
-        path.cubicTo(x1 + ((x2 - x1) / 2), y1,
-                     x1 + ((x2 - x1) / 2), y2,
-                     x2, y2)
+        path.cubicTo(x1 + ((x2 - x1) / 2), y1, x1 + ((x2 - x1) / 2), y2, x2, y2)
     elif x2 < x1 - 100 and adx > ady * 2:
         # STRONG BACKWARDS
-        path.cubicTo(x1 + 100 + (x1 - x2) / 10, y1,
-                     x1 + 100 + (x1 - x2) / 10, y1 + (dy / 2),
-                     x1 + (dx / 2), y1 + (dy / 2))
-        path.cubicTo(x2 - 100 - (x1 - x2) / 10, y2 - (dy / 2),
-                     x2 - 100 - (x1 - x2) / 10, y2,
-                     x2, y2)
+        path.cubicTo(
+            x1 + 100 + (x1 - x2) / 10,
+            y1,
+            x1 + 100 + (x1 - x2) / 10,
+            y1 + (dy / 2),
+            x1 + (dx / 2),
+            y1 + (dy / 2),
+        )
+        path.cubicTo(
+            x2 - 100 - (x1 - x2) / 10, y2 - (dy / 2), x2 - 100 - (x1 - x2) / 10, y2, x2, y2
+        )
     else:
         # STANDARD BACKWARDS
-        path.cubicTo(x1 + 100 + (x1 - x2) / 3, y1,
-                     x2 - 100 - (x1 - x2) / 3, y2,
-                     x2, y2)
-    
+        path.cubicTo(x1 + 100 + (x1 - x2) / 3, y1, x2 - 100 - (x1 - x2) / 3, y2, x2, y2)
+
     return path
