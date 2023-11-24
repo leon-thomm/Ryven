@@ -1,7 +1,6 @@
-from ryven.node_env import *
-guis = import_guis(__file__)
-import ryvencore as rc
-
+from ryvencore import Node, NodeInputType, NodeOutputType, Data
+from ryven.node_env import export_nodes
+from ryven.gui_env import on_gui_load
 
 class NodeBase(Node):
     def have_gui(self):
@@ -17,7 +16,6 @@ class NodeBase(Node):
         return self.vars_addon().var(self.flow, var_name).set(val)
 
 
-
 class GetVar_Node(NodeBase):
     """Gets the value of a script variable"""
 
@@ -27,10 +25,7 @@ class GetVar_Node(NodeBase):
     init_inputs = [
         NodeInputType(),
     ]
-    init_outputs = [
-        NodeOutputType(label='val')
-    ]
-    GUI = guis.GetVarGui
+    init_outputs = [NodeOutputType(label='val')]
 
     def __init__(self, params):
         super().__init__(params)
@@ -45,7 +40,6 @@ class GetVar_Node(NodeBase):
 
     def update_event(self, input_called=-1):
         if self.input(0).payload != self.var_name:
-
             if self.var_name != '':  # disconnect old var val update connection
                 self.vars_addon().unsubscribe(self, self.var_name, self.var_val_changed)
 
@@ -69,7 +63,6 @@ class Result_Node(NodeBase):
     init_inputs = [
         NodeInputType(type_='data'),
     ]
-    GUI = guis.ResultGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -96,14 +89,12 @@ class Val_Node(NodeBase):
     init_outputs = [
         NodeInputType(type_='data'),
     ]
-    GUI = guis.ValGui
 
     def __init__(self, params):
         super().__init__(params)
 
         self.display_title = ''
         self.val = Data()
-
 
     def place_event(self):
         self.update()
@@ -115,9 +106,7 @@ class Val_Node(NodeBase):
         return self.input(0).payload if self.input(0) is not None else None
 
     def get_state(self):
-        return {
-            'val': self.val  # self.main_widget().get_val()
-        }
+        return {'val': self.val}  # self.main_widget().get_val()
 
     def set_state(self, data, version):
         self.val = data['val']
@@ -139,8 +128,6 @@ class SetVar_Node(NodeBase):
         NodeOutputType(type_='data', label='val'),
     ]
 
-    GUI = guis.SetVarGui
-
     def __init__(self, params):
         super().__init__(params)
 
@@ -154,15 +141,12 @@ class SetVar_Node(NodeBase):
             self.gui.actions['make passive'] = {'method': self.action_make_passive}
 
     def update_event(self, input_called=-1):
-
         if self.active and input_called == 0:
-
             if self.set_var_val(self.input(1).payload, self.input(2).payload):
                 self.set_output_val(1, self.input(2))
             self.exec_output(0)
 
         elif not self.active:
-
             self.var_name = self.input(0).payload
             if self.set_var_val(self.input(0).payload, self.input(1).payload):
                 self.set_output_val(0, Data(self.get_var_val(self.var_name)))
@@ -200,7 +184,6 @@ class SetVarsPassive_Node(NodeBase):
     title = 'set vars passive'
     init_inputs = []
     init_outputs = []
-    GUI = guis.SetVarsGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -219,8 +202,8 @@ class SetVarsPassive_Node(NodeBase):
             self.gui.rebuild_remove_actions()
 
     def remove_var_input(self, number):
-        self.delete_input((number-1)*2)
-        self.delete_input((number-1)*2)
+        self.delete_input((number - 1) * 2)
+        self.delete_input((number - 1) * 2)
         self.num_vars -= 1
         # self.rebuild_remove_actions()
 
@@ -246,7 +229,6 @@ class SetVarsPassive_Node(NodeBase):
     #         }
 
     def update_event(self, input_called=-1):
-
         var_names = [self.input(i).payload for i in range(0, len(self.inputs), 2)]
         values = [self.input(i).payload for i in range(1, len(self.inputs), 2)]
 
@@ -260,10 +242,10 @@ class SetVarsPassive_Node(NodeBase):
         self.num_vars = data['num vars']
 
 
-export_nodes([
-    SetVar_Node,
-    GetVar_Node,
-    Val_Node,
-    Result_Node,
-    SetVarsPassive_Node
-])
+nodes = [SetVar_Node, GetVar_Node, Val_Node, Result_Node, SetVarsPassive_Node]
+
+export_nodes(nodes)
+
+@on_gui_load
+def load_gui():
+    from . import gui

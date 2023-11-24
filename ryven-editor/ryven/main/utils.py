@@ -7,6 +7,10 @@ from os.path import normpath, join, dirname, abspath, expanduser
 import pathlib
 from typing import Union, Optional
 from packaging.version import Version
+from os import environ
+
+def in_gui_mode()->bool:
+    return environ['RYVEN_MODE'] == 'gui'
 
 
 def read_project(project_path: Union[str, pathlib.Path]) -> dict:

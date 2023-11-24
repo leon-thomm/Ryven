@@ -10,8 +10,6 @@ from ryven.main.packages.nodes_package import load_from_file, NodesPackage
 
 from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
 
-import inspect
-
 
 def init_node_env():
     # Note 1:
@@ -34,6 +32,7 @@ def init_node_env():
         import ryvencore_qt
 
 
+# LEAVING THIS HERE FOR LEGACY PURPOSES
 def import_guis(origin_file: str, gui_file_name='gui.py'):
     """
     Import all exported GUI classes from gui_file_name with respect to the origin_file location.
@@ -114,12 +113,12 @@ class NodesEnvRegistry:
     def consume_last_exported_package(cls) -> Tuple[List[Type[Node]], List[Type[Node]]]:
         result: Tuple[List[Type[Node]], List[Type[Node]]] = ([], [])
         """Consumes the last exported package"""
-        r_nodes, d_nodes = result
+        node_types, data_types = result
         for nodes, data in cls.last_exported_package:
             for n in nodes:
-                r_nodes.append(n)
+                node_types.append(n)
             for d in data:
-                d_nodes.append(d)
+                data_types.append(d)
         cls.last_exported_package.clear()
         return result
 
@@ -153,13 +152,6 @@ def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
     nodes_datas = (node_types, data_types)
     metadata[pkg_name] = nodes_datas
     NodesEnvRegistry.last_exported_package.append(nodes_datas)
-
-    if os.environ['RYVEN_MODE'] == 'gui':
-        # store node sources for code inspection
-        from ryven.gui.code_editor.codes_storage import register_node_type
-
-        for node_type in node_types:
-            register_node_type(node_type)
 
 
 def export_sub_nodes(

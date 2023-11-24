@@ -13,7 +13,7 @@ import pkgutil
 from ryvencore import Node, Data
 
 from ryven.main.utils import read_project, ryven_dir_path, abs_path_from_package_dir
-
+from .gui_env import in_gui_mode, load_current_guis
 
 class NodesPackage:
     """
@@ -60,13 +60,14 @@ def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
     mod_name = filename.split('.')[0]
     name = f"{pkg_name}.{mod_name}"  # e.g. built_in.nodes
 
+    #Protection from re-loading for no reason
+    if name in sys.modules:
+        return
+    
     if parent_dirpath not in sys.path:
         sys.path.append(parent_dirpath)
-
-    # execute the main pkg mod
-    # main_package_mod = importlib.import_module(pkg_name, pkg_name)
-    # print(main_package_mod)
-    # execute the nodes pkg
+    
+    #import the corresponding module
     mod = importlib.import_module(name, pkg_name)
     comps = tuple([getattr(mod, c) for c in components_list])
     return comps
@@ -103,8 +104,19 @@ def import_nodes_package(
     # obsolete node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
     # obsolote data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
 
-    return node_env.NodesEnvRegistry.consume_last_exported_package()
-
+    exported_package = node_env.NodesEnvRegistry.consume_last_exported_package()
+    
+    # after completing package loading
+    if in_gui_mode():
+        # store node sources for code inspection
+        from ryven.gui.code_editor.codes_storage import register_node_type
+        # load guis - must happen before registering nodes
+        load_current_guis()
+        # register the nodes - gui, source code etc
+        node_types, _ = exported_package
+        for node_type in node_types:
+            register_node_type(node_type)
+    return exported_package
 
 def process_nodes_packages(
     project_or_nodes: Union[

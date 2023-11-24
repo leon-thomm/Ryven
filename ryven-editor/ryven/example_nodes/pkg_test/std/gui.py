@@ -2,7 +2,9 @@ import re
 
 from ryven.gui_env import *
 
-from special_nodes import *
+from .special_nodes import *
+from .control_structures import *
+from .basic_operators import *
 
 from qtpy.QtGui import QFont
 from qtpy.QtCore import Qt, Signal, QEvent
@@ -14,7 +16,6 @@ from qtpy.QtWidgets import QPushButton, QComboBox, QSlider, QTextEdit, QPlainTex
     generic base classes
 """
 
-
 class GuiBase(NodeGUI):
     pass
 
@@ -23,7 +24,7 @@ class GuiBase(NodeGUI):
     operator nodes
 """
 
-
+@node_gui(OperatorNodeBase)
 class OperatorNodeBaseGui(GuiBase):
     input_widget_classes = {
         'in': inp_widgets.Builder.evaled_line_edit(size='s', resizing=True),
@@ -67,15 +68,15 @@ class OperatorNodeBaseGui(GuiBase):
             self.actions[f'remove input'][f'{i}'] = \
                 {'method': self.remove_operand_input, 'data': i}
 
-
+@node_gui(LogicNodeBase)
 class LogicNodeBaseGui(OperatorNodeBaseGui):
     color = '#f58142'
 
-
+@node_gui(ArithmeticNodeBase)
 class ArithNodeBaseGui(OperatorNodeBaseGui):
     color = '#58db53'
 
-
+@node_gui(ComparatorNodeBase)
 class CompNodeBaseGui(OperatorNodeBaseGui):
     color = '#a1574c'
 
@@ -84,12 +85,12 @@ class CompNodeBaseGui(OperatorNodeBaseGui):
     control structures
 """
 
-
+@node_gui(CSNodeBase)
 class CSNodeBaseGui(GuiBase):
     style = 'normal'
     color = '#b33a27'
 
-
+@node_gui(ForLoop_Node)
 class ForLoopGui(CSNodeBaseGui):
     input_widget_classes = {
         'RangeFrom': inp_widgets.Builder.int_spinbox(0, (0, 1000000)),
@@ -126,7 +127,7 @@ class ForLoopGui(CSNodeBaseGui):
             self.actions[f'remove dimension'][f'{i + 1}'] = \
                 {'method': self.remove_dimension, 'data': i + 1}
 
-
+@node_gui(ForEachLoop_Node)
 class ForEachLoopGui(CSNodeBaseGui):
     input_widget_classes = {
         'List': inp_widgets.Builder.evaled_line_edit(),
@@ -140,11 +141,11 @@ class ForEachLoopGui(CSNodeBaseGui):
     special nodes
 """
 
-
+@node_gui(NodeBase)
 class SpecialNodeGuiBase(GuiBase):
     color = '#FFCA00'
 
-
+@node_gui(DualNodeBase)
 class DualNodeBaseGui(SpecialNodeGuiBase):
     def initialized(self):
         super().initialized()
@@ -171,7 +172,7 @@ class DualNodeBaseGui(SpecialNodeGuiBase):
         self.actions['make passive'] = {'method': self.make_passive}
         self.node.make_active()
 
-
+@node_gui(Checkpoint_Node)
 class CheckpointNodeGui(DualNodeBaseGui):
     style = 'small'
     display_title = ''
@@ -205,7 +206,7 @@ class ButtonNode_MainWidget(QPushButton, NodeMainWidget):
 
         self.clicked.connect(self.update_node)
 
-
+@node_gui(Button_Node)
 class ButtonNodeGui(SpecialNodeGuiBase):
     main_widget_class = ButtonNode_MainWidget
     main_widget_pos = 'between ports'
@@ -220,7 +221,7 @@ class ClockNode_MainWidget(NodeMainWidget, QPushButton):
 
         self.clicked.connect(self.node.toggle)
 
-
+@node_gui(Clock_Node)
 class ClockNodeGui(SpecialNodeGuiBase):
     main_widget_class = ClockNode_MainWidget
     main_widget_pos = 'below ports'
@@ -246,7 +247,7 @@ class ClockNodeGui(SpecialNodeGuiBase):
     def stop(self):
         self.node.stop()
 
-
+@node_gui(Log_Node)
 class LogNodeGui(SpecialNodeGuiBase):
     color = '#5d95de'
 
@@ -264,7 +265,7 @@ class SliderNode_MainWidget(NodeMainWidget, QSlider):
         self.node.val = v/1000
         self.update_node()
 
-
+@node_gui(Slider_Node)
 class SliderNodeGui(SpecialNodeGuiBase):
     main_widget_class = SliderNode_MainWidget
     main_widget_pos = 'below ports'
@@ -280,7 +281,7 @@ class SliderNodeGui(SpecialNodeGuiBase):
     def initialized(self):
         self.main_widget().setValue(self.node.val*1000)
 
-
+@node_gui(DynamicPorts_Node)
 class DynamicPortsGui(SpecialNodeGuiBase):
     def __init__(self, params):
         super().__init__(params)
@@ -333,7 +334,7 @@ class ExecNode_MainWidget(NodeMainWidget, QTextEdit):
     def set_state(self, data: dict):
         self.setPlainText(data['text'])
 
-
+@node_gui(Exec_Node)
 class ExecNodeGui(DynamicPortsGui):
     main_widget_class = ExecNode_MainWidget
     main_widget_pos = 'between ports'
@@ -361,7 +362,7 @@ class EvalNode_MainWidget(NodeMainWidget, QPlainTextEdit):
     def set_state(self, data: dict):
         self.setPlainText(data['text'])
 
-
+@node_gui(Eval_Node)
 class EvalNodeGui(SpecialNodeGuiBase):
     main_widget_class = EvalNode_MainWidget
     main_widget_pos = 'between ports'
@@ -482,12 +483,12 @@ class ConsoleOutDisplay(QPlainTextEdit):
         self.setReadOnly(True)
         self.setFont(QFont('Source Code Pro', 9))
 
-
+@node_gui(Interpreter_Node)
 class InterpreterConsoleGui(SpecialNodeGuiBase):
     main_widget_class = InterpreterConsole
     main_widget_pos = 'between ports'
 
-
+@node_gui(Storage_Node)
 class StorageNodeGui(SpecialNodeGuiBase):
     color = '#aadd55'
 
@@ -499,7 +500,7 @@ class StorageNodeGui(SpecialNodeGuiBase):
     def clear(self):
         self.node.clear()
 
-
+@node_gui(LinkIN_Node)
 class LinkIN_NodeGui(SpecialNodeGuiBase):
     def __init__(self, params):
         super().__init__(params)
@@ -524,7 +525,7 @@ class LinkIN_NodeGui(SpecialNodeGuiBase):
         self.node.remove_input(index)
         del self.actions['remove inp'][str(index)]
 
-
+@node_gui(LinkOUT_Node)
 class LinkOUT_NodeGui(SpecialNodeGuiBase):
 
     class IDInpDialog(QDialog):

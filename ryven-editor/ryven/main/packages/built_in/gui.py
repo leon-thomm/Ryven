@@ -1,7 +1,7 @@
 from ryvencore import Data
 
 from ryven.gui_env import *
-
+from .nodes import *
 from qtpy.QtGui import QKeySequence
 from qtpy.QtCore import Signal
 from qtpy.QtWidgets import QLineEdit, QDialog, QDialogButtonBox, QMessageBox, QPlainTextEdit, QShortcut, QVBoxLayout
@@ -20,7 +20,7 @@ class Result_Node_MainWidget(NodeMainWidget, QLineEdit):
         self.setText(str(new_val))
         self.setCursorPosition(0)
 
-
+@node_gui(Result_Node)
 class ResultGui(NodeGUI):
     main_widget_class = Result_Node_MainWidget
     main_widget_pos = 'between ports'
@@ -108,7 +108,7 @@ class EditVal_Dialog(QDialog):
             pass
         return val
 
-
+@node_gui(Val_Node)
 class ValGui(NodeGUI):
     main_widget_class = ValNode_MainWidget
     style = 'small'
@@ -129,7 +129,7 @@ class ValGui(NodeGUI):
             self.main_widget().setText(str(val_dialog.get_val()))
             self.update()
 
-
+@node_gui(SetVarsPassive_Node)
 class SetVarsGui(NodeGUI):
     style = 'normal'
     color = '#c69a15'
@@ -162,7 +162,7 @@ class SetVarsGui(NodeGUI):
             }
 
 
-
+@node_gui(SetVar_Node)
 class SetVarGui(NodeGUI):
     input_widget_classes = {
         'varname': inp_widgets.Builder.str_line_edit(),
@@ -181,7 +181,7 @@ class SetVarGui(NodeGUI):
         self.input_widgets[self.node.inputs[-2]] = {'name': 'varname', 'pos': 'besides'}
         self.input_widgets[self.node.inputs[-1]] = {'name': 'val', 'pos': 'besides'}
 
-
+@node_gui(GetVar_Node)
 class GetVarGui(NodeGUI):
     input_widget_classes = {
         'varname': inp_widgets.Builder.str_line_edit(),
@@ -190,12 +190,3 @@ class GetVarGui(NodeGUI):
         0: {'name': 'varname', 'pos': 'besides'}
     }
     color = '#c69a15'
-
-
-export_guis([
-    GetVarGui,
-    ResultGui,
-    ValGui,
-    SetVarGui,
-    SetVarsGui,
-])

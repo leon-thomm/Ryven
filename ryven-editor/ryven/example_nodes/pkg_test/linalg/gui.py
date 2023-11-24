@@ -4,7 +4,7 @@ from qtpy.QtWidgets import QTextEdit
 from qtpy.QtGui import QFontMetrics
 
 import numpy as np
-
+from .nodes import *
 
 class MatrixWidget(NodeMainWidget, QTextEdit):
 
@@ -141,7 +141,7 @@ class EditMatrixWidget(MatrixWidget):
         self.update_matrix(self.node.expression_matrix)
         QTextEdit.focusOutEvent(self, e)
 
-
+@node_gui(MatrixNodeBase)
 class MatrixNodeBaseGui(NodeGUI):
     main_widget_class = MatrixWidget
     main_widget_pos = 'below ports'
@@ -185,14 +185,8 @@ class MatrixNodeBaseGui(NodeGUI):
             self.ac_hide_mw()
         # shown by default
 
-
+@node_gui(EditMatrixNode)
 class EditMatrixNodeGui(MatrixNodeBaseGui):
     main_widget_class = EditMatrixWidget
     main_widget_pos = 'below ports'
     color = '#3344ff'
-
-
-export_guis([
-    MatrixNodeBaseGui,
-    EditMatrixNodeGui,
-])

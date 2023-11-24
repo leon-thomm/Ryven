@@ -3,7 +3,6 @@ from typing import Optional, List
 import ryvencore.addons.Variables
 
 from ryven.node_env import *
-guis = import_guis(__file__)
 
 import numpy as np
 from itertools import chain
@@ -33,7 +32,6 @@ class MatrixNodeBase(Node):
     init_outputs = [
         NodeOutputType()
     ]
-    GUI = guis.MatrixNodeBaseGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -304,7 +302,6 @@ class EditMatrixNode(Node):
     init_outputs = [
         NodeOutputType()
     ]
-    GUI = guis.EditMatrixNodeGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -464,3 +461,4 @@ export_sub_nodes(__file__,
 ],
     data_types=[MatrixData]
 )
+
