@@ -9,7 +9,7 @@ from typing import Union, Optional
 from packaging.version import Version
 from os import environ
 
-def in_gui_mode()->bool:
+def in_gui_mode() -> bool:
     return environ['RYVEN_MODE'] == 'gui'
 
 
