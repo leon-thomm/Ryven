@@ -18,6 +18,7 @@ from ryvencore import Flow
 from ryven.gui.code_editor.CodePreviewWidget import CodePreviewWidget
 from ryven.gui.uic.ui_flow_window import Ui_FlowWindow
 from ryvencore_qt.src.flows.FlowView import FlowView
+from typing import List
 
 
 class FlowUI(QMainWindow):
@@ -43,7 +44,8 @@ class FlowUI(QMainWindow):
         self.setLayout(central_layout)
 
         # add widget actions to menu
-        all_dock_widgets: list[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
+        # should be list[QDockWidget] in 3.9+
+        all_dock_widgets: List[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
         windows_menu = flow_view.menu().addMenu("Windows")
         for w in all_dock_widgets:
             windows_menu.addAction(w.toggleViewAction())
