@@ -53,7 +53,7 @@ class MainWindow(QMainWindow):
         self.theme = config.window_theme
         self.node_packages = {}  # {Node: str}
         self.flow_UIs = {}  # Should be dict[Flow, FlowUI] in 3.9+
-        self.flow_ui_template: dict[str, QByteArray] = None
+        self.flow_ui_template = None # Should be dict[str, QByteArray] in 3.9+
         self._project_content = None
 
         # Init Session GUI
