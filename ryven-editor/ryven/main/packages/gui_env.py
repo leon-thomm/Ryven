@@ -51,7 +51,7 @@ def export_guis(guis: [Type[NodeGUI]]):
 
 def load_current_guis():
     """
-    Calls the functions registered via on_gui_load.
+    Calls the functions registered via `~ryven.main.gui_env.on_gui_load`.
     """
     if not in_gui_mode():
         return
@@ -61,6 +61,10 @@ def load_current_guis():
 
 
 def on_gui_load(func):
+    """
+    Defers a parameterless function to be called for package loading when
+    the GUIs are loaded.
+    """
     if in_gui_mode():
         __gui_loaders.append(func)
 
