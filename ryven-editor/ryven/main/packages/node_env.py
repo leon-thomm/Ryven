@@ -110,15 +110,13 @@ class NodesEnvRegistry:
     @classmethod
     # should be -> tuple[list[type[Node]], list[type[Data]] in 3.9+
     # should be result: tuple[list[type[Node]], list[type[Data]]] in 3.9+
-    def consume_last_exported_package(cls) -> Tuple[List[Type[Node]], List[Type[Node]]]:
-        result: Tuple[List[Type[Node]], List[Type[Node]]] = ([], [])
+    def consume_last_exported_package(cls) -> Tuple[List[Type[Node]], List[Type[Data]]]:
         """Consumes the last exported package"""
+        result: Tuple[List[Type[Node]], List[Type[Data]]] = ([], [])
         node_types, data_types = result
         for nodes, data in cls.last_exported_package:
-            for n in nodes:
-                node_types.append(n)
-            for d in data:
-                data_types.append(d)
+            node_types.extend(nodes)
+            data_types.extend(data)
         cls.last_exported_package.clear()
         return result
 
