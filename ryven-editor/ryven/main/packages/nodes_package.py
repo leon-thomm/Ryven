@@ -12,8 +12,14 @@ import pkgutil
 
 from ryvencore import Node, Data
 
-from ryven.main.utils import read_project, ryven_dir_path, abs_path_from_package_dir
-from .gui_env import in_gui_mode, load_current_guis
+from ryven.main.utils import (
+    read_project, 
+    ryven_dir_path, 
+    abs_path_from_package_dir, 
+    in_gui_mode,
+    load_from_file,
+)
+from ryven.main.packages.node_env import load_current_guis
 
 class NodesPackage:
     """
@@ -48,31 +54,6 @@ class NodesPackage:
         }
 
 
-def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
-    """
-    Imports specified components from a python module with given file path.
-    """
-    if components_list is None:
-        components_list = []
-
-    dirpath, filename = os.path.split(file)
-    parent_dirpath, pkg_name = os.path.split(dirpath)
-    mod_name = filename.split('.')[0]
-    name = f"{pkg_name}.{mod_name}"  # e.g. built_in.nodes
-
-    #Protection from re-loading for no reason
-    if name in sys.modules:
-        return
-    
-    if parent_dirpath not in sys.path:
-        sys.path.append(parent_dirpath)
-    
-    #import the corresponding module
-    mod = importlib.import_module(name, pkg_name)
-    comps = tuple([getattr(mod, c) for c in components_list])
-    return comps
-
-
 # should be Tuple[list[Type[Node]], list[Type[Data]] in 3.9+
 def import_nodes_package(
     package: NodesPackage = None, directory: str = None
@@ -92,8 +73,10 @@ def import_nodes_package(
 
     if 'RYVEN_MODE' not in os.environ:
         raise Exception(
-            "Please specify the environment variable RYVEN_MODE ('gui' or 'no-gui') before loading any packages. "
-            "For example set os.environ['RYVEN_MODE'] = 'no-gui' for gui-less deployment."
+            """Please specify the environment variable RYVEN_MODE ('gui' or 'no-gui') before loading any packages. 
+            For example, set os.environ['RYVEN_MODE'] = 'no-gui' for gui-less deployment.
+            Ryven and RyvenConsole should do this automatically.
+            """
         )
 
     from ryven import node_env
@@ -104,19 +87,19 @@ def import_nodes_package(
     # obsolete node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
     # obsolote data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
 
-    exported_package = node_env.NodesEnvRegistry.consume_last_exported_package()
+    node_types, data_types = node_env.NodesEnvRegistry.consume_last_exported_package()
     
-    # after completing package loading
+    # load guis
     if in_gui_mode():
-        # store node sources for code inspection
-        from ryven.gui.code_editor.codes_storage import register_node_type
-        # load guis - must happen before registering nodes
         load_current_guis()
-        # register the nodes - gui, source code etc
-        node_types, _ = exported_package
+    
+    # load soruce codes
+    if in_gui_mode():
+        from ryven.gui.code_editor.codes_storage import register_node_type
         for node_type in node_types:
             register_node_type(node_type)
-    return exported_package
+    
+    return node_types, data_types
 
 def process_nodes_packages(
     project_or_nodes: Union[

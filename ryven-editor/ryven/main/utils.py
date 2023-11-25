@@ -2,15 +2,43 @@
 Core utilities for handling Ryven projects and nodes packages, and
 resolving paths. Deos not depend on any Qt modules.
 """
-
+import sys
+import os
+from os import environ
 from os.path import normpath, join, dirname, abspath, expanduser
 import pathlib
-from typing import Union, Optional
+import importlib
+from typing import Union, Optional, Tuple
 from packaging.version import Version
-from os import environ
 
 def in_gui_mode() -> bool:
     return environ['RYVEN_MODE'] == 'gui'
+
+
+def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
+    """
+    Imports specified components from a python module with given file path.
+    The directory of the file is added to sys.path if not already present.
+    """
+    if components_list is None:
+        components_list = []
+
+    dirpath, filename = os.path.split(file)
+    parent_dirpath, pkg_name = os.path.split(dirpath)
+    mod_name = filename.split('.')[0]
+    name = f"{pkg_name}.{mod_name}"  # e.g. built_in.nodes
+
+    # protection from re-loading for no reason
+    if name in sys.modules:
+        return
+    
+    if parent_dirpath not in sys.path:
+        sys.path.append(parent_dirpath)
+    
+    # import the corresponding module
+    mod = importlib.import_module(name, pkg_name)
+    comps = tuple([getattr(mod, c) for c in components_list])
+    return comps
 
 
 def read_project(project_path: Union[str, pathlib.Path]) -> dict:

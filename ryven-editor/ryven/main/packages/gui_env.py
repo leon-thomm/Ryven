@@ -13,7 +13,6 @@ from ryvencore import Data, Node, serialize, deserialize
 from ryvencore.InfoMsgs import InfoMsgs
 from ryven.main.utils import in_gui_mode
 
-__gui_loaders: list = []
 __explicit_nodes: set = set() # for protection against setting the gui twice on the same node
 
 def init_node_guis_env():
@@ -49,29 +48,10 @@ def export_guis(guis: [Type[NodeGUI]]):
     GuiClassesRegistry.exported_guis_sources.append(gui_sources)
 
 
-def load_current_guis():
-    """
-    Calls the functions registered via `~ryven.main.gui_env.on_gui_load`.
-    """
-    if not in_gui_mode():
-        return
-    for func in __gui_loaders:
-        func()
-    __gui_loaders.clear()
-
-
-def on_gui_load(func):
-    """
-    Defers a parameterless function to be called for package loading when
-    the GUIs are loaded.
-    """
-    if in_gui_mode():
-        __gui_loaders.append(func)
-
-
 def node_gui(node_cls: Type[Node]):
     """
-    Registers a node widget as the GUI for a specific node.
+    Registers a node gui for a node class. The gui of a node is inherited to its sub-classes,
+    but can be overridden by specifying a new gui for the sub-class.
     """
     if not issubclass(node_cls, Node):
         raise Exception(f"{node_cls} is not of type {Node}")

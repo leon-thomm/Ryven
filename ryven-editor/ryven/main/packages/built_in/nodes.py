@@ -1,6 +1,5 @@
 from ryvencore import Node, NodeInputType, NodeOutputType, Data
-from ryven.node_env import export_nodes
-from ryven.gui_env import on_gui_load
+from ryven.node_env import export_nodes, on_gui_load
 
 class NodeBase(Node):
     def have_gui(self):

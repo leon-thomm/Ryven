@@ -6,7 +6,7 @@ import os
 from os.path import basename, normpath
 from typing import Type, Tuple, List
 
-from ryven.main.packages.nodes_package import load_from_file, NodesPackage
+from ryven.main.utils import in_gui_mode, load_from_file
 
 from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
 
@@ -92,7 +92,7 @@ class NodesEnvRegistry:
     # stores the package that is currently being imported; set by the nodes package
     # loader ryven.main.packages.nodes_package.import_nodes_package;
     # needed for extending the identifiers of node types to include the package name
-    current_package: NodesPackage = None
+    current_package = None  # type NodesPackage (not imported to avoid circular imports)
 
     # set by export_sub_package, used in export_nodes
     current_sub_package: str = None
@@ -177,3 +177,43 @@ def export_sub_nodes(
     NodesEnvRegistry.current_sub_package = sub_pkg_name
     export_nodes(node_types, data_types)
     NodesEnvRegistry.current_sub_package = None
+
+
+__gui_loaders: list = []
+
+
+def on_gui_load(func):
+    """
+    Use this decorator to register a function which imports all gui
+    modules of the nodes package.
+    Do not import any gui modules outside of this function.
+    When Ryven is running in headless mode, this function will not
+    be called, and your nodes package should function without any.
+
+    Example:
+    `nodes.py`:
+    ```
+    from ryven.node_env import *
+
+    # <node types> definitions
+    # <data types> definitions
+
+    export_nodes(<node types>, <data types>)
+
+    @on_gui_load
+    def load_guis():
+        import .gui
+    ```
+    """
+    __gui_loaders.append(func)
+
+
+def load_current_guis():
+    """
+    Calls the functions registered via `~ryven.main.gui_env.on_gui_load`.
+    """
+    if not in_gui_mode():
+        return
+    for func in __gui_loaders:
+        func()
+    __gui_loaders.clear()
