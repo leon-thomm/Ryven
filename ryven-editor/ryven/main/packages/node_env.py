@@ -6,11 +6,9 @@ import os
 from os.path import basename, normpath
 from typing import Type, Tuple, List
 
-from ryven.main.packages.nodes_package import load_from_file, NodesPackage
+from ryven.main.utils import in_gui_mode, load_from_file
 
 from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
-
-import inspect
 
 
 def init_node_env():
@@ -34,6 +32,7 @@ def init_node_env():
         import ryvencore_qt
 
 
+# LEAVING THIS HERE FOR LEGACY PURPOSES
 def import_guis(origin_file: str, gui_file_name='gui.py'):
     """
     Import all exported GUI classes from gui_file_name with respect to the origin_file location.
@@ -93,7 +92,7 @@ class NodesEnvRegistry:
     # stores the package that is currently being imported; set by the nodes package
     # loader ryven.main.packages.nodes_package.import_nodes_package;
     # needed for extending the identifiers of node types to include the package name
-    current_package: NodesPackage = None
+    current_package = None  # type NodesPackage (not imported to avoid circular imports)
 
     # set by export_sub_package, used in export_nodes
     current_sub_package: str = None
@@ -111,15 +110,13 @@ class NodesEnvRegistry:
     @classmethod
     # should be -> tuple[list[type[Node]], list[type[Data]] in 3.9+
     # should be result: tuple[list[type[Node]], list[type[Data]]] in 3.9+
-    def consume_last_exported_package(cls) -> Tuple[List[Type[Node]], List[Type[Node]]]:
-        result: Tuple[List[Type[Node]], List[Type[Node]]] = ([], [])
+    def consume_last_exported_package(cls) -> Tuple[List[Type[Node]], List[Type[Data]]]:
         """Consumes the last exported package"""
-        r_nodes, d_nodes = result
+        result: Tuple[List[Type[Node]], List[Type[Data]]] = ([], [])
+        node_types, data_types = result
         for nodes, data in cls.last_exported_package:
-            for n in nodes:
-                r_nodes.append(n)
-            for d in data:
-                d_nodes.append(d)
+            node_types.extend(nodes)
+            data_types.extend(data)
         cls.last_exported_package.clear()
         return result
 
@@ -154,13 +151,6 @@ def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
     metadata[pkg_name] = nodes_datas
     NodesEnvRegistry.last_exported_package.append(nodes_datas)
 
-    if os.environ['RYVEN_MODE'] == 'gui':
-        # store node sources for code inspection
-        from ryven.gui.code_editor.codes_storage import register_node_type
-
-        for node_type in node_types:
-            register_node_type(node_type)
-
 
 def export_sub_nodes(
     origin_file: str,
@@ -185,3 +175,43 @@ def export_sub_nodes(
     NodesEnvRegistry.current_sub_package = sub_pkg_name
     export_nodes(node_types, data_types)
     NodesEnvRegistry.current_sub_package = None
+
+
+__gui_loaders: list = []
+
+
+def on_gui_load(func):
+    """
+    Use this decorator to register a function which imports all gui
+    modules of the nodes package.
+    Do not import any gui modules outside of this function.
+    When Ryven is running in headless mode, this function will not
+    be called, and your nodes package should function without any.
+
+    Example:
+    `nodes.py`:
+    ```
+    from ryven.node_env import *
+
+    # <node types> definitions
+    # <data types> definitions
+
+    export_nodes(<node types>, <data types>)
+
+    @on_gui_load
+    def load_guis():
+        import .gui
+    ```
+    """
+    __gui_loaders.append(func)
+
+
+def load_current_guis():
+    """
+    Calls the functions registered via `~ryven.main.gui_env.on_gui_load`.
+    """
+    if not in_gui_mode():
+        return
+    for func in __gui_loaders:
+        func()
+    __gui_loaders.clear()

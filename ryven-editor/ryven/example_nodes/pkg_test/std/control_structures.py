@@ -1,12 +1,8 @@
-from ryven.node_env import *
-
-guis = import_guis(__file__)
-
+from ryvencore import Node, NodeInputType, NodeOutputType, Data
 
 class CSNodeBase(Node):
     version = 'v0.2'
-    GUI = guis.CSNodeBaseGui
-
+    
 class If_Node(CSNodeBase):
     title = 'branch'
     init_inputs = [
@@ -40,8 +36,7 @@ class ForLoop_Node(CSNodeBase):
         NodeOutputType('i', type_='data'),
         NodeOutputType('finished', type_='exec'),
     ]
-    GUI = guis.ForLoopGui
-
+    
     def __init__(self, params):
         super().__init__(params)
 
@@ -103,7 +98,6 @@ class ForEachLoop_Node(CSNodeBase):
         NodeOutputType('e', type_='data'),
         NodeOutputType('finished', type_='exec'),
     ]
-    GUI = guis.ForEachLoopGui
 
     def update_event(self, inp=-1):
         for e in self.input(0).payload:
