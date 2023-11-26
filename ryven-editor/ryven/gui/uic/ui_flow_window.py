@@ -55,6 +55,14 @@ class Ui_FlowWindow(object):
         self.sourceWidgetContents.setObjectName("sourceWidgetContents")
         self.source_dock.setWidget(self.sourceWidgetContents)
         FlowWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.source_dock)
+        self.inspector_dock = QtWidgets.QDockWidget(FlowWindow)
+        self.inspector_dock.setFloating(False)
+        self.inspector_dock.setFeatures(QtWidgets.QDockWidget.DockWidgetClosable|QtWidgets.QDockWidget.DockWidgetFloatable|QtWidgets.QDockWidget.DockWidgetMovable)
+        self.inspector_dock.setObjectName("inspector_dock")
+        self.inspectorWidgetContents = QtWidgets.QWidget()
+        self.inspectorWidgetContents.setObjectName("inspectorWidgetContents")
+        self.inspector_dock.setWidget(self.inspectorWidgetContents)
+        FlowWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.inspector_dock)
         self.actionxc = QtWidgets.QAction(FlowWindow)
         self.actionxc.setObjectName("actionxc")
 
@@ -68,14 +76,5 @@ class Ui_FlowWindow(object):
         self.variables_dock.setWindowTitle(_translate("FlowWindow", "Variables"))
         self.logger_dock.setWindowTitle(_translate("FlowWindow", "Log"))
         self.source_dock.setWindowTitle(_translate("FlowWindow", "Source Code"))
+        self.inspector_dock.setWindowTitle(_translate("FlowWindow", "Inspector"))
         self.actionxc.setText(_translate("FlowWindow", "xc"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    FlowWindow = QtWidgets.QMainWindow()
-    ui = Ui_FlowWindow()
-    ui.setupUi(FlowWindow)
-    FlowWindow.show()
-    sys.exit(app.exec_())

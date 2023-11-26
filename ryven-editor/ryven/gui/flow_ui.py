@@ -18,6 +18,7 @@ from ryvencore import Flow
 from ryven.gui.code_editor.CodePreviewWidget import CodePreviewWidget
 from ryven.gui.uic.ui_flow_window import Ui_FlowWindow
 from ryvencore_qt.src.flows.FlowView import FlowView
+from ryvencore_qt.src.flows.nodes.InspectorGUI import InspectorGUI, InspectorWidget
 from typing import List
 
 
@@ -37,7 +38,7 @@ class FlowUI(QMainWindow):
         # UI
         self.ui = Ui_FlowWindow()
         self.ui.setupUi(self)
-        # this is needed because it seems that qt compiler doesn't work well
+        # this is needed because there's no option in qt designer (propably)
         self.ui.logger_dock.setWidget(self.ui.logs_scrollArea)
         central_layout = QHBoxLayout()
         self.ui.centralwidget.setLayout(central_layout)
@@ -86,6 +87,11 @@ class FlowUI(QMainWindow):
         # code preview
         self.code_preview_widget = CodePreviewWidget(main_window, self.flow_view)
         self.ui.source_dock.setWidget(self.code_preview_widget)
+        
+        # inspector widget
+        self.inspector_widget = InspectorWidget(self.flow_view)
+        self.ui.inspector_dock.setWidget(self.inspector_widget)
+        
         # logs
         self.ui.logs_scrollArea.setWidget(self.create_loggers_widget())
 
