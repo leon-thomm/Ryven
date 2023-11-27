@@ -52,6 +52,7 @@ class FlowUndoCommand(QObject, QUndoCommand):
         pass
 
 class Nested_Command(FlowUndoCommand):
+    """Simple undo command nesting."""
     def __init__(self, flow_view, *args):
         super().__init__(flow_view)
         self.commands = [arg for arg in args]
@@ -63,6 +64,27 @@ class Nested_Command(FlowUndoCommand):
     def redo_(self):
         for command in self.commands:
             command.redo_()
+
+class Delegate_Command(FlowUndoCommand):
+    """
+    Event-driven undo command. Any event given should be 
+    a tuple of two parameterless functions, i.e (<undo>, <redo>)
+    """
+    def __init__(self, flow_view, *events):
+        super().__init__(flow_view)
+        self.__events: list[Tuple] = [e for e in events]
+    
+    @property
+    def events(self):
+        return self.__events
+    
+    def undo_(self):
+        for undo, _ in self.__events:
+            undo()
+
+    def redo_(self):
+        for _, redo in self.__events:
+            redo()
         
 class MoveComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, items_list, p_from, p_to):
