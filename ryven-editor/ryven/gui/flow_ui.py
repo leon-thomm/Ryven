@@ -18,7 +18,7 @@ from ryvencore import Flow
 from ryven.gui.code_editor.CodePreviewWidget import CodePreviewWidget
 from ryven.gui.uic.ui_flow_window import Ui_FlowWindow
 from ryvencore_qt.src.flows.FlowView import FlowView
-from ryvencore_qt.src.flows.nodes.InspectorGUI import InspectorGUI, InspectorWidget
+from ryvencore_qt.src.flows.nodes.InspectorGUI import BaseNodeInspector, InspectorWidget
 from typing import List
 
 

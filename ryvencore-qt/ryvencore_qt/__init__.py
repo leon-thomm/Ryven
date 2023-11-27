@@ -11,7 +11,7 @@ import ryvencore
 
 from .src.SessionGUI import SessionGUI
 from .src.flows.nodes.NodeGUI import NodeGUI
-from .src.flows.nodes.InspectorGUI import InspectorGUI
+from .src.flows.nodes.InspectorGUI import BaseNodeInspector, NodeInspector
 
 # customer base classes
 from ryvencore import Node

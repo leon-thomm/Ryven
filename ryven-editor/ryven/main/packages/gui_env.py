@@ -7,7 +7,7 @@ from typing import Type
 
 import ryven.gui.std_input_widgets as inp_widgets
 
-from ryvencore_qt import NodeInputWidget, NodeMainWidget, NodeGUI, InspectorGUI
+from ryvencore_qt import NodeInputWidget, NodeMainWidget, NodeGUI, BaseNodeInspector
 
 from ryvencore import Data, Node, serialize, deserialize
 from ryvencore.InfoMsgs import InfoMsgs
@@ -76,12 +76,12 @@ def node_gui(node_cls: Type[Node]):
 
 def inspector_gui(node_cls: Type[Node]):
     """
-    Registers an inspector gui for a node class.
+    Registers an inspector for a node class.
     """
     if not issubclass(node_cls, Node):
         raise Exception(f"{node_cls} is not of type {Node}")
     
-    def register_inspector(inspect_cls: Type[InspectorGUI]):
+    def register_inspector(inspect_cls: Type[BaseNodeInspector]):
         if node_cls in __explicit_inspectors:
             InfoMsgs.write(f'{node_cls.__name__} has defined an explicit inspector {node_cls.inspector.__name__}')
             return
