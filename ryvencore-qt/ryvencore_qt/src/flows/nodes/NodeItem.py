@@ -424,6 +424,9 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
 
         return QGraphicsItem.itemChange(self, change, value)
 
+    def on_move(self):
+        self.update_conn_pos()
+    
     def update_conn_pos(self):
         """Updates the scene positions of connections"""
 

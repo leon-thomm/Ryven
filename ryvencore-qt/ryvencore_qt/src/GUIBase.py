@@ -51,3 +51,7 @@ class GUIBase:
     def complete_data(self, data: dict) -> dict:
         """completes the data dict of the represented core component by adding all frontend data"""
         return data
+    
+    def on_move(self):
+        """virtual function for when a GUI is moved in the view"""
+        pass

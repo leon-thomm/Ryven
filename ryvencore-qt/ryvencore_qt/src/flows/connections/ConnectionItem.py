@@ -103,7 +103,7 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         return self.inp_item.pin.get_scene_center_pos()
 
     def itemChange(self, change, value):
-        if change == QGraphicsItem.ItemSelectedHasChanged:
+        if change == QGraphicsItem.ItemSelectedHasChanged or (change == QGraphicsItem.ItemVisibleHasChanged and self.isVisible()):
             self.set_highlighted(self.isSelected())
         return QGraphicsItem.itemChange(self, change, value)
 
@@ -111,7 +111,7 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         pen: QPen = self.pen()
 
         if b:
-            pen.setWidthF(self.pen_width() * 2.5)
+            pen.setWidthF(self.pen_width() * 2.25)
         else:
             pen.setWidthF(self.pen_width())
             self.recompute()

@@ -51,7 +51,19 @@ class FlowUndoCommand(QObject, QUndoCommand):
         """subclassed"""
         pass
 
+class Nested_Command(FlowUndoCommand):
+    def __init__(self, flow_view, *args):
+        super().__init__(flow_view)
+        self.commands = [arg for arg in args]
 
+    def undo_(self):
+        for command in self.commands:
+            command.undo_()
+    
+    def redo_(self):
+        for command in self.commands:
+            command.redo_()
+        
 class MoveComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, items_list, p_from, p_to):
         super(MoveComponents_Command, self).__init__(flow_view)
@@ -66,12 +78,16 @@ class MoveComponents_Command(FlowUndoCommand):
         items_group.setPos(self.p_from)
         self.last_item_group_pos = items_group.pos()
         self.destroy_items_group(items_group)
+        for item in self.items_list:
+            item.on_move()
 
     def redo_(self):
         items_group = self.items_group()
         items_group.setPos(self.p_to - self.last_item_group_pos)
         self.destroy_items_group(items_group)
-
+        for item in self.items_list:
+            item.on_move()
+        
     def items_group(self):
         return self.flow_view.scene().createItemGroup(self.items_list)
 
@@ -117,12 +133,32 @@ class PlaceDrawing_Command(FlowUndoCommand):
     def redo_(self):
         self.flow_view.add_drawing(self.drawing, self.drawing_obj_pos)
 
-
+class SelectComponents_Command(FlowUndoCommand):
+    def __init__(self, flow_view, new_items, prev_items):
+        super().__init__(flow_view)
+        self.items = new_items
+        self.prev_items = prev_items
+        
+    def redo_(self):
+        self.do_select(self.items, self.prev_items)
+    
+    def undo_(self):
+        self.do_select(self.prev_items, self.items)
+        
+    def do_select(self, new_items, prev_items):
+        self.flow_view._disconnect_on_selection()
+        for item in prev_items:
+            if item.ItemIsSelectable:
+                item.setSelected(False)
+        # select_items reconnects the event
+        self.flow_view.select_items(new_items)
+        
 class RemoveComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, items):
         super().__init__(flow_view)
 
         self.items = items
+        self.selection = flow_view._current_selected
         self.broken_connections = (
             set()
         )  # the connections that go beyond the removed nodes and need to be restored in undo
@@ -175,6 +211,10 @@ class RemoveComponents_Command(FlowUndoCommand):
         # add connections
         self.restore_broken_connections()
         self.restore_internal_connections()
+        
+        # removing the items means something was probably selected
+        # restore the selection
+        self.flow_view.select_items(self.selection)
 
     def redo_(self):
         # remove connections

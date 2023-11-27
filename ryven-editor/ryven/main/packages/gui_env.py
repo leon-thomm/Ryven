@@ -64,7 +64,7 @@ def node_gui(node_cls: Type[Node]):
         
         node_cls.GUI = gui_cls
         __explicit_nodes.add(node_cls)
-        InfoMsgs.write(f"Registered node gui: {node_cls} for {gui_cls}")
+        InfoMsgs.write(f"Registered node gui: {gui_cls} for {node_cls}")
         # legacy
         GuiClassesRegistry.exported_guis.append(gui_cls)
         GuiClassesRegistry.exported_guis_sources.append(inspect.getsource(gui_cls))
