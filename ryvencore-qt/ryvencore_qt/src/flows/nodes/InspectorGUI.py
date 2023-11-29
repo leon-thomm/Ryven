@@ -157,7 +157,6 @@ class NodeInspectorWidget(QWidget):
         self.description_area.setText(
             f"""Title: {node.title}, Version: {node.version}
                 
-Description:
-            {desc}
+Description:\n{node.__doc__ if node.__doc__ else "No description provided"}
             """
         )
