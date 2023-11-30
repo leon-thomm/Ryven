@@ -1119,6 +1119,9 @@ class FlowView(GUIBase, QGraphicsView):
 
         item.out_item.port_connected()
         item.inp_item.port_connected()
+        # for updating the visual state
+        for i in c:
+            self.node_items[i.node].update()
 
     def _add_connection_item(self, item: ConnectionItem):
         self._set_selection_mode(_SelectionMode.INSTANT)
@@ -1134,7 +1137,9 @@ class FlowView(GUIBase, QGraphicsView):
 
         item.out_item.port_disconnected()
         item.inp_item.port_disconnected()
-
+        # for updating the visual state
+        for i in c:
+            self.node_items[i.node].update()
         del self.connection_items[c]
 
     def _remove_connection_item(self, item: ConnectionItem):

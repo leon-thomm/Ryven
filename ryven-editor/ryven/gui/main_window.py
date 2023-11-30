@@ -142,7 +142,11 @@ The editor console can still be used for commands.
 
         self.resize(1500, 800)  # FIXME: this renders the --geometry argument useless, no?
         # self.showMaximized()
-
+    
+    def closeEvent(self, event):
+        for flow_ui in self.flow_UIs.values():
+            flow_ui.unload()
+        
     def print_info(self):
         print(
             '''

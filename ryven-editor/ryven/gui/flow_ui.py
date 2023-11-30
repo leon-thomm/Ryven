@@ -108,6 +108,7 @@ class FlowUI(QMainWindow):
     def unload(self):
         """Disconnects the flow ui from the design or main application signals"""
         self.flow_view.design.performance_mode_changed.disconnect(self.set_performance_mode)
+        self.flow_view._undo_stack.clear()
 
     def set_performance_mode(self, mode: str):
         if mode == 'fast':

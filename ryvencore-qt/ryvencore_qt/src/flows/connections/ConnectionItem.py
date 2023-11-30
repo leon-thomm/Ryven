@@ -44,8 +44,9 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         self.setFlag(QGraphicsItem.ItemIsSelectable)
 
         diam = 10
+        self.num_dots = 40
         self.dots = [
-            QGraphicsEllipseItem(-diam / 2, -diam / 2, diam, diam, self) for i in range(50)
+            QGraphicsEllipseItem(-diam / 2, -diam / 2, diam, diam, self) for i in range(40)
         ]
         for dot in self.dots:
             dot.setVisible(False)
@@ -316,7 +317,7 @@ class DotListAnimator:
             return
 
         path_len = self.connection.path().length()
-        num_points = max(3, min(50, int(path_len / self.between)))
+        num_points = max(3, min(self.connection.num_dots, int(path_len / self.between)))
 
         self.timeline.setDuration(path_len / self.speed)
         self.visible_items = []
