@@ -2,14 +2,21 @@
 from typing import Type, List
 from qtpy.QtCore import QPointF, Qt, QTimeLine, QState
 from qtpy.QtGui import QPainter, QColor, QRadialGradient, QPainterPath, QPen, QBrush
-from qtpy.QtWidgets import QGraphicsPathItem, QGraphicsItem, QStyleOptionGraphicsItem, QGraphicsEllipseItem, QGraphicsItemAnimation
+from qtpy.QtWidgets import (
+    QGraphicsPathItem,
+    QGraphicsItem,
+    QStyleOptionGraphicsItem,
+    QGraphicsEllipseItem,
+    QGraphicsItemAnimation,
+)
 
 from ...GUIBase import GUIBase
 from ...utils import sqrt
 from ...utils import pythagoras
 
 from ...flows.nodes.PortItem import PortItem
-    
+
+
 class ConnectionItem(GUIBase, QGraphicsPathItem):
     """The GUI representative for a connection. The classes ExecConnectionItem and DataConnectionItem will be ready
     for reimplementation later, so users can add GUI for the enhancements of DataConnection and ExecConnection,
@@ -35,42 +42,41 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         # for rendering flow pictures
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
         self.setFlag(QGraphicsItem.ItemIsSelectable)
-        
-        diam = 15
-        self.dots = [QGraphicsEllipseItem(-diam/2, -diam/2, diam, diam, self) for i in range(50)]
+
+        diam = 10
+        self.dots = [
+            QGraphicsEllipseItem(-diam / 2, -diam / 2, diam, diam, self) for i in range(50)
+        ]
         for dot in self.dots:
-            dot.setZValue(-2)
-            dot.setFlags(
-                QGraphicsItem.ItemIsMovable
-            )
             dot.setVisible(False)
-        
-        self.setZValue(-1)
+
         self.item_animator = DotListAnimator(self.dots, self)
-        
+
         self.recompute()
 
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget):
-        # jut the path
+        # draw path
         painter.setBrush(self.brush())
         painter.setPen(self.pen())
         painter.drawPath(self.path())
-        
-        
         # return super().paint(painter, option, widget)
 
     def recompute(self):
         """Updates scene position and recomputes path, pen, gradient and dots"""
         # dots
         self.item_animator.recompute()
-            
+
         # position
         self.setPos(self.out_pos())
 
         # path
         p1 = QPointF(self.out_item.pin.width_no_padding() * 0.5, 0)
-        p2 = self.inp_pos() - self.scenePos() - QPointF(self.inp_item.pin.width_no_padding() * 0.5, 0)
-        
+        p2 = (
+            self.inp_pos()
+            - self.scenePos()
+            - QPointF(self.inp_item.pin.width_no_padding() * 0.5, 0)
+        )
+
         self.setPath(self.connection_path(p1, p2))
 
         # pen
@@ -119,15 +125,12 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         return self.inp_item.pin.get_scene_center_pos()
 
     def itemChange(self, change, value):
-        if change == QGraphicsItem.ItemSelectedHasChanged or (change == QGraphicsItem.ItemVisibleHasChanged and self.isVisible()):
+        if change == QGraphicsItem.ItemSelectedHasChanged or (
+            change == QGraphicsItem.ItemVisibleHasChanged and self.isVisible()
+        ):
             self.set_highlighted(self.isSelected())
         return QGraphicsItem.itemChange(self, change, value)
 
-    def mouseReleaseEvent(self, event) -> None:
-        
-        self.item_animator.toggle()
-        return super().mouseReleaseEvent(event)
-    
     def set_highlighted(self, b: bool):
         pen: QPen = self.pen()
 
@@ -144,10 +147,10 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
     def pen_width(self) -> int:
         pass
-    
+
     def get_style_color(self):
         pass
-    
+
     def flow_theme(self):
         return self.session_design.flow_theme
 
@@ -185,7 +188,7 @@ class ExecConnectionItem(ConnectionItem):
         pen.setStyle(theme.exec_conn_pen_style)
         pen.setCapStyle(Qt.RoundCap)
         return pen
-    
+
     def get_style_color(self):
         return self.flow_theme().exec_conn_color
 
@@ -200,7 +203,7 @@ class DataConnectionItem(ConnectionItem):
         pen.setStyle(theme.data_conn_pen_style)
         pen.setCapStyle(Qt.RoundCap)
         return pen
-    
+
     def get_style_color(self):
         return self.flow_theme().data_conn_color
 
@@ -242,30 +245,40 @@ def default_cubic_connection_path(p1: QPointF, p2: QPointF):
 
     return path
 
+
 class DotListAnimator:
-    
-    def __init__(self, items: List[QGraphicsItem], connection: ConnectionItem, frames = 100, duration = 2500, between = 125):
+    """Animates items over the path"""
+    def __init__(
+        self,
+        items: List[QGraphicsItem],
+        connection: ConnectionItem,
+        frames=100,
+        duration=2500,
+        between=125,
+        speed=0.15,
+    ):
         self.items = items
         self.connection = connection
         self._frames = frames
         self._duration = duration
         self.between = between
-        
+        self.speed = speed
+
         self.timeline = QTimeLine(duration)
         self.timeline.setFrameRange(0, frames)
         self.timeline.setCurveShape(QTimeLine.LinearCurve)
         self.timeline.valueChanged.connect(self.update_items)
         self.timeline.setLoopCount(0)
-    
+
     @property
     def duration(self):
         return self.duration
-    
+
     @duration.setter
     def duration(self, new_duration):
         self._duration = new_duration
         self.timeline.setDuration(new_duration)
-    
+
     @property
     def frames(self):
         return self.frames
@@ -274,7 +287,14 @@ class DotListAnimator:
     def frames(self, new_frames):
         self.frames = new_frames
         self.timeline.setFrameRange(0, new_frames)
-    
+
+    def update_items(self, percent):
+        for item, item_percent in self.visible_items:
+            p = percent + item_percent
+            if p > 1:
+                p = p - 1
+            item.setPos(self.connection.path().pointAtPercent(p))
+
     def toggle(self):
         state = self.timeline.state()
         if state == QTimeLine.NotRunning:
@@ -284,33 +304,27 @@ class DotListAnimator:
         else:
             self.timeline.setPaused(True)
         self.recompute()
-    
+
     def recompute(self):
-        path_len = self.connection.path().length()
-        num_points = max(3, min(50, int(path_len / self.between)))
-        
-        speed = 0.15
-        self.timeline.setDuration(path_len / speed)
-        self.visible_items = []
         for item in self.items:
             item.setVisible(False)
-        
-        if self.timeline.state() == QTimeLine.NotRunning | QTimeLine.Paused:
+
+        if (
+            self.timeline.state() == QTimeLine.State.NotRunning
+            or self.timeline.state() == QTimeLine.State.Paused
+        ):
             return
-        
+
+        path_len = self.connection.path().length()
+        num_points = max(3, min(50, int(path_len / self.between)))
+
+        self.timeline.setDuration(path_len / self.speed)
+        self.visible_items = []
+
         for i in range(num_points + 1):
             percent = i / num_points
-            item = self.items[i-1]
+            item = self.items[i - 1]
             self.visible_items.append((item, percent))
             item.setVisible(True)
             item.setPen(QPen(self.connection.get_style_color(), self.connection.pen_width()))
             item.setBrush(QBrush(self.connection.get_style_color()))
-            
-    def update_items(self, percent):
-        for item, item_percent in self.visible_items:
-            p = percent + item_percent
-            if p > 1:
-                p = p -1
-            item.setPos(self.connection.path().pointAtPercent(p))
-    
-        

@@ -349,9 +349,10 @@ class FlowView(GUIBase, QGraphicsView):
             ni.widget.rebuild_ui()
 
         # TODO: repaint background. how?
-        self.viewport().update()
-        self.scene().update(self.sceneRect())
-
+        # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QGraphicsView.html#PySide2.QtWidgets.PySide2.QtWidgets.QGraphicsView.resetCachedContent
+        self.resetCachedContent()
+        self.update()
+        
     def _perf_mode_changed(self, mode):
         # set widget value update rule for port inputs, because this takes up quite a bit of performance
         update_widget_value = mode == 'pretty'
@@ -711,6 +712,8 @@ class FlowView(GUIBase, QGraphicsView):
 
     # PAINTING
     def drawBackground(self, painter, rect):
+        self.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
+        QGraphicsView.drawBackground(self, painter, rect)
         painter.setBrush(self.session_gui.design.flow_theme.flow_background_brush)
         painter.drawRect(rect.intersected(self.sceneRect()))
         painter.setPen(Qt.NoPen)
@@ -1122,7 +1125,7 @@ class FlowView(GUIBase, QGraphicsView):
         self.connection_items[item.connection] = item
         self.scene().addItem(item)
         item.recompute()
-        item.setZValue(10)
+        item.setZValue(-1)
         # self.viewport().repaint()
 
     def remove_connection(self, c: Tuple[NodeOutput, NodeInput]):
