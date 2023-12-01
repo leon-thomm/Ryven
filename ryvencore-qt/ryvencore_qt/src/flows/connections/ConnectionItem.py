@@ -1,21 +1,22 @@
 # import math
 from typing import Type, List
-from qtpy.QtCore import QPointF, Qt, QTimeLine, QState
+from qtpy.QtCore import QPointF, Qt, QTimeLine, QPropertyAnimation, QParallelAnimationGroup, QAbstractAnimation
 from qtpy.QtGui import QPainter, QColor, QRadialGradient, QPainterPath, QPen, QBrush
 from qtpy.QtWidgets import (
     QGraphicsPathItem,
     QGraphicsItem,
     QStyleOptionGraphicsItem,
     QGraphicsEllipseItem,
-    QGraphicsItemAnimation,
+    QGraphicsObject,
 )
 
-from ...GUIBase import GUIBase, PrettyName
+from ...GUIBase import GUIBase, PrettyName, QGraphicsItemWrapper
 from ...utils import sqrt
 from ...utils import pythagoras
 
 from ...flows.nodes.PortItem import PortItem
 
+from enum import Enum
 
 class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
     """The GUI representative for a connection. The classes ExecConnectionItem and DataConnectionItem will be ready
@@ -51,7 +52,8 @@ class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
         for dot in self.dots:
             dot.setVisible(False)
 
-        self.item_animator = DotListAnimator(self.dots, self)
+        self.items_animation = ConnectionItemsAnimation(self.dots, self)
+        self.connection_animation = ConnectionAnimation(self.items_animation)
 
         self.recompute()
 
@@ -62,7 +64,7 @@ class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
         node_out_name = out.node.gui.item.pretty_name(detail)
         node_out_index = out.node.outputs.index(out)
         return f'{node_out_index}->{node_in_index} ({node_out_name}, {node_in_name})'
-        
+
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget):
         # draw path
         painter.setBrush(self.brush())
@@ -73,7 +75,7 @@ class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
     def recompute(self):
         """Updates scene position and recomputes path, pen, gradient and dots"""
         # dots
-        self.item_animator.recompute()
+        self.items_animation.recompute()
 
         # position
         self.setPos(self.out_pos())
@@ -172,6 +174,8 @@ class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
             self.set_highlighted(False)
         super().hoverLeaveEvent(event)
 
+    def mouseReleaseEvent(self, event) -> None:
+        self.connection_animation.toggle()
     @staticmethod
     def dist(p1: QPointF, p2: QPointF) -> float:
         """Returns the diagonal distance between the points using pythagoras"""
@@ -255,8 +259,9 @@ def default_cubic_connection_path(p1: QPointF, p2: QPointF):
     return path
 
 
-class DotListAnimator:
+class ConnectionItemsAnimation(QGraphicsObject):
     """Animates items over the path"""
+
     def __init__(
         self,
         items: List[QGraphicsItem],
@@ -266,18 +271,24 @@ class DotListAnimator:
         between=125,
         speed=0.15,
     ):
-        self.items = items
+        super().__init__()
+        
+        self.items:List[QGraphicsItemWrapper] = [QGraphicsItemWrapper(item, self) for item in items]
         self.connection = connection
         self._frames = frames
         self._duration = duration
         self.between = between
         self.speed = speed
-
+        self.visible_items = []
+        
+        self.setParentItem(self.connection)
+            
         self.timeline = QTimeLine(duration)
         self.timeline.setFrameRange(0, frames)
         self.timeline.setCurveShape(QTimeLine.LinearCurve)
         self.timeline.valueChanged.connect(self.update_items)
         self.timeline.setLoopCount(0)
+        
 
     @property
     def duration(self):
@@ -297,6 +308,12 @@ class DotListAnimator:
         self.frames = new_frames
         self.timeline.setFrameRange(0, new_frames)
 
+    def boundingRect(self):
+        return self.connection.boundingRect()
+    
+    def paint(self, painter, option, widget):
+        pass
+    
     def update_items(self, percent):
         for item, item_percent in self.visible_items:
             p = percent + item_percent
@@ -304,15 +321,41 @@ class DotListAnimator:
                 p = p - 1
             item.setPos(self.connection.path().pointAtPercent(p))
 
-    def toggle(self):
+    def toggle(self, recompute: bool = False):
+        """Toggles the path animation. Returns True if toggled on, otherwise False"""
         state = self.timeline.state()
+        running = False
         if state == QTimeLine.NotRunning:
             self.timeline.start()
+            running = True
         elif state == QTimeLine.Paused:
             self.timeline.resume()
+            running = True
         else:
+            running = False
             self.timeline.setPaused(True)
-        self.recompute()
+        
+        if recompute:
+            self.recompute()
+        return running
+    
+    def state(self):
+        return self.timeline.state()
+        
+    def start(self, recompute: bool = True):
+        self.timeline.start()
+        if recompute:
+            self.recompute()
+
+    def setPaused(self, paused: bool, recompute: bool = True):
+        self.timeline.setPaused(paused)
+        if recompute:
+            self.recompute()
+
+    def stop(self, recompute: bool = True):
+        self.timeline.stop()
+        if recompute:
+            self.recompute()
 
     def recompute(self):
         for item in self.items:
@@ -320,7 +363,6 @@ class DotListAnimator:
 
         if (
             self.timeline.state() == QTimeLine.State.NotRunning
-            or self.timeline.state() == QTimeLine.State.Paused
         ):
             return
 
@@ -335,5 +377,74 @@ class DotListAnimator:
             item = self.items[i - 1]
             self.visible_items.append((item, percent))
             item.setVisible(True)
-            item.setPen(QPen(self.connection.get_style_color(), self.connection.pen_width()))
-            item.setBrush(QBrush(self.connection.get_style_color()))
+            item.item.setPen(QPen(self.connection.get_style_color(), self.connection.pen_width()))
+            item.item.setBrush(QBrush(self.connection.get_style_color()))
+
+
+class ConnectionAnimation:
+    """
+    Displays an output update by animating items over the path.
+    This is toggle-able only
+    """
+    class State(Enum):
+        TO_SCALE = 1
+        TO_ZERO = 2
+        
+    
+    def __init__(
+        self, items_animation: ConnectionItemsAnimation, duration: int = 750, scale: int = 1
+    ) -> None:
+        self.con_items_anim = items_animation
+        self.duration = duration
+        self.scalar = scale
+        self.to_scalar_group = QParallelAnimationGroup()
+        self.to_zero_group = QParallelAnimationGroup()
+        self.running = False
+        
+        for item in self.con_items_anim.items:
+            item.setScale(0)
+            # to scaler
+            to_scalar_anim = QPropertyAnimation(item, b'scale')
+            to_scalar_anim.setDuration(self.duration)
+            self.to_scalar_group.addAnimation(to_scalar_anim)
+            # to zero
+            to_zero_anim = QPropertyAnimation(item, b'scale')
+            to_zero_anim.setDuration(self.duration)
+            self.to_zero_group.addAnimation(to_zero_anim)
+
+        self.to_scalar_group.stateChanged.connect(self.__on_scalar_started)
+        self.to_zero_group.stateChanged.connect(self.__on_zero_ended)
+        
+    def toggle(self):
+        was_scalar_running = self.to_scalar_group.state() == QAbstractAnimation.Running
+        was_zero_running = self.to_zero_group.state() == QAbstractAnimation.Running
+        was_connection_running = self.con_items_anim.timeline.state() == QAbstractAnimation.Running
+        self.__stop()
+        
+        if not was_scalar_running and not was_zero_running:
+            self.__run_animation(self.to_scalar_group, self.scalar)
+        else:
+            self.__run_animation(self.to_zero_group, 0)
+    
+    def __stop(self):
+        self.to_zero_group.stop()
+        self.to_scalar_group.stop()
+    
+    def __run_animation(self, group: QParallelAnimationGroup, end_value):
+        for i in range(group.animationCount()):
+            anim: QPropertyAnimation = group.animationAt(i)
+            target: QGraphicsItem = anim.targetObject()
+            anim.setKeyValues([(0, target.scale()), (1, end_value)])
+        group.start()
+    
+    def __on_scalar_started(self, new_state: QAbstractAnimation.State, old_state: QAbstractAnimation.State):
+        if new_state == QAbstractAnimation.State.Running:
+            if self.con_items_anim.state() == QAbstractAnimation.Stopped:
+                self.con_items_anim.start()
+            else:
+                self.con_items_anim.setPaused(False)
+    
+    def __on_zero_ended(self, new_state: QAbstractAnimation.State, old_state: QAbstractAnimation.State):
+        if new_state == QAbstractAnimation.State.Stopped:
+            self.con_items_anim.setPaused(True)
+    
