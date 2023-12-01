@@ -194,6 +194,12 @@ class FlowView(GUIBase, QGraphicsView):
         self.scene_rect_width = self.mapFromScene(self.sceneRect()).boundingRect().width()
         self.scene_rect_height = self.mapFromScene(self.sceneRect()).boundingRect().height()
 
+        # for proper background painting
+        # we could probably use the no cache flag
+        on_pan = lambda scroll: self.resetCachedContent()
+        self.horizontalScrollBar().valueChanged.connect(on_pan)
+        self.verticalScrollBar().valueChanged.connect(on_pan)
+        
         # NODE LIST WIDGET
         self._node_list_widget = NodeListWidget(self.session_gui)
         self._node_list_widget.setMinimumWidth(260)
@@ -348,7 +354,6 @@ class FlowView(GUIBase, QGraphicsView):
         for n, ni in self.node_items.items():
             ni.widget.rebuild_ui()
 
-        # TODO: repaint background. how?
         # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QGraphicsView.html#PySide2.QtWidgets.PySide2.QtWidgets.QGraphicsView.resetCachedContent
         self.resetCachedContent()
         self.update()
@@ -712,10 +717,7 @@ class FlowView(GUIBase, QGraphicsView):
 
     # PAINTING
     def drawBackground(self, painter, rect):
-        self.setViewportUpdateMode(QGraphicsView.FullViewportUpdate)
-        QGraphicsView.drawBackground(self, painter, rect)
         painter.setBrush(self.session_gui.design.flow_theme.flow_background_brush)
-        painter.drawRect(rect.intersected(self.sceneRect()))
         painter.setPen(Qt.NoPen)
         painter.drawRect(self.sceneRect())
 
@@ -732,8 +734,10 @@ class FlowView(GUIBase, QGraphicsView):
                     pen.setWidthF(pen_width)
                     painter.setPen(pen)
 
-                    for x in range(diff_x, self.sceneRect().toRect().width(), diff_x):
-                        for y in range(diff_y, self.sceneRect().toRect().height(), diff_y):
+                    points_rect = rect.toRect()
+                    top_left = points_rect.topLeft()
+                    for x in range(diff_x + top_left.x(), points_rect.width() + top_left.x(), diff_x):
+                        for y in range(diff_y + top_left.y(), points_rect.height() + top_left.y(), diff_y):
                             painter.drawPoint(x, y)
 
         # has to be called here instead of in drawForeground to prevent lagging
