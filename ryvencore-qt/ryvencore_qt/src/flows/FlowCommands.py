@@ -13,6 +13,13 @@ from ryvencore.NodePort import NodePort, NodeInput, NodeOutput
 from ryvencore.Flow import Flow
 from .connections.ConnectionItem import ConnectionItem
 
+def undo_text_multi(items:list, command: str, get_text):
+    if len(items) == 1:
+        return f'{command} {get_text(items[0]) if get_text else items[0]}'
+    elif len(items) == 0:
+        return f'Clear-{command}'
+    else:
+        return f'Multi-{command}'
 
 class FlowUndoCommand(QObject, QUndoCommand):
     """
@@ -56,6 +63,7 @@ class Nested_Command(FlowUndoCommand):
     def __init__(self, flow_view, *args):
         super().__init__(flow_view)
         self.commands = [arg for arg in args]
+        self.setText('Nested Command')
 
     def undo_(self):
         for command in self.commands:
@@ -94,6 +102,7 @@ class MoveComponents_Command(FlowUndoCommand):
         self.p_from = p_from
         self.p_to = p_to
         self.last_item_group_pos = p_to
+        self.setText(undo_text_multi(self.items_list, 'Move'))
 
     def undo_(self):
         items_group = self.items_group()
@@ -124,6 +133,7 @@ class PlaceNode_Command(FlowUndoCommand):
         self.node_class = node_class
         self.node = None
         self.item_pos = pos
+        self.setText(f'Create {self.node_class.title}')
 
     def undo_(self):
         self.flow.remove_node(self.node)
@@ -142,6 +152,7 @@ class PlaceDrawing_Command(FlowUndoCommand):
         self.drawing = drawing
         self.drawing_obj_place_pos = posF
         self.drawing_obj_pos = self.drawing_obj_place_pos
+        self.setText(f'Drawing')
 
     def undo_(self):
         # The drawing_obj_pos is not anymore the drawing_obj_place_pos because after the
@@ -160,6 +171,7 @@ class SelectComponents_Command(FlowUndoCommand):
         super().__init__(flow_view)
         self.items = new_items
         self.prev_items = prev_items
+        self.setText(undo_text_multi(self.items, 'Select'))
         
     def redo_(self):
         self.do_select(self.items, self.prev_items)
@@ -178,9 +190,10 @@ class SelectComponents_Command(FlowUndoCommand):
 class RemoveComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, items):
         super().__init__(flow_view)
-
         self.items = items
         self.selection = flow_view._current_selected
+        self.setText(undo_text_multi(self.items, 'Delete'))
+        
         self.broken_connections = (
             set()
         )  # the connections that go beyond the removed nodes and need to be restored in undo
@@ -278,6 +291,8 @@ class ConnectPorts_Command(FlowUndoCommand):
         self.inp = inp
         self.connection = None
         self.connecting = True
+        
+        self.setText(f'Connection [{self.out.node.__class__.title} ->{self.inp.node.__class__.title}]')
 
         for i in flow_view.flow.connected_inputs(out):
             if i == self.inp:
@@ -311,6 +326,7 @@ class Paste_Command(FlowUndoCommand):
         self.data = data
         self.modify_data_positions(offset_for_middle_pos)
         self.pasted_components = None
+        self.setText('Paste')
 
     def modify_data_positions(self, offset):
         """adds the offset to the components' positions in data"""

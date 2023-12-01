@@ -8,6 +8,7 @@ from qtpy.QtWidgets import (
     QHBoxLayout,
     QTabWidget,
     QDockWidget,
+    QUndoView
 )
 from qtpy.QtCore import Qt, QByteArray
 
@@ -92,6 +93,9 @@ class FlowUI(QMainWindow):
         self.inspector_widget = InspectorWidget(self.flow_view)
         self.ui.inspector_dock.setWidget(self.inspector_widget)
         
+        #undo history widget
+        self.undo_widget = QUndoView(self.flow_view._undo_stack)
+        self.ui.undo_history_dock.setWidget(self.undo_widget)
         # logs
         self.ui.logs_scrollArea.setWidget(self.create_loggers_widget())
 
