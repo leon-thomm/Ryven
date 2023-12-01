@@ -1,6 +1,17 @@
 from ryvencore.Base import Base
 
 
+class PrettyName:
+    """Interface for representing an object by string"""
+    
+    @staticmethod
+    def generate_name(obj, name: str, detail: bool):
+        return f'{name}:[{id(obj)}]' if detail else name
+    
+    def pretty_name(self, detail: bool = False):
+        """abstract function for name inspection"""
+        pass
+    
 class GUIBase:
     """Base class for GUI items that represent specific core components"""
 

@@ -7,7 +7,7 @@ from qtpy.QtGui import QColor
 
 from .NodeErrorIndicator import NodeErrorIndicator
 from .NodeGUI import NodeGUI
-from ...GUIBase import GUIBase
+from ...GUIBase import GUIBase, PrettyName
 from ryvencore.NodePort import NodeInput, NodeOutput
 from .NodeItemAction import NodeItemAction
 from .NodeItemAnimator import NodeItemAnimator
@@ -17,7 +17,7 @@ from ...utils import serialize, deserialize
 from ...utils import MovementEnum
 
 
-class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
+class NodeItem(GUIBase, PrettyName, QGraphicsObject):  # QGraphicsItem, QObject):
     """The GUI representative for nodes. Unlike the Node class, this class is not subclassed individually and works
     the same for every node."""
 
@@ -133,6 +133,11 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
 
         self.update()  # ... not sure if I need that
 
+    def pretty_name(self, detail: bool = False):
+        name = self.node.__class__.title if self.node else f'{NodeItem.__name__}'
+        obj = self.node if self.node else self
+        return PrettyName.generate_name(self, name, detail)
+    
     # UI STUFF
 
     def node_updating(self):

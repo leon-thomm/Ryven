@@ -12,14 +12,23 @@ from typing import Tuple
 from ryvencore.NodePort import NodePort, NodeInput, NodeOutput
 from ryvencore.Flow import Flow
 from .connections.ConnectionItem import ConnectionItem
+from ..GUIBase import PrettyName
 
-def undo_text_multi(items:list, command: str, get_text):
+def undo_text_multi(items:list, command: str, get_text=None):
+    """Generates a text for an undo command that has zero, one or multiple items"""
+    
+    gt = get_text if get_text else get_text_default
     if len(items) == 1:
-        return f'{command} {get_text(items[0]) if get_text else items[0]}'
+        return f'{command} {gt(items[0]) if gt else items[0]}'
     elif len(items) == 0:
         return f'Clear-{command}'
     else:
         return f'Multi-{command}'
+
+def get_text_default(obj):
+    """Default function for the undo text"""
+    
+    return obj.pretty_name(True) if isinstance(obj, PrettyName) else str(obj)
 
 class FlowUndoCommand(QObject, QUndoCommand):
     """
@@ -75,24 +84,23 @@ class Nested_Command(FlowUndoCommand):
 
 class Delegate_Command(FlowUndoCommand):
     """
-    Event-driven undo command. Any event given should be 
-    a tuple of two parameterless functions, i.e (<undo>, <redo>)
+    Event-driven undo command.
     """
-    def __init__(self, flow_view, *events):
+    def __init__(self, flow_view, text: str, undo: tuple, redo: tuple):
         super().__init__(flow_view)
-        self.__events: list[Tuple] = [e for e in events]
+        self.setText(text)
+        self._undo_event = undo
+        self._redo_event = redo
     
     @property
     def events(self):
         return self.__events
     
     def undo_(self):
-        for undo, _ in self.__events:
-            undo()
+        self._undo_event()
 
     def redo_(self):
-        for _, redo in self.__events:
-            redo()
+        self._redo_event()
         
 class MoveComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, items_list, p_from, p_to):
@@ -133,7 +141,6 @@ class PlaceNode_Command(FlowUndoCommand):
         self.node_class = node_class
         self.node = None
         self.item_pos = pos
-        self.setText(f'Create {self.node_class.title}')
 
     def undo_(self):
         self.flow.remove_node(self.node)
@@ -143,6 +150,7 @@ class PlaceNode_Command(FlowUndoCommand):
             self.flow.add_node(self.node)
         else:
             self.node = self.flow.create_node(self.node_class)
+        self.setText(f'Create {self.node.gui.item.pretty_name(True)}')
 
 
 class PlaceDrawing_Command(FlowUndoCommand):
@@ -152,7 +160,6 @@ class PlaceDrawing_Command(FlowUndoCommand):
         self.drawing = drawing
         self.drawing_obj_place_pos = posF
         self.drawing_obj_pos = self.drawing_obj_place_pos
-        self.setText(f'Drawing')
 
     def undo_(self):
         # The drawing_obj_pos is not anymore the drawing_obj_place_pos because after the
@@ -165,6 +172,7 @@ class PlaceDrawing_Command(FlowUndoCommand):
 
     def redo_(self):
         self.flow_view.add_drawing(self.drawing, self.drawing_obj_pos)
+        self.setText(self.drawing.pretty_name(True))
 
 class SelectComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, new_items, prev_items):
@@ -291,8 +299,6 @@ class ConnectPorts_Command(FlowUndoCommand):
         self.inp = inp
         self.connection = None
         self.connecting = True
-        
-        self.setText(f'Connection [{self.out.node.__class__.title} ->{self.inp.node.__class__.title}]')
 
         for i in flow_view.flow.connected_inputs(out):
             if i == self.inp:
@@ -314,10 +320,13 @@ class ConnectPorts_Command(FlowUndoCommand):
             else:
                 # connection hasn't been created yet
                 self.connection = self.flow.connect_nodes(self.out, self.inp)
+            self.setText(f'Connect {self.flow_view.connection_items[self.connection].pretty_name(True)}')
+            
         else:
             # remove existing connection
+            self.setText(f'Disconnect {self.flow_view.connection_items[self.connection].pretty_name(True)}')
             self.flow.remove_connection(self.connection)
-
+        
 
 class Paste_Command(FlowUndoCommand):
     def __init__(self, flow_view, data, offset_for_middle_pos):

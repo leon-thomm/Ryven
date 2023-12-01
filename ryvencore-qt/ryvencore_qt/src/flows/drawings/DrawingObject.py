@@ -1,11 +1,11 @@
 from qtpy.QtWidgets import QGraphicsItem
 from qtpy.QtGui import QPen, QPainter, QColor, QPainterPath
 from qtpy.QtCore import Qt, QRectF, QPointF, QLineF
-
+from ....src.GUIBase import PrettyName
 from ...utils import MovementEnum
 
 
-class DrawingObject(QGraphicsItem):
+class DrawingObject(QGraphicsItem, PrettyName):
     """GUI implementation for 'drawing objects' in the scene, written by hand using a stylus pen"""
 
     def __init__(self, flow_view, load_data=None):
@@ -56,7 +56,9 @@ class DrawingObject(QGraphicsItem):
         self.color = QColor(load_data['color'])
         self.base_stroke_weight = load_data['base stroke weight']
 
-
+    def pretty_name(self, detail: bool = False):
+        return PrettyName.generate_name(self, 'Drawing', detail)
+    
     def paint(self, painter, option, widget=None):
 
         if not self.finished:

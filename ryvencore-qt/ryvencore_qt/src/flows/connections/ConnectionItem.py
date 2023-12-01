@@ -10,14 +10,14 @@ from qtpy.QtWidgets import (
     QGraphicsItemAnimation,
 )
 
-from ...GUIBase import GUIBase
+from ...GUIBase import GUIBase, PrettyName
 from ...utils import sqrt
 from ...utils import pythagoras
 
 from ...flows.nodes.PortItem import PortItem
 
 
-class ConnectionItem(GUIBase, QGraphicsPathItem):
+class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
     """The GUI representative for a connection. The classes ExecConnectionItem and DataConnectionItem will be ready
     for reimplementation later, so users can add GUI for the enhancements of DataConnection and ExecConnection,
     like input fields for weights."""
@@ -55,6 +55,14 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
         self.recompute()
 
+    def pretty_name(self, detail: bool = False):
+        out, inp = self.connection
+        node_in_name = inp.node.gui.item.pretty_name(detail)
+        node_in_index = inp.node.inputs.index(inp)
+        node_out_name = out.node.gui.item.pretty_name(detail)
+        node_out_index = out.node.outputs.index(out)
+        return f'{node_out_index}->{node_in_index} ({node_out_name}, {node_in_name})'
+        
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget):
         # draw path
         painter.setBrush(self.brush())
