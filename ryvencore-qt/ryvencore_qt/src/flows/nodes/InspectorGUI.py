@@ -132,6 +132,10 @@ class NodeInspector(BaseNodeInspector):
 class NodeInspectorWidget(QWidget):
     """The basic implementation widget"""
 
+    @staticmethod
+    def __big_bold_text(txt: str):
+        return f'<b><bold>{txt}</bold></b>'
+    
     def __init__(self):
         super().__init__()
         self.setLayout(QVBoxLayout())
@@ -149,14 +153,21 @@ class NodeInspectorWidget(QWidget):
 
     def populate(self, node: Node, node_item: NodeItem):
         # self.title_label.setText(node_item.widget.title_label.title_str)
-        self.title_label.setText(node.title)
+        self.title_label.setText(f'<h2>{node.title}</h2> <h4>id: {node.global_id}, pyid: {id(node)}</h4>')
         
-        desc = "No description given"
-        if hasattr(node, 'description'):
-            desc = node.description
+        desc = node.__doc__ if node.__doc__ and node.__doc__ != "" else "No description given"
+        bbt = NodeInspectorWidget.__big_bold_text
+        
         self.description_area.setText(
-            f"""Title: {node.title}, Version: {node.version}
-                
-Description:\n{node.__doc__ if node.__doc__ else "No description provided"}
-            """
+            f"""
+<html>
+    <body>
+        {bbt('Title:')} {node.title}<br>
+        {bbt('Version:')} {node.version}<br><br>
+        {bbt('Description:')}<br><br>
+        {desc}
+    </body>
+</html>
+"""
         )
+    

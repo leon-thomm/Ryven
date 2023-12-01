@@ -62,6 +62,10 @@ class FlowUI(QMainWindow):
         ]
         for i in range(1, len(right_area_widgets)):
             self.tabifyDockWidget(right_area_widgets[i - 1], right_area_widgets[i])
+        
+        # inspector dock first
+        
+        self.ui.inspector_dock.raise_()
 
         self.flow.algorithm_mode_changed.sub(self.flow_alg_mode_changed)
 
