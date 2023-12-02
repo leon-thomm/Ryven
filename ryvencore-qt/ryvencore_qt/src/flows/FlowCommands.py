@@ -84,9 +84,9 @@ class Nested_Command(FlowUndoCommand):
 
 class Delegate_Command(FlowUndoCommand):
     """
-    Event-driven undo command.
+    Event-driven undo command. Undo-redo should be parameterless functions.
     """
-    def __init__(self, flow_view, text: str, undo: tuple, redo: tuple):
+    def __init__(self, flow_view, text: str, undo, redo):
         super().__init__(flow_view)
         self.setText(text)
         self._undo_event = undo
