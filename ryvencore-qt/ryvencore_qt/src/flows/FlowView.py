@@ -937,7 +937,6 @@ class FlowView(GUIBase, QGraphicsView):
         else:  # create new item
             item = NodeItem(
                 node=node,
-                node_gui=(
                 node_gui=
                     (node.GUI if hasattr(node, 'GUI') else NodeGUI)     # use custom GUI class if available
                     ((node, self.session_gui)),                         # calls __init__ of NodeGUI class with tuple arg
