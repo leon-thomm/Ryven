@@ -38,6 +38,7 @@ from ryvencore import InfoMsgs, Flow
 
 
 class MainWindow(QMainWindow):
+
     def __init__(
         self,
         config: Config,
@@ -144,8 +145,7 @@ The editor console can still be used for commands.
         # self.showMaximized()
 
     def print_info(self):
-        print(
-            '''
+        print('''
 CONTROLS
     nodes dialog: right mouse in scene
     place nodes: drag and drop from left
@@ -154,8 +154,7 @@ CONTROLS
     pan / navigating scene: right mouse
     save: ctrl+s
     import: ctrl+i
-        '''
-        )
+        ''')
 
     # UI
 

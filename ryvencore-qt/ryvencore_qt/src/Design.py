@@ -39,9 +39,7 @@ class Design(QObject):
     def register_fonts():
         db = QFontDatabase()
         db.addApplicationFont(Location.PACKAGE_PATH + '/resources/fonts/poppins/Poppins-Medium.ttf')
-        db.addApplicationFont(
-            Location.PACKAGE_PATH + '/resources/fonts/source_code_pro/SourceCodePro-Regular.ttf'
-        )
+        db.addApplicationFont(Location.PACKAGE_PATH + '/resources/fonts/source_code_pro/SourceCodePro-Regular.ttf')
         db.addApplicationFont(Location.PACKAGE_PATH + '/resources/fonts/asap/Asap-Regular.ttf')
 
     def load_from_config(self, filepath: str):

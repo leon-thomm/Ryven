@@ -126,9 +126,8 @@ class FlowUI(QMainWindow):
     def flow_algorithm_mode_toggled(self):
         self.flow.set_algorithm_mode(
             FlowAlg.str(
-                list(self.flow_alg_mode_display_titles.keys())[
-                    self.flow_alg_mode_dropdown.currentIndex()
-                ]
+                list(self.flow_alg_mode_display_titles.keys())
+                [self.flow_alg_mode_dropdown.currentIndex()]
             )
         )
 

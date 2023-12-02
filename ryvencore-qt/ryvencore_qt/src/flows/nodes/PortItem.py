@@ -291,9 +291,7 @@ class PortItemPin(QGraphicsWidget):
             i = conn_items[c]
 
             # if the items are grouped (which means they move together), don't recompute
-            if (
-                i.out.group() is None or i.out.group() != i.inp.group()
-            ):  # not entirely sure if this is working
+            if i.out.group() is None or i.out.group() != i.inp.group():  # not entirely sure if this is working
                 i.recompute()
 
     def hoverEnterEvent(self, event):
