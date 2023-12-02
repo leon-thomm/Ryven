@@ -148,10 +148,11 @@ class FlowUI(QMainWindow):
         )
 
     # should be dict[str, str] in 3.9+
-    def save(self) -> dict:
+    def save_state(self) -> dict:
         return {
             'geometry': self.saveGeometry().toHex().data().decode(),
             'state': self.saveState().toHex().data().decode(),
+            'view': self.flow_view.save_state(),
         }
 
     # should be dict[str, dict[str, str]] in 3.9+
@@ -178,3 +179,5 @@ class FlowUI(QMainWindow):
             self.restoreGeometry(load('geometry'))
         if 'state' in flow_dict:
             self.restoreState(load('state'))
+        if 'view' in flow_dict:
+            self.flow_view.load(flow_dict['view'])

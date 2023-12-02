@@ -23,6 +23,7 @@ from qtpy.QtGui import (
     QGuiApplication,
     QFont,
     QTouchEvent,
+    QTransform,
 )
 from qtpy.QtWidgets import (
     QGraphicsView,
@@ -132,6 +133,7 @@ class FlowView(GUIBase, QGraphicsView):
         self.connection_items__cache: dict = {}
 
         # PRIVATE FIELDS
+        self._loaded_state = None # h and v scrollbars are changed on import, so we need to defer
         self._tmp_data = None
         self._selected_pin: PortItemPin = None
         self._dragging_connection = False
@@ -197,6 +199,7 @@ class FlowView(GUIBase, QGraphicsView):
         # for proper background painting
         # we could probably use the no cache flag
         on_pan = lambda scroll: self.resetCachedContent()
+        
         self.horizontalScrollBar().valueChanged.connect(on_pan)
         self.verticalScrollBar().valueChanged.connect(on_pan)
         
@@ -357,7 +360,7 @@ class FlowView(GUIBase, QGraphicsView):
         # https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/QGraphicsView.html#PySide2.QtWidgets.PySide2.QtWidgets.QGraphicsView.resetCachedContent
         self.resetCachedContent()
         self.update()
-        
+
     def _perf_mode_changed(self, mode):
         # set widget value update rule for port inputs, because this takes up quite a bit of performance
         update_widget_value = mode == 'pretty'
@@ -710,8 +713,8 @@ class FlowView(GUIBase, QGraphicsView):
                         data['node identifier'], self.session_gui.core_session.nodes
                     )
                 )
-            # without this keyPressed function isn't called if we don't click in the view    
-            self.setFocus() 
+            # without this keyPressed function isn't called if we don't click in the view
+            self.setFocus()
         except Exception:
             pass
 
@@ -736,8 +739,12 @@ class FlowView(GUIBase, QGraphicsView):
 
                     points_rect = rect.toRect()
                     top_left = points_rect.topLeft()
-                    for x in range(diff_x + top_left.x(), points_rect.width() + top_left.x(), diff_x):
-                        for y in range(diff_y + top_left.y(), points_rect.height() + top_left.y(), diff_y):
+                    for x in range(
+                        diff_x + top_left.x(), points_rect.width() + top_left.x(), diff_x
+                    ):
+                        for y in range(
+                            diff_y + top_left.y(), points_rect.height() + top_left.y(), diff_y
+                        ):
                             painter.drawPoint(x, y)
 
         # has to be called here instead of in drawForeground to prevent lagging
@@ -1295,7 +1302,7 @@ class FlowView(GUIBase, QGraphicsView):
     # SELECTION
     def _set_selection_mode(self, mode: _SelectionMode):
         self.selection_mode = mode
-        
+
     def create_selection_cmd(self):
         selected_now = self.scene().selectedItems()
         if selected_now != self._current_selected:
@@ -1352,7 +1359,7 @@ class FlowView(GUIBase, QGraphicsView):
         all_items = self.scene().items()
         if all_items != self._current_selected:
             self._push_undo(SelectComponents_Command(self, all_items, self._current_selected))
-        
+
     def _copy(self):  # ctrl+c
         data = {
             'nodes': self._get_nodes_data(self.selected_nodes()),
@@ -1437,3 +1444,39 @@ class FlowView(GUIBase, QGraphicsView):
         """generates the data for a list of drawings"""
 
         return [d.data() for d in drawings]
+
+    def save_state(self) -> dict:
+        """Save the state of the view in a json-compliant dict"""
+        transform = self.transform()
+        return {
+            'm11': transform.m11(),  # Horizontal scaling
+            'm12': transform.m12(),  # Horizontal shearing
+            'm13': transform.m13(),  # Horizontal projection
+            'm21': transform.m21(),  # Vertical shearing
+            'm22': transform.m22(),  # Vertical scaling
+            'm23': transform.m23(),  # Vertical projection
+            'm31': transform.m31(),  # Horizontal translation
+            'm32': transform.m32(),  # Vertical translation
+            'm33': transform.m33(),  # Perspective division
+            'v_scroll': self.horizontalScrollBar().value(),
+            'h_scroll': self.verticalScrollBar().value(),
+        }
+    
+    def load(self, state: dict):
+        """Load the state of the view"""
+        transform = QTransform(
+            state['m11'], state['m12'], state['m13'],
+            state['m21'], state['m22'], state['m23'],
+            state['m31'], state['m32'], state['m33']
+        )
+        
+        self.setTransform(transform)
+        self.horizontalScrollBar().setValue(state['v_scroll'])
+        self.verticalScrollBar().setValue(state['h_scroll'])
+        
+        self._loaded_state = state
+    
+    def reload(self):
+        if self._loaded_state:
+            self.load(self._loaded_state)
+        
