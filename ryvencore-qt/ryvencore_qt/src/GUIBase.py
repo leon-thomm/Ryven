@@ -1,5 +1,4 @@
 import typing
-import PySide2.QtGui
 from ryvencore.Base import Base
 from qtpy.QtCore import QPropertyAnimation
 from qtpy.QtWidgets import QGraphicsObject, QGraphicsItem
