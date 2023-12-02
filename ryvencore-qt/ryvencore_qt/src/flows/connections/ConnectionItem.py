@@ -174,8 +174,9 @@ class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
             self.set_highlighted(False)
         super().hoverLeaveEvent(event)
 
-    def mouseReleaseEvent(self, event) -> None:
-        self.connection_animation.toggle()
+    # def mouseReleaseEvent(self, event) -> None:
+    #    self.connection_animation.toggle()
+        
     @staticmethod
     def dist(p1: QPointF, p2: QPointF) -> float:
         """Returns the diagonal distance between the points using pythagoras"""
