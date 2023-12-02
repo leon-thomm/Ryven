@@ -1439,7 +1439,7 @@ class FlowTheme_Industrial(FlowTheme):
 
     def paint_PI(self, node_gui, painter, option, node_color, type_, connected, rect):
 
-        color = QColor('#FFFFFF') if type_ == 'exec' else node_color
+        color = QColor('#FFFFFF') if type_ == 'exec' else QColor(node_color)
 
         # add = 2
         # padd = padding + add
@@ -1474,7 +1474,7 @@ class FlowTheme_Industrial(FlowTheme):
 
             if connected:
                 # draw inner ellipse
-                brush = QBrush(QColor(node_color.red(), node_color.green(), node_color.blue(), 200))
+                brush = QBrush(QColor(color.red(), color.green(), color.blue(), 200))
                 painter.setBrush(brush)
                 painter.drawEllipse(inner_ellipse_rect)
 

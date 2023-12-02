@@ -44,7 +44,7 @@ class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
         self.setCacheMode(QGraphicsItem.DeviceCoordinateCache)
         self.setFlag(QGraphicsItem.ItemIsSelectable)
 
-        diam = 10
+        diam = 12.5
         self.num_dots = 40
         self.dots = [
             QGraphicsEllipseItem(-diam / 2, -diam / 2, diam, diam, self) for i in range(40)
@@ -387,8 +387,10 @@ class ConnectionAnimation:
     This is toggle-able only
     """
     class State(Enum):
-        TO_SCALE = 1
-        TO_ZERO = 2
+        NOT_RUNNING = 0
+        RUNNING = 1
+        TO_SCALE = 2
+        TO_ZERO = 3
         
     
     def __init__(
@@ -399,7 +401,7 @@ class ConnectionAnimation:
         self.scalar = scale
         self.to_scalar_group = QParallelAnimationGroup()
         self.to_zero_group = QParallelAnimationGroup()
-        self.running = False
+        self.state = ConnectionAnimation.State.NOT_RUNNING
         
         for item in self.con_items_anim.items:
             item.setScale(0)
@@ -412,24 +414,36 @@ class ConnectionAnimation:
             to_zero_anim.setDuration(self.duration)
             self.to_zero_group.addAnimation(to_zero_anim)
 
-        self.to_scalar_group.stateChanged.connect(self.__on_scalar_started)
-        self.to_zero_group.stateChanged.connect(self.__on_zero_ended)
+        self.to_scalar_group.finished.connect(self.__on_scalar_ended)
+        self.to_zero_group.finished.connect(self.__on_zero_ended)
         
     def toggle(self):
-        was_scalar_running = self.to_scalar_group.state() == QAbstractAnimation.Running
-        was_zero_running = self.to_zero_group.state() == QAbstractAnimation.Running
-        was_connection_running = self.con_items_anim.timeline.state() == QAbstractAnimation.Running
-        self.__stop()
-        
-        if not was_scalar_running and not was_zero_running:
-            self.__run_animation(self.to_scalar_group, self.scalar)
+        if self.state == ConnectionAnimation.State.NOT_RUNNING:
+            self.__run_scalar()
+            self.con_items_anim.start()
+            self.state = ConnectionAnimation.State.TO_SCALE
+        elif self.state == ConnectionAnimation.State.RUNNING:
+            self.__run_zero()
+            self.state = ConnectionAnimation.State.TO_ZERO
+        elif self.state == ConnectionAnimation.State.TO_SCALE:
+            self.to_scalar_group.stop()
+            self.__run_zero()
+            self.state = ConnectionAnimation.State.TO_ZERO
         else:
-            self.__run_animation(self.to_zero_group, 0)
+            self.to_zero_group.stop()
+            self.__run_scalar()
+            self.state = ConnectionAnimation.State.TO_SCALE
     
     def __stop(self):
         self.to_zero_group.stop()
         self.to_scalar_group.stop()
     
+    def __run_scalar(self):
+        self.__run_animation(self.to_scalar_group, self.scalar)
+    
+    def __run_zero(self):
+        self.__run_animation(self.to_zero_group, 0)
+        
     def __run_animation(self, group: QParallelAnimationGroup, end_value):
         for i in range(group.animationCount()):
             anim: QPropertyAnimation = group.animationAt(i)
@@ -437,14 +451,11 @@ class ConnectionAnimation:
             anim.setKeyValues([(0, target.scale()), (1, end_value)])
         group.start()
     
-    def __on_scalar_started(self, new_state: QAbstractAnimation.State, old_state: QAbstractAnimation.State):
-        if new_state == QAbstractAnimation.State.Running:
-            if self.con_items_anim.state() == QAbstractAnimation.Stopped:
-                self.con_items_anim.start()
-            else:
-                self.con_items_anim.setPaused(False)
+    def __on_scalar_ended(self):
+        self.state = ConnectionAnimation.State.RUNNING
     
-    def __on_zero_ended(self, new_state: QAbstractAnimation.State, old_state: QAbstractAnimation.State):
-        if new_state == QAbstractAnimation.State.Stopped:
-            self.con_items_anim.setPaused(True)
+    def __on_zero_ended(self):
+        if self.state == ConnectionAnimation.State.TO_ZERO:
+            self.con_items_anim.stop()
+        self.state = ConnectionAnimation.State.NOT_RUNNING
     
