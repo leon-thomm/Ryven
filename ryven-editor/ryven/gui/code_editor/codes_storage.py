@@ -9,9 +9,17 @@ from ryven.main.config import instance
 
 def register_node_type(n: Type[Node]):
     """
-    Inspects and stores source code of a node type.
+    Registers a node type and loads its source code directly if deferred 
+    source code loading is disabled.
     """
 
+    if not instance.defer_code_loading:
+        load_src_code(n)
+    else:
+        class_codes[n] = None
+
+
+def load_src_code(n: Type[Node]):
     has_gui = hasattr(n, 'GUI')  # check if node type has custom gui
     has_mw = has_gui and n.GUI.main_widget_class is not None
 

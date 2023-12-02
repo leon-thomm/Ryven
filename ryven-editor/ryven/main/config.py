@@ -39,6 +39,7 @@ class Config:
     window_title: str = 'Ryven'
     qt_api: str = 'pyside2'
     src_code_edits_enabled: bool = False
+    defer_code_loading: bool = False
 
     @staticmethod
     def get_available_window_themes() -> Set[str]:
