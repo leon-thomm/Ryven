@@ -54,7 +54,6 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         # path
         p1 = QPointF(self.out_item.pin.width_no_padding() * 0.5, 0)
         p2 = self.inp_pos() - self.scenePos() - QPointF(self.inp_item.pin.width_no_padding() * 0.5, 0)
-        
         self.setPath(self.connection_path(p1, p2))
 
         # pen
@@ -68,7 +67,10 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
             c = pen.color()
             w = self.path().boundingRect().width()
             h = self.path().boundingRect().height()
-            gradient = QRadialGradient(self.boundingRect().center(), pythagoras(w, h) / 2)
+            gradient = QRadialGradient(
+                self.boundingRect().center(), 
+                pythagoras(w, h) / 2
+            )
 
             c_r = c.red()
             c_g = c.green()
@@ -76,12 +78,21 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
             # this offset will be 1 if inp.x >> out.x and 0 if inp.x < out.x
             # hence, no fade for the gradient if the connection goes backwards
-            offset_mult: float = max(0, min((self.inp_pos().x() - self.out_pos().x()) / 200, 1))
+            offset_mult: float = max(
+                0,
+                min(
+                    (self.inp_pos().x() - self.out_pos().x()) / 200,
+                    1
+                )
+            )
 
             # and if the input is very far away from the output, decrease the gradient fade so the connection
             # doesn't fully disappear at the ends and stays visible
             if self.inp_pos().x() > self.out_pos().x():
-                offset_mult = min(offset_mult, 2000 / (self.dist(self.inp_pos(), self.out_pos())))
+                offset_mult = min(
+                    offset_mult,
+                    2000 / (self.dist(self.inp_pos(), self.out_pos()))
+                )
                 # zucker.
 
             gradient.setColorAt(0.0, QColor(c_r, c_g, c_b, 255))
@@ -192,22 +203,21 @@ def default_cubic_connection_path(p1: QPointF, p2: QPointF):
 
     if ((x1 < x2 - 30) or distance < 100) and (x1 < x2):
         # STANDARD FORWARD
-        path.cubicTo(x1 + ((x2 - x1) / 2), y1, x1 + ((x2 - x1) / 2), y2, x2, y2)
+        path.cubicTo(x1 + ((x2 - x1) / 2), y1,
+                     x1 + ((x2 - x1) / 2), y2,
+                     x2, y2)
     elif x2 < x1 - 100 and adx > ady * 2:
         # STRONG BACKWARDS
-        path.cubicTo(
-            x1 + 100 + (x1 - x2) / 10,
-            y1,
-            x1 + 100 + (x1 - x2) / 10,
-            y1 + (dy / 2),
-            x1 + (dx / 2),
-            y1 + (dy / 2),
-        )
-        path.cubicTo(
-            x2 - 100 - (x1 - x2) / 10, y2 - (dy / 2), x2 - 100 - (x1 - x2) / 10, y2, x2, y2
-        )
+        path.cubicTo(x1 + 100 + (x1 - x2) / 10, y1,
+                     x1 + 100 + (x1 - x2) / 10, y1 + (dy / 2),
+                     x1 + (dx / 2), y1 + (dy / 2))
+        path.cubicTo(x2 - 100 - (x1 - x2) / 10, y2 - (dy / 2),
+                     x2 - 100 - (x1 - x2) / 10, y2,
+                     x2, y2)
     else:
         # STANDARD BACKWARDS
-        path.cubicTo(x1 + 100 + (x1 - x2) / 3, y1, x2 - 100 - (x1 - x2) / 3, y2, x2, y2)
+        path.cubicTo(x1 + 100 + (x1 - x2) / 3, y1,
+                     x2 - 100 - (x1 - x2) / 3, y2,
+                     x2, y2)
 
     return path
