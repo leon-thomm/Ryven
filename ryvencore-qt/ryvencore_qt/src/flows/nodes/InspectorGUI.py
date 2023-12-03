@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import PySide2.QtCore
 from qtpy.QtWidgets import QWidget, QVBoxLayout, QLabel, QTextEdit, QScrollArea
 from ryvencore import Node
 from typing import Union
