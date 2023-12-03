@@ -147,9 +147,7 @@ class FlowView(GUIBase, QGraphicsView):
         self._mouse_press_pos: QPointF = None
         self._multi_selection = False
         self._current_selected = []
-        self._auto_connection_pin = (
-            None  # stores the gate that we may try to auto connect to a newly placed NI
-        )
+        self._auto_connection_pin = None  # stores the gate that we may try to auto connect to a newly placed NI
         self._panning = False
         self._pan_last_x = None
         self._pan_last_y = None
@@ -1013,11 +1011,9 @@ class FlowView(GUIBase, QGraphicsView):
         else:  # create new item
             item = NodeItem(
                 node=node,
-                node_gui=(
-                    node.GUI if hasattr(node, 'GUI') else NodeGUI
-                )(  # use custom GUI class if available
-                    (node, self.session_gui)
-                ),  # calls __init__ of NodeGUI class with tuple arg
+                node_gui=
+                    (node.GUI if hasattr(node, 'GUI') else NodeGUI)     # use custom GUI class if available
+                    ((node, self.session_gui)),                         # calls __init__ of NodeGUI class with tuple arg
                 flow_view=self,
                 design=self.session_gui.design,
             )
@@ -1093,10 +1089,7 @@ class FlowView(GUIBase, QGraphicsView):
             if out.io_pos == PortObjPos.INPUT:
                 out, inp = inp, out
 
-            if self.flow.graph_adj_rev[inp] not in (
-                None,
-                out,
-            ):  # out connected to something else
+            if self.flow.graph_adj_rev[inp] not in (None, out): # out connected to something else
                 # remove existing connection
                 self._push_undo(
                     ConnectPorts_Command(self, out=self.flow.graph_adj_rev[inp], inp=inp)
@@ -1390,9 +1383,15 @@ class FlowView(GUIBase, QGraphicsView):
         # calculate offset
         positions = []
         for d in data['drawings']:
-            positions.append({'x': d['pos x'], 'y': d['pos y']})
+            positions.append({
+                'x': d['pos x'], 
+                'y': d['pos y']
+            })
         for n in data['nodes']:
-            positions.append({'x': n['pos x'], 'y': n['pos y']})
+            positions.append({
+                'x': n['pos x'], 
+                'y': n['pos y']
+            })
 
         offset_for_middle_pos = QPointF(0, 0)
         if len(positions) > 0:

@@ -26,7 +26,6 @@ class GuiClassesRegistry:
     """
 
     exported_guis = []
-    exported_guis_sources: [[str]] = []
 
 
 class GuiClassesContainer:
@@ -43,10 +42,6 @@ def export_guis(guis: [Type[NodeGUI]]):
     for w in guis:
         setattr(gcc, w.__name__, w)
     GuiClassesRegistry.exported_guis.append(gcc)
-
-    # get sources
-    gui_sources = [inspect.getsource(g) for g in guis]
-    GuiClassesRegistry.exported_guis_sources.append(gui_sources)
 
 
 def node_gui(node_cls: Type[Node]):

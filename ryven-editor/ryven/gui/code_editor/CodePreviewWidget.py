@@ -2,15 +2,46 @@ from dataclasses import dataclass
 from typing import Type, Optional
 
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QRadioButton, QLabel, QCheckBox, QGridLayout, \
+from qtpy.QtWidgets import (
+    QWidget, 
+    QHBoxLayout, 
+    QVBoxLayout, 
+    QRadioButton, 
+    QLabel, 
+    QCheckBox, 
+    QGridLayout,
     QPushButton
+)
 from ryvencore import Node
 
 from ryven.gui.code_editor.EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from ryven.gui.code_editor.CodeEditorWidget import CodeEditorWidget
 from ryven.gui.code_editor.SourceCodeUpdater import SrcCodeUpdater
-from ryven.gui.code_editor.codes_storage import class_codes, mod_codes, modif_codes, NodeTypeCodes, \
-    Inspectable, NodeInspectable, MainWidgetInspectable, CustomInputWidgetInspectable
+from ryven.gui.code_editor.codes_storage import (
+    class_codes, 
+    mod_codes, 
+    modif_codes, 
+    NodeTypeCodes,
+    Inspectable, 
+    NodeInspectable, 
+    MainWidgetInspectable, 
+    CustomInputWidgetInspectable,
+    load_src_code,
+)
+
+
+class LoadSrcCodeButton(QPushButton):
+    def __init__(self):
+        super().__init__('load source code')
+        self._node = None
+    
+    @property
+    def node(self):
+        return self._node
+    
+    @node.setter
+    def node(self, node):
+        self._node = node
 
 
 class LinkedRadioButton(QRadioButton):
@@ -39,6 +70,13 @@ class CodePreviewWidget(QWidget):
     def setup_ui(self):
 
         secondary_layout = QHBoxLayout()
+
+        # load source code button
+        self.load_code_button = LoadSrcCodeButton()
+        self.load_code_button.setProperty('class', 'small_button')
+        secondary_layout.addWidget(self.load_code_button)
+        self.load_code_button.hide()
+        self.load_code_button.clicked.connect(self._load_code_button_clicked)
 
         # class radio buttons widget
         self.class_selection_layout = QHBoxLayout()  # QGridLayout()
@@ -96,17 +134,22 @@ class CodePreviewWidget(QWidget):
                 self.reset_code_button.setEnabled(False)
             self.text_edit.set_code('')
             self._clear_class_layout()
-            return
+        else:
+            if class_codes.get(node.__class__) is None:
+                # source code not loaded yet
+                self.load_code_button.node = node
+                self.load_code_button.show()
+                self._clear_class_layout()
+                self._update_code(NodeInspectable(node, 'source not loaded'))
+            else:
+                self._process_node_src(node)
 
+    def _process_node_src(self, node: Node):
         self._rebuild_class_selection(node)
-
         code = class_codes[node.__class__].node_cls
-
         if self.edits_enabled and node in modif_codes:
             code = modif_codes[node]
-
         self._update_code(NodeInspectable(node, code))
-
 
     def _update_code(self, insp: Inspectable):
         if self.edits_enabled:
@@ -122,6 +165,7 @@ class CodePreviewWidget(QWidget):
 
 
     def _rebuild_class_selection(self, node: Node):
+        self.load_code_button.hide()
         self._clear_class_layout()
         self.radio_buttons.clear()
 
@@ -168,6 +212,12 @@ class CodePreviewWidget(QWidget):
             widget = item.widget()
             widget.hide()
             self.class_selection_layout.removeItem(item)
+    
+    def _load_code_button_clicked(self):
+        node: Node = self.sender().node
+        load_src_code(node.__class__)
+        self.load_code_button.hide()
+        self._process_node_src(node)
 
     def _update_radio_buttons_edit_status(self):
         """Draws radio buttons referring to modified objects bold."""

@@ -208,6 +208,16 @@ def parse_sys_args(just_defaults=False) -> Config:
             • When enabled, Ryven might consume much more memory than usual
             ''')
 
+    parser.add_argument(
+        '--defer-code-loading',
+        action='store_true',
+        dest='defer_code_loading',
+        help=f'''
+            • When using deferred code loading, Ryven will load the source code of\\
+            nodes only once the user wants to inspect it.\\
+            • Deferred code loading decreases package loading time.\\
+            ''')
+
     # Project configuration
 
     group = parser.add_argument_group('project configuration')

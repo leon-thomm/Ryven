@@ -156,7 +156,7 @@ def run(*args_,
             str_missing_pkgs = ', '.join([str(p.name) for p in pkgs_not_found])
             plural = len(pkgs_not_found) > 1
             sys.exit(
-                f'The package{"s" if plural else ""} {str_missing_pkgs}'
+                f'The package{"s" if plural else ""} {str_missing_pkgs} '
                 f'{"were" if plural else "was"} requested, '
                 f'but {"they are" if plural else "it is"} not available.\n'
                 f'Update the project file or supply the missing package{"s" if plural else ""} '

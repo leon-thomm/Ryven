@@ -182,8 +182,7 @@ class StartupDialog(QDialog):
 
         # Top info text edit
         info_text_edit = QTextEdit()
-        info_text_edit.setHtml(
-            f'''
+        info_text_edit.setHtml(f'''
             <div style="font-family: Corbel; font-size: large;">
                 <img style="float:right;" height=120 src="{abs_path_from_package_dir('resources/pics/Ryven_icon_blurred.png')}"
                 >Ryven is not a stable piece of software, it's experimental, and nothing is
@@ -197,8 +196,7 @@ class StartupDialog(QDialog):
                 See the GitHub for a quickstart guide.
                 Cheers.
             </div>
-        '''
-        )
+        ''')
         info_text_edit.setReadOnly(True)
         layout.addWidget(info_text_edit)
 
@@ -209,6 +207,7 @@ class StartupDialog(QDialog):
         project_label = QLabel('Project:')
 
         project_layout = QVBoxLayout()
+
         self.project_name = ElideLabel()
         if self.conf.project is not None:
             self.project_name.setText(str(config.project))
@@ -217,29 +216,23 @@ class StartupDialog(QDialog):
         project_layout.addWidget(self.project_name)
 
         project_buttons_widget = QDialogButtonBox()
+
         self.create_project_button = QPushButton('New')
         self.create_project_button.setToolTip('Create a new project')
         self.create_project_button.setDefault(True)
-        self.create_project_button.clicked.connect(
-            self.on_create_project_button_clicked
-        )
-        project_buttons_widget.addButton(
-            self.create_project_button, QDialogButtonBox.ActionRole
-        )
+        self.create_project_button.clicked.connect(self.on_create_project_button_clicked)
+        project_buttons_widget.addButton(self.create_project_button, QDialogButtonBox.ActionRole)
+
         load_project_button = QPushButton('Load')
         load_project_button.setToolTip('Load an existing project')
         load_project_button.clicked.connect(self.on_load_project_button_clicked)
-        project_buttons_widget.addButton(
-            load_project_button, QDialogButtonBox.ActionRole
-        )
+        project_buttons_widget.addButton(load_project_button, QDialogButtonBox.ActionRole)
+
         load_example_project_button = QPushButton('Example')
         load_example_project_button.setToolTip('Load a Ryven example')
-        load_example_project_button.clicked.connect(
-            self.on_load_example_project_button_clicked
-        )
-        project_buttons_widget.addButton(
-            load_example_project_button, QDialogButtonBox.ActionRole
-        )
+        load_example_project_button.clicked.connect(self.on_load_example_project_button_clicked)
+        project_buttons_widget.addButton(load_example_project_button, QDialogButtonBox.ActionRole)
+
         project_layout.addWidget(project_buttons_widget)
 
         fbox.addRow(project_label, project_layout)
@@ -277,15 +270,16 @@ class StartupDialog(QDialog):
         packages_manually_layout = QVBoxLayout()
         label_manually = QLabel('Manually imported:')
         label_manually.setToolTip(
-            'Nodes packages which are manually imported\nThey will override the packages required by the project\nAdditional packages can be imported later …'
+            '''Nodes packages which are manually imported
+            They will override the packages required by the project
+            Additional packages can be imported later.'''
         )
         label_manually.setAlignment(Qt.AlignCenter)
         packages_manually_layout.addWidget(label_manually)
+
         self.manually_list_widget = QListWidget()
         self.manually_list_widget.setSelectionMode(QListWidget.MultiSelection)
-        self.manually_list_widget.itemSelectionChanged.connect(
-            self.on_packages_manually_selection
-        )
+        self.manually_list_widget.itemSelectionChanged.connect(self.on_packages_manually_selection)
         packages_manually_layout.addWidget(self.manually_list_widget)
         packages_sublayout.addLayout(packages_manually_layout)
 
@@ -296,37 +290,30 @@ class StartupDialog(QDialog):
         self.autodiscover_packages_button.setToolTip(
             'Automatically find and import missing packages'
         )
-        self.autodiscover_packages_button.clicked.connect(
-            self.on_autodiscover_package_clicked
-        )
-        packages_buttons_widget.addButton(
-            self.autodiscover_packages_button, QDialogButtonBox.ActionRole
-        )
+        self.autodiscover_packages_button.clicked.connect(self.on_autodiscover_package_clicked)
+        packages_buttons_widget.addButton(self.autodiscover_packages_button, QDialogButtonBox.ActionRole)
         self.autodiscover_packages_button.setEnabled(False)
+        
         import_package_button = QPushButton('Import')
         import_package_button.setToolTip('Manually load a nodes package')
         import_package_button.clicked.connect(self.on_import_package_clicked)
-        packages_buttons_widget.addButton(
-            import_package_button, QDialogButtonBox.ActionRole
-        )
+        packages_buttons_widget.addButton(import_package_button, QDialogButtonBox.ActionRole)
+
         self.remove_packages_button = QPushButton('Remove')
         self.remove_packages_button.setToolTip(
             'Remove manually imported nodes packages'
         )
         self.remove_packages_button.clicked.connect(self.on_remove_packages_clicked)
         self.remove_packages_button.setEnabled(False)
-        packages_buttons_widget.addButton(
-            self.remove_packages_button, QDialogButtonBox.ActionRole
-        )
+        packages_buttons_widget.addButton(self.remove_packages_button, QDialogButtonBox.ActionRole)
+
         self.clear_packages_button = QPushButton('Clear')
         self.clear_packages_button.setToolTip(
             'Clear the list of manually imported nodes packages '
         )
         self.clear_packages_button.clicked.connect(self.on_clear_packages_clicked)
         self.clear_packages_button.setEnabled(False)
-        packages_buttons_widget.addButton(
-            self.clear_packages_button, QDialogButtonBox.ActionRole
-        )
+        packages_buttons_widget.addButton(self.clear_packages_button, QDialogButtonBox.ActionRole)
         packages_layout.addWidget(packages_buttons_widget)
 
         fbox.addRow(packages_label, packages_layout)
