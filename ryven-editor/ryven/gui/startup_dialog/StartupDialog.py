@@ -596,7 +596,7 @@ class StartupDialog(QDialog):
     # Defer Source Code Loading
     def on_defer_toggled(self, check):
         """Call-back method, whenever the defer source code loading checkbox was toggled"""
-        self.conf.defer_source_code_loading = check
+        self.conf.defer_code_loading = check
     #
     # Helper/Working methods
     #
