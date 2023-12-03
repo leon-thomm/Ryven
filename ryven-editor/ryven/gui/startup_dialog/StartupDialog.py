@@ -385,6 +385,18 @@ class StartupDialog(QDialog):
         verbose_output_cb.toggled.connect(self.on_verbose_toggled)
         fbox.addRow(verbose_output_label, verbose_output_cb)
 
+        # Defer source code loading
+        defer_code_label = QLabel('Defer SCL:')
+        defer_code_cb = QCheckBox('Enable defer source code loading')
+        defer_code_cb.setToolTip(
+            f'''Choose whether source code will be loaded on package
+            import or when the user manually attempt to inspect the
+            source on a specific node. Helps reduce package import
+            time.'''
+        )
+        defer_code_cb.toggled.connect(self.on_defer_toggled)
+        fbox.addRow(defer_code_label, defer_code_cb)
+        
         layout.addLayout(fbox)
 
         # Buttons
@@ -437,6 +449,9 @@ class StartupDialog(QDialog):
         # Set verbose output
         verbose_output_cb.setChecked(self.conf.verbose)
 
+        # Set defer code loading
+        defer_code_cb.setChecked(self.conf.defer_code_loading)
+        
         # Set window title and icon
         self.setWindowTitle('Ryven')
         self.setWindowIcon(
@@ -578,6 +593,10 @@ class StartupDialog(QDialog):
         # "Apply" the verbose option
         self.conf.verbose = check
 
+    # Defer Source Code Loading
+    def on_defer_toggled(self, check):
+        """Call-back method, whenever the defer source code loading checkbox was toggled"""
+        self.conf.defer_source_code_loading = check
     #
     # Helper/Working methods
     #
