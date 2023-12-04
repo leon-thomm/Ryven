@@ -4,6 +4,7 @@ class Sub2Node(Node):
     title = 'Node from sub-package 2'
 
 
-export_sub_nodes(__file__,
+export_nodes(
+    sub_pkg_name='B',
     node_types=[Sub2Node],
 )

@@ -94,18 +94,13 @@ class NodesEnvRegistry:
     # needed for extending the identifiers of node types to include the package name
     current_package = None  # type NodesPackage (not imported to avoid circular imports)
 
-    # set by export_sub_package, used in export_nodes
-    current_sub_package: str = None
-
     @classmethod
     def current_package_id(cls):
         if cls.current_package is None:
-            return
-        return (
-            cls.current_package.name
-            if cls.current_sub_package is None
-            else f"{cls.current_package.name}.{cls.current_sub_package}"
-        )
+            raise Exception(
+                "Attempted node export outside of a nodes package."
+            )
+        return cls.current_package.name
 
     @classmethod
     # should be -> tuple[list[type[Node]], list[type[Data]] in 3.9+
@@ -121,7 +116,11 @@ class NodesEnvRegistry:
         return result
 
 
-def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
+def export_nodes(
+    node_types: [Type[Node]], 
+    data_types: [Type[Data]] = None,
+    sub_pkg_name: str = None
+):
     """
     Exports/exposes the specified nodes to Ryven for use in flows. Nodes will have the same identifier, since they come as a package.
     This function will fail if the NodesEnvRegistry package is not set.
@@ -131,16 +130,19 @@ def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
         data_types = []
 
     pkg_name = NodesEnvRegistry.current_package_id()
+    if sub_pkg_name is not None:
+        pkg_name = f"{pkg_name}.{sub_pkg_name}"
+    
     # extend identifiers of node types to include the package name
-    for node_type in node_types:
+    for n_cls in node_types:
         # store the package id as identifier prefix, which will be added
         # by ryvencore when registering the node type
-        node_type.identifier_prefix = pkg_name
+        n_cls.identifier_prefix = pkg_name
 
         # also add the identifier without the prefix as fallback for older versions
-        node_type.legacy_identifiers = [
-            *node_type.legacy_identifiers,
-            node_type.identifier if node_type.identifier else node_type.__name__,
+        n_cls.legacy_identifiers = [
+            *n_cls.legacy_identifiers,
+            n_cls.identifier if n_cls.identifier else n_cls.__name__,
         ]
 
     NodesEnvRegistry.exported_nodes_legacy.append(node_types)
@@ -150,31 +152,6 @@ def export_nodes(node_types: [Type[Node]], data_types: [Type[Data]] = None):
     nodes_datas = (node_types, data_types)
     metadata[pkg_name] = nodes_datas
     NodesEnvRegistry.last_exported_package.append(nodes_datas)
-
-
-def export_sub_nodes(
-    origin_file: str,
-    node_types: [Type[Node]],
-    data_types: [Type[Data]] = None,
-    sub_pkg_name: str = None,
-):
-    """
-    Exports / exposes nodes to Ryven as a subpackage of the currently loaded package for use in flows.
-    Do not call this function in a node package's nodes.py file, call export_nodes instead.
-    """
-
-    # Fetch the module name
-    if sub_pkg_name == None:
-        head, tail = os.path.split(origin_file)
-        if tail != "nodes.py":
-            sub_pkg_name = tail.removeprefix(".py")
-        else:
-            sub_pkg_name = os.path.split(head)[1]
-
-    # Apply the subpackage name
-    NodesEnvRegistry.current_sub_package = sub_pkg_name
-    export_nodes(node_types, data_types)
-    NodesEnvRegistry.current_sub_package = None
 
 
 __gui_loaders: list = []
