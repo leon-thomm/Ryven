@@ -198,6 +198,7 @@ class NodeGUI(QObject):
         return {
             'actions': self._serialize_actions(self.actions),
             'display title': self.display_title,
+            'inspector widget': self.inspector_widget.get_state(),
         }
 
     def load(self, data):
@@ -205,9 +206,10 @@ class NodeGUI(QObject):
             self.actions = self._deserialize_actions(data['actions'])
         if 'display title' in data:
             self.display_title = data['display title']
-
         if 'special actions' in data:   # backward compatibility
             self.actions = self._deserialize_actions(data['special actions'])
+        if 'inspector widget' in data:
+            self.inspector_widget.set_state(data['inspector widget'])
 
     """
     GUI access methods
