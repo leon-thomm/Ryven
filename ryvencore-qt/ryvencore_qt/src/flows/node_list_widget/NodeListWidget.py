@@ -105,6 +105,8 @@ class NodeListWidget(QWidget):
         if self.show_packages:
             splitter.addWidget(self.pkg_widget)
         
+        splitter.setSizes([30])
+        
         # nodes widget
         nodes_widget = QWidget()
         nodes_widget.setLayout(QVBoxLayout())
@@ -133,7 +135,6 @@ class NodeListWidget(QWidget):
 
         nodes_widget.layout().addWidget(self.list_scroll_area)
 
-        splitter.setSizes([30])
         self._update_view('')
 
         self.setStyleSheet(self.session.design.node_selection_stylesheet)
