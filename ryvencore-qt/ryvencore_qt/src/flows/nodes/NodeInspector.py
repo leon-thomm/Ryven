@@ -50,6 +50,7 @@ class InspectorView(QWidget):
         if node is not None:
             self.node = node
             self.layout().addWidget(self.node.gui.inspector_widget)
+            self.node.gui.inspector_widget.load()
 
     def clear(self):
         """Clears the layout. This does not delete the widgets."""
