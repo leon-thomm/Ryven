@@ -12,7 +12,6 @@ from typing import Tuple
 from ryvencore.NodePort import NodePort, NodeInput, NodeOutput
 from ryvencore.Flow import Flow
 from .connections.ConnectionItem import ConnectionItem
-from ..GUIBase import PrettyName
 
 def undo_text_multi(items:list, command: str, get_text=None):
     """Generates a text for an undo command that has zero, one or multiple items"""
@@ -28,7 +27,7 @@ def undo_text_multi(items:list, command: str, get_text=None):
 def get_text_default(obj):
     """Default function for the undo text"""
     
-    return obj.pretty_name(True) if isinstance(obj, PrettyName) else str(obj)
+    return f'{obj}'
 
 class FlowUndoCommand(QObject, QUndoCommand):
     """
@@ -150,7 +149,7 @@ class PlaceNode_Command(FlowUndoCommand):
             self.flow.add_node(self.node)
         else:
             self.node = self.flow.create_node(self.node_class)
-        self.setText(f'Create {self.node.gui.item.pretty_name(True)}')
+        self.setText(f'Create {self.node.gui.item}')
 
 
 class PlaceDrawing_Command(FlowUndoCommand):
@@ -172,7 +171,7 @@ class PlaceDrawing_Command(FlowUndoCommand):
 
     def redo_(self):
         self.flow_view.add_drawing(self.drawing, self.drawing_obj_pos)
-        self.setText(self.drawing.pretty_name(True))
+        self.setText(self.drawing(True))
 
 class SelectComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, new_items, prev_items):
@@ -320,11 +319,11 @@ class ConnectPorts_Command(FlowUndoCommand):
             else:
                 # connection hasn't been created yet
                 self.connection = self.flow.connect_nodes(self.out, self.inp)
-            self.setText(f'Connect {self.flow_view.connection_items[self.connection].pretty_name(True)}')
+            self.setText(f'Connect {self.flow_view.connection_items[self.connection]}')
             
         else:
             # remove existing connection
-            self.setText(f'Disconnect {self.flow_view.connection_items[self.connection].pretty_name(True)}')
+            self.setText(f'Disconnect {self.flow_view.connection_items[self.connection]}')
             self.flow.remove_connection(self.connection)
         
 

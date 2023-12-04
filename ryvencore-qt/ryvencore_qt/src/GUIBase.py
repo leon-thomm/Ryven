@@ -1,19 +1,7 @@
-import typing
 from ryvencore.Base import Base
-from qtpy.QtCore import QPropertyAnimation
 from qtpy.QtWidgets import QGraphicsObject, QGraphicsItem
 
-class PrettyName:
-    """Interface for representing an object by string"""
-    
-    @staticmethod
-    def generate_name(obj, name: str, detail: bool):
-        return f'{name}:[{id(obj)}]' if detail else name
-    
-    def pretty_name(self, detail: bool = False):
-        """abstract function for name inspection"""
-        pass
-    
+  
 class GUIBase:
     """Base class for GUI items that represent specific core components"""
 
@@ -70,7 +58,7 @@ class GUIBase:
         pass
 
 # if the __doc__ is incorrect, this class should be removed
-class QGraphicsItemWrapper(QGraphicsObject):
+class QGraphicsItemAnimated(QGraphicsObject):
     """
     Serves as a proxy for animating any kind fo QGraphicsItem.
     This was created because there is no apparent way to animate

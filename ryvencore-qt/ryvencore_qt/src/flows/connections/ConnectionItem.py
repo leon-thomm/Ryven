@@ -10,7 +10,7 @@ from qtpy.QtWidgets import (
     QGraphicsObject,
 )
 
-from ...GUIBase import GUIBase, PrettyName, QGraphicsItemWrapper
+from ...GUIBase import GUIBase, QGraphicsItemAnimated
 from ...utils import sqrt
 from ...utils import pythagoras
 
@@ -18,7 +18,7 @@ from ...flows.nodes.PortItem import PortItem
 
 from enum import Enum
 
-class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
+class ConnectionItem(GUIBase, QGraphicsPathItem):
     """The GUI representative for a connection. The classes ExecConnectionItem and DataConnectionItem will be ready
     for reimplementation later, so users can add GUI for the enhancements of DataConnection and ExecConnection,
     like input fields for weights."""
@@ -57,11 +57,11 @@ class ConnectionItem(GUIBase, PrettyName, QGraphicsPathItem):
 
         self.recompute()
 
-    def pretty_name(self, detail: bool = False):
+    def __str__(self):
         out, inp = self.connection
-        node_in_name = inp.node.gui.item.pretty_name(detail)
+        node_in_name = f'{inp.node.gui.item}'
         node_in_index = inp.node.inputs.index(inp)
-        node_out_name = out.node.gui.item.pretty_name(detail)
+        node_out_name = f'{out.node.gui.item}'
         node_out_index = out.node.outputs.index(out)
         return f'{node_out_index}->{node_in_index} ({node_out_name}, {node_in_name})'
 
@@ -280,7 +280,7 @@ class ConnectionItemsAnimation(QGraphicsObject):
     ):
         super().__init__()
         
-        self.items:List[QGraphicsItemWrapper] = [QGraphicsItemWrapper(item, self) for item in items]
+        self.items:List[QGraphicsItemAnimated] = [QGraphicsItemAnimated(item, self) for item in items]
         self.connection = connection
         self._frames = frames
         self._duration = duration
