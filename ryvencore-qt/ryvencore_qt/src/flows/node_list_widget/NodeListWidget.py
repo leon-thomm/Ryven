@@ -5,7 +5,8 @@ from qtpy.QtWidgets import (
     QScrollArea,
     QTreeView,
     QSplitter,
-    QAbstractItemView
+    QAbstractItemView,
+    QListView
 )
 
 from qtpy.QtCore import Qt, Signal, QModelIndex, QSortFilterProxyModel
@@ -76,13 +77,13 @@ class NodeListWidget(QWidget):
         self.search_line_tree.textChanged.connect(self.search_pkg_tree)
 
         # tree view
-        self.proxy_model: QSortFilterProxyModel = QSortFilterProxyModel()
-        self.proxy_model.setRecursiveFilteringEnabled(True)
+        self.pack_proxy_model: QSortFilterProxyModel = QSortFilterProxyModel()
+        self.pack_proxy_model.setRecursiveFilteringEnabled(True)
         # we need qt6 for not filtering out the children if they would be filtered
         # out otherwise
-        self.proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.pack_proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.pack_tree = QTreeView()
-        self.pack_tree.setModel(self.proxy_model)
+        self.pack_tree.setModel(self.pack_proxy_model)
         self.pack_tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
         self.pack_tree.setDragEnabled(True)
 
@@ -103,9 +104,8 @@ class NodeListWidget(QWidget):
 
         if self.show_packages:
             splitter.addWidget(self.pkg_widget)
-
-        splitter.setSizes([30])
-
+        
+        # nodes widget
         nodes_widget = QWidget()
         nodes_widget.setLayout(QVBoxLayout())
         splitter.addWidget(nodes_widget)
@@ -133,6 +133,7 @@ class NodeListWidget(QWidget):
 
         nodes_widget.layout().addWidget(self.list_scroll_area)
 
+        splitter.setSizes([30])
         self._update_view('')
 
         self.setStyleSheet(self.session.design.node_selection_stylesheet)
@@ -144,10 +145,10 @@ class NodeListWidget(QWidget):
             # removes whitespace and escapes all special regex chars
             new_search = escape(search.strip())
             # regex that enforces the text starts with <new_search>
-            self.proxy_model.setFilterRegExp(f'^{new_search}')
+            self.pack_proxy_model.setFilterRegExp(f'^{new_search}')
             self.pack_tree.expandAll()
         else:
-            self.proxy_model.setFilterRegExp('')
+            self.pack_proxy_model.setFilterRegExp('')
             self.pack_tree.collapseAll()
 
     def make_nodes_current(self, pack_nodes):
@@ -210,7 +211,7 @@ class NodeListWidget(QWidget):
             pack_nodes.append(n)
             self.tree_items.append(node_item)
         
-        self.proxy_model.setSourceModel(model)
+        self.pack_proxy_model.setSourceModel(model)
 
     def mousePressEvent(self, event):
         # need to accept the event, so the scene doesn't process it further
