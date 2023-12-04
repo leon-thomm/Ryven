@@ -11,11 +11,10 @@ import ryvencore
 
 from .src.SessionGUI import SessionGUI
 from .src.flows.nodes.NodeGUI import NodeGUI
-from .src.flows.nodes.InspectorGUI import BaseNodeInspector, NodeInspector
 
 # customer base classes
 from ryvencore import Node
-from .src.flows.nodes.WidgetBaseClasses import NodeMainWidget, NodeInputWidget
+from .src.flows.nodes.WidgetBaseClasses import NodeMainWidget, NodeInputWidget, NodeInspectorWidget
 
 # gui classes
 from .src.widgets import *

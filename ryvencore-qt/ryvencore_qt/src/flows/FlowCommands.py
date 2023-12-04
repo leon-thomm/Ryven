@@ -2,15 +2,15 @@
 This file contains the implementations of undoable actions for FlowView.
 """
 
+from typing import Tuple
 
 from qtpy.QtCore import QObject, QPointF
 from qtpy.QtWidgets import QUndoCommand
 
+from ryvencore.Flow import Flow
+
 from .drawings.DrawingObject import DrawingObject
 from .nodes.NodeItem import NodeItem
-from typing import Tuple
-from ryvencore.NodePort import NodePort, NodeInput, NodeOutput
-from ryvencore.Flow import Flow
 from .connections.ConnectionItem import ConnectionItem
 
 def undo_text_multi(items:list, command: str, get_text=None):

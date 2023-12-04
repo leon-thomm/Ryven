@@ -83,3 +83,36 @@ class NodeInputWidget:
 
     def update_node_shape(self):
         self.node_gui.update_shape()
+
+
+class NodeInspectorWidget:
+    """Base class for the inspector widget of a node."""
+
+    def __init__(self, params):
+        self.node, self.node_gui = params
+
+    def get_state(self) -> dict:
+        """
+        *VIRTUAL*
+
+        Return the state of the widget, in a (pickle) serializable format.
+        """
+        data = {}
+        return data
+
+    def set_state(self, data: dict):
+        """
+        *VIRTUAL*
+
+        Set the state of the widget, where data corresponds to the dict
+        returned by get_state().
+        """
+        pass
+
+    def load(self):
+        """Called when the inspector is loaded into the inspector view in the editor."""
+        pass
+
+    def unload(self):
+        """Called when the inspector is removed from the inspector view in the editor."""
+        pass
