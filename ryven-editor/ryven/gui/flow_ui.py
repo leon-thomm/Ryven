@@ -8,7 +8,8 @@ from qtpy.QtWidgets import (
     QHBoxLayout,
     QTabWidget,
     QDockWidget,
-    QUndoView
+    QUndoView,
+    QTabBar
 )
 from qtpy.QtCore import Qt, QByteArray
 
@@ -63,8 +64,12 @@ class FlowUI(QMainWindow):
         for i in range(1, len(right_area_widgets)):
             self.tabifyDockWidget(right_area_widgets[i - 1], right_area_widgets[i])
         
-        # inspector dock first
         
+        tab_bars: QTabBar = self.findChild(QTabBar)
+        for tab_bar in tab_bars:
+            tab_bar.setStyleSheet("QTabBar::tab { min-width: 65px; }")
+        
+        # inspector dock first
         self.ui.inspector_dock.raise_()
 
         self.flow.algorithm_mode_changed.sub(self.flow_alg_mode_changed)
