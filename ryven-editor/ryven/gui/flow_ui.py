@@ -65,7 +65,7 @@ class FlowUI(QMainWindow):
             self.tabifyDockWidget(right_area_widgets[i - 1], right_area_widgets[i])
         
         
-        tab_bars: QTabBar = self.findChild(QTabBar)
+        tab_bars: QTabBar = self.findChildren(QTabBar)
         for tab_bar in tab_bars:
             tab_bar.setStyleSheet("QTabBar::tab { min-width: 65px; }")
         
