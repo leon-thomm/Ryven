@@ -6,7 +6,8 @@ from qtpy.QtWidgets import (
     QTreeView,
     QSplitter,
     QAbstractItemView,
-    QListView
+    QListView,
+    QLabel
 )
 
 from qtpy.QtCore import Qt, Signal, QModelIndex, QSortFilterProxyModel
@@ -117,7 +118,11 @@ class NodeListWidget(QWidget):
         self.search_line_edit.setPlaceholderText('search for node...')
         self.search_line_edit.textChanged.connect(self._update_view)
         nodes_widget.layout().addWidget(self.search_line_edit)
-
+        
+        self.current_pack_label = QLabel('Package: None')
+        self.current_pack_label.setFont(text_font())
+        nodes_widget.layout().addWidget(self.current_pack_label)
+        
         self.list_scroll_area = QScrollArea(self)
         self.list_scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.list_scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
@@ -152,11 +157,12 @@ class NodeListWidget(QWidget):
             self.pack_proxy_model.setFilterRegExp('')
             self.pack_tree.collapseAll()
 
-    def make_nodes_current(self, pack_nodes):
+    def make_nodes_current(self, pack_nodes, pkg_name: str):
         def select_nodes():
             if not pack_nodes or self.package_nodes == pack_nodes:
                 return
             self.package_nodes = pack_nodes
+            self.current_pack_label.setText(f'Package: {pkg_name}')
             self._update_view()
 
         return select_nodes
@@ -197,7 +203,7 @@ class NodeListWidget(QWidget):
                         item.setEditable(False)
                         node_list = []
                         h_dict[current_path] = (item, node_list)
-                        item.setData(self.make_nodes_current(node_list), Qt.UserRole + 1)
+                        item.setData(self.make_nodes_current(node_list, current_path), Qt.UserRole + 1)
                         current_root.appendRow(item)
                     current_root = h_dict[current_path][0]
                     if i != split_path_len - 1:

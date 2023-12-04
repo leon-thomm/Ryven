@@ -244,13 +244,8 @@ class FlowView(GUIBase, QGraphicsView):
         self.setAttribute(Qt.WA_TabletTracking)
 
         # MENU
-        menu = QMenu()
-        self._menu = menu
-        self._menu_proxy: FlowViewProxyHoverWidget = init_proxy_widget(
-            menu, FlowViewProxyHoverWidget(self)
-        )
-        self._menu_proxy.hide()
-
+        self._menu = QMenu()
+        
         # just to add some space for the button
         menu_layout_widget = self._create_no_background_widget("FlowMenu")
         # just to add some space for the button
@@ -260,7 +255,13 @@ class FlowView(GUIBase, QGraphicsView):
         menu_layout_widget.layout().addWidget(menu_button)
 
         def menu_button_clicked():
-            self._menu_proxy.setVisible(not self._menu_proxy.isVisible())
+            point = self._menu_layout_proxy.scenePos()
+            view_pos = self.mapFromScene(point.toPoint())
+            # apply offset after
+            global_pos = self.viewport().mapToGlobal(
+                view_pos) + QPoint(8, self._menu_layout_proxy.widget().height()
+            ) 
+            self._menu.exec_(global_pos)
 
         menu_button.clicked.connect(menu_button_clicked)
 
@@ -385,7 +386,7 @@ class FlowView(GUIBase, QGraphicsView):
         # in the case of the menu already being shown by a widget under the mouse, the event is accepted here
         if event.isAccepted():
             return
-
+        
         for i in self.items(event.pos()):
             if isinstance(i, NodeItem):
                 ni: NodeItem = i
@@ -437,13 +438,10 @@ class FlowView(GUIBase, QGraphicsView):
             return
 
         if event.button() == Qt.LeftButton:
-            if not self._menu_proxy.is_hovered():
-                self._menu_proxy.hide()
             if self._node_list_widget_proxy.isVisible():
                 self.hide_node_list_widget()
 
         elif event.button() == Qt.RightButton:
-            self._menu_proxy.hide()
             self._right_mouse_pressed_in_flow = True
             event.accept()
 
@@ -848,16 +846,10 @@ class FlowView(GUIBase, QGraphicsView):
             self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width(), 0)
         )
         # self.mapToScene(self.viewport().width() - self._stylus_modes_widget.width() - self._zoom_widget.width(), 0))
-
+    
     def set_menu_proxy_pos(self):
         self._menu_layout_proxy.setPos(self.mapToScene(0, 0))
-        # Can't tell why the -8 is needed
-        menu_proxy_pos = self.mapToScene(
-            self._menu_layout_proxy.widget().width(),
-            self._menu_button.contentsRect().center().y() - 8,
-        )
-        self._menu_proxy.setPos(menu_proxy_pos)
-
+        
     def hide_proxies(self):
         self._stylus_modes_proxy.hide()
         self._menu_layout_proxy.hide()
