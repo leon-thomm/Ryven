@@ -1,16 +1,42 @@
-from qtpy.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QScrollArea, QTreeView, QSplitter
-from qtpy.QtCore import Qt, Signal, QModelIndex
-from qtpy.QtGui import QStandardItemModel, QStandardItem
+from qtpy.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QLineEdit,
+    QScrollArea,
+    QTreeView,
+    QSplitter,
+    QAbstractItemView
+)
+
+from qtpy.QtCore import Qt, Signal, QModelIndex, QSortFilterProxyModel
+from qtpy.QtGui import QStandardItemModel, QStandardItem, QFont
 
 from ryvencore import Node
 from .utils import search, sort_nodes, inc, dec
 from ..node_list_widget.NodeWidget import NodeWidget
-
 from statistics import median
+from typing import List
+from re import escape
 
 # from ryven import NodesPackage
 
-
+class NodeStandardItemModel(QStandardItemModel):
+    
+    def mimeData(self, indexes):
+        item = self.itemFromIndex(indexes[0])
+        return item.mimeData()
+    
+class NodeStandardItem(QStandardItem):
+    """A node item for use in a model. Helpful when creating a tree view"""
+    def __init__(self, node, text = None):
+        super().__init__(text)
+        self.setDragEnabled(True)
+        self.setFont(text_font())
+        self.node = node
+    
+    def mimeData(self):
+        return NodeWidget._create_mime_data(self.node) 
+    
 class NodeListWidget(QWidget):
     # SIGNALS
     escaped = Signal()
@@ -29,6 +55,9 @@ class NodeListWidget(QWidget):
         self.node_widgets = {}  # Node-NodeWidget assignments
         self._node_widget_index_counter = 0
 
+        # holds the path to the tree item
+        self.path_to_item: dict = {}
+        self.tree_items: List[QStandardItem] = []
         self.show_packages: bool = show_packages
         self._setup_UI()
 
@@ -41,19 +70,40 @@ class NodeListWidget(QWidget):
         splitter = QSplitter(Qt.Vertical)
         self.layout().addWidget(splitter)
 
-        # Addition for tree view
+        # search for the tree
+        self.search_line_tree = QLineEdit(self)
+        self.search_line_tree.setPlaceholderText('search packages...')
+        self.search_line_tree.textChanged.connect(self.search_pkg_tree)
+
+        # tree view
+        self.proxy_model: QSortFilterProxyModel = QSortFilterProxyModel()
+        self.proxy_model.setRecursiveFilteringEnabled(True)
+        # we need qt6 for not filtering out the children if they would be filtered
+        # out otherwise
+        self.proxy_model.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.pack_tree = QTreeView()
+        self.pack_tree.setModel(self.proxy_model)
+        self.pack_tree.setDragDropMode(QAbstractItemView.DragDropMode.DragOnly)
+        self.pack_tree.setDragEnabled(True)
 
         def on_select(index: QModelIndex):
-            item: QStandardItem = index.model().itemFromIndex(index)
+            source_index = index.model().mapToSource(index)
+            item: QStandardItem = index.model().sourceModel().itemFromIndex(source_index)
             func = item.data(Qt.UserRole + 1)
             if func != None:
                 func()
 
+        # pkg widget
+        self.pkg_widget = QWidget()
+        self.pkg_widget.setLayout(QVBoxLayout())
+        self.pkg_widget.layout().addWidget(self.search_line_tree)
+        self.pkg_widget.layout().addWidget(self.pack_tree)
+
         self.pack_tree.clicked.connect(on_select)
 
         if self.show_packages:
-            splitter.addWidget(self.pack_tree)
+            splitter.addWidget(self.pkg_widget)
+
         splitter.setSizes([30])
 
         nodes_widget = QWidget()
@@ -89,69 +139,78 @@ class NodeListWidget(QWidget):
 
         self.search_line_edit.setFocus()
 
+    def search_pkg_tree(self, search: str):
+        if search and search != '':
+            # removes whitespace and escapes all special regex chars
+            new_search = escape(search.strip())
+            # regex that enforces the text starts with <new_search>
+            self.proxy_model.setFilterRegExp(f'^{new_search}')
+            self.pack_tree.expandAll()
+        else:
+            self.proxy_model.setFilterRegExp('')
+            self.pack_tree.collapseAll()
+
+    def make_nodes_current(self, pack_nodes):
+        def select_nodes():
+            if not pack_nodes or self.package_nodes == pack_nodes:
+                return
+            self.package_nodes = pack_nodes
+            self._update_view()
+
+        return select_nodes
+
     def make_pack_hier(self):
         """
-        Creates a hierarchical view of the packages based on the nodes' identifier prefix.
+        Creates a hierarchical view of the packages based on the nodes' identifier.
         """
 
-        model = QStandardItemModel()
+        self.tree_items.clear()
+
+        model = NodeStandardItemModel()
         model.setHorizontalHeaderLabels(["Packages"])
         root_item = model.invisibleRootItem()
 
-        # should be dict[str, QStandardItem] in 3.9+
+        # should be dict[str, QStandardItem | (QStandardItem, list)] in 3.9+
         h_dict: dict = {"root_item": root_item}
-        # should be dict[str, list[type[Node]]] in 3.9+
-        pack_to_nodes: dict = {}
-        # Only up to two levels allowed for easier implementation
+        font = text_font()
+        # A completely nestable tree-view
         for n in self.nodes:
-            pName = n.identifier_prefix
-            if pName == None:
-                continue
-            # should be list[type[Node]] in 3.9+
-            pack_nodes: list = pack_to_nodes.get(pName)
-            if pack_nodes != None:
-                pack_nodes.append(n)
-                continue
+            full_name = n.identifier
+            comps = full_name.rsplit('.', 1)
+            path = comps[0]
+            # node_name = comps[1]
 
-            pack_nodes = []
-            pack_to_nodes[pName] = pack_nodes
+            # if the path isn't found, create all the nested items that are needed
+            if not path in h_dict:
+                split_path = path.split('.')
+                current_path = split_path[0]
+                current_root = root_item
+                split_path_len = len(split_path)
+                for i, s in enumerate(split_path):
+                    if not current_path in h_dict:
+                        item = QStandardItem(s)
+                        item.setFont(font)
+                        item.setDragEnabled(False)
+                        self.tree_items.append(item)
+                        item.setEditable(False)
+                        node_list = []
+                        h_dict[current_path] = (item, node_list)
+                        item.setData(self.make_nodes_current(node_list), Qt.UserRole + 1)
+                        current_root.appendRow(item)
+                    current_root = h_dict[current_path][0]
+                    if i != split_path_len - 1:
+                        current_path = current_path + f'.{split_path[i+1]}'
+
+            item, pack_nodes = h_dict[path]
+
+            node_item = NodeStandardItem(n, n.title)
+
+            node_item.setEditable(False)
+            item.appendRow(node_item)
             pack_nodes.append(n)
-
-            p_split = pName.split(".")
-            pLen = len(p_split)
-            if pLen > 2:
-                continue
-
-            first = p_split[0]
-            item: QStandardItem = None
-
-            current_root = h_dict.get(first)
-            if current_root == None:
-                item = QStandardItem(first)
-                h_dict[first] = item
-                root_item.appendRow(item)
-                current_root = item
-                item.setEditable(False)
-
-            def make_nodes_current(pack_nodes):
-                def create_func():
-                    if self.package_nodes == pack_nodes:
-                        return
-                    self.package_nodes = pack_nodes
-                    self._update_view()
-
-                return create_func
-
-            if pLen < 2:
-                item.setData(make_nodes_current(pack_nodes), Qt.UserRole + 1)
-                continue
-
-            item = QStandardItem(p_split[1])
-            item.setData(make_nodes_current(pack_nodes), Qt.UserRole + 1)
-            item.setEditable(False)
-            current_root.appendRow(item)
-
-        self.pack_tree.setModel(model)
+            self.tree_items.append(node_item)
+        
+        self.proxy_model.setSourceModel(model)
 
     def mousePressEvent(self, event):
         # need to accept the event, so the scene doesn't process it further
@@ -267,3 +326,6 @@ class NodeListWidget(QWidget):
         node = self.current_nodes[node_index]
         self.node_chosen.emit(node)
         self.escaped.emit()
+
+def text_font():
+    return QFont('Source Code Pro', 9)
