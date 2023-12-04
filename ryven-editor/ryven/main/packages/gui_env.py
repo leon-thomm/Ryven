@@ -2,19 +2,18 @@
 This module automatically imports all requirements for Gui definitions of a nodes package.
 """
 
-import inspect
 from typing import Type
-
-import ryven.gui.std_input_widgets as inp_widgets
-
-from ryvencore_qt import NodeInputWidget, NodeMainWidget, NodeGUI, BaseNodeInspector
 
 from ryvencore import Data, Node, serialize, deserialize
 from ryvencore.InfoMsgs import InfoMsgs
+
+from ryvencore_qt import NodeInputWidget, NodeMainWidget, NodeGUI, NodeInspectorWidget
+
+import ryven.gui.std_input_widgets as inp_widgets
 from ryven.main.utils import in_gui_mode
 
+
 __explicit_nodes: set = set() # for protection against setting the gui twice on the same node
-__explicit_inspectors: set = set() # same as above
 
 def init_node_guis_env():
     pass
@@ -63,24 +62,3 @@ def node_gui(node_cls: Type[Node]):
         return gui_cls
 
     return register_gui
-
-
-
-def inspector_gui(node_cls: Type[Node]):
-    """
-    Registers an inspector for a node class.
-    """
-    if not issubclass(node_cls, Node):
-        raise Exception(f"{node_cls} is not of type {Node}")
-    
-    def register_inspector(inspect_cls: Type[BaseNodeInspector]):
-        if node_cls in __explicit_inspectors:
-            InfoMsgs.write(f'{node_cls.__name__} has defined an explicit inspector {node_cls.inspector.__name__}')
-            return
-        
-        node_cls.inspector = inspect_cls
-        __explicit_inspectors.add(inspect_cls)
-        InfoMsgs.write(f"Registered node inspector: {node_cls} for {inspect_cls}")
-        return inspect_cls
-    
-    return register_inspector
