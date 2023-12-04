@@ -13,21 +13,20 @@ from .drawings.DrawingObject import DrawingObject
 from .nodes.NodeItem import NodeItem
 from .connections.ConnectionItem import ConnectionItem
 
-def undo_text_multi(items:list, command: str, get_text=None):
+
+def undo_text_multi(items:list, command: str, to_str=None):
     """Generates a text for an undo command that has zero, one or multiple items"""
     
-    gt = get_text if get_text else get_text_default
+    if to_str is None:
+        to_str = str
+    
     if len(items) == 1:
-        return f'{command} {gt(items[0]) if gt else items[0]}'
+        return f'{command} {to_str(items[0]) if to_str else items[0]}'
     elif len(items) == 0:
         return f'Clear-{command}'
     else:
         return f'Multi-{command}'
 
-def get_text_default(obj):
-    """Default function for the undo text"""
-    
-    return f'{obj}'
 
 class FlowUndoCommand(QObject, QUndoCommand):
     """
@@ -66,41 +65,45 @@ class FlowUndoCommand(QObject, QUndoCommand):
         """subclassed"""
         pass
 
-class Nested_Command(FlowUndoCommand):
-    """Simple undo command nesting."""
-    def __init__(self, flow_view, *args):
-        super().__init__(flow_view)
-        self.commands = [arg for arg in args]
-        self.setText('Nested Command')
 
-    def undo_(self):
-        for command in self.commands:
-            command.undo_()
-    
-    def redo_(self):
-        for command in self.commands:
-            command.redo_()
+# (not currently used)
+# class Nested_Command(FlowUndoCommand):
+#     """Simple undo command nesting."""
+#     def __init__(self, flow_view, *args):
+#         super().__init__(flow_view)
+#         self.commands = [arg for arg in args]
+#         self.setText('Nested Command')
+# 
+#     def undo_(self):
+#         for command in self.commands:
+#             command.undo_()
+#   
+#     def redo_(self):
+#         for command in self.commands:
+#             command.redo_()
+
 
 class Delegate_Command(FlowUndoCommand):
     """
-    Event-driven undo command. Undo-redo should be parameterless functions.
+    Custom undo command that delegates the undo and redo actions to two functions.
     """
-    def __init__(self, flow_view, text: str, undo, redo):
+    def __init__(self, flow_view, text: str, on_undo, on_redo):
         super().__init__(flow_view)
         self.setText(text)
-        self._undo_event = undo
-        self._redo_event = redo
+        self._undo_event = on_undo
+        self._redo_event = on_redo
     
-    @property
-    def events(self):
-        return self.__events
+    # @property
+    # def events(self):
+    #     return self.__events
     
     def undo_(self):
         self._undo_event()
 
     def redo_(self):
         self._redo_event()
-        
+
+
 class MoveComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, items_list, p_from, p_to):
         super(MoveComponents_Command, self).__init__(flow_view)
@@ -173,6 +176,7 @@ class PlaceDrawing_Command(FlowUndoCommand):
         self.flow_view.add_drawing(self.drawing, self.drawing_obj_pos)
         self.setText(self.drawing(True))
 
+
 class SelectComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, new_items, prev_items):
         super().__init__(flow_view)
@@ -193,7 +197,8 @@ class SelectComponents_Command(FlowUndoCommand):
                 item.setSelected(False)
         # select_items reconnects the event
         self.flow_view.select_items(new_items)
-        
+
+
 class RemoveComponents_Command(FlowUndoCommand):
     def __init__(self, flow_view, items):
         super().__init__(flow_view)
