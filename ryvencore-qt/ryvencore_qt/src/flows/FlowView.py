@@ -394,7 +394,7 @@ class FlowView(GUIBase, QGraphicsView):
                 menu.exec_(event.globalPos())
                 event.accept()
 
-    def _push_undo(self, cmd: FlowUndoCommand):
+    def push_undo(self, cmd: FlowUndoCommand):
         self._undo_stack.push(cmd)
         cmd.activate()
 
@@ -989,7 +989,7 @@ class FlowView(GUIBase, QGraphicsView):
 
     # NODES
     def create_node__cmd(self, node_class):
-        self._push_undo(PlaceNode_Command(self, node_class, self._node_place_pos))
+        self.push_undo(PlaceNode_Command(self, node_class, self._node_place_pos))
 
     def add_node(self, node):
         # create item
@@ -1083,17 +1083,17 @@ class FlowView(GUIBase, QGraphicsView):
 
             if self.flow.graph_adj_rev[inp] not in (None, out): # out connected to something else
                 # remove existing connection
-                self._push_undo(
+                self.push_undo(
                     ConnectPorts_Command(self, out=self.flow.graph_adj_rev[inp], inp=inp)
                 )
 
             if self.flow.connected_output(inp) == out:
                 # if the exact connection exists, we want to remove it by command
-                self._push_undo(
+                self.push_undo(
                     ConnectPorts_Command(self, out=self.flow.connected_output(inp), inp=inp)
                 )
             else:
-                self._push_undo(ConnectPorts_Command(self, out=out, inp=inp))
+                self.push_undo(ConnectPorts_Command(self, out=out, inp=inp))
 
     def add_connection(self, c: Tuple[NodeOutput, NodeInput]):
         out, inp = c
@@ -1209,7 +1209,7 @@ class FlowView(GUIBase, QGraphicsView):
     def _create_and_place_drawing__cmd(self, posF, data=None):
         new_drawing_obj = self.create_drawing(data)
         place_command = PlaceDrawing_Command(self, posF, new_drawing_obj)
-        self._push_undo(place_command)
+        self.push_undo(place_command)
         return new_drawing_obj
 
     # ADDING/REMOVING COMPONENTS
@@ -1231,7 +1231,7 @@ class FlowView(GUIBase, QGraphicsView):
 
     def remove_selected_components__cmd(self):
         if self._current_selected:
-            self._push_undo(RemoveComponents_Command(self, self._current_selected))
+            self.push_undo(RemoveComponents_Command(self, self._current_selected))
 
         self.viewport().update()
 
@@ -1261,7 +1261,7 @@ class FlowView(GUIBase, QGraphicsView):
             self.scene().destroyItemGroup(items_group)
 
             # saving the command
-            self._push_undo(
+            self.push_undo(
                 MoveComponents_Command(
                     self,
                     self.scene().selectedItems(),
@@ -1291,12 +1291,12 @@ class FlowView(GUIBase, QGraphicsView):
     def create_selection_cmd(self):
         selected_now = self.scene().selectedItems()
         if selected_now != self._current_selected:
-            self._push_undo(SelectComponents_Command(self, selected_now, self._current_selected))
+            self.push_undo(SelectComponents_Command(self, selected_now, self._current_selected))
 
     def selected_components_moved(self, pos_diff):
         items_list = self.scene().selectedItems()
 
-        self._push_undo(
+        self.push_undo(
             MoveComponents_Command(self, items_list, p_from=-pos_diff, p_to=QPointF(0, 0))
         )
 
@@ -1343,7 +1343,7 @@ class FlowView(GUIBase, QGraphicsView):
     def _select_all_action(self):  # ctrl+a
         all_items = self.scene().items()
         if all_items != self._current_selected:
-            self._push_undo(SelectComponents_Command(self, all_items, self._current_selected))
+            self.push_undo(SelectComponents_Command(self, all_items, self._current_selected))
 
     def _copy(self):  # ctrl+c
         data = {
@@ -1402,7 +1402,7 @@ class FlowView(GUIBase, QGraphicsView):
 
             offset_for_middle_pos = self._last_mouse_move_pos - rect.center()
 
-        self._push_undo(Paste_Command(self, data, offset_for_middle_pos))
+        self.push_undo(Paste_Command(self, data, offset_for_middle_pos))
 
     # DATA
     def complete_data(self, data: dict):

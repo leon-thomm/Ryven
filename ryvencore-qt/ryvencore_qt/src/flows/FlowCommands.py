@@ -7,11 +7,7 @@ from typing import Tuple
 from qtpy.QtCore import QObject, QPointF
 from qtpy.QtWidgets import QUndoCommand
 
-from ryvencore.Flow import Flow
-
-from .drawings.DrawingObject import DrawingObject
-from .nodes.NodeItem import NodeItem
-from .connections.ConnectionItem import ConnectionItem
+from ryvencore import InfoMsgs, Flow
 
 
 def undo_text_multi(items:list, command: str, to_str=None):
@@ -36,6 +32,9 @@ class FlowUndoCommand(QObject, QUndoCommand):
     undo stack before the parent command, it is here blocked at first.
     """
 
+    # prevent recursive calls of redo() and undo()
+    _any_cmd_active = False
+
     def __init__(self, flow_view):
         self.flow_view = flow_view
         self.flow: Flow = flow_view.flow
@@ -51,11 +50,29 @@ class FlowUndoCommand(QObject, QUndoCommand):
     def redo(self) -> None:
         if not self._activated:
             return
+        elif FlowUndoCommand._any_cmd_active:
+            InfoMsgs.write_err(
+                'FlowUndoCommand.redo() called while another FlowUndoCommand is active, '
+                'most likely due to a recursive redo. This is not allowed. '
+                'The editor is now in an undefined state. Save your work and restart the editor. '
+            )
+            return
         else:
+            FlowUndoCommand._any_cmd_active = True
             self.redo_()
+            FlowUndoCommand._any_cmd_active = False
 
     def undo(self) -> None:
+        if FlowUndoCommand._any_cmd_active:
+            InfoMsgs.write_err(
+                'FlowUndoCommand.undo() called while another FlowUndoCommand is active, '
+                'most likely due to a recursive undo. This is not allowed. '
+                'The editor is now in an undefined state. Save your work and restart the editor. '
+            )
+            return
+        FlowUndoCommand._any_cmd_active = True
         self.undo_()
+        FlowUndoCommand._any_cmd_active = False
 
     def redo_(self):
         """subclassed"""
@@ -90,18 +107,14 @@ class Delegate_Command(FlowUndoCommand):
     def __init__(self, flow_view, text: str, on_undo, on_redo):
         super().__init__(flow_view)
         self.setText(text)
-        self._undo_event = on_undo
-        self._redo_event = on_redo
-    
-    # @property
-    # def events(self):
-    #     return self.__events
+        self._on_undo = on_undo
+        self._on_redo = on_redo
     
     def undo_(self):
-        self._undo_event()
+        self._on_undo()
 
     def redo_(self):
-        self._redo_event()
+        self._on_redo()
 
 
 class MoveComponents_Command(FlowUndoCommand):
@@ -214,6 +227,12 @@ class RemoveComponents_Command(FlowUndoCommand):
         self.node_items = []
         self.nodes = []
         self.drawings = []
+
+        # importing here to prevent circular imports
+        from .nodes.NodeItem import NodeItem
+        from .connections.ConnectionItem import ConnectionItem
+        from .drawings.DrawingObject import DrawingObject
+        
         for i in self.items:
             if isinstance(i, NodeItem):
                 self.node_items.append(i)
@@ -397,9 +416,8 @@ class Paste_Command(FlowUndoCommand):
             d: DrawingObject
             d.setSelected(True)
         for n in self.pasted_components['nodes']:
-            n: NodeItem
-            ni: NodeItem = self.flow_view.node_items[n]
-            ni.setSelected(True)
+            node_item = self.flow_view.node_items[n]
+            node_item.setSelected(True)
 
     def create_drawings(self):
         drawings = []
