@@ -1,5 +1,6 @@
 # import math
 from typing import Type, List
+from enum import Enum
 from qtpy.QtCore import QPointF, Qt, QTimeLine, QPropertyAnimation, QParallelAnimationGroup, QAbstractAnimation
 from qtpy.QtGui import QPainter, QColor, QRadialGradient, QPainterPath, QPen, QBrush
 from qtpy.QtWidgets import (
@@ -16,7 +17,6 @@ from ...utils import pythagoras
 
 from ...flows.nodes.PortItem import PortItem
 
-from enum import Enum
 
 class ConnectionItem(GUIBase, QGraphicsPathItem):
     """The GUI representative for a connection. The classes ExecConnectionItem and DataConnectionItem will be ready
@@ -47,7 +47,8 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         diam = 12.5
         self.num_dots = 40
         self.dots = [
-            QGraphicsEllipseItem(-diam / 2, -diam / 2, diam, diam, self) for i in range(40)
+            QGraphicsEllipseItem(-diam / 2, -diam / 2, diam, diam, self) 
+            for _ in range(self.num_dots)
         ]
         for dot in self.dots:
             dot.setVisible(False)
@@ -74,6 +75,7 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
     def recompute(self):
         """Updates scene position and recomputes path, pen, gradient and dots"""
+
         # dots
         self.items_animation.recompute()
 
@@ -280,7 +282,10 @@ class ConnectionItemsAnimation(QGraphicsObject):
     ):
         super().__init__()
         
-        self.items:List[QGraphicsItemAnimated] = [QGraphicsItemAnimated(item, self) for item in items]
+        self.items: List[QGraphicsItemAnimated] = [
+            QGraphicsItemAnimated(item, self) 
+            for item in items
+        ]
         self.connection = connection
         self._frames = frames
         self._duration = duration
@@ -295,7 +300,6 @@ class ConnectionItemsAnimation(QGraphicsObject):
         self.timeline.setCurveShape(QTimeLine.LinearCurve)
         self.timeline.valueChanged.connect(self.update_items)
         self.timeline.setLoopCount(0)
-        
 
     @property
     def duration(self):
@@ -330,6 +334,7 @@ class ConnectionItemsAnimation(QGraphicsObject):
 
     def toggle(self, recompute: bool = False):
         """Toggles the path animation. Returns True if toggled on, otherwise False"""
+
         state = self.timeline.state()
         running = False
         if state == QTimeLine.NotRunning:
@@ -368,9 +373,7 @@ class ConnectionItemsAnimation(QGraphicsObject):
         for item in self.items:
             item.setVisible(False)
 
-        if (
-            self.timeline.state() == QTimeLine.State.NotRunning
-        ):
+        if self.timeline.state() == QTimeLine.State.NotRunning:
             return
 
         path_len = self.connection.path().length()
@@ -401,7 +404,9 @@ class ConnectionAnimation:
         
     
     def __init__(
-        self, items_animation: ConnectionItemsAnimation, duration: int = 750, scale: int = 1
+        self, items_animation: ConnectionItemsAnimation, 
+        duration: int = 750, 
+        scale: int = 1, 
     ) -> None:
         self.con_items_anim = items_animation
         self.duration = duration
