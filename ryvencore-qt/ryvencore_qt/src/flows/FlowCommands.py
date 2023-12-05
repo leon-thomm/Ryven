@@ -156,9 +156,11 @@ class PlaceNode_Command(FlowUndoCommand):
         self.node_class = node_class
         self.node = None
         self.item_pos = pos
+        self._prev_selected = flow_view._current_selected
 
     def undo_(self):
         self.flow.remove_node(self.node)
+        self.flow_view.select_items(self._prev_selected)
 
     def redo_(self):
         if self.node:
@@ -175,6 +177,7 @@ class PlaceDrawing_Command(FlowUndoCommand):
         self.drawing = drawing
         self.drawing_obj_place_pos = posF
         self.drawing_obj_pos = self.drawing_obj_place_pos
+        self._prev_selected = flow_view._current_selected
 
     def undo_(self):
         # The drawing_obj_pos is not anymore the drawing_obj_place_pos because after the
@@ -184,6 +187,7 @@ class PlaceDrawing_Command(FlowUndoCommand):
         self.drawing_obj_pos = self.drawing.pos()
 
         self.flow_view.remove_component(self.drawing)
+        self.flow_view.select_items(self._prev_selected)
 
     def redo_(self):
         self.flow_view.add_drawing(self.drawing, self.drawing_obj_pos)
@@ -405,7 +409,6 @@ class Paste_Command(FlowUndoCommand):
     def select_new_components_in_view(self):
         self.flow_view.clear_selection()
         for d in self.pasted_components['drawings']:
-            d: DrawingObject
             d.setSelected(True)
         for n in self.pasted_components['nodes']:
             node_item = self.flow_view.node_items[n]

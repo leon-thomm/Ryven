@@ -1308,12 +1308,17 @@ class FlowView(GUIBase, QGraphicsView):
     def select_items(self, items: list):
         """
         Selects a list of items in the scene.
+        It always clears the current selection
         Does not cause any command to be pushed to the undo stack.
         Emits signals indicating selection changes.
         """
 
         self._unwatch_scene_selection()
         self._current_selected = items
+        for i in self.scene().items():
+            if i.ItemIsSelectable:
+                i.setSelected(False)
+                
         for i in items:
             if i.ItemIsSelectable:
                 i.setSelected(True)
