@@ -388,7 +388,7 @@ class FlowView(GUIBase, QGraphicsView):
 
         # this allows to chain the selection event when multi-selecting
         hover_item = self.itemAt(event.pos())
-        if hover_item is not None:
+        if hover_item is None:
             self._set_selection_mode(_SelectionMode.UNDO_DRAG)
 
         if event.button() != Qt.RightButton:
