@@ -84,8 +84,8 @@ class _SelectionMode(Enum):
     """
 
     INSTANT = 1
-    UNDO_CLICK = 2
-    UNDO_DRAG = 3
+    UNDOABLE_CLICK = 2
+    UNDOABLE_RUBBERBANDDRAG = 3
 
 
 class FlowView(GUIBase, QGraphicsView):
@@ -129,7 +129,7 @@ class FlowView(GUIBase, QGraphicsView):
         self.node_items__cache: dict = {}
         self.connection_items: dict = {}  # {Connection: ConnectionItem}
         self.connection_items__cache: dict = {}
-        self.selection_mode: _SelectionMode = _SelectionMode.UNDO_CLICK
+        self.selection_mode: _SelectionMode = _SelectionMode.UNDOABLE_CLICK
 
         # PRIVATE FIELDS
         self._loaded_state = None # h and v scrollbars are changed on import, so we need to defer
@@ -379,7 +379,7 @@ class FlowView(GUIBase, QGraphicsView):
     def mousePressEvent(self, event):
         # InfoMsgs.write('mouse press event received, point:', event.pos())
 
-        self._set_selection_mode(_SelectionMode.UNDO_CLICK)
+        self._set_selection_mode(_SelectionMode.UNDOABLE_CLICK)
 
         # to catch tablet events (for some reason, it results in a mousePrEv too)
         if self.mouse_event_taken:
@@ -389,7 +389,7 @@ class FlowView(GUIBase, QGraphicsView):
         # this allows to chain the selection event when multi-selecting
         hover_item = self.itemAt(event.pos())
         if hover_item is None:
-            self._set_selection_mode(_SelectionMode.UNDO_DRAG)
+            self._set_selection_mode(_SelectionMode.UNDOABLE_RUBBERBANDDRAG)
 
         if event.button() != Qt.RightButton:
             QGraphicsView.mousePressEvent(self, event)
@@ -398,7 +398,7 @@ class FlowView(GUIBase, QGraphicsView):
         # this includes node items, node port pins, proxy widgets etc.
         if self.mouse_event_taken:
             self.mouse_event_taken = False
-            self._set_selection_mode(_SelectionMode.UNDO_CLICK)
+            self._set_selection_mode(_SelectionMode.UNDOABLE_CLICK)
             return
 
         if event.button() == Qt.LeftButton:
@@ -441,7 +441,7 @@ class FlowView(GUIBase, QGraphicsView):
         if self.mouse_event_taken:
             self.mouse_event_taken = False
             self.viewport().repaint()
-            self._set_selection_mode(_SelectionMode.UNDO_CLICK)
+            self._set_selection_mode(_SelectionMode.UNDOABLE_CLICK)
             return
 
         elif self._panning:
@@ -451,7 +451,7 @@ class FlowView(GUIBase, QGraphicsView):
             self._right_mouse_pressed_in_flow = False
             if self._mouse_press_pos == self._last_mouse_move_pos and not self.itemAt(event.pos()):
                 self.show_place_node_widget(event.pos())
-                self._set_selection_mode(_SelectionMode.UNDO_CLICK)
+                self._set_selection_mode(_SelectionMode.UNDOABLE_CLICK)
                 return
 
         if self._dragging_connection:
@@ -485,13 +485,13 @@ class FlowView(GUIBase, QGraphicsView):
         # if event.button() == Qt.LeftButton:
         #     self._left_mouse_pressed_in_flow = False
         elif event.button() != Qt.RightButton:
-            if self.selection_mode == _SelectionMode.UNDO_DRAG:
+            if self.selection_mode == _SelectionMode.UNDOABLE_RUBBERBANDDRAG:
                 self._select__cmd()
 
         else:
             self._right_mouse_pressed_in_flow = False
 
-        self._set_selection_mode(_SelectionMode.UNDO_CLICK)
+        self._set_selection_mode(_SelectionMode.UNDOABLE_CLICK)
         self.viewport().repaint()
 
     def keyPressEvent(self, event):
@@ -504,7 +504,7 @@ class FlowView(GUIBase, QGraphicsView):
             self.setFocus()
             return True
 
-        elif event.key() == Qt.Key_Delete and self.selection_mode != _SelectionMode.UNDO_DRAG:
+        elif event.key() == Qt.Key_Delete and self.selection_mode != _SelectionMode.UNDOABLE_RUBBERBANDDRAG:
             self.remove_selected_components__cmd()
 
     def wheelEvent(self, event):
@@ -1266,7 +1266,7 @@ class FlowView(GUIBase, QGraphicsView):
         if self.selection_mode == _SelectionMode.INSTANT:
             self._current_selected = self.scene().selectedItems()
             self.emit_selected_items()
-        elif self.selection_mode == _SelectionMode.UNDO_CLICK:
+        elif self.selection_mode == _SelectionMode.UNDOABLE_CLICK:
             self._select__cmd()
 
     def _watch_scene_selection(self):
