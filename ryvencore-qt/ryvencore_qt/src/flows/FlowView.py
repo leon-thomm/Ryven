@@ -1312,15 +1312,15 @@ class FlowView(GUIBase, QGraphicsView):
         Does not cause any command to be pushed to the undo stack.
         Emits signals indicating selection changes.
         """
-
+        
         self._unwatch_scene_selection()
         self._current_selected = items
         for i in self.scene().items():
-            if i.ItemIsSelectable:
+            if i.flags() & QGraphicsItem.ItemIsSelectable != 0:
                 i.setSelected(False)
                 
         for i in items:
-            if i.ItemIsSelectable:
+            if i.flags() & QGraphicsItem.ItemIsSelectable != 0:
                 i.setSelected(True)
         self.emit_selected_items()
         self.viewport().repaint()
