@@ -9,6 +9,7 @@ from qtpy.QtWidgets import (
     QTabWidget,
     QDockWidget,
     QUndoView,
+    QAction
 )
 from qtpy.QtCore import Qt, QByteArray
 
@@ -49,6 +50,11 @@ class FlowUI(QMainWindow):
         # should be list[QDockWidget] in 3.9+
         all_dock_widgets: List[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
         windows_menu = flow_view.menu().addMenu("Windows")
+        open_all_action = QAction('Open All', self)
+        open_all_action.triggered.connect(self.open_docks)
+        close_all_action = QAction('Close All', self)
+        close_all_action.triggered.connect(self.close_docks)
+        windows_menu.addActions([open_all_action, close_all_action])
         for w in all_dock_widgets:
             windows_menu.addAction(w.toggleViewAction())
 
@@ -111,6 +117,14 @@ class FlowUI(QMainWindow):
             self.add_logger_widget(logger)
         logging.log_created.sub(self.add_logger_widget)
 
+    def open_docks(self, docks):
+        for dock in self.findChildren(QDockWidget):
+            dock.show()
+    
+    def close_docks(self, dock):
+        for dock in self.findChildren(QDockWidget):
+            dock.close()
+            
     # created to avoid __del__
     def unload(self):
         """Disconnects the flow ui from the design or main application signals"""
