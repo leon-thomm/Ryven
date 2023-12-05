@@ -324,6 +324,7 @@ QTabBar{
 QTabBar::tab {
   color: {{secondaryTextColor}};
   border: 0px;
+  min-width: 65px;
 }
 
 QTabBar::tab:bottom,

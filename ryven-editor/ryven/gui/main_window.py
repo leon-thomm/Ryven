@@ -117,6 +117,8 @@ All output will be printed in the terminal, not the editor console.
 The editor console can still be used for commands.
               '''
             )
+            # hide the console in verbose mode
+            self.ui.consoleDock.hide()
 
         # Setup ryvencore Session and load project
 

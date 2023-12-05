@@ -1,6 +1,8 @@
 """The base classes for node custom widgets for nodes."""
 from ryvencore import Data
 
+from ..FlowCommands import Delegate_Command
+
 
 class NodeMainWidget:
     """Base class for the main widget of a node."""
@@ -116,3 +118,14 @@ class NodeInspectorWidget:
     def unload(self):
         """Called when the inspector is removed from the inspector view in the editor."""
         pass
+
+    def push_undo(self, text: str, undo_fn, redo_fn):
+        """Push an undo function to the undo stack of the flow."""
+        self.node_gui.flow_view().push_undo(
+            Delegate_Command(
+                self.node_gui.flow_view(),
+                text=text,
+                on_undo=undo_fn,
+                on_redo=redo_fn,
+            )
+        )
