@@ -110,8 +110,6 @@ class FlowView(GUIBase, QGraphicsView):
         GUIBase.__init__(self, representing_component=flow)
         QGraphicsView.__init__(self, parent=parent)
 
-        self.selection_mode: _SelectionMode = _SelectionMode.UNDO_CLICK
-
         # UNDO STACK
         self._undo_stack = QUndoStack(self)
         self._undo_action = self._undo_stack.createUndoAction(self, 'undo')
@@ -131,6 +129,7 @@ class FlowView(GUIBase, QGraphicsView):
         self.node_items__cache: dict = {}
         self.connection_items: dict = {}  # {Connection: ConnectionItem}
         self.connection_items__cache: dict = {}
+        self.selection_mode: _SelectionMode = _SelectionMode.UNDO_CLICK
 
         # PRIVATE FIELDS
         self._loaded_state = None # h and v scrollbars are changed on import, so we need to defer
@@ -186,7 +185,7 @@ class FlowView(GUIBase, QGraphicsView):
         self.setRenderHint(QPainter.Antialiasing)
         self.setTransformationAnchor(QGraphicsView.AnchorUnderMouse)
         self.setDragMode(QGraphicsView.RubberBandDrag)
-        scene.selectionChanged.connect(self._scene_selection_changed)
+        self._watch_scene_selection()
         self.setAcceptDrops(True)
 
         self.centerOn(QPointF(self.viewport().width() / 2, self.viewport().height() / 2))
@@ -314,18 +313,6 @@ class FlowView(GUIBase, QGraphicsView):
         )
         return result
 
-    def _connect_on_selection(self):
-        try:
-            self.scene().selectionChanged.connect(self._scene_selection_changed)
-        except:
-            pass
-
-    def _disconnect_on_selection(self):
-        try:
-            self.scene().selectionChanged.disconnect(self._scene_selection_changed)
-        except:
-            pass
-
     def _init_shortcuts(self):
         place_new_node_shortcut = QShortcut(QKeySequence('Shift+P'), self)
         place_new_node_shortcut.activated.connect(self._place_new_node_by_shortcut)
@@ -424,7 +411,7 @@ class FlowView(GUIBase, QGraphicsView):
 
         # This allows to chain the selection event when multi-selecting
         hover_item = self.itemAt(event.pos())
-        if not hover_item:
+        if hover_item is not None:
             self._set_selection_mode(_SelectionMode.UNDO_DRAG)
 
         if event.button() != Qt.RightButton:
@@ -1318,15 +1305,21 @@ class FlowView(GUIBase, QGraphicsView):
             if isinstance(drawing, DrawingObject)
         ]
 
+    def _watch_scene_selection(self):
+        self.scene().selectionChanged.connect(self._scene_selection_changed)
+
+    def _unwatch_scene_selection(self):
+        self.scene().selectionChanged.disconnect(self._scene_selection_changed)
+
     def select_items(self, items: list):
         self._current_selected = items
-        self._disconnect_on_selection()
+        self._unwatch_scene_selection()
         for i in items:
             if i.ItemIsSelectable:
                 i.setSelected(True)
         self.emit_selected_items(items)
         self.viewport().repaint()
-        self._connect_on_selection()
+        self._watch_scene_selection()
 
     def select_all(self):
         self.select_items(self.scene().items())

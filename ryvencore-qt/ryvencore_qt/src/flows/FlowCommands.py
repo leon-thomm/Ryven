@@ -204,7 +204,6 @@ class SelectComponents_Command(FlowUndoCommand):
         self.do_select(self.prev_items, self.items)
         
     def do_select(self, new_items, prev_items):
-        self.flow_view._disconnect_on_selection()
         for item in prev_items:
             if item.ItemIsSelectable:
                 item.setSelected(False)

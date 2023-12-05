@@ -9,7 +9,6 @@ from qtpy.QtWidgets import (
     QTabWidget,
     QDockWidget,
     QUndoView,
-    QTabBar
 )
 from qtpy.QtCore import Qt, QByteArray
 
