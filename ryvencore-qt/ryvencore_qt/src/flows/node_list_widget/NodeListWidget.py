@@ -7,7 +7,7 @@ from qtpy.QtWidgets import (
     QSplitter,
     QAbstractItemView,
     QListView,
-    QLabel
+    QLabel,
 )
 
 from qtpy.QtCore import Qt, Signal, QModelIndex, QSortFilterProxyModel

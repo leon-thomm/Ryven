@@ -98,7 +98,8 @@ class NodesEnvRegistry:
     def current_package_id(cls):
         if cls.current_package is None:
             raise Exception(
-                "Attempted node export outside of a nodes package."
+                f'Unexpected nodes export. '
+                f'Nodes export is only allowed when the nodes package is imported. '
             )
         return cls.current_package.name
 

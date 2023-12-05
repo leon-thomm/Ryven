@@ -43,26 +43,18 @@ class InspectorView(QWidget):
 
         if self.inspector_widget:
             self.inspector_widget.unload()
+            self.inspector_widget.setVisible(False)
+            self.inspector_widget.setParent(None)
+            
         self.node = None
         self.inspector_widget = None
-        self.clear()
 
         if node is not None:
             self.node = node
-            self.layout().addWidget(self.node.gui.inspector_widget)
-            self.node.gui.inspector_widget.load()
-
-    def clear(self):
-        """Clears the layout. This does not delete the widgets."""
-
-        layout = self.layout()
-        while layout.count():
-            item = layout.takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.setParent(None)
-            else:
-                layout.removeItem(item)
+            self.inspector_widget = self.node.gui.inspector_widget
+            self.layout().addWidget(self.inspector_widget)
+            self.inspector_widget.setVisible(True)
+            self.inspector_widget.load()
 
 
 class NodeInspectorDefaultWidget(NodeInspectorWidget, QWidget):

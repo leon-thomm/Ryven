@@ -19,7 +19,7 @@ class NodeItemAnimator(QObject):
         # transform
         self.scale_animation = QPropertyAnimation(self.node_item, b'scale')
         self.scale_animation.setDuration(700)
-        self.scalar = 1.075
+        self.scalar = 1.04
         
         self.animation = QParallelAnimationGroup()
         self.animation.addAnimation(self.title_activation_animation)
@@ -68,6 +68,7 @@ class NodeItemAnimator(QObject):
         self.title_activation_animation.setCurrentTime(0.3*self.title_activation_animation.duration())
         self.body_activation_animation.setCurrentTime(0.3*self.body_activation_animation.duration())
 
+    # BODY COLOR
     def get_body_color(self):
         return self.node_item.color
 
@@ -77,7 +78,7 @@ class NodeItemAnimator(QObject):
 
     p_body_color = Property(QColor, get_body_color, set_body_color)
 
-
+    # TITLE COLOR
     def get_title_color(self):
         return self.node_item.widget.title_label.color
 
