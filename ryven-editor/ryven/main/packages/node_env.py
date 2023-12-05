@@ -145,6 +145,10 @@ def export_nodes(
             *n_cls.legacy_identifiers,
             n_cls.identifier if n_cls.identifier else n_cls.__name__,
         ]
+    
+    # same for data types
+    for d_cls in data_types:
+        d_cls.identifier = f'{pkg_name}.{d_cls.identifier}'
 
     NodesEnvRegistry.exported_nodes_legacy.append(node_types)
     NodesEnvRegistry.exported_data_types_legacy.append(data_types)
