@@ -1,34 +1,43 @@
-from qtpy.QtCore import QObject, QPropertyAnimation, Property
+from qtpy.QtCore import QObject, QPropertyAnimation, Property, QParallelAnimationGroup, QTimeLine
 from qtpy.QtGui import QColor
 from qtpy.QtWidgets import QGraphicsItem
-
 
 class NodeItemAnimator(QObject):
 
     def __init__(self, node_item):
         super(NodeItemAnimator, self).__init__()
 
-        self.node_item = node_item
+        self.node_item: QGraphicsItem = node_item
         self.animation_running = False
 
+        # title color
         self.title_activation_animation = QPropertyAnimation(self, b"p_title_color")
         self.title_activation_animation.setDuration(700)
-        self.title_activation_animation.finished.connect(self.finished)
+        # body color
         self.body_activation_animation = QPropertyAnimation(self, b"p_body_color")
         self.body_activation_animation.setDuration(700)
+        # transform
+        self.scale_animation = QPropertyAnimation(self.node_item, b'scale')
+        self.scale_animation.setDuration(700)
+        self.scalar = 1.04
+        
+        self.animation = QParallelAnimationGroup()
+        self.animation.addAnimation(self.title_activation_animation)
+        self.animation.addAnimation(self.body_activation_animation)
+        self.animation.addAnimation(self.scale_animation)
+        self.animation.finished.connect(self.finished)
 
     def start(self):
         self.animation_running = True
-        self.title_activation_animation.start()
-        self.body_activation_animation.start()
+        self.animation.start()
 
     def stop(self):
         # reset color values. it would just freeze without
         self.title_activation_animation.setCurrentTime(self.title_activation_animation.duration())
         self.body_activation_animation.setCurrentTime(self.body_activation_animation.duration())
-
-        self.title_activation_animation.stop()
-        self.body_activation_animation.stop()
+        self.scale_animation.setCurrentTime(self.scale_animation.duration())
+        
+        self.animation.stop()
 
     def finished(self):
         self.animation_running = False
@@ -47,6 +56,10 @@ class NodeItemAnimator(QObject):
         self.body_activation_animation.setKeyValueAt(0, self.get_body_color())
         self.body_activation_animation.setKeyValueAt(0.3, self.get_body_color().lighter())
         self.body_activation_animation.setKeyValueAt(1, self.get_body_color())
+        
+        self.scale_animation.setKeyValueAt(0, 1)
+        self.scale_animation.setKeyValueAt(0.3, self.scalar)
+        self.scale_animation.setKeyValueAt(1, 1)
 
     def fading_out(self):
         return self.title_activation_animation.currentTime()/self.title_activation_animation.duration() >= 0.3
@@ -55,6 +68,7 @@ class NodeItemAnimator(QObject):
         self.title_activation_animation.setCurrentTime(0.3*self.title_activation_animation.duration())
         self.body_activation_animation.setCurrentTime(0.3*self.body_activation_animation.duration())
 
+    # BODY COLOR
     def get_body_color(self):
         return self.node_item.color
 
@@ -64,7 +78,7 @@ class NodeItemAnimator(QObject):
 
     p_body_color = Property(QColor, get_body_color, set_body_color)
 
-
+    # TITLE COLOR
     def get_title_color(self):
         return self.node_item.widget.title_label.color
 

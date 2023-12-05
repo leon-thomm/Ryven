@@ -2,16 +2,16 @@
 This module automatically imports all requirements for Gui definitions of a nodes package.
 """
 
-import inspect
 from typing import Type
-
-import ryven.gui.std_input_widgets as inp_widgets
-
-from ryvencore_qt import NodeInputWidget, NodeMainWidget, NodeGUI
 
 from ryvencore import Data, Node, serialize, deserialize
 from ryvencore.InfoMsgs import InfoMsgs
+
+from ryvencore_qt import NodeInputWidget, NodeMainWidget, NodeGUI, NodeInspectorWidget
+
+import ryven.gui.std_input_widgets as inp_widgets
 from ryven.main.utils import in_gui_mode
+
 
 __explicit_nodes: set = set() # for protection against setting the gui twice on the same node
 
@@ -58,7 +58,7 @@ def node_gui(node_cls: Type[Node]):
         
         node_cls.GUI = gui_cls
         __explicit_nodes.add(node_cls)
-        InfoMsgs.write(f"Registered node gui: {node_cls} for {gui_cls}")
+        InfoMsgs.write(f"Registered node gui: {gui_cls} for {node_cls}")
         return gui_cls
 
     return register_gui

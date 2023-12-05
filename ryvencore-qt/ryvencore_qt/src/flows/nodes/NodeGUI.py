@@ -3,6 +3,9 @@ from typing import List, Dict, Tuple, Optional, Union
 
 from qtpy.QtCore import QObject, Signal
 
+from .WidgetBaseClasses import NodeMainWidget, NodeInputWidget, NodeInspectorWidget
+from .NodeInspector import NodeInspectorDefaultWidget
+
 
 class NodeGUI(QObject):
     """
@@ -11,9 +14,11 @@ class NodeGUI(QObject):
 
     # customizable gui attributes
     description_html: str = None
-    main_widget_class: list = None
+    main_widget_class: Optional[NodeMainWidget] = None
     main_widget_pos: str = 'below ports'
-    input_widget_classes: dict = {}
+    input_widget_classes: Dict[str, NodeInputWidget] = {}
+    inspector_widget_class: NodeInspectorWidget = NodeInspectorDefaultWidget
+    wrap_inspector_in_default: bool = False
     init_input_widgets: dict = {}
     style: str = 'normal'
     color: str = '#c69a15'
@@ -61,6 +66,16 @@ class NodeGUI(QObject):
         self.node.output_added.sub(self._on_new_output_added)
         self.node.input_removed.sub(self._on_input_removed)
         self.node.output_removed.sub(self._on_output_removed)
+
+        # create the inspector widget
+        inspector_params = (self.node, self)
+        if self.wrap_inspector_in_default:
+            self.inspector_widget = NodeInspectorDefaultWidget(
+                child=self.inspector_widget_class((self.node, self)),
+                params=inspector_params,
+            )
+        else:
+            self.inspector_widget = self.inspector_widget_class(inspector_params)
 
     def initialized(self):
         """
@@ -183,6 +198,7 @@ class NodeGUI(QObject):
         return {
             'actions': self._serialize_actions(self.actions),
             'display title': self.display_title,
+            'inspector widget': self.inspector_widget.get_state(),
         }
 
     def load(self, data):
@@ -190,9 +206,10 @@ class NodeGUI(QObject):
             self.actions = self._deserialize_actions(data['actions'])
         if 'display title' in data:
             self.display_title = data['display title']
-
         if 'special actions' in data:   # backward compatibility
             self.actions = self._deserialize_actions(data['special actions'])
+        if 'inspector widget' in data:
+            self.inspector_widget.set_state(data['inspector widget'])
 
     """
     GUI access methods

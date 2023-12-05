@@ -54,7 +54,7 @@ class MainWindow(QMainWindow):
         self.theme = config.window_theme
         self.node_packages = {}  # {Node: str}
         self.flow_UIs = {}  # Should be dict[Flow, FlowUI] in 3.9+
-        self.flow_ui_template = None # Should be dict[str, QByteArray] in 3.9+
+        self.flow_ui_template = None # Should be dict[str, QByteArray | dict] in 3.9+
         self._project_content = None
 
         # Init Session GUI
@@ -117,6 +117,8 @@ All output will be printed in the terminal, not the editor console.
 The editor console can still be used for commands.
               '''
             )
+            # hide the console in verbose mode
+            self.ui.consoleDock.hide()
 
         # Setup ryvencore Session and load project
 
@@ -143,7 +145,11 @@ The editor console can still be used for commands.
 
         self.resize(1500, 800)  # FIXME: this renders the --geometry argument useless, no?
         # self.showMaximized()
-
+    
+    def closeEvent(self, event):
+        for flow_ui in self.flow_UIs.values():
+            flow_ui.unload()
+        
     def print_info(self):
         print('''
 CONTROLS
@@ -176,6 +182,7 @@ CONTROLS
             template = {
                 'geometry': flow_ui.saveGeometry().toHex().data().decode(),
                 'state': flow_ui.saveState().toHex().data().decode(),
+                'view': flow_ui.flow_view.save_state()
             }
             self.set_flow_ui_template(template)
 
@@ -213,6 +220,11 @@ CONTROLS
 
         # add widget actions to menu
         all_dock_widgets: list[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
+        open_all_docks = QAction('Open All', self)
+        open_all_docks.triggered.connect(self.open_docks)
+        close_all_docks = QAction('Close All Tabs', self)
+        close_all_docks.triggered.connect(self.close_docks)
+        self.ui.menuDocks.addActions([open_all_docks, close_all_docks])
         self.ui.menuDocks.addActions([w.toggleViewAction() for w in all_dock_widgets])
         # tabify all left tabs at a fresh project
         left_widgets = [
@@ -221,6 +233,15 @@ CONTROLS
         for i in range(1, len(left_widgets)):
             self.tabifyDockWidget(left_widgets[i - 1], left_widgets[i])
 
+    def open_docks(self):
+        for dock in self.findChildren(QDockWidget):
+            dock.show()
+    
+    def close_docks(self):
+        for dock in self.findChildren(QDockWidget):
+            if not dock.isFloating():
+                dock.close()
+            
     def setup_menu_actions(self):
         # flow designs
         light_themes_menu = QMenu('light')
@@ -309,7 +330,13 @@ CONTROLS
             self.session_gui.set_stylesheet(ss_content)
             self.setStyleSheet(ss_content)
 
+    # necessary for proper flow view loading
+    def showEvent(self, event):
+        for flow_ui in self.flow_UIs.values():
+            flow_ui.flow_view.reload()
+        
     # events
+    
     def on_performance_mode_value_changed(self, mode: str):
         if mode == 'fast':
             self.setDockOptions(self.dockOptions() & ~QMainWindow.AnimatedDocks)
@@ -495,7 +522,7 @@ CONTROLS
         self.nodes_list_widget.update_list(self.core_session.nodes)
         self.nodes_list_widget.make_pack_hier()
 
-    # should be dict[str, str] | dict[str, QByteArray] | None in 3.9+
+    # should be dict[str, str] | dict[str, QByteArray | dict] | None in 3.9+
     def set_flow_ui_template(self, template):
         if template is None:
             self.flow_ui_template = None
@@ -505,7 +532,11 @@ CONTROLS
             if type(template[key]) is QByteArray
             else bytes.fromhex(template[key])
         )
-        self.flow_ui_template = {'geometry': save('geometry'), 'state': save('state')}
+        self.flow_ui_template = {
+            'geometry': save('geometry'), 
+            'state': save('state'),
+            'view': template['view']
+        }
 
     def load_qt_window(self, project_dict):
         """
@@ -518,7 +549,7 @@ CONTROLS
 
     def load_flow_ui(self, flow_ui: FlowUI):
         """
-        Loads a flows previous geometry and state based on the previous flow id.
+        Loads a flow uis previous geometry and state based on the previous flow id.
         """
         if self._project_content is None:
             return
@@ -562,10 +593,10 @@ CONTROLS
         state = self.saveState().toHex().data().decode()
 
         # Serialization of the flow views
-        # should be dict[str, dict[str, str]] in 3.9+
+        # should be dict[str, dict[str, str | dict]] in 3.9+
         flow_uis_ser: dict = {}
         for flow, flow_ui in self.flow_UIs.items():
-            flow_uis_ser[str(flow.global_id)] = flow_ui.save()
+            flow_uis_ser[str(flow.global_id)] = flow_ui.save_state()
 
         whole_project_dict = {
             'general info': general_project_info_dict,
@@ -581,6 +612,7 @@ CONTROLS
             whole_project_dict['flow_ui_template'] = {
                 'geometry': QByteArray(self.flow_ui_template['geometry']).toHex().data().decode(),
                 'state': QByteArray(self.flow_ui_template['state']).toHex().data().decode(),
+                'view': self.flow_ui_template['view']
             }
 
         data = json.dumps(whole_project_dict, indent=4)

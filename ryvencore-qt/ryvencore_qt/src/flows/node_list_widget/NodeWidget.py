@@ -10,6 +10,17 @@ class NodeWidget(QWidget):
     chosen = Signal()
     custom_focused_from_inside = Signal()
 
+    @staticmethod
+    def _create_mime_data(node) -> QMimeData:
+        mime_data = QMimeData()
+        mime_data.setData('application/json', bytes(json.dumps(
+                {
+                    'type': 'node',
+                    'node identifier': node.identifier,
+                }
+            ), encoding='utf-8'))
+        return mime_data
+    
     def __init__(self, parent, node):
         super(NodeWidget, self).__init__(parent)
 
@@ -100,7 +111,6 @@ QLabel {{
     background: transparent;
 }}
 QLineEdit {{
-    color: white;
     background: transparent;
     border: none;
     padding: 2px;

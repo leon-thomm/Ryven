@@ -379,15 +379,15 @@ class FlowTheme_DarkTron(FlowTheme):
 
     def paint_PI(self, node_gui, painter, option, node_color, type_, connected, rect):
 
-        color = QColor('#FFFFFF') if type_ == 'exec' else node_color
+        color = QColor('#FFFFFF') if type_ == 'exec' else QColor(node_color)
         pen = QPen(color)
         pen.setWidth(2)
         painter.setPen(pen)
         if connected or \
                 option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
-            r = node_color.red()
-            g = node_color.green()
-            b = node_color.blue()
+            r = color.red()
+            g = color.green()
+            b = color.blue()
             brush = QBrush(QColor(r, g, b, 100))
             painter.setBrush(brush)
         else:
@@ -569,7 +569,7 @@ class FlowTheme_Ghost(FlowTheme):
 
     def paint_PI(self, node_gui, painter, option, node_color, type_, connected, rect):
 
-        color = QColor('#FFFFFF') if type_ == 'exec' else node_color
+        color = QColor('#FFFFFF') if type_ == 'exec' else QColor(node_color)
 
         if type_ == 'exec':
             if connected or \
@@ -581,9 +581,9 @@ class FlowTheme_Ghost(FlowTheme):
         elif type_ == 'data':
             if connected or \
                     option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
-                r = node_color.red()
-                g = node_color.green()
-                b = node_color.blue()
+                r = color.red()
+                g = color.green()
+                b = color.blue()
                 brush = QBrush(QColor(r, g, b, 100))
                 painter.setBrush(brush)
             else:
@@ -879,7 +879,7 @@ class FlowTheme_Simple(FlowTheme):
             if type_ == 'exec':
                 color = QColor('#dddddd')
             else:
-                color = node_color
+                color = QColor(node_color)
 
         if type_ == 'exec':
             if connected or \
@@ -891,15 +891,15 @@ class FlowTheme_Simple(FlowTheme):
         elif type_ == 'data':
             if connected or \
                     option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
-                r = node_color.red()
-                g = node_color.green()
-                b = node_color.blue()
+                r = color.red()
+                g = color.green()
+                b = color.blue()
                 brush = QBrush(QColor(r, g, b, 100))
                 painter.setBrush(brush)
             else:
                 painter.setBrush(Qt.NoBrush)
 
-        brush = QBrush(QColor(color))
+        brush = QBrush(color)
         painter.setBrush(brush)
         painter.setPen(Qt.NoPen)
 
@@ -998,26 +998,28 @@ class FlowTheme_Ueli(FlowTheme):
 
         c = None
         if not connected:
-            c = QColor('#53585c')
+            c = '#53585c'
         else:
             if type_ == 'exec':
-                c = QColor('#cccccc')
+                c = '#cccccc'
             else:
                 c = node_color
+        color = QColor(c)
 
-        self.paint_PI_label_default(painter, label_str, c, QFont("Courier New", 10, QFont.Bold), bounding_rect)
+        self.paint_PI_label_default(painter, label_str, color, QFont("Courier New", 10, QFont.Bold), bounding_rect)
 
     def paint_PI(self, node_gui, painter, option, node_color, type_, connected, rect):
 
-        color = None
+        color_str = None
         if not connected:
-            color = QColor('#53585c')
+            color_str = '#53585c'
         else:
             if type_ == 'exec':
-                color = QColor('#dddddd')
+                color_str = '#dddddd'
             else:
-                color = node_color
+                color_str = node_color
 
+        color = QColor(color_str)
         if type_ == 'exec':
             if connected or \
                     option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
@@ -1028,15 +1030,15 @@ class FlowTheme_Ueli(FlowTheme):
         elif type_ == 'data':
             if connected or \
                     option.state & QStyle.State_MouseOver:  # also fill when mouse hovers
-                r = node_color.red()
-                g = node_color.green()
-                b = node_color.blue()
+                r = color.red()
+                g = color.green()
+                b = color.blue()
                 brush = QBrush(QColor(r, g, b, 100))
                 painter.setBrush(brush)
             else:
                 painter.setBrush(Qt.NoBrush)
 
-        brush = QBrush(QColor(color))
+        brush = QBrush(color)
         painter.setBrush(brush)
         painter.setPen(Qt.NoPen)
 
@@ -1437,7 +1439,7 @@ class FlowTheme_Industrial(FlowTheme):
 
     def paint_PI(self, node_gui, painter, option, node_color, type_, connected, rect):
 
-        color = QColor('#FFFFFF') if type_ == 'exec' else node_color
+        color = QColor('#FFFFFF') if type_ == 'exec' else QColor(node_color)
 
         # add = 2
         # padd = padding + add
@@ -1472,7 +1474,7 @@ class FlowTheme_Industrial(FlowTheme):
 
             if connected:
                 # draw inner ellipse
-                brush = QBrush(QColor(node_color.red(), node_color.green(), node_color.blue(), 200))
+                brush = QBrush(QColor(color.red(), color.green(), color.blue(), 200))
                 painter.setBrush(brush)
                 painter.drawEllipse(inner_ellipse_rect)
 

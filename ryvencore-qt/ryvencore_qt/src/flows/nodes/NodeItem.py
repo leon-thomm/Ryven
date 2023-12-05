@@ -13,8 +13,7 @@ from .NodeItemAction import NodeItemAction
 from .NodeItemAnimator import NodeItemAnimator
 from .NodeItemWidget import NodeItemWidget
 from .PortItem import InputPortItem, OutputPortItem
-from ...utils import serialize, deserialize
-from ...utils import MovementEnum
+from ...utils import serialize, deserialize, MovementEnum, generate_name
 
 
 class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
@@ -133,6 +132,11 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
 
         self.update()  # ... not sure if I need that
 
+    def __str__(self):
+        name = self.node.__class__.title if self.node else f'{NodeItem.__name__}'
+        obj = self.node if self.node else self
+        return generate_name(obj, name)
+    
     # UI STUFF
 
     def node_updating(self):
@@ -424,6 +428,9 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
 
         return QGraphicsItem.itemChange(self, change, value)
 
+    def on_move(self):
+        self.update_conn_pos()
+    
     def update_conn_pos(self):
         """Updates the scene positions of connections"""
 
@@ -476,7 +483,10 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         self.flow_view.mouse_event_taken = True
 
         if self.movement_state == MovementEnum.position_changed:
-            self.flow_view.selected_components_moved(self.pos() - self.movement_pos_from)
+            self.flow_view._move_selected_copmonents__cmd(
+                pos_diff=self.pos() - self.movement_pos_from,
+                already_moved=True,
+            )
         self.movement_state = None
         return QGraphicsItem.mouseReleaseEvent(self, event)
 

@@ -4,24 +4,12 @@ from qtpy.QtWidgets import QGraphicsGridLayout, QGraphicsWidget, QGraphicsLayout
 from qtpy.QtCore import Qt, QRectF, QPointF, QSizeF
 from qtpy.QtGui import QFontMetricsF, QFont
 
-from ...GUIBase import GUIBase
-from .PortItemInputWidgets import (
-    Data_IW_S,
-    Data_IW_M,
-    Data_IW_L,
-    Float_IW,
-    Integer_IW,
-    Choice_IW,
-    Boolean_IW,
-    String_IW_S,
-    String_IW_M,
-    String_IW_L,
-)
 from ryvencore import serialize, Data
 from ryvencore.NodePort import NodeOutput, NodeInput, NodePort
 from ryvencore.utils import deserialize
-from ...utils import get_longest_line, shorten
 
+from ...GUIBase import GUIBase
+from ...utils import get_longest_line, shorten
 from ..FlowViewProxyWidget import FlowViewProxyWidget
 
 
@@ -95,7 +83,6 @@ class PortItem(GUIBase, QGraphicsWidget):
         self.prepareGeometryChange()
         QGraphicsLayoutItem.setGeometry(self, rect)
         self.setPos(rect.topLeft())
-
     # <<< interaction boilerplate <<<
 
     def setup_ui(self):

@@ -1,9 +1,7 @@
 from qtpy.QtWidgets import QGraphicsItem
 from qtpy.QtGui import QPen, QPainter, QColor, QPainterPath
 from qtpy.QtCore import Qt, QRectF, QPointF, QLineF
-
-from ...utils import MovementEnum
-
+from ...utils import MovementEnum, generate_name
 
 class DrawingObject(QGraphicsItem):
     """GUI implementation for 'drawing objects' in the scene, written by hand using a stylus pen"""
@@ -56,7 +54,9 @@ class DrawingObject(QGraphicsItem):
         self.color = QColor(load_data['color'])
         self.base_stroke_weight = load_data['base stroke weight']
 
-
+    def __str__(self):
+        return generate_name(self, 'Drawing')
+    
     def paint(self, painter, option, widget=None):
 
         if not self.finished:
@@ -176,7 +176,10 @@ class DrawingObject(QGraphicsItem):
         """Used for Moving-Commands in Flow - may be replaced later with a nicer determination of a move action."""
 
         if self.movement_state == MovementEnum.position_changed:
-            self.flow_view.selected_components_moved(self.pos() - self.movement_pos_from)
+            self.flow_view._move_selected_copmonents__cmd(
+                pos_diff=self.pos() - self.movement_pos_from,
+                already_moved=True,
+            )
         self.movement_state = None
         return QGraphicsItem.mouseReleaseEvent(self, event)
 

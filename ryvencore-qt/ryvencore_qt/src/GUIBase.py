@@ -1,6 +1,7 @@
 from ryvencore.Base import Base
+from qtpy.QtWidgets import QGraphicsObject, QGraphicsItem
 
-
+  
 class GUIBase:
     """Base class for GUI items that represent specific core components"""
 
@@ -51,3 +52,31 @@ class GUIBase:
     def complete_data(self, data: dict) -> dict:
         """completes the data dict of the represented core component by adding all frontend data"""
         return data
+    
+    def on_move(self):
+        """virtual function for when a GUI is moved in the view"""
+        pass
+
+# if the __doc__ is incorrect, this class should be removed
+class QGraphicsItemAnimated(QGraphicsObject):
+    """
+    Serves as a proxy for animating any kind fo QGraphicsItem.
+    This was created because there is no apparent way to animate
+    a QGraphicsItem that isn't a QObject.
+    """
+    
+    def __init__(self, item: QGraphicsItem, parent = None) -> None:
+        super().__init__(parent)
+        self.item = item
+        
+        # for delete purposes
+        # perhaps this could be implemented in an item change where the scene
+        # is none and calling a delete later 
+        self.item.setParentItem(self)
+        self.item.setVisible(False)
+    
+    def boundingRect(self):
+        return self.item.boundingRect()
+    
+    def paint(self, painter, option, widget):
+        return self.item.paint(painter, option, widget)

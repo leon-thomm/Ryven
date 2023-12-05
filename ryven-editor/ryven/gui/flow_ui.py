@@ -8,6 +8,8 @@ from qtpy.QtWidgets import (
     QHBoxLayout,
     QTabWidget,
     QDockWidget,
+    QUndoView,
+    QAction
 )
 from qtpy.QtCore import Qt, QByteArray
 
@@ -18,6 +20,7 @@ from ryvencore import Flow
 from ryven.gui.code_editor.CodePreviewWidget import CodePreviewWidget
 from ryven.gui.uic.ui_flow_window import Ui_FlowWindow
 from ryvencore_qt.src.flows.FlowView import FlowView
+from ryvencore_qt.src.flows.nodes.NodeInspector import InspectorView
 from typing import List
 
 
@@ -37,7 +40,7 @@ class FlowUI(QMainWindow):
         # UI
         self.ui = Ui_FlowWindow()
         self.ui.setupUi(self)
-        # this is needed because it seems that qt compiler doesn't work well
+        # this is needed because there's no option in qt designer (propably)
         self.ui.logger_dock.setWidget(self.ui.logs_scrollArea)
         central_layout = QHBoxLayout()
         self.ui.centralwidget.setLayout(central_layout)
@@ -47,6 +50,11 @@ class FlowUI(QMainWindow):
         # should be list[QDockWidget] in 3.9+
         all_dock_widgets: List[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
         windows_menu = flow_view.menu().addMenu("Windows")
+        open_all_action = QAction('Open All', self)
+        open_all_action.triggered.connect(self.open_docks)
+        close_all_action = QAction('Close All Tabs', self)
+        close_all_action.triggered.connect(self.close_docks)
+        windows_menu.addActions([open_all_action, close_all_action])
         for w in all_dock_widgets:
             windows_menu.addAction(w.toggleViewAction())
 
@@ -60,6 +68,9 @@ class FlowUI(QMainWindow):
         ]
         for i in range(1, len(right_area_widgets)):
             self.tabifyDockWidget(right_area_widgets[i - 1], right_area_widgets[i])
+        
+        # inspector dock first
+        self.ui.inspector_dock.raise_()
 
         self.flow.algorithm_mode_changed.sub(self.flow_alg_mode_changed)
 
@@ -86,6 +97,14 @@ class FlowUI(QMainWindow):
         # code preview
         self.code_preview_widget = CodePreviewWidget(main_window, self.flow_view)
         self.ui.source_dock.setWidget(self.code_preview_widget)
+        
+        # inspector widget
+        self.inspector_widget = InspectorView(self.flow_view)
+        self.ui.inspector_dock.setWidget(self.inspector_widget)
+        
+        #undo history widget
+        self.undo_widget = QUndoView(self.flow_view._undo_stack)
+        self.ui.undo_history_dock.setWidget(self.undo_widget)
         # logs
         self.ui.logs_scrollArea.setWidget(self.create_loggers_widget())
 
@@ -98,10 +117,20 @@ class FlowUI(QMainWindow):
             self.add_logger_widget(logger)
         logging.log_created.sub(self.add_logger_widget)
 
+    def open_docks(self, docks):
+        for dock in self.findChildren(QDockWidget):
+            dock.show()
+    
+    def close_docks(self, dock):
+        for dock in self.findChildren(QDockWidget):
+            if not dock.isFloating():
+                dock.close()
+            
     # created to avoid __del__
     def unload(self):
         """Disconnects the flow ui from the design or main application signals"""
         self.flow_view.design.performance_mode_changed.disconnect(self.set_performance_mode)
+        self.flow_view._undo_stack.clear()
 
     def set_performance_mode(self, mode: str):
         if mode == 'fast':
@@ -132,10 +161,11 @@ class FlowUI(QMainWindow):
         )
 
     # should be dict[str, str] in 3.9+
-    def save(self) -> dict:
+    def save_state(self) -> dict:
         return {
             'geometry': self.saveGeometry().toHex().data().decode(),
             'state': self.saveState().toHex().data().decode(),
+            'view': self.flow_view.save_state(),
         }
 
     # should be dict[str, dict[str, str]] in 3.9+
@@ -162,3 +192,5 @@ class FlowUI(QMainWindow):
             self.restoreGeometry(load('geometry'))
         if 'state' in flow_dict:
             self.restoreState(load('state'))
+        if 'view' in flow_dict:
+            self.flow_view.load(flow_dict['view'])

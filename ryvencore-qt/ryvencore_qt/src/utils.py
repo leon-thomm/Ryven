@@ -10,7 +10,9 @@ from qtpy.QtCore import QPointF, QByteArray
 from ryvencore.utils import serialize, deserialize
 from .GlobalAttributes import *
 
-
+def generate_name(obj, name):
+   return f'{name}:[{id(obj)}]'
+    
 def pythagoras(a, b):
     return sqrt(a ** 2 + b ** 2)
 

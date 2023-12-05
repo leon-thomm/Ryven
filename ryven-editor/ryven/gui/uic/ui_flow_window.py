@@ -20,6 +20,22 @@ class Ui_FlowWindow(object):
         self.centralwidget = QtWidgets.QWidget(FlowWindow)
         self.centralwidget.setObjectName("centralwidget")
         FlowWindow.setCentralWidget(self.centralwidget)
+        self.inspector_dock = QtWidgets.QDockWidget(FlowWindow)
+        self.inspector_dock.setFloating(False)
+        self.inspector_dock.setFeatures(QtWidgets.QDockWidget.DockWidgetClosable|QtWidgets.QDockWidget.DockWidgetFloatable|QtWidgets.QDockWidget.DockWidgetMovable)
+        self.inspector_dock.setObjectName("inspector_dock")
+        self.inspectorWidgetContents = QtWidgets.QWidget()
+        self.inspectorWidgetContents.setObjectName("inspectorWidgetContents")
+        self.inspector_dock.setWidget(self.inspectorWidgetContents)
+        FlowWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.inspector_dock)
+        self.undo_history_dock = QtWidgets.QDockWidget(FlowWindow)
+        self.undo_history_dock.setFloating(False)
+        self.undo_history_dock.setFeatures(QtWidgets.QDockWidget.DockWidgetClosable|QtWidgets.QDockWidget.DockWidgetFloatable|QtWidgets.QDockWidget.DockWidgetMovable)
+        self.undo_history_dock.setObjectName("undo_history_dock")
+        self.undoHistoryContent = QtWidgets.QWidget()
+        self.undoHistoryContent.setObjectName("undoHistoryContent")
+        self.undo_history_dock.setWidget(self.undoHistoryContent)
+        FlowWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.undo_history_dock)
         self.settings_dock = QtWidgets.QDockWidget(FlowWindow)
         self.settings_dock.setFeatures(QtWidgets.QDockWidget.DockWidgetClosable|QtWidgets.QDockWidget.DockWidgetFloatable|QtWidgets.QDockWidget.DockWidgetMovable)
         self.settings_dock.setObjectName("settings_dock")
@@ -64,18 +80,10 @@ class Ui_FlowWindow(object):
     def retranslateUi(self, FlowWindow):
         _translate = QtCore.QCoreApplication.translate
         FlowWindow.setWindowTitle(_translate("FlowWindow", "MainWindow"))
+        self.inspector_dock.setWindowTitle(_translate("FlowWindow", "Inspector"))
+        self.undo_history_dock.setWindowTitle(_translate("FlowWindow", "Undo History"))
         self.settings_dock.setWindowTitle(_translate("FlowWindow", "Settings"))
         self.variables_dock.setWindowTitle(_translate("FlowWindow", "Variables"))
         self.logger_dock.setWindowTitle(_translate("FlowWindow", "Log"))
         self.source_dock.setWindowTitle(_translate("FlowWindow", "Source Code"))
         self.actionxc.setText(_translate("FlowWindow", "xc"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    FlowWindow = QtWidgets.QMainWindow()
-    ui = Ui_FlowWindow()
-    ui.setupUi(FlowWindow)
-    FlowWindow.show()
-    sys.exit(app.exec_())
