@@ -222,7 +222,7 @@ CONTROLS
         all_dock_widgets: list[QDockWidget] = [d for d in self.findChildren(QDockWidget)]
         open_all_docks = QAction('Open All', self)
         open_all_docks.triggered.connect(self.open_docks)
-        close_all_docks = QAction('Close All', self)
+        close_all_docks = QAction('Close All Tabs', self)
         close_all_docks.triggered.connect(self.close_docks)
         self.ui.menuDocks.addActions([open_all_docks, close_all_docks])
         self.ui.menuDocks.addActions([w.toggleViewAction() for w in all_dock_widgets])
@@ -239,7 +239,8 @@ CONTROLS
     
     def close_docks(self):
         for dock in self.findChildren(QDockWidget):
-            dock.close()
+            if not dock.isFloating():
+                dock.close()
             
     def setup_menu_actions(self):
         # flow designs

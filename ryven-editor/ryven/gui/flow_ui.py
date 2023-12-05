@@ -52,7 +52,7 @@ class FlowUI(QMainWindow):
         windows_menu = flow_view.menu().addMenu("Windows")
         open_all_action = QAction('Open All', self)
         open_all_action.triggered.connect(self.open_docks)
-        close_all_action = QAction('Close All', self)
+        close_all_action = QAction('Close All Tabs', self)
         close_all_action.triggered.connect(self.close_docks)
         windows_menu.addActions([open_all_action, close_all_action])
         for w in all_dock_widgets:
@@ -123,7 +123,8 @@ class FlowUI(QMainWindow):
     
     def close_docks(self, dock):
         for dock in self.findChildren(QDockWidget):
-            dock.close()
+            if not dock.isFloating():
+                dock.close()
             
     # created to avoid __del__
     def unload(self):
