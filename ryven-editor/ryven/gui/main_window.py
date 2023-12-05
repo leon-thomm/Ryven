@@ -13,8 +13,6 @@ from qtpy.QtWidgets import (
     QMessageBox,
     QTabWidget,
     QDockWidget,
-    QWidgetAction,
-    QCheckBox,
 )
 from ryvencore_qt import NodeGUI
 from qtpy.QtCore import Qt, QByteArray
@@ -227,18 +225,7 @@ CONTROLS
         close_all_docks = QAction('Close All Tabs', self)
         close_all_docks.triggered.connect(self.close_docks)
         self.ui.menuDocks.addActions([open_all_docks, close_all_docks])
-        for w in all_dock_widgets:
-            def toggle(checked, w=w):
-                # second parameter is to avoid the closure problem
-                # https://stackoverflow.com/questions/3431676/creating-functions-in-a-loop
-                w.setVisible(checked)
-            label = w.windowTitle()
-            cb = QCheckBox(label, self)
-            cb.setChecked(True)
-            cb.toggled.connect(toggle)
-            action = QWidgetAction(self)
-            action.setDefaultWidget(cb)
-            self.ui.menuDocks.addAction(action)
+        self.ui.menuDocks.addActions([w.toggleViewAction() for w in all_dock_widgets])
         # tabify all left tabs at a fresh project
         left_widgets = [
             d for d in all_dock_widgets if self.dockWidgetArea(d) == Qt.LeftDockWidgetArea

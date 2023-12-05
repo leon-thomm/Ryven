@@ -9,9 +9,7 @@ from qtpy.QtWidgets import (
     QTabWidget,
     QDockWidget,
     QUndoView,
-    QAction,
-    QCheckBox,
-    QWidgetAction,
+    QAction
 )
 from qtpy.QtCore import Qt, QByteArray
 
@@ -57,19 +55,8 @@ class FlowUI(QMainWindow):
         close_all_action = QAction('Close All Tabs', self)
         close_all_action.triggered.connect(self.close_docks)
         windows_menu.addActions([open_all_action, close_all_action])
-        # add all docks to menu
         for w in all_dock_widgets:
-            def toggle(checked, w=w):
-                # second parameter is to avoid the closure problem
-                # https://stackoverflow.com/questions/3431676/creating-functions-in-a-loop
-                w.setVisible(checked)
-            label = w.windowTitle()
-            cb = QCheckBox(label, self)
-            cb.setChecked(True)
-            cb.toggled.connect(toggle)
-            action = QWidgetAction(self)
-            action.setDefaultWidget(cb)
-            windows_menu.addAction(action)
+            windows_menu.addAction(w.toggleViewAction())
 
         # set tabs to be on top
         self.setTabPosition(Qt.AllDockWidgetAreas, QTabWidget.North)
