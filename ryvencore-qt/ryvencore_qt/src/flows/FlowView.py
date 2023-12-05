@@ -371,11 +371,6 @@ class FlowView(GUIBase, QGraphicsView):
         self._undo_stack.redo()
         self.viewport().update()
 
-    # def mouseDoubleClickEvent(self, event):
-    #     # Only allow double clicking over an item
-    #     if self.itemAt(event.pos()):
-    #         QGraphicsView.mousePressEvent(self, event)
-
     def mousePressEvent(self, event):
         # InfoMsgs.write('mouse press event received, point:', event.pos())
 
