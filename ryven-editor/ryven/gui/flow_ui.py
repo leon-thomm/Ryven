@@ -64,11 +64,6 @@ class FlowUI(QMainWindow):
         for i in range(1, len(right_area_widgets)):
             self.tabifyDockWidget(right_area_widgets[i - 1], right_area_widgets[i])
         
-        
-        tab_bars: QTabBar = self.findChildren(QTabBar)
-        for tab_bar in tab_bars:
-            tab_bar.setStyleSheet("QTabBar::tab { min-width: 65px; }")
-        
         # inspector dock first
         self.ui.inspector_dock.raise_()
 
