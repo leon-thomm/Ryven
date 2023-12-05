@@ -198,17 +198,10 @@ class SelectComponents_Command(FlowUndoCommand):
         self.setText(undo_text_multi(self.items, 'Select'))
         
     def redo_(self):
-        self.do_select(self.items, self.prev_items)
+        self.flow_view.select_items(self.items)
     
     def undo_(self):
-        self.do_select(self.prev_items, self.items)
-        
-    def do_select(self, new_items, prev_items):
-        for item in prev_items:
-            if item.ItemIsSelectable:
-                item.setSelected(False)
-        # select_items reconnects the event
-        self.flow_view.select_items(new_items)
+        self.flow_view.select_items(self.prev_items)
 
 
 class RemoveComponents_Command(FlowUndoCommand):

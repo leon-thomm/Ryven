@@ -483,7 +483,10 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         self.flow_view.mouse_event_taken = True
 
         if self.movement_state == MovementEnum.position_changed:
-            self.flow_view.selected_components_moved(self.pos() - self.movement_pos_from)
+            self.flow_view._move_selected_copmonents__cmd(
+                pos_diff=self.pos() - self.movement_pos_from,
+                already_moved=True,
+            )
         self.movement_state = None
         return QGraphicsItem.mouseReleaseEvent(self, event)
 

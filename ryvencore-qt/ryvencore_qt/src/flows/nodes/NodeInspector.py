@@ -37,7 +37,7 @@ class InspectorView(QWidget):
 
     def set_node(self, node: Node):
         """Sets a node for inspection, if it exists. Otherwise clears the inspector"""
-
+        
         if self.node == node:
             return
 
