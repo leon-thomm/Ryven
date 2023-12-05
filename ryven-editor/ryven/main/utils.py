@@ -11,6 +11,8 @@ import importlib
 from typing import Union, Optional, Tuple
 from packaging.version import Version
 
+from ryvencore import InfoMsgs
+
 def in_gui_mode() -> bool:
     return environ['RYVEN_MODE'] == 'gui'
 
@@ -36,9 +38,17 @@ def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
         sys.path.append(parent_dirpath)
     
     # import the corresponding module
-    mod = importlib.import_module(name, pkg_name)
-    comps = tuple([getattr(mod, c) for c in components_list])
-    return comps
+    try:
+        mod = importlib.import_module(name, pkg_name)
+        comps = tuple([getattr(mod, c) for c in components_list])
+        return comps
+    except ModuleNotFoundError as e:
+        InfoMsgs.write_err(
+            f'\n\nCould not import {name}: {e}\n'
+            f'This could be due to a missing __init__.py file in the nodes package, '
+            f'or your package name conflicts with another python package name '
+            f'that the interpreter knows about (e.g. math).\n\n'
+        )
 
 
 def read_project(project_path: Union[str, pathlib.Path]) -> dict:
