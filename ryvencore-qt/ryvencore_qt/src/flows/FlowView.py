@@ -517,7 +517,7 @@ class FlowView(GUIBase, QGraphicsView):
             self._zoom_data['delta'] += y_delta
 
             if self._zoom_data['delta'] * y_delta < 0:
-                self._zoom_data['delta'] = y_delta()
+                self._zoom_data['delta'] = y_delta
 
             anim = QTimeLine(100, self)
             anim.setUpdateInterval(10)
