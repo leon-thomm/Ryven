@@ -400,7 +400,7 @@ CONTROLS
 
     def on_save_scene_pic_whole_triggered(self):
         """Saves a picture of the whole currently visible scene."""
-        if len(self.session_gui.flows) == 0:
+        if len(self.core_session.flows) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]

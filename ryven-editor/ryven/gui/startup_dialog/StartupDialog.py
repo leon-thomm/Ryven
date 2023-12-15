@@ -71,7 +71,8 @@ class ElideLabel(QLabel):
 
     def sizeHint(self):
         hint = self.fontMetrics().boundingRect(self.text()).size()
-        l, t, r, b = self.getContentsMargins()
+        c_margins = self.contentsMargins()
+        l, t, r, b = c_margins.left(), c_margins.top(), c_margins.right(), c_margins.bottom()
         margin = self.margin() * 2
         return QSize(
             min(100, hint.width()) + l + r + margin,
@@ -83,7 +84,8 @@ class ElideLabel(QLabel):
         opt = QStyleOptionFrame()
         self.initStyleOption(opt)
         self.style().drawControl(QStyle.CE_ShapedFrame, opt, qp, self)
-        l, t, r, b = self.getContentsMargins()
+        c_margins = self.contentsMargins()
+        l, t, r, b = c_margins.left(), c_margins.top(), c_margins.right(), c_margins.bottom()
         margin = self.margin()
         try:
             # since Qt >= 5.11
