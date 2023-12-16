@@ -4,9 +4,11 @@ from qtpy.QtWidgets import (
     QWidget, 
     QVBoxLayout, 
     QLabel, 
-    QTextEdit, 
+    QTextEdit,
+    QSplitter,
 )
 
+from qtpy.QtCore import Qt
 from ryvencore import Node
 
 from .WidgetBaseClasses import NodeInspectorWidget
@@ -42,9 +44,9 @@ class InspectorView(QWidget):
             return
 
         if self.inspector_widget:
-            self.inspector_widget.unload()
             self.inspector_widget.setVisible(False)
             self.inspector_widget.setParent(None)
+            self.inspector_widget.unload()
             
         self.node = None
         self.inspector_widget = None
@@ -53,8 +55,8 @@ class InspectorView(QWidget):
             self.node = node
             self.inspector_widget = self.node.gui.inspector_widget
             self.layout().addWidget(self.inspector_widget)
-            self.inspector_widget.setVisible(True)
             self.inspector_widget.load()
+            self.inspector_widget.setVisible(True)
 
 
 class NodeInspectorDefaultWidget(NodeInspectorWidget, QWidget):
@@ -71,6 +73,7 @@ class NodeInspectorDefaultWidget(NodeInspectorWidget, QWidget):
         QWidget.__init__(self)
         NodeInspectorWidget.__init__(self, params)
 
+        self.child = child
         self.setLayout(QVBoxLayout())
 
         self.title_label: QLabel = QLabel()
@@ -78,10 +81,16 @@ class NodeInspectorDefaultWidget(NodeInspectorWidget, QWidget):
             f'<h2>{self.node.title}</h2> '
             f'<h4>id: {self.node.global_id}, pyid: {id(self.node)}</h4>'
         )
+        # title
         self.layout().addWidget(self.title_label)
-
+        
+        # content splitter
+        self.content_splitter = QSplitter()
+        self.content_splitter.setOrientation(Qt.Orientation.Vertical)
+        self.layout().addWidget(self.content_splitter)
+        
         if child:
-            self.layout().addWidget(child)
+            self.content_splitter.addWidget(child)
 
         desc = self.node.__doc__ if self.node.__doc__ and self.node.__doc__ != "" else "No description given"
         bbt = NodeInspectorDefaultWidget._big_bold_text
@@ -99,4 +108,14 @@ class NodeInspectorDefaultWidget(NodeInspectorWidget, QWidget):
 </html>
         """)
     
-        self.layout().addWidget(self.description_area)
+        self.content_splitter.addWidget(self.description_area)
+    
+    def load(self):
+        super().load()
+        if self.child:
+            self.child.load()
+    
+    def unload(self):
+        if self.child:
+            self.child.unload()
+        super().unload()
