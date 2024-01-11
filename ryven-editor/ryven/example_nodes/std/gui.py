@@ -197,7 +197,7 @@ class CheckpointNodeGui(DualNodeBaseGui):
                 {'method': self.remove_output, 'data': i}
 
 
-class ButtonNode_MainWidget(QPushButton, NodeMainWidget):
+class ButtonNode_MainWidget(NodeMainWidget, QPushButton):
 
     def __init__(self, params):
         NodeMainWidget.__init__(self, params)
