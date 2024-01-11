@@ -151,10 +151,10 @@ class NodeListWidget(QWidget):
             # removes whitespace and escapes all special regex chars
             new_search = escape(search.strip())
             # regex that enforces the text starts with <new_search>
-            self.pack_proxy_model.setFilterRegExp(f'^{new_search}')
+            self.pack_proxy_model.setFilterRegularExpression(f'^{new_search}')
             self.pack_tree.expandAll()
         else:
-            self.pack_proxy_model.setFilterRegExp('')
+            self.pack_proxy_model.setFilterRegularExpression('')
             self.pack_tree.collapseAll()
 
     def make_nodes_current(self, pack_nodes, pkg_name: str):
