@@ -54,7 +54,8 @@ Ryven can be configured in four ways:
 3. through arguments when it's integrated in another Python application, e.g.
    > ```python
    > import ryven
-   > ryven.run_ryven(nodes=['your_nodes_pkg_1'], no_animations=True)
+   > import pathlib
+   > ryven.run_ryven(nodes=pathlib.Path(['your_nodes_pkg_1']), no_animations=True)
    > ```
 4. using a GUI in the startup dialog
    * you can also convert the manual configuration to cmd line args (or a config file) in the dialog
