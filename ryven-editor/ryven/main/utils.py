@@ -49,6 +49,7 @@ def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
             f'or your package name conflicts with another python package name '
             f'that the interpreter knows about (e.g. math).\n\n'
         )
+        raise e
 
 
 def read_project(project_path: Union[str, pathlib.Path]) -> dict:
