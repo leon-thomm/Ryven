@@ -1,16 +1,10 @@
-from ryven.node_env import *
-# widgets = import_gui(__file__)
+from ryven.node_env import on_gui_load
 
-import sys
-import os
-sys.path.append(os.path.dirname(__file__))
+from . import special_nodes
+from . import basic_operators
+from . import control_structures
 
-from special_nodes import nodes as special_nodes
-from basic_operators import nodes as operator_nodes
-from control_structures import nodes as cs_nodes
 
-export_nodes([
-    *special_nodes,
-    *operator_nodes,
-    *cs_nodes,
-])
+@on_gui_load
+def load_gui():
+    from . import gui

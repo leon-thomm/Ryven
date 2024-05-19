@@ -1,14 +1,12 @@
 from ryven.node_env import *
 
-guis = import_guis(__file__)
-
 
 class OperatorNodeBase(Node):
     """
     Base class for nodes implementing a binary operation.
     """
 
-    version = 'v0.2'
+    version = 'v0.3'
     init_inputs = [
         NodeInputType(),
         NodeInputType(),
@@ -16,7 +14,6 @@ class OperatorNodeBase(Node):
     init_outputs = [
         NodeOutputType(),
     ]
-    GUI = guis.OperatorNodeBaseGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -50,7 +47,7 @@ class OperatorNodeBase(Node):
 
 
 class LogicNodeBase(OperatorNodeBase):
-    GUI = guis.LogicNodeBaseGui
+    pass
 
 
 class NOT_Node(LogicNodeBase):
@@ -123,7 +120,7 @@ logic_nodes = [
 
 
 class ArithmeticNodeBase(OperatorNodeBase):
-    GUI = guis.ArithNodeBaseGui
+    pass
 
 
 class Plus_Node(ArithmeticNodeBase):
@@ -194,7 +191,6 @@ arithmetic_nodes = [
 
 
 class ComparatorNodeBase(OperatorNodeBase):
-    GUI = guis.CompNodeBaseGui
 
     def apply_op(self, elements: list):
         # if len(elements) > 0:
@@ -265,8 +261,10 @@ comparator_nodes = [
 """
 
 
-nodes = [
-    *logic_nodes,
-    *arithmetic_nodes,
-    *comparator_nodes,
-]
+export_nodes(
+    node_types=[
+        *logic_nodes,
+        *arithmetic_nodes,
+        *comparator_nodes,
+    ]
+)
