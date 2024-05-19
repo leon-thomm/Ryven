@@ -85,16 +85,13 @@ def import_nodes_package(
     node_env.NodesEnvRegistry.current_package = package
     load_from_file(package.file_path)
 
-    # obsolete node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
-    # obsolote data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
-
-    node_types, data_types = node_env.NodesEnvRegistry.consume_last_exported_package()
-    
     # load guis
     if in_gui_mode():
         load_current_guis()
     
-    # load soruce codes
+    node_types, data_types = node_env.NodesEnvRegistry.consume_last_exported_package()
+    
+    # load source codes
     if in_gui_mode():
         from ryven.gui.code_editor.codes_storage import register_node_type
         for node_type in node_types:

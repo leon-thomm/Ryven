@@ -1,8 +1,4 @@
-"""
-This module automatically imports all requirements for custom nodes.
-"""
-
-# prevent cyclic imports
+# prevent circular imports
 from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -10,10 +6,9 @@ if TYPE_CHECKING:
 
 import os
 from os.path import basename, normpath
-from typing import Type, Tuple, List, Optional
+from typing import Type, Tuple, List, Optional, Dict
 
 from ryven.main.utils import in_gui_mode, load_from_file
-from ryven.gui_env import GuiClassesContainer
 
 from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
 
@@ -39,39 +34,12 @@ def init_node_env():
         import ryvencore_qt
 
 
-# LEAVING THIS HERE FOR LEGACY PURPOSES
 def import_guis(origin_file: str, gui_file_name='gui.py'):
-    """
-    Import all exported GUI classes from gui_file_name with respect to the origin_file location.
-    Returns an object with all exported gui classes as attributes for direct access.
-    """
-
-    caller_location = os.path.dirname(origin_file)
-
-    # alternative solution without __file__ argument; does not work with debugging, so it's not the best idea
-    #   caller_location = os.path.dirname(stack()[1].filename)  # getting caller file path from stack frame
-
-    abs_path = os.path.join(caller_location, gui_file_name)
-
-    if os.environ['RYVEN_MODE'] == 'gui':
-        # import the gui module
-        load_from_file(abs_path)
-
-        # in GUI mode, import the gui classes container from gui_env containing all the exported gui classes
-        from ryven import gui_env
-
-        gui_classes_container = gui_env.GuiClassesRegistry.exported_guis[-1]
-
-    else:
-        # in non-gui mode, return an object that just returns None for all accessed attributes
-        # so guis.MyGUI in the nodes file just returns None then
-        class PlaceholderGuisContainer(GuiClassesContainer):
-            def __getattr__(self, item):
-                return None
-
-        gui_classes_container = PlaceholderGuisContainer()
-
-    return gui_classes_container
+    raise Exception(
+        'The function import_guis is deprecated and should not be used anymore. '
+        'Please use the on_gui_load decorator instead. '
+        'See the example nodes packages that Ryven comes with for reference. '
+    )
 
 
 class NodesEnvRegistry:
@@ -84,11 +52,9 @@ class NodesEnvRegistry:
     """
 
     # stores, for each nodes package or subpackage a tuple of exported node types and data
-    # should be dict[str, tuple[list[type[Node]], list[type[Data]]]] in future versions
-    exported_package_metadata: dict = {}
+    exported_package_metadata: Dict[str, Tuple[List[Type[Node]], List[Type[Data]]]] = {}
     # the last exported package to be consumed for loading
-    # should be list[tuple[list[type[Node]], list[type[Data]]]]
-    last_exported_package: list = []
+    last_exported_package: List[Tuple[List[Type[Node]], List[Type[Data]]]] = []
 
     # stores, for each nodes package separately, a list of exported node types
     exported_nodes_legacy: List[List[Type[Node]]] = []
@@ -111,10 +77,10 @@ class NodesEnvRegistry:
         return cls.current_package.name
 
     @classmethod
-    # should be -> tuple[list[type[Node]], list[type[Data]] in 3.9+
-    # should be result: tuple[list[type[Node]], list[type[Data]]] in 3.9+
     def consume_last_exported_package(cls) -> Tuple[List[Type[Node]], List[Type[Data]]]:
-        """Consumes the last exported package"""
+        """
+        Returns and forgets the content of the last call to `export_nodes`.
+        """
         result: Tuple[List[Type[Node]], List[Type[Data]]] = ([], [])
         node_types, data_types = result
         for nodes, data in cls.last_exported_package:
@@ -137,35 +103,37 @@ def export_nodes(
     if data_types is None:
         data_types = []
 
-    pkg_name = NodesEnvRegistry.current_package_id()
+    pkg_name: str = NodesEnvRegistry.current_package_id()
     if sub_pkg_name is not None:
-        pkg_name = f"{pkg_name}.{sub_pkg_name}"
+        full_pkg_name = f"{pkg_name}.{sub_pkg_name}"
+    else:
+        full_pkg_name = pkg_name
     
     # extend identifiers of node types to include the package name
     for n_cls in node_types:
         if not hasattr(n_cls, 'identifier') or n_cls.identifier is None:
             n_cls._build_identifier()
 
-        # store the package id as identifier prefix, which will be added
-        # by ryvencore when registering the node type
-        n_cls.identifier_prefix = pkg_name
-
-        # also add the identifier without the prefix as fallback for older versions
+        # fallbacks for older versions
         n_cls.legacy_identifiers = [
             *n_cls.legacy_identifiers,
-            n_cls.identifier if n_cls.identifier else n_cls.__name__,
+            n_cls.identifier,
+            f"{pkg_name}.{n_cls.identifier}",
         ]
     
+        # store the package id as identifier prefix, which will be added
+        # by ryvencore when registering the node type
+        n_cls.identifier_prefix = full_pkg_name
+
     # same for data types
     for d_cls in data_types:
-        d_cls.identifier = f'{pkg_name}.{d_cls.identifier}'
+        d_cls.identifier = f'{full_pkg_name}.{d_cls.identifier}'
 
     NodesEnvRegistry.exported_nodes_legacy.append(node_types)
     NodesEnvRegistry.exported_data_types_legacy.append(data_types)
 
-    metadata = NodesEnvRegistry.exported_package_metadata
     nodes_datas = (node_types, data_types)
-    metadata[pkg_name] = nodes_datas
+    NodesEnvRegistry.exported_package_metadata[full_pkg_name] = nodes_datas
     NodesEnvRegistry.last_exported_package.append(nodes_datas)
 
 
@@ -180,8 +148,7 @@ def on_gui_load(func):
     When Ryven is running in headless mode, this function will not
     be called, and your nodes package should function without any.
 
-    Example:
-    `nodes.py`:
+    Example `nodes.py`:
     ```
     from ryven.node_env import *
 
