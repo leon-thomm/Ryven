@@ -136,6 +136,9 @@ def export_nodes(
     
     # extend identifiers of node types to include the package name
     for n_cls in node_types:
+        if not hasattr(n_cls, 'identifier') or n_cls.identifier is None:
+            n_cls._build_identifier()
+
         # store the package id as identifier prefix, which will be added
         # by ryvencore when registering the node type
         n_cls.identifier_prefix = pkg_name

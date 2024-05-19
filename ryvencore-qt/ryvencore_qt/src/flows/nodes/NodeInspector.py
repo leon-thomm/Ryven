@@ -1,4 +1,4 @@
-from typing import Union, Type, List, Optional, Tuple
+from typing import Union, Type, List, Optional, Tuple, TypeVar
 
 from qtpy.QtWidgets import (
     QWidget, 
@@ -19,10 +19,10 @@ class InspectorView(QWidget):
     A widget that can display the inspector of the currently selected node.
     """
 
-    def __init__(self, flow_view, parent: QWidget = None):
+    def __init__(self, flow_view, parent: Optional[QWidget] = None):
         super().__init__(parent=parent)
-        self.node: Node = None
-        self.inspector_widget: NodeInspectorWidget = None
+        self.node: Optional[Node] = None
+        self.inspector_widget: Optional[NodeInspectorWidget] = None
         self.flow_view = flow_view
 
         self.setup_ui()
@@ -37,15 +37,16 @@ class InspectorView(QWidget):
         else:
             self.set_node(nodes[-1])
 
-    def set_node(self, node: Node):
+    def set_node(self, node: Optional[Node]):
         """Sets a node for inspection, if it exists. Otherwise clears the inspector"""
 
         if self.node == node:
             return
 
-        if self.inspector_widget:
+        if self.inspector_widget is not None:
+            assert isinstance(self.inspector_widget, QWidget)
             self.inspector_widget.setVisible(False)
-            self.inspector_widget.setParent(None)
+            self.inspector_widget.setParent(None)  # type: ignore
             self.inspector_widget.unload()
             
         self.node = None
@@ -53,7 +54,9 @@ class InspectorView(QWidget):
 
         if node is not None:
             self.node = node
+            assert hasattr(self.node, 'gui')
             self.inspector_widget = self.node.gui.inspector_widget
+            assert isinstance(self.inspector_widget, QWidget)
             self.layout().addWidget(self.inspector_widget)
             self.inspector_widget.load()
             self.inspector_widget.setVisible(True)
@@ -89,7 +92,8 @@ class NodeInspectorDefaultWidget(NodeInspectorWidget, QWidget):
         self.content_splitter.setOrientation(Qt.Orientation.Vertical)
         self.layout().addWidget(self.content_splitter)
         
-        if child:
+        if child is not None:
+            assert isinstance(child, QWidget)
             self.content_splitter.addWidget(child)
 
         desc = self.node.__doc__ if self.node.__doc__ and self.node.__doc__ != "" else "No description given"

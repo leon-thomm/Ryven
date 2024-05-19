@@ -1,5 +1,8 @@
+from typing import Any, Dict, Optional
+
 from ryvencore.Base import Base
 from qtpy.QtWidgets import QGraphicsObject, QGraphicsItem
+from qtpy.QtCore import QObject
 
   
 class GUIBase:
@@ -8,7 +11,7 @@ class GUIBase:
     # every frontend GUI object that represents some specific component from the core
     # is stored there under the the global id of the represented component.
     # used for completing data (serialization)
-    FRONTEND_COMPONENT_ASSIGNMENTS = {}  # component global id : GUI object
+    FRONTEND_COMPONENT_ASSIGNMENTS: Dict[int, Any] = {}  # component global id : GUI object
 
     @staticmethod
     def get_complete_data_function(session):
@@ -43,7 +46,7 @@ class GUIBase:
 
         return analyze
 
-    def __init__(self, representing_component: Base = None):
+    def __init__(self, representing_component: Optional[Base] = None):
         """parameter `representing` indicates representation of a specific core component"""
         if representing_component is not None:
             GUIBase.FRONTEND_COMPONENT_ASSIGNMENTS[representing_component.global_id] = self

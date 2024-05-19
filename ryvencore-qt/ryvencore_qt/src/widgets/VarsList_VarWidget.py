@@ -1,5 +1,5 @@
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QLabel, QMenu, QAction
-from qtpy.QtGui import QIcon, QDrag
+from qtpy.QtGui import QIcon, QDrag, QMouseEvent
 from qtpy.QtCore import QMimeData, Qt, QEvent, QByteArray
 
 import json
@@ -54,14 +54,14 @@ class VarsList_VarWidget(QWidget):
 
 
 
-    def mouseDoubleClickEvent(self, event):
+    def mouseDoubleClickEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
             if self.name_line_edit.geometry().contains(event.pos()):
                 self.name_line_edit_double_clicked()
                 return
 
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
             drag = QDrag(self)
             mime_data = QMimeData()
@@ -73,7 +73,7 @@ class VarsList_VarWidget(QWidget):
             return
 
 
-    def event(self, event):
+    def event(self, event: QEvent):
         if event.type() == QEvent.ToolTip:
             val_str = ''
             try:
@@ -85,7 +85,7 @@ class VarsList_VarWidget(QWidget):
         return QWidget.event(self, event)
 
 
-    def contextMenuEvent(self, event):
+    def contextMenuEvent(self, event: QEvent):
         menu: QMenu = QMenu(self)
 
         delete_action = QAction('delete')

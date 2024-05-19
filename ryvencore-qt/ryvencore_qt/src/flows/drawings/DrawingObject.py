@@ -1,3 +1,11 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ..FlowView import FlowView
+
+from typing import Dict, Optional
+
 from qtpy.QtWidgets import QGraphicsItem
 from qtpy.QtGui import QPen, QPainter, QColor, QPainterPath
 from qtpy.QtCore import Qt, QRectF, QPointF, QLineF
@@ -6,7 +14,7 @@ from ...utils import MovementEnum, generate_name
 class DrawingObject(QGraphicsItem):
     """GUI implementation for 'drawing objects' in the scene, written by hand using a stylus pen"""
 
-    def __init__(self, flow_view, load_data=None):
+    def __init__(self, flow_view: FlowView, load_data: Optional[Dict] = None):
         super(DrawingObject, self).__init__()
 
         self.setFlags(QGraphicsItem.ItemIsSelectable | QGraphicsItem.ItemIsMovable |
@@ -17,42 +25,46 @@ class DrawingObject(QGraphicsItem):
         self.flow_view = flow_view
         self.color = None
         self.base_stroke_weight = None
-        self.type = 'pen'  # so far the only available, but I already save it so I could add more types in the future
+        self.type_ = 'pen'  # so far the only available, but I already save it so I could add more types in the future
         self.points = []
         self.stroke_weights = []
         self.pen_stroke_weight = 0  # approx. avg of self.stroke_weights
         self.rect = None
-        self.path: QPainterPath = None
+        self.path: Optional[QPainterPath] = None
         self.width = -1
         self.height = -1
         self.finished = False
 
         # viewport_pos enables global floating points for precise pen positions
-        self.viewport_pos: QPointF = load_data['viewport pos'] if 'viewport pos' in load_data else None
+        self.viewport_pos: Optional[QPointF] = None
         # if the drawing gets loaded, its correct global floating pos is already correct (gets set by flow then)
 
         self.movement_state = None  # ugly - should get replaced later, see NodeItem, same issue
         self.movement_pos_from = None
 
-        if 'points' in load_data:
-            p_c = load_data['points']
-            for p in p_c:
-                if type(p) == list:
-                    x = p[0]
-                    y = p[1]
-                    w = p[2]
-                    self.points.append(QPointF(x, y))
-                    self.stroke_weights.append(w)
-                elif type(p) == dict:  # backwards compatibility
-                    x = p['x']
-                    y = p['y']
-                    w = p['w']
-                    self.points.append(QPointF(x, y))
-                    self.stroke_weights.append(w)
-            self.finished = True
+        if load_data is not None: 
+            if 'viewport pos' in load_data:
+                self.viewport_pos = load_data['viewport pos']
 
-        self.color = QColor(load_data['color'])
-        self.base_stroke_weight = load_data['base stroke weight']
+            if 'points' in load_data:
+                p_c = load_data['points']
+                for p in p_c:
+                    if type(p) == list:
+                        x = p[0]
+                        y = p[1]
+                        w = p[2]
+                        self.points.append(QPointF(x, y))
+                        self.stroke_weights.append(w)
+                    elif type(p) == dict:  # backwards compatibility
+                        x = p['x']
+                        y = p['y']
+                        w = p['w']
+                        self.points.append(QPointF(x, y))
+                        self.stroke_weights.append(w)
+                self.finished = True
+
+            self.color = QColor(load_data['color'])
+            self.base_stroke_weight = load_data['base stroke weight']
 
     def __str__(self):
         return generate_name(self, 'Drawing')
@@ -188,7 +200,7 @@ class DrawingObject(QGraphicsItem):
             'pos x': self.pos().x(),
             'pos y': self.pos().y(),
             'color': self.color.name(),
-            'type': self.type,
+            'type': self.type_,
             'base stroke weight': self.base_stroke_weight
         }
         points_list = []

@@ -2,6 +2,12 @@
 This file contains the implementations of undoable actions for FlowView.
 """
 
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .FlowView import FlowView
+
 from typing import Tuple
 
 from qtpy.QtCore import QObject, QPointF
@@ -35,10 +41,10 @@ class FlowUndoCommand(QObject, QUndoCommand):
     # prevent recursive calls of redo() and undo()
     _any_cmd_active = False
 
-    def __init__(self, flow_view):
-        self.flow_view = flow_view
+    def __init__(self, flow_view: FlowView) -> None:
+        self.flow_view: FlowView = flow_view
         self.flow: Flow = flow_view.flow
-        self._activated = False
+        self._activated: bool = False
 
         QObject.__init__(self)
         QUndoCommand.__init__(self)

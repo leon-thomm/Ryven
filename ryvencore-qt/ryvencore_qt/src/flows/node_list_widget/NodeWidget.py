@@ -2,7 +2,7 @@ import json
 
 from qtpy.QtWidgets import QLineEdit, QWidget, QLabel, QGridLayout, QHBoxLayout, QSpacerItem, QSizePolicy, QStyleOption, QStyle
 from qtpy.QtGui import QFont, QPainter, QColor, QDrag
-from qtpy.QtCore import Signal, Qt, QMimeData
+from qtpy.QtCore import Signal, Qt, QMimeData, QByteArray
 
 
 class NodeWidget(QWidget):
@@ -13,12 +13,12 @@ class NodeWidget(QWidget):
     @staticmethod
     def _create_mime_data(node) -> QMimeData:
         mime_data = QMimeData()
-        mime_data.setData('application/json', bytes(json.dumps(
+        mime_data.setData('application/json', QByteArray(bytes(json.dumps(
                 {
                     'type': 'node',
                     'node identifier': node.identifier,
                 }
-            ), encoding='utf-8'))
+            ), encoding='utf-8')))
         return mime_data
     
     def __init__(self, parent, node):

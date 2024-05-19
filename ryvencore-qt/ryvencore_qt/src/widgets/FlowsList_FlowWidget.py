@@ -1,6 +1,6 @@
 from qtpy.QtWidgets import QWidget, QHBoxLayout, QLabel, QMenu, QAction
-from qtpy.QtGui import QIcon, QImage
-from qtpy.QtCore import Qt, QEvent, QBuffer, QByteArray
+from qtpy.QtGui import QIcon, QImage, QMouseEvent
+from qtpy.QtCore import Qt, QEvent, QBuffer, QByteArray, QIODevice
 
 from ..GlobalAttributes import Location
 from .ListWidget_NameLineEdit import ListWidget_NameLineEdit
@@ -50,14 +50,14 @@ class FlowsList_FlowWidget(QWidget):
 
 
 
-    def mouseDoubleClickEvent(self, event):
+    def mouseDoubleClickEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
             if self.title_line_edit.geometry().contains(event.pos()):
                 self.title_line_edit_double_clicked()
                 return
 
 
-    def event(self, event):
+    def event(self, event: QEvent):
         if event.type() == QEvent.ToolTip:
 
             # generate preview img as QImage
@@ -65,7 +65,8 @@ class FlowsList_FlowWidget(QWidget):
 
             # store the img data in QBuffer to load it directly from memory
             buffer = QBuffer()
-            img.save(buffer, 'PNG')
+            img.save(device=buffer, format='PNG')  # type: ignore
+            # QBuffer inherits QIODevice, but mypy doesn't know that
 
             # generate html from data in memory
             html = f"<img src='data:image/png;base64, { bytes( buffer.data().toBase64() ).decode() }'>"
@@ -76,7 +77,7 @@ class FlowsList_FlowWidget(QWidget):
         return QWidget.event(self, event)
 
 
-    def contextMenuEvent(self, event):
+    def contextMenuEvent(self, event: QEvent):
         menu: QMenu = QMenu(self)
 
         delete_action = QAction('delete')

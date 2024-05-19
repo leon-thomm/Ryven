@@ -1,3 +1,9 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .FlowView import FlowView
+
 from qtpy.QtWidgets import QGraphicsProxyWidget, QGraphicsSceneHoverEvent
 
 

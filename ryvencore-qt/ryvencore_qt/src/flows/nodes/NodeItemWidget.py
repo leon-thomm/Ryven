@@ -1,5 +1,15 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .NodeGUI import NodeGUI
+    from .NodeItem import NodeItem
+    from ..FlowView import FlowView
+
 from qtpy.QtCore import QPointF, QRectF, Qt, QSizeF
-from qtpy.QtWidgets import QGraphicsWidget, QGraphicsLinearLayout, QSizePolicy
+from qtpy.QtWidgets import QGraphicsWidget, QGraphicsLinearLayout, QSizePolicy, QWidget
+
+from typing import Optional
 
 from .NodeItem_CollapseButton import NodeItem_CollapseButton
 from ..FlowViewProxyWidget import FlowViewProxyWidget
@@ -8,34 +18,37 @@ from .NodeItem_Icon import NodeItem_Icon
 from .NodeItem_TitleLabel import TitleLabel
 from .PortItem import InputPortItem, OutputPortItem
 
+from ryvencore import Flow
+
 
 class NodeItemWidget(QGraphicsWidget):
     """The QGraphicsWidget managing all GUI components of a NodeItem in widgets and layouts."""
 
-    def __init__(self, node_gui, node_item):
+    def __init__(self, node_gui: NodeGUI, node_item: NodeItem) -> None:
         super().__init__(parent=node_item)
 
-        self.node_gui = node_gui
-        self.node_item = node_item
-        self.flow_view = self.node_item.flow_view
-        self.flow = self.flow_view.flow
+        self.node_gui: NodeGUI = node_gui
+        self.node_item: NodeItem = node_item
+        self.flow_view: FlowView = self.node_item.flow_view
+        self.flow: Flow = self.flow_view.flow
 
         self.body_padding = 6
         self.header_padding = (0, 0, 0, 0)  # theme dependent and hence updated in setup_layout()!
 
         self.icon = NodeItem_Icon(node_gui, node_item) if node_gui.icon else None
-        self.collapse_button = NodeItem_CollapseButton(node_gui, node_item) if node_gui.style == 'normal' else None
         self.title_label = TitleLabel(node_gui, node_item)
-        self.main_widget_proxy: FlowViewProxyWidget = None
+        self.main_widget_proxy: Optional[FlowViewProxyWidget] = None
         if self.node_item.main_widget:
+            assert isinstance(self.node_item.main_widget, QWidget)
             self.main_widget_proxy = FlowViewProxyWidget(self.flow_view)
             self.main_widget_proxy.setWidget(self.node_item.main_widget)
-        self.header_layout: QGraphicsWidget = None
-        self.header_widget: QGraphicsWidget = None
-        self.body_layout: QGraphicsLinearLayout = None
-        self.body_widget: QGraphicsWidget = None
-        self.inputs_layout: QGraphicsLinearLayout = None
-        self.outputs_layout: QGraphicsLinearLayout = None
+        self.header_layout: Optional[QGraphicsWidget]
+        self.header_widget: Optional[QGraphicsWidget]
+        self.collapse_button: Optional[NodeItem_CollapseButton]
+        self.body_layout: QGraphicsLinearLayout
+        self.body_widget: QGraphicsWidget
+        self.inputs_layout: QGraphicsLinearLayout
+        self.outputs_layout: QGraphicsLinearLayout
         self.setLayout(self.setup_layout())
 
     def setup_layout(self) -> QGraphicsLinearLayout:
@@ -48,6 +61,8 @@ class NodeItemWidget(QGraphicsWidget):
         layout.setSpacing(0)
 
         if self.node_gui.style == 'normal':
+            self.collapse_button = NodeItem_CollapseButton(self.node_gui, self.node_item)
+
             self.header_widget = QGraphicsWidget()
             # self.header_widget.setContentsMargins(0, 0, 0, 0)
             self.header_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -70,6 +85,9 @@ class NodeItemWidget(QGraphicsWidget):
             layout.addItem(self.header_widget)
             # layout.setAlignment(self.title_label, Qt.AlignTop)
         else:
+            self.collapse_button = None
+            self.header_widget = None
+            self.header_layout = None
             self.setZValue(self.title_label.zValue() + 1)
 
         #   inputs
@@ -146,6 +164,8 @@ class NodeItemWidget(QGraphicsWidget):
 
         mw = self.node_item.main_widget
         if mw is not None:  # maybe the main_widget got resized
+            assert self.main_widget_proxy is not None
+
             # self.main_widget_proxy.setMaximumSize(mw.size())
 
             # self.main_widget_proxy.setMaximumSize(mw.maximumSize())
@@ -191,6 +211,7 @@ class NodeItemWidget(QGraphicsWidget):
 
 
     def add_main_widget_to_layout(self):
+        assert self.main_widget_proxy is not None
         if self.node_gui.main_widget_pos == 'between ports':
             self.body_layout.insertItem(1, self.main_widget_proxy)
             self.body_layout.insertStretch(2)
@@ -239,12 +260,12 @@ class NodeItemWidget(QGraphicsWidget):
 
     def collapse(self):
         self.body_widget.hide()
-        if self.main_widget_proxy:
+        if self.main_widget_proxy is not None:
             self.main_widget_proxy.hide()
 
     def expand(self):
         self.body_widget.show()
-        if self.main_widget_proxy:
+        if self.main_widget_proxy is not None:
             self.main_widget_proxy.show()
 
     def hide_unconnected_ports(self):
