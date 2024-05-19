@@ -1,0 +1,36 @@
+name: Type-check Ryven and ryvencore-qt using mypy
+on:
+    push:
+        branches:
+        - main
+        - dev
+    pull_request:
+        branches:
+        - '*'
+    workflow_dispatch:
+jobs:
+  Type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.x
+          architecture: x64
+      # if we are not on the main branch, install ryvencore from the dev branch from github
+      # otherise, install ryvencore from pypi
+      - if: github.ref != 'refs/heads/main'
+        run: python -m pip install git+https://github.com/leon-thomm/ryvencore.git@dev
+      - if: github.ref == 'refs/heads/main'
+        run: python -m pip install ryvencore
+      - name: Install ryvencore-qt dependencies
+        run: python -m pip install . --user && python -m pip uninstall ryvencore-qt --yes
+        working-directory: ./ryvencore-qt
+      - name: Install Ryven dependencies
+        run: python -m pip install . --user && python -m pip uninstall ryven --yes
+        working-directory: ./ryven-editor
+      - name: Install type-checking dependencies
+        run: python -m pip install mypy pyside2 types-Pygments --user
+      - name: Typecheck
+        run: mypy
+        working-directory: .
