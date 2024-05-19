@@ -111,18 +111,21 @@ For more information, visit https://leon-thomm.github.io/ryvencore/
 <details>
 <summary>quick start into to developing node packages</summary>
 
+A Ryven nodes package is simply a typical Python package which contains at least a `nodes.py` file, and calls the Ryven node API to expose node definitions.
+
 Navigate to `~/.ryven/nodes/` and create a sub-directory of the following structure
 
 ```
 ~/.ryven/nodes
 └── your_nodes_pkg_1
+    ├── __init__.py
     ├── nodes.py
     └── gui.py
 ```
 
-With the following contents:
+with the following contents:
 
-`nodes.py`
+`nodes.py`:
 
 ```python
 from ryven.node_env import *
@@ -132,21 +135,25 @@ from ryven.node_env import *
 export_nodes([
     # list your node classes here
 ])
+
+
+@on_gui_load
+def load_gui():
+    # import gui sources here only
+    from . import gui
 ```
 
-`gui.py`
+and `gui.py`:
 
 ```python
 from ryven.gui_env import *
 
-# your node gui definitions go here
+from . import nodes
 
-export_guis([
-    # list your node gui classes here
-])
+# your node gui definitions go here
 ```
 
-You can now start defining your own nodes. Let's define two basic nodes. One which generates random numbers
+You can now start defining your own nodes. Let's define two basic nodes. One which generates random numbers...
 
 ```python
 from random import random
@@ -165,7 +172,7 @@ class RandNode(Node):
         )
 ```
 
-and another one which prints them
+...and another one which prints them
 
 ```python
 class PrintNode(Node):
@@ -185,21 +192,23 @@ export_nodes([
 ])
 ```
 
-That's it! You can import your nodes package in Ryven (`File -> Import Nodes`), place the nodes in the graph, and wire them up. Now add a `val` node and connect it to the `Rand` node, to feed its input with data. If you type a number into the widget of the `val` node and hit enter, it will send the number to the `Rand` node, which will send a scaled random number to the `Print` node, which will print it to the standard output.
+That's it! You can import your nodes package in Ryven (`File -> Import Nodes`), place the nodes in the graph, and wire them up. Add a `val` node and connect it to the `Rand` node, to feed its input with data. If you type a number into the widget of the `val` node and hit enter, it will send the number to the `Rand` node, which will send a scaled random number to the `Print` node, which will print it to the standard output.
 
 Notice that the standard output is by default the in-editor console, which you can access at the very bottom of the editor window (drag the blue handle up to make it visible).
 
 ### Adding GUI
 
-You can now spice up your nodes with some GUI. Ryven runs on Qt, using the [qtpy](https://github.com/spyder-ide/qtpy) library. You can configure the GUI of your nodes in a separate `gui.py` file, and add custom Qt widgets to your nodes. Make sure to always clearly separate the node logic from the GUI. The `nodes.py` file should NOT have any dependency to Qt. One of the central features of Ryven is to run projects headless (on ryvencore) without any GUI dependencies, if your node packages obey the rules.
+You can now spice up your nodes with some GUI. Ryven runs on Qt, using either PySide2 or PySide6 (through the [qtpy](https://github.com/spyder-ide/qtpy) library). You can configure the GUI of your nodes in a separate file, and add custom Qt widgets to your nodes. Make sure to always clearly separate the node logic from the GUI components. One of the central features of Ryven is to run projects headless (on ryvencore) without any GUI dependencies. In order for this to work, your `nodes.py` files should never depend on Qt directly. Instead, you can attach custom GUI to your nodes from the GUI files as shown below.
 
 Let's give them some color and add a slider to the `Rand` node, in `gui.py`:
 
 ```python
-from ryven.gui_env import *
-
 from qtpy.QtWidgets import QSlider
 from qtpy.QtCore import Qt
+
+from ryven.gui_env import *
+
+from . import nodes
 
 
 class RandSliderWidget(NodeInputWidget, QSlider):
@@ -230,6 +239,7 @@ class RandSliderWidget(NodeInputWidget, QSlider):
         self.setValue(state['value'])
     
 
+@node_gui(nodes.RandNode)
 class RandNodeGui(NodeGUI):
     color = '#fcba03'
     
@@ -241,25 +251,11 @@ class RandNodeGui(NodeGUI):
     init_input_widgets = {
         0: {'name': 'slider', 'pos': 'below'}
     }
-
-export_guis([
-    RandNodeGui,
-])
 ```
 
-and you now just need to reference the `RandNodeGUI` in `nodes.py`:
+and this is it! Ryven will now register `RandNodeGui` as "GUI class" of the `RandNode` class, which serves as a container for all UI things. Your can add custom primary ("main") widgets to your nodes, input widgets, and further customize the look of the nodes.
 
-```python
-guis = import_guis(__file__)
-
-class RandNode(Node):
-    ...
-    GUI = guis.RandNodeGui
-```
-
-The value provided by an input widget (through `self.update_node_input(val)`) will be returned in `Node` by `self.input(0)` only when the corresponding input is _not_ connected. Otherwise the value of the connected output will be returned.
-
-So now we can reconstruct the previous example, but we don't need to connect the `val` node to the `Rand` node anymore. Change the slider and see how many different random values are printed.
+The value provided by an input widget (e.g. `self.update_node_input(val)` above) will be returned in the node, when calling `input()` (e.g. `self.input(0)` in the `RandNode`), but only when the corresponding input is _not connected_. Otherwise, the value of the connected output will be returned.
 
 </details>
 
