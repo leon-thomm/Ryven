@@ -1,3 +1,5 @@
+# TODO this could be improved
+
 """
 This module includes the whole Ryven Console application.
 It simply deploys a session with the project provided and implements a REPL.

@@ -9,12 +9,17 @@ from ryven.main.args_parser import process_args
 
 def check_pyside_available(qt_api: str):
     if qt_api == 'pyside2':
+        if sys.version_info >= (3, 11):
+            sys.exit(
+                'You are trying to use PySide2 as the Qt API, but it is not available for Python 3.11 and later. '
+                'Please use PySide6 instead (run `ryven -q pyside6`), or use Python 3.10 or earlier. '
+            )
         try:
             import PySide2
         except ImportError:
             sys.exit(
                 'You are trying to use PySide2 as the Qt API, but it is not available. '
-                'please install it, or use pyside6 as the Qt API. Either of those can '
+                'Please install it, or use pyside6 as the Qt API. Either of those can '
                 'installed through pip, e.g. `pip install pyside2` or `pip install \'pyside6<6.7\'`. '
             )
     elif qt_api == 'pyside6':

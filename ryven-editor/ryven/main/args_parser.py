@@ -146,7 +146,7 @@ def parse_sys_args(just_defaults=False) -> Config:
     """
 
     # Get available examples
-    exampledir = utils.abs_path_from_package_dir('examples_projects')
+    exampledir = utils.abs_path_from_package_dir('example_projects')
     examples = [e.stem for e in pathlib.Path(exampledir).glob('*.json')]
 
     #

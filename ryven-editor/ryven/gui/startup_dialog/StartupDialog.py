@@ -483,7 +483,7 @@ class StartupDialog(QDialog):
         """Call-back method, whenever the 'Example' button was clicked."""
         # Load an example project, starting in the ryven's example directory
         project_path = self.get_project(
-            abs_path_from_package_dir('examples_projects'), title='Select Ryven example'
+            abs_path_from_package_dir('example_projects'), title='Select Ryven example'
         )
 
         if project_path is not None:
