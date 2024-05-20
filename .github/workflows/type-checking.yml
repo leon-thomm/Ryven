@@ -18,16 +18,19 @@ jobs:
           python-version: 3.10.x
           architecture: x64
       # if we are not on the main branch, install ryvencore from the dev branch from github
-      # otherise, install ryvencore from pypi
+      # otherise, install ryvencore from the main branch from github
       - if: github.ref != 'refs/heads/main'
         run: python -m pip install git+https://github.com/leon-thomm/ryvencore.git@dev
       - if: github.ref == 'refs/heads/main'
-        run: python -m pip install ryvencore
+        run: python -m pip install git+https://github.com/leon-thomm/ryvencore.git@main
       - name: Install ryvencore-qt dependencies
-        run: python -m pip install . --user && python -m pip uninstall ryvencore-qt --yes
+        run: python -m pip install . --user
         working-directory: ./ryvencore-qt
       - name: Install Ryven dependencies
-        run: python -m pip install . --user && python -m pip uninstall ryven --yes
+        run: python -m pip install . --user
+        working-directory: ./ryven-editor
+      - name: Uninstall ryvencore-qt and ryven (keep dependencies)
+        run: python -m pip uninstall ryven ryvencore-qt --yes
         working-directory: ./ryven-editor
       - name: Install type-checking dependencies
         run: python -m pip install mypy pyside2 pyside6 PySide6-stubs types-Pygments --user
