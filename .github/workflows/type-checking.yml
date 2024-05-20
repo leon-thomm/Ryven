@@ -30,7 +30,7 @@ jobs:
         run: python -m pip install . --user && python -m pip uninstall ryven --yes
         working-directory: ./ryven-editor
       - name: Install type-checking dependencies
-        run: python -m pip install mypy pyside2 types-Pygments --user
+        run: python -m pip install mypy pyside2 pyside6 PySide6-stubs types-Pygments --user
       - name: Typecheck
         run: mypy
         working-directory: .

@@ -7,6 +7,32 @@ from ryven.main.config import Config
 from ryven.main.args_parser import process_args
 
 
+def check_pyside_available(qt_api: str):
+    if qt_api == 'pyside2':
+        try:
+            import PySide2
+        except ImportError:
+            sys.exit(
+                'You are trying to use PySide2 as the Qt API, but it is not available. '
+                'please install it, or use pyside6 as the Qt API. Either of those can '
+                'installed through pip, e.g. `pip install pyside2` or `pip install \'pyside6<6.7\'`. '
+            )
+    elif qt_api == 'pyside6':
+        try:
+            import PySide6
+        except ImportError:
+            sys.exit(
+                'You are trying to use PySide6 as the Qt API, but it is not available. '
+                'please install it, or use pyside2 as the Qt API. Either of those can '
+                'installed through pip, e.g. `pip install pyside2` or `pip install \'pyside6<6.7\'`. '
+            )
+    else:
+        sys.exit(
+            f'Error: Illegal Qt API: "{qt_api}". '
+            f'Use either "pyside2" or "pyside6". '
+        )
+
+
 def run(*args_,
         qt_app=None, gui_parent=None, use_sysargs: bool = True,
         **kwargs):
@@ -72,6 +98,7 @@ def run(*args_,
     #
 
     # Init environment
+    check_pyside_available(conf.qt_api)
     os.environ['RYVEN_MODE'] = 'gui'
     os.environ['QT_API'] = conf.qt_api
     from ryven.node_env import init_node_env
