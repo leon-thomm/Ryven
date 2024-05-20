@@ -48,7 +48,7 @@ from qtpy.QtWidgets import (
 try:
     from qtpy.QtGui import QUndoStack
 except ImportError:
-    from qtpy.QtWidgets import QUndoStack
+    from qtpy.QtWidgets import QUndoStack  # type: ignore
 
 from ryvencore.Flow import Flow
 from ryvencore.Node import Node
