@@ -1,3 +1,4 @@
+from typing import Dict, Set
 import code
 from contextlib import redirect_stdout, redirect_stderr
 from packaging.version import Version
@@ -155,8 +156,8 @@ class Log_Node(DualNodeBase):
     ]
     GUI = guis.LogNodeGui
 
-    logs = {}   # {int: Logger}
-    in_use = set()  # make sure we don't reuse numbers on copy & paste
+    logs: Dict[int, logging.Logger] = {}   # {int: Logger}
+    in_use: Set[int] = set()  # make sure we don't reuse numbers on copy & paste
 
     def __init__(self, params):
         super().__init__(params, active=True)
@@ -202,8 +203,11 @@ class Log_Node(DualNodeBase):
 
         # the logging addon will have re-created the logger
         # for us already
-        self.logs[self.number] = \
-            self.logs_ext().new_logger(self, 'Log Node')
+        l = self.logs_ext().new_logger(self, 'Log Node')
+        if l is None:
+            print(f'WARNING: logger {self.number} for Log Node {self} already exists')
+        else:
+            self.logs[self.number] = l
 
 
 class Clock_Node(NodeBase):
@@ -439,7 +443,7 @@ class Interpreter_Node(NodeBase):
     def process_input(self, cmds: str):
         m = self.COMMANDS.get(cmds)
         if m is not None:
-            m()
+            m(self)
         else:
             for l in cmds.splitlines():
                 self.write(l)  # print input
@@ -452,7 +456,7 @@ class Interpreter_Node(NodeBase):
                     self.buffer.clear()
 
             if self.session.gui:
-                with redirect_stdout(self), redirect_stderr(self):
+                with redirect_stdout(self), redirect_stderr(self):  # type: ignore
                     run_src()
             else:
                 run_src()
@@ -519,7 +523,7 @@ class LinkIN_Node(NodeBase):
     GUI = guis.LinkIN_NodeGui
 
     # instances registration
-    INSTANCES = {}  # {UUID: node}
+    INSTANCES: Dict[str, Node] = {}
 
     def __init__(self, params):
         super().__init__(params)
@@ -575,12 +579,12 @@ class LinkOUT_Node(NodeBase):
     """The complement to the link IN node"""
 
     title = 'link OUT'
-    init_inputs = []  # no inputs
-    init_outputs = []  # will be synchronized with linked IN node
+    init_inputs: List[NodeInputType] = []  # no inputs
+    init_outputs: List[NodeOutputType] = []  # will be synchronized with linked IN node
     GUI = guis.LinkOUT_NodeGui
 
-    INSTANCES = []
-    PENDING_LINK_BUILDS = {}
+    INSTANCES: List['LinkOUT_Node'] = []
+    PENDING_LINK_BUILDS: Dict['LinkOUT_Node', str] = {}
     # because a link OUT node might get initialized BEFORE it's corresponding
     # link IN, it then stores itself together with the ID of the link IN it's
     # waiting for in PENDING_LINK_BUILDS

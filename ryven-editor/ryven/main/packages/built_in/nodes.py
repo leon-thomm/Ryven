@@ -86,7 +86,7 @@ class Val_Node(NodeBase):
         # NodeInputType(default=Data()),
     ]
     init_outputs = [
-        NodeInputType(type_='data'),
+        NodeOutputType(type_='data'),
     ]
 
     def __init__(self, params):

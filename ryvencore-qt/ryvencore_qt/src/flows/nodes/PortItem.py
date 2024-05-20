@@ -322,17 +322,19 @@ class PortItemPin(QGraphicsWidget):
         """The height without the padding"""
         return self.height - 2 * self.padding
 
-    def get_scene_center_pos(self):
+    def get_scene_center_pos(self) -> QPointF:
         if not self.node_item.collapsed:
             return QPointF(
                 self.scenePos().x() + self.boundingRect().width() / 2,
                 self.scenePos().y() + self.boundingRect().height() / 2,
             )
         else:
+            # mypy seems buggy here, it things below methods return Any,
+            # but they are annotated to return QPointF
             if isinstance(self.port_item, InputPortItem):
-                return self.node_item.get_left_body_header_vertex_scene_pos()
+                return self.node_item.get_left_body_header_vertex_scene_pos()  # type: ignore
             else:
-                return self.node_item.get_right_body_header_vertex_scene_pos()
+                return self.node_item.get_right_body_header_vertex_scene_pos()  # type: ignore
 
 
 class PortItemLabel(QGraphicsWidget):

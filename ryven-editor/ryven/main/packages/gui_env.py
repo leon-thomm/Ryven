@@ -2,7 +2,7 @@
 This module automatically imports all requirements for Gui definitions of a nodes package.
 """
 
-from typing import Type
+from typing import Type, List
 
 from ryvencore import Data, Node, serialize, deserialize
 from ryvencore.InfoMsgs import InfoMsgs
@@ -19,19 +19,19 @@ def init_node_guis_env():
     pass
 
 
+class GuiClassesContainer:
+    pass
+
+
 class GuiClassesRegistry:
     """
     Used for statically keeping the gui classes specified in export_guis to access them through node_env.import_guis().
     """
 
-    exported_guis = []
+    exported_guis: List[GuiClassesContainer] = []
 
 
-class GuiClassesContainer:
-    pass
-
-
-def export_guis(guis: [Type[NodeGUI]]):
+def export_guis(guis: List[Type[NodeGUI]]):
     """
     Exports/exposes the specified node gui classes to the nodes file importing them via import_guis().
     Returns an object with all exported gui classes as attributes for direct access.
@@ -53,10 +53,10 @@ def node_gui(node_cls: Type[Node]):
 
     def register_gui(gui_cls: Type[NodeGUI]):
         if node_cls in __explicit_nodes:
+            assert hasattr(node_cls, 'GUI')
             InfoMsgs.write(f'{node_cls.__name__} has defined an explicit gui {node_cls.GUI.__name__}')
             return
-        
-        node_cls.GUI = gui_cls
+        node_cls.GUI = gui_cls  # type: ignore
         __explicit_nodes.add(node_cls)
         InfoMsgs.write(f"Registered node gui: {gui_cls} for {node_cls}")
         return gui_cls

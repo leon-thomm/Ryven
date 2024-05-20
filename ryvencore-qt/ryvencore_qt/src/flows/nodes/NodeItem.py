@@ -318,7 +318,8 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         rect.setHeight(h)
         return rect
 
-    def get_left_body_header_vertex_scene_pos(self):
+    def get_left_body_header_vertex_scene_pos(self) -> QPointF:
+        assert self.widget.header_widget is not None
         return self.mapToScene(
             QPointF(
                 -self.boundingRect().width() / 2,
@@ -326,7 +327,8 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
             )
         )
 
-    def get_right_body_header_vertex_scene_pos(self):
+    def get_right_body_header_vertex_scene_pos(self) -> QPointF:
+        assert self.widget.header_widget is not None
         return self.mapToScene(
             QPointF(
                 +self.boundingRect().width() / 2,

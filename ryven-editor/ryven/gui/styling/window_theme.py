@@ -1,3 +1,5 @@
+from typing import Dict, Optional
+
 from ryven.main.utils import abs_path_from_package_dir
 
 
@@ -11,8 +13,8 @@ def hex_to_rgb(hex: str):
 class WindowTheme:
 
     name = ''
-    colors = {}
-    rules = {}
+    colors: Dict[str, Optional[str]] = {}
+    rules: Dict[str, Optional[str]] = {}
 
     def __init__(self):
         self.init_rules()
@@ -81,7 +83,8 @@ class WindowTheme_Plain(WindowTheme):
     }
 
 
-def apply_stylesheet(style: str):
+def apply_stylesheet(style: str) -> WindowTheme:
+
     from qtpy.QtWidgets import QApplication
 
     # set to None if not used
@@ -90,6 +93,8 @@ def apply_stylesheet(style: str):
         from qtpy.QtCore import QDir
         d = QDir()
         d.setSearchPaths('icon', [icons_dir])
+
+    window_theme: WindowTheme
 
     if style in (None, 'plain'):
         window_theme = WindowTheme_Plain()

@@ -685,7 +685,7 @@ class FlowView(GUIBase, QGraphicsView):
         except Exception:
             pass
     
-    def contextMenuEvent(self, event: QCotextMenuEvent):
+    def contextMenuEvent(self, event: QContextMenuEvent):
         QGraphicsView.contextMenuEvent(self, event)
         # in the case of the menu already being shown by a widget under the mouse, the event is accepted here
         if event.isAccepted():

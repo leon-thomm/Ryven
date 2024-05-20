@@ -8,7 +8,7 @@ from ryven.main.args_parser import process_args
 
 
 def run(*args_,
-        qt_app=None, gui_parent=None, use_sysargs=True,
+        qt_app=None, gui_parent=None, use_sysargs: bool = True,
         **kwargs):
     """Start the Ryven window.
 
@@ -124,7 +124,7 @@ def run(*args_,
             sys.exit('Start-up screen dismissed')
 
     # Replace node directories with `NodePackage` instances
-    if conf.nodes:
+    if len(conf.nodes) > 0:
         conf.nodes, pkgs_not_found, _ = ryven.main.packages.nodes_package.process_nodes_packages(list(conf.nodes))
         if pkgs_not_found:
             sys.exit(
@@ -133,6 +133,7 @@ def run(*args_,
         # editor_config['requested packages'] = conf.nodes
 
     # Store WindowTheme object
+    assert isinstance(conf.window_theme, str)
     conf.window_theme = apply_stylesheet(conf.window_theme)
 
     # Adjust flow theme if not set
@@ -150,7 +151,9 @@ def run(*args_,
     # Get packages required by the project
     if conf.project:
         pkgs, pkgs_not_found, project_dict = ryven.main.packages.nodes_package.process_nodes_packages(
-            conf.project, requested_packages=list(conf.nodes))
+            conf.project,
+            requested_packages=list(conf.nodes)  # type: ignore
+        )
 
         if pkgs_not_found:
             str_missing_pkgs = ', '.join([str(p.name) for p in pkgs_not_found])

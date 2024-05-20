@@ -1,3 +1,4 @@
+from typing import Optional, List
 import code
 import re
 import os
@@ -151,7 +152,9 @@ class MainConsole(QWidget):
                     self.prompt_label.show()
 
                 # add leading space for next input
-                leading_space = re.match(r"\s*", self.buffer[-1]).group()
+                m = re.match(r"\s*", self.buffer[-1])
+                assert m is not None
+                leading_space = m.group()
                 self.inpedit.next_line = leading_space
 
             else:   # no more input required
@@ -167,9 +170,9 @@ class MainConsole(QWidget):
         """capture stderr and print to outdisplay"""
         self.writeoutput(line, self.errfmt)
 
-    def writeoutput(self, line: str, fmt: QTextCharFormat = None) -> None:
+    def writeoutput(self, line: str, fmt: Optional[QTextCharFormat] = None) -> None:
         """prints to outdisplay"""
-        if fmt:
+        if fmt is not None:
             self.out_display.setCurrentCharFormat(fmt)
         self.out_display.appendPlainText(line.rstrip())
         self.out_display.setCurrentCharFormat(self.outfmt)
@@ -188,7 +191,7 @@ class ConsoleInputLineEdit(QLineEdit):
         self.code_text_edit.returned.connect(self.code_text_edit_returned)
         self.max_hist = max_history
         self.hist_index = 0
-        self.hist_list = []
+        self.hist_list: List[str] = []
         self.next_line = ''  # can be set by console
         self.prompt_pattern = re.compile('^[>\.]')
 

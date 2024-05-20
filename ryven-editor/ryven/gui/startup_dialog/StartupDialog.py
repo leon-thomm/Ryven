@@ -660,7 +660,7 @@ class StartupDialog(QDialog):
 
         else:
             self.conf.project = project_path
-            self.project_name.setText(project_path)
+            self.project_name.setText(str(project_path))
             self.create_project_button.setEnabled(True)
 
             required_nodes, missing_nodes, _ = process_nodes_packages(project_path)

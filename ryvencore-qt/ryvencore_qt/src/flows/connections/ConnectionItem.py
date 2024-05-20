@@ -237,7 +237,7 @@ class DataConnectionItem(ConnectionItem):
         return self.flow_theme().data_conn_color
 
 
-def default_cubic_connection_path(p1: QPointF, p2: QPointF):
+def default_cubic_connection_path(p1: QPointF, p2: QPointF) -> QPainterPath:
     """Returns the nice looking QPainterPath from p1 to p2"""
 
     path = QPainterPath()

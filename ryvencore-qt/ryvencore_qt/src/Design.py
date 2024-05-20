@@ -80,11 +80,11 @@ class Design(QObject):
                 return theme
         raise ValueError(f'Flow theme with name "{name}" not found')
 
-    def set_flow_theme(self, theme: Optional[FlowTheme] = None, name: str = ''):
+    def set_flow_theme(self, theme: Optional[FlowTheme] = None, name: Optional[str] = None):
         """You can either specify the theme by name, or directly provide a FlowTheme object"""
-        if theme:
+        if theme is not None:
             self.flow_theme = theme
-        elif name and name != '':
+        elif name is not None and name != '':
             self.flow_theme = self.flow_theme_by_name(name)
         else:
             return

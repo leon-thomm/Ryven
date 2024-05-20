@@ -118,7 +118,7 @@ class Builder:
                 self.on_widget_val_changed(self.val)
 
             @property
-            def val(self) -> data_type:
+            def val(self) -> Data:
                 try:
                     return data_type(eval(self.text()))
                 except:
@@ -197,7 +197,7 @@ class Builder:
                 self.on_widget_val_changed(self.val)
 
             @property
-            def val(self) -> data_type:
+            def val(self) -> Data:
                 return data_type(self.text())
 
             def load_from(self, val: Data):
@@ -248,7 +248,7 @@ class Builder:
 
 
             @property
-            def val(self) -> data_type:
+            def val(self) -> Data:
                 return data_type(self.value())
 
             def load_from(self, val: Data):
@@ -292,7 +292,7 @@ class Builder:
                     self.setValue(init)
 
             @property
-            def val(self) -> data_type:
+            def val(self) -> Data:
                 return data_type(self.value())
 
             def load_from(self, val: Data):
@@ -333,7 +333,7 @@ class Builder:
                     self.setChecked(init)
 
             @property
-            def val(self) -> data_type:
+            def val(self) -> Data:
                 return data_type(self.isChecked())
 
             def load_from(self, val: Data):

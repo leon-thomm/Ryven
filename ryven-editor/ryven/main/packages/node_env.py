@@ -2,11 +2,18 @@
 This module automatically imports all requirements for custom nodes.
 """
 
+# prevent cyclic imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ryven.main.packages.nodes_package import NodesPackage
+
 import os
 from os.path import basename, normpath
-from typing import Type, Tuple, List
+from typing import Type, Tuple, List, Optional
 
 from ryven.main.utils import in_gui_mode, load_from_file
+from ryven.gui_env import GuiClassesContainer
 
 from ryvencore import Node, NodeInputType, NodeOutputType, Data, serialize, deserialize
 
@@ -58,7 +65,7 @@ def import_guis(origin_file: str, gui_file_name='gui.py'):
     else:
         # in non-gui mode, return an object that just returns None for all accessed attributes
         # so guis.MyGUI in the nodes file just returns None then
-        class PlaceholderGuisContainer:
+        class PlaceholderGuisContainer(GuiClassesContainer):
             def __getattr__(self, item):
                 return None
 
@@ -84,15 +91,15 @@ class NodesEnvRegistry:
     last_exported_package: list = []
 
     # stores, for each nodes package separately, a list of exported node types
-    exported_nodes_legacy: [[Type[Node]]] = []
+    exported_nodes_legacy: List[List[Type[Node]]] = []
 
     # stores, for each nodes package separately, a list of exported data types
-    exported_data_types_legacy: [[Type[Data]]] = []
+    exported_data_types_legacy: List[List[Type[Data]]] = []
 
     # stores the package that is currently being imported; set by the nodes package
     # loader ryven.main.packages.nodes_package.import_nodes_package;
     # needed for extending the identifiers of node types to include the package name
-    current_package = None  # type NodesPackage (not imported to avoid circular imports)
+    current_package: Optional[NodesPackage] = None
 
     @classmethod
     def current_package_id(cls):
@@ -118,9 +125,9 @@ class NodesEnvRegistry:
 
 
 def export_nodes(
-    node_types: [Type[Node]], 
-    data_types: [Type[Data]] = None,
-    sub_pkg_name: str = None
+    node_types: List[Type[Node]], 
+    data_types: Optional[List[Type[Data]]] = None,
+    sub_pkg_name: Optional[str] = None
 ):
     """
     Exports/exposes the specified nodes to Ryven for use in flows. Nodes will have the same identifier, since they come as a package.
