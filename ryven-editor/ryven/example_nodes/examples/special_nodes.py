@@ -643,19 +643,29 @@ class LinkOUT_Node(NodeBase):
             self.linked_node = None
 
 
+node_types = [
+    Checkpoint_Node,
+    Button_Node,
+    Print_Node,
+    Log_Node,
+    Clock_Node,
+    Slider_Node,
+    Exec_Node,
+    Eval_Node,
+    Storage_Node,
+    LinkIN_Node,
+    LinkOUT_Node,
+    Interpreter_Node,
+]
+
+# account for old package name
+for n in node_types:
+    n.legacy_identifiers = [
+        *getattr(n, 'legacy_identifiers', []),
+        f'std.{n.__class__.__name__}',
+    ]
+
 export_nodes(
-    node_types=[
-        Checkpoint_Node,
-        Button_Node,
-        Print_Node,
-        Log_Node,
-        Clock_Node,
-        Slider_Node,
-        Exec_Node,
-        Eval_Node,
-        Storage_Node,
-        LinkIN_Node,
-        LinkOUT_Node,
-        Interpreter_Node,
-    ],
+    node_types=node_types,
+    sub_pkg_name='special_nodes',
 )

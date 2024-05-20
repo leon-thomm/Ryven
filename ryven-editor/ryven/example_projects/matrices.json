@@ -1,20 +1,20 @@
 {
     "general info": {
         "type": "Ryven project file",
-        "ryven version": "3.3.0a1"
+        "ryven version": "3.4.3"
     },
     "required packages": [
         {
-            "name": "linalg",
-            "dir": "/home/leon/projects/ryven_projects/Ryven/ryven/example_nodes/linalg"
+            "name": "examples",
+            "dir": "/home/leon/projects/ryven_projects/Ryven/ryven-editor/ryven/example_nodes/examples"
         },
         {
-            "name": "std",
-            "dir": "/home/leon/projects/ryven_projects/Ryven/ryven/example_nodes/std"
+            "name": "linalg",
+            "dir": "/home/leon/projects/ryven_projects/Ryven/ryven-editor/ryven/example_nodes/linalg"
         }
     ],
     "GID": 2,
-    "version": "0.4.0a12",
+    "version": "0.4.0",
     "flows": {
         "hello world": {
             "GID": 5,
@@ -61,11 +61,12 @@
                             "method": "ac_hide_mw"
                         }
                     },
-                    "display title": "Matrix"
+                    "display title": "Matrix",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 12,
-                    "version": "v0.2",
+                    "version": "v0.3",
                     "identifier": "linalg.ShowMatrix",
                     "state data": "gAR9lC4=",
                     "additional data": {},
@@ -89,7 +90,7 @@
                     },
                     "pos x": 469.009788256565,
                     "pos y": 289.198189623965,
-                    "main widget data": "gASVQwAAAAAAAAB9lCiMBHRleHSUjCsgICAgICAgIDFqICAgICAoMSswaikKICAgICAgIC0xaiAoMC43NzIrMGoplIwFc2hvd26UiHUu",
+                    "main widget data": "gASVQwAAAAAAAAB9lCiMBHRleHSUjCsgICAgICAgIDFqICAgICAoMSswaikKICAgICAgIC0xaiAoMC43NzgrMGoplIwFc2hvd26UiHUu",
                     "unconnected ports hidden": false,
                     "collapsed": false,
                     "actions": {
@@ -109,7 +110,8 @@
                             "method": "ac_hide_mw"
                         }
                     },
-                    "display title": "Show Matrix"
+                    "display title": "Show Matrix",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 17,
@@ -130,21 +132,21 @@
                             "has widget": true,
                             "widget name": "varname",
                             "widget pos": "besides",
-                            "widget data": "gASVbAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVAZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAFhlHVicy4="
+                            "widget data": "gASVbAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTIDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAFhlHVicy4="
                         },
                         {
                             "GID": 25,
                             "type": "data",
                             "label": "val",
                             "default": {
-                                "GID": 6431,
+                                "GID": 771,
                                 "identifier": "Data",
-                                "serialized": "gASVCQAAAAAAAACMBTAuNzcylC4="
+                                "serialized": "gASVCQAAAAAAAACMBTAuNzc4lC4="
                             },
                             "has widget": true,
                             "widget name": "val",
                             "widget pos": "besides",
-                            "widget data": "gASVcAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVEZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAUwLjc3MpR1YnMu"
+                            "widget data": "gASVcAAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTMDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjAUwLjc3OJR1YnMu"
                         }
                     ],
                     "outputs": [
@@ -175,13 +177,14 @@
                             "method": "console_ref_monkeypatch"
                         }
                     },
-                    "display title": "set var"
+                    "display title": "set var",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 30,
-                    "version": "v0.2",
-                    "identifier": "std.Slider_Node",
-                    "state data": "gASVEwAAAAAAAAB9lIwDdmFslEc/6LQ5WBBiTnMu",
+                    "version": "v0.3",
+                    "identifier": "examples.special_nodes.Slider_Node",
+                    "state data": "gASVEwAAAAAAAAB9lIwDdmFslEc/6OVgQYk3THMu",
                     "additional data": {},
                     "inputs": [
                         {
@@ -196,7 +199,7 @@
                             "has widget": true,
                             "widget name": "scale",
                             "widget pos": "besides",
-                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVIZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
+                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTQDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
                         },
                         {
                             "GID": 36,
@@ -210,7 +213,7 @@
                             "has widget": true,
                             "widget name": "round",
                             "widget pos": "besides",
-                            "widget data": "gASVaQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVMZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUiXVicy4="
+                            "widget data": "gASVaQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTUDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUiXVicy4="
                         }
                     ],
                     "outputs": [
@@ -242,12 +245,13 @@
                             "method": "console_ref_monkeypatch"
                         }
                     },
-                    "display title": "slider"
+                    "display title": "slider",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 43,
-                    "version": "v0.2",
-                    "identifier": "std.Multiply_Node",
+                    "version": "v0.3",
+                    "identifier": "examples.basic_operators.Multiply_Node",
                     "state data": "gAR9lC4=",
                     "additional data": {},
                     "inputs": [
@@ -256,14 +260,14 @@
                             "type": "data",
                             "label": "",
                             "default": {
-                                "GID": 6429,
+                                "GID": 769,
                                 "identifier": "Data",
-                                "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                                "serialized": "gASVCgAAAAAAAABHP+jlYEGJN0wu"
                             },
                             "has widget": true,
                             "widget name": "in",
                             "widget pos": "besides",
-                            "widget data": "gASVcQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVQZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSURz/otDlYEGJOdWJzLg=="
+                            "widget data": "gASVcQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTYDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSURz/o5WBBiTdMdWJzLg=="
                         },
                         {
                             "GID": 49,
@@ -277,7 +281,7 @@
                             "has widget": true,
                             "widget name": "in",
                             "widget pos": "besides",
-                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVUZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
+                            "widget data": "gASVagAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTcDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUSwF1YnMu"
                         }
                     ],
                     "outputs": [
@@ -321,7 +325,8 @@
                             }
                         }
                     },
-                    "display title": "*"
+                    "display title": "*",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 56,
@@ -342,21 +347,21 @@
                             "has widget": true,
                             "widget name": "varname",
                             "widget pos": "besides",
-                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVYZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANtYXSUdWJzLg=="
+                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTgDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANtYXSUdWJzLg=="
                         },
                         {
                             "GID": 64,
                             "type": "data",
                             "label": "val",
                             "default": {
-                                "GID": 6435,
+                                "GID": 775,
                                 "identifier": "Data",
-                                "serialized": "gASVMgAAAAAAAACMLltbMC4gICArMS5qIDEuICAgKzAual0KIFswLiAgIC0xLmogMC43NzIrMC5qXV2ULg=="
+                                "serialized": "gASVMgAAAAAAAACMLltbMC4gICArMS5qIDEuICAgKzAual0KIFswLiAgIC0xLmogMC43NzgrMC5qXV2ULg=="
                             },
                             "has widget": true,
                             "widget name": "val",
                             "widget pos": "besides",
-                            "widget data": "gASVmQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVcZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjC5bWzAuICAgKzEuaiAxLiAgICswLmpdCiBbMC4gICAtMS5qIDAuNzcyKzAual1dlHVicy4="
+                            "widget data": "gASVmQAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTTkDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjC5bWzAuICAgKzEuaiAxLiAgICswLmpdCiBbMC4gICAtMS5qIDAuNzc4KzAual1dlHVicy4="
                         }
                     ],
                     "outputs": [
@@ -387,7 +392,8 @@
                             "method": "console_ref_monkeypatch"
                         }
                     },
-                    "display title": "set var"
+                    "display title": "set var",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 69,
@@ -408,7 +414,7 @@
                             "has widget": true,
                             "widget name": "varname",
                             "widget pos": "besides",
-                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTVgZjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANtYXSUdWJzLg=="
+                            "widget data": "gASVbgAAAAAAAAB9lIwDdmFslIwOcnl2ZW5jb3JlLkRhdGGUjAREYXRhlJOUKYGUfZQojAlnbG9iYWxfaWSUTToDjA5wcmV2X2dsb2JhbF9pZJROjAxwcmV2X3ZlcnNpb26UTowIX3BheWxvYWSUjANtYXSUdWJzLg=="
                         }
                     ],
                     "outputs": [
@@ -441,11 +447,12 @@
                             "method": "console_ref_monkeypatch"
                         }
                     },
-                    "display title": "get var"
+                    "display title": "get var",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 77,
-                    "version": "v0.2",
+                    "version": "v0.3",
                     "identifier": "linalg.InverseMatrix",
                     "state data": "gAR9lC4=",
                     "additional data": {},
@@ -469,7 +476,7 @@
                     },
                     "pos x": 175.96624820900752,
                     "pos y": 548.4374023593136,
-                    "main widget data": "gASVRwAAAAAAAAB9lCiMBHRleHSUjC8gICAtMC40MzU3aiAgICAgMC41NjQzagooMC41NjQzKzBqKSAoMC41NjQzKzBqKZSMBXNob3dulIh1Lg==",
+                    "main widget data": "gASVRwAAAAAAAAB9lCiMBHRleHSUjC8gICAtMC40Mzc2aiAgICAgMC41NjI0agooMC41NjI0KzBqKSAoMC41NjI0KzBqKZSMBXNob3dulIh1Lg==",
                     "unconnected ports hidden": false,
                     "collapsed": false,
                     "actions": {
@@ -489,11 +496,12 @@
                             "method": "ac_hide_mw"
                         }
                     },
-                    "display title": "Inverse"
+                    "display title": "Inverse",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 82,
-                    "version": "v0.2",
+                    "version": "v0.3",
                     "identifier": "linalg.DetOfMatrix",
                     "state data": "gAR9lC4=",
                     "additional data": {},
@@ -517,7 +525,7 @@
                     },
                     "pos x": 611.0383971650748,
                     "pos y": 548.1962980663284,
-                    "main widget data": "gASVLAAAAAAAAAB9lCiMBHRleHSUjBQtMC41NjQzMzQwODU3Nzg3ODExapSMBXNob3dulIh1Lg==",
+                    "main widget data": "gASVKwAAAAAAAAB9lCiMBHRleHSUjBMtMC41NjI0Mjk2OTYyODc5NjRqlIwFc2hvd26UiHUu",
                     "unconnected ports hidden": false,
                     "collapsed": false,
                     "actions": {
@@ -537,11 +545,12 @@
                             "method": "ac_hide_mw"
                         }
                     },
-                    "display title": "Determinant"
+                    "display title": "Determinant",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 87,
-                    "version": "v0.2",
+                    "version": "v0.3",
                     "identifier": "linalg.SolveLEq",
                     "state data": "gAR9lC4=",
                     "additional data": {},
@@ -571,7 +580,7 @@
                     },
                     "pos x": 885.1839459089059,
                     "pos y": 322.570155217133,
-                    "main widget data": "gASVLwAAAAAAAAB9lCiMBHRleHSUjBcgICAtMC40MzU3aiAoMC41NjQzKzBqKZSMBXNob3dulIh1Lg==",
+                    "main widget data": "gASVLwAAAAAAAAB9lCiMBHRleHSUjBcgICAtMC40Mzc2aiAoMC41NjI0KzBqKZSMBXNob3dulIh1Lg==",
                     "unconnected ports hidden": false,
                     "collapsed": false,
                     "actions": {
@@ -591,11 +600,12 @@
                             "method": "ac_hide_mw"
                         }
                     },
-                    "display title": "Solve"
+                    "display title": "Solve",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 94,
-                    "version": "v0.2",
+                    "version": "v0.3",
                     "identifier": "linalg.MatMul",
                     "state data": "gAR9lC4=",
                     "additional data": {},
@@ -645,12 +655,13 @@
                             "method": "ac_hide_mw"
                         }
                     },
-                    "display title": "Mult"
+                    "display title": "Mult",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 101,
-                    "version": "v0.2",
-                    "identifier": "std.Eval_Node",
+                    "version": "v0.3",
+                    "identifier": "examples.special_nodes.Eval_Node",
                     "state data": "gASVPQAAAAAAAAB9lCiMEG51bSBwYXJhbSBpbnB1dHOUSwGMD2V4cHJlc3Npb24gY29kZZSMDihpbnBbMF0pWzBdWzpdlHUu",
                     "additional data": {},
                     "inputs": [
@@ -694,7 +705,8 @@
                         },
                         "remove input": {}
                     },
-                    "display title": "eval"
+                    "display title": "eval",
+                    "inspector widget": {}
                 },
                 {
                     "GID": 105,
@@ -733,7 +745,8 @@
                             "method": "console_ref_monkeypatch"
                         }
                     },
-                    "display title": "result"
+                    "display title": "result",
+                    "inspector widget": {}
                 }
             ],
             "connections": [
@@ -813,9 +826,9 @@
             "output data": [
                 {
                     "data": {
-                        "GID": 6456,
+                        "GID": 796,
                         "identifier": "MatrixData",
-                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv0w3iUFg5eg/AAAAAAAAAACUdJRiLg=="
                     },
                     "dependent node outputs": [
                         0,
@@ -824,9 +837,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6457,
+                        "GID": 797,
                         "identifier": "MatrixData",
-                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv0w3iUFg5eg/AAAAAAAAAACUdJRiLg=="
                     },
                     "dependent node outputs": [
                         1,
@@ -835,9 +848,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6428,
+                        "GID": 768,
                         "identifier": "Data",
-                        "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                        "serialized": "gASVCgAAAAAAAABHP+jlYEGJN0wu"
                     },
                     "dependent node outputs": [
                         3,
@@ -846,9 +859,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6430,
+                        "GID": 770,
                         "identifier": "Data",
-                        "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                        "serialized": "gASVCgAAAAAAAABHP+jlYEGJN0wu"
                     },
                     "dependent node outputs": [
                         4,
@@ -857,9 +870,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6468,
+                        "GID": 808,
                         "identifier": "Data",
-                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv0w3iUFg5eg/AAAAAAAAAACUdJRiLg=="
                     },
                     "dependent node outputs": [
                         6,
@@ -868,9 +881,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6472,
+                        "GID": 812,
                         "identifier": "MatrixData",
-                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAEPljSfPh278AAAAAAAAAAHgDTlsGD+I/eANOWwYP4j8AAAAAAAAAAHgDTlsGD+I/AAAAAAAAAACUdJRiLg=="
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAADcJ4CYB3L8AAAAAAAAAAIBk+49s/+E/gGT7j2z/4T8AAAAAAAAAAIBk+49s/+E/AAAAAAAAAACUdJRiLg=="
                     },
                     "dependent node outputs": [
                         7,
@@ -879,9 +892,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6473,
+                        "GID": 813,
                         "identifier": "MatrixData",
-                        "serialized": "gASVcgAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMBnNjYWxhcpSTlIwFbnVtcHmUjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGJDEAAAAAAAAAAAeANOWwYP4r+UhpRSlC4="
+                        "serialized": "gASVcgAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMBnNjYWxhcpSTlIwFbnVtcHmUjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGJDEAAAAAAAAAAAgGT7j2z/4b+UhpRSlC4="
                     },
                     "dependent node outputs": [
                         8,
@@ -890,9 +903,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6479,
+                        "GID": 817,
                         "identifier": "MatrixData",
-                        "serialized": "gASVqQAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwKFlGgDjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGKJQyAAAAAAAAAAABD5Y0nz4du/eANOWwYP4j8AAAAAAAAAAJR0lGIu"
+                        "serialized": "gASVqQAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwKFlGgDjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGKJQyAAAAAAAAAAAAA3CeAmAdy/gGT7j2z/4T8AAAAAAAAAAJR0lGIu"
                     },
                     "dependent node outputs": [
                         9,
@@ -901,9 +914,9 @@
                 },
                 {
                     "data": {
-                        "GID": 6474,
+                        "GID": 814,
                         "identifier": "MatrixData",
-                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAPA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkP6YJq2umDwAAAAAAAAAAAAAAAAAAPA/AAAAAAAAAACUdJRiLg=="
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAPA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKxyE25yiDwAAAAAAAAAAAAAAAAAAPA/AAAAAAAAAACUdJRiLg=="
                     },
                     "dependent node outputs": [
                         10,
@@ -912,7 +925,7 @@
                 },
                 {
                     "data": {
-                        "GID": 6478,
+                        "GID": 815,
                         "identifier": "Data",
                         "serialized": "gASVqQAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwKFlGgDjAVkdHlwZZSTlIwDYzE2lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGKJQyAAAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJR0lGIu"
                     },
@@ -938,14 +951,14 @@
             "custom state": {
                 "5": {
                     "a": {
-                        "GID": 6432,
+                        "GID": 772,
                         "identifier": "Data",
-                        "serialized": "gASVCgAAAAAAAABHP+i0OVgQYk4u"
+                        "serialized": "gASVCgAAAAAAAABHP+jlYEGJN0wu"
                     },
                     "mat": {
-                        "GID": 6458,
+                        "GID": 798,
                         "identifier": "Data",
-                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv05iEFg5tOg/AAAAAAAAAACUdJRiLg=="
+                        "serialized": "gASVywAAAAAAAACMFW51bXB5LmNvcmUubXVsdGlhcnJheZSMDF9yZWNvbnN0cnVjdJSTlIwFbnVtcHmUjAduZGFycmF5lJOUSwCFlEMBYpSHlFKUKEsBSwJLAoaUaAOMBWR0eXBllJOUjANjMTaUiYiHlFKUKEsDjAE8lE5OTkr/////Sv////9LAHSUYolDQAAAAAAAAAAAAAAAAAAA8D8AAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwv0w3iUFg5eg/AAAAAAAAAACUdJRiLg=="
                     }
                 }
             }
@@ -954,6 +967,27 @@
             "GID": 4,
             "version": "0.0.1",
             "custom state": {}
+        }
+    },
+    "geometry": "01d9d0cb00030000000001270000009b000007590000047f0000012b000000b7000007550000047b000000000000000008d00000012b000000b7000007550000047b",
+    "state": "000000ff00000000fd000000020000000000000124000002b7fc0200000001fc0000001e000002b70000014b0100001efa000000010200000002fb000000140066006c006f00770073005f0064006f0063006b0100000000ffffffff0000007f00fffffffb00000014006e006f006400650073005f0064006f0063006b0100000000ffffffff0000012c00ffffff000000030000062b000000dcfc0100000001fb000000160063006f006e0073006f006c00650044006f0063006b01000000000000062b0000005d00ffffff000004f3000002b700000004000000040000000800000008fc00000000",
+    "flow_uis": {
+        "5": {
+            "geometry": "01d9d0cb000300000000000000000000000004dc000002810000000000000000ffffffffffffffff000000000000000008d00000000000000000000004dc00000281",
+            "state": "000000ff00000000fd0000000100000001000000d800000282fc0200000001fc0000000000000282000000d10000005bfa000000000200000006fb0000001c0069006e00730070006500630074006f0072005f0064006f0063006b0100000000ffffffff000000b200fffffffb000000220075006e0064006f005f0068006900730074006f00720079005f0064006f0063006b0100000000ffffffff0000005600fffffffb0000001a00730065007400740069006e00670073005f0064006f0063006b0100000000ffffffff0000003c0000003cfb0000001c007600610072006900610062006c00650073005f0064006f0063006b0100000000ffffffff0000007f00fffffffb00000016006c006f0067006700650072005f0064006f0063006b0100000000ffffffff0000004800fffffffb000000160073006f0075007200630065005f0064006f0063006b0100000000ffffffff0000009000ffffff000003f10000028200000004000000040000000800000008fc00000000",
+            "view": {
+                "m11": 0.975210518583877,
+                "m12": 0.0,
+                "m13": 0.0,
+                "m21": 0.0,
+                "m22": 0.975210518583877,
+                "m23": 0.0,
+                "m31": 0.0,
+                "m32": 0.0,
+                "m33": 1.0,
+                "v_scroll": 51,
+                "h_scroll": 0
+            }
         }
     }
 }

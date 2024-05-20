@@ -260,11 +260,20 @@ comparator_nodes = [
     export
 """
 
+node_types = [
+    *logic_nodes,
+    *arithmetic_nodes,
+    *comparator_nodes,
+]
+
+# account for old package name
+for n in node_types:
+    n.legacy_identifiers = [
+        *getattr(n, 'legacy_identifiers', []),
+        f'std.{n.__class__.__name__}',
+    ]
 
 export_nodes(
-    node_types=[
-        *logic_nodes,
-        *arithmetic_nodes,
-        *comparator_nodes,
-    ]
+    node_types=node_types,
+    sub_pkg_name='basic_operators'
 )

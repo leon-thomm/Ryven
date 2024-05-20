@@ -22,7 +22,7 @@ if __name__ == '__main__':
     run_ryven(
         f"{RYVEN_PATH}/ryven/example_projects/matrices.json",
         nodes=[
-            f"{RYVEN_PATH}/ryven/example_nodes/std",
+            f"{RYVEN_PATH}/ryven/example_nodes/examples",
             f"{RYVEN_PATH}/ryven/example_nodes/linalg",
         ],
         qt_api='pyside6',
