@@ -8,7 +8,7 @@ from os import environ
 from os.path import normpath, join, dirname, abspath, expanduser
 import pathlib
 import importlib
-from typing import Union, Optional, Tuple
+from typing import Union, Optional, Tuple, List, Dict
 from packaging.version import Version
 
 from ryvencore import InfoMsgs
@@ -17,7 +17,7 @@ def in_gui_mode() -> bool:
     return environ['RYVEN_MODE'] == 'gui'
 
 
-def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
+def load_from_file(file: str, components_list: Optional[List[str]] = None) -> Optional[Tuple]:
     """
     Imports specified components from a python module with given file path.
     The directory of the file is added to sys.path if not already present.
@@ -32,7 +32,7 @@ def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
 
     # protection from re-loading for no reason
     if name in sys.modules:
-        return
+        return None
     
     if parent_dirpath not in sys.path:
         sys.path.append(parent_dirpath)
@@ -49,9 +49,10 @@ def load_from_file(file: str = None, components_list: [str] = None) -> Tuple:
             f'or your package name conflicts with another python package name '
             f'that the interpreter knows about (e.g. math).\n\n'
         )
+        raise e
 
 
-def read_project(project_path: Union[str, pathlib.Path]) -> dict:
+def read_project(project_path: Union[str, pathlib.Path]) -> Dict:
     """Read the project file and return its dictionary.
 
     :param project_path: The path to the project file.
@@ -78,19 +79,20 @@ def read_project(project_path: Union[str, pathlib.Path]) -> dict:
         )
         project_dict = translate_project_v3_2_0(project_dict)
 
+    assert isinstance(project_dict, Dict), 'Project file seems corrupted.'
     return project_dict
 
 
-def translate_project_v3_2_0(p: dict):
-    def max_gid(d: dict) -> int:
+def translate_project_v3_2_0(p: Dict):
+    def max_gid(d: Dict) -> int:
         """Recursively find the maximum GID used in the project.."""
         n = 0
         for k, v in d.items():
-            if isinstance(v, dict):
+            if isinstance(v, Dict):
                 n = max(n, max_gid(v))
             elif isinstance(v, list):
                 for e in v:
-                    if isinstance(e, dict):
+                    if isinstance(e, Dict):
                         n = max(n, max_gid(e))
             elif k == 'GID':
                 n = max(n, v)
@@ -105,7 +107,7 @@ def translate_project_v3_2_0(p: dict):
     def replace_item(obj, key, replace_value):
         # https://stackoverflow.com/questions/45335445/how-to-recursively-replace-dictionary-values-with-a-matching-key
         for k, v in obj.items():
-            if isinstance(v, dict):
+            if isinstance(v, Dict):
                 obj[k] = replace_item(v, key, replace_value)
         if key in obj:
             obj[key] = replace_value

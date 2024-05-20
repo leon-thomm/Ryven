@@ -7,7 +7,7 @@ import importlib.util
 import os, sys
 import pathlib
 from os.path import basename, dirname, splitext, normpath, join
-from typing import Tuple, List, Type, Union, Set, Optional
+from typing import Tuple, List, Type, Union, Set, Optional, Dict
 import pkgutil
 
 from ryvencore import Node, Data
@@ -56,7 +56,7 @@ class NodesPackage:
 
 # should be Tuple[list[Type[Node]], list[Type[Data]] in 3.9+
 def import_nodes_package(
-    package: NodesPackage = None, directory: str = None
+    package: Optional[NodesPackage] = None, directory: Optional[str] = None
 ) -> Tuple[List[Type[Node]], List[Type[Data]]]:
     """Loads node and data classes from a Ryven nodes package and returns both in separate lists.
 
@@ -69,6 +69,7 @@ def import_nodes_package(
     """
 
     if package is None:
+        assert directory is not None, 'Either package or directory must be specified.'
         package = NodesPackage(directory)
 
     if 'RYVEN_MODE' not in os.environ:
@@ -84,16 +85,13 @@ def import_nodes_package(
     node_env.NodesEnvRegistry.current_package = package
     load_from_file(package.file_path)
 
-    # obsolete node_types = node_env.NodesEnvRegistry.exported_nodes[-1]
-    # obsolote data_types = node_env.NodesEnvRegistry.exported_data_types[-1]
-
-    node_types, data_types = node_env.NodesEnvRegistry.consume_last_exported_package()
-    
     # load guis
     if in_gui_mode():
         load_current_guis()
     
-    # load soruce codes
+    node_types, data_types = node_env.NodesEnvRegistry.consume_last_exported_package()
+    
+    # load source codes
     if in_gui_mode():
         from ryven.gui.code_editor.codes_storage import register_node_type
         for node_type in node_types:
@@ -106,8 +104,8 @@ def process_nodes_packages(
         Union[str, pathlib.Path],  # path to Ryven project
         List[Union[str, pathlib.Path, NodesPackage]],  # list of node packages
     ],
-    requested_packages: List[NodesPackage] = None,
-) -> Tuple[Set[NodesPackage], List[pathlib.Path], Optional[dict]]:
+    requested_packages: Optional[List[NodesPackage]] = None,
+) -> Tuple[Set[NodesPackage], Set[pathlib.Path], Optional[Dict]]:
     """Takes a project or list of node packages and additionally requested node
     packages and checks whether the node packages are valid.
 
@@ -140,20 +138,18 @@ def process_nodes_packages(
     if requested_packages is None:
         requested_packages = []
 
+    pkgs: Set[NodesPackage] = set()
+    pkgs_not_found: Set[pathlib.Path] = set()
+    project_dict: Optional[Dict]
+
     # Find nodes in the project file
-    try:
+    if isinstance(project_or_nodes, (str, pathlib.Path)):
         project_dict = read_project(project_or_nodes)
         node_pkg_paths = [p['dir'] for p in project_dict['required packages']]
-    except TypeError:
+    else:
         project_dict = None
         node_pkg_paths = project_or_nodes
-    except KeyError:
-        # No required packages found
-        project_dict = None
-        node_pkg_paths = []
 
-    pkgs = set()
-    pkgs_not_found = set()
     for pkg in node_pkg_paths:
         if isinstance(pkg, NodesPackage):
             pkgs.add(pkg)
@@ -189,8 +185,8 @@ def process_nodes_packages(
     # `requested_nodes`.
     # This check is done by comparing the path name to the nodes' names
     args_pkgs_names = [pkg.name for pkg in requested_packages]
-    pkgs_not_found = [
+    pkgs_not_found = set(
         pkg_path for pkg_path in pkgs_not_found if pkg_path.name not in args_pkgs_names
-    ]
+    )
 
     return pkgs, pkgs_not_found, project_dict

@@ -1,5 +1,5 @@
 import types
-from typing import Union
+from typing import Union, List
 
 
 def get_method_funcs(cls_def_str: str, obj):
@@ -16,15 +16,15 @@ def get_method_funcs(cls_def_str: str, obj):
     import ast
 
     # extract functions
-    ast_funcs: [ast.FunctionDef] = [
+    ast_funcs: List[ast.FunctionDef] = [
         f
-        for f in ast.parse(cls_def_str).body[0].body
+        for f in ast.parse(cls_def_str).body[0].body  # type: ignore
         if type(f) == ast.FunctionDef
     ]
 
     funcs = {}
     for astf in ast_funcs:
-        d = __builtins__.copy()  # important: provide builtins when parsing the function
+        d = __builtins__.__dict__.copy()  # important: provide builtins when parsing the function
         exec(ast.unparse(astf), d)
         f = d[astf.name]
         # # add locals scope of the object to the function
@@ -47,6 +47,7 @@ class SrcCodeUpdater:
             for name, f in funcs.items():  # override all methods
                 setattr(obj, name, types.MethodType(f, obj))
                 # types.MethodType() creates a method bound to obj, from the function f
+            return None
         except Exception as e:
             return e
 

@@ -1,5 +1,11 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ryven.gui.main_window import MainWindow
+
 from dataclasses import dataclass
-from typing import Type, Optional
+from typing import Type, Optional, List
 
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import (
@@ -12,7 +18,6 @@ from qtpy.QtWidgets import (
     QGridLayout,
     QPushButton
 )
-from ryvencore import Node
 
 from ryven.gui.code_editor.EditSrcCodeInfoDialog import EditSrcCodeInfoDialog
 from ryven.gui.code_editor.CodeEditorWidget import CodeEditorWidget
@@ -28,6 +33,9 @@ from ryven.gui.code_editor.codes_storage import (
     CustomInputWidgetInspectable,
     load_src_code,
 )
+
+from ryvencore import Node
+from ryvencore_qt.src.flows.FlowView import FlowView
 
 
 class LoadSrcCodeButton(QPushButton):
@@ -53,14 +61,14 @@ class LinkedRadioButton(QRadioButton):
 
 
 class CodePreviewWidget(QWidget):
-    def __init__(self, main_window, flow_view):
+    def __init__(self, main_window: MainWindow, flow_view: FlowView):
         super().__init__()
 
         self.edits_enabled = main_window.config.src_code_edits_enabled
         self.current_insp: Optional[Inspectable] = None
 
         # widgets
-        self.radio_buttons = []
+        self.radio_buttons: List[QRadioButton] = []
         self.text_edit = CodeEditorWidget(main_window.theme)
 
         self.setup_ui()
@@ -146,7 +154,9 @@ class CodePreviewWidget(QWidget):
 
     def _process_node_src(self, node: Node):
         self._rebuild_class_selection(node)
-        code = class_codes[node.__class__].node_cls
+        codes = class_codes[node.__class__]
+        assert codes is not None
+        code = codes.node_cls
         if self.edits_enabled and node in modif_codes:
             code = modif_codes[node]
         self._update_code(NodeInspectable(node, code))
@@ -165,11 +175,14 @@ class CodePreviewWidget(QWidget):
 
 
     def _rebuild_class_selection(self, node: Node):
+        assert hasattr(node, 'gui')
+
         self.load_code_button.hide()
         self._clear_class_layout()
         self.radio_buttons.clear()
 
-        codes: NodeTypeCodes = class_codes[node.__class__]
+        codes = class_codes[node.__class__]
+        assert codes is not None
 
         def register_rb(rb: QRadioButton):
            rb.toggled.connect(self._class_rb_toggled)
@@ -213,7 +226,7 @@ class CodePreviewWidget(QWidget):
             widget.hide()
             self.class_selection_layout.removeItem(item)
     
-    def _load_code_button_clicked(self):
+    def _load_code_button_clicked(self) -> None:
         node: Node = self.sender().node
         load_src_code(node.__class__)
         self.load_code_button.hide()
@@ -234,7 +247,7 @@ class CodePreviewWidget(QWidget):
                 f.setBold(False)
                 br.setFont(f)
 
-    def _class_rb_toggled(self, checked):
+    def _class_rb_toggled(self, checked: bool) -> None:
         if checked:
             rb: LinkedRadioButton = self.sender()
             self._update_code(rb.representing)

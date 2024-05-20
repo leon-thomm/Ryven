@@ -1,13 +1,15 @@
 import re
 
-from ryven.gui_env import *
-
-from special_nodes import *
-
 from qtpy.QtGui import QFont
 from qtpy.QtCore import Qt, Signal, QEvent
 from qtpy.QtWidgets import QPushButton, QComboBox, QSlider, QTextEdit, QPlainTextEdit, QWidget, QVBoxLayout, QLineEdit, \
     QDialog, QMessageBox
+
+from ryven.gui_env import *
+
+from . import special_nodes as special_nodes
+from . import basic_operators as operator_nodes
+from . import control_structures as control_nodes
 
 
 """
@@ -24,6 +26,7 @@ class GuiBase(NodeGUI):
 """
 
 
+@node_gui(operator_nodes.OperatorNodeBase)
 class OperatorNodeBaseGui(GuiBase):
     input_widget_classes = {
         'in': inp_widgets.Builder.evaled_line_edit(size='s', resizing=True),
@@ -68,14 +71,17 @@ class OperatorNodeBaseGui(GuiBase):
                 {'method': self.remove_operand_input, 'data': i}
 
 
+@node_gui(operator_nodes.LogicNodeBase)
 class LogicNodeBaseGui(OperatorNodeBaseGui):
     color = '#f58142'
 
 
+@node_gui(operator_nodes.ArithmeticNodeBase)
 class ArithNodeBaseGui(OperatorNodeBaseGui):
     color = '#58db53'
 
 
+@node_gui(operator_nodes.ComparatorNodeBase)
 class CompNodeBaseGui(OperatorNodeBaseGui):
     color = '#a1574c'
 
@@ -85,11 +91,13 @@ class CompNodeBaseGui(OperatorNodeBaseGui):
 """
 
 
+@node_gui(control_nodes.CSNodeBase)
 class CSNodeBaseGui(GuiBase):
     style = 'normal'
     color = '#b33a27'
 
 
+@node_gui(control_nodes.ForLoop_Node)
 class ForLoopGui(CSNodeBaseGui):
     input_widget_classes = {
         'RangeFrom': inp_widgets.Builder.int_spinbox(0, (0, 1000000)),
@@ -127,6 +135,7 @@ class ForLoopGui(CSNodeBaseGui):
                 {'method': self.remove_dimension, 'data': i + 1}
 
 
+@node_gui(control_nodes.ForEachLoop_Node)
 class ForEachLoopGui(CSNodeBaseGui):
     input_widget_classes = {
         'List': inp_widgets.Builder.evaled_line_edit(),
@@ -141,10 +150,12 @@ class ForEachLoopGui(CSNodeBaseGui):
 """
 
 
+@node_gui(special_nodes.NodeBase)
 class SpecialNodeGuiBase(GuiBase):
     color = '#FFCA00'
 
 
+@node_gui(special_nodes.DualNodeBase)
 class DualNodeBaseGui(SpecialNodeGuiBase):
     def initialized(self):
         super().initialized()
@@ -172,6 +183,7 @@ class DualNodeBaseGui(SpecialNodeGuiBase):
         self.node.make_active()
 
 
+@node_gui(special_nodes.Checkpoint_Node)
 class CheckpointNodeGui(DualNodeBaseGui):
     style = 'small'
     display_title = ''
@@ -197,7 +209,7 @@ class CheckpointNodeGui(DualNodeBaseGui):
                 {'method': self.remove_output, 'data': i}
 
 
-class ButtonNode_MainWidget(QPushButton, NodeMainWidget):
+class ButtonNode_MainWidget(NodeMainWidget, QPushButton):
 
     def __init__(self, params):
         NodeMainWidget.__init__(self, params)
@@ -206,6 +218,7 @@ class ButtonNode_MainWidget(QPushButton, NodeMainWidget):
         self.clicked.connect(self.update_node)
 
 
+@node_gui(special_nodes.Button_Node)
 class ButtonNodeGui(SpecialNodeGuiBase):
     main_widget_class = ButtonNode_MainWidget
     main_widget_pos = 'between ports'
@@ -221,6 +234,7 @@ class ClockNode_MainWidget(NodeMainWidget, QPushButton):
         self.clicked.connect(self.node.toggle)
 
 
+@node_gui(special_nodes.Clock_Node)
 class ClockNodeGui(SpecialNodeGuiBase):
     main_widget_class = ClockNode_MainWidget
     main_widget_pos = 'below ports'
@@ -247,6 +261,7 @@ class ClockNodeGui(SpecialNodeGuiBase):
         self.node.stop()
 
 
+@node_gui(special_nodes.Log_Node)
 class LogNodeGui(SpecialNodeGuiBase):
     color = '#5d95de'
 
@@ -265,6 +280,7 @@ class SliderNode_MainWidget(NodeMainWidget, QSlider):
         self.update_node()
 
 
+@node_gui(special_nodes.Slider_Node)
 class SliderNodeGui(SpecialNodeGuiBase):
     main_widget_class = SliderNode_MainWidget
     main_widget_pos = 'below ports'
@@ -281,6 +297,7 @@ class SliderNodeGui(SpecialNodeGuiBase):
         self.main_widget().setValue(self.node.val*1000)
 
 
+@node_gui(special_nodes._DynamicPorts_Node)
 class DynamicPortsGui(SpecialNodeGuiBase):
     def __init__(self, params):
         super().__init__(params)
@@ -334,6 +351,7 @@ class ExecNode_MainWidget(NodeMainWidget, QTextEdit):
         self.setPlainText(data['text'])
 
 
+@node_gui(special_nodes.Exec_Node)
 class ExecNodeGui(DynamicPortsGui):
     main_widget_class = ExecNode_MainWidget
     main_widget_pos = 'between ports'
@@ -362,6 +380,7 @@ class EvalNode_MainWidget(NodeMainWidget, QPlainTextEdit):
         self.setPlainText(data['text'])
 
 
+@node_gui(special_nodes.Eval_Node)
 class EvalNodeGui(SpecialNodeGuiBase):
     main_widget_class = EvalNode_MainWidget
     main_widget_pos = 'between ports'
@@ -381,33 +400,6 @@ class EvalNodeGui(SpecialNodeGuiBase):
     def remove_input(self, index: int):
         self.node.remove_param_input(index)
         del self.actions['remove input'][str(index)]
-
-
-class InterpreterConsole(NodeMainWidget, QWidget):
-    def __init__(self, params):
-        NodeMainWidget.__init__(self, params)
-        QWidget.__init__(self)
-
-        self.inp_line_edit = ConsoleInpLineEdit()
-        self.output_text_edit = ConsoleOutDisplay()
-
-        self.inp_line_edit.returned.connect(self.node.process_input)
-
-        self.setLayout(QVBoxLayout())
-        self.layout().addWidget(self.output_text_edit)
-        self.layout().addWidget(self.inp_line_edit)
-
-        self.last_hist_len = 0
-
-    def interp_updated(self):
-
-        if self.last_hist_len < len(self.node.hist):
-            self.output_text_edit.appendPlainText('\n'.join(self.node.hist[self.last_hist_len:]))
-        else:
-            self.output_text_edit.clear()
-            self.output_text_edit.setPlainText('\n'.join(self.node.hist))
-
-        self.last_hist_len = len(self.node.hist)
 
 
 class ConsoleInpLineEdit(QLineEdit):
@@ -483,11 +475,40 @@ class ConsoleOutDisplay(QPlainTextEdit):
         self.setFont(QFont('Source Code Pro', 9))
 
 
+class InterpreterConsole(NodeMainWidget, QWidget):
+    def __init__(self, params):
+        NodeMainWidget.__init__(self, params)
+        QWidget.__init__(self)
+
+        self.inp_line_edit = ConsoleInpLineEdit()
+        self.output_text_edit = ConsoleOutDisplay()
+
+        self.inp_line_edit.returned.connect(self.node.process_input)
+
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(self.output_text_edit)
+        self.layout().addWidget(self.inp_line_edit)
+
+        self.last_hist_len = 0
+
+    def interp_updated(self):
+
+        if self.last_hist_len < len(self.node.hist):
+            self.output_text_edit.appendPlainText('\n'.join(self.node.hist[self.last_hist_len:]))
+        else:
+            self.output_text_edit.clear()
+            self.output_text_edit.setPlainText('\n'.join(self.node.hist))
+
+        self.last_hist_len = len(self.node.hist)
+
+
+@node_gui(special_nodes.Interpreter_Node)
 class InterpreterConsoleGui(SpecialNodeGuiBase):
     main_widget_class = InterpreterConsole
     main_widget_pos = 'between ports'
 
 
+@node_gui(special_nodes.Storage_Node)
 class StorageNodeGui(SpecialNodeGuiBase):
     color = '#aadd55'
 
@@ -500,6 +521,7 @@ class StorageNodeGui(SpecialNodeGuiBase):
         self.node.clear()
 
 
+@node_gui(special_nodes.LinkIN_Node)
 class LinkIN_NodeGui(SpecialNodeGuiBase):
     def __init__(self, params):
         super().__init__(params)
@@ -525,6 +547,7 @@ class LinkIN_NodeGui(SpecialNodeGuiBase):
         del self.actions['remove inp'][str(index)]
 
 
+@node_gui(special_nodes.LinkOUT_Node)
 class LinkOUT_NodeGui(SpecialNodeGuiBase):
 
     class IDInpDialog(QDialog):
@@ -550,7 +573,7 @@ class LinkOUT_NodeGui(SpecialNodeGuiBase):
         d.exec_()
 
         if d.id_str is not None:
-            n = LinkIN_Node.INSTANCES.get(d.id_str)
+            n = special_nodes.LinkIN_Node.INSTANCES.get(d.id_str)
             if n is not None:
                 self.node.link_to(n)
             else:
@@ -559,37 +582,3 @@ class LinkOUT_NodeGui(SpecialNodeGuiBase):
                     title='link failed',
                     text=f'No node with ID "{d.id_str}" found'
                 )
-
-
-"""
-    export
-"""
-
-
-export_guis([
-    DualNodeBaseGui,
-
-    CheckpointNodeGui,
-    OperatorNodeBaseGui,
-    LogicNodeBaseGui,
-    ArithNodeBaseGui,
-    CompNodeBaseGui,
-
-    CSNodeBaseGui,
-    ForLoopGui,
-    ForEachLoopGui,
-
-    SpecialNodeGuiBase,
-    ButtonNodeGui,
-    ClockNodeGui,
-    LogNodeGui,
-    SliderNodeGui,
-    DynamicPortsGui,
-    ExecNodeGui,
-    EvalNodeGui,
-    InterpreterConsoleGui,
-    StorageNodeGui,
-    LinkIN_NodeGui,
-    LinkOUT_NodeGui,
-])
-

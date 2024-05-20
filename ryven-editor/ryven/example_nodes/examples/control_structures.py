@@ -1,11 +1,9 @@
 from ryven.node_env import *
 
-guis = import_guis(__file__)
-
 
 class CSNodeBase(Node):
-    version = 'v0.2'
-    GUI = guis.CSNodeBaseGui
+    version = 'v0.3'
+
 
 class If_Node(CSNodeBase):
     title = 'branch'
@@ -40,7 +38,6 @@ class ForLoop_Node(CSNodeBase):
         NodeOutputType('i', type_='data'),
         NodeOutputType('finished', type_='exec'),
     ]
-    GUI = guis.ForLoopGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -103,7 +100,6 @@ class ForEachLoop_Node(CSNodeBase):
         NodeOutputType('e', type_='data'),
         NodeOutputType('finished', type_='exec'),
     ]
-    GUI = guis.ForEachLoopGui
 
     def update_event(self, inp=-1):
         for e in self.input(0).payload:
@@ -148,11 +144,22 @@ class DoWhileLoop_Node(CSNodeBase):
             self.exec_output(0)
         self.exec_output(1)
 
-
-nodes = [
+node_types = [
     If_Node,
     ForLoop_Node,
     ForEachLoop_Node,
     WhileLoop_Node,
     DoWhileLoop_Node,
 ]
+
+# account for old package name
+for n in node_types:
+    n.legacy_identifiers = [
+        *getattr(n, 'legacy_identifiers', []),
+        f'std.{n.__class__.__name__}',
+    ]
+
+export_nodes(
+    node_types=node_types,
+    sub_pkg_name='control_structures'
+)

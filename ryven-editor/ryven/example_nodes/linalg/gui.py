@@ -1,10 +1,11 @@
-from ryven.gui_env import *
+import numpy as np
 
 from qtpy.QtWidgets import QTextEdit
 from qtpy.QtGui import QFontMetrics
 
-import numpy as np
+from ryven.gui_env import *
 
+from . import matrices as nodes
 
 class MatrixWidget(NodeMainWidget, QTextEdit):
 
@@ -126,22 +127,7 @@ QTextEdit{{
             self.hide()
 
 
-class EditMatrixWidget(MatrixWidget):
-    def __init__(self, params):
-        super().__init__(params, 100, 80)
-
-        self.setReadOnly(False)
-        self.textChanged.connect(self.text_changed)
-
-    def text_changed(self):
-        self.node.parse_matrix(self.toPlainText())
-        self.resize_to_content(lines=self.toPlainText().splitlines())
-
-    def focusOutEvent(self, e):
-        self.update_matrix(self.node.expression_matrix)
-        QTextEdit.focusOutEvent(self, e)
-
-
+@node_gui(nodes.MatrixNodeBase)
 class MatrixNodeBaseGui(NodeGUI):
     main_widget_class = MatrixWidget
     main_widget_pos = 'below ports'
@@ -186,13 +172,24 @@ class MatrixNodeBaseGui(NodeGUI):
         # shown by default
 
 
+class EditMatrixWidget(MatrixWidget):
+    def __init__(self, params):
+        super().__init__(params, 100, 80)
+
+        self.setReadOnly(False)
+        self.textChanged.connect(self.text_changed)
+
+    def text_changed(self):
+        self.node.parse_matrix(self.toPlainText())
+        self.resize_to_content(lines=self.toPlainText().splitlines())
+
+    def focusOutEvent(self, e):
+        self.update_matrix(self.node.expression_matrix)
+        QTextEdit.focusOutEvent(self, e)
+
+
+@node_gui(nodes.EditMatrixNode)
 class EditMatrixNodeGui(MatrixNodeBaseGui):
     main_widget_class = EditMatrixWidget
     main_widget_pos = 'below ports'
     color = '#3344ff'
-
-
-export_guis([
-    MatrixNodeBaseGui,
-    EditMatrixNodeGui,
-])

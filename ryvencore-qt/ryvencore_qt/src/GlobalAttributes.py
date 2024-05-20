@@ -1,2 +1,2 @@
 class Location:
-    PACKAGE_PATH = None
+    PACKAGE_PATH: str

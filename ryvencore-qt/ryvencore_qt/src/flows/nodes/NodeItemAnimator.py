@@ -1,23 +1,29 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .NodeItem import NodeItem
+
 from qtpy.QtCore import QObject, QPropertyAnimation, Property, QParallelAnimationGroup, QTimeLine
 from qtpy.QtGui import QColor
 from qtpy.QtWidgets import QGraphicsItem
 
 class NodeItemAnimator(QObject):
 
-    def __init__(self, node_item):
+    def __init__(self, node_item: NodeItem):
         super(NodeItemAnimator, self).__init__()
 
         self.node_item: QGraphicsItem = node_item
         self.animation_running = False
 
         # title color
-        self.title_activation_animation = QPropertyAnimation(self, b"p_title_color")
+        self.title_activation_animation = QPropertyAnimation(self, b"p_title_color")  # type: ignore
         self.title_activation_animation.setDuration(700)
         # body color
-        self.body_activation_animation = QPropertyAnimation(self, b"p_body_color")
+        self.body_activation_animation = QPropertyAnimation(self, b"p_body_color")  # type: ignore
         self.body_activation_animation.setDuration(700)
         # transform
-        self.scale_animation = QPropertyAnimation(self.node_item, b'scale')
+        self.scale_animation = QPropertyAnimation(self.node_item, b'scale')  # type: ignore
         self.scale_animation.setDuration(700)
         self.scalar = 1.04
         

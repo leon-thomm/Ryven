@@ -1,3 +1,4 @@
+from typing import Dict, Set
 import code
 from contextlib import redirect_stdout, redirect_stderr
 from packaging.version import Version
@@ -5,12 +6,9 @@ from packaging.version import Version
 from ryvencore.addons.Logging import LoggingAddon
 from ryven.node_env import *
 
-guis = import_guis(__file__)
-
 
 class NodeBase(Node):
-    version = 'v0.2'
-    GUI = guis.SpecialNodeGuiBase
+    version = 'v0.3'
 
     def have_gui(self):
         return hasattr(self, 'gui')
@@ -18,8 +16,6 @@ class NodeBase(Node):
 
 class DualNodeBase(NodeBase):
     """For nodes that can be active and passive"""
-
-    GUI = guis.DualNodeBaseGui
 
     def __init__(self, params, active=True):
         super().__init__(params)
@@ -55,8 +51,7 @@ class Checkpoint_Node(DualNodeBase):
     init_outputs = [
         NodeOutputType(type_='data'),
     ]
-    GUI = guis.CheckpointNodeGui
-
+    
     def __init__(self, params):
         super().__init__(params)
 
@@ -117,7 +112,6 @@ class Button_Node(NodeBase):
     init_outputs = [
         NodeOutputType(type_='exec')
     ]
-    GUI = guis.ButtonNodeGui
 
     def update_event(self, inp=-1):
         self.exec_output(0)
@@ -153,10 +147,9 @@ class Log_Node(DualNodeBase):
     init_outputs = [
         NodeOutputType(type_='exec'),
     ]
-    GUI = guis.LogNodeGui
 
-    logs = {}   # {int: Logger}
-    in_use = set()  # make sure we don't reuse numbers on copy & paste
+    logs: Dict[int, logging.Logger] = {}   # {int: Logger}
+    in_use: Set[int] = set()  # make sure we don't reuse numbers on copy & paste
 
     def __init__(self, params):
         super().__init__(params, active=True)
@@ -202,8 +195,11 @@ class Log_Node(DualNodeBase):
 
         # the logging addon will have re-created the logger
         # for us already
-        self.logs[self.number] = \
-            self.logs_ext().new_logger(self, 'Log Node')
+        l = self.logs_ext().new_logger(self, 'Log Node')
+        if l is None:
+            print(f'WARNING: logger {self.number} for Log Node {self} already exists')
+        else:
+            self.logs[self.number] = l
 
 
 class Clock_Node(NodeBase):
@@ -215,7 +211,6 @@ class Clock_Node(NodeBase):
     init_outputs = [
         NodeOutputType(type_='exec')
     ]
-    GUI = guis.ClockNodeGui
 
     # When running with GUI, this node uses QTime which doesn't
     # block the GUI. When running without GUI, it uses time.sleep()
@@ -282,7 +277,6 @@ class Slider_Node(NodeBase):
     init_outputs = [
         NodeOutputType(),
     ]
-    GUI = guis.SliderNodeGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -308,7 +302,6 @@ class Slider_Node(NodeBase):
 class _DynamicPorts_Node(NodeBase):
     init_inputs = []
     init_outputs = []
-    GUI = guis.DynamicPortsGui
 
     def add_input(self):
         self.create_input()
@@ -325,7 +318,6 @@ class _DynamicPorts_Node(NodeBase):
 
 class Exec_Node(_DynamicPorts_Node):
     title = 'exec'
-    GUI = guis.ExecNodeGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -354,7 +346,6 @@ class Eval_Node(NodeBase):
     init_outputs = [
         NodeOutputType(),
     ]
-    GUI = guis.EvalNodeGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -401,7 +392,6 @@ class Interpreter_Node(NodeBase):
     title = 'interpreter'
     init_inputs = []
     init_outputs = []
-    GUI = guis.InterpreterConsoleGui
 
     """
     commands
@@ -439,7 +429,7 @@ class Interpreter_Node(NodeBase):
     def process_input(self, cmds: str):
         m = self.COMMANDS.get(cmds)
         if m is not None:
-            m()
+            m(self)
         else:
             for l in cmds.splitlines():
                 self.write(l)  # print input
@@ -452,7 +442,7 @@ class Interpreter_Node(NodeBase):
                     self.buffer.clear()
 
             if self.session.gui:
-                with redirect_stdout(self), redirect_stderr(self):
+                with redirect_stdout(self), redirect_stderr(self):  # type: ignore
                     run_src()
             else:
                 run_src()
@@ -475,7 +465,6 @@ class Storage_Node(NodeBase):
     init_outputs = [
         NodeOutputType(),
     ]
-    GUI = guis.StorageNodeGui
 
     def __init__(self, params):
         super().__init__(params)
@@ -516,10 +505,9 @@ class LinkIN_Node(NodeBase):
         NodeInputType(),
     ]
     init_outputs = []  # no outputs
-    GUI = guis.LinkIN_NodeGui
 
     # instances registration
-    INSTANCES = {}  # {UUID: node}
+    INSTANCES: Dict[str, Node] = {}
 
     def __init__(self, params):
         super().__init__(params)
@@ -575,12 +563,11 @@ class LinkOUT_Node(NodeBase):
     """The complement to the link IN node"""
 
     title = 'link OUT'
-    init_inputs = []  # no inputs
-    init_outputs = []  # will be synchronized with linked IN node
-    GUI = guis.LinkOUT_NodeGui
+    init_inputs: List[NodeInputType] = []  # no inputs
+    init_outputs: List[NodeOutputType] = []  # will be synchronized with linked IN node
 
-    INSTANCES = []
-    PENDING_LINK_BUILDS = {}
+    INSTANCES: List['LinkOUT_Node'] = []
+    PENDING_LINK_BUILDS: Dict['LinkOUT_Node', str] = {}
     # because a link OUT node might get initialized BEFORE it's corresponding
     # link IN, it then stores itself together with the ID of the link IN it's
     # waiting for in PENDING_LINK_BUILDS
@@ -656,7 +643,7 @@ class LinkOUT_Node(NodeBase):
             self.linked_node = None
 
 
-nodes = [
+node_types = [
     Checkpoint_Node,
     Button_Node,
     Print_Node,
@@ -670,3 +657,15 @@ nodes = [
     LinkOUT_Node,
     Interpreter_Node,
 ]
+
+# account for old package name
+for n in node_types:
+    n.legacy_identifiers = [
+        *getattr(n, 'legacy_identifiers', []),
+        f'std.{n.__class__.__name__}',
+    ]
+
+export_nodes(
+    node_types=node_types,
+    sub_pkg_name='special_nodes',
+)

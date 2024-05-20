@@ -1,6 +1,12 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ..SessionGUI import SessionGUI
+
 import json
 
-from typing import Tuple
+from typing import Tuple, Optional
 
 from qtpy.QtCore import (
     Qt,
@@ -19,6 +25,8 @@ from qtpy.QtGui import (
     QColor,
     QKeySequence,
     QTabletEvent,
+    QDropEvent,
+    QContextMenuEvent,
     QImage,
     QGuiApplication,
     QFont,
@@ -31,11 +39,16 @@ from qtpy.QtWidgets import (
     QShortcut,
     QMenu,
     QGraphicsItem,
-    QUndoStack,
     QPushButton,
     QHBoxLayout,
     QWidget,
 )
+
+# for compatibility between qt5 and qt6
+try:
+    from qtpy.QtGui import QUndoStack
+except ImportError:
+    from qtpy.QtWidgets import QUndoStack  # type: ignore
 
 from ryvencore.Flow import Flow
 from ryvencore.Node import Node
@@ -106,7 +119,7 @@ class FlowView(GUIBase, QGraphicsView):
 
     viewport_update_mode_changed = Signal(str)
 
-    def __init__(self, session_gui, flow, parent=None):
+    def __init__(self, session_gui: SessionGUI, flow: Flow, parent=None) -> None:
         GUIBase.__init__(self, representing_component=flow)
         QGraphicsView.__init__(self, parent=parent)
 
@@ -125,31 +138,31 @@ class FlowView(GUIBase, QGraphicsView):
         self.design: Design = session_gui.design  # type hinting and quicker access
 
         self.flow: Flow = flow
-        self.node_items: dict = {}  # {Node: NodeItem}
-        self.node_items__cache: dict = {}
-        self.connection_items: dict = {}  # {Connection: ConnectionItem}
-        self.connection_items__cache: dict = {}
+        self.node_items: Dict = {}  # {Node: NodeItem}
+        self.node_items__cache: Dict = {}
+        self.connection_items: Dict = {}  # {Connection: ConnectionItem}
+        self.connection_items__cache: Dict = {}
         self.selection_mode: _SelectionMode = _SelectionMode.UNDOABLE_CLICK
 
         # PRIVATE FIELDS
-        self._loaded_state = None # h and v scrollbars are changed on import, so we need to defer
+        self._loaded_state: Optional[Dict] = None # h and v scrollbars are changed on import, so we need to defer
         self._tmp_data = None
-        self._selected_pin: PortItemPin = None
+        self._selected_pin: Optional[PortItemPin] = None
         self._dragging_connection = False
-        self._temp_connection_ports = None
+        self._temp_connection_ports: Optional[Tuple[NodeOutput, NodeInput]] = None
         self._waiting_for_connection_request: bool = False
         self.mouse_event_taken = False  # for stylus - see tablet event
-        self._last_mouse_move_pos: QPointF = None
+        self._last_mouse_move_pos: Optional[QPointF] = None
         self._node_place_pos = QPointF()
         self._left_mouse_pressed_in_flow = False
         self._right_mouse_pressed_in_flow = False
-        self._mouse_press_pos: QPointF = None
+        self._mouse_press_pos: Optional[QPointF] = None
         self._multi_selection = False
-        self._current_selected = []
-        self._auto_connection_pin = None  # stores the gate that we may try to auto connect to a newly placed NI
+        self._current_selected: List[QGraphicsItem] = []
+        self._auto_connection_pin: Optional[PortItemPin] = None  # stores the gate that we may try to auto connect to a newly placed NI
         self._panning = False
-        self._pan_last_x = None
-        self._pan_last_y = None
+        self._pan_last_x: Optional[int] = None
+        self._pan_last_y: Optional[int] = None
         self._current_scale = 1
         self._total_scale_div = 1
         self._zoom_data = {
@@ -234,7 +247,7 @@ class FlowView(GUIBase, QGraphicsView):
         self.stylus_mode = ''
         self._current_drawing = None
         self._drawing = False
-        self.drawings = []
+        self.drawings: List[DrawingObject] = []
         self._stylus_modes_widget = FlowViewStylusModesWidget(self)
         self._stylus_modes_proxy = init_proxy_widget(
             self._stylus_modes_widget, FlowViewProxyWidget(self)
@@ -254,13 +267,11 @@ class FlowView(GUIBase, QGraphicsView):
         menu_layout_widget.layout().addWidget(menu_button)
 
         def menu_button_clicked():
-            point = self._menu_layout_proxy.scenePos()
-            view_pos = self.mapFromScene(point.toPoint())
-            # apply offset after
-            global_pos = self.viewport().mapToGlobal(
-                view_pos) + QPoint(8, self._menu_layout_proxy.widget().height()
-            ) 
-            self._menu.exec_(global_pos)
+            # prob not entirely correct, since menu is part of a layout
+            # but since it's the first item, it's the same
+            menu_pos = self._menu_button.pos()
+            menu_pos = self.mapToGlobal(menu_pos) + QPoint(8, self._menu_button.height() + 10)
+            self._menu.exec_(menu_pos)
 
         menu_button.clicked.connect(menu_button_clicked)
 
@@ -506,13 +517,15 @@ class FlowView(GUIBase, QGraphicsView):
         if event.modifiers() & Qt.ControlModifier:
             event.accept()
 
-            self._zoom_data['viewport pos'] = event.posF()
-            self._zoom_data['scene pos'] = pointF_mapped(self.mapToScene(event.pos()), event.posF())
+            view_pos = event.position()
+            self._zoom_data['viewport pos'] = view_pos
+            self._zoom_data['scene pos'] = self.mapToScene(view_pos.toPoint())
 
-            self._zoom_data['delta'] += event.delta()
+            y_delta = event.angleDelta().y()
+            self._zoom_data['delta'] += y_delta
 
-            if self._zoom_data['delta'] * event.delta() < 0:
-                self._zoom_data['delta'] = event.delta()
+            if self._zoom_data['delta'] * y_delta < 0:
+                self._zoom_data['delta'] = y_delta
 
             anim = QTimeLine(100, self)
             anim.setUpdateInterval(10)
@@ -538,7 +551,6 @@ class FlowView(GUIBase, QGraphicsView):
             return True
 
         elif event.type() == QEvent.TouchUpdate:
-            event: QTouchEvent
             if len(event.touchPoints()) == 2:
                 tp0, tp1 = event.touchPoints()[0], event.touchPoints()[1]
 
@@ -569,7 +581,7 @@ class FlowView(GUIBase, QGraphicsView):
         else:
             return super().viewportEvent(event)
 
-    def tabletEvent(self, event):
+    def tabletEvent(self, event: QTabletEvent) -> None:
         """tabletEvent gets called by stylus operations.
         LeftButton: std, no button pressed
         RightButton: upper button pressed"""
@@ -582,7 +594,9 @@ class FlowView(GUIBase, QGraphicsView):
         ):
             return  # let the mousePress/Move/Release-Events handle it
 
-        scaled_event_pos: QPointF = event.posF() / self._current_scale
+        scaled_event_pos: QPointF = event.posF()
+        scaled_event_pos /= self._current_scale  # type: ignore
+        # mypy thinks the above results in a float, but it doesn't
 
         if event.type() == QTabletEvent.TabletPress:
             self.mouse_event_taken = True
@@ -616,6 +630,7 @@ class FlowView(GUIBase, QGraphicsView):
                             self.remove_drawing(i)
                             break
             elif self.stylus_mode == 'comment' and self._drawing:
+                assert self._current_drawing is not None
                 if self._current_drawing.append_point(scaled_event_pos):
                     self._current_drawing.stroke_weights.append(
                         event.pressure() * self._stylus_modes_widget.pen_width()
@@ -627,6 +642,7 @@ class FlowView(GUIBase, QGraphicsView):
             if self._panning:
                 self._panning = False
             if self.stylus_mode == 'comment' and self._drawing:
+                assert self._current_drawing is not None
                 self._current_drawing.finish()
                 InfoMsgs.write('drawing finished')
                 self._current_drawing = None
@@ -656,16 +672,17 @@ class FlowView(GUIBase, QGraphicsView):
         if event.mimeData().hasFormat('application/json'):
             event.acceptProposedAction()
 
-    def dropEvent(self, event):
+    def dropEvent(self, event: QDropEvent):
         try:
             text = str(event.mimeData().data('application/json'), 'utf-8')
-            data: dict = json.loads(text)
+            data: Dict = json.loads(text)
 
             if data['type'] == 'node':
                 self._node_place_pos = self.mapToScene(event.pos())
                 self.create_node__cmd(
                     node_from_identifier(
-                        data['node identifier'], self.session_gui.core_session.nodes
+                        data['node identifier'],
+                        list(self.session_gui.core_session.nodes)
                     )
                 )
             # without this keyPressed function isn't called if we don't click in the view
@@ -673,7 +690,7 @@ class FlowView(GUIBase, QGraphicsView):
         except Exception:
             pass
     
-    def contextMenuEvent(self, event):
+    def contextMenuEvent(self, event: QContextMenuEvent):
         QGraphicsView.contextMenuEvent(self, event)
         # in the case of the menu already being shown by a widget under the mouse, the event is accepted here
         if event.isAccepted():
@@ -771,9 +788,11 @@ class FlowView(GUIBase, QGraphicsView):
 
         self.hide_proxies()
         img = QImage(
-            self.viewport().rect().width(),
-            self.viewport().height(),
-            QImage.Format_ARGB32,
+            size=QSizeF(
+                self.viewport().rect().width(),
+                self.viewport().height(),
+            ),
+            format=QImage.Format_ARGB32,
         )
         img.fill(Qt.transparent)
 
@@ -790,9 +809,11 @@ class FlowView(GUIBase, QGraphicsView):
 
         self.hide_proxies()
         img = QImage(
-            self.sceneRect().width() / self._total_scale_div,
-            self.sceneRect().height() / self._total_scale_div,
-            QImage.Format_RGB32,
+            size=QSizeF(
+                self.sceneRect().width() / self._total_scale_div,
+                self.sceneRect().height() / self._total_scale_div,
+            ),
+            format=QImage.Format_RGB32,
         )
         img.fill(Qt.transparent)
 
@@ -963,9 +984,9 @@ class FlowView(GUIBase, QGraphicsView):
     def create_node__cmd(self, node_class):
         self.push_undo(PlaceNode_Command(self, node_class, self._node_place_pos))
 
-    def add_node(self, node):
+    def add_node(self, node: Node):
         # create item
-        item: NodeItem = None
+        item: NodeItem
 
         if node in self.node_items__cache.keys():  # load from cache
             # print('using a cached item')
@@ -1042,16 +1063,20 @@ class FlowView(GUIBase, QGraphicsView):
         Triggered after the abstract flow evaluated validity of pending connect request.
         This can also lead to a disconnect!
         """
+        
+        # TODO: this stuff is too complicated, simplify
 
         if self._waiting_for_connection_request:
             self._waiting_for_connection_request = False
         else:
             return
 
+        assert self._temp_connection_ports is not None
+
         if valid:
+            out: NodeOutput
+            inp: NodeInput
             out, inp = self._temp_connection_ports
-            if out.io_pos == PortObjPos.INPUT:
-                out, inp = inp, out
 
             if self.flow.graph_adj_rev[inp] not in (None, out): # out connected to something else
                 # remove existing connection
@@ -1071,10 +1096,9 @@ class FlowView(GUIBase, QGraphicsView):
         out, inp = c
 
         # TODO: need to verify that connection_items_cache still works fine with new connection object
-        item: ConnectionItem = None
+        item: ConnectionItem
         if c in self.connection_items__cache.keys():
             item = self.connection_items__cache[c]
-
         else:
             if inp.type_ == 'data':
                 # item = self.CLASSES['data conn item'](c, self.session.design)
@@ -1141,7 +1165,7 @@ class FlowView(GUIBase, QGraphicsView):
         new_drawing = DrawingObject(self, data)
         return new_drawing
 
-    def add_drawing(self, drawing_obj, posF=None):
+    def add_drawing(self, drawing_obj: DrawingObject, posF=None):
         """Adds a DrawingObject to the scene."""
 
         self._set_selection_mode(_SelectionMode.INSTANT)
@@ -1191,7 +1215,7 @@ class FlowView(GUIBase, QGraphicsView):
         elif isinstance(e, DrawingObject):
             self.add_drawing(e)
 
-    def remove_components(self, comps: [QGraphicsItem]):
+    def remove_components(self, comps: List[QGraphicsItem]):
         for c in comps:
             self.remove_component(c)
 
@@ -1285,18 +1309,18 @@ class FlowView(GUIBase, QGraphicsView):
                 SelectComponents_Command(self, items, self._current_selected)
             )
 
-    def selected_node_items(self, item_list: list = None) -> [NodeItem]:
+    def selected_node_items(self, item_list: Optional[List[NodeItem]] = None) -> List[NodeItem]:
         """Returns a list of the currently selected NodeItems."""
 
-        search_list = item_list if item_list else self.scene().selectedItems()
+        search_list = item_list if item_list is not None else self.scene().selectedItems()
         return [node_item for node_item in search_list if isinstance(node_item, NodeItem)]
 
-    def selected_nodes(self, item_list: list = None) -> [Node]:
+    def selected_nodes(self, item_list: Optional[List[NodeItem]] = None) -> List[Node]:
         """Returns a list of the currently selected nodes."""
         
         return [node_item.node for node_item in self.selected_node_items(item_list)]
 
-    def selected_drawings(self) -> [DrawingObject]:
+    def selected_drawings(self) -> List[DrawingObject]:
         """Returns a list of the currently selected drawings."""
 
         return [
@@ -1398,7 +1422,7 @@ class FlowView(GUIBase, QGraphicsView):
         self.push_undo(Paste_Command(self, data, offset_for_middle_pos))
 
     # DATA
-    def complete_data(self, data: dict):
+    def complete_data(self, data: Dict):
         data['flow view'] = {
             'drawings': self._get_drawings_data(self.drawings),
             'view size': [
@@ -1446,7 +1470,7 @@ class FlowView(GUIBase, QGraphicsView):
             'h_scroll': self.verticalScrollBar().value(),
         }
     
-    def load(self, state: dict):
+    def load(self, state: Dict):
         """Load the state of the view"""
         transform = QTransform(
             state['m11'], state['m12'], state['m13'],
@@ -1461,6 +1485,6 @@ class FlowView(GUIBase, QGraphicsView):
         self._loaded_state = state
     
     def reload(self):
-        if self._loaded_state:
+        if self._loaded_state is not None:
             self.load(self._loaded_state)
         

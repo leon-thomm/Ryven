@@ -1,4 +1,12 @@
-from typing import Tuple
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .NodeGUI import NodeGUI
+    from .NodeItem import NodeItem
+    from ..FlowView import FlowView
+
+from typing import Tuple, Optional
 
 from qtpy.QtWidgets import QGraphicsGridLayout, QGraphicsWidget, QGraphicsLayoutItem
 from qtpy.QtCore import Qt, QRectF, QPointF, QSizeF
@@ -11,7 +19,7 @@ from ryvencore.utils import deserialize
 from ...GUIBase import GUIBase
 from ...utils import get_longest_line, shorten
 from ..FlowViewProxyWidget import FlowViewProxyWidget
-
+from .WidgetBaseClasses import NodeInputWidget
 
 # utils
 
@@ -52,16 +60,16 @@ def connections(port):
 class PortItem(GUIBase, QGraphicsWidget):
     """The GUI representative for ports of nodes, also handling mouse events for connections."""
 
-    def __init__(self, node_gui, node_item, port, flow_view):
+    def __init__(self, node_gui: NodeGUI, node_item: NodeItem, port: NodePort, flow_view: FlowView):
         GUIBase.__init__(self, representing_component=port)
         QGraphicsWidget.__init__(self)
 
         self.setGraphicsItem(self)
 
-        self.node_gui = node_gui
-        self.node_item = node_item
+        self.node_gui: NodeGUI = node_gui
+        self.node_item: NodeItem = node_item
         self.port: NodePort = port
-        self.flow_view = flow_view
+        self.flow_view: FlowView = flow_view
 
         # self.port.has_been_connected.connect(self.port_connected)
         # self.port.has_been_disconnected.connect(self.port_disconnected)
@@ -96,11 +104,12 @@ class PortItem(GUIBase, QGraphicsWidget):
 
 
 class InputPortItem(PortItem):
-    def __init__(self, node_gui, node_item, port, input_widget: Tuple[type, str] = None):
+    def __init__(self, node_gui, node_item, port, input_widget: Optional[Tuple[type, str]] = None):
+        self.port: NodeInput
         super().__init__(node_gui, node_item, port, node_gui.flow_view())
 
         self.proxy = None  # widget proxy
-        self.widget = None  # widget
+        self.widget: Optional[NodeInputWidget] = None  # widget
         if input_widget is not None:
             self.create_widget(input_widget[0], input_widget[1])
 
@@ -119,6 +128,7 @@ class InputPortItem(PortItem):
         ):
             c_d = self.port.load_data['widget data']
             if c_d is not None:
+                assert self.widget is not None
                 self.widget.set_state(deserialize(c_d))
             else:
                 # this is a little feature that lets us prevent loading of input widgets
@@ -312,17 +322,19 @@ class PortItemPin(QGraphicsWidget):
         """The height without the padding"""
         return self.height - 2 * self.padding
 
-    def get_scene_center_pos(self):
+    def get_scene_center_pos(self) -> QPointF:
         if not self.node_item.collapsed:
             return QPointF(
                 self.scenePos().x() + self.boundingRect().width() / 2,
                 self.scenePos().y() + self.boundingRect().height() / 2,
             )
         else:
+            # mypy seems buggy here, it things below methods return Any,
+            # but they are annotated to return QPointF
             if isinstance(self.port_item, InputPortItem):
-                return self.node_item.get_left_body_header_vertex_scene_pos()
+                return self.node_item.get_left_body_header_vertex_scene_pos()  # type: ignore
             else:
-                return self.node_item.get_right_body_header_vertex_scene_pos()
+                return self.node_item.get_right_body_header_vertex_scene_pos()  # type: ignore
 
 
 class PortItemLabel(QGraphicsWidget):

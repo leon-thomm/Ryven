@@ -1,3 +1,5 @@
+from typing import Set, Dict, List, Optional, Type, Union
+
 import sys
 import os
 import os.path
@@ -34,7 +36,7 @@ from ryven.gui.dialogs import GetTextDialog, ChooseFlowDialog
 import ryvencore_qt as rc
 import ryvencore_qt.src.widgets as rc_GUI
 
-from ryvencore import InfoMsgs, Flow
+from ryvencore import InfoMsgs, Flow, Session as CoreSession
 
 
 class MainWindow(QMainWindow):
@@ -42,20 +44,21 @@ class MainWindow(QMainWindow):
     def __init__(
         self,
         config: Config,
-        requested_packages: set = (),
-        required_packages: set = None,  # only valid when project_content is provided
-        project_content: dict = None,
+        requested_packages: Optional[Set] = None,
+        required_packages: Optional[Set] = None,  # only valid when project_content is provided
+        project_content: Optional[Dict] = None,
         parent=None,
     ):
         super().__init__(parent)
 
         self.config = config
-        self.session_gui, self.core_session = None, None
+        self.session_gui: rc.SessionGUI
+        self.core_session: CoreSession
         self.theme = config.window_theme
-        self.node_packages = {}  # {Node: str}
-        self.flow_UIs = {}  # Should be dict[Flow, FlowUI] in 3.9+
-        self.flow_ui_template = None # Should be dict[str, QByteArray | dict] in 3.9+
-        self._project_content = None
+        self.node_packages: Dict[Type[rc.Node], NodesPackage] = {}
+        self.flow_UIs: Dict[Flow, FlowUI] = {}
+        self.flow_ui_template: Optional[Dict[str, Union[QByteArray, Dict]]] = None
+        self._project_content: Optional[Dict] = None
 
         # Init Session GUI
 
@@ -80,7 +83,7 @@ class MainWindow(QMainWindow):
 
         self.setup_ui()
 
-        self.flow_view_theme_actions = []
+        self.flow_view_theme_actions: List[QAction] = []
         self.setup_menu_actions()
 
         self.setWindowTitle(self.config.window_title)
@@ -95,7 +98,7 @@ class MainWindow(QMainWindow):
         import_nodes_shortcut.activated.connect(self.on_import_nodes_triggered)
 
         # Setup Main Console
-
+        assert MainConsole.instance is not None, 'MainConsole not initialized'
         MainConsole.instance.session = self.session_gui
         MainConsole.instance.reset_interpreter()
 
@@ -105,7 +108,7 @@ class MainWindow(QMainWindow):
 
         NodeGUI.console_ref_monkeypatch = console_ref_monkeypatch
         old_ac_init = NodeGUI._init_default_actions
-        NodeGUI._init_default_actions = lambda self: {
+        NodeGUI._init_default_actions = lambda self: {  # type: ignore
             **old_ac_init(self),
             'console ref': {'method': self.console_ref_monkeypatch},
         }
@@ -126,8 +129,11 @@ The editor console can still be used for commands.
 
         # Requested packages take precedence over other packages
         print('importing requested packages...')
+        if requested_packages is None:
+            requested_packages = set()
         self.import_packages(requested_packages)
         if project_content is not None:
+            assert required_packages is not None, 'required_packages must be provided when loading a project'
             self._project_content = project_content
             print('importing required packages...')
             self.import_packages(required_packages)
@@ -164,13 +170,10 @@ CONTROLS
 
     # UI
 
-    def setup_ui(self):
+    def setup_ui(self) -> None:
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.statusBar.hide()
-
-        # actions for setting / unsetting a flow ui template
-        self.focused_flow: FlowUI = None
 
         def unset_flow_template():
             self.set_flow_ui_template(None)
@@ -400,7 +403,7 @@ CONTROLS
 
     def on_save_scene_pic_whole_triggered(self):
         """Saves a picture of the whole currently visible scene."""
-        if len(self.session_gui.flows) == 0:
+        if len(self.core_session.flows) == 0:
             return
 
         file_path = QFileDialog.getSaveFileName(self, 'select file', '', 'PNG(*.png)')[0]
@@ -484,14 +487,15 @@ CONTROLS
     def focus_on_flow(self, flow):
         self.ui.flows_tab_widget.setCurrentWidget(self.flow_UIs[flow])
 
-    def import_packages(self, packages_list: [NodesPackage]):
+    def import_packages(self, packages_list: List[NodesPackage]):
         for p in packages_list:
             self.import_nodes(p)
 
-    def import_nodes(self, package: NodesPackage = None, path: str = None):
+    def import_nodes(self, package: Optional[NodesPackage] = None, path: Optional[str] = None):
         if package is not None:
             p = package
         else:
+            assert path is not None, 'either package or path must be provided'
             p = NodesPackage(path)
 
         if p in self.node_packages.values():
@@ -511,7 +515,7 @@ CONTROLS
                 self,
             )
             msg_box.exec_()
-            sys.exit(e)
+            sys.exit(str(e))
 
         self.core_session.register_data_types(data_types)
         self.core_session.register_node_types(nodes)
@@ -559,7 +563,7 @@ CONTROLS
             # print(f'Could not load previous UI state for flow with previous id: {flow_ui.flow.prev_global_id}')
             pass
 
-    def save_project(self, file_name):
+    def save_project(self, file_name: str) -> None:
         import json
 
         file = None
@@ -594,7 +598,7 @@ CONTROLS
 
         # Serialization of the flow views
         # should be dict[str, dict[str, str | dict]] in 3.9+
-        flow_uis_ser: dict = {}
+        flow_uis_ser: Dict[str, Dict] = {}
         for flow, flow_ui in self.flow_UIs.items():
             flow_uis_ser[str(flow.global_id)] = flow_ui.save_state()
 
@@ -610,8 +614,8 @@ CONTROLS
         # flow ui template
         if self.flow_ui_template:
             whole_project_dict['flow_ui_template'] = {
-                'geometry': QByteArray(self.flow_ui_template['geometry']).toHex().data().decode(),
-                'state': QByteArray(self.flow_ui_template['state']).toHex().data().decode(),
+                'geometry': QByteArray(self.flow_ui_template['geometry']).toHex().data().decode(),  # type: ignore
+                'state': QByteArray(self.flow_ui_template['state']).toHex().data().decode(),  # type: ignore
                 'view': self.flow_ui_template['view']
             }
 

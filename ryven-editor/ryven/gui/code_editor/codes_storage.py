@@ -1,6 +1,6 @@
 # statically stores source codes of nodes and their widgets
 from dataclasses import dataclass
-from typing import Type, Optional
+from typing import Type, Optional, Dict, no_type_check
 import inspect
 
 from ryvencore import Node
@@ -13,16 +13,20 @@ def register_node_type(n: Type[Node]):
     source code loading is disabled.
     """
 
+    assert instance is not None, 'Ryven instance not initialized.'
+
     if not instance.defer_code_loading:
         load_src_code(n)
     else:
         class_codes[n] = None
 
 
+@no_type_check
 def load_src_code(n: Type[Node]):
-    has_gui = hasattr(n, 'GUI')  # check if node type has custom gui
+    # check for custom GUI and main widget
+    has_gui = hasattr(n, 'GUI')
     has_mw = has_gui and n.GUI.main_widget_class is not None
-
+    
     src = inspect.getsource(n)
     mw_src = inspect.getsource(n.GUI.main_widget_class) if has_mw else None
     inp_src = {
@@ -50,7 +54,7 @@ def load_src_code(n: Type[Node]):
 class NodeTypeCodes:
     node_cls: str
     main_widget_cls: Optional[str]
-    custom_input_widget_clss: {str: str}
+    custom_input_widget_clss: Dict[str, str]
 
 
 class Inspectable:
@@ -79,7 +83,7 @@ class CustomInputWidgetInspectable(Inspectable):
     pass
 
 
-class_codes: {Type[Node]: {}} = {}
+class_codes: Dict[Type[Node], Optional[NodeTypeCodes]] = {}
 # {
 #     Type[Node]: NodeTypeCodeInfo
 # }
@@ -91,7 +95,7 @@ class_codes: {Type[Node]: {}} = {}
 
 
 # maps node- or widget classes to their full module source code
-mod_codes: {Type: str} = {}
+mod_codes: Dict[Type, str] = {}
 
 # maps node- or widget objects to their modified source code
-modif_codes: {object: str} = {}
+modif_codes: Dict[object, str] = {}

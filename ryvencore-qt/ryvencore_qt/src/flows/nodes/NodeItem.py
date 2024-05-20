@@ -1,5 +1,11 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ..FlowView import FlowView
+
 import traceback
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 
 from qtpy.QtWidgets import QGraphicsItem, QGraphicsObject, QMenu, QGraphicsDropShadowEffect
 from qtpy.QtCore import Qt, QRectF, QObject, QPointF
@@ -8,19 +14,23 @@ from qtpy.QtGui import QColor
 from .NodeErrorIndicator import NodeErrorIndicator
 from .NodeGUI import NodeGUI
 from ...GUIBase import GUIBase
-from ryvencore.NodePort import NodeInput, NodeOutput
 from .NodeItemAction import NodeItemAction
 from .NodeItemAnimator import NodeItemAnimator
 from .NodeItemWidget import NodeItemWidget
 from .PortItem import InputPortItem, OutputPortItem
 from ...utils import serialize, deserialize, MovementEnum, generate_name
 
+from ryvencore_qt.src.Design import Design
+
+from ryvencore import Node
+from ryvencore.NodePort import NodeInput, NodeOutput
+
 
 class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
     """The GUI representative for nodes. Unlike the Node class, this class is not subclassed individually and works
     the same for every node."""
 
-    def __init__(self, node, node_gui, flow_view, design):
+    def __init__(self, node: Node, node_gui: NodeGUI, flow_view: FlowView, design: Design):
         GUIBase.__init__(self, representing_component=node)
         QGraphicsObject.__init__(self)
 
@@ -28,20 +38,18 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         self.node_gui = node_gui
         self.node_gui.item = self
         self.flow_view = flow_view
-        self.session_design = design
-        self.movement_state = None
-        self.movement_pos_from = None
-        self.painted_once = False
-        self.inputs = []
-        self.outputs = []
+        self.session_design: Design = design
+        self.movement_state: Optional[MovementEnum] = None
+        self.movement_pos_from: Optional[QPointF] = None
+        self.painted_once: bool = False
+        self.inputs: List[InputPortItem] = []
+        self.outputs: List[OutputPortItem] = []
         self.color = QColor(self.node_gui.color)  # manipulated by self.animator
 
         self.collapsed = False
         self.hovered = False
         self.hiding_unconnected_ports = False
         self.displaying_error = False
-
-        self.personal_logs = []
 
         # 'initializing' will be set to False below. It's needed for the ports setup, to prevent shape updating stuff
         self.initializing = True
@@ -176,7 +184,7 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         insert = index if index == len(self.node.inputs) - 1 else None
         self.add_new_input(inp, insert)
 
-    def add_new_input(self, inp: NodeInput, insert: int = None):
+    def add_new_input(self, inp: NodeInput, insert: Optional[int] = None):
 
         if inp in self.node_gui.input_widgets:
             widget_name = self.node_gui.input_widgets[inp]['name']
@@ -204,11 +212,13 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         self.remove_input(inp)
 
     def remove_input(self, inp: NodeInput):
-        item = None
+        item: InputPortItem
         for inp_item in self.inputs:
             if inp_item.port == inp:
                 item = inp_item
                 break
+        else:
+            return
 
         # index = self.node.inputs.index(inp)
         # item = self.inputs[index]
@@ -231,7 +241,7 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         insert = index if index == len(self.node.outputs) - 1 else None
         self.add_new_output(out, insert)
 
-    def add_new_output(self, out: NodeOutput, insert: int = None):
+    def add_new_output(self, out: NodeOutput, insert: Optional[int] = None):
 
         # create item
         # out.item = OutputPortItem(out.node, self, out)
@@ -252,11 +262,13 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         self.remove_output(out)
 
     def remove_output(self, out: NodeOutput):
-        item = None
+        item: OutputPortItem
         for out_item in self.outputs:
             if out_item.port == out:
                 item = out_item
                 break
+        else:
+            return
 
         # index = self.node.outputs.index(out)
         # item = self.outputs[index]
@@ -306,7 +318,8 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
         rect.setHeight(h)
         return rect
 
-    def get_left_body_header_vertex_scene_pos(self):
+    def get_left_body_header_vertex_scene_pos(self) -> QPointF:
+        assert self.widget.header_widget is not None
         return self.mapToScene(
             QPointF(
                 -self.boundingRect().width() / 2,
@@ -314,7 +327,8 @@ class NodeItem(GUIBase, QGraphicsObject):  # QGraphicsItem, QObject):
             )
         )
 
-    def get_right_body_header_vertex_scene_pos(self):
+    def get_right_body_header_vertex_scene_pos(self) -> QPointF:
+        assert self.widget.header_widget is not None
         return self.mapToScene(
             QPointF(
                 +self.boundingRect().width() / 2,

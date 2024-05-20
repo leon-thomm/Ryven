@@ -7,8 +7,39 @@ from ryven.main.config import Config
 from ryven.main.args_parser import process_args
 
 
+def check_pyside_available(qt_api: str):
+    if qt_api == 'pyside2':
+        if sys.version_info >= (3, 11):
+            sys.exit(
+                'You are trying to use PySide2 as the Qt API, but it is not available for Python 3.11 and later. '
+                'Please use PySide6 instead (run `ryven -q pyside6`), or use Python 3.10 or earlier. '
+            )
+        try:
+            import PySide2
+        except ImportError:
+            sys.exit(
+                'You are trying to use PySide2 as the Qt API, but it is not available. '
+                'Please install it, or use pyside6 as the Qt API. Either of those can '
+                'installed through pip, e.g. `pip install pyside2` or `pip install \'pyside6<6.7\'`. '
+            )
+    elif qt_api == 'pyside6':
+        try:
+            import PySide6
+        except ImportError:
+            sys.exit(
+                'You are trying to use PySide6 as the Qt API, but it is not available. '
+                'please install it, or use pyside2 as the Qt API. Either of those can '
+                'installed through pip, e.g. `pip install pyside2` or `pip install \'pyside6<6.7\'`. '
+            )
+    else:
+        sys.exit(
+            f'Error: Illegal Qt API: "{qt_api}". '
+            f'Use either "pyside2" or "pyside6". '
+        )
+
+
 def run(*args_,
-        qt_app=None, gui_parent=None, use_sysargs=True,
+        qt_app=None, gui_parent=None, use_sysargs: bool = True,
         **kwargs):
     """Start the Ryven window.
 
@@ -72,6 +103,7 @@ def run(*args_,
     #
 
     # Init environment
+    check_pyside_available(conf.qt_api)
     os.environ['RYVEN_MODE'] = 'gui'
     os.environ['QT_API'] = conf.qt_api
     from ryven.node_env import init_node_env
@@ -124,7 +156,7 @@ def run(*args_,
             sys.exit('Start-up screen dismissed')
 
     # Replace node directories with `NodePackage` instances
-    if conf.nodes:
+    if len(conf.nodes) > 0:
         conf.nodes, pkgs_not_found, _ = ryven.main.packages.nodes_package.process_nodes_packages(list(conf.nodes))
         if pkgs_not_found:
             sys.exit(
@@ -133,6 +165,7 @@ def run(*args_,
         # editor_config['requested packages'] = conf.nodes
 
     # Store WindowTheme object
+    assert isinstance(conf.window_theme, str)
     conf.window_theme = apply_stylesheet(conf.window_theme)
 
     # Adjust flow theme if not set
@@ -150,7 +183,9 @@ def run(*args_,
     # Get packages required by the project
     if conf.project:
         pkgs, pkgs_not_found, project_dict = ryven.main.packages.nodes_package.process_nodes_packages(
-            conf.project, requested_packages=list(conf.nodes))
+            conf.project,
+            requested_packages=list(conf.nodes)  # type: ignore
+        )
 
         if pkgs_not_found:
             str_missing_pkgs = ', '.join([str(p.name) for p in pkgs_not_found])

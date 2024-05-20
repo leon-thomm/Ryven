@@ -1,4 +1,5 @@
 import json
+from typing import Optional, List, Tuple
 
 from qtpy.QtCore import QObject, Signal
 from qtpy.QtGui import QFontDatabase
@@ -17,22 +18,22 @@ class Design(QObject):
     flow_theme_changed = Signal(str)
     performance_mode_changed = Signal(str)
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-        self.flow_themes = flow_themes
-        self.flow_theme: FlowTheme = None
-        self.default_flow_size = None
-        self.performance_mode: str = None
-        self.node_item_shadows_enabled: bool = None
-        self.animations_enabled: bool = None
-        self.node_selection_stylesheet: str = None
+        self.flow_themes: List[FlowTheme] = flow_themes
+        self.flow_theme: FlowTheme
+        self.default_flow_size: Tuple[int, int]
+        self.performance_mode: str
+        self.node_item_shadows_enabled: bool
+        self.animations_enabled: bool
+        self.node_selection_stylesheet: str
 
         # load standard default values
         self._default_flow_theme = self.flow_themes[-1]
         self.set_performance_mode('pretty')
         self.set_animations_enabled(True)
-        self.default_flow_size = [1000, 700]
+        self.default_flow_size = (1000, 700)
         self.set_flow_theme(self._default_flow_theme)
 
     @staticmethod
@@ -77,13 +78,13 @@ class Design(QObject):
         for theme in self.flow_themes:
             if theme.name.casefold() == name.casefold():
                 return theme
-        return None
+        raise ValueError(f'Flow theme with name "{name}" not found')
 
-    def set_flow_theme(self, theme: FlowTheme = None, name: str = ''):
+    def set_flow_theme(self, theme: Optional[FlowTheme] = None, name: Optional[str] = None):
         """You can either specify the theme by name, or directly provide a FlowTheme object"""
-        if theme:
+        if theme is not None:
             self.flow_theme = theme
-        elif name and name != '':
+        elif name is not None and name != '':
             self.flow_theme = self.flow_theme_by_name(name)
         else:
             return
@@ -93,9 +94,6 @@ class Design(QObject):
         self.flow_theme_changed.emit(self.flow_theme.name)
 
     def set_performance_mode(self, new_mode: str):
-        if self.performance_mode == new_mode:
-            return
-
         if new_mode == 'fast':
             self.node_item_shadows_enabled = False
         else:

@@ -1,3 +1,5 @@
+from typing import Optional, Tuple, List
+
 from qtpy.QtCore import Qt, QPointF, QPoint, QRectF, QMargins, QMarginsF
 from qtpy.QtGui import QColor, QPainter, QBrush, QRadialGradient, QLinearGradient, QPen, QPainterPath, QFont, QPolygon
 from qtpy.QtWidgets import QStyle, QStyleOption
@@ -38,12 +40,12 @@ NodeWidget {
     data_conn_pen_style = Qt.DashLine
 
     flow_background_brush = QBrush(QColor('#333333'))
-    flow_background_grid = None
+    flow_background_grid: Optional[Tuple[str, QColor, int, int, int]] = None
     flow_highlight_pen_color = QColor('#245d75')
 
     node_item_shadow_color = QColor('#2b2b2b')
 
-    EXPORT = []
+    EXPORT: List[str] = []
 
     def __init__(self):
         pass
@@ -131,7 +133,7 @@ NodeWidget {
     def paint_NI_title_label_default(painter: QPainter, node_style: str, title: str, color: QColor, pen_w: float,
                                      font: QFont, node_item_bounding_rect):
         pen = QPen(color)
-        pen.setWidth(pen_w)
+        pen.setWidth(pen_w)  # type: ignore
 
         painter.setPen(pen)
         painter.setFont(font)
@@ -198,7 +200,7 @@ NodeWidget {
             )
             return QColor(r, g, b, a)
 
-        return None
+        raise ValueError(f'Invalid hex color string: {hex_str}')
 
     @staticmethod
     def col(c: QColor, alpha=255):
@@ -279,7 +281,11 @@ class FlowTheme_Toy(FlowTheme):
                        painter: QPainter, c: QColor, w, h, bounding_rect, title_rect):
 
         # main rect
-        header_color = QColor(c.red() / 10 + 100, c.green() / 10 + 100, c.blue() / 10 + 100)
+        header_color = QColor(
+            int(c.red() / 10 + 100),
+            int(c.green() / 10 + 100),
+            int(c.blue() / 10 + 100),
+        )
         if selected:
             header_color = header_color.lighter()
         body_gradient = QRadialGradient(bounding_rect.topLeft(), pythagoras(h, w))
@@ -1613,7 +1619,7 @@ class FlowTheme_Fusion(FlowTheme):
         painter.drawRoundedRect(bounding_rect, 4, 4)
 
 
-flow_themes = [
+flow_themes: List[FlowTheme] = [
     FlowTheme_Toy(),
     FlowTheme_DarkTron(),
     FlowTheme_Ghost(),

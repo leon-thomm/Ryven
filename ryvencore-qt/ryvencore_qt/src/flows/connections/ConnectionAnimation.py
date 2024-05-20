@@ -1,10 +1,11 @@
-from typing import List
+from typing import List, Tuple
 from enum import Enum
 
 from qtpy.QtCore import (
     QTimeLine, 
     QPropertyAnimation, 
-    QParallelAnimationGroup, 
+    QParallelAnimationGroup,
+    QEasingCurve, 
 )
 from qtpy.QtGui import (
     QPen,
@@ -42,13 +43,14 @@ class ConnPathItemsAnimation(QGraphicsObject):
         self.connection = connection
         self.between = between
         self.speed = speed
-        self.visible_items = []
+        self.visible_items: List[Tuple[QGraphicsItemAnimated, float]] = []
+        self.__visible_flag = True
         
         self.setParentItem(self.connection)
         
         self.timeline = QTimeLine()
         self.timeline.setFrameRange(0, frames)
-        self.timeline.setCurveShape(QTimeLine.LinearCurve)
+        self.timeline.setEasingCurve(QEasingCurve(QEasingCurve.Type.Linear))
         self.timeline.valueChanged.connect(self._update_items)
         self.timeline.setLoopCount(0)
 
@@ -88,11 +90,16 @@ class ConnPathItemsAnimation(QGraphicsObject):
             self.recompute()
 
     def recompute(self):
-        for item in self.items:
-            item.setVisible(False)
+        
+        if self.__visible_flag:
+            for item in self.items:
+                item.setVisible(False)
+            self.__visible_flag = False
 
         if self.timeline.state() == QTimeLine.State.NotRunning:
             return
+        
+        self.__visible_flag = True
 
         path_len = self.connection.path().length()
         num_points = max(3, min(self.connection.num_dots, int(path_len / self.between)))
@@ -152,17 +159,27 @@ class ConnPathItemsAnimationScaled:
         for item in self.con_items_anim.items:
             item.setScale(0)
             # to scaler
-            to_scalar_anim = QPropertyAnimation(item, b'scale')
+            to_scalar_anim = QPropertyAnimation(item, b'scale')  # type: ignore
             to_scalar_anim.setDuration(self.duration)
             self.to_scalar_group.addAnimation(to_scalar_anim)
             # to zero
-            to_zero_anim = QPropertyAnimation(item, b'scale')
+            to_zero_anim = QPropertyAnimation(item, b'scale')  # type: ignore
             to_zero_anim.setDuration(self.duration)
             self.to_zero_group.addAnimation(to_zero_anim)
 
         self.to_scalar_group.finished.connect(self._on_scalar_ended)
         self.to_zero_group.finished.connect(self._on_zero_ended)
-        
+    
+    def start(self):
+        if (self.state == ConnPathItemsAnimationScaled.State.NOT_RUNNING or 
+            self.state == ConnPathItemsAnimationScaled.State.TO_ZERO):
+            self.toggle()
+    
+    def stop(self):
+        if (self.state == ConnPathItemsAnimationScaled.State.RUNNING or
+            self.state == ConnPathItemsAnimationScaled.State.TO_SCALE):
+            self.toggle()
+            
     def toggle(self):
         if self.state == ConnPathItemsAnimationScaled.State.NOT_RUNNING:
             self._run_scalar()
@@ -180,7 +197,7 @@ class ConnPathItemsAnimationScaled:
             self._run_scalar()
             self.state = ConnPathItemsAnimationScaled.State.TO_SCALE
     
-    def _stop(self):
+    def force_stop(self):
         self.to_zero_group.stop()
         self.to_scalar_group.stop()
     

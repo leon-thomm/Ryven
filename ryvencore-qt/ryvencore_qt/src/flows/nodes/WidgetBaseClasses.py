@@ -1,4 +1,5 @@
 """The base classes for node custom widgets for nodes."""
+from typing import Dict
 from ryvencore import Data
 
 from ..FlowCommands import Delegate_Command
@@ -10,16 +11,16 @@ class NodeMainWidget:
     def __init__(self, params):
         self.node, self.node_item, self.node_gui = params
 
-    def get_state(self) -> dict:
+    def get_state(self) -> Dict:
         """
         *VIRTUAL*
 
         Return the state of the widget, in a (pickle) serializable format.
         """
-        data = {}
+        data: Dict = {}
         return data
 
-    def set_state(self, data: dict):
+    def set_state(self, data: Dict):
         """
         *VIRTUAL*
 
@@ -42,16 +43,16 @@ class NodeInputWidget:
         self.input, self.input_item, self.node, self.node_gui, self.position = \
             params
 
-    def get_state(self) -> dict:
+    def get_state(self) -> Dict:
         """
         *VIRTUAL*
 
         Return the state of the widget, in a (pickle) serializable format.
         """
-        data = {}
+        data: Dict = {}
         return data
 
-    def set_state(self, data: dict):
+    def set_state(self, data: Dict):
         """
         *VIRTUAL*
 
@@ -93,16 +94,16 @@ class NodeInspectorWidget:
     def __init__(self, params):
         self.node, self.node_gui = params
 
-    def get_state(self) -> dict:
+    def get_state(self) -> Dict:
         """
         *VIRTUAL*
 
         Return the state of the widget, in a (pickle) serializable format.
         """
-        data = {}
+        data: Dict = {}
         return data
 
-    def set_state(self, data: dict):
+    def set_state(self, data: Dict):
         """
         *VIRTUAL*
 

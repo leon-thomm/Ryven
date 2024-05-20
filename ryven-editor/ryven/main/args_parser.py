@@ -146,7 +146,7 @@ def parse_sys_args(just_defaults=False) -> Config:
     """
 
     # Get available examples
-    exampledir = utils.abs_path_from_package_dir('examples_projects')
+    exampledir = utils.abs_path_from_package_dir('example_projects')
     examples = [e.stem for e in pathlib.Path(exampledir).glob('*.json')]
 
     #
@@ -365,16 +365,15 @@ def parse_sys_args(just_defaults=False) -> Config:
     # Check, if project file exists
     if args.project:
         if args.project == '-':
-            args.project = sys.stdin
-        else:
-            project = utils.find_project(args.project)
-            if project is None:
-                parser.error(
-                    'project file does not exist')
-            args.project = project
+            args.project = pathlib.Path(str(sys.stdin))
+        project = utils.find_project(args.project)
+        if project is None:
+            parser.error(
+                'project file does not exist')
+        args.project = project
 
     # Make a `set` of paths to node packages
-    args.nodes = set([pathlib.Path(nodes_pkg) for nodes_pkg in args.nodes])
+    args.nodes = set([pathlib.Path(nodes_pkg) for nodes_pkg in args.nodes])  # type: ignore
 
     # Put example into 'project' argument
     if args.example:

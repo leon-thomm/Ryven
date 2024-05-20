@@ -29,7 +29,7 @@ class Config:
     project: Optional[pathlib.Path] = None
     show_dialog: bool = True
     verbose: bool = False
-    nodes: Union[Set[pathlib.Path], Set[NodesPackage]] = []
+    nodes: Union[Set[pathlib.Path], Set[NodesPackage]] = set()
     example: Optional[str] = None
     window_theme: Union[str, WindowTheme] = 'dark'
     flow_theme: Optional[str] = None  # None means it depends on window_theme

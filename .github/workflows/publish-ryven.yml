@@ -1,4 +1,4 @@
-name: Publish Ryven wheel to TestPyPi and PyPi
+name: Publish Ryven wheel to PyPi
 on:
   create:
     tags:
@@ -18,12 +18,12 @@ jobs:
       - name: Build binary wheel and source tarball
         run: python -m build --sdist --wheel --outdir dist/
         working-directory: ./ryven-editor
-      - name: Publish distribution to TestPyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.GH_AC_RYVEN_TEST_PYPI_API_TOKEN }}
-          repository-url: https://test.pypi.org/legacy/
-          packages-dir: ryven-editor/dist/
+      # - name: Publish distribution to TestPyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     password: ${{ secrets.GH_AC_RYVEN_TEST_PYPI_API_TOKEN }}
+      #     repository-url: https://test.pypi.org/legacy/
+      #     packages-dir: ryven-editor/dist/
       - name: Publish distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:

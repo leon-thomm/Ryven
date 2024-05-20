@@ -1,5 +1,5 @@
 # import math
-from typing import List
+from typing import List, Any, Tuple
 from qtpy.QtCore import QPointF, Qt
 from qtpy.QtGui import QPainter, QColor, QRadialGradient, QPainterPath, QPen
 from qtpy.QtWidgets import (
@@ -15,13 +15,16 @@ from ...utils import pythagoras
 from ...flows.nodes.PortItem import PortItem
 from .ConnectionAnimation import ConnPathItemsAnimation, ConnPathItemsAnimationScaled
 
+from ryvencore_qt.src.Design import Design
+from ryvencore.NodePort import NodeInput, NodeOutput
+
 
 class ConnectionItem(GUIBase, QGraphicsPathItem):
     """The GUI representative for a connection. The classes ExecConnectionItem and DataConnectionItem will be ready
     for reimplementation later, so users can add GUI for the enhancements of DataConnection and ExecConnection,
     like input fields for weights."""
 
-    def __init__(self, connection, session_design):
+    def __init__(self, connection: Tuple[NodeOutput, NodeInput], session_design: Design):
         QGraphicsPathItem.__init__(self)
 
         self.setAcceptHoverEvents(True)
@@ -31,6 +34,7 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
 
         out_port_index = out.node.outputs.index(out)
         inp_port_index = inp.node.inputs.index(inp)
+        assert hasattr(out.node, 'gui') and hasattr(inp.node, 'gui')
         self.out_item: PortItem = out.node.gui.item.outputs[out_port_index]
         self.inp_item: PortItem = inp.node.gui.item.inputs[inp_port_index]
 
@@ -66,14 +70,14 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         node_out_index = out.node.outputs.index(out)
         return f'{node_out_index}->{node_in_index} ({node_out_name}, {node_in_name})'
 
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget):
+    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget = None):
         # draw path
         painter.setBrush(self.brush())
         painter.setPen(self.pen())
         painter.drawPath(self.path())
         # return super().paint(painter, option, widget)
 
-    def recompute(self):
+    def recompute(self) -> None:
         """Updates scene position and recomputes path, pen, gradient and dots"""
 
         # dots
@@ -83,12 +87,12 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         self.setPos(self.out_pos())
 
         # path
-        p1 = QPointF(self.out_item.pin.width_no_padding() * 0.5, 0)
-        p2 = self.inp_pos() - self.scenePos() - QPointF(self.inp_item.pin.width_no_padding() * 0.5, 0)
+        p1: QPointF = QPointF(self.out_item.pin.width_no_padding() * 0.5, 0)
+        p2: QPointF = self.inp_pos() - self.scenePos() - QPointF(self.inp_item.pin.width_no_padding() * 0.5, 0)
         self.setPath(self.connection_path(p1, p2))
 
         # pen
-        pen = self.get_pen()
+        pen: QPen = self.get_pen()
 
         # brush
         self.setBrush(Qt.NoBrush)
@@ -103,9 +107,9 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
                 pythagoras(w, h) / 2
             )
 
-            c_r = c.red()
-            c_g = c.green()
-            c_b = c.blue()
+            c_r: int = c.red()
+            c_g: int = c.green()
+            c_b: int = c.blue()
 
             # this offset will be 1 if inp.x >> out.x and 0 if inp.x < out.x
             # hence, no fade for the gradient if the connection goes backwards
@@ -163,13 +167,13 @@ class ConnectionItem(GUIBase, QGraphicsPathItem):
         self.setPen(pen)
 
     def get_pen(self) -> QPen:
-        pass
+        raise NotImplementedError
 
     def pen_width(self) -> int:
-        pass
+        raise NotImplementedError
 
     def get_style_color(self):
-        pass
+        raise NotImplementedError
 
     def flow_theme(self):
         return self.session_design.flow_theme
@@ -233,7 +237,7 @@ class DataConnectionItem(ConnectionItem):
         return self.flow_theme().data_conn_color
 
 
-def default_cubic_connection_path(p1: QPointF, p2: QPointF):
+def default_cubic_connection_path(p1: QPointF, p2: QPointF) -> QPainterPath:
     """Returns the nice looking QPainterPath from p1 to p2"""
 
     path = QPainterPath()

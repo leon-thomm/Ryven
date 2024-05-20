@@ -71,7 +71,8 @@ class ElideLabel(QLabel):
 
     def sizeHint(self):
         hint = self.fontMetrics().boundingRect(self.text()).size()
-        l, t, r, b = self.getContentsMargins()
+        c_margins = self.contentsMargins()
+        l, t, r, b = c_margins.left(), c_margins.top(), c_margins.right(), c_margins.bottom()
         margin = self.margin() * 2
         return QSize(
             min(100, hint.width()) + l + r + margin,
@@ -83,7 +84,8 @@ class ElideLabel(QLabel):
         opt = QStyleOptionFrame()
         self.initStyleOption(opt)
         self.style().drawControl(QStyle.CE_ShapedFrame, opt, qp, self)
-        l, t, r, b = self.getContentsMargins()
+        c_margins = self.contentsMargins()
+        l, t, r, b = c_margins.left(), c_margins.top(), c_margins.right(), c_margins.bottom()
         margin = self.margin()
         try:
             # since Qt >= 5.11
@@ -481,7 +483,7 @@ class StartupDialog(QDialog):
         """Call-back method, whenever the 'Example' button was clicked."""
         # Load an example project, starting in the ryven's example directory
         project_path = self.get_project(
-            abs_path_from_package_dir('examples_projects'), title='Select Ryven example'
+            abs_path_from_package_dir('example_projects'), title='Select Ryven example'
         )
 
         if project_path is not None:
@@ -660,7 +662,7 @@ class StartupDialog(QDialog):
 
         else:
             self.conf.project = project_path
-            self.project_name.setText(project_path)
+            self.project_name.setText(str(project_path))
             self.create_project_button.setEnabled(True)
 
             required_nodes, missing_nodes, _ = process_nodes_packages(project_path)

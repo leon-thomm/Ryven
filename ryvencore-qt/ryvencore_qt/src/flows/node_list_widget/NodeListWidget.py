@@ -17,8 +17,8 @@ from ryvencore import Node
 from .utils import search, sort_nodes, inc, dec
 from ..node_list_widget.NodeWidget import NodeWidget
 from statistics import median
-from typing import List
 from re import escape
+from typing import Dict, Type, List
 
 # from ryven import NodesPackage
 
@@ -48,13 +48,13 @@ class NodeListWidget(QWidget):
         super().__init__()
 
         self.session = session
-        self.nodes: list = []  # should be list[type[Node]] in 3.9+
-        self.package_nodes: list = []  # should be list[type[Node]] in 3.9+
+        self.nodes: List[Type[Node]] = []
+        self.package_nodes: List[Type[Node]] = []
 
-        self.current_nodes = []  # currently selectable nodes
+        self.current_nodes: List[Node] = []  # currently selectable nodes
         self.active_node_widget_index = -1  # index of focused node widget
         self.active_node_widget = None  # focused node widget
-        self.node_widgets = {}  # Node-NodeWidget assignments
+        self.node_widgets: Dict[Node, NodeWidget] = {}  # Node-NodeWidget assignments
         self._node_widget_index_counter = 0
 
         # holds the path to the tree item
@@ -63,7 +63,7 @@ class NodeListWidget(QWidget):
         self.show_packages: bool = show_packages
         self._setup_UI()
 
-    def _setup_UI(self):
+    def _setup_UI(self) -> None:
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setAlignment(Qt.AlignTop)
         self.setLayout(self.main_layout)
@@ -151,10 +151,10 @@ class NodeListWidget(QWidget):
             # removes whitespace and escapes all special regex chars
             new_search = escape(search.strip())
             # regex that enforces the text starts with <new_search>
-            self.pack_proxy_model.setFilterRegExp(f'^{new_search}')
+            self.pack_proxy_model.setFilterRegularExpression(f'^{new_search}')
             self.pack_tree.expandAll()
         else:
-            self.pack_proxy_model.setFilterRegExp('')
+            self.pack_proxy_model.setFilterRegularExpression('')
             self.pack_tree.collapseAll()
 
     def make_nodes_current(self, pack_nodes, pkg_name: str):
@@ -167,7 +167,7 @@ class NodeListWidget(QWidget):
 
         return select_nodes
 
-    def make_pack_hier(self):
+    def make_pack_hier(self) -> None:
         """
         Creates a hierarchical view of the packages based on the nodes' identifier.
         """
@@ -201,7 +201,7 @@ class NodeListWidget(QWidget):
                         item.setDragEnabled(False)
                         self.tree_items.append(item)
                         item.setEditable(False)
-                        node_list = []
+                        node_list: List[Type[Node]] = []
                         h_dict[current_path] = (item, node_list)
                         item.setData(self.make_nodes_current(node_list, current_path), Qt.UserRole + 1)
                         current_root.appendRow(item)

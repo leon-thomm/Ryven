@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from qtpy.QtCore import QObject, Signal, Qt
 from qtpy.QtWidgets import QWidget, QApplication
@@ -36,7 +36,7 @@ class SessionGUI(GUIBase, QObject):
         self.gui_parent = gui_parent
 
         # flow views
-        self.flow_views = {}  # {Flow : FlowView}
+        self.flow_views: Dict[ryvencore.Flow, FlowView] = {}
 
         # register complete_data function
         ryvencore.set_complete_data_func(self.get_complete_data_function(self))

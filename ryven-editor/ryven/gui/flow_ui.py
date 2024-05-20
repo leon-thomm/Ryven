@@ -103,7 +103,7 @@ class FlowUI(QMainWindow):
         self.ui.inspector_dock.setWidget(self.inspector_widget)
         
         #undo history widget
-        self.undo_widget = QUndoView(self.flow_view._undo_stack)
+        self.undo_widget = QUndoView(stack=self.flow_view._undo_stack)  # type: ignore
         self.ui.undo_history_dock.setWidget(self.undo_widget)
         # logs
         self.ui.logs_scrollArea.setWidget(self.create_loggers_widget())

@@ -1,5 +1,5 @@
 from queue import Queue
-from typing import List, Dict, Tuple, Optional, Union
+from typing import List, Dict, Tuple, Optional, Union, Type
 
 from qtpy.QtCore import QObject, Signal
 
@@ -13,17 +13,17 @@ class NodeGUI(QObject):
     """
 
     # customizable gui attributes
-    description_html: str = None
-    main_widget_class: Optional[NodeMainWidget] = None
+    description_html: Optional[str] = None
+    main_widget_class: Optional[Type[NodeMainWidget]] = None
     main_widget_pos: str = 'below ports'
-    input_widget_classes: Dict[str, NodeInputWidget] = {}
-    inspector_widget_class: NodeInspectorWidget = NodeInspectorDefaultWidget
+    input_widget_classes: Dict[str, Type[NodeInputWidget]] = {}
+    inspector_widget_class: Type[NodeInspectorWidget] = NodeInspectorDefaultWidget
     wrap_inspector_in_default: bool = False
     init_input_widgets: dict = {}
     style: str = 'normal'
     color: str = '#c69a15'
-    display_title: str = None
-    icon: str = None
+    display_title: Optional[str] = None
+    icon: Optional[str] = None
 
     # qt signals
     updating = Signal()

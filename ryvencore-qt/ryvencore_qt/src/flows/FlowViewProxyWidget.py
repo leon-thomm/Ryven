@@ -1,3 +1,9 @@
+# prevent circular imports
+from __future__ import annotations
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .FlowView import FlowView
+
 from qtpy.QtWidgets import QGraphicsProxyWidget, QGraphicsSceneHoverEvent
 
 
@@ -30,9 +36,9 @@ class FlowViewProxyWidget(QGraphicsProxyWidget):
 class FlowViewProxyHoverWidget(FlowViewProxyWidget):
     """Additional hover controls for QProxyWidgets in the flow."""
 
-    def __init__(self, flow_view, parent=None):
+    def __init__(self, flow_view: FlowView, parent=None):
         super(FlowViewProxyHoverWidget, self).__init__(flow_view, parent)
-        self._is_hovered = False
+        self._is_hovered: bool = False
 
     def hoverEnterEvent(self, event: QGraphicsSceneHoverEvent):
         super().hoverEnterEvent(event)

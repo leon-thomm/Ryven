@@ -23,7 +23,7 @@ class DType_IW_Base(NodeInputWidget):
 
 class Data_IW(DType_IW_Base, QLineEdit):  # virtual
 
-    base_width = None  # specified by subclasses
+    base_width: int  # specified by subclasses
 
     def __init__(self, params):
         DType_IW_Base.__init__(self, params)
@@ -110,7 +110,7 @@ class Data_IW_L(Data_IW):
 
 class String_IW(DType_IW_Base, QLineEdit):  # virtual
 
-    width = None  # specified by subclasses
+    width_: int   # specified by subclasses
 
     def __init__(self, params):
         DType_IW_Base.__init__(self, params)
@@ -121,7 +121,7 @@ class String_IW(DType_IW_Base, QLineEdit):  # virtual
 
         self.setFont(QFont('source code pro', 10))
         self.setText(self.dtype.val)
-        self.setFixedWidth(self.width)
+        self.setFixedWidth(self.width_)
         self.setToolTip(self.dtype.doc)
 
         self.editingFinished.connect(self.editing_finished)
@@ -155,15 +155,15 @@ class String_IW(DType_IW_Base, QLineEdit):  # virtual
 # custom sized classes for qss access:
 
 class String_IW_S(String_IW):
-    width = 30
+    width_ = 30
 
 
 class String_IW_M(String_IW):
-    width = 70
+    width_ = 70
 
 
 class String_IW_L(String_IW):
-    width = 150
+    width_ = 150
 
 
 # -----------------------------------

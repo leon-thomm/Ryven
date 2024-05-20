@@ -1,0 +1,2 @@
+This package contains a bunch of nodes for different purposes, to showcase some of Ryven's features.
+Some simple nodes are found in `basic_operators.py`, while more advanced ideas are implemented in `special_nodes.py`.
