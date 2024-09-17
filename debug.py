@@ -25,6 +25,6 @@ if __name__ == '__main__':
             f"{RYVEN_PATH}/ryven/example_nodes/examples",
             f"{RYVEN_PATH}/ryven/example_nodes/linalg",
         ],
-        qt_api='pyside6',
+        qt_api='pyside2',
         show_dialog=False,
     )

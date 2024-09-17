@@ -1,36 +1,36 @@
-{ 
-  pkgs ? import <nixpkgs> {},
-  python ? pkgs.python310,
-  pysidePkg ? python.pkgs.pyside2,
-  additionalPythonPackages ? []
+{
+  lib,
+  python, pysidePkg,
+  ryvencore-qt,
+  additionalPythonPackages ? [],
 }:
 let
-  get-version = s: builtins.head (builtins.match ".*version[[:space:]*]=[[:space:]*]([[:digit:]|\.]*).*" s);
+  get-version = s: builtins.head (
+    builtins.match ".*version[[:space:]*]=[[:space:]*]([[:digit:]|\.]*).*" s
+  );
   version = get-version (builtins.readFile ./setup.cfg);
-
-  ryvencore-qt = pkgs.callPackage ../ryvencore-qt {
-    inherit pkgs python pysidePkg;
-  };
-
-  sourceFiles = with pkgs.lib.fileset; intersection
-    (gitTracked ./..)
-    (unions [
-      ./setup.py
-      ./setup.cfg
-      ./MANIFEST.in
-      ./ryven
-    ]);
-
+  src = with lib.fileset;
+    toSource {
+      root = ./.;
+      fileset = 
+        intersection
+        (gitTracked ./..)
+        (unions [
+          ./setup.py
+          ./setup.cfg
+          ./MANIFEST.in
+          ./ryven
+        ]);
+    }
+  ;
   ryven = python.pkgs.buildPythonPackage rec {
     pname = "ryven";
-    inherit version;
-    src = pkgs.lib.fileset.toSource {
-      root = ./.;
-      fileset = sourceFiles;
-    };
+    inherit version src;
+    # build dependencies
     buildInputs = with python.pkgs; [ 
       setuptools wheel
     ];
+    # runtime dependencies
     propagatedBuildInputs = with python.pkgs; [
       pysidePkg
       qtpy
@@ -44,7 +44,7 @@ let
     meta = {
       homepage = "https://ryven.org";
       description = "Flow-based visual scripting for Python";
-      license = pkgs.lib.licenses.mit;
+      license = lib.licenses.mit;
     };
   };
 in

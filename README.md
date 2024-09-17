@@ -275,6 +275,14 @@ Please find further resources on the GitHub wiki page in this repository.
 - basic Python **logging support**
 <!-- - primitive, very experimental **stylus support** for adding handwritten notes on touch devices -->
 
+## Development
+
+Ryven is primarily packaged for PyPI, using pip. To install and test the `ryven` package from the source tree, run `pip install .`.
+
+We also provide a build description for a Nix package. If you have Nix installed, you can build the Ryven Nix package by running `nix-build -A ryven`.
+
+To iterate quickly, you won't want to re-build packages every time you make a change, but rather test the source code directly (by invoking a test script or running `python3 ryven-editor/ryven/main/Ryven.py`). To get a partially isolated environment with the necessary dependencies available, you can either build your own Python virtual environments and install packages through pip, or if you use Nix run `nix-shell` which will set up everything automatically. The first invocation of `nix-build` or `nix-shell` might compile Qt on your machine which will take a long time.
+
 ## License
 
 * This repository is licensed under the MIT license (LICENSE-MIT or http://opensource.org/licenses/MIT)
