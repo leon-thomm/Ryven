@@ -3,15 +3,21 @@
 ################################################################################
 ## Form generated from reading UI file 'flow.ui'
 ##
-## Created by: Qt User Interface Compiler version 5.15.2
+## Created by: Qt User Interface Compiler version 6.8.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from qtpy.QtCore import *
-from qtpy.QtGui import *
-from qtpy.QtWidgets import *
-
+from qtpy.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from qtpy.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from qtpy.QtWidgets import (QApplication, QGridLayout, QGroupBox, QHBoxLayout,
+    QScrollArea, QSizePolicy, QSplitter, QVBoxLayout,
+    QWidget)
 
 class Ui_flow_widget(object):
     def setupUi(self, flow_widget):
@@ -55,7 +61,7 @@ class Ui_flow_widget(object):
         self.splitter_3.addWidget(self.splitter)
         self.contents_widget = QWidget(self.splitter_3)
         self.contents_widget.setObjectName(u"contents_widget")
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.contents_widget.sizePolicy().hasHeightForWidth())
@@ -68,7 +74,7 @@ class Ui_flow_widget(object):
         self.settings_vars_splitter.setOrientation(Qt.Vertical)
         self.settings_groupBox = QGroupBox(self.settings_vars_splitter)
         self.settings_groupBox.setObjectName(u"settings_groupBox")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.settings_groupBox.sizePolicy().hasHeightForWidth())

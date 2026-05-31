@@ -20,7 +20,7 @@ def check_pyside_available(qt_api: str):
             sys.exit(
                 'You are trying to use PySide2 as the Qt API, but it is not available. '
                 'Please install it, or use pyside6 as the Qt API. Either of those can '
-                'installed through pip, e.g. `pip install pyside2` or `pip install \'pyside6<6.7\'`. '
+                'installed through pip, e.g. `pip install pyside2` or `pip install pyside6`. '
             )
     elif qt_api == 'pyside6':
         try:
@@ -29,7 +29,7 @@ def check_pyside_available(qt_api: str):
             sys.exit(
                 'You are trying to use PySide6 as the Qt API, but it is not available. '
                 'please install it, or use pyside2 as the Qt API. Either of those can '
-                'installed through pip, e.g. `pip install pyside2` or `pip install \'pyside6<6.7\'`. '
+                'installed through pip, e.g. `pip install pyside2` or `pip install pyside6`. '
             )
     else:
         sys.exit(

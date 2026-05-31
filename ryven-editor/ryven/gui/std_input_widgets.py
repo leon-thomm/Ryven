@@ -2,6 +2,11 @@
 This module provides some frequently useful convenience input widgets for nodes.
 It replaces what was previously the dtypes system.
 """
+# `type[Data]` annotations below use the builtin-generic subscription syntax,
+# which is only evaluated lazily (as strings) with this future import. Without
+# it, importing this module fails on Python < 3.9 (see issue #172).
+from __future__ import annotations
+
 from typing import Tuple
 
 from ryvencore import Data

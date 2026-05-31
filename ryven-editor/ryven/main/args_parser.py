@@ -525,6 +525,12 @@ def process_args(use_sysargs, *args_, **kwargs) -> Config:
         else:
             setattr(args, key, value)
 
+    # Node packages passed as keyword arguments (or through a config file) may
+    # still be plain strings, whereas `parse_sys_args()` already converts the
+    # command line ones to `pathlib.Path`. Normalize them all to `pathlib.Path`
+    # so that downstream code can rely on path attributes (see issue #179).
+    args.nodes = set(pathlib.Path(nodes_pkg) for nodes_pkg in args.nodes)
+
     # Check project
     if len(args_) > 1:                 # Just one argument, but more given
         raise TypeError(
