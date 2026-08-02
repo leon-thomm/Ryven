@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="theme-dark">
+
+    <head>
+        
+        
+
+<link rel="stylesheet" href="&#x2F;css&#x2F;&#x2F;style-gallery.css">
+
+
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      
+        <!-- Title + SEO -->
+        <title>Ryven - Flow-based visual scripting for Python</title>
+        <meta name="description" content="A simple visual scripting environment for Python providing a diagram-like structure for an intuitive interface to your nodes executing any python code.">
+        <meta name="author" content="Leon Thomm">
+      
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="&#x2F;img&#x2F;&#x2F;favicon.png">
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="&#x2F;css&#x2F;&#x2F;style-master.css">
+        <!-- <link href="&#x2F;css&#x2F;prism.css" rel="stylesheet" /> -->
+      
+        <!-- Embed Poppins Font-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+        <noscript>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+        </noscript>
+      
+        <!-- jQuery & Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+        
+        
+
+
+    </head>
+
+    <body>
+        
+        <!-- header -->
+        <header class="header bg-dark">
+    <div class="content-inner">
+        <a href="/">
+            <div class="logo">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4mm" height="14.9mm" viewBox="0 0 32.5 42.25">
+                    <defs>
+                        <radialGradient id="radial-gradient" cx="16.25" cy="10.6506" fx="32.37100661042267" fy="27.73478802660686" r="23.4895" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffda9e" />
+                            <stop offset="0.38" stop-color="#eb8c52" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-2" cx="16.245" cy="31.7856" fx="-0.9942820292362136" fy="15.456999156715245" r="23.7448" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffe3b8" />
+                            <stop offset="0.38" stop-color="#eb7e3b" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-3" cx="11.5" cy="40.1565" fx="-2.1832024133000747" fy="23.90600713316066" r="21.244" gradientTransform="matrix(1, 0, 0, -1.05, 0, 58.4094)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ff4242" />
+                            <stop offset="0.38" stop-color="#eb6636" />
+                            <stop offset="0.9" stop-color="#f0c98b" />
+                        </radialGradient>
+                    </defs>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1-2">
+                            <path d="M32.5,32.49v9.76H9.75L1.43,33.92,0,32.49A32.38,32.38,0,0,0,23,23Z" fill="url(#radial-gradient)" />
+                            <path d="M32.49,0A32.32,32.32,0,0,1,25.8,19.76l-.27.34a23.1034,23.1034,0,0,1-1.6,1.88c-.31.35-.62.67-.95,1L0,0Z" fill="url(#radial-gradient-2)" />
+                            <g opacity="0.3">
+                                <path d="M23,23l2.54,2.54c-6.1,5.65-16,7.48-25.52,7V0L25.53,20.1a23.1034,23.1034,0,0,1-1.6,1.88C23.62,22.33,23.31,22.65,23,23Z" />
+                            </g>
+                            <path d="M23,23A32.4,32.4,0,0,1,0,32.49V0Z" fill="url(#radial-gradient-3)" />
+                        </g>
+                    </g>
+                </svg>
+                <div class="name">
+                    <span class="title">Ryven</span>
+                    <span class="version">v3.5.0</span>
+                </div>
+            </div>
+        </a>
+        
+        <div class="desktop-navigation">
+
+            
+
+            <a href="/">Home</a>
+            <a href="releases">Releases</a>
+            <a href="gallery">Gallery</a>
+            <a href="about">About</a>
+
+            
+            
+            <div class="github">
+                <a href="https://github.com/leon-thomm/Ryven" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+                        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+                        transform="translate(0 0)" fill="var(--text-secondary)" fill-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <nav class="mobile_navigation">
+            <div id="menuToggle">
+                <input type="checkbox" />
+                <span></span>
+                <span></span>
+                <span></span>
+                <div id="menu">
+                    
+                    
+
+                    <a href="/">Home</a>
+                    <a href="releases">Releases</a>
+                    <a href="gallery">Gallery</a>
+                    <a href="about">About</a>
+                    
+                    
+                    <!-- <div class="theme-switch">
+                        <label class="theme-switch-label" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider">
+                                <svg class="sun" onclick="switchTheme('dark')" xmlns="http://www.w3.org/2000/svg" width="23.294" height="23.294" viewBox="0 0 23.294 23.294">
+                                    <g id="Icon_feather-sun" data-name="Icon feather-sun" transform="translate(0.75 0.75)">
+                                        <path id="Pfad_247" data-name="Pfad 247" d="M20.406,15.453A4.953,4.953,0,1,1,15.453,10.5,4.953,4.953,0,0,1,20.406,15.453Z" transform="translate(-4.556 -4.556)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_248" data-name="Pfad 248" d="M18,1.5V3.481" transform="translate(-7.103 -1.5)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_249" data-name="Pfad 249" d="M18,31.5v1.981" transform="translate(-7.103 -11.687)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_250" data-name="Pfad 250" d="M6.33,6.33,7.737,7.737" transform="translate(-3.14 -3.14)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_251" data-name="Pfad 251" d="M27.54,27.54l1.407,1.407" transform="translate(-10.343 -10.342)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_252" data-name="Pfad 252" d="M1.5,18H3.481" transform="translate(-1.5 -7.103)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_253" data-name="Pfad 253" d="M31.5,18h1.981" transform="translate(-11.687 -7.103)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_254" data-name="Pfad 254" d="M6.33,28.947,7.737,27.54" transform="translate(-3.14 -10.342)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_255" data-name="Pfad 255" d="M27.54,7.737,28.947,6.33" transform="translate(-10.343 -3.14)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                    </g>
+                                </svg>
+                                <svg class="moon" onclick="console.log('tets')" xmlns="http://www.w3.org/2000/svg" width="21.978" height="21.978" viewBox="0 0 21.978 21.978">
+                                    <g id="Icon_feather-moon" data-name="Icon feather-moon" transform="translate(-3.557 -3.5)" fill="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M24.535,15.389A10.01,10.01,0,1,1,13.646,4.5,7.786,7.786,0,0,0,24.535,15.389Z" stroke="none" />
+                                        <path d="M 14.57206535339355 24.47786903381348 C 19.72299957275391 24.47786903381348 24.05756950378418 20.55197525024414 24.53471183776855 15.38879776000977 C 23.15102767944336 16.41157722473145 21.52656555175781 16.9135913848877 19.90924453735352 16.9135913848877 C 17.90412139892578 16.9135913848877 15.91015529632568 16.14157867431641 14.40174293518066 14.63313770294189 C 11.6766529083252 11.90799808502197 11.35533237457275 7.599197864532471 13.64609241485596 4.499998092651367 C 8.378842353820801 4.986768245697021 4.399512767791748 9.487797737121582 4.561972618103027 14.7750883102417 C 4.724432468414307 20.0623779296875 8.972582817077637 24.31060791015625 14.2597827911377 24.47306823730469 C 14.36433887481689 24.47628021240234 14.46814823150635 24.47786903381348 14.57206535339355 24.47786903381348 M 14.57206249237061 25.47786903381348 C 14.45841217041016 25.47786903381348 14.34302234649658 25.47609901428223 14.22909259796143 25.47259902954102 C 11.41648292541504 25.38617897033691 8.771722793579102 24.24275779724121 6.781982421875 22.25298881530762 C 4.792252540588379 20.26321792602539 3.648862600326538 17.61842727661133 3.562442541122437 14.80579853057861 C 3.476022481918335 11.99317836761475 4.454882621765137 9.283167839050293 6.318702697753906 7.17499828338623 C 8.182522773742676 5.066818237304688 10.7520923614502 3.763188123703003 13.55407238006592 3.504238128662109 C 13.58495044708252 3.501384496688843 13.61574935913086 3.499978542327881 13.6463565826416 3.499978542327881 C 14.00478172302246 3.499978542327881 14.33896732330322 3.692653179168701 14.51726245880127 4.009017944335938 C 14.71079254150391 4.352397918701172 14.68455219268799 4.777428150177002 14.45026206970215 5.094398021697998 C 12.4375524520874 7.817428112030029 12.71453285217285 11.53166770935059 15.10885238647461 13.92603778839111 C 16.39052200317383 15.20772838592529 18.09533309936523 15.91358852386475 19.90924263000488 15.91358852386475 C 21.37019348144531 15.91358852386475 22.76411247253418 15.45404815673828 23.9403018951416 14.58463764190674 C 24.11602592468262 14.45474624633789 24.32499694824219 14.38879203796387 24.53481864929199 14.38879203796387 C 24.7034740447998 14.38879203796387 24.87266540527344 14.43138217926025 25.02568244934082 14.51761817932129 C 25.36907196044922 14.71114826202393 25.56674194335938 15.08832836151123 25.53047180175781 15.4808177947998 C 25.27700233459473 18.22356796264648 24.01582336425781 20.75507736206055 21.97923278808594 22.60901832580566 C 19.94695281982422 24.45902824401855 17.31637191772461 25.47786903381348 14.57206249237061 25.47786903381348 Z"
+                                        stroke="none" fill="var(--text-secondary)" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </label>
+                    </div> -->
+                    <div class="github">
+                        <a href="https://github.com/leon-thomm/Ryven" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+                                <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+                                transform="translate(0 0)" fill="var(--text-secondary)" fill-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#menuToggle").click(function() {
+                    $("#menuToggle").toggleClass("open");
+                });
+            </script>
+        </nav>
+        
+    </div>
+</header>
+  
+        <!-- page content -->
+
+        
+
+<div class="wrapper">
+    <div class="content-inner">
+        <h2 class="page-heading">Gallery</h2>
+        <div class="gallery">
+            <div class="column">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;checkpoints.png" alt="">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;extract_property_1.png" alt="">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;matplotlib.png" alt="">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;screenshot1.png" alt="">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;ryven1.png" alt="">
+            </div>
+            <div class="column">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;matrices1.png" alt="">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;matrices2.png" alt="">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;opencv_1.png" alt="">
+                <img src="&#x2F;img&#x2F;&#x2F;gallery_images&#x2F;random.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+        <!-- footer -->
+        
+        
+<footer>
+    <div class="content-inner">
+        <div class="top">
+            <div class="left">
+                <h1>Visit GitHub Repository</h1>
+                <div class="emphasized-text">Take a look at all the code behind this project</div>
+            </div>
+            <div class="right">
+                <a href="https://github.com/leon-thomm/Ryven" target="_blank" class="primary-button">
+                    <span>Ryven on GitHub</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+                        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+                        transform="translate(14.305) rotate(45)" fill="#fff" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="logo">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4mm" height="14.9mm" viewBox="0 0 32.5 42.25">
+                    <defs>
+                        <radialGradient id="radial-gradient" cx="16.25" cy="10.6506" fx="32.37100661042267" fy="27.73478802660686" r="23.4895" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffda9e" />
+                            <stop offset="0.38" stop-color="#eb8c52" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-2" cx="16.245" cy="31.7856" fx="-0.9942820292362136" fy="15.456999156715245" r="23.7448" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffe3b8" />
+                            <stop offset="0.38" stop-color="#eb7e3b" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-3" cx="11.5" cy="40.1565" fx="-2.1832024133000747" fy="23.90600713316066" r="21.244" gradientTransform="matrix(1, 0, 0, -1.05, 0, 58.4094)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ff4242" />
+                            <stop offset="0.38" stop-color="#eb6636" />
+                            <stop offset="0.9" stop-color="#f0c98b" />
+                        </radialGradient>
+                    </defs>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1-2">
+                            <path d="M32.5,32.49v9.76H9.75L1.43,33.92,0,32.49A32.38,32.38,0,0,0,23,23Z" fill="url(#radial-gradient)" />
+                            <path d="M32.49,0A32.32,32.32,0,0,1,25.8,19.76l-.27.34a23.1034,23.1034,0,0,1-1.6,1.88c-.31.35-.62.67-.95,1L0,0Z" fill="url(#radial-gradient-2)" />
+                            <g opacity="0.3">
+                                <path d="M23,23l2.54,2.54c-6.1,5.65-16,7.48-25.52,7V0L25.53,20.1a23.1034,23.1034,0,0,1-1.6,1.88C23.62,22.33,23.31,22.65,23,23Z" />
+                            </g>
+                            <path d="M23,23A32.4,32.4,0,0,1,0,32.49V0Z" fill="url(#radial-gradient-3)" />
+                        </g>
+                    </g>
+                </svg>
+                <div class="name">
+                    <span class="title">Ryven</span>
+                    <span class="version">v3.5.0</span>
+                </div>
+            </div>
+            <div class="navigation">
+                <div class="standard">
+                    <a href="#">Home</a>
+                    <a href="releases">Releases</a>
+                    <a href="gallery">Gallery</a>
+                    <a href="about">About</a>
+                    <!-- <a href="guide">Guides</a> -->
+                </div>
+                <div class="extra">
+                    <a href="about">Contact</a>
+                </div>
+            </div>
+            <div class="social">
+                
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+        <!-- scripts -->
+        
+        
+        <!-- <script src="&#x2F;js&#x2F;&#x2F;themeSwitcher.js"></script> -->
+        
+        
+    </body>
+
+</html>

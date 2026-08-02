@@ -1,0 +1,150 @@
+.wrapper .content-inner {
+  min-height: calc(100vh - var(--header-hight) - 12vh)
+}
+
+.about {
+  width: 100%;
+  margin-top: 17vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.about .leon {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  margin-bottom: 17vh;
+}
+
+.about .leon .left {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.leon h2 {
+  margin-bottom: .6vh;
+}
+
+.leon .emphasized-text {
+  margin-top: 4vh;
+  font-size: 20px;
+  line-height: 32px;
+}
+
+.leon img {
+  border-radius: 8px;
+}
+
+.leon .contact h3 {
+  margin-bottom: 2vh;
+}
+
+.leon .contact .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.leon .contact .buttons .button {
+  background-color: var(--bg-emphasize);
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.leon .contact .buttons .button:hover {
+  background-color: var(--bg-dark)
+}
+
+.leon .contact .buttons .button:active {
+  transform: scale(0.97);
+}
+
+.leon .mail {
+  margin-right: 10px;
+}
+
+.website {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.website h3 {
+  margin-bottom: 1.5vh;
+}
+
+.website a {
+  color: var(--text-tertiary);
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 990px) {
+  .about {
+    margin-top: 10vh;
+  }
+
+  .about .leon {
+    flex-direction: column-reverse;
+    margin-bottom: 12vh;
+  }
+
+  .about .leon .right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .about .leon img {
+    width: 30%;
+    margin-bottom: 5vh;
+  }
+
+  .about .leon .left {
+    width: 100%;
+    align-items: center;
+  }
+
+  .about .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .about .details>* {
+    text-align: center;
+  }
+
+  .about .subheading {
+    margin-top: 1%;
+  }
+
+  .leon .emphasized-text {
+    margin-top: 2vh;
+  }
+
+  .about .contact {
+    margin-top: 6vh;
+  }
+
+  .about .contact h3 {
+    text-align: center;
+  }
+
+  .about .website .emphasized-text {
+    text-align: center;
+  }
+}

@@ -1,0 +1,124 @@
+:root[data-theme="theme-dark"] {
+  --theme-color: #F7503D;
+}
+
+:root[data-theme="theme-light"] {
+  --theme-color: #F7503D;
+}
+
+body {
+  color: var(--text-secondary);
+}
+
+.anchor span {
+  color: var(--text-primary);
+}
+
+.markdown-section h1, .markdown-section h2, .markdown-section h3, .markdown-section h4, .markdown-section strong {
+  color: var(--text-primary);
+}
+
+.markdown-section blockquote p {
+  font-weight: 600;
+  color: var(--text-secondary)
+}
+
+.sidebar {
+  background-color: var(--bg-emphasize);
+  padding-top: calc(var(--header-hight) + 20px);
+}
+
+.sidebar-toggle {
+  background-color: var(--bg-emphasize);
+}
+
+.sidebar ul li a {
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+body.close .markdown-section {
+  width: var(--content-width);
+  max-width: var(--content-max-width);
+  padding: 0;
+}
+
+.markdown-section code, .markdown-section pre {
+  background-color: var(--bg-dark);
+  color: var(--theme-color);
+  color: var(--text-tertiary);
+  border-radius: 4px;
+}
+
+.markdown-section em {
+  color: var(--text-tertiary);
+}
+
+.markdown-section pre>code {
+  color: var(--text-tertiary);
+}
+
+.markdown-section p.tip, .markdown-section tr:nth-child(2n) {
+  background-color: var(--bg-emphasize)
+}
+
+.markdown-section td, .markdown-section th {
+  border: 1px solid var(--card-border);
+}
+
+.markdown-section th {
+  background-color: var(--bg-emphasize);
+}
+
+.markdown-section hr {
+  border: none;
+  border-bottom: 1px var(--bg-dark);
+}
+
+.alert.flat {
+  border-radius: 4px !important;
+}
+
+:root[data-theme="theme-dark"] .alert.flat {
+  color: var(--text-secondary);
+}
+
+:root[data-theme="theme-dark"] .alert.flat.note {
+  background-color: #a4d5ff22;
+  border-color: #c9cfe722;
+}
+
+:root[data-theme="theme-dark"] .alert.flat.tip {
+  background-color: #cefde521;
+  border-color: #b4fcd622;
+}
+
+:root[data-theme="theme-dark"] .alert.flat.attention {
+  background-color: #fdd9d722;
+  border-color: #fcc2bf22;
+}
+
+:root[data-theme="theme-dark"] .alert.flat .title {
+  color: var(--text-primary)
+}
+
+:root[data-theme="theme-dark"] .alert.flat .title .icon {
+  filter: brightness(4) saturate(1);
+}
+
+@media only screen and (max-width: 990px) {
+  center img {
+    width: 100%;
+    display: none;
+  }
+
+  .markdown-section {
+    width: var(--content-width);
+    max-width: var(--content-max-width);
+    padding: 0;
+  }
+
+  body.close .sidebar-toggle {
+    background-color: var(--bg-emphasize)
+  }
+}

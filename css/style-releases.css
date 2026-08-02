@@ -1,0 +1,259 @@
+.releases {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.release {
+  width: calc(100% - 65px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.release .version {
+  color: var(--text-tertiary);
+  width: 50px;
+  font-size: 18px;
+  text-align: right;
+  position: absolute;
+}
+
+.release:first-child .version::after {
+  content: "latest version";
+  display: block;
+  white-space: nowrap;
+  width: 110px;
+  font-size: 14px;
+  font-weight: 300;
+  text-align: center;
+  color: var(--primary);
+  margin-top: 11px;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  margin-left: -63px;
+}
+
+.release .container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1vh;
+  margin-left: 77px;
+}
+
+.release .content {
+  padding-left: 25px;
+  border-left: 3px solid var(--text-tertiary);
+  padding-bottom: 4vh;
+  width: 100%;
+}
+
+.release .date {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1vh;
+}
+
+.release .date span {
+  font-size: 18px;
+  width: 100%;
+  color: var(--text-secondary);
+}
+
+.release .bullet {
+  width: 11px;
+  height: 10px;
+  margin-left: -3px;
+  margin-right: 24px;
+  border-radius: 50px;
+  background-color: var(--text-tertiary);
+}
+
+.release .inner {
+  padding: 30px 35px;
+  background-color: var(--bg-emphasize);
+  border-radius: 6px;
+}
+
+.release .inner h3 {
+  margin-bottom: 2vh;
+}
+
+.release .inner .details h5 {
+  color: var(--text-tertiary);
+  margin-top: 3vh;
+  margin-bottom: .5vh;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.release .inner .details p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25.5px;
+  color: var(--text-tertiary);
+}
+
+.release .inner .details ul {
+  padding-left: 30px;
+}
+
+/* .release .inner .details ul+p {
+  padding-top: 30px;
+} */
+.release .inner .details li {
+  margin-top: 1.5vh;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25.5px;
+  color: var(--text-tertiary);
+}
+
+.release code {
+  font-family: monospace;
+  font-size: 1em;
+  background: var(--card-border);
+  padding: .1em .2em .2em .2em;
+  margin: 0 .1em;
+  border-radius: 3px;
+}
+
+.release .buttons {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.release .buttons .button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  height: 45px;
+  padding: 0 5%;
+  border-radius: 5px;
+  transition: background-position .2s ease-in-out, transform .05s ease-in-out;
+  cursor: pointer;
+}
+
+.release .buttons .button.download {
+  background-image: linear-gradient(90deg, var(--primary), var(--primary-light), var(--primary-light), var(--primary));
+  background-size: 300%;
+  background-position: left;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.release .buttons .button.download svg {
+  height: 40%;
+  margin-right: 10px;
+  transition: .2s ease-out;
+}
+
+.release .buttons .button.download:active svg {
+  margin-top: 5px;
+}
+
+.release .buttons .button.download:hover {
+  background-position: right;
+}
+
+.release .buttons .button:active {
+  transform: scale(0.97);
+  background-position: left;
+}
+
+.release .buttons .button.github {
+  border: 2px solid var(--text-primary);
+  background: none;
+  color: var(--text-primary);
+  transition: .2s ease;
+  margin-right: 2%;
+}
+
+.release .buttons .button.github svg {
+  margin-bottom: 3px;
+  margin-right: 9px;
+  height: 50%;
+}
+
+.release .buttons .button.github span {
+  padding-right: 9px;
+}
+
+.release .button.github span {
+  padding-right: 9px;
+}
+
+.release .button.github path {
+  transition: .2s ease;
+}
+
+.release .button.github:hover {
+  border: 2px solid var(--text-secondary);
+  /* background: var(--text-secondary); */
+  color: var(--text-secondary);
+  /* font-weight: 500; */
+}
+
+.release .button.github:hover path {
+  fill: var(--text-secondary);
+}
+
+@media only screen and (max-width: 990px) {
+  .release {
+    width: var(--content-width);
+  }
+
+  .release .container {
+    margin-left: -30px;
+    width: auto;
+  }
+
+  .release .content {
+    padding-left: 15px;
+  }
+
+  .release .bullet {
+    width: 16px;
+    margin-right: 85px;
+  }
+
+  .release:first-child .version::after {
+    display: none;
+  }
+
+  .release .inner {
+    padding: 5vw 6vw;
+  }
+
+  .release .buttons {
+    flex-direction: column;
+  }
+
+  .release .buttons .button {
+    width: 100%;
+  }
+
+  .release .buttons .button.download {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .release .buttons .button.github {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

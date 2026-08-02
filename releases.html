@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="theme-dark">
+
+    <head>
+        
+        
+
+<link rel="stylesheet" href="&#x2F;css&#x2F;&#x2F;style-releases.css">
+
+
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      
+        <!-- Title + SEO -->
+        <title>Ryven - Flow-based visual scripting for Python</title>
+        <meta name="description" content="A simple visual scripting environment for Python providing a diagram-like structure for an intuitive interface to your nodes executing any python code.">
+        <meta name="author" content="Leon Thomm">
+      
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="&#x2F;img&#x2F;&#x2F;favicon.png">
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="&#x2F;css&#x2F;&#x2F;style-master.css">
+        <!-- <link href="&#x2F;css&#x2F;prism.css" rel="stylesheet" /> -->
+      
+        <!-- Embed Poppins Font-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+        <noscript>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+        </noscript>
+      
+        <!-- jQuery & Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+        
+        
+
+
+    </head>
+
+    <body>
+        
+        <!-- header -->
+        <header class="header bg-dark">
+    <div class="content-inner">
+        <a href="/">
+            <div class="logo">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4mm" height="14.9mm" viewBox="0 0 32.5 42.25">
+                    <defs>
+                        <radialGradient id="radial-gradient" cx="16.25" cy="10.6506" fx="32.37100661042267" fy="27.73478802660686" r="23.4895" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffda9e" />
+                            <stop offset="0.38" stop-color="#eb8c52" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-2" cx="16.245" cy="31.7856" fx="-0.9942820292362136" fy="15.456999156715245" r="23.7448" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffe3b8" />
+                            <stop offset="0.38" stop-color="#eb7e3b" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-3" cx="11.5" cy="40.1565" fx="-2.1832024133000747" fy="23.90600713316066" r="21.244" gradientTransform="matrix(1, 0, 0, -1.05, 0, 58.4094)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ff4242" />
+                            <stop offset="0.38" stop-color="#eb6636" />
+                            <stop offset="0.9" stop-color="#f0c98b" />
+                        </radialGradient>
+                    </defs>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1-2">
+                            <path d="M32.5,32.49v9.76H9.75L1.43,33.92,0,32.49A32.38,32.38,0,0,0,23,23Z" fill="url(#radial-gradient)" />
+                            <path d="M32.49,0A32.32,32.32,0,0,1,25.8,19.76l-.27.34a23.1034,23.1034,0,0,1-1.6,1.88c-.31.35-.62.67-.95,1L0,0Z" fill="url(#radial-gradient-2)" />
+                            <g opacity="0.3">
+                                <path d="M23,23l2.54,2.54c-6.1,5.65-16,7.48-25.52,7V0L25.53,20.1a23.1034,23.1034,0,0,1-1.6,1.88C23.62,22.33,23.31,22.65,23,23Z" />
+                            </g>
+                            <path d="M23,23A32.4,32.4,0,0,1,0,32.49V0Z" fill="url(#radial-gradient-3)" />
+                        </g>
+                    </g>
+                </svg>
+                <div class="name">
+                    <span class="title">Ryven</span>
+                    <span class="version">v3.5.0</span>
+                </div>
+            </div>
+        </a>
+        
+        <div class="desktop-navigation">
+
+            
+
+            <a href="/">Home</a>
+            <a href="releases">Releases</a>
+            <a href="gallery">Gallery</a>
+            <a href="about">About</a>
+
+            
+            
+            <div class="github">
+                <a href="https://github.com/leon-thomm/Ryven" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+                        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+                        transform="translate(0 0)" fill="var(--text-secondary)" fill-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <nav class="mobile_navigation">
+            <div id="menuToggle">
+                <input type="checkbox" />
+                <span></span>
+                <span></span>
+                <span></span>
+                <div id="menu">
+                    
+                    
+
+                    <a href="/">Home</a>
+                    <a href="releases">Releases</a>
+                    <a href="gallery">Gallery</a>
+                    <a href="about">About</a>
+                    
+                    
+                    <!-- <div class="theme-switch">
+                        <label class="theme-switch-label" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider">
+                                <svg class="sun" onclick="switchTheme('dark')" xmlns="http://www.w3.org/2000/svg" width="23.294" height="23.294" viewBox="0 0 23.294 23.294">
+                                    <g id="Icon_feather-sun" data-name="Icon feather-sun" transform="translate(0.75 0.75)">
+                                        <path id="Pfad_247" data-name="Pfad 247" d="M20.406,15.453A4.953,4.953,0,1,1,15.453,10.5,4.953,4.953,0,0,1,20.406,15.453Z" transform="translate(-4.556 -4.556)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_248" data-name="Pfad 248" d="M18,1.5V3.481" transform="translate(-7.103 -1.5)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_249" data-name="Pfad 249" d="M18,31.5v1.981" transform="translate(-7.103 -11.687)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_250" data-name="Pfad 250" d="M6.33,6.33,7.737,7.737" transform="translate(-3.14 -3.14)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_251" data-name="Pfad 251" d="M27.54,27.54l1.407,1.407" transform="translate(-10.343 -10.342)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_252" data-name="Pfad 252" d="M1.5,18H3.481" transform="translate(-1.5 -7.103)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_253" data-name="Pfad 253" d="M31.5,18h1.981" transform="translate(-11.687 -7.103)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_254" data-name="Pfad 254" d="M6.33,28.947,7.737,27.54" transform="translate(-3.14 -10.342)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_255" data-name="Pfad 255" d="M27.54,7.737,28.947,6.33" transform="translate(-10.343 -3.14)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                    </g>
+                                </svg>
+                                <svg class="moon" onclick="console.log('tets')" xmlns="http://www.w3.org/2000/svg" width="21.978" height="21.978" viewBox="0 0 21.978 21.978">
+                                    <g id="Icon_feather-moon" data-name="Icon feather-moon" transform="translate(-3.557 -3.5)" fill="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M24.535,15.389A10.01,10.01,0,1,1,13.646,4.5,7.786,7.786,0,0,0,24.535,15.389Z" stroke="none" />
+                                        <path d="M 14.57206535339355 24.47786903381348 C 19.72299957275391 24.47786903381348 24.05756950378418 20.55197525024414 24.53471183776855 15.38879776000977 C 23.15102767944336 16.41157722473145 21.52656555175781 16.9135913848877 19.90924453735352 16.9135913848877 C 17.90412139892578 16.9135913848877 15.91015529632568 16.14157867431641 14.40174293518066 14.63313770294189 C 11.6766529083252 11.90799808502197 11.35533237457275 7.599197864532471 13.64609241485596 4.499998092651367 C 8.378842353820801 4.986768245697021 4.399512767791748 9.487797737121582 4.561972618103027 14.7750883102417 C 4.724432468414307 20.0623779296875 8.972582817077637 24.31060791015625 14.2597827911377 24.47306823730469 C 14.36433887481689 24.47628021240234 14.46814823150635 24.47786903381348 14.57206535339355 24.47786903381348 M 14.57206249237061 25.47786903381348 C 14.45841217041016 25.47786903381348 14.34302234649658 25.47609901428223 14.22909259796143 25.47259902954102 C 11.41648292541504 25.38617897033691 8.771722793579102 24.24275779724121 6.781982421875 22.25298881530762 C 4.792252540588379 20.26321792602539 3.648862600326538 17.61842727661133 3.562442541122437 14.80579853057861 C 3.476022481918335 11.99317836761475 4.454882621765137 9.283167839050293 6.318702697753906 7.17499828338623 C 8.182522773742676 5.066818237304688 10.7520923614502 3.763188123703003 13.55407238006592 3.504238128662109 C 13.58495044708252 3.501384496688843 13.61574935913086 3.499978542327881 13.6463565826416 3.499978542327881 C 14.00478172302246 3.499978542327881 14.33896732330322 3.692653179168701 14.51726245880127 4.009017944335938 C 14.71079254150391 4.352397918701172 14.68455219268799 4.777428150177002 14.45026206970215 5.094398021697998 C 12.4375524520874 7.817428112030029 12.71453285217285 11.53166770935059 15.10885238647461 13.92603778839111 C 16.39052200317383 15.20772838592529 18.09533309936523 15.91358852386475 19.90924263000488 15.91358852386475 C 21.37019348144531 15.91358852386475 22.76411247253418 15.45404815673828 23.9403018951416 14.58463764190674 C 24.11602592468262 14.45474624633789 24.32499694824219 14.38879203796387 24.53481864929199 14.38879203796387 C 24.7034740447998 14.38879203796387 24.87266540527344 14.43138217926025 25.02568244934082 14.51761817932129 C 25.36907196044922 14.71114826202393 25.56674194335938 15.08832836151123 25.53047180175781 15.4808177947998 C 25.27700233459473 18.22356796264648 24.01582336425781 20.75507736206055 21.97923278808594 22.60901832580566 C 19.94695281982422 24.45902824401855 17.31637191772461 25.47786903381348 14.57206249237061 25.47786903381348 Z"
+                                        stroke="none" fill="var(--text-secondary)" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </label>
+                    </div> -->
+                    <div class="github">
+                        <a href="https://github.com/leon-thomm/Ryven" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+                                <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+                                transform="translate(0 0)" fill="var(--text-secondary)" fill-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#menuToggle").click(function() {
+                    $("#menuToggle").toggleClass("open");
+                });
+            </script>
+        </nav>
+        
+    </div>
+</header>
+  
+        <!-- page content -->
+
+        
+
+<div class="wrapper">
+    <div class="content-inner">
+    <h2 class="page-heading">Releases</h2>
+    <div class="releases">
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v3.5.0" class="release-link">
+    <span class="version">v3.5.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>20 May, 2024</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>v3.5.0</h3>
+        <div class="details">
+          <p class="body-text">
+            <ul>
+<li>Qt6/Side6 support (#189, #178)</li>
+
+<li>improved nodes package system, now supports sub-packages and better UI separation</li>
+
+<li>improved package overview in the editor (#171)</li>
+
+<li>new per-node inspector UI (#176)</li>
+
+<li>widget docking in the editor (#171)</li>
+
+<li>project-persistent window geometry / layout</li>
+
+<li>improved component selection in the editor (#176)</li>
+
+<li>improved undo-redo, including interactive history (#176)</li>
+
+<li>bugfixes</li>
+</ul>
+
+<p>closes #126, #128, #138, #147, #175</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v3.4.0" class="release-link">
+    <span class="version">v3.4.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>20 Sep, 2023</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>v3.4.0</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>This release incorporates substantial changes made over the past 1.5 years, mainly concerning a remake of <a href='https://github.com/leon-thomm/ryvencore'>ryvencore</a> fixing some substantial flaws and correctness issues in the original design, refined API methods, and a better user experience. This should be considered a new edition of Ryven, which includes many breaking changes to previous versions. Please take a look at the <a href='https://github.com/leon-thomm/Ryven/blob/master/README.md'>README</a> for up-to-date instructions and examples.</p>
+
+<p>I may add some more detailed instructions for porting old node packages if I find time and there&#8217;s significant demand. The guide on the website was removed, instead the README provides more detailed instructions, there is a new wiki page, and some example packages are provided in the <a href='https://github.com/leon-thomm/Ryven/tree/master/ryven-editor/ryven/example_nodes'>example nodes</a> directory.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v3.1.0" class="release-link">
+    <span class="version">v3.1.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>07 Dec, 2021</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Ryven PyPI Package and ryvencore</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>This release brings mainly large architectural changes. Ryven is at this point more a platform than just an application. See also the new README for additional info about current state.</p>
+
+<h3 id='main_changes'>main changes</h3>
+
+<ul>
+<li>Ryven is now a Python package on PyPI, the repository got restructured and cleaned accordingly (big thanks @mmorys)</li>
+
+<li>ryvencore is now a fully independent library and has its own repository <a href='https://github.com/leon-thomm/ryvencore'>here</a></li>
+
+<li>removed macros (see below)</li>
+</ul>
+
+<h3 id='removing_native_macro_support_for_now'>removing native macro support for now</h3>
+
+<p>While the alpha release of Ryven 3 had native support for macros (/subgraphs/whatever you might call them), I decided to remove them, for the following reasons:</p>
+
+<ul>
+<li>Ryven should be thought of rather as a platform which you use to build frameworks of node packages on top. <em>Natively</em> supporting macros, however, significantly complicates the development of <em>all</em> nodes that perform slightly more involved (but not necessarily unreasonable) actions (like analysing the graph), while many node packages might not really require macro support at all.</li>
+
+<li>Furthermore, the concept or semantic specification of macros is not obvious, many different approaches might seem reasonable. For example: whenever a macro node instance received data on some input, should all data currently residing on inputs of that instance be propagated into the subgraph? In which order? How can this be done efficiently? How should data propagation work for macros with exec I/O? The answers to those questions strongly depend on the use case.</li>
+
+<li>Also, abstraction functionality like macros provided it can totally be implemented purely based on Ryven&#8217;s nodes system (meaning you can build node packages implementing this functionality). It often makes much more sense to apply this functionality only in an environment (nodes package/s) where a general abstraction system is already defined (for example, a system generating a source code from a graph, see also <a href='https://github.com/leon-thomm/Ryven/discussions/68#discussioncomment-877010'>this example</a>), which will answer all questions including the above for that environment. Then, nodes in that environment can be built with the implemented macro mechanics in mind.</li>
+</ul>
+
+<p>So, I&#8217;m not really &#8217;removing&#8217; possibilities here, but I think it makes more sense to focus on the nodes for the particular use case and design the system on that level accordingly. I might publish macros with configuration options as nodes package at some point, but it doesn&#8217;t need to be part of Ryven itself.</p>
+
+<h3 id='translating_your_v3.0-alpha_nodes_and_projects'>translating your <code>v3.0-alpha</code> nodes and projects</h3>
+
+<p>To bring your <code>v3.0-alpha</code> node packages to <code>v3.1</code></p>
+
+<ul>
+<li>change <code>from NENV import ...</code>/<code>from NWENV import ...</code> to <code>from ryven.NENV import ...</code>/<code>from ryven.NWENV import ...</code></li>
+
+<li>
+<p>change the signature of <code>Node.set_state</code> from <code>def set_state(self, data: dict):</code> to <code>def set_state(self, data: dict, version):</code></p>
+
+<ul>
+<li>add static <code>version</code> fields with values like <code>&#8217;v0.0.1&#8217;</code> to your nodes. the <code>version</code> parameter in <code>set_state</code> will reflect the node version under which the loaded node was saved (<code>None</code> if not set), so you can use it to provide backwards compatibility and translate older versions of nodes to new ones to ensure old projects can be loaded</li>
+</ul>
+</li>
+</ul>
+
+<p>To bring your <code>v3.0-alpha</code> projects to <code>v3.1</code></p>
+
+<ul>
+<li>load the project in Ryven 3.1 (it should then run a function on it that turns macro scripts into normal scripts and removes all macro nodes from flows) and save it again</li>
+</ul>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v3.0.0-alpha" class="release-link">
+    <span class="version">v3.0.0-alpha</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>07 Jun, 2021</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Ryven 3</h3>
+        <div class="details">
+          <p class="body-text">
+            <p><strong>Complete Ryven remake</strong> Over the past 6 monts I&#8217;ve been abstracting away underlying frameworks reimplementing the core functionality of the software which led to a complete remake of Ryven itself. Ryven 3 is a completely new software (no backwards compatibility to Ryven 2).</p>
+
+<p>Most important change regarding Ryven is the new packages system. The NodeManager has been removed completely, the new nodes system is very different, much simpler and more scalable. Ryven 3 includes small exmaple projects and some default nodes. The new <a href='https://ryven.org'>website</a> now has a complete guide.</p>
+
+<p>The underlying frameworks are <code>ryvencore</code> (backend) and <code>ryvencore-qt</code> (frontend), the repository is <a href='https://github.com/leon-thomm/ryvencore-qt'>here</a>. <code>ryvencore</code> and <code>ryvencore-qt</code> are completely separated, which brings a whole lot of improvements, see <a href='https://github.com/leon-thomm/ryvencore-qt'>ryvencore-qt</a> and the <a href='https://ryven.org'>website</a> for more details.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.4.2" class="release-link">
+    <span class="version">v2.4.2</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>22 Nov, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Ryven Console official release and new inheritance model for widgets</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Ryven Console is now &quot;officially&quot; supported. Once you created a flow in Ryven, if all nodes you used are compatible with Ryven Console (meaning they run without their GUI/widgets), you can then run the flow in Ryven Console, without any GUI. This way you can run intensive data processing tasks with much higher performance. Further changes:</p>
+
+<ul>
+<li><em>New inheritance system for widgets</em>: Widget classes should derive from fixed base classes from now on (I updated existing nodes and the template files). This makes them safer and the source code files cleaner (as you don&#8217;t have to implement all possible methods, they are pre-defined in the base classes).</li>
+
+<li><em>requirements</em>: I added a <code>requirements.txt</code> file for all libraries to run Ryven and the example projects, so it&#8217;s also convenient to set up a virtual environment now.</li>
+</ul>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.4.1" class="release-link">
+    <span class="version">v2.4.1</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>05 Nov, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Built-In Interpreter</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Ryven now includes a complete integrated python interpreter.</p>
+
+<ul>
+<li>It is a fully functional REPL so you can do anything you would do in the normal python console</li>
+
+<li>You can add references to individual nodes, by right-click operation, to access their full API in the console</li>
+
+<li>All print() calls, exceptions, and debugging messages are automatically redirected to this console</li>
+</ul>
+
+<p>This is going to be one of the major features in the future, the possibilities are endless.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.4.0" class="release-link">
+    <span class="version">v2.4.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>27 Oct, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Matrix nodes, new designs, and new major features</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Some major additions and improvements, besides better examples/nodes. In particular:</p>
+
+<ul>
+<li>new linalg package containing nodes representing most basic matrix operations with nice interface</li>
+
+<li>two new designs</li>
+
+<li>heavy improvements in the appearance of source code files, which makes programming nodes much cleaner</li>
+
+<li>new variable update system: you can now create connections between script variables and methods, so that every time the variable changes, the connected method gets called - which enables much more responsive components that automatically adapt to change of data</li>
+
+<li>a matplotlib example node</li>
+
+<li>new internal design management system, it&#8217;s easier now to create new designs, so there might be a few incoming</li>
+
+<li>passive mode for set var node</li>
+
+<li>and a long list of small fixes and improvements</li>
+</ul>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.3.1" class="release-link">
+    <span class="version">v2.3.1</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>26 Sep, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Cleaned example projects, added some notes</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>The release also includes a prototype for a new tool (currently referred to as <em>Ryven Console</em>) to run a Ryven flow on the console, completely without GUI dependencies, with much higher performance which might become important for larger performance-intensive data processing tasks.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.3.0" class="release-link">
+    <span class="version">v2.3.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>08 Aug, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>New import mechanism</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>One major internal change: the default imports in custom NodeInstances and their widgets aren&#8217;t done manually anymore. There are now two <em>env</em> files that automatically import all requirements when Ryven is running. This is much better as it ensures that the import list is always up to date. I updated all existing nodes&#8217; imports.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.2.3" class="release-link">
+    <span class="version">v2.2.3</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>01 Aug, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Checkpoint Nodes</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>They work for data as well as execution connections. In exec mode, they also serve as sequence nodes, so you can dynamically add exec outputs that get executed from top to bottom sequentially.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.2.2" class="release-link">
+    <span class="version">v2.2.2</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>31 Jul, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Flow settings, viewport update mode, new content</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Using a new viewport update mode feature you can now make a flow update the views of nodes when they get updated, even if the flow isn&#8217;t fully finished with the current execution. That&#8217;s really useful for larger pure data flows doing data processing (like in the OpenCV example, try it there). Furthermore, Flows now have their own settings which get saved and loaded to and from project files to choose an algorithm mode and the new viewport update mode. Also, I added a small &#8217;bubble sort&#8217; example and some basic nodes (there are still quite a few missing, though).</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.2.1" class="release-link">
+    <span class="version">v2.2.1</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>27 Jul, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Blender design, fixes, code cleanups, and new input widget signature</h3>
+        <div class="details">
+          <p class="body-text">
+            <ul>
+<li>Ryven has now a Blender design!</li>
+
+<li>I updated a few internal signatures like the <code>remove_event()</code> method in NodeInstances and widgets</li>
+
+<li>I changed the way custom input widgets are specified (no <code>widget_type</code> argument anymore)</li>
+
+<li>I fixed some nodes and widgets and added standard line edits including self resizing ones</li>
+
+<li>I changed the widgets of a few nodes now using resizing and or borderless line edits which looks way nicer</li>
+
+<li>I moved the <code>package_path</code> for widgets outside of their class (useful for imports of custom classes etc.)</li>
+
+<li>there is a new <code>Extract Property</code> node which is really useful, an example is included in the examples project</li>
+
+<li>and I changed the file extensions to <code>.rpo</code> for projects and <code>.rpc</code> for packages</li>
+</ul>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.2.0" class="release-link">
+    <span class="version">v2.2.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>14 Jul, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Animations and new design</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Ryven finally supports simple node activation animations. Every time a node updates, it starts an animation, making it easy to see what&#8217;s going on in the flow. They can be disabled. Furthermore, I updated some new designs and themes. In &lt;code&gt;pretty&lt;/code&gt; mode nodes have now shadows.</p>
+
+<p><strong>Internal changes</strong> I furtherly distributed the NodeInstance related classes. I extracted the whole painting process and put it in a separate class <code>NodeInstancePainter</code>. Also, animations are handled by a separate class.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.1.2" class="release-link">
+    <span class="version">v2.1.2</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>10 Jul, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Fixes and new method reference retaining mechanism</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Besides a lot of fine grinding (like adding shortcuts and stuff like that), I slightly changed the method reference retaining mechanism, now using a callable class <code>M</code> instead of the <code>m()</code> function (I updated the template files and existing nodes). Furthermore, the existing packages experienced a code revision, I updated many of the notations.</p>
+
+<p><strong>Further changes</strong></p>
+
+<ul>
+<li>I fixed some problems with special_actions</li>
+
+<li>I finally fixed the layout issues with NodeInstances when adding/removing/changing content. It still needs to rebuild the layout though, but <code>update_shape()</code> calls are not necessary anymore</li>
+
+<li>I fixed a copy-paste-move undo/redo bug</li>
+
+<li>I fixed a lot of nodes and updated notations in their source codes</li>
+
+<li>I fixed a source code update check issue in the NodeManager</li>
+
+<li>I changed the <code>setup_ports()</code> procedure. Now a port gets initialized <em>after</em> the NodeInstance itself.</li>
+
+<li>I added a target option to the Log node to access the default logs</li>
+</ul>
+
+<p>And, there is a website in the making.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.1.1" class="release-link">
+    <span class="version">v2.1.1</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>03 Jul, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>NodeManager rework and many fixes</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>A lot of fine grinding and small fixes, and I did a big rework of the NodeManager.</p>
+
+<p><strong>NodeManager changes</strong></p>
+
+<ul>
+<li>I reorganized some internal processing and made it much cleaner</li>
+
+<li>it also has source code dialogs now to directly edit the metacodes</li>
+
+<li>it detects changes in the original source file while editing inside, warns the user, and lets him choose whether to override those or not</li>
+
+<li>I updated the stylesheets, now using the same as Ryven</li>
+
+<li><em>a lot</em> of small adjustments, enhancements, and improvements to significantly support the workflow</li>
+</ul>
+
+<p><strong>Ryven changes</strong></p>
+
+<ul>
+<li>added a function for using method references in metacode files to enable successful method editing in Ryven</li>
+
+<li>changed the source code editing info dialog</li>
+
+<li>fixed a package bug in the <code>val</code> node</li>
+
+<li>added an API method for NodeInstance to provide direct access to the window&#8217;s stylesheet</li>
+
+<li>changed the structure of saved points in <code>DrawingObjects</code> (Ryven can still load projects using the old signature though)</li>
+</ul>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.1.0" class="release-link">
+    <span class="version">v2.1.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>30 Jun, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Source code manipulation</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Besides reviewing the source code of nodes (NodeInstances) and their widgets inside Ryven, it is now also possible to actually edit a specific object&#8217;s methods. More specifically:</p>
+
+<ul>
+<li>Existing methods can be customized (e.g. for debugging) and further methods can be added. (Note that changing a method actually means relinking the method call to a different method and references linked to the original method still point to the original one, not the customized one. I am looking for a way to change that but I am not entirely sure if that is possible.)</li>
+
+<li>All these changes apply to single instances instead of all objects of the same class.</li>
+
+<li>What can be written manually in Ryven is equal to what can be parsed in the metacode files (the same module environment is being simulated), so all in the object&#8217;s metacode file additionally added classes, for example, can still be accessed.</li>
+
+<li>All this is accessible through an intuitive GUI in the source code preview area.</li>
+
+<li>All changes are temporary, they do not get saved with the project, so nothing can sustainably be broken. There is also a reset option for every customized class.</li>
+</ul>
+
+<p>This is kinda ridiculous, I didn&#8217;t think this was actually possible and so unlimited. And considering how unexpectedly useful the pure source code <em>preview</em> became, I am really excited about it.</p>
+
+<p><em>edit: there is a crucial package bug in the new val node when saving/loading a project which will be fixed in the next release.</em></p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v2.0" class="release-link">
+    <span class="version">v2.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>28 Jun, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Ryven Official Release</h3>
+        <div class="details">
+          <p class="body-text">
+            <p><em>pyScript became Ryven</em> I am very pleased to present the first Ryven release. Ryven is the result of a huge intern code revision (of what was referred to as <em>pyScript</em> before), reimplementing and reorganizing a lot of intern processing, making it much cleaner. Furthermore, Ryven includes many features that make learning and using it more efficient and fun. A new big example project shows the use of OpenCV nodes which represents a very interesting field of application.</p>
+
+<p>A few of the main improvements for the user:</p>
+
+<ul>
+<li>handy source code preview</li>
+
+<li>performance mode for flow editing (important for use on weaker hardware like Raspberry Pi)</li>
+
+<li>algorithm data synchronization modes (for advanced flow optimization, I will add that to the doc in the future)</li>
+</ul>
+
+<p>The main internal change is that the geometric organization of the contents of a NodeInstance now uses <code>QGraphicsLayout</code> - no ugly manual calculations anymore! And I reimplemented the whole selection process recently too, now using the built-in system by <code>QGraphicsScene</code>. Also, the undo/redo system was reimplemented recently, now using references and not relying on the complex index system anymore.</p>
+
+<p>This version runs pretty well and I can&#8217;t wait to see what it is going to be used for in the future, I am really excited.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v1.2" class="release-link">
+    <span class="version">v1.2</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>12 Jun, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>New major features</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>Added:</p>
+
+<ul>
+<li><strong>source code preview!</strong> You can now see the source code of a placed node inside the editor. A basic syntax highlighting works too. I will add the option to also show any node&#8217;s widget classes in the future.</li>
+
+<li>NodeInstance and OutputPin highlighting on mouse hover</li>
+
+<li>direct data output value access on mouse hover (over the gate/pin)</li>
+</ul>
+
+<p>Reimplemented:</p>
+
+<ul>
+<li>the whole selection procedure, now using the built-in system by <code>QGraphicsScene</code> and a std <code>RubberBandSelection</code></li>
+
+<li>undo/redo system which now does not rely on indices anymore but instead holds references to the actual objects. A removed object does not get recreated when undoing the remove anymore but the actual object just gets placed in the scene again which is pretty nice. (same for all flow commands)</li>
+
+<li>Log enabling/disabling process, now working fine with the new undo/redo system</li>
+</ul>
+
+<p>And many small internal adjustments. The only big change left is the reimplementation of the geometric organization of a NodeInstance&#8217;s contents via <code>QGraphicsWidgets</code> and <code>QGraphicsLayouts</code>. This will make the code much cleaner but isn&#8217;t of the essence for the user.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v1.1" class="release-link">
+    <span class="version">v1.1</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>30 Mar, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>Simplified algorithm and process of programming nodes</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>I removed tokens. This enables slightly easier and more open programming of nodes. Along with that, I changed the algorithm executing the script, so that now data connections are always forward updated on change and not backward updated on request. This makes execution flows slower but pure data flows faster and simpler. I would like to create some live video and audio processing nodes in this version to show what it is capable of. The biggest issue is currently performance when combining dataflows with execution nodes.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+        
+        <div class="release">
+  <a href="https:&#x2F;&#x2F;github.com&#x2F;leon-thomm&#x2F;Ryven&#x2F;releases&#x2F;tag&#x2F;v1.0" class="release-link">
+    <span class="version">v1.0</span>
+  </a>
+  <div class="container">
+    <div class="date">
+      <div class="bullet"></div>
+      <span>26 Mar, 2020</span>
+    </div>
+    <div class="content">
+      <div class="inner card">
+        <h3>First pre-release</h3>
+        <div class="details">
+          <p class="body-text">
+            <p>First pre-release of this software! This is the prototype that can be seen in a demo YouTube video. It includes basic functionality including a system for dynamically creating and importing nodes and a mostly working flow execution algorithm.</p>
+
+<p>The next releases will be about improving the NodeManager and adding new content. The documentation will experience a lot of improvement too, I think.</p>
+
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
+
+    </div>
+    </div>
+</div>
+
+
+
+
+        <!-- footer -->
+        
+        
+<footer>
+    <div class="content-inner">
+        <div class="top">
+            <div class="left">
+                <h1>Visit GitHub Repository</h1>
+                <div class="emphasized-text">Take a look at all the code behind this project</div>
+            </div>
+            <div class="right">
+                <a href="https://github.com/leon-thomm/Ryven" target="_blank" class="primary-button">
+                    <span>Ryven on GitHub</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+                        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+                        transform="translate(14.305) rotate(45)" fill="#fff" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="logo">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4mm" height="14.9mm" viewBox="0 0 32.5 42.25">
+                    <defs>
+                        <radialGradient id="radial-gradient" cx="16.25" cy="10.6506" fx="32.37100661042267" fy="27.73478802660686" r="23.4895" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffda9e" />
+                            <stop offset="0.38" stop-color="#eb8c52" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-2" cx="16.245" cy="31.7856" fx="-0.9942820292362136" fy="15.456999156715245" r="23.7448" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffe3b8" />
+                            <stop offset="0.38" stop-color="#eb7e3b" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-3" cx="11.5" cy="40.1565" fx="-2.1832024133000747" fy="23.90600713316066" r="21.244" gradientTransform="matrix(1, 0, 0, -1.05, 0, 58.4094)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ff4242" />
+                            <stop offset="0.38" stop-color="#eb6636" />
+                            <stop offset="0.9" stop-color="#f0c98b" />
+                        </radialGradient>
+                    </defs>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1-2">
+                            <path d="M32.5,32.49v9.76H9.75L1.43,33.92,0,32.49A32.38,32.38,0,0,0,23,23Z" fill="url(#radial-gradient)" />
+                            <path d="M32.49,0A32.32,32.32,0,0,1,25.8,19.76l-.27.34a23.1034,23.1034,0,0,1-1.6,1.88c-.31.35-.62.67-.95,1L0,0Z" fill="url(#radial-gradient-2)" />
+                            <g opacity="0.3">
+                                <path d="M23,23l2.54,2.54c-6.1,5.65-16,7.48-25.52,7V0L25.53,20.1a23.1034,23.1034,0,0,1-1.6,1.88C23.62,22.33,23.31,22.65,23,23Z" />
+                            </g>
+                            <path d="M23,23A32.4,32.4,0,0,1,0,32.49V0Z" fill="url(#radial-gradient-3)" />
+                        </g>
+                    </g>
+                </svg>
+                <div class="name">
+                    <span class="title">Ryven</span>
+                    <span class="version">v3.5.0</span>
+                </div>
+            </div>
+            <div class="navigation">
+                <div class="standard">
+                    <a href="#">Home</a>
+                    <a href="releases">Releases</a>
+                    <a href="gallery">Gallery</a>
+                    <a href="about">About</a>
+                    <!-- <a href="guide">Guides</a> -->
+                </div>
+                <div class="extra">
+                    <a href="about">Contact</a>
+                </div>
+            </div>
+            <div class="social">
+                
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+        <!-- scripts -->
+        
+        
+        <!-- <script src="&#x2F;js&#x2F;&#x2F;themeSwitcher.js"></script> -->
+        
+        
+    </body>
+
+</html>

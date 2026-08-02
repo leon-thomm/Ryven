@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="587.7604" height="103.6998" viewBox="0 0 587.7604 103.6998">
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_1-2" data-name="Layer 1">
+      <path d="M0,92.2864V7.5377L57.5608,75.5642V10.95H64.5V94.6753L6.9392,26.5351V92.2864Z" fill="#fff"/>
+      <path d="M117.5612,92.2864V10.95h40.27V17.89H124.9554V43.3711H157.831V50.31H124.9554v35.037H157.831v6.9392Z" fill="#fff"/>
+      <path d="M223.1842,92.2864V17.89h-22.41V10.95h52.2143V17.89h-22.41V92.2864Z" fill="#fff"/>
+      <path d="M305.4757,17.4346V47.4663H312.87c6.9391,0,11.7169-1.1376,14.4471-3.2989s4.0952-5.9154,4.0952-11.2619c0-5.5741-1.4788-9.5556-4.209-11.9445-2.8439-2.3889-7.6217-3.5264-14.3333-3.5264Zm41.9762,74.8518h-8.9868l-28.5529-38.791h-4.4365v38.791h-7.3942V10.95h14.9021q13.31,0,19.7937,5.46c4.4365,3.7539,6.5979,9.328,6.5979,16.7222,0,6.37-1.82,11.2619-5.5741,14.9021s-8.9868,5.46-15.5847,5.46Z" fill="#fff"/>
+      <g>
+        <circle cx="432.3337" cy="51.8499" r="49.4409" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="4.8179"/>
+        <path d="M407.5559,38.0844l27.99-12.8477" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M407.5559,65.6153l27.99-40.3786" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M407.5559,38.0844l27.99,4.9327" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M407.5559,65.6153l27.99-22.5982" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M407.5559,38.0844l27.99,22.713" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M407.5559,65.6153l27.99-4.8179" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M407.5559,38.0844l27.99,40.3787" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M407.5559,65.6153l27.99,12.8478" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M435.5457,25.2367,463.65,51.85" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M435.5457,60.7974,463.65,51.85" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M435.5457,43.0171,463.65,51.85" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <path d="M435.5457,78.4631,463.65,51.85" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1.3765"/>
+        <circle cx="407.5559" cy="38.0844" r="5.8503" fill="#fff"/>
+        <circle cx="407.5559" cy="65.6153" r="5.8503" fill="#fff"/>
+        <circle cx="435.5457" cy="25.2367" r="5.8503" fill="#fff"/>
+        <circle cx="435.5457" cy="43.0171" r="5.8503" fill="#fff"/>
+        <circle cx="435.5457" cy="60.7974" r="5.8503" fill="#fff"/>
+        <circle cx="435.5457" cy="78.4631" r="5.8503" fill="#fff"/>
+        <circle cx="463.6501" cy="51.8499" r="5.8503" fill="#fff"/>
+      </g>
+      <path d="M523.26,92.2864V7.5377l57.5609,68.0265V10.95H587.76V94.6753L530.2,26.5351V92.2864Z" fill="#fff"/>
+    </g>
+  </g>
+</svg>

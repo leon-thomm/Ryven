@@ -1,0 +1,29 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11.4653mm" height="14.9049mm" viewBox="0 0 32.5 42.25">
+  <defs>
+    <radialGradient id="radial-gradient" cx="16.25" cy="10.6506" fx="32.37100661042267" fy="27.73478802660686" r="23.4895" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffda9e"/>
+      <stop offset="0.38" stop-color="#eb8c52"/>
+      <stop offset="1" stop-color="#c50000"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-2" cx="16.245" cy="31.7856" fx="-0.9942820292362136" fy="15.456999156715245" r="23.7448" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffe3b8"/>
+      <stop offset="0.38" stop-color="#eb7e3b"/>
+      <stop offset="1" stop-color="#c50000"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-3" cx="11.5" cy="40.1565" fx="-2.1832024133000747" fy="23.90600713316066" r="21.244" gradientTransform="matrix(1, 0, 0, -1.05, 0, 58.4094)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff4242"/>
+      <stop offset="0.38" stop-color="#eb6636"/>
+      <stop offset="0.9" stop-color="#f0c98b"/>
+    </radialGradient>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_1-2" data-name="Layer 1-2">
+      <path d="M32.5,32.49v9.76H9.75L1.43,33.92,0,32.49A32.38,32.38,0,0,0,23,23Z" fill="url(#radial-gradient)"/>
+      <path d="M32.49,0A32.32,32.32,0,0,1,25.8,19.76l-.27.34a23.1034,23.1034,0,0,1-1.6,1.88c-.31.35-.62.67-.95,1L0,0Z" fill="url(#radial-gradient-2)"/>
+      <g opacity="0.3">
+        <path d="M23,23l2.54,2.54c-6.1,5.65-16,7.48-25.52,7V0L25.53,20.1a23.1034,23.1034,0,0,1-1.6,1.88C23.62,22.33,23.31,22.65,23,23Z"/>
+      </g>
+      <path d="M23,23A32.4,32.4,0,0,1,0,32.49V0Z" fill="url(#radial-gradient-3)"/>
+    </g>
+  </g>
+</svg>

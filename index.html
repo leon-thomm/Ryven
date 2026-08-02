@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="theme-dark">
+
+    <head>
+        
+        
+
+<link rel="stylesheet" href="&#x2F;css&#x2F;&#x2F;style-home.css">
+<link rel="stylesheet" href="&#x2F;css&#x2F;&#x2F;prism.css">
+
+
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      
+        <!-- Title + SEO -->
+        <title>Ryven - Flow-based visual scripting for Python</title>
+        <meta name="description" content="A simple visual scripting environment for Python providing a diagram-like structure for an intuitive interface to your nodes executing any python code.">
+        <meta name="author" content="Leon Thomm">
+      
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="&#x2F;img&#x2F;&#x2F;favicon.png">
+      
+        <!-- CSS -->
+        <link rel="stylesheet" href="&#x2F;css&#x2F;&#x2F;style-master.css">
+        <!-- <link href="&#x2F;css&#x2F;prism.css" rel="stylesheet" /> -->
+      
+        <!-- Embed Poppins Font-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+        <noscript>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+        </noscript>
+      
+        <!-- jQuery & Scripts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+        
+        
+
+
+    </head>
+
+    <body>
+        
+        <!-- header -->
+        <header class="header bg-dark">
+    <div class="content-inner">
+        <a href="/">
+            <div class="logo">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4mm" height="14.9mm" viewBox="0 0 32.5 42.25">
+                    <defs>
+                        <radialGradient id="radial-gradient" cx="16.25" cy="10.6506" fx="32.37100661042267" fy="27.73478802660686" r="23.4895" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffda9e" />
+                            <stop offset="0.38" stop-color="#eb8c52" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-2" cx="16.245" cy="31.7856" fx="-0.9942820292362136" fy="15.456999156715245" r="23.7448" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffe3b8" />
+                            <stop offset="0.38" stop-color="#eb7e3b" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-3" cx="11.5" cy="40.1565" fx="-2.1832024133000747" fy="23.90600713316066" r="21.244" gradientTransform="matrix(1, 0, 0, -1.05, 0, 58.4094)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ff4242" />
+                            <stop offset="0.38" stop-color="#eb6636" />
+                            <stop offset="0.9" stop-color="#f0c98b" />
+                        </radialGradient>
+                    </defs>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1-2">
+                            <path d="M32.5,32.49v9.76H9.75L1.43,33.92,0,32.49A32.38,32.38,0,0,0,23,23Z" fill="url(#radial-gradient)" />
+                            <path d="M32.49,0A32.32,32.32,0,0,1,25.8,19.76l-.27.34a23.1034,23.1034,0,0,1-1.6,1.88c-.31.35-.62.67-.95,1L0,0Z" fill="url(#radial-gradient-2)" />
+                            <g opacity="0.3">
+                                <path d="M23,23l2.54,2.54c-6.1,5.65-16,7.48-25.52,7V0L25.53,20.1a23.1034,23.1034,0,0,1-1.6,1.88C23.62,22.33,23.31,22.65,23,23Z" />
+                            </g>
+                            <path d="M23,23A32.4,32.4,0,0,1,0,32.49V0Z" fill="url(#radial-gradient-3)" />
+                        </g>
+                    </g>
+                </svg>
+                <div class="name">
+                    <span class="title">Ryven</span>
+                    <span class="version">v3.5.0</span>
+                </div>
+            </div>
+        </a>
+        
+        <div class="desktop-navigation">
+
+            
+
+            <a href="/">Home</a>
+            <a href="releases">Releases</a>
+            <a href="gallery">Gallery</a>
+            <a href="about">About</a>
+
+            
+            
+            <div class="github">
+                <a href="https://github.com/leon-thomm/Ryven" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+                        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+                        transform="translate(0 0)" fill="var(--text-secondary)" fill-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <nav class="mobile_navigation">
+            <div id="menuToggle">
+                <input type="checkbox" />
+                <span></span>
+                <span></span>
+                <span></span>
+                <div id="menu">
+                    
+                    
+
+                    <a href="/">Home</a>
+                    <a href="releases">Releases</a>
+                    <a href="gallery">Gallery</a>
+                    <a href="about">About</a>
+                    
+                    
+                    <!-- <div class="theme-switch">
+                        <label class="theme-switch-label" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider">
+                                <svg class="sun" onclick="switchTheme('dark')" xmlns="http://www.w3.org/2000/svg" width="23.294" height="23.294" viewBox="0 0 23.294 23.294">
+                                    <g id="Icon_feather-sun" data-name="Icon feather-sun" transform="translate(0.75 0.75)">
+                                        <path id="Pfad_247" data-name="Pfad 247" d="M20.406,15.453A4.953,4.953,0,1,1,15.453,10.5,4.953,4.953,0,0,1,20.406,15.453Z" transform="translate(-4.556 -4.556)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_248" data-name="Pfad 248" d="M18,1.5V3.481" transform="translate(-7.103 -1.5)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_249" data-name="Pfad 249" d="M18,31.5v1.981" transform="translate(-7.103 -11.687)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_250" data-name="Pfad 250" d="M6.33,6.33,7.737,7.737" transform="translate(-3.14 -3.14)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_251" data-name="Pfad 251" d="M27.54,27.54l1.407,1.407" transform="translate(-10.343 -10.342)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_252" data-name="Pfad 252" d="M1.5,18H3.481" transform="translate(-1.5 -7.103)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_253" data-name="Pfad 253" d="M31.5,18h1.981" transform="translate(-11.687 -7.103)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_254" data-name="Pfad 254" d="M6.33,28.947,7.737,27.54" transform="translate(-3.14 -10.342)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                        <path id="Pfad_255" data-name="Pfad 255" d="M27.54,7.737,28.947,6.33" transform="translate(-10.343 -3.14)" fill="none" stroke="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                    </g>
+                                </svg>
+                                <svg class="moon" onclick="console.log('tets')" xmlns="http://www.w3.org/2000/svg" width="21.978" height="21.978" viewBox="0 0 21.978 21.978">
+                                    <g id="Icon_feather-moon" data-name="Icon feather-moon" transform="translate(-3.557 -3.5)" fill="var(--text-secondary)" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M24.535,15.389A10.01,10.01,0,1,1,13.646,4.5,7.786,7.786,0,0,0,24.535,15.389Z" stroke="none" />
+                                        <path d="M 14.57206535339355 24.47786903381348 C 19.72299957275391 24.47786903381348 24.05756950378418 20.55197525024414 24.53471183776855 15.38879776000977 C 23.15102767944336 16.41157722473145 21.52656555175781 16.9135913848877 19.90924453735352 16.9135913848877 C 17.90412139892578 16.9135913848877 15.91015529632568 16.14157867431641 14.40174293518066 14.63313770294189 C 11.6766529083252 11.90799808502197 11.35533237457275 7.599197864532471 13.64609241485596 4.499998092651367 C 8.378842353820801 4.986768245697021 4.399512767791748 9.487797737121582 4.561972618103027 14.7750883102417 C 4.724432468414307 20.0623779296875 8.972582817077637 24.31060791015625 14.2597827911377 24.47306823730469 C 14.36433887481689 24.47628021240234 14.46814823150635 24.47786903381348 14.57206535339355 24.47786903381348 M 14.57206249237061 25.47786903381348 C 14.45841217041016 25.47786903381348 14.34302234649658 25.47609901428223 14.22909259796143 25.47259902954102 C 11.41648292541504 25.38617897033691 8.771722793579102 24.24275779724121 6.781982421875 22.25298881530762 C 4.792252540588379 20.26321792602539 3.648862600326538 17.61842727661133 3.562442541122437 14.80579853057861 C 3.476022481918335 11.99317836761475 4.454882621765137 9.283167839050293 6.318702697753906 7.17499828338623 C 8.182522773742676 5.066818237304688 10.7520923614502 3.763188123703003 13.55407238006592 3.504238128662109 C 13.58495044708252 3.501384496688843 13.61574935913086 3.499978542327881 13.6463565826416 3.499978542327881 C 14.00478172302246 3.499978542327881 14.33896732330322 3.692653179168701 14.51726245880127 4.009017944335938 C 14.71079254150391 4.352397918701172 14.68455219268799 4.777428150177002 14.45026206970215 5.094398021697998 C 12.4375524520874 7.817428112030029 12.71453285217285 11.53166770935059 15.10885238647461 13.92603778839111 C 16.39052200317383 15.20772838592529 18.09533309936523 15.91358852386475 19.90924263000488 15.91358852386475 C 21.37019348144531 15.91358852386475 22.76411247253418 15.45404815673828 23.9403018951416 14.58463764190674 C 24.11602592468262 14.45474624633789 24.32499694824219 14.38879203796387 24.53481864929199 14.38879203796387 C 24.7034740447998 14.38879203796387 24.87266540527344 14.43138217926025 25.02568244934082 14.51761817932129 C 25.36907196044922 14.71114826202393 25.56674194335938 15.08832836151123 25.53047180175781 15.4808177947998 C 25.27700233459473 18.22356796264648 24.01582336425781 20.75507736206055 21.97923278808594 22.60901832580566 C 19.94695281982422 24.45902824401855 17.31637191772461 25.47786903381348 14.57206249237061 25.47786903381348 Z"
+                                        stroke="none" fill="var(--text-secondary)" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </label>
+                    </div> -->
+                    <div class="github">
+                        <a href="https://github.com/leon-thomm/Ryven" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+                                <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+                                transform="translate(0 0)" fill="var(--text-secondary)" fill-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#menuToggle").click(function() {
+                    $("#menuToggle").toggleClass("open");
+                });
+            </script>
+        </nav>
+        
+    </div>
+</header>
+  
+        <!-- page content -->
+
+        
+
+<div class="wrapper">
+    <div class="landingpage">
+      <div class="content-inner">
+        <a href="releases"><span class="new">Ryven 3 - What's new?</span></a>
+        <div class="main">
+          <h1>Flow-based visual scripting for Python</h1>
+          <span class="subheading">A simple and powerful visual nodes editor for Python, and a framework for building nodes executing any Python code.</span>
+          <div class="ctas">
+            <a class="download primary-button" href="releases">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18.686" height="21.572" viewBox="0 0 18.686 21.572">
+                <g id="downloadicon" transform="translate(1 1)">
+                  <path id="layer2" d="M24,20.9l3.354,3.773L30.708,20.9M27.354,10V24.674" transform="translate(-19.011 -10)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" />
+                  <path id="layer1" d="M12,54H28.686" transform="translate(-12 -34.428)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" />
+                </g>
+              </svg>
+              <span class="text">Download now</span>
+            </a>
+            <a class="github secondary-button" href="https://github.com/leon-thomm/Ryven" target="_blank">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+                <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+                  transform="translate(0 0)" fill="var(--text-secondary)" fill-rule="evenodd" />
+              </svg>
+              <span class="text">Visit GitHub repository</span>
+            </a>
+          </div>
+          <div class="presentation">
+            <img class="interface" src="&#x2F;img&#x2F;&#x2F;screenshot_home_dark.png" alt="Ryven Interface" width="1156" height="633">
+          </div>
+        </div>
+      </div>
+      <div class="floating-elements">
+        <div class="left">
+          <svg id="floating_node_left_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="347.342" height="277.101" viewBox="0 0 347.342 277.101">
+            <defs>
+              <filter id="l1_Rechteck_36" x="0" y="0" width="347.342" height="277.101" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="35" result="blur" />
+                <feFlood flood-opacity="0.231" />
+                <feComposite operator="in" in2="blur" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Ellipse_7" x="110.385" y="106.713" width="40.399" height="39.571" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-2" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-2" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Ellipse_8" x="197.742" y="107.244" width="40.398" height="39.404" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-3" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-3" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Ellipse_9" x="195.351" y="141.423" width="40.243" height="39.185" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-4" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-4" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Ellipse_10" x="109.794" y="124.636" width="40.319" height="39.446" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-5" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-5" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Ellipse_11" x="109.224" y="141.884" width="40.242" height="39.342" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-6" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-6" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Rechteck_31" x="128.859" y="114.406" width="79.039" height="43.712" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-7" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-7" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Rechteck_31-2" x="128.023" y="136.768" width="78.57" height="43.546" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-8" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-8" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Linie_6" x="97.668" y="92.591" width="154.024" height="22.35" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="3" result="blur-9" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-9" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l1_Rechteck_42" x="45.911" y="4.952" width="259.157" height="144.533" filterUnits="userSpaceOnUse">
+                <feOffset dy="-3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="20" result="blur-10" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-10" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+            </defs>
+            <g id="Gruppe_12" data-name="Gruppe 12" transform="translate(0 0)">
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Rechteck_36)">
+                <path id="Rechteck_36-2" data-name="Rechteck 36" d="M106.681,102l135.662.467-5.084,61.772a3.653,3.653,0,0,1-.412,1.4,4.084,4.084,0,0,1-.9,1.147,4.289,4.289,0,0,1-1.262.78,4.143,4.143,0,0,1-1.492.3l-124.219,1.2a4.154,4.154,0,0,1-1.537-.274,3.825,3.825,0,0,1-1.242-.775,3.507,3.507,0,0,1-.822-1.161,3.369,3.369,0,0,1-.277-1.431Z"
+                  transform="translate(0 0)" fill="var(--bg-lighter)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Ellipse_7)">
+                <path id="Ellipse_7-2" data-name="Ellipse 7" d="M20.363,5.008a5.14,5.14,0,0,1,1.948.38,4.827,4.827,0,0,1,1.562,1.03,4.558,4.558,0,0,1,1.021,1.523A4.476,4.476,0,0,1,25.22,9.8a4.668,4.668,0,0,1-.464,1.858,5.024,5.024,0,0,1-1.131,1.515,5.327,5.327,0,0,1-3.6,1.4,5.143,5.143,0,0,1-1.942-.374,4.83,4.83,0,0,1-1.563-1.022,4.56,4.56,0,0,1-1.028-1.518A4.475,4.475,0,0,1,15.159,9.8a4.665,4.665,0,0,1,.458-1.864,5.022,5.022,0,0,1,1.132-1.523,5.327,5.327,0,0,1,3.614-1.4Z"
+                  transform="translate(110.38 106.71)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Ellipse_8)">
+                <path id="Ellipse_8-2" data-name="Ellipse 8" d="M20.535,5.007A4.787,4.787,0,0,1,22.4,5.38a4.42,4.42,0,0,1,1.471,1.011,4.261,4.261,0,0,1,.93,1.5,4.39,4.39,0,0,1,.245,1.828,4.78,4.78,0,0,1-.517,1.825,5.2,5.2,0,0,1-1.149,1.489,5.374,5.374,0,0,1-1.614,1,5.191,5.191,0,0,1-1.914.368,4.79,4.79,0,0,1-1.862-.367,4.423,4.423,0,0,1-1.472-1,4.262,4.262,0,0,1-.936-1.491,4.387,4.387,0,0,1-.254-1.829,4.777,4.777,0,0,1,.512-1.831,5.2,5.2,0,0,1,1.15-1.5,5.374,5.374,0,0,1,1.621-1.008A5.19,5.19,0,0,1,20.535,5.007Z"
+                  transform="translate(197.74 107.24)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Ellipse_9)">
+                <path id="Ellipse_9-2" data-name="Ellipse 9" d="M20.447,5.026a4.769,4.769,0,0,1,1.841.35,4.327,4.327,0,0,1,1.451.972,4.1,4.1,0,0,1,.919,1.446A4.192,4.192,0,0,1,24.9,9.567a4.607,4.607,0,0,1-.508,1.775A5.1,5.1,0,0,1,23.263,12.8a5.353,5.353,0,0,1-1.591.985,5.205,5.205,0,0,1-1.887.37,4.773,4.773,0,0,1-1.836-.344,4.331,4.331,0,0,1-1.452-.964,4.1,4.1,0,0,1-.925-1.441,4.189,4.189,0,0,1-.252-1.774,4.6,4.6,0,0,1,.5-1.781,5.1,5.1,0,0,1,1.132-1.46,5.353,5.353,0,0,1,1.6-.99A5.2,5.2,0,0,1,20.447,5.026Z"
+                  transform="translate(195.35 141.42)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Ellipse_10)">
+                <path id="Ellipse_10-2" data-name="Ellipse 10" d="M20.321,5.01a5.128,5.128,0,0,1,1.933.368,4.773,4.773,0,0,1,1.551,1.009,4.466,4.466,0,0,1,1.014,1.5,4.37,4.37,0,0,1,.323,1.832,4.578,4.578,0,0,1-.46,1.831,4.974,4.974,0,0,1-1.123,1.5,5.292,5.292,0,0,1-1.62,1.011,5.349,5.349,0,0,1-1.952.376,5.131,5.131,0,0,1-1.928-.361,4.777,4.777,0,0,1-1.552-1,4.469,4.469,0,0,1-1.02-1.491,4.369,4.369,0,0,1-.332-1.832,4.576,4.576,0,0,1,.454-1.837,4.971,4.971,0,0,1,1.123-1.5A5.291,5.291,0,0,1,18.36,5.385,5.348,5.348,0,0,1,20.321,5.01Z"
+                  transform="translate(109.79 124.64)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Ellipse_11)">
+                <path id="Ellipse_11-2" data-name="Ellipse 11" d="M20.28,5.027a5.117,5.117,0,0,1,1.919.356,4.722,4.722,0,0,1,1.54.988,4.38,4.38,0,0,1,1.007,1.471,4.269,4.269,0,0,1,.321,1.8,4.493,4.493,0,0,1-.456,1.805A4.926,4.926,0,0,1,23.5,12.928a5.282,5.282,0,0,1-1.608,1,5.355,5.355,0,0,1-1.938.377,5.119,5.119,0,0,1-1.914-.35,4.727,4.727,0,0,1-1.541-.981,4.383,4.383,0,0,1-1.013-1.466,4.269,4.269,0,0,1-.33-1.8A4.49,4.49,0,0,1,15.6,7.9,4.923,4.923,0,0,1,16.719,6.41,5.281,5.281,0,0,1,18.333,5.4,5.355,5.355,0,0,1,20.28,5.027Z"
+                  transform="translate(109.22 141.88)" fill="var(--node-highlights)" />
+              </g>
+              <g id="Input" transform="translate(128.859 114.407)">
+                <g transform="matrix(1, 0, 0, 1, -128.86, -114.41)" filter="url(#l1_Rechteck_31)">
+                  <path id="Rechteck_31-3" data-name="Rechteck 31" d="M18.562,5,61.1,5a2.937,2.937,0,0,1,1.132.222,2.719,2.719,0,0,1,.9.606,2.6,2.6,0,0,1,.575.9,2.63,2.63,0,0,1,.163,1.1l-.493,7.962a2.8,2.8,0,0,1-.3,1.09,3.064,3.064,0,0,1-.682.891,3.206,3.206,0,0,1-.967.6,3.146,3.146,0,0,1-1.153.223L17.979,18.7a3.038,3.038,0,0,1-1.15-.219,2.825,2.825,0,0,1-.922-.6,2.658,2.658,0,0,1-.6-.9,2.625,2.625,0,0,1-.189-1.1l.332-8.038a2.8,2.8,0,0,1,.281-1.109,3.024,3.024,0,0,1,.68-.906A3.192,3.192,0,0,1,18.562,5Z"
+                    transform="translate(128.86 114.41)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g id="Input-2" data-name="Input" transform="translate(128.023 136.768)">
+                <g transform="matrix(1, 0, 0, 1, -128.02, -136.77)" filter="url(#l1_Rechteck_31-2)">
+                  <path id="Rechteck_31-4" data-name="Rechteck 31" d="M18.519,5.2l42.136-.185a2.929,2.929,0,0,1,1.122.213,2.681,2.681,0,0,1,.89.59A2.522,2.522,0,0,1,63.4,7.77l-.476,7.7a2.738,2.738,0,0,1-.294,1.071,3.026,3.026,0,0,1-.675.877,3.2,3.2,0,0,1-.958.594,3.152,3.152,0,0,1-1.142.223l-41.9.294a3.029,3.029,0,0,1-1.139-.209,2.786,2.786,0,0,1-.914-.587,2.591,2.591,0,0,1-.6-.876,2.547,2.547,0,0,1-.188-1.078l.321-7.768a2.727,2.727,0,0,1,.278-1.089,2.986,2.986,0,0,1,.673-.892A3.192,3.192,0,0,1,18.519,5.2Z"
+                    transform="translate(128.02 136.77)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Linie_6)">
+                <g id="Linie_6-2" data-name="Linie 6" transform="translate(97.67 92.59)" fill="none">
+                  <path d="M9.049,7.949l135.819.506" stroke="none" />
+                  <path d="M 144.7115325927734 10.34949493408203 L 9.000004768371582 9.895245552062988 L 9.097569465637207 5.99998664855957 L 145.023681640625 6.558409690856934 L 144.7115325927734 10.34949493408203 Z" stroke="none" fill="var(--node-highlights)" />
+                </g>
+              </g>
+            </g>
+            <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l1_Rechteck_42)">
+              <path id="Rechteck_42-2" data-name="Rechteck 42" d="M63.694,63.031l132.517,1.338a2.839,2.839,0,0,1,1.128.241,2.657,2.657,0,0,1,1.44,1.568,2.786,2.786,0,0,1,.138,1.137l-1.428,17.35a2.971,2.971,0,0,1-.321,1.116,3.2,3.2,0,0,1-.7.908,3.244,3.244,0,0,1-.978.609,3.086,3.086,0,0,1-1.155.219L63.078,86.8a3.153,3.153,0,0,1-1.192-.238,3.014,3.014,0,0,1-.963-.636,2.871,2.871,0,0,1-.637-.94,2.8,2.8,0,0,1-.214-1.15L60.512,66a2.924,2.924,0,0,1,.273-1.164,3.065,3.065,0,0,1,.69-.947,3.186,3.186,0,0,1,1-.633A3.22,3.22,0,0,1,63.694,63.031Z"
+                transform="translate(45.91 4.95)" fill="var(--bg-lighter)" />
+            </g>
+          </svg>
+          <svg id="floating_node_left_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="424.893" height="321.32" viewBox="0 0 424.893 321.32">
+            <defs>
+              <filter id="l2_Rechteck_36" x="0" y="0" width="424.893" height="321.32" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="35" result="blur" />
+                <feFlood flood-opacity="0.231" />
+                <feComposite operator="in" in2="blur" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Ellipse_7" x="110.144" y="114.643" width="40.336" height="40.261" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-2" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-2" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Ellipse_8" x="277.053" y="116.52" width="39.637" height="39.81" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-3" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-3" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Ellipse_9" x="275.537" y="173.872" width="39.581" height="39.765" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-4" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-4" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Ellipse_10" x="109.881" y="145.25" width="40.303" height="40.193" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-5" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-5" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Ellipse_11" x="109.62" y="175.603" width="40.27" height="40.207" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-6" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-6" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Rechteck_31" x="129.065" y="121.891" width="108.231" height="56.894" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-7" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-7" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Rechteck_31-2" x="128.788" y="158.59" width="107.929" height="57.161" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-8" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-8" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Linie_6" x="96.72" y="92.381" width="232.346" height="24.228" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="3" result="blur-9" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-9" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l2_Rechteck_42" x="44.753" y="3.187" width="336.131" height="147.673" filterUnits="userSpaceOnUse">
+                <feOffset dy="-3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="20" result="blur-10" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-10" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+            </defs>
+            <g id="Gruppe_12" data-name="Gruppe 12" transform="translate(0 0)">
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Rechteck_36)">
+                <path id="Rechteck_36-2" data-name="Rechteck 36" d="M105.724,102l214.169,2.12L316.92,205.51a4.05,4.05,0,0,1-.332,1.492,4.093,4.093,0,0,1-.823,1.229,3.931,3.931,0,0,1-1.193.84,3.658,3.658,0,0,1-1.441.327l-204.023,3.844a4.1,4.1,0,0,1-1.6-.287,3.98,3.98,0,0,1-1.3-.84,3.89,3.89,0,0,1-1.185-2.834Z"
+                  transform="translate(0 0)" fill="var(--bg-lighter)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Ellipse_7)">
+                <path id="Ellipse_7-2" data-name="Ellipse 7" d="M20.219,5.028a5.091,5.091,0,0,1,4.647,7.118,5.149,5.149,0,0,1-4.741,3.1,5.091,5.091,0,0,1-4.661-7.118,5.149,5.149,0,0,1,4.754-3.1Z" transform="translate(110.14 114.64)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Ellipse_8)">
+                <path id="Ellipse_8-2" data-name="Ellipse 8" d="M19.954,5.024a4.445,4.445,0,0,1,1.814.394,4.54,4.54,0,0,1,1.46,1.055,4.763,4.763,0,0,1,.96,1.557,4.992,4.992,0,0,1,.315,1.9,5.122,5.122,0,0,1-.419,1.9,5.07,5.07,0,0,1-1.045,1.548,4.843,4.843,0,0,1-1.516,1.042,4.571,4.571,0,0,1-1.833.379,4.445,4.445,0,0,1-1.814-.388,4.539,4.539,0,0,1-1.463-1.051,4.761,4.761,0,0,1-.965-1.557A4.991,4.991,0,0,1,15.129,9.9a5.122,5.122,0,0,1,.42-1.9A5.069,5.069,0,0,1,16.6,6.441,4.842,4.842,0,0,1,18.118,5.4,4.569,4.569,0,0,1,19.954,5.024Z"
+                  transform="translate(277.05 116.52)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Ellipse_9)">
+                <path id="Ellipse_9-2" data-name="Ellipse 9" d="M19.924,5.049a4.388,4.388,0,0,1,3.255,1.379,4.6,4.6,0,0,1,.955,1.523,4.862,4.862,0,0,1,.314,1.873,5.1,5.1,0,0,1-1.455,3.425A4.92,4.92,0,0,1,21.486,14.3a4.615,4.615,0,0,1-1.822.4A4.388,4.388,0,0,1,16.4,13.333a4.6,4.6,0,0,1-.96-1.523,4.861,4.861,0,0,1-.317-1.877A5.1,5.1,0,0,1,16.586,6.5,4.919,4.919,0,0,1,18.1,5.448,4.613,4.613,0,0,1,19.924,5.049Z"
+                  transform="translate(275.54 173.87)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Ellipse_10)">
+                <path id="Ellipse_10-2" data-name="Ellipse 10" d="M20.2,5.013a5.075,5.075,0,0,1,1.983.394,4.992,4.992,0,0,1,3.068,4.665,5.075,5.075,0,0,1-.419,1.975,5.183,5.183,0,0,1-4.725,3.119,5.076,5.076,0,0,1-1.983-.388,4.992,4.992,0,0,1-3.082-4.665,5.075,5.075,0,0,1,.419-1.98A5.182,5.182,0,0,1,20.2,5.013Z"
+                  transform="translate(109.88 145.25)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Ellipse_11)">
+                <path id="Ellipse_11-2" data-name="Ellipse 11" d="M20.185,5.053a5.052,5.052,0,0,1,1.977.376,4.955,4.955,0,0,1,1.606,1.064,4.9,4.9,0,0,1,1.453,3.547A5.051,5.051,0,0,1,24.8,12a5.216,5.216,0,0,1-4.71,3.136,5.053,5.053,0,0,1-1.977-.37,4.956,4.956,0,0,1-1.61-1.06,4.9,4.9,0,0,1-1.463-3.551,5.051,5.051,0,0,1,.418-1.971,5.216,5.216,0,0,1,4.724-3.136Z"
+                  transform="translate(109.62 175.6)" fill="var(--node-highlights)" />
+              </g>
+              <g id="Input" transform="translate(129.065 121.891)">
+                <g transform="matrix(1, 0, 0, 1, -129.07, -121.89)" filter="url(#l2_Rechteck_31)">
+                  <path id="Rechteck_31-3" data-name="Rechteck 31" d="M18.334,5.011,90.3,5.263a2.845,2.845,0,0,1,2.055.883,2.937,2.937,0,0,1,.609.953,3.01,3.01,0,0,1,.208,1.164l-.387,20.382a3.063,3.063,0,0,1-.9,2.107,3.015,3.015,0,0,1-.941.641,2.906,2.906,0,0,1-1.142.238l-71.771.252a2.986,2.986,0,0,1-3.006-3.026l.222-20.8a3.072,3.072,0,0,1,3.08-3.042Z"
+                    transform="translate(129.07 121.89)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g id="Input-2" data-name="Input" transform="translate(128.788 158.59)">
+                <g transform="matrix(1, 0, 0, 1, -128.79, -158.59)" filter="url(#l2_Rechteck_31-2)">
+                  <path id="Rechteck_31-4" data-name="Rechteck 31" d="M18.32,5.462l71.691-.444a2.812,2.812,0,0,1,2.048.857,2.874,2.874,0,0,1,.607.939,2.96,2.96,0,0,1,.207,1.153L92.489,28.19a3.038,3.038,0,0,1-.25,1.152,3.092,3.092,0,0,1-.641.946,3.044,3.044,0,0,1-.937.645,2.923,2.923,0,0,1-1.138.247l-71.5.94a2.989,2.989,0,0,1-1.175-.221,2.927,2.927,0,0,1-1.82-2.752l.22-20.639a3.041,3.041,0,0,1,.251-1.18,3.118,3.118,0,0,1,1.633-1.622A3.06,3.06,0,0,1,18.32,5.462Z"
+                    transform="translate(128.79 158.59)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Linie_6)">
+                <g id="Linie_6-2" data-name="Linie 6" transform="translate(96.72 92.38)" fill="none">
+                  <path d="M9.013,8.068l214.276,2.207" stroke="none" />
+                  <path d="M 223.2317047119141 12.22795295715332 L 8.999998092651367 10.13552188873291 L 9.026893615722656 6.000005722045898 L 223.3462982177734 8.322173118591309 L 223.2317047119141 12.22795295715332 Z" stroke="none" fill="var(--node-highlights)" />
+                </g>
+              </g>
+            </g>
+            <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l2_Rechteck_42)">
+              <path id="Rechteck_42-2" data-name="Rechteck 42" d="M63.29,63.06l210.045,4.021a2.647,2.647,0,0,1,1.082.253,2.758,2.758,0,0,1,.87.649,2.928,2.928,0,0,1,.571.949,3.064,3.064,0,0,1,.186,1.152l-.518,17.653a3.092,3.092,0,0,1-.253,1.14,3.022,3.022,0,0,1-.625.925,2.855,2.855,0,0,1-.9.618,2.689,2.689,0,0,1-1.093.217L63.123,87.975a3.15,3.15,0,0,1-2.865-1.935,3.1,3.1,0,0,1-.238-1.214l.12-18.7A3.082,3.082,0,0,1,63.29,63.06Z"
+                transform="translate(44.75 3.19)" fill="var(--bg-lighter)" />
+            </g>
+          </svg>
+          <svg id="floating_node_left_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="480.164" height="374.379" viewBox="0 0 480.164 374.379">
+            <defs>
+              <filter id="l3_Rechteck_36" x="0" y="0" width="480.164" height="374.379" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="35" result="blur" />
+                <feFlood flood-opacity="0.231" />
+                <feComposite operator="in" in2="blur" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Ellipse_7" x="109.927" y="124.255" width="40.4" height="40.423" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-2" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-2" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Ellipse_8" x="333.785" y="127.535" width="39.143" height="39.766" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-3" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-3" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Ellipse_9" x="333.785" y="212.756" width="39.143" height="39.841" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-4" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-4" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Ellipse_10" x="109.927" y="170.785" width="40.4" height="40.374" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-5" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-5" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Ellipse_11" x="109.927" y="216.177" width="40.4" height="40.506" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-6" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-6" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Rechteck_31" x="129.635" y="118.907" width="129.683" height="57.688" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-7" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-7" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Rechteck_31-2" x="129.635" y="166.813" width="129.683" height="57.427" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-8" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-8" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Linie_6" x="96" y="92.359" width="288.236" height="26.938" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="3" result="blur-9" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-9" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="l3_Rechteck_42" x="43.945" y="3.078" width="391.219" height="150.631" filterUnits="userSpaceOnUse">
+                <feOffset dy="-3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="20" result="blur-10" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-10" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+            </defs>
+            <g id="Gruppe_12" data-name="Gruppe 12" transform="translate(0 0)">
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Rechteck_36)">
+                <path id="Rechteck_36-2" data-name="Rechteck 36" d="M105,102l270.164,4.814v148.21a4.118,4.118,0,0,1-.284,1.506,4.024,4.024,0,0,1-.774,1.245,3.759,3.759,0,0,1-1.149.857,3.477,3.477,0,0,1-1.408.342l-262.337,7.287a4.181,4.181,0,0,1-1.639-.281,4.069,4.069,0,0,1-1.339-.854A4.008,4.008,0,0,1,105,262.217Z"
+                  transform="translate(0 0)" fill="var(--bg-lighter)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Ellipse_7)">
+                <path id="Ellipse_7-2" data-name="Ellipse 7" d="M20.207,5.054a5.26,5.26,0,0,1,4.785,3.2,5.146,5.146,0,0,1,.407,2.012A5.086,5.086,0,0,1,23.881,13.9a5.155,5.155,0,0,1-3.673,1.484,5.261,5.261,0,0,1-4.8-3.195A5.146,5.146,0,0,1,15,10.173,5.086,5.086,0,0,1,16.527,6.53a5.155,5.155,0,0,1,3.681-1.477Z"
+                  transform="translate(109.93 124.26)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Ellipse_8)">
+                <path id="Ellipse_8-2" data-name="Ellipse 8" d="M19.578,5.046a4.361,4.361,0,0,1,1.779.4A4.631,4.631,0,0,1,22.807,6.5a4.934,4.934,0,0,1,.978,1.547,5.126,5.126,0,0,1,0,3.766,4.821,4.821,0,0,1-.978,1.53,4.52,4.52,0,0,1-1.451,1.026,4.316,4.316,0,0,1-1.779.368,4.36,4.36,0,0,1-1.78-.394,4.629,4.629,0,0,1-1.455-1.05,4.933,4.933,0,0,1-.982-1.549,5.126,5.126,0,0,1,0-3.775,4.82,4.82,0,0,1,.982-1.532A4.519,4.519,0,0,1,17.8,5.409,4.315,4.315,0,0,1,19.578,5.046Z"
+                  transform="translate(333.79 127.53)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Ellipse_9)">
+                <path id="Ellipse_9-2" data-name="Ellipse 9" d="M19.578,5.07a4.3,4.3,0,0,1,1.779.353,4.469,4.469,0,0,1,1.451,1.015,4.768,4.768,0,0,1,.978,1.522,5.031,5.031,0,0,1,.358,1.877,5.124,5.124,0,0,1-.358,1.889,4.989,4.989,0,0,1-.978,1.555,4.685,4.685,0,0,1-1.451,1.063,4.384,4.384,0,0,1-1.779.413,4.3,4.3,0,0,1-1.78-.348A4.467,4.467,0,0,1,16.342,13.4a4.767,4.767,0,0,1-.982-1.524A5.03,5.03,0,0,1,15,9.991,5.124,5.124,0,0,1,15.36,8.1a4.987,4.987,0,0,1,.982-1.557A4.683,4.683,0,0,1,17.8,5.478,4.383,4.383,0,0,1,19.578,5.07Z"
+                  transform="translate(333.79 212.76)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Ellipse_10)">
+                <path id="Ellipse_10-2" data-name="Ellipse 10" d="M20.207,5.014a5.179,5.179,0,0,1,3.673,1.5,5.137,5.137,0,0,1,1.112,5.652,5.218,5.218,0,0,1-8.465,1.683A5.137,5.137,0,0,1,15.41,8.186a5.226,5.226,0,0,1,4.8-3.172Z" transform="translate(109.93 170.79)"
+                  fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Ellipse_11)">
+                <path id="Ellipse_11-2" data-name="Ellipse 11" d="M20.207,5.08a5.165,5.165,0,0,1,2.023.375,5.057,5.057,0,0,1,3.169,4.7,5.17,5.17,0,0,1-.407,2.015,5.3,5.3,0,0,1-4.785,3.238,5.165,5.165,0,0,1-2.025-.369A5.057,5.057,0,0,1,15,10.333a5.17,5.17,0,0,1,.41-2.02,5.3,5.3,0,0,1,4.8-3.233Z"
+                  transform="translate(109.93 216.18)" fill="var(--node-highlights)" />
+              </g>
+              <g id="Input" transform="translate(129.635 118.907)">
+                <g transform="matrix(1, 0, 0, 1, -129.64, -118.91)" filter="url(#l3_Rechteck_31)">
+                  <path id="Rechteck_31-3" data-name="Rechteck 31" d="M18.092,5.037l93.664,1.112a2.877,2.877,0,0,1,1.14.249,2.976,2.976,0,0,1,.93.654,3.066,3.066,0,0,1,.857,2.132v20.5a3.05,3.05,0,0,1-.23,1.167,2.992,2.992,0,0,1-.627.951,2.91,2.91,0,0,1-.93.639,2.849,2.849,0,0,1-1.14.231l-93.664-.4A3.1,3.1,0,0,1,15,29.18V8.087a3.047,3.047,0,0,1,3.092-3.05Z"
+                    transform="translate(129.64 118.91)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g id="Input-2" data-name="Input" transform="translate(129.635 166.813)">
+                <g transform="matrix(1, 0, 0, 1, -129.64, -166.81)" filter="url(#l3_Rechteck_31-2)">
+                  <path id="Rechteck_31-4" data-name="Rechteck 31" d="M18.092,5.155,111.756,5a2.854,2.854,0,0,1,1.14.234,2.921,2.921,0,0,1,.93.642,3,3,0,0,1,.627.953A3.055,3.055,0,0,1,114.683,8V28.5a3.058,3.058,0,0,1-.857,2.129,2.965,2.965,0,0,1-.93.652,2.872,2.872,0,0,1-1.14.246L18.092,32.4A3.053,3.053,0,0,1,15,29.34V8.247a3.094,3.094,0,0,1,3.092-3.092Z"
+                    transform="translate(129.64 166.81)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Linie_6)">
+                <g id="Linie_6-2" data-name="Linie 6" transform="translate(96 92.36)" fill="none">
+                  <path d="M9,8.081l270.236,4.933" stroke="none" />
+                  <path d="M 279.23583984375 14.93810653686523 L 9.000029563903809 10.16145896911621 L 9.000029563903809 5.99997615814209 L 279.23583984375 11.08856773376465 L 279.23583984375 14.93810653686523 Z" stroke="none" fill="var(--node-highlights)" />
+                </g>
+              </g>
+            </g>
+            <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#l3_Rechteck_42)">
+              <path id="Rechteck_42-2" data-name="Rechteck 42" d="M63.163,63.088l265.347,7.37a2.606,2.606,0,0,1,1.055.256,2.82,2.82,0,0,1,.861.643,3.02,3.02,0,0,1,.58.934,3.089,3.089,0,0,1,.213,1.13V90.744a3.008,3.008,0,0,1-.213,1.119,2.829,2.829,0,0,1-.58.906,2.634,2.634,0,0,1-.861.6,2.529,2.529,0,0,1-1.055.205L63.163,88.042a3.228,3.228,0,0,1-1.231-.271,3.264,3.264,0,0,1-1.005-.69,3.217,3.217,0,0,1-.678-1.007A3.114,3.114,0,0,1,60,84.854V66.122A3.023,3.023,0,0,1,61.932,63.3,3.141,3.141,0,0,1,63.163,63.088Z"
+                transform="translate(43.95 3.08)" fill="var(--bg-lighter)" />
+            </g>
+          </svg>
+
+        </div>
+        <div class="right">
+          <svg id="floating_node_right_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="361.827" height="266.976" viewBox="0 0 361.827 266.976">
+            <defs>
+              <filter id="r1_Rechteck_36" x="0" y="0" width="361.827" height="266.976" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="35" result="blur" />
+                <feFlood flood-opacity="0.231" />
+                <feComposite operator="in" in2="blur" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Ellipse_7" x="108.658" y="104.441" width="39.851" height="39.949" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-2" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-2" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Ellipse_8" x="212.542" y="104.722" width="40.077" height="40.063" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-3" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-3" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Ellipse_9" x="212.542" y="133.127" width="40.077" height="40.091" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-4" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-4" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Ellipse_10" x="108.658" y="118.804" width="39.851" height="39.961" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-5" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-5" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Ellipse_11" x="108.658" y="132.844" width="39.851" height="39.976" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-6" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-6" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Rechteck_31" x="127.392" y="109.419" width="84.385" height="45.154" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-7" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-7" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Rechteck_31-2" x="127.392" y="129.368" width="84.385" height="45.656" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-8" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-8" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Linie_6" x="96" y="92.47" width="169.907" height="22.208" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="3" result="blur-9" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-9" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r1_Rechteck_42" x="44.02" y="4.209" width="272.807" height="144.561" filterUnits="userSpaceOnUse">
+                <feOffset dy="-3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="20" result="blur-10" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-10" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+            </defs>
+            <g id="Gruppe_12" data-name="Gruppe 12">
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Rechteck_36)">
+                <path id="Rechteck_36-2" data-name="Rechteck 36" d="M105,102.183,256.827,102v52.942a4.015,4.015,0,0,1-2.474,3.7,4.041,4.041,0,0,1-1.576.309l-143.855-.716a3.882,3.882,0,0,1-1.527-.319,3.952,3.952,0,0,1-1.246-.856A4,4,0,0,1,105,154.253Z"
+                  fill="var(--bg-lighter)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Ellipse_7)">
+                <path id="Ellipse_7-2" data-name="Ellipse 7" d="M19.923,5a4.87,4.87,0,0,1,1.918.39,4.932,4.932,0,0,1,1.566,1.065,5,5,0,0,1,0,7.034,4.93,4.93,0,0,1-1.566,1.065,4.9,4.9,0,0,1-3.834,0,4.932,4.932,0,0,1-1.565-1.066,5,5,0,0,1,0-7.029,4.93,4.93,0,0,1,1.565-1.066A4.87,4.87,0,0,1,19.923,5Z"
+                  transform="translate(108.66 104.44)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Ellipse_8)">
+                <path id="Ellipse_8-2" data-name="Ellipse 8" d="M20.036,5a5.027,5.027,0,1,1-1.961.4A5.032,5.032,0,0,1,20.036,5Z" transform="translate(212.54 104.72)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Ellipse_9)">
+                <path id="Ellipse_9-2" data-name="Ellipse 9" d="M20.036,5.014a5.011,5.011,0,1,1-1.961.39A5.041,5.041,0,0,1,20.036,5.014Z" transform="translate(212.54 133.13)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Ellipse_10)">
+                <path id="Ellipse_10-2" data-name="Ellipse 10" d="M19.923,5.006A4.875,4.875,0,0,1,21.84,5.4a4.943,4.943,0,0,1,1.566,1.068,5,5,0,0,1,0,7.034,4.919,4.919,0,0,1-1.566,1.062,4.9,4.9,0,0,1-3.834-.009,4.943,4.943,0,0,1-1.565-1.069,5,5,0,0,1,0-7.029,4.919,4.919,0,0,1,1.565-1.063A4.865,4.865,0,0,1,19.923,5.006Z"
+                  transform="translate(108.66 118.8)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Ellipse_11)">
+                <path id="Ellipse_11-2" data-name="Ellipse 11" d="M19.923,5.013a4.879,4.879,0,0,1,1.918.4,4.953,4.953,0,0,1,1.566,1.07,4.994,4.994,0,0,1,0,7.034,4.9,4.9,0,0,1-6.965-.025,4.994,4.994,0,0,1,0-7.029,4.871,4.871,0,0,1,3.481-1.446Z"
+                  transform="translate(108.66 132.84)" fill="var(--node-highlights)" />
+              </g>
+              <g id="Input" transform="translate(127.392 109.419)">
+                <g transform="matrix(1, 0, 0, 1, -127.39, -109.42)" filter="url(#r1_Rechteck_31)">
+                  <path id="Rechteck_31-3" data-name="Rechteck 31" d="M17.965,5l48.421.007a3,3,0,0,1,3,3.006v9.135a2.992,2.992,0,0,1-3,3l-48.421-.087a2.94,2.94,0,0,1-1.154-.237A2.995,2.995,0,0,1,15,17.068V7.988a2.989,2.989,0,0,1,.868-2.112,2.968,2.968,0,0,1,.942-.64A2.937,2.937,0,0,1,17.965,5Z"
+                    transform="translate(127.39 109.42)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g id="Input-2" data-name="Input" transform="translate(127.392 129.368)">
+                <g transform="matrix(1, 0, 0, 1, -127.39, -129.37)" filter="url(#r1_Rechteck_31-2)">
+                  <path id="Rechteck_31-4" data-name="Rechteck 31" d="M17.965,5.007l48.421.113a2.993,2.993,0,0,1,2.12.885,3.007,3.007,0,0,1,.878,2.127V17.65a2.984,2.984,0,0,1-3,2.993l-48.421-.2a2.944,2.944,0,0,1-1.154-.239A3,3,0,0,1,15,17.449V7.988a2.983,2.983,0,0,1,.868-2.111,2.938,2.938,0,0,1,2.1-.87Z"
+                    transform="translate(127.39 129.37)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Linie_6)">
+                <g id="Linie_6-2" data-name="Linie 6" transform="translate(96 92.47)" fill="none">
+                  <path d="M9,8.225l151.907-.208" stroke="none" />
+                  <path d="M 160.9073028564453 10.03371906280518 L 8.999960899353027 10.20815277099609 L 8.999960899353027 6.240884304046631 L 160.9073028564453 6 L 160.9073028564453 10.03371906280518 Z" stroke="none" fill="var(--node-highlights)" />
+                </g>
+              </g>
+            </g>
+            <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r1_Rechteck_42)">
+              <path id="Rechteck_42-2" data-name="Rechteck 42" d="M62.94,63.746l146.829-.731a3.021,3.021,0,0,1,2.8,1.834,3,3,0,0,1,.239,1.176V84.177a3.008,3.008,0,0,1-.239,1.178,3.046,3.046,0,0,1-2.8,1.854L62.94,87.554a2.9,2.9,0,0,1-1.145-.231,2.933,2.933,0,0,1-.935-.635,2.977,2.977,0,0,1-.861-2.1V66.735a3,3,0,0,1,.861-2.108,2.963,2.963,0,0,1,.935-.642A2.91,2.91,0,0,1,62.94,63.746Z"
+                transform="translate(44.02 4.21)" fill="var(--bg-lighter)" />
+            </g>
+          </svg>
+          <svg id="floating_node_right_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="413.069" height="500.086" viewBox="0 0 413.069 500.086">
+            <defs>
+              <filter id="r2_Rechteck_36" x="0" y="0" width="413.069" height="500.086" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="35" result="blur" />
+                <feFlood flood-opacity="0.231" />
+                <feComposite operator="in" in2="blur" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Ellipse_7" x="108.654" y="148.439" width="39.842" height="39.995" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-2" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-2" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Ellipse_8" x="263.692" y="149.278" width="40.113" height="40.13" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-3" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-3" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Ellipse_9" x="263.692" y="314.627" width="40.113" height="40.152" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-4" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-4" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Ellipse_10" x="108.654" y="231.887" width="39.842" height="39.944" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-5" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-5" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Ellipse_11" x="108.654" y="313.415" width="39.842" height="40.014" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-6" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-6" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Rechteck_31" x="127.369" y="219.943" width="102.557" height="56.523" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-7" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-7" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Rechteck_31-2" x="127.369" y="305.984" width="102.557" height="57.041" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-8" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-8" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Rechteck_47" x="127.369" y="143.106" width="102.557" height="56.871" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-9" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-9" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Linie_6" x="96" y="92.468" width="221.149" height="24.273" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="3" result="blur-10" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-10" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r2_Rechteck_42" x="44.02" y="4.19" width="324.049" height="146.659" filterUnits="userSpaceOnUse">
+                <feOffset dy="-3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="20" result="blur-11" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-11" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+            </defs>
+            <g id="Gruppe_12" data-name="Gruppe 12" transform="translate(0 0)">
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Rechteck_36)">
+                <path id="Rechteck_36-2" data-name="Rechteck 36" d="M105,104.245,308.069,102V388.05a3.972,3.972,0,0,1-2.481,3.684,4.038,4.038,0,0,1-1.58.295l-195.086-2.745a3.906,3.906,0,0,1-1.527-.333,4,4,0,0,1-1.247-.867,4.031,4.031,0,0,1-1.148-2.82Z"
+                  transform="translate(0 0)" fill="var(--bg-lighter)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Ellipse_7)">
+                <path id="Ellipse_7-2" data-name="Ellipse 7" d="M19.919,5.033A4.853,4.853,0,0,1,23.4,6.465a4.943,4.943,0,0,1,1.442,3.5,5.006,5.006,0,0,1-3.007,4.6,4.868,4.868,0,0,1-5.395-1.032A4.943,4.943,0,0,1,15,10.03a5.006,5.006,0,0,1,3-4.594A4.885,4.885,0,0,1,19.919,5.033Z"
+                  transform="translate(108.65 148.44)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Ellipse_8)">
+                <path id="Ellipse_8-2" data-name="Ellipse 8" d="M20.054,5.033a5.02,5.02,0,0,1,4.661,3.046,5.03,5.03,0,0,1,0,3.921,5.093,5.093,0,0,1-6.629,2.718A5.01,5.01,0,0,1,15.4,8.137a5.092,5.092,0,0,1,4.657-3.1Z" transform="translate(263.69 149.28)"
+                  fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Ellipse_9)">
+                <path id="Ellipse_9-2" data-name="Ellipse 9" d="M20.054,5.04a5.113,5.113,0,0,1,4.661,3.112,5,5,0,0,1-4.661,6.956A5.113,5.113,0,0,1,15.4,11.994,5,5,0,0,1,20.054,5.04Z" transform="translate(263.69 314.63)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Ellipse_10)">
+                <path id="Ellipse_10-2" data-name="Ellipse 10" d="M19.919,5a4.87,4.87,0,0,1,1.916.392A4.934,4.934,0,0,1,23.4,6.46a4.991,4.991,0,0,1,0,7.026,4.92,4.92,0,0,1-1.565,1.062A4.9,4.9,0,0,1,18,14.543a4.934,4.934,0,0,1-1.564-1.066,4.991,4.991,0,0,1,0-7.022A4.92,4.92,0,0,1,18,5.392,4.864,4.864,0,0,1,19.919,5Z"
+                  transform="translate(108.65 231.89)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Ellipse_11)">
+                <path id="Ellipse_11-2" data-name="Ellipse 11" d="M19.919,5.038a4.891,4.891,0,0,1,1.916.405A4.983,4.983,0,0,1,23.4,6.521a5.015,5.015,0,0,1,1.442,3.525,4.933,4.933,0,0,1-1.442,3.5A4.878,4.878,0,0,1,18,14.565a4.983,4.983,0,0,1-1.564-1.078A5.015,5.015,0,0,1,15,9.964a4.933,4.933,0,0,1,1.44-3.5,4.843,4.843,0,0,1,3.479-1.427Z"
+                  transform="translate(108.65 313.42)" fill="var(--node-highlights)" />
+              </g>
+              <g id="Input" transform="translate(127.369 219.942)">
+                <g transform="matrix(1, 0, 0, 1, -127.37, -219.94)" filter="url(#r2_Rechteck_31)">
+                  <path id="Rechteck_31-3" data-name="Rechteck 31" d="M17.961,5.029,84.56,5a3,3,0,0,1,3,3V28.52a2.989,2.989,0,0,1-3,3l-66.6-.127a2.935,2.935,0,0,1-1.153-.237A2.991,2.991,0,0,1,15,28.4V8.013a2.985,2.985,0,0,1,1.808-2.75A2.933,2.933,0,0,1,17.961,5.029Z"
+                    transform="translate(127.37 219.94)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g id="Input-2" data-name="Input" transform="translate(127.369 143.106)">
+                <g transform="matrix(1, 0, 0, 1, -127.37, -143.11)" filter="url(#r2_Rechteck_31-2)">
+                  <path id="Rechteck_31-4" data-name="Rechteck 31" d="M17.961,5.021l66.6.476a3,3,0,0,1,1.166.244,3.026,3.026,0,0,1,1.831,2.78V29.039a2.964,2.964,0,0,1-3,2.974l-66.6-.63a2.949,2.949,0,0,1-1.153-.245A3.017,3.017,0,0,1,15,28.371V7.984a2.964,2.964,0,0,1,.867-2.1,2.919,2.919,0,0,1,2.094-.859Z"
+                    transform="translate(127.37 305.98)" fill="var(--node-inputs)" />
+                </g>
+                <g transform="matrix(1, 0, 0, 1, -127.37, -143.11)" filter="url(#r2_Rechteck_47)">
+                  <path id="Rechteck_47-2" data-name="Rechteck 47" d="M17.961,5.5l66.6-.474a2.974,2.974,0,0,1,3,2.981V28.52a3.013,3.013,0,0,1-3,3.017l-66.6.32a2.926,2.926,0,0,1-2.094-.864A2.971,2.971,0,0,1,15,28.888V8.5a3.011,3.011,0,0,1,1.808-2.762A2.945,2.945,0,0,1,17.961,5.5Z"
+                    transform="translate(127.37 143.11)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Linie_6)">
+                <g id="Linie_6-2" data-name="Linie 6" transform="translate(96 92.47)" fill="none">
+                  <path d="M9,10.291,212.149,8.018" stroke="none" />
+                  <path d="M 212.1492614746094 10.0360107421875 L 8.99997615814209 12.27338981628418 L 8.99997615814209 8.308414459228516 L 212.1492614746094 6.000007152557373 L 212.1492614746094 10.0360107421875 Z" stroke="none" fill="var(--node-highlights)" />
+                </g>
+              </g>
+            </g>
+            <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r2_Rechteck_42)">
+              <path id="Rechteck_42-2" data-name="Rechteck 42" d="M62.941,65.83,261,63.043a3.029,3.029,0,0,1,1.185.221,2.973,2.973,0,0,1,1.86,2.763V84.189a3.021,3.021,0,0,1-.239,1.181A3.089,3.089,0,0,1,261,87.252L62.941,89.624a2.881,2.881,0,0,1-2.08-.846,2.932,2.932,0,0,1-.63-.938A2.972,2.972,0,0,1,60,86.686V68.845a3.026,3.026,0,0,1,1.8-2.765A2.929,2.929,0,0,1,62.941,65.83Z"
+                transform="translate(44.02 4.19)" fill="var(--bg-lighter)" />
+            </g>
+          </svg>
+          <svg id="floating_node_right_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="503.197" height="334.086" viewBox="0 0 503.197 334.086">
+            <defs>
+              <filter id="r3_Rechteck_36" x="0" y="0" width="503.197" height="334.086" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="35" result="blur" />
+                <feFlood flood-opacity="0.231" />
+                <feComposite operator="in" in2="blur" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Ellipse_7" x="112.482" y="116.848" width="40.1" height="39.68" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-2" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-2" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Ellipse_8" x="351.686" y="117.097" width="40.29" height="39.887" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-3" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-3" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Ellipse_9" x="352.59" y="184.723" width="40.447" height="40.212" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-4" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-4" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Ellipse_10" x="111.152" y="150.467" width="40.177" height="39.821" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-5" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-5" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Ellipse_11" x="109.832" y="183.805" width="40.253" height="39.994" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-6" />
+                <feFlood flood-opacity="0.329" />
+                <feComposite operator="in" in2="blur-6" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Rechteck_31" x="129.754" y="128.229" width="133.097" height="56.095" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-7" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-7" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Rechteck_31-2" x="128.438" y="165.088" width="133.936" height="56.745" filterUnits="userSpaceOnUse">
+                <feOffset dy="10" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="5" result="blur-8" />
+                <feFlood flood-opacity="0.451" />
+                <feComposite operator="in" in2="blur-8" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Linie_6" x="101.24" y="92.579" width="303.58" height="22.981" filterUnits="userSpaceOnUse">
+                <feOffset dy="3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="3" result="blur-9" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-9" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+              <filter id="r3_Rechteck_42" x="49.734" y="5.502" width="405.792" height="144.586" filterUnits="userSpaceOnUse">
+                <feOffset dy="-3" input="SourceAlpha" />
+                <feGaussianBlur stdDeviation="20" result="blur-10" />
+                <feFlood flood-opacity="0.161" />
+                <feComposite operator="in" in2="blur-10" />
+                <feComposite in="SourceGraphic" />
+              </filter>
+            </defs>
+            <g id="Gruppe_12" data-name="Gruppe 12" transform="translate(0 0)">
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Rechteck_36)">
+                <path id="Rechteck_36-2" data-name="Rechteck 36" d="M110.26,103.082,395.73,102l2.385,119.958a4,4,0,0,1-2.468,3.786,4.117,4.117,0,0,1-1.614.313l-285.074-1.972a3.809,3.809,0,0,1-1.528-.327,3.768,3.768,0,0,1-1.221-.871,3.84,3.84,0,0,1-.793-1.284,3.988,3.988,0,0,1-.243-1.567Z"
+                  transform="translate(0 0)" fill="var(--bg-lighter)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Ellipse_7)">
+                <path id="Ellipse_7-2" data-name="Ellipse 7" d="M20.238,5.01a4.767,4.767,0,0,1,1.878.375,4.6,4.6,0,0,1,2.492,2.563,4.688,4.688,0,0,1,.312,1.88,4.91,4.91,0,0,1-.453,1.883,5.152,5.152,0,0,1-2.689,2.579,4.991,4.991,0,0,1-1.91.383,4.767,4.767,0,0,1-1.881-.378A4.6,4.6,0,0,1,15.5,11.726a4.689,4.689,0,0,1-.308-1.88,4.911,4.911,0,0,1,.456-1.88,5.152,5.152,0,0,1,2.686-2.572A4.991,4.991,0,0,1,20.238,5.01Z"
+                  transform="translate(112.48 116.85)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Ellipse_8)">
+                <path id="Ellipse_8-2" data-name="Ellipse 8" d="M20.066,5.01a5.2,5.2,0,0,1,3.607,1.436,5.028,5.028,0,0,1,1.112,1.565,4.843,4.843,0,0,1,.429,1.92,4.769,4.769,0,0,1-.369,1.923,4.851,4.851,0,0,1-1.064,1.573,5,5,0,0,1-1.6,1.062,5.142,5.142,0,0,1-1.971.391,5.2,5.2,0,0,1-3.61-1.443,5.027,5.027,0,0,1-1.108-1.569,4.842,4.842,0,0,1-.424-1.92,4.769,4.769,0,0,1,.373-1.92A4.851,4.851,0,0,1,16.5,6.46,5,5,0,0,1,18.1,5.4,5.142,5.142,0,0,1,20.066,5.01Z"
+                  transform="translate(351.69 117.1)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Ellipse_9)">
+                <path id="Ellipse_9-2" data-name="Ellipse 9" d="M20.142,5.019a5.271,5.271,0,0,1,4.79,3.12,5.069,5.069,0,0,1,.436,1.981,4.942,4.942,0,0,1-1.454,3.593A5.031,5.031,0,0,1,22.29,14.8a5.136,5.136,0,0,1-2,.391,5.271,5.271,0,0,1-4.79-3.131,5.069,5.069,0,0,1-.431-1.981,4.942,4.942,0,0,1,1.458-3.585,5.032,5.032,0,0,1,1.62-1.081A5.136,5.136,0,0,1,20.142,5.019Z"
+                  transform="translate(352.59 184.72)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Ellipse_10)">
+                <path id="Ellipse_10-2" data-name="Ellipse 10" d="M20.279,5a4.778,4.778,0,0,1,1.891.386A4.667,4.667,0,0,1,24.68,8a4.8,4.8,0,0,1,.314,1.909,5.006,5.006,0,0,1-.457,1.91,5.187,5.187,0,0,1-2.71,2.61,4.987,4.987,0,0,1-1.924.383,4.778,4.778,0,0,1-1.894-.389A4.667,4.667,0,0,1,15.5,11.806a4.8,4.8,0,0,1-.31-1.909,5.007,5.007,0,0,1,.46-1.907,5.187,5.187,0,0,1,2.706-2.6A4.987,4.987,0,0,1,20.279,5Z"
+                  transform="translate(111.15 150.47)" fill="var(--node-highlights)" />
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Ellipse_11)">
+                <path id="Ellipse_11-2" data-name="Ellipse 11" d="M20.32,5.019a4.789,4.789,0,0,1,1.9.4,4.714,4.714,0,0,1,1.528,1.071,4.762,4.762,0,0,1,1,1.585,4.907,4.907,0,0,1,.316,1.939,5.1,5.1,0,0,1-.461,1.937,5.223,5.223,0,0,1-2.73,2.641,4.982,4.982,0,0,1-1.938.383,4.789,4.789,0,0,1-1.908-.4A4.714,4.714,0,0,1,16.5,13.495a4.762,4.762,0,0,1-1-1.588A4.909,4.909,0,0,1,15.2,9.969a5.1,5.1,0,0,1,.464-1.934A5.222,5.222,0,0,1,18.387,5.4,4.983,4.983,0,0,1,20.32,5.019Z"
+                  transform="translate(109.83 183.8)" fill="var(--node-highlights)" />
+              </g>
+              <g id="Input" transform="translate(129.753 128.229)">
+                <g transform="matrix(1, 0, 0, 1, -129.75, -128.23)" filter="url(#r3_Rechteck_31)">
+                  <path id="Rechteck_31-3" data-name="Rechteck 31" d="M18.846,5.11,115.115,5a2.987,2.987,0,0,1,1.158.23,2.933,2.933,0,0,1,.94.629,2.868,2.868,0,0,1,.847,2.078l-.26,20.187a2.953,2.953,0,0,1-.251,1.155,3.022,3.022,0,0,1-.655.943,3.041,3.041,0,0,1-2.132.868l-96.815-.113a2.884,2.884,0,0,1-1.139-.233,2.815,2.815,0,0,1-1.513-1.568,2.876,2.876,0,0,1-.191-1.145l.708-20.006a2.956,2.956,0,0,1,.27-1.135A3.088,3.088,0,0,1,17.7,5.34,3,3,0,0,1,18.846,5.11Z"
+                    transform="translate(129.75 128.23)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g id="Input-2" data-name="Input" transform="translate(128.438 165.087)">
+                <g transform="matrix(1, 0, 0, 1, -128.44, -165.09)" filter="url(#r3_Rechteck_31-2)">
+                  <path id="Rechteck_31-4" data-name="Rechteck 31" d="M18.884,5.006l97.045.207a2.974,2.974,0,0,1,2.114.879,2.937,2.937,0,0,1,.854,2.115l-.264,20.519a3.018,3.018,0,0,1-.253,1.173,3.052,3.052,0,0,1-2.81,1.831l-97.6-.434a2.891,2.891,0,0,1-1.148-.24,2.863,2.863,0,0,1-1.525-1.6,2.95,2.95,0,0,1-.192-1.165l.72-20.332A3.019,3.019,0,0,1,16.1,6.808a3.111,3.111,0,0,1,1.628-1.572A3,3,0,0,1,18.884,5.006Z"
+                    transform="translate(128.44 165.09)" fill="var(--node-inputs)" />
+                </g>
+              </g>
+              <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Linie_6)">
+                <g id="Linie_6-2" data-name="Linie 6" transform="translate(101.24 92.58)" fill="none">
+                  <path d="M9.083,9.073,294.541,7.954" stroke="none" />
+                  <path d="M 294.5798645019531 9.910411834716797 L 8.999819755554199 10.9811487197876 L 9.165712356567383 7.166133403778076 L 294.5020446777344 5.999998569488525 L 294.5798645019531 9.910411834716797 Z" stroke="none" fill="var(--node-highlights)" />
+                </g>
+              </g>
+            </g>
+            <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#r3_Rechteck_42)">
+              <path id="Rechteck_42-2" data-name="Rechteck 42" d="M63.863,64.881,342.314,63.02a3.141,3.141,0,0,1,1.178.219,3.085,3.085,0,0,1,.971.613,2.948,2.948,0,0,1,.665.915,2.806,2.806,0,0,1,.26,1.125l.347,17.437a2.791,2.791,0,0,1-.216,1.137,2.86,2.86,0,0,1-.631.931,2.984,2.984,0,0,1-.951.63,3.1,3.1,0,0,1-1.176.235L62.886,87.573a2.83,2.83,0,0,1-1.114-.219,2.707,2.707,0,0,1-.891-.606,2.669,2.669,0,0,1-.579-.9,2.736,2.736,0,0,1-.178-1.107l.744-17.015a2.865,2.865,0,0,1,.274-1.1,3.03,3.03,0,0,1,.655-.9,3.082,3.082,0,0,1,.939-.611A2.991,2.991,0,0,1,63.863,64.881Z"
+                transform="translate(49.73 5.5)" fill="var(--bg-lighter)" />
+            </g>
+          </svg>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="content-inner">
+      <div class="about card fade">
+        <div class="heading top">
+          <h2>Who is Ryven for?</h2>
+          <span class="subheading">About this tool</span>
+        </div>
+        <div class="inner">
+          <div class="card">
+            <div class="heading">
+              <svg id="_029-verify" data-name="029-verify" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="55" viewBox="0 0 55 55">
+                <defs>
+                  <linearGradient id="linear-gradient" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+                    <stop offset="0" stop-color="#00b59c" />
+                    <stop offset="1" stop-color="#9cffac" />
+                  </linearGradient>
+                  <linearGradient id="linear-gradient-2" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+                    <stop offset="0" stop-color="#c3ffe8" />
+                    <stop offset="0.997" stop-color="#f0fff4" />
+                  </linearGradient>
+                </defs>
+                <g id="Gruppe_431" data-name="Gruppe 431" transform="translate(0 0)">
+                  <g id="Gruppe_430" data-name="Gruppe 430">
+                    <path id="Pfad_201" data-name="Pfad 201" d="M40.372,27.487a12.867,12.867,0,0,0-2.487.251l.754-1.82A1.612,1.612,0,0,0,38,23.936l-2.745-1.713a16.01,16.01,0,0,0,.282-2.788,15.972,15.972,0,0,0-.267-2.637L38,15.094a1.612,1.612,0,0,0,.635-1.983L37.216,9.679a1.611,1.611,0,0,0-1.85-.953L32.014,9.5a16.816,16.816,0,0,0-2.634-2.744l.762-3.294a1.612,1.612,0,0,0-.953-1.851L25.76.125a1.6,1.6,0,0,0-1.982.634L22.112,3.492a16,16,0,0,0-2.677-.271,15.984,15.984,0,0,0-2.68.271L15.091.76A1.609,1.609,0,0,0,13.109.125L9.68,1.545a1.7,1.7,0,0,0-.953,1.919l.761,3.294A17.491,17.491,0,0,0,6.747,9.5L3.394,8.726a1.61,1.61,0,0,0-1.85.953L.123,13.111a1.611,1.611,0,0,0,.635,1.983l2.729,1.7a15.954,15.954,0,0,0-.267,2.638A15.99,15.99,0,0,0,3.5,22.223L.758,23.936a1.612,1.612,0,0,0-.635,1.983l1.422,3.432a1.613,1.613,0,0,0,1.85.953l3.464-.8A16.849,16.849,0,0,0,9.5,32.015l-.775,3.354a1.611,1.611,0,0,0,.953,1.85l3.429,1.42a1.61,1.61,0,0,0,1.982-.634L16.8,35.274a15.991,15.991,0,0,0,2.637.266,15.975,15.975,0,0,0,2.639-.267l1.7,2.73a1.609,1.609,0,0,0,1.982.635l1.986-.823A12.971,12.971,0,0,0,40.372,53.364a12.938,12.938,0,1,0,0-25.876Z"
+                      transform="translate(0 0)" fill="url(#linear-gradient)" />
+                  </g>
+                </g>
+                <g id="Gruppe_433" data-name="Gruppe 433" transform="translate(10.707 10.707)">
+                  <g id="Gruppe_432" data-name="Gruppe 432">
+                    <path id="Pfad_202" data-name="Pfad 202" d="M135.456,120.728a14.783,14.783,0,0,0,0,29.565,14.783,14.783,0,1,0,0-29.565Zm6.066,12.612-6.546,6.546a1.636,1.636,0,0,1-2.314,0l-3.273-3.273A1.636,1.636,0,1,1,131.7,134.3l2.116,2.116,5.389-5.389a1.636,1.636,0,1,1,2.314,2.314ZM114.182,106a8.182,8.182,0,1,0,8.182,8.182A8.191,8.191,0,0,0,114.182,106Z"
+                      transform="translate(-106 -106)" fill="url(#linear-gradient-2)" />
+                  </g>
+                </g>
+              </svg>
+              <h3>What is Ryven</h3>
+            </div>
+            <p class="body-text">Ryven lets you use the more diagram-like, dataflow inspired structure to represent data processing-centric functionality. Each node <i>runs</i> code, and Ryven provides a simple framework to create those and an editor to use them. Use cases range
+              almost through the whole Python domain, from IoT, over machine learning, generative engineering, Raspberry Pi, web APIs, and much more. You should know the Python programming language and its basic concepts.</p>
+          </div>
+          <div class="card">
+            <div class="heading">
+              <svg id="_030-delete" data-name="030-delete" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="55" viewBox="0 0 55 55">
+                <defs>
+                  <linearGradient id="linear-gradient-not-1" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+                    <stop offset="0" stop-color="#fd3a84" />
+                    <stop offset="1" stop-color="#ffa68d" />
+                  </linearGradient>
+                  <linearGradient id="linear-gradient-not-2" x1="0.5" y1="1" x2="0.5" gradientUnits="objectBoundingBox">
+                    <stop offset="0" stop-color="#ffc2cc" />
+                    <stop offset="1" stop-color="#fff2f4" />
+                  </linearGradient>
+                </defs>
+                <g id="Gruppe_435" data-name="Gruppe 435" transform="translate(0 0)">
+                  <g id="Gruppe_434" data-name="Gruppe 434">
+                    <path id="Pfad_203" data-name="Pfad 203" d="M40.391,27.5a12.873,12.873,0,0,0-2.488.252l.754-1.82a1.613,1.613,0,0,0-.636-1.984l-2.746-1.714a16.018,16.018,0,0,0,.282-2.79,15.98,15.98,0,0,0-.267-2.638l2.731-1.7a1.612,1.612,0,0,0,.636-1.984L37.234,9.683a1.612,1.612,0,0,0-1.851-.954l-3.354.776a16.824,16.824,0,0,0-2.636-2.745l.762-3.3A1.613,1.613,0,0,0,29.2,1.613L25.772.125a1.6,1.6,0,0,0-1.983.634L22.122,3.494a16.006,16.006,0,0,0-2.679-.271,15.991,15.991,0,0,0-2.681.271L15.1.761A1.61,1.61,0,0,0,13.115.125L9.685,1.613a1.613,1.613,0,0,0-.954,1.852l.762,3.3A17.5,17.5,0,0,0,6.75,9.506L3.4,8.73a1.611,1.611,0,0,0-1.851.954L.123,13.117A1.612,1.612,0,0,0,.759,15.1l2.731,1.7a15.973,15.973,0,0,0-.267,2.639,16,16,0,0,0,.282,2.79L.759,23.947a1.612,1.612,0,0,0-.636,1.984l1.422,3.434a1.614,1.614,0,0,0,1.851.954l3.573-.8A16.15,16.15,0,0,0,9.506,32.03l-.775,3.356a1.612,1.612,0,0,0,.954,1.851l3.43,1.421a1.611,1.611,0,0,0,1.983-.634l1.708-2.732a16,16,0,0,0,2.638.267,15.982,15.982,0,0,0,2.64-.267l1.705,2.731a1.609,1.609,0,0,0,1.983.636l1.987-.823A12.977,12.977,0,0,0,40.391,53.389a12.944,12.944,0,1,0,0-25.889Z"
+                      transform="translate(0 0)" fill="url(#linear-gradient-not-1)" />
+                  </g>
+                </g>
+                <g id="Gruppe_437" data-name="Gruppe 437" transform="translate(11.387 11.387)">
+                  <g id="Gruppe_436" data-name="Gruppe 436">
+                    <path id="Pfad_204" data-name="Pfad 204" d="M114.057,106a8.057,8.057,0,1,0,8.057,8.057A8.065,8.065,0,0,0,114.057,106ZM135,120.5a14.556,14.556,0,0,0,0,29.111,14.556,14.556,0,1,0,0-29.111Zm5.7,17.918a1.611,1.611,0,1,1-2.279,2.279L135,137.282l-3.418,3.417a1.611,1.611,0,0,1-2.279-2.279L132.725,135l-3.417-3.416a1.611,1.611,0,1,1,2.279-2.279L135,132.726l3.418-3.417a1.611,1.611,0,0,1,2.279,2.279L137.283,135Z"
+                      transform="translate(-106 -106)" fill="url(#linear-gradient-not-2)" />
+                  </g>
+                </g>
+              </svg>
+              <h3>What it's not</h3>
+            </div>
+            <p class="body-text">A tool to learn conventional programming or to generally program in Python. It does not automatically generate graphs out of existing code. It does not try to replace source code. Both representations have their domains and, even though it enables significant abstraction, Ryven tries to make them work <i>together</i>. Also, Ryven is not a professional piece of software and it's still receiving active development and sometimes major changes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="content-inner">
+
+        <div class="feature-container">
+          <div class="text-container fade">
+            <h2>Create clear and pretty flows</h2>
+            <p class="emphasized-text">Design, of course, plays a huge role when talking about <i>visual</i> scripting. Therefore, Ryven offers a variety of different flow designs.</p>
+            <h3>Try some themes</h3>
+            <div class="buttons">
+              <div id="theme1" class="theme-button active">Pure Dark</div>
+              <div id="theme2" class="theme-button">Pure Light</div>
+              <div id="theme3" class="theme-button">Simple</div>
+              <div id="theme4" class="theme-button">Blender</div>
+              <div id="theme5" class="theme-button">Ghostly</div>
+              <div id="theme6" class="theme-button">Ueli</div>
+              <div id="theme7" class="theme-button">Tron</div>
+              <div id="theme8" class="theme-button">Toy</div>
+            </div>
+          </div>
+          <div class="presentation-container fade">
+            <div class="action-bar">
+              <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <p class="lang">Ryven - Themes</p>
+            </div>
+            <img id="theme_image" src="/img//themes/themes_1_samuel1d.png" width="560" height="382" alt="">
+
+          </div>
+          <script type="text/javascript">
+            var theme_image = $("#theme_image");
+
+            $('.theme-button').click(function() {
+              $('.theme-button').removeClass("active");
+              $(this).addClass("active");
+              console.log($(this).attr('id'));
+              if ($(this).attr('id') === "theme1") {
+                theme_image.attr("src", "/img//themes/themes_1_samuel1d.png");
+              } else if ($(this).attr('id') === "theme2") {
+                theme_image.attr("src", "/img//themes/themes_1_samuel1l.png");
+              } else if ($(this).attr('id') === "theme3") {
+                theme_image.attr("src", "/img//themes/themes_1_simple.png");
+              } else if ($(this).attr('id') === "theme4") {
+                theme_image.attr("src", "/img//themes/themes_1_blender.png");
+              } else if ($(this).attr('id') === "theme5") {
+                theme_image.attr("src", "/img//themes/themes_1_ghost.png");
+              } else if ($(this).attr('id') === "theme6") {
+                theme_image.attr("src", "/img//themes/themes_1_ueli.png");
+              } else if ($(this).attr('id') === "theme7") {
+                theme_image.attr("src", "/img//themes/themes_1_tron.png");
+              } else if ($(this).attr('id') === "theme8") {
+                theme_image.attr("src", "/img//themes/themes_1_toy.png");
+              }
+            })
+          </script>
+        </div>
+
+        <div class="feature-container">
+          <div class="text-container fade">
+            <h2>Built-in Interpreter</h2>
+            <p class="emphasized-text">Using the built-in REPL you have access to the whole API. Any modifications - like creating/renaming/deleting scripts - will reactively be processed by the frontend automatically, so you can really do <i>anything</i> from the console.</p>
+          </div>
+          <div class="presentation-container fade">
+            <div class="action-bar">
+              <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <p class="lang">Python</p>
+            </div>
+            <div class="window">
+              <pre id="typewriter">
+                <code class="lang-python">
+>>> reset()
+< adding node to console context >
+added as obj
+>>> obj
+< nodes.SetVar_Node(0x22eddacc380) at 0x0000022ED958F4C0 >
+>>> node = obj
+>>> node.create_output(label='additional data')
+>>> node.set_output_val(1, 'test')
+>>> session.scripts
+[< ryvencore.Script.Script object at 0x0000022ED9567910 >,
+< ryvencore.MacroScript.MacroScript object at 0x0000022EDEFC0BB0 >]
+>>> flow = session.scripts[0].flow
+>>> flow.create_node(node.__class__)
+<nodes.SetVar_Node(0x22eddb99770) at 0x0000022EF9C5F900>
+>>> flow.remove_node(flow.nodes[-1])
+                </code>
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-container">
+          <div class="text-container fade">
+            <h2>Ryven Console</h2>
+            <p class="emphasized-text">Ryven Console lets you deploy projects made in Ryven directly on the backend (ryvencore), without any frontend dependencies, with much higher performance.</p>
+          </div>
+          <div class="presentation-container fade">
+            <div class="action-bar">
+              <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <p class="lang">Ryven Console</p>
+            </div>
+            <div class="window">
+              <pre id="typewriter">
+                <code class="lang-python">
+34 < std__Checkpoint0.Checkpoint_Node object at 0x0000021ADFA5BE20 >
+35 < std__Log0.Log_Node object at 0x0000021ADFA5BCD0 >
+ref by index: 18
+--> obj: < std__Button0.Button_Node object at 0x0000021ADFA56C70 >
+
+direct access:
+    session   - the ryvencore session instance
+    nodes     - get a list of all node objects
+    flows     - get a list of all flows
+    exit      - close the session
+
+obj.update()
+[480, 729, 646, 924, 773, 542, 6, 14, 131, 668]
+[6, 14, 131, 480, 542, 646, 668, 729, 773, 924]
+                </code>
+              </pre>
+            </div>
+          </div>
+        </div>
+        <div class="feature-container">
+          <div class="text-container fade">
+            <h2>Source Code Access</h2>
+            <p class="emphasized-text">As Ryven tries to enhance the textual representation, you usually have access to the source code implementation of the nodes you use inside the editor. In some cases you can even temporarily override method implementations.</p>
+          </div>
+          <div class="presentation-container fade">
+            <div class="action-bar">
+              <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <p class="lang">Python</p>
+            </div>
+            <div class="window">
+              <pre id="typewriter">
+                <code class="lang-python">
+class Eval_Node(NodeBase):
+    """Evaluates the input expression from the widget"""
+
+    title = 'eval'
+    version = 'v0.3'
+    init_inputs = []
+    init_outputs = [
+        NodeOutputBP(),
+    ]
+    main_widget_class = widgets.EvalNode_MainWidget
+    main_widget_pos = 'between ports'
+
+    def __init__(self, params):
+        super().__init__(params)
+
+        self.special_actions['add input'] = {
+            'method': self.add_param_input
+        }
+    ...
+                </code>
+              </pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-container">
+          <div class="text-container fade">
+            <h2>Stylus Support</h2>
+            <p class="emphasized-text">You can add handwritten notes using a stylus pen on touch devices. Effective use of this feature significantly supports clarity and adds a whole new dimension to your visual flows.</p>
+          </div>
+          <div class="presentation-container fade">
+            <div class="action-bar">
+              <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <p class="lang">Ryven - Stylus</p>
+            </div>
+
+            <div class="image"><img id="stylus_image" src="&#x2F;img&#x2F;stylus_dark.png" width="560" height="382" alt=""></div>
+
+          </div>
+        </div>
+        <div class="about card fade">
+          <div class="heading top">
+            <h2>The best? It flows!</h2>
+            <span class="subheading">(ah ye and it's free btw)</span>
+          </div>
+          <div class="inner">
+            <div class="card">
+              <div class="heading">
+                <h3>Philosophy</h3>
+              </div>
+              <p class="body-text">Ryven is not a professional piece of software, and that's also not the aim. It's a hobby project mainly developed by one student. However, it repeatedly turned out to be useful for a wide range of different applications. And to make it accessible for anyone, it is free and open source. I've put quite some effort in making it great but it's not perfect and future, long-term development can only be driven by contributions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class=carousel_heading>Featured Projects</h2>
+    <div class="carousel">
+      <div class="carousel-recs carousel-container">
+        <div class="carousel-header">
+          <span class="carousel-button carousel-prev-rec">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18.82" height="19.648" viewBox="0 0 18.82 19.648">
+              <g id="Icon_feather-arrow-left" data-name="Icon feather-arrow-left" transform="translate(-6.5 -6.086)">
+                <path id="Pfad_245" data-name="Pfad 245" d="M24.32,18H7.5" transform="translate(0 -2.09)" fill="none" stroke="var(--text-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                <path id="Pfad_246" data-name="Pfad 246" d="M15.91,24.32,7.5,15.91,15.91,7.5" fill="none" stroke="var(--text-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+              </g>
+            </svg>
+          </span>
+        </div>
+        <div class="carousel-body">
+          <div class="carousel-list">
+            <div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;pyflow_logo.png" alt=""></div>
+  <div class="description">
+    <h4>PyFlow</h4>
+    <span class="body-text">VP env, in some ways similar to Ryven, Python</span>
+  </div>
+  
+  <div class="buttons">
+    
+    <a href="https://github.com/wonderworks-software/PyFlow" class="button github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+          transform="translate(0 0)" fill="var(--text-primary)" fill-rule="evenodd" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    
+    
+    <a href="https://wonderworks-software.github.io/PyFlow/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;node_red_logo.png" alt=""></div>
+  <div class="description">
+    <h4>Node-RED</h4>
+    <span class="body-text">IoT, JavaScript</span>
+  </div>
+  
+  <div class="buttons">
+    
+    <a href="https://github.com/node-red" class="button github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+          transform="translate(0 0)" fill="var(--text-primary)" fill-rule="evenodd" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    
+    
+    <a href="https://nodered.org/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;UE4_logo.png" alt=""></div>
+  <div class="description">
+    <h4>Unreal Engine</h4>
+    <span class="body-text">Duh</span>
+  </div>
+  
+  <div class="buttons">
+    
+    
+    <a href="https://docs.unrealengine.com/en-US/Engine/Blueprints/GettingStarted/index.html" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;codeflow_logo.svg" alt=""></div>
+  <div class="description">
+    <h4>CodeFlow</h4>
+    <span class="body-text">VP language, built on JavaScript</span>
+  </div>
+  
+  <div class="buttons">
+    
+    
+    <a href="https://codeflow.co/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;netron_logo.svg" alt=""></div>
+  <div class="description">
+    <h4>Netron</h4>
+    <span class="body-text">DeepLeaning visualization</span>
+  </div>
+  
+  <div class="buttons">
+    
+    <a href="https://github.com/lutzroeder/netron" class="button github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+          transform="translate(0 0)" fill="var(--text-primary)" fill-rule="evenodd" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    
+    
+    <a href="https://netron.app/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;" alt=""></div>
+  <div class="description">
+    <h4>Visual Programming Codex</h4>
+    <span class="body-text">A nice collection of projects</span>
+  </div>
+  
+  <div class="buttons">
+    
+    <a href="https://github.com/ivanreese/visual-programming-codex" class="button github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+          transform="translate(0 0)" fill="var(--text-primary)" fill-rule="evenodd" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;parabola_logo.png" alt=""></div>
+  <div class="description">
+    <h4>Parabola</h4>
+    <span class="body-text">Task automation, JavaScript</span>
+  </div>
+  
+  <div class="buttons">
+    
+    
+    <a href="https://parabola.io/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;praxisLIVE_logo.png" alt=""></div>
+  <div class="description">
+    <h4>PraxisLIVE</h4>
+    <span class="body-text">Java, realtime audio and video processing</span>
+  </div>
+  
+  <div class="buttons">
+    
+    <a href="https://github.com/praxis-live" class="button github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+          transform="translate(0 0)" fill="var(--text-primary)" fill-rule="evenodd" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    
+    
+    <a href="https://www.praxislive.org/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;nodes_logo.svg" alt=""></div>
+  <div class="description">
+    <h4>Nodes</h4>
+    <span class="body-text">JavaScript</span>
+  </div>
+  
+  <div class="buttons">
+    
+    <a href="https://github.com/nodes-io/nodes-io" class="button github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+          transform="translate(0 0)" fill="var(--text-primary)" fill-rule="evenodd" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    
+    
+    <a href="https://nodes.io/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+<div class="carousel-listitem card">
+  <div class="image"><img src="&#x2F;img&#x2F;&#x2F;featured_projects_logos&#x2F;noflow_logo.png" alt=""></div>
+  <div class="description">
+    <h4>NoFlow</h4>
+    <span class="body-text">JavaScript</span>
+  </div>
+  
+  <div class="buttons">
+    
+    <a href="https://github.com/noflo" class="button github">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26.325" height="25.675" viewBox="0 0 26.325 25.675">
+        <path id="git_icon" d="M13.162,0A13.163,13.163,0,0,0,9,25.65c.658.115.9-.28.9-.625,0-.313-.016-1.349-.016-2.451-3.307.609-4.163-.806-4.426-1.547a4.786,4.786,0,0,0-1.349-1.859c-.461-.247-1.119-.856-.016-.872A2.634,2.634,0,0,1,6.12,19.645a2.813,2.813,0,0,0,3.834,1.086,2.769,2.769,0,0,1,.839-1.76c-2.929-.329-5.989-1.464-5.989-6.5A5.122,5.122,0,0,1,6.153,8.934a4.73,4.73,0,0,1,.132-3.488S7.387,5.1,9.9,6.8a12.409,12.409,0,0,1,6.581,0c2.517-1.711,3.62-1.349,3.62-1.349a4.73,4.73,0,0,1,.132,3.488,5.093,5.093,0,0,1,1.349,3.537c0,5.051-3.077,6.17-6.005,6.5a3.117,3.117,0,0,1,.888,2.435c0,1.76-.016,3.175-.016,3.62,0,.346.247.757.9.625A13.169,13.169,0,0,0,13.162,0Z"
+          transform="translate(0 0)" fill="var(--text-primary)" fill-rule="evenodd" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+    
+    
+    <a href="https://noflojs.org/" class="button website">
+      <span>Website</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+          transform="translate(14.305) rotate(45)" fill="var(--bg-dark)" />
+      </svg>
+    </a>
+    
+  </div>
+  
+</div>
+          </div>
+
+        </div>
+        <div class="carousel-header">
+          <span class="carousel-button carousel-next-rec active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18.82" height="19.648" viewBox="0 0 18.82 19.648">
+              <g id="Icon_feather-arrow-right" data-name="Icon feather-arrow-right" transform="translate(-6.5 -6.086)">
+                <path id="Pfad_245" data-name="Pfad 245" d="M24.32,18H7.5" transform="translate(0 -2.09)" fill="none" stroke="var(--text-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                <path id="Pfad_246" data-name="Pfad 246" d="M15.91,24.32,7.5,15.91,15.91,7.5" fill="none" stroke="var(--text-primary)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+              </g>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+        <!-- footer -->
+        
+        
+<footer>
+    <div class="content-inner">
+        <div class="top">
+            <div class="left">
+                <h1>Visit GitHub Repository</h1>
+                <div class="emphasized-text">Take a look at all the code behind this project</div>
+            </div>
+            <div class="right">
+                <a href="https://github.com/leon-thomm/Ryven" target="_blank" class="primary-button">
+                    <span>Ryven on GitHub</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23.846" height="23.846" viewBox="0 0 23.846 23.846">
+                        <path id="Icon_ionic-ios-arrow-round-up" data-name="Icon ionic-ios-arrow-round-up" d="M13.234,7.329a.918.918,0,0,1-1.293.007L7.662,3.071V19.324a.914.914,0,0,1-1.827,0V3.071L1.556,7.343A.925.925,0,0,1,.263,7.336.91.91,0,0,1,.27,6.05L6.1.26h0A1.026,1.026,0,0,1,6.39.07.872.872,0,0,1,6.742,0a.916.916,0,0,1,.639.26l5.832,5.79A.9.9,0,0,1,13.234,7.329Z"
+                        transform="translate(14.305) rotate(45)" fill="#fff" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="logo">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4mm" height="14.9mm" viewBox="0 0 32.5 42.25">
+                    <defs>
+                        <radialGradient id="radial-gradient" cx="16.25" cy="10.6506" fx="32.37100661042267" fy="27.73478802660686" r="23.4895" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffda9e" />
+                            <stop offset="0.38" stop-color="#eb8c52" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-2" cx="16.245" cy="31.7856" fx="-0.9942820292362136" fy="15.456999156715245" r="23.7448" gradientTransform="matrix(1, 0, 0, -1, 0, 43.2756)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ffe3b8" />
+                            <stop offset="0.38" stop-color="#eb7e3b" />
+                            <stop offset="1" stop-color="#c50000" />
+                        </radialGradient>
+                        <radialGradient id="radial-gradient-3" cx="11.5" cy="40.1565" fx="-2.1832024133000747" fy="23.90600713316066" r="21.244" gradientTransform="matrix(1, 0, 0, -1.05, 0, 58.4094)" gradientUnits="userSpaceOnUse">
+                            <stop offset="0" stop-color="#ff4242" />
+                            <stop offset="0.38" stop-color="#eb6636" />
+                            <stop offset="0.9" stop-color="#f0c98b" />
+                        </radialGradient>
+                    </defs>
+                    <g id="Layer_2" data-name="Layer 2">
+                        <g id="Layer_1-2" data-name="Layer 1-2">
+                            <path d="M32.5,32.49v9.76H9.75L1.43,33.92,0,32.49A32.38,32.38,0,0,0,23,23Z" fill="url(#radial-gradient)" />
+                            <path d="M32.49,0A32.32,32.32,0,0,1,25.8,19.76l-.27.34a23.1034,23.1034,0,0,1-1.6,1.88c-.31.35-.62.67-.95,1L0,0Z" fill="url(#radial-gradient-2)" />
+                            <g opacity="0.3">
+                                <path d="M23,23l2.54,2.54c-6.1,5.65-16,7.48-25.52,7V0L25.53,20.1a23.1034,23.1034,0,0,1-1.6,1.88C23.62,22.33,23.31,22.65,23,23Z" />
+                            </g>
+                            <path d="M23,23A32.4,32.4,0,0,1,0,32.49V0Z" fill="url(#radial-gradient-3)" />
+                        </g>
+                    </g>
+                </svg>
+                <div class="name">
+                    <span class="title">Ryven</span>
+                    <span class="version">v3.5.0</span>
+                </div>
+            </div>
+            <div class="navigation">
+                <div class="standard">
+                    <a href="#">Home</a>
+                    <a href="releases">Releases</a>
+                    <a href="gallery">Gallery</a>
+                    <a href="about">About</a>
+                    <!-- <a href="guide">Guides</a> -->
+                </div>
+                <div class="extra">
+                    <a href="about">Contact</a>
+                </div>
+            </div>
+            <div class="social">
+                
+            </div>
+        </div>
+    </div>
+</footer>
+        
+
+
+        <!-- scripts -->
+        
+
+<script src="&#x2F;js&#x2F;&#x2F;scroll_out.js"></script>
+<script type="text/javascript">
+  ScrollOut({
+    targets: '.fade',
+    once: true,
+    threshold: 0.3,
+  })
+</script>
+<script src="&#x2F;js&#x2F;&#x2F;carousel.js"></script>
+<script src="&#x2F;js&#x2F;&#x2F;prism.js"></script>
+<!-- <script src="js/typewriter.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/prismjs@1.x/plugins/autoloader/prism-autoloader.min.js"></script> -->
+
+
+        
+        <!-- <script src="&#x2F;js&#x2F;&#x2F;themeSwitcher.js"></script> -->
+        
+        
+
+    </body>
+
+</html>

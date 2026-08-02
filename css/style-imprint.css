@@ -1,0 +1,34 @@
+.imprint {
+  width: 70%;
+  margin: 0 auto;
+  margin-bottom: 10vh;
+}
+
+.imprint h3 {
+  margin-top: 40px;
+}
+
+.imprint h4 {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 35px;
+  color: var(--text-primary);
+  margin-top: 3%;
+}
+
+.imprint p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25.5px;
+  color: var(--text-secondary);
+}
+
+.imprint a {
+  color: var(--text-secondary);
+  text-decoration: underline;
+  transition: .1s ease;
+}
+
+.imprint a:hover {
+  color: var(--text-primary);
+}

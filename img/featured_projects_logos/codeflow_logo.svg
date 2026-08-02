@@ -1,0 +1,14 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
+ <g>
+  <title>Codeflow Logo</title>
+  <ellipse ry="250" rx="250" id="outer_circle" cy="256" cx="256" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="10" stroke="#ffffff" fill="#49bb79"/>
+  <g id="icon">
+   <path id="svg_12" d="m189.45142,115.96565l166.84723,0l0,0c21.85746,0 39.57639,18.80433 39.57639,42.00063c0,23.19629 -17.71894,42.00061 -39.57639,42.00061l-166.84723,0l0,0c-21.85744,0 -39.57639,-18.80432 -39.57639,-42.00061c0,-23.19631 17.71896,-42.00063 39.57639,-42.00063z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="10" stroke="#49bb79" fill="#ffffff"/>
+   <path id="svg_15" d="m188.5764,315.99937l166.84722,0l0,0c21.85747,0 39.5764,18.80433 39.5764,42.00063c0,23.1963 -17.71894,42.00062 -39.5764,42.00062l-166.84722,0l0,0c-21.85744,0 -39.5764,-18.80432 -39.5764,-42.00062c0,-23.19631 17.71896,-42.00063 39.5764,-42.00063z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="10" stroke="#49bb79" fill="#ffffff"/>
+   <path transform="rotate(90 152.00001525878903,259.00000000000006) " id="svg_16" d="m68.5764,216.99937l166.84722,0l0,0c21.85747,0 39.5764,18.80433 39.5764,42.00063c0,23.1963 -17.71894,42.00062 -39.5764,42.00062l-166.84722,0l0,0c-21.85744,0 -39.5764,-18.80432 -39.5764,-42.00062c0,-23.19631 17.71896,-42.00063 39.5764,-42.00063z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="10" stroke="#49bb79" fill="#ffffff"/>
+   <ellipse id="bolt" ry="11" rx="11" cy="169" cx="153" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#ffffff" fill="#49bb79"/>
+   <ellipse ry="11" rx="11" id="bolt2" cy="350" cx="153" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" stroke="#ffffff" fill="#49bb79"/>
+  </g>
+ </g>
+</svg>
